@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'guide_catalog.dart';
+import 'guide_screens.dart';
 import 'progress_store.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(SesliRehberApp(store: ProgressStore()));
+  final catalog = await GuideCatalog.loadAsset();
+  runApp(SesliRehberApp(store: ProgressStore(), catalog: catalog));
 }
 
 class SesliRehberApp extends StatelessWidget {
-  const SesliRehberApp({super.key, required this.store});
+  const SesliRehberApp({super.key, required this.store, required this.catalog});
 
   final ProgressStore store;
+  final GuideCatalog catalog;
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +40,16 @@ class SesliRehberApp extends StatelessWidget {
           style: FilledButton.styleFrom(minimumSize: const Size(0, 56)),
         ),
       ),
-      home: HomeScreen(store: store),
+      home: HomeScreen(store: store, catalog: catalog),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.store});
+  const HomeScreen({super.key, required this.store, required this.catalog});
 
   final ProgressStore store;
+  final GuideCatalog catalog;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -85,6 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
     if (mounted) await _loadLastStep();
   }
 
+  Future<void> _openUmrah(GuideMode mode) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => UmrahFlowScreen(
+          store: widget.store,
+          catalog: widget.catalog,
+          mode: mode,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -99,13 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 24),
             Text(
               'Hac ve Umre',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(context).textTheme.headlineLarge
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Text('Türkçe sesli rehber',
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Türkçe sesli rehber',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 28),
             Card.filled(
               child: Padding(
@@ -113,14 +131,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('TEKNİK PROTOTİP',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color: colors.primary,
-                              fontWeight: FontWeight.bold,
-                            )),
+                    Text(
+                      'UMRE · 18 ADIMLIK ENVANTER',
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: colors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Şu an yalnızca örnek kart, yazı yönü, yerel ses ve kaldığın yeri saklama deneniyor. İbadet içeriği henüz eklenmedi.',
+                      'Öğrenme ve yolculuk akışı ayrı kaydedilir. Başlıklar hazır; kaynaklı dinî açıklama ve insan seslendirmesi inceleme aşamasında.',
                     ),
                   ],
                 ),
@@ -128,11 +148,30 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
             FilledButton.icon(
+              onPressed: () => _openUmrah(GuideMode.learning),
+              icon: const Icon(Icons.school_rounded),
+              label: const Text('Umreyi öğren'),
+            ),
+            const SizedBox(height: 10),
+            OutlinedButton.icon(
+              onPressed: () => _openUmrah(GuideMode.journey),
+              icon: const Icon(Icons.route_rounded),
+              label: const Text('Yolculukta rehber'),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'Teknik deneme',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            TextButton.icon(
               onPressed: _openDemo,
-              icon: const Icon(Icons.arrow_forward_rounded),
-              label: Text(_lastStepId == DemoStepScreen.stepId
-                  ? 'Kaldığım yerden devam'
-                  : 'Örnek kartı aç'),
+              icon: const Icon(Icons.volume_up_rounded),
+              label: Text(
+                _lastStepId == DemoStepScreen.stepId
+                    ? 'Ses örneğine kaldığım yerden devam'
+                    : 'Ses ve Arapça örnek kartını aç',
+              ),
             ),
             if (_storageError != null) ...[
               const SizedBox(height: 16),
@@ -212,16 +251,19 @@ class _DemoStepScreenState extends State<DemoStepScreen> {
         child: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            Text('TEKNİK PROTOTİP · ${DemoStepScreen.stepId}',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.bold,
-                    )),
+            Text(
+              'TEKNİK PROTOTİP · ${DemoStepScreen.stepId}',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: colors.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 14),
-            Text('Bir adım kartı nasıl görünür?',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )),
+            Text(
+              'Bir adım kartı nasıl görünür?',
+              style: Theme.of(context).textTheme.headlineMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 20),
             const Text(
               'Bu kart okunabilirlik, Arapça yazı yönü, ses oynatma ve yerel kayıt için hazırlanmış bir denemedir. Dinî açıklama veya dua içermez.',
@@ -233,8 +275,10 @@ class _DemoStepScreenState extends State<DemoStepScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Arapça yazı yönü örneği',
-                        style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      'Arapça yazı yönü örneği',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 12),
                     const Directionality(
                       textDirection: TextDirection.rtl,
@@ -261,7 +305,9 @@ class _DemoStepScreenState extends State<DemoStepScreen> {
                 final playing = snapshot.data?.playing ?? false;
                 return FilledButton.icon(
                   onPressed: _audioReady ? _toggleAudio : null,
-                  icon: Icon(playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
+                  icon: Icon(
+                    playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  ),
                   label: Text(playing ? 'Durdur' : 'Anlatımı dinle'),
                 );
               },

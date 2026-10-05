@@ -50,6 +50,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  sqflite_common_ffi: '>=2.3.7 <2.4.0'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,6 +64,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/audio/teknik_demo.m4a
+    - assets/content/umre_inventory.v1.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
