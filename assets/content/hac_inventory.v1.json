@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "inventory-2026-10-05",
+  "guideType": "hajj",
+  "audioRecords": [],
+  "prayerRecords": [],
+  "steps": [
+    {
+      "id": "H01.1",
+      "order": 1,
+      "groupId": "H01",
+      "title": "Hac türü ve profil seçimi",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H01.2",
+      "order": 2,
+      "groupId": "H01",
+      "title": "Gün ve güzergâh bağlamı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H01.3",
+      "order": 3,
+      "groupId": "H01",
+      "title": "Kullanım ve paket hazırlığı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H02.1",
+      "order": 4,
+      "groupId": "H02",
+      "title": "Hazırlık ve mikat",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H02.2",
+      "order": 5,
+      "groupId": "H02",
+      "title": "Niyet ve telbiye",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H02.3",
+      "order": 6,
+      "groupId": "H02",
+      "title": "Mekke ve ilk görüş bağlamı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H02.4",
+      "order": 7,
+      "groupId": "H02",
+      "title": "İlgili ön aşama",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H02.5",
+      "order": 8,
+      "groupId": "H02",
+      "title": "Hac başlangıcına geçiş",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H03.1",
+      "order": 9,
+      "groupId": "H03",
+      "title": "İlk güzergâh",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H03.2",
+      "order": 10,
+      "groupId": "H03",
+      "title": "Uygulanırsa ilk Mina",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H03.3",
+      "order": 11,
+      "groupId": "H03",
+      "title": "Arafat'a geçiş açıklaması",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H04.1",
+      "order": 12,
+      "groupId": "H04",
+      "title": "Arafat ve sınır bilgisi",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H04.2",
+      "order": 13,
+      "groupId": "H04",
+      "title": "Namaz ve vakfe bağlamı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H04.3",
+      "order": 14,
+      "groupId": "H04",
+      "title": "Dua zamanı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H04.4",
+      "order": 15,
+      "groupId": "H04",
+      "title": "Sonraki geçiş",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H05.1",
+      "order": 16,
+      "groupId": "H05",
+      "title": "Gece varışı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H05.2",
+      "order": 17,
+      "groupId": "H05",
+      "title": "Namaz ve vakfe bağlamı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H05.3",
+      "order": 18,
+      "groupId": "H05",
+      "title": "Taş hazırlığı ve Mina'ya yönelim",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H06.1",
+      "order": 19,
+      "groupId": "H06",
+      "title": "Aktif gün ve hedef",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H06.2",
+      "order": 20,
+      "groupId": "H06",
+      "title": "Yaklaşma bilgisi",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H06.3",
+      "order": 21,
+      "groupId": "H06",
+      "title": "Manuel atış takibi",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H06.4",
+      "order": 22,
+      "groupId": "H06",
+      "title": "Sonraki hedef",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H07.1",
+      "order": 23,
+      "groupId": "H07",
+      "title": "Kurban bağlamı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H07.2",
+      "order": 24,
+      "groupId": "H07",
+      "title": "Tahallül",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H07.3",
+      "order": 25,
+      "groupId": "H07",
+      "title": "Sonraki aşama",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H08.1",
+      "order": 26,
+      "groupId": "H08",
+      "title": "Ziyaret tavafı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H08.2",
+      "order": 27,
+      "groupId": "H08",
+      "title": "Tavaf sonrası",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H08.3",
+      "order": 28,
+      "groupId": "H08",
+      "title": "Gerekiyorsa sa'y",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H08.4",
+      "order": 29,
+      "groupId": "H08",
+      "title": "Sonraki durum",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H09.1",
+      "order": 30,
+      "groupId": "H09",
+      "title": "Mina ve yeni gün",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H09.2",
+      "order": 31,
+      "groupId": "H09",
+      "title": "Günün cemre sırası",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H09.3",
+      "order": 32,
+      "groupId": "H09",
+      "title": "Devam veya ayrılma dalı",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H10.1",
+      "order": 33,
+      "groupId": "H10",
+      "title": "Veda uygulanabilirliği",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H10.2",
+      "order": 34,
+      "groupId": "H10",
+      "title": "Veda açıklaması",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    },
+    {
+      "id": "H10.3",
+      "order": 35,
+      "groupId": "H10",
+      "title": "Özet",
+      "status": "draft",
+      "profileApplicability": {
+        "temettu": "unverified",
+        "ifrad": "unverified",
+        "kiran": "unverified"
+      }
+    }
+  ]
+}

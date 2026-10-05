@@ -1,5 +1,7 @@
 # Umre akışı ve manuel sayaç — uygulanan ikinci dilim
 
+> Bu belge önceki dilimin durumunu anlatır. Sabit kimlikler ve v4 migrasyonu için güncel [ana yapı belgesine](02-ana-yapi.md) bakın.
+
 - 18 başlık, kaynak plandaki U01–U10 grup sayılarına göre sürümlü JSON'da tanımlıdır. Başlıklar ibadet talimatı sayılmaz; açıklama, dua ve gerçek ses kaydı inceleme bekliyor.
 - İçerik doğrulayıcı sıra/kimlik tekrarını, bilinmeyen grubu ve eksik yayın onayını reddeder. `draft-` kimlikleri geçicidir; kesin U/H kimliklerine geçişte kayıt migrasyonu gerekir.
 - Öğrenme ve yolculuk ayrı SQLite oturumlarıdır. Yeni yolculuk yeni kayıt açar; eski kayıt silinmez. Son açılan başlık ve kişisel işaretler saklanır.

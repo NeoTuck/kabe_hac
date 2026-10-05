@@ -1,0 +1,71 @@
+{
+  "selectedStepId": "U02.2",
+  "templateOnly": true,
+  "step": {
+    "textVersion": "U02.2-text-v1",
+    "summary": "",
+    "details": "",
+    "arabic": "",
+    "transliteration": "",
+    "meaningTr": "",
+    "sourceTitle": "",
+    "sourceUrl": "",
+    "sourceLocation": "",
+    "sourceUsageRights": "",
+    "status": "draft",
+    "reviewedBy": "",
+    "reviewedAt": ""
+  },
+  "prayer": {
+    "id": "P-U02.2-01",
+    "textVersion": "P-U02.2-01-text-v1",
+    "arabic": "",
+    "transliteration": "",
+    "meaningTr": "",
+    "sourceTitle": "",
+    "sourceUrl": "",
+    "sourceLocation": "",
+    "sourceUsageRights": "",
+    "status": "draft",
+    "reviewedBy": "",
+    "reviewedAt": ""
+  },
+  "audio": [
+    {
+      "id": "A-U02.2-TR-01",
+      "kind": "turkishNarration",
+      "textId": "U02.2",
+      "textVersion": "U02.2-text-v1",
+      "asset": "",
+      "recordingOwner": "",
+      "rights": "",
+      "status": "draft",
+      "reviewedBy": "",
+      "reviewedAt": ""
+    },
+    {
+      "id": "A-P-U02.2-AR-01",
+      "kind": "arabic",
+      "textId": "P-U02.2-01",
+      "textVersion": "P-U02.2-01-text-v1",
+      "asset": "",
+      "recordingOwner": "",
+      "rights": "",
+      "status": "draft",
+      "reviewedBy": "",
+      "reviewedAt": ""
+    },
+    {
+      "id": "A-P-U02.2-ANLAM-01",
+      "kind": "turkishMeaning",
+      "textId": "P-U02.2-01",
+      "textVersion": "P-U02.2-01-text-v1",
+      "asset": "",
+      "recordingOwner": "",
+      "rights": "",
+      "status": "draft",
+      "reviewedBy": "",
+      "reviewedAt": ""
+    }
+  ]
+}

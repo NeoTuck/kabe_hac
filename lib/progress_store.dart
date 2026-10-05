@@ -9,18 +9,27 @@ class GuideSession {
     required this.mode,
     required this.currentStepId,
     required this.contentVersion,
+    this.type = GuideType.umrah,
+    this.profile,
+    this.updatedAt = 0,
   });
 
   final int id;
   final GuideMode mode;
   final String currentStepId;
   final String contentVersion;
+  final GuideType type;
+  final HajjProfile? profile;
+  final int updatedAt;
 
   GuideSession copyWith({String? currentStepId}) => GuideSession(
     id: id,
     mode: mode,
     currentStepId: currentStepId ?? this.currentStepId,
     contentVersion: contentVersion,
+    type: type,
+    profile: profile,
+    updatedAt: updatedAt,
   );
 }
 
@@ -41,7 +50,7 @@ class ProgressStore {
     return dbFactory.openDatabase(
       dbPath,
       options: OpenDatabaseOptions(
-        version: 3,
+        version: 4,
         onConfigure: (database) async {
           await database.execute('PRAGMA foreign_keys = ON');
         },
@@ -55,6 +64,9 @@ class ProgressStore {
         onUpgrade: (database, oldVersion, newVersion) async {
           if (oldVersion < 2) await _createGuideTables(database);
           if (oldVersion < 3) await _createCounterTables(database);
+          if (oldVersion >= 2 && oldVersion < 4) {
+            await _upgradeToV4(database);
+          }
         },
       ),
     );
@@ -66,6 +78,7 @@ class ProgressStore {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         guide_type TEXT NOT NULL,
         mode TEXT NOT NULL,
+        profile TEXT NOT NULL DEFAULT '',
         current_step_id TEXT NOT NULL,
         content_version TEXT NOT NULL,
         created_at INTEGER NOT NULL,
@@ -81,6 +94,39 @@ class ProgressStore {
         FOREIGN KEY (session_id) REFERENCES guide_sessions(id) ON DELETE CASCADE
       )
     ''');
+  }
+
+  Future<void> _upgradeToV4(Database database) async {
+    await database.execute(
+      "ALTER TABLE guide_sessions ADD COLUMN profile TEXT NOT NULL DEFAULT ''",
+    );
+    const groupCounts = [2, 3, 1, 1, 1, 3, 2, 1, 2, 2];
+    for (var groupIndex = 0; groupIndex < groupCounts.length; groupIndex++) {
+      final groupNumber = (groupIndex + 1).toString().padLeft(2, '0');
+      for (var number = 1; number <= groupCounts[groupIndex]; number++) {
+        final oldId =
+            'draft-u$groupNumber-${number.toString().padLeft(2, '0')}';
+        final newId = 'U$groupNumber.$number';
+        await database.update(
+          'guide_sessions',
+          {'current_step_id': newId},
+          where: 'guide_type = ? AND current_step_id = ?',
+          whereArgs: ['umrah', oldId],
+        );
+        await database.rawInsert(
+          '''
+          INSERT OR IGNORE INTO step_marks (session_id, step_id, marked_at)
+          SELECT session_id, ?, marked_at FROM step_marks WHERE step_id = ?
+        ''',
+          [newId, oldId],
+        );
+        await database.delete(
+          'step_marks',
+          where: 'step_id = ?',
+          whereArgs: [oldId],
+        );
+      }
+    }
   }
 
   Future<void> _createCounterTables(Database database) async {
@@ -109,23 +155,31 @@ class ProgressStore {
   }
 
   Future<String?> readLastStepId() async {
+    return readAppValue('last_step_id');
+  }
+
+  Future<String?> readAppValue(String key) async {
     final database = await _database;
     final rows = await database.query(
       'app_state',
       columns: ['value'],
       where: 'key = ?',
-      whereArgs: ['last_step_id'],
+      whereArgs: [key],
       limit: 1,
     );
     return rows.isEmpty ? null : rows.first['value'] as String;
   }
 
   Future<void> saveLastStepId(String stepId) async {
+    await saveAppValue('last_step_id', stepId);
+  }
+
+  Future<void> saveAppValue(String key, String value) async {
     final database = await _database;
     await database.transaction((transaction) async {
       await transaction.insert('app_state', {
-        'key': 'last_step_id',
-        'value': stepId,
+        'key': key,
+        'value': value,
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     });
   }
@@ -135,57 +189,124 @@ class ProgressStore {
     mode: GuideMode.values.byName(row['mode'] as String),
     currentStepId: row['current_step_id'] as String,
     contentVersion: row['content_version'] as String,
+    type: GuideType.values.byName(row['guide_type'] as String),
+    profile: (row['profile'] as String).isEmpty
+        ? null
+        : HajjProfile.values.byName(row['profile'] as String),
+    updatedAt: row['updated_at'] as int,
   );
 
-  Future<GuideSession> openOrCreateUmrahSession({
+  Future<GuideSession?> readMostRecentSession() async {
+    final database = await _database;
+    final rows = await database.query(
+      'guide_sessions',
+      orderBy: 'updated_at DESC, id DESC',
+      limit: 1,
+    );
+    return rows.isEmpty ? null : _sessionFromRow(rows.first);
+  }
+
+  Future<GuideSession?> readSession(int id) async {
+    final database = await _database;
+    final rows = await database.query(
+      'guide_sessions',
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+    return rows.isEmpty ? null : _sessionFromRow(rows.first);
+  }
+
+  Future<GuideSession> openOrCreateSession({
+    required GuideType type,
     required GuideMode mode,
+    required HajjProfile? profile,
     required String firstStepId,
     required String contentVersion,
   }) async {
+    _validateProfile(type, profile);
     final database = await _database;
     return database.transaction((transaction) async {
       final rows = await transaction.query(
         'guide_sessions',
-        where: 'guide_type = ? AND mode = ?',
-        whereArgs: ['umrah', mode.databaseValue],
+        where: 'guide_type = ? AND mode = ? AND profile = ?',
+        whereArgs: [type.name, mode.name, profile?.name ?? ''],
         orderBy: 'id DESC',
         limit: 1,
       );
       if (rows.isNotEmpty) return _sessionFromRow(rows.first);
-      return _insertUmrahSession(
+      return _insertSession(
         transaction,
+        type: type,
         mode: mode,
+        profile: profile,
         firstStepId: firstStepId,
         contentVersion: contentVersion,
       );
     });
   }
 
-  Future<GuideSession> startNewUmrahJourney({
+  Future<GuideSession> startNewJourney({
+    required GuideType type,
+    required HajjProfile? profile,
     required String firstStepId,
     required String contentVersion,
   }) async {
+    _validateProfile(type, profile);
     final database = await _database;
     return database.transaction(
-      (transaction) => _insertUmrahSession(
+      (transaction) => _insertSession(
         transaction,
+        type: type,
         mode: GuideMode.journey,
+        profile: profile,
         firstStepId: firstStepId,
         contentVersion: contentVersion,
       ),
     );
   }
 
-  Future<GuideSession> _insertUmrahSession(
-    Transaction transaction, {
+  void _validateProfile(GuideType type, HajjProfile? profile) {
+    if ((type == GuideType.hajj) != (profile != null)) {
+      throw ArgumentError('Hac için tür seçilmeli; umrede hac türü olmamalı.');
+    }
+  }
+
+  Future<GuideSession> openOrCreateUmrahSession({
     required GuideMode mode,
+    required String firstStepId,
+    required String contentVersion,
+  }) => openOrCreateSession(
+    type: GuideType.umrah,
+    mode: mode,
+    profile: null,
+    firstStepId: firstStepId,
+    contentVersion: contentVersion,
+  );
+
+  Future<GuideSession> startNewUmrahJourney({
+    required String firstStepId,
+    required String contentVersion,
+  }) => startNewJourney(
+    type: GuideType.umrah,
+    profile: null,
+    firstStepId: firstStepId,
+    contentVersion: contentVersion,
+  );
+
+  Future<GuideSession> _insertSession(
+    Transaction transaction, {
+    required GuideType type,
+    required GuideMode mode,
+    required HajjProfile? profile,
     required String firstStepId,
     required String contentVersion,
   }) async {
     final now = DateTime.now().millisecondsSinceEpoch;
     final id = await transaction.insert('guide_sessions', {
-      'guide_type': 'umrah',
-      'mode': mode.databaseValue,
+      'guide_type': type.name,
+      'mode': mode.name,
+      'profile': profile?.name ?? '',
       'current_step_id': firstStepId,
       'content_version': contentVersion,
       'created_at': now,
@@ -196,6 +317,9 @@ class ProgressStore {
       mode: mode,
       currentStepId: firstStepId,
       contentVersion: contentVersion,
+      type: type,
+      profile: profile,
+      updatedAt: now,
     );
   }
 

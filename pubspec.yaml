@@ -1,5 +1,5 @@
 name: hac_umre_sesli_rehber
-description: "Hac ve umre için Türkçe sesli rehber teknik prototipi."
+description: "Hac ve umre için Türkçe sesli rehber uygulaması."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -65,6 +65,7 @@ flutter:
   assets:
     - assets/audio/teknik_demo.m4a
     - assets/content/umre_inventory.v1.json
+    - assets/content/hac_inventory.v1.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

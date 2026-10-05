@@ -1,25 +1,176 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "draft-2026-10-05",
+  "contentVersion": "inventory-2026-10-05.1",
   "guideType": "umrah",
+  "audioRecords": [
+    {
+      "id": "A-U02.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U02.2",
+      "textVersion": "U02.2-text-v1"
+    },
+    {
+      "id": "A-P-U02.2-AR-01",
+      "status": "draft",
+      "kind": "arabic",
+      "textId": "P-U02.2-01",
+      "textVersion": "P-U02.2-01-text-v1"
+    },
+    {
+      "id": "A-P-U02.2-ANLAM-01",
+      "status": "draft",
+      "kind": "turkishMeaning",
+      "textId": "P-U02.2-01",
+      "textVersion": "P-U02.2-01-text-v1"
+    }
+  ],
+  "prayerRecords": [
+    {
+      "id": "P-U02.2-01",
+      "status": "draft",
+      "textVersion": "P-U02.2-01-text-v1",
+      "audioIds": [
+        "A-P-U02.2-AR-01",
+        "A-P-U02.2-ANLAM-01"
+      ]
+    }
+  ],
   "steps": [
-    {"id":"draft-u01-01","order":1,"group":"U01","title":"Kullanım biçimi seçimi","status":"inventory"},
-    {"id":"draft-u01-02","order":2,"group":"U01","title":"Hazırlık","status":"inventory"},
-    {"id":"draft-u02-01","order":3,"group":"U02","title":"İhram ve mikat bağlamı","status":"inventory"},
-    {"id":"draft-u02-02","order":4,"group":"U02","title":"Niyet ve telbiye","status":"inventory"},
-    {"id":"draft-u02-03","order":5,"group":"U02","title":"İhram bilgileri","status":"inventory"},
-    {"id":"draft-u03-01","order":6,"group":"U03","title":"Mescid-i Haram'a yaklaşma","status":"inventory"},
-    {"id":"draft-u04-01","order":7,"group":"U04","title":"Kâbe'yi ilk görüş bağlamı","status":"inventory"},
-    {"id":"draft-u05-01","order":8,"group":"U05","title":"Tavaf başlangıcı ve yönü","status":"inventory"},
-    {"id":"draft-u06-01","order":9,"group":"U06","title":"İlk şavtı öğrenme","status":"inventory"},
-    {"id":"draft-u06-02","order":10,"group":"U06","title":"Yedi şavt takibi","status":"inventory","counterKey":"tawaf"},
-    {"id":"draft-u06-03","order":11,"group":"U06","title":"Tavaf sonrası geçiş","status":"inventory"},
-    {"id":"draft-u07-01","order":12,"group":"U07","title":"Tavaf namazını öğrenme","status":"inventory"},
-    {"id":"draft-u07-02","order":13,"group":"U07","title":"Zemzem","status":"inventory"},
-    {"id":"draft-u08-01","order":14,"group":"U08","title":"Safâ ve sa‘y başlangıcı","status":"inventory"},
-    {"id":"draft-u09-01","order":15,"group":"U09","title":"İlk gidiş/dönüş ve sayım","status":"inventory"},
-    {"id":"draft-u09-02","order":16,"group":"U09","title":"Yedi geçişin takibi","status":"inventory","counterKey":"say"},
-    {"id":"draft-u10-01","order":17,"group":"U10","title":"Tahallül bilgisi","status":"inventory"},
-    {"id":"draft-u10-02","order":18,"group":"U10","title":"Öğrenme/yolculuk özeti","status":"inventory"}
+    {
+      "id": "U01.1",
+      "order": 1,
+      "groupId": "U01",
+      "title": "Kullanım biçimi seçimi",
+      "status": "draft"
+    },
+    {
+      "id": "U01.2",
+      "order": 2,
+      "groupId": "U01",
+      "title": "Hazırlık",
+      "status": "draft"
+    },
+    {
+      "id": "U02.1",
+      "order": 3,
+      "groupId": "U02",
+      "title": "İhram ve mikat bağlamı",
+      "status": "draft"
+    },
+    {
+      "id": "U02.2",
+      "order": 4,
+      "groupId": "U02",
+      "title": "Niyet ve telbiye",
+      "status": "draft",
+      "textVersion": "U02.2-text-v1",
+      "prayerIds": [
+        "P-U02.2-01"
+      ],
+      "audioIds": [
+        "A-U02.2-TR-01"
+      ]
+    },
+    {
+      "id": "U02.3",
+      "order": 5,
+      "groupId": "U02",
+      "title": "İhram bilgileri",
+      "status": "draft"
+    },
+    {
+      "id": "U03.1",
+      "order": 6,
+      "groupId": "U03",
+      "title": "Mescid-i Haram'a yaklaşma",
+      "status": "draft"
+    },
+    {
+      "id": "U04.1",
+      "order": 7,
+      "groupId": "U04",
+      "title": "Kâbe'yi ilk görüş bağlamı",
+      "status": "draft"
+    },
+    {
+      "id": "U05.1",
+      "order": 8,
+      "groupId": "U05",
+      "title": "Tavaf başlangıcı ve yönü",
+      "status": "draft"
+    },
+    {
+      "id": "U06.1",
+      "order": 9,
+      "groupId": "U06",
+      "title": "İlk şavtı öğrenme",
+      "status": "draft"
+    },
+    {
+      "id": "U06.2",
+      "order": 10,
+      "groupId": "U06",
+      "title": "Yedi şavt takibi",
+      "status": "draft",
+      "counterKey": "tawaf"
+    },
+    {
+      "id": "U06.3",
+      "order": 11,
+      "groupId": "U06",
+      "title": "Tavaf sonrası geçiş",
+      "status": "draft"
+    },
+    {
+      "id": "U07.1",
+      "order": 12,
+      "groupId": "U07",
+      "title": "Tavaf namazını öğrenme",
+      "status": "draft"
+    },
+    {
+      "id": "U07.2",
+      "order": 13,
+      "groupId": "U07",
+      "title": "Zemzem",
+      "status": "draft"
+    },
+    {
+      "id": "U08.1",
+      "order": 14,
+      "groupId": "U08",
+      "title": "Safâ ve sa‘y başlangıcı",
+      "status": "draft"
+    },
+    {
+      "id": "U09.1",
+      "order": 15,
+      "groupId": "U09",
+      "title": "İlk gidiş/dönüş ve sayım",
+      "status": "draft"
+    },
+    {
+      "id": "U09.2",
+      "order": 16,
+      "groupId": "U09",
+      "title": "Yedi geçişin takibi",
+      "status": "draft",
+      "counterKey": "say"
+    },
+    {
+      "id": "U10.1",
+      "order": 17,
+      "groupId": "U10",
+      "title": "Tahallül bilgisi",
+      "status": "draft"
+    },
+    {
+      "id": "U10.2",
+      "order": 18,
+      "groupId": "U10",
+      "title": "Öğrenme/yolculuk özeti",
+      "status": "draft"
+    }
   ]
 }
