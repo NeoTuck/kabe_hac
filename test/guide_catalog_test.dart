@@ -99,6 +99,62 @@ void main() {
     );
   });
 
+  test('hac profili yalnız tamamen onaylı matriste akışı filtreler', () async {
+    final text = await rootBundle.loadString(
+      'assets/content/hac_inventory.v1.json',
+    );
+    final draftSource = jsonDecode(text) as Map<String, dynamic>;
+    final draftCatalog = GuideCatalog.fromJsonText(jsonEncode(draftSource));
+    expect(draftCatalog.isProfileFlowVerified(HajjProfile.ifrad), isFalse);
+    expect(draftCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(35));
+    expect(draftCatalog.stepById('H06.3')?.counterKey, 'jamarat');
+    expect(draftCatalog.stepById('H09.2')?.counterKey, 'jamarat');
+
+    final approvedSource = jsonDecode(text) as Map<String, dynamic>;
+    final steps = approvedSource['steps'] as List<dynamic>;
+    for (final value in steps) {
+      final step = value as Map<String, dynamic>;
+      step.addAll({
+        'status': 'approved',
+        'summary': 'Test özeti',
+        'details': 'Test ayrıntısı',
+        'textVersion': '${step['id']}-test-v1',
+        'sourceTitle': 'Test kaynağı',
+        'sourceUrl': 'https://example.com/source',
+        'sourceLocation': 'Test bölümü',
+        'sourceUsageRights': 'Yalnız otomatik test verisi',
+        'reviewedBy': 'Test inceleyeni',
+        'reviewedAt': '2026-10-06',
+      });
+      final applicability =
+          step['profileApplicability'] as Map<String, dynamic>;
+      for (final profile in HajjProfile.values) {
+        applicability[profile.name] = 'applicable';
+      }
+    }
+    (steps[1] as Map<String, dynamic>)['profileApplicability']['ifrad'] =
+        'notApplicable';
+    final approvedCatalog = GuideCatalog.fromJsonText(
+      jsonEncode(approvedSource),
+    );
+    expect(approvedCatalog.isProfileFlowVerified(HajjProfile.ifrad), isTrue);
+    expect(approvedCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(34));
+    expect(approvedCatalog.stepsForProfile(HajjProfile.temettu), hasLength(35));
+    expect(
+      approvedCatalog.stepsForProfile(HajjProfile.ifrad).map((step) => step.id),
+      isNot(contains('H01.2')),
+    );
+    expect(
+      approvedCatalog
+          .nextStep(
+            approvedCatalog.stepById('H01.1')!,
+            profile: HajjProfile.ifrad,
+          )
+          ?.id,
+      'H01.3',
+    );
+  });
+
   test('metin ile ses sürümü uyuşmazlığı reddedilir', () async {
     final text = await rootBundle.loadString(
       'assets/content/umre_inventory.v1.json',

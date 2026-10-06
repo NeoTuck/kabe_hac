@@ -4,9 +4,16 @@ import 'demo_screen.dart';
 import 'guide_catalog.dart';
 import 'guide_screens.dart';
 import 'narration_service.dart';
+import 'offline_package.dart';
+import 'package_catalog.dart';
+import 'package_screen.dart';
 import 'progress_store.dart';
 import 'reader_settings.dart';
+import 'safety_catalog.dart';
+import 'safety_screen.dart';
 import 'settings_screen.dart';
+import 'travel_catalog.dart';
+import 'travel_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -15,12 +22,22 @@ class HomeScreen extends StatefulWidget {
     required this.catalogs,
     required this.narration,
     required this.settings,
+    this.packages,
+    this.packageProvider,
+    this.packageConfigurationError,
+    this.travelCatalog,
+    this.safetyCatalog,
   });
 
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
   final NarrationService narration;
   final ReaderSettings settings;
+  final OfflinePackageManager? packages;
+  final OfflinePackageProvider? packageProvider;
+  final String? packageConfigurationError;
+  final TravelCatalog? travelCatalog;
+  final SafetyCatalog? safetyCatalog;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -138,6 +155,54 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => _choose(GuideType.hajj),
             ),
             const SizedBox(height: 32),
+            if (widget.travelCatalog != null) ...[
+              Text('Gezi', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 8),
+              TextButton.icon(
+                onPressed: () => _open(
+                  TravelScreen(
+                    store: widget.store,
+                    catalog: widget.travelCatalog!,
+                  ),
+                ),
+                icon: const Icon(Icons.map_outlined),
+                label: const Text('Harita, yerler ve rotalar'),
+              ),
+              const SizedBox(height: 20),
+            ],
+            if (widget.safetyCatalog != null) ...[
+              Text(
+                'Yolculuk desteği',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              TextButton.icon(
+                onPressed: () =>
+                    _open(SafetyScreen(catalog: widget.safetyCatalog!)),
+                icon: const Icon(Icons.health_and_safety_outlined),
+                label: const Text('Güvenli gezi, iletişim ve dil'),
+              ),
+              const SizedBox(height: 20),
+            ],
+            if (widget.packages != null) ...[
+              Text(
+                'Çevrimdışı kullanım',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              TextButton.icon(
+                onPressed: () => _open(
+                  OfflinePackagesScreen(
+                    manager: widget.packages!,
+                    provider: widget.packageProvider,
+                    configurationError: widget.packageConfigurationError,
+                  ),
+                ),
+                icon: const Icon(Icons.offline_pin_outlined),
+                label: const Text('Çevrimdışı paketleri yönet'),
+              ),
+              const SizedBox(height: 20),
+            ],
             Text(
               'Teknik deneme',
               style: Theme.of(context).textTheme.titleLarge,

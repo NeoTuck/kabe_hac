@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hac_umre_sesli_rehber/group_sync.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/progress_store.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -106,6 +107,229 @@ void main() {
     expect((await store.readSession(temettu.id))?.currentStepId, 'H01.1');
     expect((await store.readSession(journey.id))?.currentStepId, 'H01.1');
   });
+
+  test('cemarat sayaçları yolculuk, gün ve hedef bazında ayrılır', () async {
+    final directory = await Directory.systemTemp.createTemp('jamarat_store_');
+    final dbPath = '${directory.path}/sesli_rehber.db';
+    final store = ProgressStore(
+      factory: databaseFactoryFfi,
+      databasePath: dbPath,
+    );
+    ProgressStore? reopened;
+    addTearDown(() async {
+      await store.close();
+      await reopened?.close();
+      await directory.delete(recursive: true);
+    });
+
+    final firstJourney = await store.startNewJourney(
+      type: GuideType.hajj,
+      profile: HajjProfile.temettu,
+      firstStepId: 'H01.1',
+      contentVersion: 'draft-1',
+    );
+    final secondJourney = await store.startNewJourney(
+      type: GuideType.hajj,
+      profile: HajjProfile.temettu,
+      firstStepId: 'H01.1',
+      contentVersion: 'draft-1',
+    );
+    final firstTarget = await store.createJamaratCounter(
+      sessionId: firstJourney.id,
+      dayLabel: 'Gün notu A',
+      targetLabel: 'Hedef 1',
+    );
+    final secondTarget = await store.createJamaratCounter(
+      sessionId: firstJourney.id,
+      dayLabel: 'Gün notu A',
+      targetLabel: 'Hedef 2',
+    );
+    final otherJourneyTarget = await store.createJamaratCounter(
+      sessionId: secondJourney.id,
+      dayLabel: 'Gün notu A',
+      targetLabel: 'Hedef 1',
+    );
+    final duplicate = await store.createJamaratCounter(
+      sessionId: firstJourney.id,
+      dayLabel: 'Gün notu A',
+      targetLabel: 'Hedef 1',
+    );
+    expect(duplicate.id, firstTarget.id);
+
+    expect(
+      await store.incrementCounter(
+        firstJourney.id,
+        firstTarget.counterKey,
+        'jamarat-1',
+      ),
+      1,
+    );
+    expect(
+      await store.incrementCounter(
+        firstJourney.id,
+        firstTarget.counterKey,
+        'jamarat-1',
+      ),
+      1,
+    );
+    expect(
+      await store.readCounterCount(firstJourney.id, secondTarget.counterKey),
+      0,
+    );
+    expect(
+      await store.readCounterCount(
+        secondJourney.id,
+        otherJourneyTarget.counterKey,
+      ),
+      0,
+    );
+    await expectLater(
+      store.readCounterCount(secondJourney.id, firstTarget.counterKey),
+      throwsStateError,
+    );
+
+    await store.close();
+    final reopenedStore = ProgressStore(
+      factory: databaseFactoryFfi,
+      databasePath: dbPath,
+    );
+    reopened = reopenedStore;
+    final contexts = await reopenedStore.readJamaratCounters(firstJourney.id);
+    expect(contexts.map((item) => item.label), [
+      'Gün notu A · Hedef 1',
+      'Gün notu A · Hedef 2',
+    ]);
+    expect(contexts.map((item) => item.count), [1, 0]);
+  });
+
+  test('gezi favorileri dinî ilerlemeden ayrı saklanır', () async {
+    final directory = await Directory.systemTemp.createTemp('travel_store_');
+    final store = ProgressStore(
+      factory: databaseFactoryFfi,
+      databasePath: '${directory.path}/sesli_rehber.db',
+    );
+    addTearDown(() async {
+      await store.close();
+      await directory.delete(recursive: true);
+    });
+    final session = await store.openOrCreateUmrahSession(
+      mode: GuideMode.journey,
+      firstStepId: 'U01.1',
+      contentVersion: 'draft-1',
+    );
+    await store.setTravelFavorite('poi', 'TEST-POI-1', true);
+    await store.setTravelFavorite('route', 'TEST-ROUTE-1', true);
+    expect(await store.readTravelFavoriteIds('poi'), {'TEST-POI-1'});
+    expect(await store.readTravelFavoriteIds('route'), {'TEST-ROUTE-1'});
+    expect((await store.readSession(session.id))?.currentStepId, 'U01.1');
+    expect(await store.readCounterCount(session.id, 'tawaf'), 0);
+    await store.setTravelFavorite('poi', 'TEST-POI-1', false);
+    expect(await store.readTravelFavoriteIds('poi'), isEmpty);
+  });
+
+  test('grup mesaj kuyruğu istemci kimliğiyle yinelenmeyi önler', () async {
+    final directory = await Directory.systemTemp.createTemp('outbox_store_');
+    final store = ProgressStore(
+      factory: databaseFactoryFfi,
+      databasePath: '${directory.path}/sesli_rehber.db',
+    );
+    addTearDown(() async {
+      await store.close();
+      await directory.delete(recursive: true);
+    });
+
+    final first = await store.enqueueGroupMessage(
+      clientId: 'client-1',
+      groupId: 'group-1',
+      body: 'Teknik test mesajı',
+    );
+    final duplicate = await store.enqueueGroupMessage(
+      clientId: 'client-1',
+      groupId: 'group-1',
+      body: 'Teknik test mesajı',
+    );
+    expect(duplicate.createdAt, first.createdAt);
+    expect(await store.readGroupOutbox(), hasLength(1));
+    await expectLater(
+      store.enqueueGroupMessage(
+        clientId: 'client-1',
+        groupId: 'group-1',
+        body: 'Farklı içerik',
+      ),
+      throwsStateError,
+    );
+
+    await store.markGroupMessageAttempt(
+      clientId: 'client-1',
+      status: MessageOutboxStatus.failed,
+      error: 'Çevrimdışı',
+    );
+    final failed = (await store.readGroupOutbox(
+      status: MessageOutboxStatus.failed,
+    )).single;
+    expect(failed.attemptCount, 1);
+    expect(failed.lastError, 'Çevrimdışı');
+    await store.markGroupMessageAttempt(
+      clientId: 'client-1',
+      status: MessageOutboxStatus.sent,
+    );
+    final sent = (await store.readGroupOutbox()).single;
+    expect(sent.status, MessageOutboxStatus.sent);
+    expect(sent.attemptCount, 2);
+    expect(sent.lastError, isNull);
+  });
+
+  test(
+    'konum paylaşımı varsayılan kapalıdır, sürelidir ve durdurulur',
+    () async {
+      final directory = await Directory.systemTemp.createTemp(
+        'location_store_',
+      );
+      final store = ProgressStore(
+        factory: databaseFactoryFfi,
+        databasePath: '${directory.path}/sesli_rehber.db',
+      );
+      addTearDown(() async {
+        await store.close();
+        await directory.delete(recursive: true);
+      });
+      final startedAt = DateTime.utc(2026, 10, 6, 9);
+      expect(await store.readLocationShare('group-1'), isNull);
+      final share = await store.startLocationShare(
+        groupId: 'group-1',
+        mode: LocationShareMode.trip,
+        duration: const Duration(hours: 2),
+        now: startedAt,
+      );
+      expect(share.isActiveAt(startedAt.add(const Duration(hours: 1))), isTrue);
+      expect(
+        share.isActiveAt(startedAt.add(const Duration(hours: 3))),
+        isFalse,
+      );
+      await store.stopLocationShare(
+        'group-1',
+        now: startedAt.add(const Duration(minutes: 30)),
+      );
+      final stopped = await store.readLocationShare('group-1');
+      expect(stopped?.enabled, isFalse);
+      expect(
+        stopped?.isActiveAt(startedAt.add(const Duration(minutes: 31))),
+        isFalse,
+      );
+
+      final update = SharedLocationUpdate(
+        latitude: 21.4,
+        longitude: 39.8,
+        accuracyMeters: 12,
+        measuredAt: startedAt,
+        sentAt: startedAt.add(const Duration(seconds: 10)),
+      );
+      expect(
+        update.isStaleAt(startedAt.add(const Duration(minutes: 6))),
+        isTrue,
+      );
+    },
+  );
 
   test('v1 kayıt korunur; öğrenme ve yolculuk ilerlemesi ayrılır', () async {
     final directory = await Directory.systemTemp.createTemp('umre_store_test_');

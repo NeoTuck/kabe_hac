@@ -41,3 +41,7 @@ Başlangıçta bağlı Android/iOS cihazı yoktu; Flutter yalnız macOS ve Chrom
 ## Sonraki parça
 
 Sonraki tek parça, kullanıcıdan gelen `U02.2` kaynak paketi ile uzman inceleme kaydını şablona işlemek; metin sürümü kilitlendikten sonra hak sahibi ve kullanım izni belli üç gerçek ses dosyasını bağlayıp Android cihazda dinleme doğrulaması yapmaktır.
+
+## 6 Ekim 2026 geniş kapsam eki
+
+Birleşik ürün programı, modül kabul durumları, veri/izin sınırları ve yeni kişi-gün tahmini `docs/04-birlesik-gelistirme-programi.md` dosyasına taşındı. `U02.2` için gerçek uzman onayı ve izinli ses gereksinimi değişmedi. Teknik altyapının genişlemesi bu taslağı onaylı içeriğe çevirmedi.

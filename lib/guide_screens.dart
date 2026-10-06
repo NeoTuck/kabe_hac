@@ -35,6 +35,10 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   Set<String> _markedIds = {};
   String? _error;
 
+  List<GuideStep> get _flowSteps => widget.catalog.stepsForProfile(
+    widget.catalog.type == GuideType.hajj ? widget.profile : null,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -49,13 +53,13 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
               type: widget.catalog.type,
               mode: widget.mode,
               profile: widget.profile,
-              firstStepId: widget.catalog.steps.first.id,
+              firstStepId: _flowSteps.first.id,
               contentVersion: widget.catalog.contentVersion,
             )
           : await widget.store.readSession(known.id);
       if (session == null) throw StateError('Kayıt bulunamadı.');
       final marked = await widget.store.readMarkedStepIds(session.id);
-      final validIds = widget.catalog.steps.map((s) => s.id).toSet();
+      final validIds = _flowSteps.map((s) => s.id).toSet();
       if (mounted) {
         setState(() {
           _session = session;
@@ -108,7 +112,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
       final session = await widget.store.startNewJourney(
         type: widget.catalog.type,
         profile: widget.profile,
-        firstStepId: widget.catalog.steps.first.id,
+        firstStepId: _flowSteps.first.id,
         contentVersion: widget.catalog.contentVersion,
       );
       if (mounted) {
@@ -129,10 +133,15 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   @override
   Widget build(BuildContext context) {
     final session = _session;
+    final flowSteps = _flowSteps;
     final current = session == null
         ? null
-        : widget.catalog.stepById(session.currentStepId);
+        : flowSteps
+              .where((step) => step.id == session.currentStepId)
+              .firstOrNull;
     final isHajj = widget.catalog.type == GuideType.hajj;
+    final profileVerified =
+        isHajj && widget.catalog.isProfileFlowVerified(widget.profile!);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -151,8 +160,10 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(18),
                       child: Text(
-                        isHajj
+                        isHajj && !profileVerified
                             ? 'Hac türlerinin hangi başlıklardan geçeceği henüz onaylanmadı. Bu liste 35 başlığın önizlemesidir; kişisel işaretleme kapalıdır.'
+                            : isHajj
+                            ? '${widget.profile!.label} için onaylı profil akışı gösteriliyor. İşaretler yalnız kişisel kayıttır.'
                             : 'Bu başlıklar içerik taslağıdır. Kaynaklı açıklama ve insan sesi inceleme sonrası açılacak. İşaretler yalnız kişisel kayıttır.',
                       ),
                     ),
@@ -186,8 +197,8 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                   const SizedBox(height: 24),
                   Text(
                     isHajj
-                        ? 'Başlık envanteri · ${widget.catalog.steps.length}'
-                        : 'Adımlar · ${_markedIds.length}/${widget.catalog.steps.length} işaretli',
+                        ? '${profileVerified ? 'Profil akışı' : 'Başlık envanteri'} · ${flowSteps.length}'
+                        : 'Adımlar · ${_markedIds.length}/${flowSteps.length} işaretli',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 10),
@@ -202,7 +213,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
-                    for (final step in widget.catalog.steps.where(
+                    for (final step in flowSteps.where(
                       (s) => s.groupId == group,
                     ))
                       Card.outlined(
@@ -214,7 +225,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                           leading: CircleAvatar(child: Text('${step.order}')),
                           title: Text(step.title),
                           subtitle: Text(
-                            isHajj
+                            isHajj && !profileVerified
                                 ? 'Profil uygunluğu doğrulanmadı'
                                 : 'İçerik: ${step.status.label}',
                           ),
@@ -295,9 +306,15 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
   @override
   Widget build(BuildContext context) {
     final step = widget.step;
-    final previous = widget.catalog.previousStep(step);
-    final next = widget.catalog.nextStep(step);
+    final previous = widget.catalog.previousStep(
+      step,
+      profile: widget.session.profile,
+    );
+    final next = widget.catalog.nextStep(step, profile: widget.session.profile);
     final isHajj = widget.catalog.type == GuideType.hajj;
+    final canMark =
+        !isHajj ||
+        widget.catalog.isProfileFlowVerified(widget.session.profile!);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -383,23 +400,32 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                 narration: widget.narration,
                 textApproved: step.isApproved,
               ),
-            if (step.counterKey != null && !isHajj) ...[
+            if (step.counterKey != null) ...[
               const SizedBox(height: 18),
               FilledButton.icon(
                 onPressed: () => Navigator.of(context).push<void>(
                   MaterialPageRoute(
-                    builder: (_) => CounterScreen(
-                      store: widget.store,
-                      sessionId: widget.session.id,
-                      counterKey: step.counterKey!,
-                    ),
+                    builder: (_) => step.counterKey == 'jamarat'
+                        ? JamaratCounterHubScreen(
+                            store: widget.store,
+                            sessionId: widget.session.id,
+                          )
+                        : CounterScreen(
+                            store: widget.store,
+                            sessionId: widget.session.id,
+                            counterKey: step.counterKey!,
+                          ),
                   ),
                 ),
                 icon: const Icon(Icons.plus_one_rounded),
-                label: const Text('Manuel sayacı aç'),
+                label: Text(
+                  step.counterKey == 'jamarat'
+                      ? 'Gün/hedef sayaçlarını aç'
+                      : 'Manuel sayacı aç',
+                ),
               ),
             ],
-            if (!isHajj) ...[
+            if (canMark) ...[
               const SizedBox(height: 18),
               OutlinedButton.icon(
                 onPressed: _busy ? null : _toggleMarked,

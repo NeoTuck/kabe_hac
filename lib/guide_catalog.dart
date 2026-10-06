@@ -482,11 +482,41 @@ class GuideCatalog {
     return null;
   }
 
-  GuideStep? nextStep(GuideStep step) =>
-      step.order < steps.length ? steps[step.order] : null;
+  bool isProfileFlowVerified(HajjProfile profile) =>
+      type == GuideType.hajj &&
+      steps.every(
+        (step) =>
+            step.isApproved &&
+            step.profileApplicability[profile] !=
+                ProfileApplicability.unverified,
+      );
 
-  GuideStep? previousStep(GuideStep step) =>
-      step.order > 1 ? steps[step.order - 2] : null;
+  List<GuideStep> stepsForProfile(HajjProfile? profile) {
+    if (type == GuideType.umrah) return steps;
+    if (profile == null) {
+      throw ArgumentError('Hac akışı için profil seçilmeli.');
+    }
+    if (!isProfileFlowVerified(profile)) return steps;
+    return List.unmodifiable(
+      steps.where(
+        (step) =>
+            step.profileApplicability[profile] ==
+            ProfileApplicability.applicable,
+      ),
+    );
+  }
+
+  GuideStep? nextStep(GuideStep step, {HajjProfile? profile}) {
+    final flow = stepsForProfile(profile);
+    final index = flow.indexWhere((candidate) => candidate.id == step.id);
+    return index >= 0 && index + 1 < flow.length ? flow[index + 1] : null;
+  }
+
+  GuideStep? previousStep(GuideStep step, {HajjProfile? profile}) {
+    final flow = stepsForProfile(profile);
+    final index = flow.indexWhere((candidate) => candidate.id == step.id);
+    return index > 0 ? flow[index - 1] : null;
+  }
 
   bool get isPreview =>
       type == GuideType.hajj || steps.any((s) => !s.isApproved);
@@ -621,8 +651,16 @@ class GuideCatalog {
           steps.where((s) => s.counterKey != null).length != 2) {
         throw const FormatException('Umre sayaç bağlantıları geçersiz.');
       }
-    } else if (steps.any((s) => s.counterKey != null)) {
-      throw const FormatException('Hac sayacı bu envanterde tanımlı değil.');
+    } else {
+      final counters = {
+        for (final step in steps)
+          if (step.counterKey != null) step.id: step.counterKey,
+      };
+      if (counters.length != 2 ||
+          counters['H06.3'] != 'jamarat' ||
+          counters['H09.2'] != 'jamarat') {
+        throw const FormatException('Hac sayaç bağlantıları geçersiz.');
+      }
     }
     return GuideCatalog._(
       schemaVersion: 1,

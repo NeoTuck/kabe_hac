@@ -66,4 +66,29 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('0 / 7'), findsOneWidget);
   });
+
+  testWidgets('cemarat sayacı gün ve hedef bağlamını açıkça gösterir', (
+    tester,
+  ) async {
+    final store = MemoryCounterStore();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: CounterScreen(
+          store: store,
+          sessionId: 12,
+          counterKey: 'jamarat:3',
+          title: 'Cemarat sayacı',
+          contextLabel: 'Kişisel gün · Hedef A',
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Cemarat sayacı'), findsOneWidget);
+    expect(find.text('Kişisel gün · Hedef A'), findsOneWidget);
+    expect(find.textContaining('İbadetin yapıldığını'), findsOneWidget);
+    await tester.tap(find.text('+1 ekle'));
+    await tester.pumpAndSettle();
+    expect(find.text('1 / 7'), findsOneWidget);
+  });
 }

@@ -38,7 +38,7 @@ class AudioControls extends StatelessWidget {
                             state.status == NarrationStatus.completed)) {
                       await narration.resume();
                     } else {
-                      await narration.playAsset(asset);
+                      await narration.playAsset(asset, title: title);
                     }
                   },
             icon: Icon(
@@ -56,7 +56,7 @@ class AudioControls extends StatelessWidget {
             const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: state.status == NarrationStatus.error
-                  ? () => narration.playAsset(asset)
+                  ? () => narration.playAsset(asset, title: title)
                   : () => narration.replay(),
               icon: const Icon(Icons.replay_rounded),
               label: const Text('Tekrar dinle'),

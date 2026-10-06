@@ -251,6 +251,7 @@
       "groupId": "H06",
       "title": "Manuel atış takibi",
       "status": "draft",
+      "counterKey": "jamarat",
       "profileApplicability": {
         "temettu": "unverified",
         "ifrad": "unverified",
@@ -371,6 +372,7 @@
       "groupId": "H09",
       "title": "Günün cemre sırası",
       "status": "draft",
+      "counterKey": "jamarat",
       "profileApplicability": {
         "temettu": "unverified",
         "ifrad": "unverified",

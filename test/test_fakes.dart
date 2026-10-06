@@ -7,6 +7,7 @@ class MemoryGuideStore extends ProgressStore {
   final Map<int, GuideSession> sessions = {};
   final Map<int, Set<String>> marks = {};
   final Map<String, String> appValues = {};
+  final Map<String, Set<String>> travelFavorites = {};
 
   @override
   Future<GuideSession> openOrCreateSession({
@@ -89,6 +90,24 @@ class MemoryGuideStore extends ProgressStore {
   Future<void> saveAppValue(String key, String value) async {
     appValues[key] = value;
   }
+
+  @override
+  Future<Set<String>> readTravelFavoriteIds(String itemType) async =>
+      Set.of(travelFavorites[itemType] ?? {});
+
+  @override
+  Future<void> setTravelFavorite(
+    String itemType,
+    String itemId,
+    bool favorite,
+  ) async {
+    final values = travelFavorites.putIfAbsent(itemType, () => {});
+    if (favorite) {
+      values.add(itemId);
+    } else {
+      values.remove(itemId);
+    }
+  }
 }
 
 class FakeNarration extends NarrationService {
@@ -105,7 +124,10 @@ class FakeNarration extends NarrationService {
   }
 
   @override
-  Future<void> playAsset(String asset) async {
+  Future<void> initialize() async {}
+
+  @override
+  Future<void> playAsset(String asset, {String? title}) async {
     current = NarrationState(NarrationStatus.playing, asset: asset);
     notifyListeners();
   }

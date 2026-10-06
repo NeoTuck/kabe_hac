@@ -1,5 +1,5 @@
 package com.mustafasenoglu.hac_umre_sesli_rehber
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 
-class MainActivity : FlutterActivity()
+class MainActivity : AudioServiceActivity()

@@ -1,165 +1,182 @@
 # AGENTS.md
 
-Bu dosya, bu depoda çalışan insan ve AI geliştiriciler için ana çalışma talimatıdır. Kök dizinin tamamına uygulanır. Projenin hangi aşamada olduğu, sıradaki tek iş ve teknik sınırlar burada tutulur.
+Bu dosya depoda çalışan insan ve AI geliştiriciler için ana çalışma talimatıdır. Kök dizinin tamamına uygulanır. Güncel kanıt, teknik sınırlar ve sıradaki tek iş burada tutulur.
 
-## 1. Çalışmaya başlama sırası
+## 1. Her çalışmanın başlama sırası
 
-Her çalışmada önce şunları yap:
-
-1. `git status --short --branch` ile mevcut değişiklikleri kontrol et ve kullanıcı değişikliklerini koru.
+1. `git status --short --branch` çalıştır; kullanıcı değişikliklerini koru.
 2. Bu dosyadaki **Mevcut durum** ve **Sıradaki tek iş** bölümlerini oku.
-3. İlgili teknik belgeyi ve değiştireceğin kodu incele.
-4. Tamamlanmış aşamaları yeniden kurma; sıradaki işi çalışan ve test edilmiş küçük bir parça halinde uygula.
-5. Kod değiştiyse biçimlendirme, analiz ve testleri çalıştır.
-6. Bir aşamanın durumu gerçekten değiştiyse bu dosyadaki durum, kanıt ve sıradaki iş alanlarını aynı değişiklik içinde güncelle.
+3. Değişecek kodu, testleri ve ilgili `docs/` belgesini incele.
+4. Tamamlanmış teknik parçaları yeniden kurma. Sıradaki işi küçük, çalışan ve test edilen bir dilim halinde uygula.
+5. Kod değiştiyse biçimlendirme, `flutter analyze` ve `flutter test` çalıştır. Yerel eklenti değiştiyse uygun platform derlemesini de çalıştır.
+6. Durum gerçekten değiştiyse bu dosyadaki kanıtı, yol haritasını ve sıradaki işi aynı değişiklikte güncelle.
 
-Yalnız plan veya öneri bırakma. Erişilebilen proje kapsamında uygulamayı tamamla. İnsan girdisi zorunluysa dinî içerik, uzman onayı veya kullanım hakkı uydurma; teknik olarak bağımsız kalan işleri bitir ve gereken girdiyi açıkça yaz.
+Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uzman onayı, kullanım hakkı, saha verisi, credential veya cihaz erişimi eksikse bunları uydurma; bağımlı parçayı açıkça beklet.
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** 5 Ekim 2026  
-**Aktif aşama:** 3 — İçerik ve mobil doğrulama  
-**Depo:** `https://github.com/NeoTuck/kabe_hac`  
+**Son doğrulama:** 6 Ekim 2026
+
+**Aktif paket:** P5 — Kafile mobil backend adaptörü; P2–P4 dış girdileri bekliyor
+
+**Depo:** `https://github.com/NeoTuck/kabe_hac`
+
 **Ana dal:** `main`
 
-### Tamamlananlar
+### Çalışan çekirdek
 
-- Teknik prototip ve ana uygulama akışları hazır.
 - Ana sayfa, öğrenme/yolculuk biçimleri, Umre/Hac seçimi, Hac türü, liste ve ayrıntı ekranları çalışıyor.
-- 18 Umre ve 35 Hac alt kimliği sürümlü yerel JSON kataloglarında bulunuyor.
-- Öğrenme/yolculuk ve Hac profili bazlı SQLite ilerleme kayıtları ile eski Umre kimlik migrasyonu hazır.
-- Tavaf ve sa‘y manuel sayaçları var; ses veya kart olayı ilerlemeyi otomatik değiştirmiyor.
-- Metin, dua ve ses için kaynak, sürüm, inceleme ve kullanım hakkı alanları ile katalog doğrulamaları hazır.
-- `U02.2 — Niyet ve telbiye` için boş/taslak içerik hattı ve dua kartı teknik olarak çalışıyor.
-- Arapça RTL, büyük yazı, ekran okuyucu etiketleri ve üç ayrı ses türü için ekran desteği var.
-- Android debug APK derlendi ve Android 35 emülatörde temel akış doğrulandı.
-- Son yerel kontrolde `flutter analyze` hatasız ve 19 test başarılıydı.
+- Sürümlü yerel kataloglarda 18 Umre ve 35 Hac alt kimliği var.
+- SQLite ilerlemesi kullanım biçimi, rehber türü ve Hac profiline göre ayrılıyor. Eski Umre kimlik migrasyonu korunuyor.
+- Tavaf ve sa‘y sayaçları ile Hac yolculuğuna bağlı gün/hedef bazlı cemarat sayaçları manuel çalışıyor.
+- Ses, kart, GPS, gezi durağı veya sayaç olayı dinî ilerlemeyi otomatik işaretlemiyor.
+- Metin/dua/ses şeması kaynak, sürüm, inceleme ve kullanım hakkını ayırıyor. `U02.2` taslak hattı ve dua kartı çalışıyor.
+- Hac profil filtrelemesi yalnız uygulanabilirlik verisinin tamamı onaylandığında etkinleşiyor; mevcut Hac akışı önizleme kalıyor.
+- SQLite şema sürümü `7`. Gezi favorileri, mesaj outbox ve konum paylaşım rızası dinî ilerlemeden ayrı.
 
-### Açık noktalar
+### Geniş ürün için eklenen teknik temel
 
-- Uygulamada uzman onaylı gerçek dinî metin, dua veya telaffuz bulunmuyor.
-- İzinli gerçek insan ses kaydı bulunmuyor; mevcut ses yalnız teknik demodur.
-- Hac türlerinin uygulanabilirlik matrisi uzman onayından geçmediği için Hac akışı önizlemedir.
-- Gerçek Android/iPhone cihazında ses, kesinti, kulaklık ve yaşam döngüsü testi yapılmadı.
-- iOS derlemesi tam Xcode ve CocoaPods kurulumu olmadığı için doğrulanmadı.
+- `audio_session` kesinti ve kulaklık çıkışında sesi duraklatıyor. `just_audio_background`/`audio_service` Android medya servisi ve iOS audio background yapılandırmasını sağlıyor.
+- Çevrimdışı paket manifesti tür, C0/C1/C2, içerik şema aralığı, dosya yolu, hash, boyut ve HTTPS bağlantısı taşıyor.
+- Paket indirme; alan kontrolü, sunucu allowlist'i, kesintide destekleniyorsa HTTP Range, tekrar deneme, tam dosya kümesi/hash doğrulaması, atomik etkinleştirme ve geri dönüşü destekliyor.
+- Paket kataloğu yalnız derleme zamanı HTTPS URL, sunucu allowlist'i ve sabit manifest özetleri eksiksizse açılıyor. Yapılandırma yoksa paket ağına istek yapılmıyor.
+- Güven kökü yapılandırılmadan manifest reddediliyor. C1/C2 güncellemesi açık migrasyon kapısı olmadan etkinleşmiyor.
+- MapLibre offline bölge adaptörü, harita sağlayıcı izin kontrolü, POI/rota modelleri, arama/filtre/favori ekranı var.
+- Güvenli iletişim, dil ve saha bilgileri için kaynak/güncellik/onay modelleri ve dürüst boş durum ekranı var.
+- `supabase/` altında grup backend'i için migrasyon ve pgTAP RLS testi taslağı var. Flutter'da yinelenmeye dayanıklı yerel mesaj outbox bulunuyor.
+- Konum paylaşımı yerelde varsayılan kapalı, süreli ve iptal edilebilir. Ölçüm zamanı/gönderim zamanı/güncellik modeli var.
+
+### Doğrulama kanıtı
+
+- `dart format --output=none --set-exit-if-changed lib test`: temiz.
+- `flutter analyze`: hata yok.
+- `flutter test`: 45 test başarılı.
+- `flutter build apk --debug`: başarılı.
+- Debug APK: `227319901` bayt; SHA-256 `5ad14fc9e1dd369df42379cbaaaf9c8f900aacaee044c6cfe05cb1c59e2b3b4a`.
+- Android 35 `FaceGuard_Test` emülatöründe uygulama açıldı. Teknik ses medya bildirimi oluşturdu; ekran kapalıyken sistem medya komutuyla duraklatma ve yeniden oynatma durumu doğrulandı.
+- Emülatör sessiz çalıştığı için işitsel kalite, çağrı, Bluetooth ve fiziksel kulaklık testi yapılmadı.
+- `flutter doctor -v`: Android SDK 36 ve lisanslar hazır. Flutter SDK `PATH` içinde değil; depo komutlarında tam Flutter yolu kullanılabilir.
+- iOS doğrulanmadı: tam Xcode/xcodebuild ve CocoaPods yok. Yalnız Command Line Tools var.
+- Supabase SQL/pgTAP testi çalıştırılmadı. Yerel Supabase testi Docker gerektiriyordu; Docker bu uygulamanın çalışma bağımlılığı değildir ve bu çalışmada kullanılmadı.
+
+### Kanıtlanmamış veya eksik üretim girdileri
+
+- Uzman onaylı gerçek dinî metin, Arapça metin, telaffuz veya Hac profil matrisi yok.
+- İzinli gerçek insan sesleri yok; `teknik_demo.m4a` yalnız teknik test kaydıdır.
+- Güvenilen gerçek paket manifesti, paket sunucusu ve indirilebilir üretim paketi yok.
+- Offline dağıtım izni bulunan harita sağlayıcısı/stili/bölgesi yok. Gerçek POI ve rota kataloğu yok.
+- Doğrulanmış acil durum/kurum numarası, insan incelemeli Arapça dil kartı veya güncel saha akışı yok.
+- Supabase projesi, Auth/Realtime mobil adaptörü, URL/anon key ve çalışan RLS kanıtı yok.
+- APNs/FCM, server push, GPS izin akışı ve arka plan konum takibi yok.
+- Gerçek Android/iPhone cihaz testi ve iOS derlemesi yok.
 
 ## 3. Sıradaki tek iş
 
-### Aşama 3'ü ilk gerçek U02.2 paketiyle tamamla
+### P5 kafile mobil backend adaptörünü ekle
 
-Kullanıcı tarafından sağlanan ve uzman incelemesi bulunan `U02.2` paketini mevcut şemaya bağla. Bu iş yalnız şu girdiler geldiğinde içerik bakımından tamamlanabilir:
+Canlı credential olmadan mock ile test edilebilen, yapılandırma yokken tüm rehber çekirdeğini hesap istemeden bırakan Supabase adaptörünü uygula:
 
-- Kaynak başlığı, HTTPS bağlantısı, sayfa/bölüm ve kaynak kullanım koşulu.
-- Türkçe açıklama.
-- Varsa Arapça metin, okunuş ve Türkçe anlam.
-- İnceleyenin adı, inceleme tarihi ve açık onay durumu.
-- Türkçe anlatım, Arapça okuma ve Türkçe anlam için ayrı ses dosyaları.
-- Her ses için kayıt sahibi ve uygulamada kullanım hakkı bilgisi.
+1. Kararlı `supabase_flutter` paketini ayrı bağımlılık olarak ekle. Yalnız `SUPABASE_URL` ve client için publishable key derleme zamanı değerlerini kabul et; service-role/secret key kabul etme.
+2. Yapılandırma yoksa Supabase başlatma, ağ isteği yapma ve ana rehberi giriş ekranına kilitleme.
+3. Grup listesi, süreli davet kabulü, üyeler, kalıcı mesajlar, rehbere özel mesaj, duyuru, program ve rota için repository arayüzü ile Supabase uygulamasını yaz.
+4. `message_outbox` bekleyen kayıtlarını `client_id` ile gönder; başarılı/başarısız durumunu güncelle ve tekrar denemede çift mesaj üretme.
+5. Realtime kanalını `group:<uuid>` adıyla private aç; kalıcı tabloyu esas al ve bağlantı kesilince son kayıt zamanından/id'sinden tekrar eşitle.
+6. Kafile ekranını yalnız yapılandırılmış ve giriş yapılmış durumda gerçek repository ile aç. Yapılandırma/oturum yoksa dürüst durum göster; sahte canlı grup üretme.
+7. Repository sözleşmesi, outbox senkronizasyonu, farklı grup filtresi ve servis kapalı davranışı için mock testleri ekle.
 
-Uygulama adımları:
+Canlı Supabase URL/publishable key ve çalışan RLS testi gelmeden P5'i tamamlandı yazma. `supabase/tests/database/group_rls.test.sql` hâlâ çalışan PostgreSQL üzerinde doğrulanmalıdır.
 
-1. `docs/templates/U02.2-icerik-sablonu.json` girdilerini incele.
-2. Metin ve ses sürümlerini eşleştir; kaynak hakkı ile ses kullanım hakkını ayrı tut.
-3. Kayıtları `assets/content/umre_inventory.v1.json` içine ekle ve taslak/onay durumunu kanıta göre ayarla.
-4. Gerekli sesleri `assets/audio/` altına ekleyip `pubspec.yaml` içinde tanımla.
-5. Dua kartını ve üç ses türünü test et; ses olaylarının ilerlemeyi değiştirmediğini koru.
-6. Gerçek Android cihaz varsa büyük yazı, RTL, ses, kapatıp açınca devam ve ses kesintilerini doğrula.
-7. Sonucu `docs/03-icerik-ve-mobil-dogrulama.md` içinde güncelle.
+## 4. Birleşik yol haritası
 
-**Girdiler yoksa:** Dinî metin, Arapça metin, telaffuz, inceleyen kişi veya kullanım izni üretme. `draft` kaydını `approved` yapma. Aşama 3'ü tamamlandı sayma ve Aşama 4'e geçildiğini yazma.
-
-## 4. Genel yol haritası
-
-| Aşama | Kapsam | Durum | Tamamlanma ölçütü |
+| Paket | Kapsam | Durum | Tamamlanma ölçütü |
 | --- | --- | --- | --- |
-| 1. Teknik prototip | Kart, RTL Arapça örnek, yerel teknik ses, SQLite | Tamamlandı | Teknik kart, ses ve kalıcı kayıt test edildi. |
-| 2. Ana uygulama | Seçimler, listeler, ayrıntı, profil bazlı ilerleme ve sayaçlar | Tamamlandı | Ana akışlar ve migrasyon testleri geçiyor. |
-| 3. İçerik ve mobil doğrulama | İlk kaynaklı/onaylı içerik hattı, dua kartı, Android/iOS doğrulaması | Devam ediyor | İlk gerçek onaylı U02.2 paketi ve izinli sesler bağlanır; uygun cihaz kontrolleri kaydedilir. |
-| 4. Tam Umre rehberi | 18 adımın metin, dua ve sesleri; mevcut tavaf/sa‘y sayaçlarıyla tam akış | Sırada | 18 adım kaynaklı, incelenmiş, sürümlü ve cihazda doğrulanmıştır. |
-| 5. Ses ve çevrimdışı paketler | İndirme, bütünlük kontrolü, güncelleme, arka plan ve kesinti yönetimi | Sırada | Paket sürümü/hatası güvenli yönetilir; yaşam döngüsü testleri geçer. |
-| 6. Tam Hac rehberi | Temettü, İfrad, Kıran için onaylı matris, 35 alt adım ve Cemarat sayacı | Sırada | Uzman onaylı profil matrisi ve içerikler doğru yönlendirilir. |
-| 7. Kalite ve kullanıcı pilotu | Arama, favoriler, erişilebilirlik, eski cihazlar, hata düzeltmeleri | Sırada | Pilot geri bildirimleri ve hedef cihaz matrisi tamamlanır. |
-| 8. Mağaza ve yayın | Son içerik onayı, Android/iOS mağaza süreçleri ve destek | Sırada | İmzalı sürümler, mağaza kayıtları, gizlilik/destek akışları hazırdır. |
+| P0 | Kod, veri, araç ve kapsam incelemesi | Tamamlandı | Gap listesi, bağımlılıklar ve kişi-gün tahmini `docs/04` içinde. |
+| P1 | Umre/Hac veri akışı ve üç sayaç | Teknik temel tamamlandı; veri bekliyor | 18/35 onaylı içerik ve Hac matrisi gelmeden ürün kabulü verilmez. |
+| P2 | Ses ve çevrimdışı paketler | Teknik katman hazır; sağlayıcı/cihaz bekliyor | Gerçek güvenilir paket, arka plan/kesinti ve iki platform cihaz kanıtı. |
+| P3 | Harita, POI ve rotalar | Adaptör ve modeller hazır; sağlayıcı bekliyor | İzinli bölgede gerçek uçak modu harita, durak, arama ve yeniden açma. |
+| P4 | Güvenli gezi, dil, saha, adım | Veri modelleri hazır; içerik/sensör bekliyor | Kaynaklı yerel içerik, insan incelemesi ve cihaz sensör kanıtı. |
+| P5 | Grup backend'i ve senkronizasyon | SQL/outbox taslağı; servis bekliyor | İki hesap ve iki grup ile RLS izolasyonu, Auth/Realtime ve offline senkronizasyon. |
+| P6 | Konum ve push | Yerel rıza modeli; servis bekliyor | Rıza/iptal/son konum, saklama ve gerçek APNs/FCM teslim sınırları. |
+| P7 | Bütünleşik mobil test ve yayın hazırlığı | Sırada | Gerçek cihaz matrisi, erişilebilirlik, güvenlik, mağaza ve final durum matrisi. |
 
-Aşamaları sırayla ilerlet. Bir aşamayı yalnız tablodaki tamamlanma ölçütleri kanıtlandığında `Tamamlandı` yap.
+3D bu planın kapsamı değildir. Bir paketi yalnız kabul ölçütü kanıtlandığında tamamlandı yaz.
 
 ## 5. Teknoloji ve çalışma ortamı
 
-- **İstemci:** Flutter `3.47.6`, Dart `3.13.5`, Material arayüz.
-- **Durum ve kalıcı kayıt:** `sqflite`; veritabanı şema sürümü `4`.
-- **Ses:** `just_audio`; aynı anda tek ses oynatan `NarrationService`.
-- **İçerik:** `assets/content/` altında sürümlü JSON; şema sürümü `1`.
-- **Test:** `flutter_test` ve SQLite testleri için `sqflite_common_ffi`.
-- **Android:** En düşük API 28; debug APK ve Android 35 emülatör doğrulandı.
-- **iOS:** Proje doğrulaması açık; tam Xcode ve CocoaPods gerekiyor.
-- **Sunucu:** Şu anda backend, hesap sistemi veya uzaktan içerik servisi yok.
+- **İstemci:** Flutter 3.47.6, Dart 3.13.5, Material.
+- **Yerel veri:** `sqflite`, şema sürümü 7.
+- **İçerik:** `assets/content/` altında sürümlü JSON, içerik şeması 1.
+- **Ses:** `just_audio`, `audio_session`, `just_audio_background`/`audio_service`; tek konuşma kanalı.
+- **Paket:** SHA-256, sabit güven özeti, geçici indirme ve atomik durum işaretçisi.
+- **Harita:** `maplibre_gl`; sağlayıcı verisi yapılandırılmadı.
+- **Backend adayı:** Supabase Auth/PostgreSQL/Realtime/Storage; mobil SDK ve credential henüz yok.
+- **Test:** `flutter_test`, `sqflite_common_ffi`; backend için pgTAP dosyası var ancak çalıştırılmadı.
+- **Android:** En düşük API 28; SDK/build-tools 36; Android 35 emülatör kanıtı.
+- **iOS:** Proje dosyaları var; tam Xcode ve CocoaPods gerekiyor.
 
-Ana paketler `pubspec.yaml` içinde kilitlenir. Paket yükseltmesini ayrı, test edilen bir değişiklik olarak yap; özellik değişikliğiyle karıştırma.
+Paket yükseltmesini ayrı ve test edilen değişiklik olarak yap. Özellik değişikliği sırasında ilgisiz toplu paket yükseltmesi yapma.
 
 ## 6. Kod ve veri haritası
 
-- `lib/main.dart`: uygulama başlangıcı ve bağımlılıkların kurulması.
-- `lib/selection_screens.dart`: ana seçim, kullanım biçimi ve Hac profili ekranları.
-- `lib/guide_screens.dart`: rehber listesi, ayrıntı ve dua kartları.
-- `lib/guide_catalog.dart`: JSON modelleri, durumlar ve içerik doğrulaması.
-- `lib/content_repository.dart`: katalogların yüklenmesi.
-- `lib/progress_store.dart`: SQLite şeması, oturumlar, işaretler ve migrasyon.
-- `lib/narration_service.dart`: tek kanallı ses yaşam döngüsü.
-- `lib/audio_controls.dart`: oynat, duraklat ve tekrar kontrolleri.
-- `lib/counter_screen.dart`: manuel tavaf/sa‘y sayaçları.
-- `assets/content/umre_inventory.v1.json`: 18 Umre alt adımı ve içerik kayıtları.
-- `assets/content/hac_inventory.v1.json`: 35 Hac alt adımı ve profil önizlemesi.
-- `test/`: katalog, ilerleme, ayar, sayaç ve ekran akışı testleri.
-- `docs/02-ana-yapi.md`: güncel mimari ve veri yapısı.
-- `docs/03-icerik-ve-mobil-dogrulama.md`: Aşama 3 kanıtları ve cihaz durumu.
+- `lib/main.dart`: başlangıç, bağımlılık kurulumu ve kapalı varsayılan kataloglar.
+- `lib/selection_screens.dart`: ana sayfa ve seçim akışları.
+- `lib/guide_catalog.dart`, `lib/guide_screens.dart`: rehber modelleri, onay filtresi, liste/ayrıntı/dua.
+- `lib/progress_store.dart`: SQLite şeması, ilerleme, sayaç, favori, outbox ve konum rızası.
+- `lib/counter_screen.dart`: tavaf, sa‘y ve cemarat sayaçları.
+- `lib/narration_service.dart`, `lib/audio_controls.dart`: tek ses, medya oturumu ve kontroller.
+- `lib/offline_package.dart`, `lib/package_downloader.dart`, `lib/package_screen.dart`: çevrimdışı paket yaşam döngüsü.
+- `lib/offline_map_adapter.dart`: MapLibre offline bölge sınırı.
+- `lib/travel_catalog.dart`, `lib/travel_screen.dart`: POI/rota ve gezi ekranı.
+- `lib/safety_catalog.dart`, `lib/safety_screen.dart`: iletişim, dil ve güncel saha bilgisi.
+- `lib/group_sync.dart`: mesaj outbox ve konum güncellik modelleri.
+- `assets/content/umre_inventory.v1.json`, `hac_inventory.v1.json`: 18/35 envanter.
+- `supabase/migrations/`: backend şeması ve RLS.
+- `supabase/tests/database/`: pgTAP erişim izolasyonu taslağı.
+- `docs/03-icerik-ve-mobil-dogrulama.md`: ilk içerik hattı ve önceki cihaz kanıtı.
+- `docs/04-birlesik-gelistirme-programi.md`: geniş kapsam, kararlar, izinler ve tahmin.
 
-## 7. Değişmez ürün kuralları
+## 7. Değişmez ürün ve güvenlik kuralları
 
-- Dinî içerik uydurma, anlam veya telaffuz tahmin etme.
-- Kaynak bulunmasını uzman onayı sayma.
-- İnceleyen ve tarih alanlarını kendiliğinden doldurma.
-- Kaynak kullanım koşulu ile ses kaydı kullanım hakkını ayrı kaydet.
-- Taslak veya inceleme bekleyen içeriği onaylı yayın içeriği gibi gösterme.
-- Onaylı sesin bağlı olduğu metin kimliği ve sürümü birebir eşleşmeli.
-- Arapça, Türkçe anlatım ve Türkçe anlam seslerini ayrı kimliklerle yönet.
-- Aynı anda tek ses çalmalı; ekran/adım değişince önceki ses durmalı.
-- Kart açma, ses oynatma/bitirme/tekrarlama veya ileri gitme ilerlemeyi otomatik işaretlememeli.
-- İçerik sürümü değiştiğinde eski ilerleme kaydını silme veya sessizce başka adıma taşıma.
-- Hac profil kurallarını uzman onayı olmadan etkinleştirme.
-- Sayaçlar, uzaktan indirme, ödeme veya bütün Hac içeriğini sıradaki işin kapsamına kendiliğinden ekleme.
+- Dinî metin, Arapça, anlam, telaffuz, inceleyen kişi veya onay tarihi uydurma.
+- Kaynak bulunmasını uzman onayı sayma. Kaynak kullanım koşulu ile ses kullanım hakkını ayır.
+- Taslak/bekleyen içeriği onaylı yayın içeriği gibi gösterme.
+- Onaylı sesin metin kimliği ve sürümü birebir eşleşmeli. Arapça, Türkçe anlatım ve anlam sesleri ayrı kimlikte olmalı.
+- Aynı anda tek ses çalsın. Ekran/adım değişince önceki ses dursun. Ses olayı ilerlemeyi değiştirmesin.
+- GPS, rota durağı, adım sensörü veya sayaç ibadet geçerliliği üretmesin.
+- İçerik sürümü değişince eski ilerlemeyi silme veya sessizce başka adıma taşıma.
+- Kamusal OSM raster/vector tile sunucularından offline şehir paketi indirme. Sağlayıcı izni ve atıf zorunlu.
+- Test POI, rota, numara ve saha verisini gerçek veri gibi sunma.
+- Konum paylaşımı varsayılan kapalı, açık rızalı, süreli ve durdurulabilir olmalı. Eski konumu canlı gösterme.
+- Realtime bağlantısını push bildirimi sayma. Çevrimdışı mesajı teslim edilmiş gösterme.
+- Service-role anahtarını veya başka gizli bilgiyi mobil uygulamaya, Git'e ya da dokümana koyma.
+- Grup yetkisini yalnız UI ile gizleme; sunucuda RLS/policy ile uygula.
+- Docker'ı mobil uygulama çalışma bağımlılığı yapma. Yalnız isteğe bağlı yerel backend test aracı olabilir.
 
-## 8. Geliştirme ve doğrulama komutları
+## 8. Doğrulama komutları
 
-```sh
-flutter pub get
-dart format --output=none --set-exit-if-changed lib test
-flutter analyze
-flutter test
-```
-
-Android ile ilgili bir değişiklikte araçlar uygunsa ayrıca:
+Flutter bu makinede `PATH` içinde değil. Gerekirse `FLUTTER=/Users/mustafasenoglu/.local/share/flutter-3.47.6/bin/flutter` kullan.
 
 ```sh
-flutter build apk --debug
+$FLUTTER --no-version-check pub get
+$FLUTTER --no-version-check analyze
+$FLUTTER --no-version-check test
+$FLUTTER --no-version-check build apk --debug
 ```
 
-iOS ile ilgili bir değişiklikte tam Xcode ve CocoaPods hazırsa ayrıca:
+Biçim kontrolü:
 
 ```sh
-flutter build ios --debug --no-codesign
+/Users/mustafasenoglu/.local/share/flutter-3.47.6/bin/dart format --output=none --set-exit-if-changed lib test
 ```
 
-Araç eksikliği ile kod hatasını ayrı raporla. Emülatör başarısını gerçek cihaz testi olarak yazma; bir platformdaki başarıyı diğer platformun doğrulaması sayma.
+iOS yalnız tam Xcode ve CocoaPods hazır olduğunda:
+
+```sh
+$FLUTTER --no-version-check build ios --debug --no-codesign
+```
+
+Backend testi isteğe bağlı yerel Supabase çalışma ortamı veya ayrı test projesi ister. Çalıştırılmadıysa geçti yazma. Derleme, emülatör ve gerçek cihaz sonuçlarını ayrı raporla.
 
 ## 9. Tamamlanma ve devir kuralı
 
-Bir geliştirme parçası ancak şu koşullarda tamamlanmıştır:
-
-- İstenen davranış çalışan kodla uygulanmıştır.
-- İlgili anlamlı testler eklenmiş veya güncellenmiştir.
-- Biçimlendirme, `flutter analyze` ve `flutter test` sonucu kaydedilmiştir.
-- Gerçek içerik, uzman onayı, ses hakkı ve cihaz testi iddiaları kanıtla uyumludur.
-- Durum değiştiyse bu dosyadaki **Mevcut durum**, yol haritası ve **Sıradaki tek iş** güncellenmiştir.
-- Sonraki geliştirici, ek karar vermeden tek bir sonraki parçayı anlayabilir.
-
-Commitlerde derleme çıktısı, `.dart_tool/`, gizli bilgi, imza anahtarı veya kişisel hesap verisi ekleme. Zorla push yapma ve kullanıcı değişikliklerini silme.
+Bir parça ancak çalışan kod, anlamlı test, temiz analiz ve ilgili platform kanıtıyla tamamlanır. Gerçek içerik, uzman onayı, hak, sağlayıcı, credential, push veya cihaz iddiası yalnız kanıt kadar yazılır. Durum değiştiyse bu dosyayı ve ilgili `docs/` belgesini güncelle. Derleme çıktısı, `.dart_tool/`, credential, imza anahtarı veya kişisel hesap verisi commitlenmez. Zorla push yapma ve kullanıcı değişikliklerini silme.

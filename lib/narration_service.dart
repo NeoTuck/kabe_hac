@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 enum NarrationStatus { idle, loading, playing, paused, completed, error }
 
@@ -15,7 +17,8 @@ class NarrationState {
 
 abstract class NarrationService extends ChangeNotifier {
   NarrationState get state;
-  Future<void> playAsset(String asset);
+  Future<void> initialize();
+  Future<void> playAsset(String asset, {String? title});
   Future<void> pause();
   Future<void> resume();
   Future<void> replay();
@@ -26,11 +29,42 @@ abstract class NarrationService extends ChangeNotifier {
 class JustAudioNarrationService extends NarrationService {
   AudioPlayer? _player;
   StreamSubscription<PlayerState>? _subscription;
+  StreamSubscription<AudioInterruptionEvent>? _interruptionSubscription;
+  StreamSubscription<void>? _noisySubscription;
+  AudioSession? _session;
+  Future<void>? _initializing;
   NarrationState _state = const NarrationState(NarrationStatus.idle);
   double _speed = 1;
 
   @override
   NarrationState get state => _state;
+
+  @override
+  Future<void> initialize() => _initializing ??= _configureSession();
+
+  Future<void> _configureSession() async {
+    final session = await AudioSession.instance;
+    await session.configure(AudioSessionConfiguration.speech());
+    _session = session;
+    _interruptionSubscription = session.interruptionEventStream.listen((event) {
+      if (event.begin) unawaited(_pauseForInterruption());
+    });
+    _noisySubscription = session.becomingNoisyEventStream.listen((_) {
+      unawaited(_pauseForInterruption());
+    });
+  }
+
+  Future<void> _pauseForInterruption() async {
+    if (_state.status != NarrationStatus.playing) return;
+    await _player?.pause();
+    _publish(
+      NarrationState(
+        NarrationStatus.paused,
+        asset: _state.asset,
+        message: 'Ses kesinti nedeniyle duraklatıldı.',
+      ),
+    );
+  }
 
   void _publish(NarrationState state) {
     _state = state;
@@ -54,12 +88,24 @@ class JustAudioNarrationService extends NarrationService {
   }
 
   @override
-  Future<void> playAsset(String asset) async {
+  Future<void> playAsset(String asset, {String? title}) async {
+    await initialize();
     final player = _ensurePlayer();
     await player.stop();
     _publish(NarrationState(NarrationStatus.loading, asset: asset));
     try {
-      await player.setAsset(asset);
+      final activated = await _session?.setActive(true) ?? false;
+      if (!activated) {
+        throw StateError('Audio session could not be activated.');
+      }
+      await player.setAsset(
+        asset,
+        tag: MediaItem(
+          id: asset,
+          album: 'Hac ve Umre Sesli Rehber',
+          title: title ?? 'Sesli rehber',
+        ),
+      );
       await player.setSpeed(_speed);
       _publish(NarrationState(NarrationStatus.playing, asset: asset));
       _startPlaying(player, asset);
@@ -118,6 +164,7 @@ class JustAudioNarrationService extends NarrationService {
   @override
   Future<void> stop() async {
     await _player?.stop();
+    await _session?.setActive(false);
     _publish(const NarrationState(NarrationStatus.idle));
   }
 
@@ -134,6 +181,14 @@ class JustAudioNarrationService extends NarrationService {
   void dispose() {
     final subscription = _subscription;
     if (subscription != null) unawaited(subscription.cancel());
+    final interruptionSubscription = _interruptionSubscription;
+    if (interruptionSubscription != null) {
+      unawaited(interruptionSubscription.cancel());
+    }
+    final noisySubscription = _noisySubscription;
+    if (noisySubscription != null) unawaited(noisySubscription.cancel());
+    final session = _session;
+    if (session != null) unawaited(session.setActive(false));
     final player = _player;
     if (player != null) {
       unawaited(player.dispose());

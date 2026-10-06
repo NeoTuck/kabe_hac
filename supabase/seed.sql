@@ -1,0 +1,3 @@
+-- Bilerek boş bırakıldı. Gerçek kullanıcı, kafile, konum veya iletişim verisi
+-- kaynak denetimi olmadan seed olarak eklenmez. Test fixture'ları pgTAP
+-- işlemleri içinde üretilir ve transaction sonunda geri alınır.
