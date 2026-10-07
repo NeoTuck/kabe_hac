@@ -177,7 +177,7 @@ void main() {
         .url
         .queryParameters;
     expect(query['group_id'], 'eq.$group');
-    expect(query['order'], 'created_at.desc,id.desc');
+    expect(query['order'], 'created_at.desc.nullslast,id.desc.nullslast');
     expect(query['limit'], '51');
     expect(
       query['or'],

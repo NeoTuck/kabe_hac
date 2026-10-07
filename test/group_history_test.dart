@@ -122,21 +122,35 @@ void main() {
     WidgetTester tester,
     String text, {
     double delta = 200,
-  }) => tester.scrollUntilVisible(
-    find.text(text),
-    delta,
-    maxScrolls: 100,
-    scrollable: find
+  }) async {
+    final target = text == 'Sohbet ·'
+        ? find.textContaining(text)
+        : find.text(text);
+    final scrollable = find
         .descendant(
           of: find.byType(ListView),
           matching: find.byType(Scrollable),
         )
-        .first,
-  );
+        .first;
+    tester.state<ScrollableState>(scrollable).position.jumpTo(0);
+    await tester.pump();
+    await tester.scrollUntilVisible(
+      target,
+      delta.abs(),
+      maxScrolls: 100,
+      scrollable: scrollable,
+    );
+    await Scrollable.ensureVisible(tester.element(target), alignment: 0.3);
+    await tester.pumpAndSettle();
+  }
+
   Future<void> load(WidgetTester tester) async {
     await scrollTo(tester, 'Eski mesajları yükle');
     await tester.tap(find.text('Eski mesajları yükle'));
     await tester.pumpAndSettle();
+    if (find.textContaining('Kafileye erişilemedi').evaluate().isEmpty) {
+      await scrollTo(tester, 'Sohbet ·');
+    }
   }
 
   Future<void> close(WidgetTester tester, HistoryRepository repository) async {
@@ -183,6 +197,7 @@ void main() {
     await tester.tap(find.text('Kafileyi yenile'));
     await tester.pumpAndSettle();
     expect(repo.historyCalls, 2);
+    await scrollTo(tester, 'Sohbet ·');
     expect(find.text('Sohbet · 150 mesaj'), findsOneWidget);
     await scrollTo(tester, 'Mesaj silindi.');
     expect(find.text('Mesaj silindi.'), findsOneWidget);
@@ -255,6 +270,7 @@ void main() {
         GroupMessagePage(messages: [repo.row(1)], hasMore: false),
       );
       await tester.pumpAndSettle();
+      await scrollTo(tester, 'Sohbet ·');
       expect(find.text('Sohbet · 100 mesaj'), findsOneWidget);
       expect(find.text('Mesaj 1'), findsNothing);
       expect(find.text('Eski mesajlar yükleniyor'), findsNothing);
