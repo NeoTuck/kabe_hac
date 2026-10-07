@@ -18,7 +18,7 @@
 | 6 | Canlı kafile backend, geçmiş, program, konum ve push | İki hesap/grup RLS, offline senkronizasyon, rıza/iptal ve bildirim teslimi |
 | 7 | UI/UX, erişilebilirlik, performans, veri koruyan güncelleme, imza/mağaza | Gerçek Android/iPhone; sabit güvenli imza, TestFlight ve yayın beyanları |
 
-İlk bağımsız uygulama: aşama 1 test temeli ve aşama 2 editöryal çalışma tabloları. Aşama 1 cihaz yürütmesi eksik olduğu için tamamen bitmiş değildir. Sonraki kod dilimi: kafilede son 100 mesajın ötesine erişim için hesap/üyelik kontrollü geçmiş sayfalama. Canlı backend kurulumu gelmeden servis kabulü verilmez.
+İlk bağımsız uygulama: aşama 1 test temeli ve aşama 2 editöryal çalışma tabloları. Aşama 1 cihaz yürütmesi eksik olduğu için tamamen bitmiş değildir. Kafile geçmişi sayfalama teknik dilimi `docs/10-kafile-mesaj-gecmisi.md` kapsamında doğrulandı. Sonraki kod dilimi uzun sohbetlerde mesaj yazma alanına kolay erişimdir. Canlı backend kurulumu gelmeden servis kabulü verilmez.
 
 ## Ürün kabul matrisi
 
@@ -33,7 +33,7 @@
 | Offline paket | Hash/atomik etkinleştirme/kesinti testleri | Gerçek sunucu/manifest/yayın paketleri; uçak modu |
 | Harita/POI/rotalar | Adaptör, model, liste/arama/favori | Etkileşimli harita, izinli veri, şirket rotası indirme |
 | Güvenlik/dil/saha | Şema, kaynak/güncellik ve boş durumlar | Doğrulanmış kurum numaraları/dil kartları/kapı-saat verisi |
-| Kafile/Auth/davet/sohbet | Repository/mock HTTP/widget; 35 SQL kontrolü | Gerçek Supabase/OTP/Realtime/RLS; geçmiş sayfalama |
+| Kafile/Auth/davet/sohbet | Repository/mock HTTP/widget; sayfalama; 39 SQL kontrolü | Gerçek Supabase/OTP/Realtime/RLS; uzun sohbet yazma deneyimi |
 | Konum | Yerel süreli rıza modeli | GPS izinleri/gönderim/iptal/saklama kabulü |
 | Push | Tamamlanmadı | APNs/FCM, token yaşam döngüsü, teslim testi |
 | Adım sensörü/yoğunluk | Tamamlanmadı | Sensör/veri kaynağı ve cihaz kabulü |

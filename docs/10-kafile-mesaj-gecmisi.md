@@ -20,4 +20,8 @@ Bu ekran en fazla 500 mesaj gösterir. Bu sınır kalıcı geçmişin silinmesi 
 
 SDK HTTP testleri cursor, 51 kayıt, boş son sayfa, üyelik kaybı ve hesap kontrolünü kapsar. Widget testleri tekrarlar, yenileme/silme, ağ hatası, üyelik iptali, hesap değişimi, yarış koşulları, 320 piksel/%200 yazı ve 500 mesaj sınırını kapsar. SQL fixture testleri aynı zamanlı sayfa sınırını ve grup/üyelik yalıtımını kontrol eder.
 
-Bu değişikliğin format kontrolü geçti; analiz, tüm testler ve Android/iOS derlemeleri GitHub CI doğrulamasını bekliyor. UI ekran görüntüsü test verisiyle üretilir; gerçek kullanıcı, cihaz veya Supabase kabulü değildir. Fiziksel cihaz, canlı Auth/RLS/Realtime ve push kabulü açık kalır.
+`2e5f38b38a75e6c29c91fa8578082aade37a1676` için CI 37683617681: format, analiz, 102 Flutter testi, teknik ses QA, iOS debug/no-codesign, QA temeli ve 39 SQL kontrolü geçti. Android debug APK da başarıyla oluşturuldu. Kanıt: https://github.com/NeoTuck/kabe_hac/actions/runs/37683617681 . İmzalı iOS dağıtımı veya telefon kabulü değildir.
+
+`docs/mvp-ui/group-history.png` CI'da 390×844 test verisiyle üretilen gerçek Flutter renderıdır ve görsel olarak incelendi. 320×568/%200 yazıda da widget akışı geçti. Ekran görüntüsü gerçek kullanıcı, cihaz veya Supabase kabulü değildir. Fiziksel cihaz, canlı Auth/RLS/Realtime ve push kabulü açık kalır.
+
+Yerel Flutter bağımlılık hazırlığı gerekli olmayan metadata adresine erişim denemesi nedeniyle otomatik kontrolde engellendi. İşlem tekrar edilmedi; doğrulama GitHub CI üzerinden yürütüldü.

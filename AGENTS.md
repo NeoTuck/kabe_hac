@@ -17,7 +17,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 **Son doğrulama:** 7 Ekim 2026, MVP 1 teknik pilot; GitHub Android APK ve iOS debug/no-codesign build başarılı, fiziksel cihaz kabulü bekliyor
 
-**Aktif paket:** Kafile mesaj geçmişi sayfalama; yeni kodun CI doğrulaması sürüyor. Cihaz/canlı servis ve onaylı içerik kabulü bekliyor.
+**Aktif paket:** Kafile mesaj geçmişi teknik dilimi doğrulandı; kullanıcı deneyimi ve cihaz/canlı servis kabulü devam ediyor. Onaylı içerik kabulü bekliyor.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -76,7 +76,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 ### Kafile mesaj geçmişi
 
 - Son 100 mesajın öncesi 50'şer yüklenir; görünür üst sınır 500 mesajdır. UTC zaman/UUID cursor, tekrar ayıklama, hesap/üyelik ve bekleyen istek kontrolleri eklendi.
-- Yenileme açılmış sayfaları tekrar okur; silme/düzenleme günceldir. 8 widget, 3 SDK ve 4 SQL regresyonu eklendi. Format temiz; bu değişiklik için CI bekleniyor. Ayrıntı: `docs/10-kafile-mesaj-gecmisi.md`.
+- Yenileme açılmış sayfaları tekrar okur; silme/düzenleme günceldir. 8 widget, 3 SDK ve 4 SQL regresyonu eklendi. `2e5f38b` CI 37683617681: format/analiz, 102 Flutter testi, teknik ses QA, Android debug APK, iOS debug/no-codesign, 39 SQL kontrolü ve qa-foundation başarılı. 390×844 Flutter renderı incelendi; 320×568/%200 yazı akışı geçti. Cihaz/canlı servis kanıtı değildir. Ayrıntı: `docs/10-kafile-mesaj-gecmisi.md`.
 - Önceki QA temeli CI 37680799787: Flutter, Android debug, iOS debug/no-codesign, database ve qa-foundation başarılı.
 
 ### GitHub devir durumu
@@ -117,9 +117,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
-### Hesap/üyelik kontrollü kafile geçmişi sayfalama
+### Uzun kafile sohbetinde mesaj yazma alanına erişim
 
-Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Mesaj geçmişi kodu eklendi; önce yeni CI sonucunu tamamla ve gerçek Flutter renderını incele. Hata varsa bu dilimi düzelt. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
+Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Mesaj geçmişi kodu ve CI/render kabulü tamamlandı. Sıradaki kullanıcı deneyimi dilimi uzun sohbetlerde mesaj yazma alanına kolay erişimdir. Kafile sohbeti/rehberle özel mesaj, bekleyen gönderimler, duyuru/program/rota, hesap/üyelik kontrolleri korunmalı; küçük ekran, büyük yazı ve klavye açıkken akış test edilmelidir. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
 Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 
