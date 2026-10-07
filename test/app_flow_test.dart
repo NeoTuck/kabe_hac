@@ -54,6 +54,11 @@ void main() {
     await tester.pumpAndSettle();
     Navigator.of(tester.element(find.text('Öğrenme'))).pop();
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.textContaining('Kaldığım yerden devam'),
+      -200,
+    );
+    await tester.pumpAndSettle();
     expect(find.textContaining('Kaldığım yerden devam'), findsOneWidget);
   });
 

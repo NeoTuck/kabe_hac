@@ -56,6 +56,8 @@ void main() {
           expect(tester.takeException(), isNull);
           for (final action in ['Umreye hazırlanıyorum', 'Umredeyim']) {
             await tester.scrollUntilVisible(find.text(action), 160);
+            await tester.ensureVisible(find.text(action));
+            await tester.pumpAndSettle();
             await tester.tap(find.text(action));
             await tester.pumpAndSettle();
             expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
@@ -77,6 +79,10 @@ void main() {
               find.text('Ses ve Arapça örnek kartını aç'),
               200,
             );
+            await tester.ensureVisible(
+              find.text('Ses ve Arapça örnek kartını aç'),
+            );
+            await tester.pumpAndSettle();
             await tester.tap(find.text('Ses ve Arapça örnek kartını aç'));
             await tester.pumpAndSettle();
             expect(find.byType(DemoScreen), findsOneWidget);

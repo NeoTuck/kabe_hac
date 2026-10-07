@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'content_repository.dart';
 import 'demo_screen.dart';
-import 'app_theme.dart';
 import 'guide_catalog.dart';
 import 'group_repository.dart';
 import 'group_screen.dart';
@@ -193,16 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            const SizedBox(height: 12),
-            const FeatureStatusCard(
-              icon: Icons.auto_stories_outlined,
-              title: 'Umre yolculuğunda yanında',
-              description: 'Rehberini aç, kaldığın yerden devam et. Rehber ilerlemen bu cihazda saklanır.',
-            ),
-            const SizedBox(height: 24),
             Text(
               'Nasıl devam etmek istersin?',
-              style: Theme.of(context).textTheme.headlineLarge
+              style: Theme.of(context).textTheme.headlineMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
