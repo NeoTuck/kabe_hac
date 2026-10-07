@@ -559,8 +559,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       );
       if (!mounted ||
           _owner != widget.repository.userId ||
-          epoch != _historyEpoch)
+          epoch != _historyEpoch) {
         return;
+      }
       final history = _mergeMessages(page.messages, _historyRows);
       if (page.messages.isNotEmpty && history.length == _historyRows.length) {
         throw StateError('Mesaj geçmişi ilerlemedi.');
@@ -573,8 +574,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     } catch (error) {
       if (!mounted ||
           _owner != widget.repository.userId ||
-          epoch != _historyEpoch)
+          epoch != _historyEpoch) {
         return;
+      }
       setState(() {
         _connected = false;
         if (error is GroupAccessError) {
