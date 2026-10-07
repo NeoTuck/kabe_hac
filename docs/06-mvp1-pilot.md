@@ -12,7 +12,7 @@ Bu çalışma 3D içermeyen Türkçe mobil rehberin arayüzünü, ses kontrolün
 - `supabase_flutter` 2.18.0 ile e-posta kodu oturumu, kafile listesi, kişisel kafile oluşturma, süreli/tek kullanımlık davet, üyeler, son 100 mesaj, rehbere özel mesaj, duyuru, program ve rota kayıtlarının listesi eklendi. Private Realtime ile yenileme ve uygulama aktifken 30 saniyelik erişim kontrolü vardır. Realtime push değildir.
 - Outbox şeması 8: mesaj kullanıcı hesabına bağlıdır. Eski hesabı belirsiz kayıtlar taşınır ama otomatik gönderilmez. Çıkışta o hesabın yerel bekleyen mesajları temizlenir. Aynı `client_id` ile tekrar deneme INSERT/ignore-duplicates kullanır; başarılı cevapta içerik karşılaştırılır. Bağlantı/erişim kontrolü başarısızsa uzak grup verisi ekranı temizlenir. Bekleyen mesaj teslim edilmiş gösterilmez.
 - `create_personal_group` RPC grubu ve ilk yönetici üyeliğini atomik oluşturur. Anonim çalıştırma kapalıdır. Android ana manifestine release için de gerekli INTERNET izni eklendi.
-- GitHub Actions: analiz/format/test/ses dosyası kontrolü, Android debug APK, macOS iOS debug/no-codesign ve PostgreSQL motorunda SQL kontrolleri. Workflow bu ortamda/GitHub'da henüz çalıştırılmadı.
+- GitHub Actions: analiz/format/test/ses dosyası kontrolü, Android debug APK, macOS iOS debug/no-codesign ve PostgreSQL motorunda SQL kontrolleri. GitHub çalışması 37588125442 başarılı; ayrıntılar teslim kanıtı bölümündedir.
 
 ## Doğrulama kanıtı ve sınırları
 
@@ -26,8 +26,8 @@ Bu çalışma 3D içermeyen Türkçe mobil rehberin arayüzünü, ses kontrolün
 | SQL pgTAP | 35 kontrol geçti, PGlite 0.5.8 + pgTAP 1.3.2 | Supabase Auth/Realtime servisleri veya tam `supabase test db` |
 | UI | 320×568 ve 390×844, %100/%200 yazı; navigasyon, boş durum, tema; dokunma hedefi, erişilebilir etiket ve ana ekran kontrastı kontrol edildi | Bütün ekranlar için TalkBack/VoiceOver veya fiziksel kullanıcı testi |
 | Ses dosyası | AAC, 6.600 s, 146432 PCM örneği; RMS -17.5 dBFS, tepe -3.2 dBFS; tam çözümleme başarılı | İnsan kaydı/onayı, dua telaffuzu veya dinleme kalitesi |
-| Android debug build | Denendi; bu Linux ortamında Android SDK yok, derlenemedi | Önceki emülatör kanıtı yeni SDK değişikliklerinin kanıtı değildir |
-| iOS build | Linux ortamında Xcode yok; çalıştırılamadı | İmzalama, TestFlight ve gerçek iPhone kabulü |
+| Android debug build | GitHub runner üzerinde başarılı; APK indirildi ve bütünlüğü doğrulandı | Fiziksel kurulum, ses ve performans kabulü |
+| iOS build | GitHub macOS runner üzerinde debug/no-codesign başarılı | İmzalama, TestFlight ve gerçek iPhone kabulü |
 
 `docs/mvp-ui/` içindeki PNG'ler gerçek Flutter widget render'larıdır; HTML tasarım maketi değildir. Gösterilen ses ekranı teknik örnek ve sahte test oynatıcısı kullanır; gerçek cihazda çalındığını iddia etmez.
 
@@ -77,3 +77,12 @@ Ses dosyası QA komutu ffmpeg/ffprobe ister; bunlar mobil uygulama bağımlılı
 İlk GitHub çalışması SDK action varsayılanının artık bulunamayan `tools` paketini istemesi nedeniyle APK üretmeden durdu. SDK paketleri platform-tools, Android 36 ve build-tools 36.0.0 olarak açıkça seçildi. SQL işinde eksik ripgrep kurulumu eklendi. Yeni workflow sonucu doğrulanana kadar APK hazır sayılmaz.
 
 İkinci CI çalışmasında 87 Flutter testi, ses dosyası QA, SQL kontrolleri ve iOS debug/no-codesign build geçti. Android MapLibre derlemesi `invalid source release: 21` ile durdu; CI JDK 21 kullanacak şekilde düzeltildi. Uygulamanın Java/Kotlin hedefi 17 ve minimum Android API 28 değişmedi.
+
+## 7 Ekim Android APK teslim kanıtı
+
+- Derlenen commit: `f4b8435bb3597e2bd3657ca6ff1994438109216f`.
+- GitHub Actions: https://github.com/NeoTuck/kabe_hac/actions/runs/37588125442 . Flutter/Android, iOS ve database işleri başarılı.
+- Format/analyze temiz; 87 Flutter testi, teknik ses dosyası QA ve 35 bağımsız SQL kontrolü geçti. iOS debug/no-codesign derlemesi geçti; imzalı IPA/TestFlight teslimi değildir.
+- Android debug APK: `210197211` bayt; SHA-256 `a361a626b1a3855adf16c88b6258c51dad6ce6d1d5a226c8428802a033c4b046`. Minimum API 28; arm64-v8a, armeabi-v7a ve x86_64 kitaplıkları içerir.
+- İndirilen artifact ZIP SHA-256 GitHub özetiyle eşleşti; ZIP ve APK CRC kontrolleri geçti. APK içindeki manifest, DEX ve Flutter assets doğrulandı.
+- Bu bir debug teknik pilot teslimidir. Fiziksel telefona kurulum, ses/çağrı/Bluetooth/ekran kilidi ve performans kabulü bu çalışmada yapılmadı. Dinî metinlerin uzman onayı, gerçek insan sesleri ve canlı backend girdileri beklemeye devam eder.

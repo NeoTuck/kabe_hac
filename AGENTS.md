@@ -15,7 +15,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** MVP 1 teknik pilot (bu oturum; yeni platform derlemesi doğrulanmadı)
+**Son doğrulama:** 7 Ekim 2026, MVP 1 teknik pilot; GitHub Android APK ve iOS debug/no-codesign build başarılı, fiziksel cihaz kabulü bekliyor
 
 **Aktif paket:** MVP 1 teknik pilot ve P5 canlı kabul; P2–P4 dış girdileri bekliyor
 
@@ -63,7 +63,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Ortak tema, navigasyon, Türkçe/Arapça paketli fontlar ve kalıcı açık/koyu tema eklendi. Küçük ekran/büyük yazı taşması düzeltildi; gerçek Flutter UI render'ları `docs/mvp-ui/` içindedir.
 - Ses yükleme/iptal yarışları, seek/ileri/geri, süre/konum ve yeniden deneme testleri eklendi. İlk dinlemeye kadar cihaz ses başlatılmaz.
 - Supabase mobil repository ve kafile UI; hesap bağlı outbox; atomic grup bootstrap RPC; mock SDK HTTP testleri eklendi. Gerçek proje ve cihaz kabulü bekliyor.
-- GitHub Actions ilk çalışması Android SDK action varsayılanındaki bulunamayan `tools` paketi ve SQL işindeki eksik `rg` nedeniyle durdu. SDK paketleri açıkça seçildi, ripgrep kurulumu eklendi. İkinci çalışmada 87 test, SQL ve iOS debug build geçti; Android MapLibre Java 21 istediği için CI JDK 21 olarak düzeltildi. Yeni APK sonucu bekleniyor.
+- GitHub Actions ilk çalışması Android SDK action varsayılanındaki bulunamayan `tools` paketi ve SQL işindeki eksik `rg` nedeniyle durdu. SDK paketleri açıkça seçildi, ripgrep kurulumu eklendi. İkinci çalışmada 87 test, SQL ve iOS debug build geçti; Android MapLibre Java 21 istediği için CI JDK 21 olarak düzeltildi. JDK düzeltmesi sonrası `f4b8435` commit çalışmasında Android debug APK, iOS debug/no-codesign, analiz/87 test/ses QA ve database işleri başarılı. APK: 210197211 bayt; SHA-256 `a361a626b1a3855adf16c88b6258c51dad6ce6d1d5a226c8428802a033c4b046`. Run: https://github.com/NeoTuck/kabe_hac/actions/runs/37588125442 . Fiziksel cihaz testi yapılmadı.
 - Analiz/format temiz; 87 Flutter testi geçti. Ayrıntı `docs/06-mvp1-pilot.md` içindedir. 35 bağımsız pgTAP testi geçti; yeni Android build denemesi SDK eksikliğiyle durdu. iOS bu Linux ortamında çalıştırılamadı.
 
 ### Önceki doğrulama kanıtı (6 Ekim, bu değişiklik için tekrar edilmedi)
@@ -88,7 +88,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Doğrulanmış acil durum/kurum numarası, insan incelemeli Arapça dil kartı veya güncel saha akışı yok.
 - Supabase mobil adaptörü ve mock HTTP testleri var; proje URL/publishable key ve gerçek Supabase Auth/Realtime/RLS kabulü yok.
 - APNs/FCM, server push, GPS izin akışı ve arka plan konum takibi yok.
-- Gerçek Android/iPhone cihaz testi ve iOS derlemesi yok.
+- Gerçek Android/iPhone cihaz testi ve imzalı iOS dağıtımı yok; GitHub iOS debug/no-codesign build geçti.
 
 ## 3. Sıradaki tek iş
 
