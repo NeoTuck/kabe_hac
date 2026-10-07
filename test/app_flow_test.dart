@@ -27,6 +27,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Umre'), 200);
     await tester.tap(find.text('Umre'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Öğrenme'));

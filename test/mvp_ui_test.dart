@@ -54,6 +54,21 @@ void main() {
           );
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
+          for (final action in ['Umreye hazırlanıyorum', 'Umredeyim']) {
+            await tester.scrollUntilVisible(find.text(action), 160);
+            await tester.tap(find.text(action));
+            await tester.pumpAndSettle();
+            expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
+            expect(tester.takeException(), isNull);
+            Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
+            await tester.pumpAndSettle();
+          }
+          expect(store.sessions.values.map((session) => session.mode).toSet(), {
+            GuideMode.learning,
+            GuideMode.journey,
+          });
+          await tester.drag(find.byType(ListView).first, const Offset(0, 1200));
+          await tester.pumpAndSettle();
           if (size.width == 390 && scale == 1) {
             await capture(tester, key, 'home');
           }

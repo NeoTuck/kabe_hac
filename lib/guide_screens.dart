@@ -394,58 +394,34 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
             Card.filled(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text(
-                  step.isApproved
-                      ? step.summary!
-                      : isHajj
-                      ? 'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı.'
-                      : 'Bu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı. Hazırlama kaydı onaylı içerik değildir.',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      step.isApproved
+                          ? 'Şimdi ne yapacağım?'
+                          : 'İçerik hazırlanıyor',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      step.isApproved
+                          ? step.summary!
+                          : isHajj
+                          ? 'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı.'
+                          : 'Bu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı. Hazırlama kaydı onaylı içerik değildir.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
                 ),
               ),
             ),
-            if (step.isApproved && step.details != null)
-              ExpansionTile(
-                title: const Text('Ayrıntı'),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(step.details!),
-                  ),
-                ],
-              ),
-            if (step.isApproved && step.arabic != null) ...[
-              const SizedBox(height: 20),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Text(
-                  step.arabic!,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                    fontFamily: 'NotoNaskhArabic',
-                    fontSize: 26,
-                    height: 1.6,
-                  ),
-                ),
-              ),
-            ],
-            if (step.isApproved && step.transliteration != null)
-              Text(step.transliteration!),
-            if (step.isApproved && step.meaningTr != null)
-              Text(step.meaningTr!),
-            if (step.isApproved && step.sourceTitle != null) ...[
-              const SizedBox(height: 18),
-              Text('Kaynak: ${step.sourceTitle} · ${step.sourceLocation}'),
-              if (step.sourceUrl != null) SelectableText(step.sourceUrl!),
-            ],
-            for (final prayerId in step.prayerIds)
-              _PrayerCard(
-                prayer: widget.catalog.prayerRecords[prayerId]!,
-                narration: widget.narration,
-                audioRecords: widget.catalog.audioRecords,
-                parentApproved: step.isApproved,
-              ),
             const SizedBox(height: 20),
+            Text(
+              'Sesli anlatım',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
             if (step.linkedAudioIds.isEmpty)
               const Text('Bu başlık için onaylı ses kaydı henüz yok.'),
             for (final audioId in step.linkedAudioIds)
@@ -479,6 +455,47 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                 ),
               ),
             ],
+            if (step.isApproved && step.arabic != null) ...[
+              const SizedBox(height: 20),
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Text(
+                  step.arabic!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    fontFamily: 'NotoNaskhArabic',
+                    fontSize: 26,
+                    height: 1.6,
+                  ),
+                ),
+              ),
+            ],
+            if (step.isApproved && step.transliteration != null)
+              Text(step.transliteration!),
+            if (step.isApproved && step.meaningTr != null)
+              Text(step.meaningTr!),
+            if (step.isApproved && step.sourceTitle != null) ...[
+              const SizedBox(height: 18),
+              Text('Kaynak: ${step.sourceTitle} · ${step.sourceLocation}'),
+              if (step.sourceUrl != null) SelectableText(step.sourceUrl!),
+            ],
+            for (final prayerId in step.prayerIds)
+              _PrayerCard(
+                prayer: widget.catalog.prayerRecords[prayerId]!,
+                narration: widget.narration,
+                audioRecords: widget.catalog.audioRecords,
+                parentApproved: step.isApproved,
+              ),
+            if (step.isApproved && step.details != null)
+              ExpansionTile(
+                title: const Text('Ayrıntı'),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(step.details!),
+                  ),
+                ],
+              ),
             if (canMark) ...[
               const SizedBox(height: 18),
               OutlinedButton.icon(

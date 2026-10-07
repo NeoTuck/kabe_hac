@@ -109,6 +109,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _openUmrah(GuideMode mode) {
+    _open(
+      GuideFlowScreen(
+        store: widget.store,
+        catalog: _catalogs[GuideType.umrah]!,
+        narration: widget.narration,
+        mode: mode,
+        profile: null,
+      ),
+    );
+  }
+
   void _resume(GuideSession session) {
     final catalog = _catalogs[session.type];
     if (catalog == null) return;
@@ -184,18 +196,18 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             const FeatureStatusCard(
               icon: Icons.auto_stories_outlined,
-              title: 'Adım adım, kendi hızında',
+              title: 'Umre yolculuğunda yanında',
               description: 'Rehberini aç, kaldığın yerden devam et. Rehber ilerlemen bu cihazda saklanır.',
             ),
             const SizedBox(height: 24),
             Text(
-              'Rehber',
+              'Nasıl devam etmek istersin?',
               style: Theme.of(context).textTheme.headlineLarge
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             const Text(
-              'Öğrenmek veya yolculukta kişisel ilerlemeni izlemek için bir bölüm seç.',
+              'Hazırlık ve yolculuk kayıtların ayrı tutulur. İstediğin zaman diğer rehberlere geçebilirsin.',
             ),
             if (latest != null) ...[
               const SizedBox(height: 26),
@@ -208,6 +220,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
             const SizedBox(height: 24),
+            _ChoiceCard(
+              icon: Icons.school_outlined,
+              title: 'Umreye hazırlanıyorum',
+              subtitle: 'Adımları öğren ve kendi hızında incele',
+              onTap: () => _openUmrah(GuideMode.learning),
+            ),
+            const SizedBox(height: 12),
+            _ChoiceCard(
+              icon: Icons.route_outlined,
+              title: 'Umredeyim',
+              subtitle: 'Yolculuk kaydını aç, adımları ve sayaçları takip et',
+              onTap: () => _openUmrah(GuideMode.journey),
+            ),
+            const SizedBox(height: 28),
+            Text(
+              'Tüm rehberler',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 12),
             _ChoiceCard(
               icon: Icons.menu_book_rounded,
               title: 'Umre',

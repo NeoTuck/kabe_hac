@@ -54,6 +54,12 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - PGlite 0.5.8 + pgTAP 1.3.2 minimal Auth/Realtime fixture'ında 28 SQL testi geçti; eski migrasyonda yeni testlerin 9'u başarısızdır. Gerçek Supabase Auth/Realtime/HTTP veya `supabase test db` kanıtı değildir.
 - Android/iOS derlemesi ve gerçek cihaz bu değişiklik için çalıştırılmadı. Ayrıntı ve paket dosya sözleşmesi: `docs/05-github-inceleme-duzeltmeleri.md`.
 
+### Özellikleri koruyan kullanım düzenlemesi
+
+- Umre hazırlığı ve yolculuk için doğrudan girişler eklendi; mevcut Umre/Hac seçim akışları, kafile/gezi/güvenlik/paket/ayarlar ve teknik deneme korunur.
+- Adım ekranında açıklama, ses ve manuel sayaç öne alınır; dua, kaynak, ayrıntı, önceki/sonraki ve kişisel işaretleme korunur. İçerik onayı veya veri şeması değişmez.
+- Bu UI değişikliğinin CI, küçük ekran/büyük yazı ve APK kabulü henüz bekliyor. Ayrıntı: `docs/07-ozellikleri-koruyan-ux.md`.
+
 ### GitHub devir durumu
 
 - 7 Ekim 2026: entegrasyonla dal oluşturma başarılı; önceki 403 erişim engeli giderildi. MVP devir dalı `codex/mvp1-pilot`. CI sonucu ve main birleşmesi ayrı doğrulanmalıdır.

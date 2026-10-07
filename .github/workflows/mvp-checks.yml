@@ -26,6 +26,13 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter analyze
       - run: flutter test --coverage
+        env:
+          MVP_CAPTURE_UI: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui-preview
+          path: docs/mvp-ui/*.png
+          if-no-files-found: error
       - run: python3 tools/verify_audio.py
       - run: flutter build apk --debug
       - uses: actions/upload-artifact@v4
