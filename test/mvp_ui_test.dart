@@ -60,6 +60,11 @@ void main() {
             await tester.pumpAndSettle();
             await tester.tap(find.text(action));
             await tester.pumpAndSettle();
+            await tester.scrollUntilVisible(
+              find.text('Adımlar · 0/18 işaretli'),
+              160,
+            );
+            await tester.pumpAndSettle();
             expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
             expect(tester.takeException(), isNull);
             Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
