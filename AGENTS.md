@@ -58,7 +58,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 - Umre hazırlığı ve yolculuk için doğrudan girişler eklendi; mevcut Umre/Hac seçim akışları, kafile/gezi/güvenlik/paket/ayarlar ve teknik deneme korunur.
 - Adım ekranında açıklama, ses ve manuel sayaç öne alınır; dua, kaynak, ayrıntı, önceki/sonraki ve kişisel işaretleme korunur. İçerik onayı veya veri şeması değişmez.
-- Bu UI değişikliğinin CI, küçük ekran/büyük yazı ve APK kabulü henüz bekliyor. Ayrıntı: `docs/07-ozellikleri-koruyan-ux.md`.
+- `8e87120` commit CI çalışması 37590553180: format/analyze, 87 Flutter testi, ses QA, database ve Android/iOS debug build başarılı. 320/390 piksel ve %100/%200 yazı matrisi geçti; gerçek Flutter ana ekran renderı incelendi. APK 210197775 bayt; SHA-256 `75e8e7c9afc6f966ba2651833ae2e0f0acede6b65a5e73e5dce55f284ee19ca4`. Fiziksel cihaz kabulü bekliyor. Ayrıntı: `docs/07-ozellikleri-koruyan-ux.md`.
 
 ### GitHub devir durumu
 
