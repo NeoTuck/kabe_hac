@@ -75,3 +75,5 @@ Ses dosyası QA komutu ffmpeg/ffprobe ister; bunlar mobil uygulama bağımlılı
 ## Android CI ilk derleme düzeltmesi
 
 İlk GitHub çalışması SDK action varsayılanının artık bulunamayan `tools` paketini istemesi nedeniyle APK üretmeden durdu. SDK paketleri platform-tools, Android 36 ve build-tools 36.0.0 olarak açıkça seçildi. SQL işinde eksik ripgrep kurulumu eklendi. Yeni workflow sonucu doğrulanana kadar APK hazır sayılmaz.
+
+İkinci CI çalışmasında 87 Flutter testi, ses dosyası QA, SQL kontrolleri ve iOS debug/no-codesign build geçti. Android MapLibre derlemesi `invalid source release: 21` ile durdu; CI JDK 21 kullanacak şekilde düzeltildi. Uygulamanın Java/Kotlin hedefi 17 ve minimum Android API 28 değişmedi.
