@@ -17,7 +17,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 **Son doğrulama:** 7 Ekim 2026, MVP 1 teknik pilot; GitHub Android APK ve iOS debug/no-codesign build başarılı, fiziksel cihaz kabulü bekliyor
 
-**Aktif paket:** MVP 1 teknik pilot ve P5 canlı kabul; P2–P4 dış girdileri bekliyor
+**Aktif paket:** Tam sürüm aşama 1 QA temeli ve aşama 2 editöryal tablolar; cihaz/canlı servis ve onaylı içerik kabulü bekliyor
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -66,6 +66,13 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Eski hesap liste/ayrıntı isteğinin hatası yeni hesap verisini veya oturum değişimi uyarısını ezmez. Ekran/hesap değişiminden sonra yeni ayrıntı isteği başlatılmaz.
 - Flutter 3.47.6 yerel format/analiz temiz; tüm 91 Flutter testi geçti. Yeni 4 testten 3'ü eski uygulama kodunda başarısızdır. Teknik ses dosyası QA geçti. Güncel kod için CI mobil build, fiziksel cihaz ve gerçek Supabase kabulü ayrı doğrulanır. Ayrıntı: `docs/08-kafile-yenileme-duzeltmeleri.md`.
 
+### Tam sürüm için QA ve içerik hazırlığı
+
+- `6d02270` CI 37669070487 başarılı: Android debug APK, iOS debug/no-codesign, Flutter analiz/test/ses QA ve database. Yerel kanıt 91 Flutter testidir; gerçek cihaz kabulü değildir.
+- Dört Maestro pilot akışı ve açık test cihazı seçen çalıştırıcı eklendi. YAML/araç biçim kontrolleri geçti; Android preflight Maestro/adb eksikliğiyle `blocked` döndü. Android ve iOS simülatör dry-run cihaz testi değildir. Fiziksel iPhone bu çalıştırıcının hedefi değildir.
+- 18 Umre / 35 Hac envanter satırı denetlendi; tamamı taslak. Kaynak/hak/uzman alanları boş editöryal CSV'lere taşındı. Mevcut editöryal dosyalar dışa aktarımda ezilmez; bunlar uygulama yayın katalogları değildir.
+- Yedi aşama ve alan bazlı kabul matrisi `docs/09-tam-surum-gelistirme.md`; cihaz yönergeleri `docs/qa/MOBIL_TEST.md`. Yeni CI qa-foundation işi yalnız statik QA/kimlik denetimidir; mobil cihaz başarısı sayılmaz.
+
 ### GitHub devir durumu
 
 - 7 Ekim 2026: entegrasyonla dal oluşturma başarılı; önceki 403 erişim engeli giderildi. MVP devir dalı `codex/mvp1-pilot`. CI sonucu ve main birleşmesi ayrı doğrulanmalıdır.
@@ -104,11 +111,11 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
-### P5 canlı kabul ve gerçek içerik girdilerini doğrula
+### Hesap/üyelik kontrollü kafile geçmişi sayfalama
 
-Mobil adaptör, OTP ekranı, davet/mesaj/program akışları ve kullanıcıya bağlı outbox kodlandı. P5 canlı credential ve gerçek Supabase RLS/Realtime kabulü olmadığı için tamamlandı sayılmaz. Önce `docs/06-mvp1-pilot.md` içindeki kalan girdileri ve test sınırlarını okuyun. Yeni dış girdi olmadan taslakları onaylı içerik haline getirmeyin.
+Tam sürüm için yeni plan `docs/09-tam-surum-gelistirme.md` içindedir. Erişilebilen sıradaki kod dilimi son 100 mesajın öncesini getirme ve UI akışıdır. Aynı zaman damgalı mesajlar için kararlı cursor, hesap/üyelik değişiminde temizleme, tekrarların giderilmesi ve mock HTTP/widget regresyonları gereklidir. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
-Yeni bağımlılıklarla Android/iOS derlemesini ve iki gerçek test hesabıyla OTP, davet, üyelik iptali, özel mesaj ve Realtime davranışını doğrulayın. Önceki APK/emülatör kanıtını yeni build kanıtı saymayın. Uzun kesinti sonrası mesaj geçmişi sayfalama, şirket rota oluşturma/indirme, etkileşimli harita, push ve gerçek GPS gönderimi ayrı açık işlerdir.
+Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 
 ## 4. Birleşik yol haritası
 

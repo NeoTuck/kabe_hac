@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: Teknik ses oynatma ve duraklatma
+---
+- launchApp
+- scrollUntilVisible:
+    element:
+      text: "Ses (ve Arapça örnek kartını aç|örneğine kaldığım yerden devam)"
+    direction: DOWN
+- tapOn:
+    text: "Ses (ve Arapça örnek kartını aç|örneğine kaldığım yerden devam)"
+- assertVisible: "Teknik örnek kart"
+- scrollUntilVisible:
+    element: "Anlatımı dinle"
+    direction: DOWN
+- tapOn: "Anlatımı dinle"
+- assertVisible: "Duraklat"
+- tapOn: "Duraklat"
+- assertVisible: "Anlatımı dinle"
+- takeScreenshot: teknik-ses-duraklatildi

@@ -1,0 +1,21 @@
+appId: ${APP_ID}
+name: Umre hazırlık ve yolculuk girişleri
+---
+- launchApp
+- assertVisible: "Hac ve Umre Sesli Rehber"
+- tapOn: "Umreye hazırlanıyorum"
+- assertVisible: "Umre · Öğrenme"
+- scrollUntilVisible:
+    element: "Kaldığım başlığa git"
+    direction: DOWN
+- tapOn: "Kaldığım başlığa git"
+- assertVisible: "İçerik hazırlanıyor"
+- takeScreenshot: umre-taslak-adim
+- launchApp
+- tapOn: "Umredeyim"
+- assertVisible: "Umre · Yolculukta rehber"
+- scrollUntilVisible:
+    element: "Yeni yolculuk kaydı aç"
+    direction: DOWN
+- assertVisible: "Yeni yolculuk kaydı aç"
+- takeScreenshot: umre-yolculuk

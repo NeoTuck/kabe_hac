@@ -1,0 +1,23 @@
+{
+  "note": "Declared inventory statuses only; not expert approval or release acceptance.",
+  "guides": {
+    "umre": {
+      "content_version": "inventory-2026-10-05.1",
+      "step_count": 18,
+      "declared_status_counts": {
+        "draft": 18
+      },
+      "prayer_records": 1,
+      "audio_records": 3
+    },
+    "hac": {
+      "content_version": "inventory-2026-10-05",
+      "step_count": 35,
+      "declared_status_counts": {
+        "draft": 35
+      },
+      "prayer_records": 0,
+      "audio_records": 0
+    }
+  }
+}
