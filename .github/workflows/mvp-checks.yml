@@ -1,0 +1,56 @@
+name: MVP checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  flutter:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          cache: true
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev ffmpeg
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze
+      - run: flutter test --coverage
+      - run: python3 tools/verify_audio.py
+      - run: flutter build apk --debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-pilot
+          path: build/app/outputs/flutter-apk/app-debug.apk
+  ios:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          cache: true
+      - run: flutter pub get
+      - run: flutter build ios --debug --no-codesign
+  database:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-16-pgtap
+      - run: npm install --prefix /tmp/kabe-pglite @electric-sql/pglite@0.5.8
+      - run: |
+          export PGTAP_SQL="$(rg --files /usr/share/postgresql/16/extension | rg '/pgtap--[0-9.]+\.sql$' | sort -V | tail -1)"
+          node supabase/tests/standalone/run.cjs
+        env:
+          NODE_PATH: /tmp/kabe-pglite/node_modules

@@ -1,0 +1,832 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'app_theme.dart';
+import 'group_repository.dart';
+import 'group_sync.dart';
+import 'progress_store.dart';
+
+class GroupScreen extends StatefulWidget {
+  const GroupScreen({super.key, required this.repository, required this.store});
+  final GroupRepository repository;
+  final ProgressStore store;
+  @override
+  State<GroupScreen> createState() => _GroupScreenState();
+}
+
+class _GroupScreenState extends State<GroupScreen> {
+  final _email = TextEditingController();
+  final _code = TextEditingController();
+  final _invite = TextEditingController();
+  String? _emailSent;
+  String? _error;
+  bool _busy = false;
+  List<GroupRecord>? _groups;
+  String? _lastUser;
+  @override
+  void initState() {
+    super.initState();
+    _lastUser = widget.repository.userId;
+    widget.repository.addListener(_authChanged);
+    if (_lastUser != null) _load();
+  }
+
+  void _authChanged() {
+    if (!mounted) return;
+    if (_lastUser != widget.repository.userId) {
+      _lastUser = widget.repository.userId;
+      setState(() {
+        _groups = null;
+        _error = null;
+        _emailSent = null;
+      });
+      if (_lastUser != null) unawaited(_load());
+    } else {
+      setState(() {});
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.repository.removeListener(_authChanged);
+    _email.dispose();
+    _code.dispose();
+    _invite.dispose();
+    super.dispose();
+  }
+
+  Future<void> _load() async {
+    final uid = widget.repository.userId;
+    if (uid == null) return;
+    try {
+      final groups = await widget.repository.groups();
+      if (mounted && uid == widget.repository.userId) {
+        setState(() {
+          _groups = groups;
+          _error = null;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _groups = null;
+          _error = 'Kafileler alınamadı. Bağlantını kontrol edip tekrar dene.';
+        });
+      }
+    }
+  }
+
+  Future<void> _action(Future<void> Function() action) async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await action();
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _error = 'İşlem tamamlanamadı. Kod, bağlantı veya erişim iznini kontrol et.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _requestCode() async {
+    final email = _email.text.trim();
+    if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email) ||
+        email.length > 254) {
+      setState(() => _error = 'Geçerli bir e-posta adresi yaz.');
+      return;
+    }
+    await _action(() async {
+      await widget.repository.requestCode(email);
+      if (mounted) setState(() => _emailSent = email);
+    });
+  }
+
+  Future<void> _create() async {
+    final controller = TextEditingController();
+    final name = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Kafile oluştur'),
+        content: TextField(
+          controller: controller,
+          maxLength: 120,
+          autofocus: true,
+          decoration: const InputDecoration(labelText: 'Kafile adı'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () {
+              if (controller.text.trim().length >= 2) {
+                Navigator.pop(context, controller.text.trim());
+              }
+            },
+            child: const Text('Oluştur'),
+          ),
+        ],
+      ),
+    );
+    // Wait until the dialog exit animation no longer uses its controller.
+    await Future<void>.delayed(const Duration(milliseconds: 250));
+    controller.dispose();
+    if (name == null || !mounted) return;
+    await _action(() async {
+      await widget.repository.createGroup(name);
+      await _load();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final repository = widget.repository;
+    return Scaffold(
+      appBar: AppBar(title: const Text('Kafilem')),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(24),
+          children: [
+            if (!repository.configured)
+              const FeatureStatusCard(
+                icon: Icons.groups_outlined,
+                title: 'Kafile hizmeti hazırlanıyor',
+                description: 'Davet, sohbet ve gezi programı bağlantı kurulunca açılacak. Umre ve Hac rehberini hesap açmadan kullanabilirsin.',
+              )
+            else if (repository.userId == null) ...[
+              const FeatureStatusCard(
+                icon: Icons.lock_outline,
+                title: 'Kafilene bağlan',
+                description: 'Yalnız kafile özellikleri için giriş gerekiyor. E-posta adresine gelen kodla devam et.',
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                controller: _email,
+                enabled: !_busy && _emailSent == null,
+                keyboardType: TextInputType.emailAddress,
+                autofillHints: const [AutofillHints.email],
+                decoration: const InputDecoration(labelText: 'E-posta'),
+              ),
+              const SizedBox(height: 12),
+              if (_emailSent == null)
+                FilledButton(
+                  onPressed: _busy ? null : _requestCode,
+                  child: const Text('Giriş kodu gönder'),
+                )
+              else ...[
+                Text(
+                  'Kod gönderildi. Gelen kutunu ve spam klasörünü kontrol et.',
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _code,
+                  keyboardType: TextInputType.number,
+                  autofillHints: const [AutofillHints.oneTimeCode],
+                  maxLength: 10,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(
+                    labelText: 'E-postadaki kod',
+                  ),
+                ),
+                FilledButton(
+                  onPressed: _busy
+                      ? null
+                      : () {
+                          final code = _code.text.trim();
+                          if (code.length < 6) {
+                            setState(
+                              () => _error = 'E-postadaki kodu eksiksiz yaz.',
+                            );
+                            return;
+                          }
+                          _action(
+                            () => repository.verifyCode(_emailSent!, code),
+                          );
+                        },
+                  child: const Text('Giriş yap'),
+                ),
+                TextButton(
+                  onPressed: _busy
+                      ? null
+                      : () => setState(() {
+                          _emailSent = null;
+                          _code.clear();
+                        }),
+                  child: const Text('E-postayı değiştir'),
+                ),
+              ],
+            ] else ...[
+              const FeatureStatusCard(
+                icon: Icons.groups,
+                title: 'Birlikte, adım adım',
+                description: 'Kafile programını takip et, rehberine ulaş ve mesajlarını buradan yönet. Mesajların gönderilmesi internet gerektirir.',
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                controller: _invite,
+                enabled: !_busy,
+                decoration: const InputDecoration(
+                  labelText: 'Kafile davet kodu',
+                ),
+              ),
+              const SizedBox(height: 12),
+              FilledButton.icon(
+                onPressed: _busy
+                    ? null
+                    : () => _action(() async {
+                        await repository.acceptInvitation(_invite.text.trim());
+                        _invite.clear();
+                        await _load();
+                      }),
+                icon: const Icon(Icons.group_add_outlined),
+                label: const Text('Davetle katıl'),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: _busy ? null : _create,
+                icon: const Icon(Icons.add),
+                label: const Text('Kafile oluştur'),
+              ),
+              const SizedBox(height: 24),
+              if (_groups == null && _error == null)
+                const Center(child: CircularProgressIndicator())
+              else if (_groups?.isEmpty == true)
+                const Text('Henüz bir kafileye katılmadın.')
+              else
+                for (final group in _groups ?? <GroupRecord>[])
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Card.outlined(
+                      child: ListTile(
+                        title: Text(group.name),
+                        leading: const Icon(Icons.groups_outlined),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => GroupDetailScreen(
+                              group: group,
+                              repository: repository,
+                              store: widget.store,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              TextButton.icon(
+                onPressed: _busy ? null : _load,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Kafileleri yenile'),
+              ),
+              TextButton(
+                onPressed: _busy
+                    ? null
+                    : () => _action(() async {
+                        final uid = repository.userId!;
+                        await repository.signOut();
+                        await widget.store.clearAccountOutbox(uid);
+                      }),
+                child: const Text('Hesaptan çıkış yap'),
+              ),
+            ],
+            if (_busy)
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            if (_error != null)
+              Semantics(
+                liveRegion: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        _error!,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                      if (repository.userId != null)
+                        OutlinedButton(
+                          onPressed: _load,
+                          child: const Text('Tekrar dene'),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GroupDetailScreen extends StatefulWidget {
+  const GroupDetailScreen({
+    super.key,
+    required this.group,
+    required this.repository,
+    required this.store,
+  });
+  final GroupRecord group;
+  final GroupRepository repository;
+  final ProgressStore store;
+  @override
+  State<GroupDetailScreen> createState() => _GroupDetailScreenState();
+}
+
+class _GroupDetailScreenState extends State<GroupDetailScreen>
+    with WidgetsBindingObserver {
+  GroupSnapshot? _snapshot;
+  List<GroupOutboxMessage> _outbox = [];
+  final _body = TextEditingController();
+  String? _recipient;
+  String? _error;
+  bool _sending = false;
+  bool _connected = false;
+  bool _refreshing = false;
+  bool _reloadPending = false;
+  Future<void> Function()? _unsubscribe;
+  Timer? _debounce;
+  Timer? _membershipTimer;
+  late final GroupOutboxSynchronizer _sync;
+  late final String? _owner;
+  @override
+  void initState() {
+    super.initState();
+    _owner = widget.repository.userId;
+    _sync = GroupOutboxSynchronizer(widget.store, widget.repository);
+    widget.repository.addListener(_authChanged);
+    WidgetsBinding.instance.addObserver(this);
+    _unsubscribe = widget.repository.watch(widget.group.id, (connected) {
+      if (!mounted) return;
+      setState(() => _connected = connected);
+      _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 250), _reload);
+    });
+    _membershipTimer = Timer.periodic(
+      const Duration(seconds: 30),
+      (_) => _reload(),
+    );
+    _reload();
+  }
+
+  void _authChanged() {
+    if (_owner != widget.repository.userId && mounted) {
+      setState(() {
+        _snapshot = null;
+        _outbox = [];
+        _error = 'Oturum değişti. Kafile ekranından geri dön.';
+      });
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _membershipTimer?.cancel();
+    if (state == AppLifecycleState.resumed) {
+      _reload();
+      _membershipTimer = Timer.periodic(
+        const Duration(seconds: 30),
+        (_) => _reload(),
+      );
+    }
+  }
+
+  Future<void> _reload() async {
+    if (_owner == null || _owner != widget.repository.userId) return;
+    if (_refreshing) {
+      _reloadPending = true;
+      return;
+    }
+    _refreshing = true;
+    try {
+      final pending = await widget.store.readGroupOutbox();
+      if (mounted && _owner == widget.repository.userId) {
+        setState(
+          () => _outbox = pending
+              .where(
+                (m) =>
+                    m.groupId == widget.group.id &&
+                    m.ownerUserId == _owner &&
+                    m.status != MessageOutboxStatus.sent,
+              )
+              .toList(),
+        );
+      }
+      final snapshot = await widget.repository.snapshot(widget.group.id);
+      await _sync.sync(widget.group.id);
+      final outbox = await widget.store.readGroupOutbox();
+      if (mounted && _owner == widget.repository.userId) {
+        setState(() {
+          _snapshot = snapshot;
+          if (_recipient != null &&
+              !snapshot.members.any(
+                (m) =>
+                    m['user_id'] == _recipient &&
+                    ['guide', 'group_admin'].contains(m['role']),
+              )) {
+            _recipient = null;
+          }
+          _error = null;
+          _outbox = outbox
+              .where(
+                (m) =>
+                    m.groupId == widget.group.id &&
+                    m.ownerUserId == _owner &&
+                    m.status != MessageOutboxStatus.sent,
+              )
+              .toList();
+        });
+      }
+    } catch (_) {
+      // Do not retain group data after revoked membership or failed revalidation.
+      if (mounted) {
+        setState(() {
+          _snapshot = null;
+          _connected = false;
+          _error = 'Kafileye erişilemedi. Bağlantı ve üyeliğini kontrol et.';
+        });
+      }
+    } finally {
+      _refreshing = false;
+      if (_reloadPending && mounted) {
+        _reloadPending = false;
+        unawaited(_reload());
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _membershipTimer?.cancel();
+    _debounce?.cancel();
+    widget.repository.removeListener(_authChanged);
+    WidgetsBinding.instance.removeObserver(this);
+    final unsubscribe = _unsubscribe;
+    if (unsubscribe != null) unawaited(unsubscribe());
+    _body.dispose();
+    super.dispose();
+  }
+
+  String _clientId() {
+    final bytes = List.generate(16, (_) => Random.secure().nextInt(256));
+    bytes[6] = (bytes[6] & 15) | 64;
+    bytes[8] = (bytes[8] & 63) | 128;
+    final hex = bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+    return '${hex.substring(0, 8)}-${hex.substring(8, 12)}-${hex.substring(12, 16)}-${hex.substring(16, 20)}-${hex.substring(20)}';
+  }
+
+  Future<void> _send() async {
+    final body = _body.text.trim();
+    if (_sending ||
+        body.isEmpty ||
+        body.length > 4000 ||
+        _owner != widget.repository.userId) {
+      return;
+    }
+    setState(() => _sending = true);
+    try {
+      await widget.store.enqueueGroupMessage(
+        clientId: _clientId(),
+        groupId: widget.group.id,
+        ownerUserId: _owner,
+        recipientId: _recipient,
+        body: body,
+      );
+      _body.clear();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Mesaj cihazda kaydedildi. Gönderim durumunu sohbetten takip edebilirsin.',
+            ),
+          ),
+        );
+      }
+      await _reload();
+    } catch (_) {
+      if (mounted) setState(() => _error = 'Mesaj kaydedilemedi. Tekrar dene.');
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
+  }
+
+  bool get _canManage =>
+      _snapshot?.members.any(
+        (m) =>
+            m['user_id'] == _owner &&
+            ['guide', 'group_admin'].contains(m['role']),
+      ) ==
+      true;
+  Future<void> _publish(String kind) async {
+    final title = TextEditingController();
+    final body = TextEditingController();
+    final values = await showDialog<(String, String)>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(kind == 'program' ? 'Program ekle' : 'Duyuru ekle'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: title,
+                maxLength: 160,
+                decoration: const InputDecoration(labelText: 'Başlık'),
+              ),
+              TextField(
+                controller: body,
+                maxLength: 4000,
+                maxLines: 4,
+                decoration: const InputDecoration(labelText: 'Açıklama'),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () {
+              if (title.text.trim().isNotEmpty && body.text.trim().isNotEmpty) {
+                Navigator.pop(context, (title.text.trim(), body.text.trim()));
+              }
+            },
+            child: const Text('Yayınla'),
+          ),
+        ],
+      ),
+    );
+    await Future<void>.delayed(const Duration(milliseconds: 250));
+    title.dispose();
+    body.dispose();
+    if (values == null || !mounted) return;
+    try {
+      await widget.repository.publish(
+        widget.group.id,
+        kind,
+        values.$1,
+        values.$2,
+      );
+      await _reload();
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _error =
+              'Yayınlanamadı. Kafile yetkini ve bağlantını kontrol et.',
+        );
+      }
+    }
+  }
+
+  Future<void> _invite() async {
+    try {
+      final token = await widget.repository.createInvitation(widget.group.id);
+      if (!mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Tek kullanımlık davet'),
+          content: SelectableText('24 saat geçerli davet kodu:\n$token'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(text: token));
+                if (context.mounted) Navigator.pop(context);
+              },
+              child: const Text('Kodu kopyala'),
+            ),
+          ],
+        ),
+      );
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _error =
+              'Davet oluşturulamadı. Yetkini ve bağlantını kontrol et.',
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final snapshot = _snapshot;
+    final guides =
+        snapshot?.members
+            .where(
+              (m) =>
+                  ['guide', 'group_admin'].contains(m['role']) &&
+                  m['user_id'] != _owner,
+            )
+            .toList() ??
+        [];
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.group.name)),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                _connected
+                    ? 'Canlı bağlantı açık · internet gerekir'
+                    : 'Canlı bağlantı kapalı · yenileyebilirsin',
+              ),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: _reload,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Kafileyi yenile'),
+            ),
+            if (_error != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Text(
+                  _error!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
+            if (snapshot == null && _error == null)
+              const Center(child: CircularProgressIndicator())
+            else if (snapshot != null) ...[
+              if (_canManage)
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    OutlinedButton(
+                      onPressed: _invite,
+                      child: const Text('Davet oluştur'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () => _publish('announcement'),
+                      child: const Text('Duyuru ekle'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () => _publish('program'),
+                      child: const Text('Program ekle'),
+                    ),
+                  ],
+                ),
+              const SizedBox(height: 20),
+              Text(
+                'Duyurular ve program',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              if (snapshot.announcements.isEmpty && snapshot.programs.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Text('Henüz duyuru veya program yok.'),
+                ),
+              for (final a in snapshot.announcements.where(
+                (a) =>
+                    a['expires_at'] == null ||
+                    (DateTime.tryParse(a['expires_at'].toString())
+                            ?.isAfter(DateTime.now()) ??
+                        false),
+              ))
+                Card.outlined(
+                  child: ListTile(
+                    title: Text(a['title'].toString()),
+                    subtitle: Text(a['body'].toString()),
+                  ),
+                ),
+              for (final p in snapshot.programs)
+                Card.outlined(
+                  child: ListTile(
+                    title: Text(p['title'].toString()),
+                    subtitle: Text(
+                      '${p['program_date']}\n${(p['document'] as Map?)?['notes'] ?? 'Program ayrıntıları kafile rehberinde.'}',
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 20),
+              Text('Rotalar', style: Theme.of(context).textTheme.titleLarge),
+              if (snapshot.routes.isEmpty)
+                const Text('Kafile rotası henüz eklenmedi.'),
+              for (final r in snapshot.routes)
+                Card.outlined(
+                  child: ListTile(
+                    title: Text(r['title'].toString()),
+                    subtitle: Text(
+                      'Sürüm ${r['version']} · kafile rehberi tarafından paylaşıldı',
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 24),
+              Text(
+                'Sohbet · son 100 mesaj',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              for (final m in snapshot.messages)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Card.filled(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            m['sender_id'] == _owner ? 'Sen' : 'Kafile üyesi',
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          if (m['recipient_id'] != null)
+                            const Text('Rehberle özel mesaj'),
+                          Text(
+                            m['deleted_at'] == null
+                                ? m['body'].toString()
+                                : 'Mesaj silindi.',
+                          ),
+                          Text(
+                            m['created_at'].toString(),
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String?>(
+                key: ValueKey(_recipient),
+                initialValue: _recipient,
+                isExpanded: true,
+                decoration: const InputDecoration(labelText: 'Mesaj alıcısı'),
+                items: [
+                  const DropdownMenuItem(
+                    value: null,
+                    child: Text('Kafile sohbeti'),
+                  ),
+                  for (final g in guides)
+                    DropdownMenuItem(
+                      value: g['user_id'] as String,
+                      child: Text(
+                        'Rehber · ${(g['user_id'] as String).substring(0, 8)}',
+                      ),
+                    ),
+                ],
+                onChanged: (value) => setState(() => _recipient = value),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _body,
+                maxLines: 3,
+                maxLength: 4000,
+                decoration: const InputDecoration(labelText: 'Mesajın'),
+              ),
+              FilledButton.icon(
+                onPressed: _sending ? null : _send,
+                icon: const Icon(Icons.send_outlined),
+                label: Text(_sending ? 'Kaydediliyor' : 'Mesajı gönder'),
+              ),
+              const SizedBox(height: 16),
+              Text('${snapshot.members.length} aktif üye'),
+            ],
+            for (final m in _outbox)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Card.outlined(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(m.body),
+                        Text(
+                          m.status == MessageOutboxStatus.failed
+                              ? 'Gönderilemedi · yeniden denemek için yenile'
+                              : 'Gönderim bekliyor · henüz teslim edilmedi',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}

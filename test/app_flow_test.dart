@@ -68,6 +68,9 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Hac'), 180);
+    await tester.ensureVisible(find.text('Hac'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Hac'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Öğrenme'));
@@ -96,16 +99,27 @@ void main() {
     );
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Ses ve Arapça örnek kartını aç'));
+    await tester.scrollUntilVisible(
+      find.text('Ses ve Arapça örnek kartını aç'),
+      200,
+    );
     await tester.tap(find.text('Ses ve Arapça örnek kartını aç'));
     await tester.pumpAndSettle();
     expect(await store.readLastStepId(), 'DEMO-001');
     Navigator.of(tester.element(find.text('Teknik örnek kart'))).pop();
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Ses örneğine kaldığım yerden devam'),
+      200,
+    );
     expect(find.text('Ses örneğine kaldığım yerden devam'), findsOneWidget);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Ses örneğine kaldığım yerden devam'),
+      200,
+    );
     expect(find.text('Ses örneğine kaldığım yerden devam'), findsOneWidget);
   });
 }

@@ -15,9 +15,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** 6 Ekim 2026
+**Son doğrulama:** MVP 1 teknik pilot (bu oturum; yeni platform derlemesi doğrulanmadı)
 
-**Aktif paket:** P5 — Kafile mobil backend adaptörü; P2–P4 dış girdileri bekliyor
+**Aktif paket:** MVP 1 teknik pilot ve P5 canlı kabul; P2–P4 dış girdileri bekliyor
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -32,7 +32,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Ses, kart, GPS, gezi durağı veya sayaç olayı dinî ilerlemeyi otomatik işaretlemiyor.
 - Metin/dua/ses şeması kaynak, sürüm, inceleme ve kullanım hakkını ayırıyor. `U02.2` taslak hattı ve dua kartı çalışıyor.
 - Hac profil filtrelemesi yalnız uygulanabilirlik verisinin tamamı onaylandığında etkinleşiyor; mevcut Hac akışı önizleme kalıyor.
-- SQLite şema sürümü `7`. Gezi favorileri, mesaj outbox ve konum paylaşım rızası dinî ilerlemeden ayrı.
+- SQLite şema sürümü `8`. Gezi favorileri, mesaj outbox ve konum paylaşım rızası dinî ilerlemeden ayrı.
 
 ### Geniş ürün için eklenen teknik temel
 
@@ -46,7 +46,27 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - `supabase/` altında grup backend'i için migrasyon ve pgTAP RLS testi taslağı var. Flutter'da yinelenmeye dayanıklı yerel mesaj outbox bulunuyor.
 - Konum paylaşımı yerelde varsayılan kapalı, süreli ve iptal edilebilir. Ölçüm zamanı/gönderim zamanı/güncellik modeli var.
 
-### Doğrulama kanıtı
+### 7 Ekim inceleme düzeltmeleri
+
+- Yeni migrasyon mesaj güncellemelerini metin/silme zamanına sınırlar; konum okumalarında rıza iptali, süre, saklama ve üyelik kontrol edilir.
+- İndirilen `audio` paketindeki tam Umre/Hac katalogları ve yerel sesler rehbere/oynatıcıya bağlandı. Güven/hash/yol/onay kontrolleri korunur; geçersiz/çakışan katalogda gömülü rehbere dönüş vardır. Paket ekranından dönüşte içerik yenilenir.
+- Flutter 3.47.6/Dart 3.13.5 Linux ortamında format/analyze temiz; 53 test geçti.
+- PGlite 0.5.8 + pgTAP 1.3.2 minimal Auth/Realtime fixture'ında 28 SQL testi geçti; eski migrasyonda yeni testlerin 9'u başarısızdır. Gerçek Supabase Auth/Realtime/HTTP veya `supabase test db` kanıtı değildir.
+- Android/iOS derlemesi ve gerçek cihaz bu değişiklik için çalıştırılmadı. Ayrıntı ve paket dosya sözleşmesi: `docs/05-github-inceleme-duzeltmeleri.md`.
+
+### GitHub devir durumu
+
+- 7 Ekim 2026: entegrasyonla dal oluşturma başarılı; önceki 403 erişim engeli giderildi. MVP devir dalı `codex/mvp1-pilot`. CI sonucu ve main birleşmesi ayrı doğrulanmalıdır.
+
+### MVP 1 teknik pilot değişiklikleri
+
+- Ortak tema, navigasyon, Türkçe/Arapça paketli fontlar ve kalıcı açık/koyu tema eklendi. Küçük ekran/büyük yazı taşması düzeltildi; gerçek Flutter UI render'ları `docs/mvp-ui/` içindedir.
+- Ses yükleme/iptal yarışları, seek/ileri/geri, süre/konum ve yeniden deneme testleri eklendi. İlk dinlemeye kadar cihaz ses başlatılmaz.
+- Supabase mobil repository ve kafile UI; hesap bağlı outbox; atomic grup bootstrap RPC; mock SDK HTTP testleri eklendi. Gerçek proje ve cihaz kabulü bekliyor.
+- GitHub Actions ile analiz/test, Android/iOS derleme ve SQL kontrol işleri eklendi; workflow henüz çalışmadı.
+- Analiz/format temiz; 87 Flutter testi geçti. Ayrıntı `docs/06-mvp1-pilot.md` içindedir. 35 bağımsız pgTAP testi geçti; yeni Android build denemesi SDK eksikliğiyle durdu. iOS bu Linux ortamında çalıştırılamadı.
+
+### Önceki doğrulama kanıtı (6 Ekim, bu değişiklik için tekrar edilmedi)
 
 - `dart format --output=none --set-exit-if-changed lib test`: temiz.
 - `flutter analyze`: hata yok.
@@ -57,7 +77,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Emülatör sessiz çalıştığı için işitsel kalite, çağrı, Bluetooth ve fiziksel kulaklık testi yapılmadı.
 - `flutter doctor -v`: Android SDK 36 ve lisanslar hazır. Flutter SDK `PATH` içinde değil; depo komutlarında tam Flutter yolu kullanılabilir.
 - iOS doğrulanmadı: tam Xcode/xcodebuild ve CocoaPods yok. Yalnız Command Line Tools var.
-- Supabase SQL/pgTAP testi çalıştırılmadı. Yerel Supabase testi Docker gerektiriyordu; Docker bu uygulamanın çalışma bağımlılığı değildir ve bu çalışmada kullanılmadı.
+- 6 Ekim çalışmasında Supabase SQL/pgTAP testi çalıştırılmadı. Yerel Supabase testi Docker gerektiriyordu; Docker bu uygulamanın çalışma bağımlılığı değildir ve bu çalışmada kullanılmadı.
 
 ### Kanıtlanmamış veya eksik üretim girdileri
 
@@ -66,25 +86,17 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Güvenilen gerçek paket manifesti, paket sunucusu ve indirilebilir üretim paketi yok.
 - Offline dağıtım izni bulunan harita sağlayıcısı/stili/bölgesi yok. Gerçek POI ve rota kataloğu yok.
 - Doğrulanmış acil durum/kurum numarası, insan incelemeli Arapça dil kartı veya güncel saha akışı yok.
-- Supabase projesi, Auth/Realtime mobil adaptörü, URL/anon key ve çalışan RLS kanıtı yok.
+- Supabase mobil adaptörü ve mock HTTP testleri var; proje URL/publishable key ve gerçek Supabase Auth/Realtime/RLS kabulü yok.
 - APNs/FCM, server push, GPS izin akışı ve arka plan konum takibi yok.
 - Gerçek Android/iPhone cihaz testi ve iOS derlemesi yok.
 
 ## 3. Sıradaki tek iş
 
-### P5 kafile mobil backend adaptörünü ekle
+### P5 canlı kabul ve gerçek içerik girdilerini doğrula
 
-Canlı credential olmadan mock ile test edilebilen, yapılandırma yokken tüm rehber çekirdeğini hesap istemeden bırakan Supabase adaptörünü uygula:
+Mobil adaptör, OTP ekranı, davet/mesaj/program akışları ve kullanıcıya bağlı outbox kodlandı. P5 canlı credential ve gerçek Supabase RLS/Realtime kabulü olmadığı için tamamlandı sayılmaz. Önce `docs/06-mvp1-pilot.md` içindeki kalan girdileri ve test sınırlarını okuyun. Yeni dış girdi olmadan taslakları onaylı içerik haline getirmeyin.
 
-1. Kararlı `supabase_flutter` paketini ayrı bağımlılık olarak ekle. Yalnız `SUPABASE_URL` ve client için publishable key derleme zamanı değerlerini kabul et; service-role/secret key kabul etme.
-2. Yapılandırma yoksa Supabase başlatma, ağ isteği yapma ve ana rehberi giriş ekranına kilitleme.
-3. Grup listesi, süreli davet kabulü, üyeler, kalıcı mesajlar, rehbere özel mesaj, duyuru, program ve rota için repository arayüzü ile Supabase uygulamasını yaz.
-4. `message_outbox` bekleyen kayıtlarını `client_id` ile gönder; başarılı/başarısız durumunu güncelle ve tekrar denemede çift mesaj üretme.
-5. Realtime kanalını `group:<uuid>` adıyla private aç; kalıcı tabloyu esas al ve bağlantı kesilince son kayıt zamanından/id'sinden tekrar eşitle.
-6. Kafile ekranını yalnız yapılandırılmış ve giriş yapılmış durumda gerçek repository ile aç. Yapılandırma/oturum yoksa dürüst durum göster; sahte canlı grup üretme.
-7. Repository sözleşmesi, outbox senkronizasyonu, farklı grup filtresi ve servis kapalı davranışı için mock testleri ekle.
-
-Canlı Supabase URL/publishable key ve çalışan RLS testi gelmeden P5'i tamamlandı yazma. `supabase/tests/database/group_rls.test.sql` hâlâ çalışan PostgreSQL üzerinde doğrulanmalıdır.
+Yeni bağımlılıklarla Android/iOS derlemesini ve iki gerçek test hesabıyla OTP, davet, üyelik iptali, özel mesaj ve Realtime davranışını doğrulayın. Önceki APK/emülatör kanıtını yeni build kanıtı saymayın. Uzun kesinti sonrası mesaj geçmişi sayfalama, şirket rota oluşturma/indirme, etkileşimli harita, push ve gerçek GPS gönderimi ayrı açık işlerdir.
 
 ## 4. Birleşik yol haritası
 
@@ -104,13 +116,13 @@ Canlı Supabase URL/publishable key ve çalışan RLS testi gelmeden P5'i tamaml
 ## 5. Teknoloji ve çalışma ortamı
 
 - **İstemci:** Flutter 3.47.6, Dart 3.13.5, Material.
-- **Yerel veri:** `sqflite`, şema sürümü 7.
+- **Yerel veri:** `sqflite`, şema sürümü 8.
 - **İçerik:** `assets/content/` altında sürümlü JSON, içerik şeması 1.
 - **Ses:** `just_audio`, `audio_session`, `just_audio_background`/`audio_service`; tek konuşma kanalı.
 - **Paket:** SHA-256, sabit güven özeti, geçici indirme ve atomik durum işaretçisi.
 - **Harita:** `maplibre_gl`; sağlayıcı verisi yapılandırılmadı.
-- **Backend adayı:** Supabase Auth/PostgreSQL/Realtime/Storage; mobil SDK ve credential henüz yok.
-- **Test:** `flutter_test`, `sqflite_common_ffi`; backend için pgTAP dosyası var ancak çalıştırılmadı.
+- **Backend adayı:** Supabase Auth/PostgreSQL/Realtime/Storage; supabase_flutter 2.18.0 ve mobil adaptör eklendi, canlı credential/kabul yok.
+- **Test:** `flutter_test`, `sqflite_common_ffi`; backend için 35 pgTAP kontrolü bağımsız PostgreSQL motorunda geçti; gerçek Supabase testi bekliyor.
 - **Android:** En düşük API 28; SDK/build-tools 36; Android 35 emülatör kanıtı.
 - **iOS:** Proje dosyaları var; tam Xcode ve CocoaPods gerekiyor.
 

@@ -1,5 +1,5 @@
 begin;
-select plan(7);
+select plan(35);
 
 insert into auth.users (id, aud, role, email, encrypted_password)
 values
@@ -25,6 +25,18 @@ values
   ('10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000001', 'A mesajı'),
   ('10000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000002', '20000000-0000-0000-0000-000000000002', 'B mesajı');
 
+insert into public.messages (id, group_id, sender_id, recipient_id, client_id, message_type, body)
+values ('30000000-0000-0000-0000-000000000001',
+ '10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003',
+ '00000000-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000005',
+ 'guide_private', 'C rehbere özel');
+insert into public.location_shares (id, group_id, user_id, mode, starts_at, ends_at, retention_until)
+values ('40000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001',
+ '00000000-0000-0000-0000-000000000003', 'trip', now() - interval '1 hour', now() + interval '1 hour', now() + interval '1 day');
+insert into public.location_updates (share_id, user_id, latitude, longitude, accuracy_meters, measured_at)
+values ('40000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003',
+ 21.4, 39.8, 5, now() - interval '1 minute');
+
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
 
@@ -35,7 +47,7 @@ select results_eq(
 );
 
 select results_eq(
-  $$ select body from public.messages order by body $$,
+  $$ select body from public.messages where message_type = 'chat' order by body $$,
   $$ values ('A mesajı'::text) $$,
   'A kullanıcısı B grubunun mesajını göremez'
 );
@@ -88,6 +100,66 @@ select throws_ok(
   null,
   'Özel mesajın bir tarafı rehber veya grup yöneticisi olmalı'
 );
+
+select throws_ok($$ update public.messages set recipient_id = '00000000-0000-0000-0000-000000000004' where id = '30000000-0000-0000-0000-000000000001' $$, '42501', null, 'Mesaj recipient_id değiştirilemez');
+select throws_ok($$ update public.messages set message_type = 'chat' where id = '30000000-0000-0000-0000-000000000001' $$, '42501', null, 'Mesaj message_type değiştirilemez');
+select throws_ok($$ update public.messages set group_id = '10000000-0000-0000-0000-000000000002' where id = '30000000-0000-0000-0000-000000000001' $$, '42501', null, 'Mesaj group_id değiştirilemez');
+select throws_ok($$ update public.messages set sender_id = '00000000-0000-0000-0000-000000000004' where id = '30000000-0000-0000-0000-000000000001' $$, '42501', null, 'Mesaj sender_id değiştirilemez');
+select throws_ok($$ update public.messages set client_id = '20000000-0000-0000-0000-000000000006' where id = '30000000-0000-0000-0000-000000000001' $$, '42501', null, 'Mesaj client_id değiştirilemez');
+select throws_ok($$ update public.messages set created_at = now() where id = '30000000-0000-0000-0000-000000000001' $$, '42501', null, 'Mesaj created_at değiştirilemez');
+select lives_ok($$ update public.messages set body = 'C düzenledi', deleted_at = now()
+ where id = '30000000-0000-0000-0000-000000000001' $$, 'Gönderen metni ve silme zamanını düzenleyebilir');
+select is((select body from public.messages where id = '30000000-0000-0000-0000-000000000001'), 'C düzenledi', 'Düzenleme kaydedildi');
+select throws_ok($$ update public.location_shares set ends_at = now() + interval '2 days'
+ where id = '40000000-0000-0000-0000-000000000001' $$, '42501', null, 'Rıza süresi güncelleme ile uzatılamaz');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select is((select count(*) from public.location_updates), 1::bigint, 'Yönetici aktif konumu görür');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000003', true);
+select lives_ok($$ update public.location_shares set status = 'stopped', stopped_at = now()
+ where id = '40000000-0000-0000-0000-000000000001' $$, 'Kullanıcı paylaşımı durdurabilir');
+select throws_ok($$ insert into public.location_updates (share_id, user_id, latitude, longitude, accuracy_meters, measured_at)
+ values ('40000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', 21, 39, 5, now()) $$,
+ '42501', null, 'Durmuş paylaşıma yeni konum eklenemez');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select is((select count(*) from public.location_updates), 0::bigint, 'Durdurulan eski konum yöneticiye kapanır');
+reset role;
+update public.location_shares set status = 'active', stopped_at = null, ends_at = now() - interval '1 second';
+set local role authenticated;
+select is((select count(*) from public.location_updates), 0::bigint, 'Süresi biten eski konum yöneticiye kapanır');
+reset role;
+update public.location_shares set ends_at = now() + interval '1 hour', retention_until = now() - interval '1 second';
+set local role authenticated;
+select is((select count(*) from public.location_updates), 0::bigint, 'Saklama süresi biten konum kapanır');
+reset role;
+update public.location_shares set retention_until = now() + interval '1 day';
+update public.group_members set status = 'removed' where user_id = '00000000-0000-0000-0000-000000000003';
+set local role authenticated;
+select is((select count(*) from public.location_updates), 0::bigint, 'Çıkarılan üyenin eski konumu yöneticiye kapanır');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000003', true);
+select throws_ok($$ insert into public.location_updates (share_id, user_id, latitude, longitude, accuracy_meters, measured_at)
+ values ('40000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', 21, 39, 5, now()) $$,
+ '42501', null, 'Çıkarılan üye aktif rızayla da konum gönderemez');
+select lives_ok($$ update public.messages set body = 'yetkisiz düzenleme'
+ where id = '30000000-0000-0000-0000-000000000001' $$, 'Üyelik kalkınca UPDATE satırı görünmez');
+reset role;
+select is((select body from public.messages where id = '30000000-0000-0000-0000-000000000001'), 'C düzenledi', 'Çıkarılan üye eski mesajı değiştiremedi');
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000002', true);
+select is((select count(*) from public.location_updates), 0::bigint, 'Başka grup yöneticisi konumu göremez');
+select is((select count(*) from public.location_shares), 0::bigint, 'Başka grup yöneticisi rızayı göremez');
+
+select throws_ok($$ select public.create_personal_group(' ') $$, '22023', null, 'Boş grup adı reddedilir');
+select lives_ok($$ select public.create_personal_group('  MVP Kafile  ') $$, 'Oturumlu kullanıcı atomik kafile oluşturur');
+select is((select count(*) from public.groups where name = 'MVP Kafile'), 1::bigint, 'Grup adı normalize edilerek saklanır');
+select is((select role from public.group_members where group_id = (select id from public.groups where name = 'MVP Kafile') and user_id = auth.uid()), 'group_admin', 'İlk kullanıcı yalnız kendi grubunun yöneticisi olur');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select is((select count(*) from public.groups where name = 'MVP Kafile'), 0::bigint, 'Başka kullanıcının yeni kafilesi görünmez');
+select set_config('request.jwt.claim.sub', '', true);
+select throws_ok($$ select public.create_personal_group('Yetkisiz') $$, '42501', null, 'JWT olmadan bootstrap çalışmaz');
+reset role;
+set local role anon;
+select throws_ok($$ select public.create_personal_group('Anonim') $$, '42501', null, 'Anonim rol RPC çalıştıramaz');
+reset role;
 
 select * from finish();
 rollback;

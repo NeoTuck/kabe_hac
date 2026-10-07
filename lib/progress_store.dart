@@ -70,7 +70,7 @@ class ProgressStore {
     return dbFactory.openDatabase(
       dbPath,
       options: OpenDatabaseOptions(
-        version: 7,
+        version: 8,
         onConfigure: (database) async {
           await database.execute('PRAGMA foreign_keys = ON');
         },
@@ -83,6 +83,7 @@ class ProgressStore {
           await _createCounterContextTables(database);
           await _createTravelTables(database);
           await _createGroupSyncTables(database);
+          await _upgradeOutboxOwner(database);
         },
         onUpgrade: (database, oldVersion, newVersion) async {
           if (oldVersion < 2) await _createGuideTables(database);
@@ -93,8 +94,22 @@ class ProgressStore {
           if (oldVersion < 5) await _createCounterContextTables(database);
           if (oldVersion < 6) await _createTravelTables(database);
           if (oldVersion < 7) await _createGroupSyncTables(database);
+          if (oldVersion < 8) await _upgradeOutboxOwner(database);
         },
       ),
+    );
+  }
+
+  Future<void> _upgradeOutboxOwner(Database database) => database.execute(
+    'ALTER TABLE message_outbox ADD COLUMN owner_user_id TEXT',
+  );
+
+  Future<void> clearAccountOutbox(String userId) async {
+    final database = await _database;
+    await database.delete(
+      'message_outbox',
+      where: 'owner_user_id = ?',
+      whereArgs: [userId],
     );
   }
 
@@ -319,6 +334,7 @@ class ProgressStore {
 
   GroupOutboxMessage _outboxMessageFromRow(Map<String, Object?> row) {
     return GroupOutboxMessage(
+      ownerUserId: row['owner_user_id'] as String?,
       clientId: row['client_id'] as String,
       groupId: row['group_id'] as String,
       recipientId: row['recipient_id'] as String?,
@@ -336,6 +352,7 @@ class ProgressStore {
     required String groupId,
     required String body,
     String? recipientId,
+    String? ownerUserId,
   }) async {
     final safeClientId = _requiredGroupValue(clientId, 'clientId');
     final safeGroupId = _requiredGroupValue(groupId, 'groupId');
@@ -353,7 +370,8 @@ class ProgressStore {
       );
       if (existing.isNotEmpty) {
         final message = _outboxMessageFromRow(existing.first);
-        if (message.groupId != safeGroupId ||
+        if (message.ownerUserId != ownerUserId ||
+            message.groupId != safeGroupId ||
             message.recipientId != safeRecipientId ||
             message.body != safeBody) {
           throw StateError('Mesaj istemci kimliği farklı içerikle kullanıldı.');
@@ -362,6 +380,7 @@ class ProgressStore {
       }
       final now = DateTime.now().millisecondsSinceEpoch;
       await transaction.insert('message_outbox', {
+        'owner_user_id': ownerUserId,
         'client_id': safeClientId,
         'group_id': safeGroupId,
         'recipient_id': safeRecipientId,

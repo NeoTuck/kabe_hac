@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'content_repository.dart';
 import 'demo_screen.dart';
+import 'app_theme.dart';
 import 'guide_catalog.dart';
+import 'group_repository.dart';
+import 'group_screen.dart';
 import 'guide_screens.dart';
 import 'narration_service.dart';
 import 'offline_package.dart';
@@ -22,6 +26,8 @@ class HomeScreen extends StatefulWidget {
     required this.catalogs,
     required this.narration,
     required this.settings,
+    this.groups,
+    this.contentRepository,
     this.packages,
     this.packageProvider,
     this.packageConfigurationError,
@@ -29,6 +35,8 @@ class HomeScreen extends StatefulWidget {
     this.safetyCatalog,
   });
 
+  final GroupRepository? groups;
+  final LocalContentRepository? contentRepository;
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
   final NarrationService narration;
@@ -44,6 +52,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final GroupRepository _groups =
+      widget.groups ?? UnconfiguredGroupRepository();
+  late Map<GuideType, GuideCatalog> _catalogs;
   GuideSession? _latest;
   bool _demoVisited = false;
   String? _error;
@@ -51,15 +62,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _catalogs = widget.catalogs;
     _refresh();
   }
 
-  Future<void> _refresh() async {
+  @override
+  void dispose() {
+    if (widget.groups == null) _groups.dispose();
+    super.dispose();
+  }
+
+  Future<void> _refresh({bool reloadContent = false}) async {
     try {
+      final catalogs = reloadContent
+          ? await widget.contentRepository?.load() ?? widget.catalogs
+          : _catalogs;
       final session = await widget.store.readMostRecentSession();
       final lastDemo = await widget.store.readLastStepId();
       if (mounted) {
         setState(() {
+          _catalogs = catalogs;
           _latest = session;
           _demoVisited = lastDemo == DemoScreen.stepId;
           _error = null;
@@ -73,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _open(Widget screen) async {
     await Navigator.of(context)
         .push<void>(MaterialPageRoute(builder: (_) => screen));
-    if (mounted) await _refresh();
+    if (mounted) await _refresh(reloadContent: screen is OfflinePackagesScreen);
   }
 
   void _choose(GuideType type) {
@@ -81,14 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ModeSelectionScreen(
         type: type,
         store: widget.store,
-        catalog: widget.catalogs[type]!,
+        catalog: _catalogs[type]!,
         narration: widget.narration,
       ),
     );
   }
 
   void _resume(GuideSession session) {
-    final catalog = widget.catalogs[session.type];
+    final catalog = _catalogs[session.type];
     if (catalog == null) return;
     _open(
       GuideFlowScreen(
@@ -106,6 +128,45 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final latest = _latest;
     return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 0,
+        onDestinationSelected: (index) {
+          if (index == 1) {
+            _open(
+              TravelScreen(
+                store: widget.store,
+                catalog:
+                    widget.travelCatalog ??
+                    const TravelCatalog(
+                      dataVersion: 'not-configured',
+                      points: [],
+                      routes: [],
+                    ),
+              ),
+            );
+          }
+          if (index == 2) {
+            _open(GroupScreen(repository: _groups, store: widget.store));
+          }
+          if (index == 3) _open(SettingsScreen(settings: widget.settings));
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.auto_stories_outlined),
+            selectedIcon: Icon(Icons.auto_stories),
+            label: 'Rehber',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.explore_outlined),
+            label: 'Yolculuk',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.groups_outlined),
+            label: 'Kafile',
+          ),
+          NavigationDestination(icon: Icon(Icons.tune), label: 'Ayarlar'),
+        ],
+      ),
       appBar: AppBar(
         title: const Text('Hac ve Umre Sesli Rehber'),
         actions: [
@@ -121,6 +182,12 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(24),
           children: [
             const SizedBox(height: 12),
+            const FeatureStatusCard(
+              icon: Icons.auto_stories_outlined,
+              title: 'Adım adım, kendi hızında',
+              description: 'Rehberini aç, kaldığın yerden devam et. Rehber ilerlemen bu cihazda saklanır.',
+            ),
+            const SizedBox(height: 24),
             Text(
               'Rehber',
               style: Theme.of(context).textTheme.headlineLarge
@@ -255,7 +322,19 @@ class _ChoiceCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [
-            Icon(icon, size: 34),
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                icon,
+                size: 28,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(

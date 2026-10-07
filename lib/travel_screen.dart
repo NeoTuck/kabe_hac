@@ -66,7 +66,7 @@ class _TravelScreenState extends State<TravelScreen> {
               child: Padding(
                 padding: EdgeInsets.all(18),
                 child: Text(
-                  'Üretim harita sağlayıcısı ve izinli Mekke/Medine bölge paketi henüz seçilmedi. Kamusal OSM tile sunucularından şehir paketi indirilmeyecek.',
+                  'Harita paketi henüz hazır değil. İzinli bölge paketi eklendiğinde yerleri ve rotaları çevrimdışı görüntüleyebileceksin.',
                 ),
               ),
             ),
@@ -82,11 +82,20 @@ class _TravelScreenState extends State<TravelScreen> {
             const SizedBox(height: 12),
             DropdownButtonFormField<PoiCategory?>(
               initialValue: _category,
+              isExpanded: true,
+              itemHeight: null,
               decoration: const InputDecoration(labelText: 'Kategori'),
               items: [
                 const DropdownMenuItem(value: null, child: Text('Tümü')),
                 for (final value in PoiCategory.values)
-                  DropdownMenuItem(value: value, child: Text(value.label)),
+                  DropdownMenuItem(
+                    value: value,
+                    child: Text(
+                      value.label,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
               ],
               onChanged: (value) => setState(() => _category = value),
             ),

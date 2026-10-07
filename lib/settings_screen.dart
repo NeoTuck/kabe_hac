@@ -7,6 +7,21 @@ class SettingsScreen extends StatelessWidget {
 
   final ReaderSettings settings;
 
+  Future<void> _save(
+    BuildContext context,
+    Future<void> Function() action,
+  ) async {
+    try {
+      await action();
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ayar kaydedilemedi. Tekrar dene.')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Yazı ve ses ayarları')),
@@ -16,6 +31,26 @@ class SettingsScreen extends StatelessWidget {
         builder: (context, _) => ListView(
           padding: const EdgeInsets.all(24),
           children: [
+            Text('Görünüm', style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final entry in const {
+                  ThemeMode.system: 'Sistem',
+                  ThemeMode.light: 'Açık',
+                  ThemeMode.dark: 'Koyu',
+                }.entries)
+                  ChoiceChip(
+                    label: Text(entry.value),
+                    selected: settings.themeMode == entry.key,
+                    onSelected: (_) =>
+                        _save(context, () => settings.setThemeMode(entry.key)),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 28),
             Text('Yazı boyutu', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             Wrap(
@@ -26,7 +61,8 @@ class SettingsScreen extends StatelessWidget {
                   ChoiceChip(
                     label: Text('%${(value * 100).round()}'),
                     selected: settings.textMultiplier == value,
-                    onSelected: (_) => settings.setTextMultiplier(value),
+                    onSelected: (_) =>
+                        _save(context, () => settings.setTextMultiplier(value)),
                   ),
               ],
             ),
@@ -44,12 +80,23 @@ class SettingsScreen extends StatelessWidget {
                   ChoiceChip(
                     label: Text('${value}x'),
                     selected: settings.narrationSpeed == value,
-                    onSelected: (_) => settings.setNarrationSpeed(value),
+                    onSelected: (_) =>
+                        _save(context, () => settings.setNarrationSpeed(value)),
                   ),
               ],
             ),
             const SizedBox(height: 24),
             const Text('Onaylı anlatım kayıtları henüz eklenmedi.'),
+            const SizedBox(height: 24),
+            OutlinedButton.icon(
+              onPressed: () => showLicensePage(
+                context: context,
+                applicationName: 'Hac ve Umre Sesli Rehber',
+                applicationVersion: '0.1.0 · MVP 1 pilot',
+              ),
+              icon: const Icon(Icons.info_outline),
+              label: const Text('Uygulama ve lisanslar'),
+            ),
           ],
         ),
       ),

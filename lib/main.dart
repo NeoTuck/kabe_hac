@@ -1,13 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
+import 'app_theme.dart';
 import 'content_repository.dart';
 import 'guide_catalog.dart';
+import 'group_repository.dart';
+
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'narration_service.dart';
 import 'offline_package.dart';
 import 'package_catalog.dart';
@@ -20,17 +27,24 @@ import 'travel_catalog.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LicenseRegistry.addLicense(() async* {
+    for (final name in ['NotoSans', 'NotoNaskhArabic']) {
+      yield LicenseEntryWithLineBreaks([
+        name,
+      ], await rootBundle.loadString('assets/fonts/$name-OFL.txt'));
+    }
+  });
   final store = ProgressStore();
-  final narration = JustAudioNarrationService();
-  final settings = ReaderSettings(store, narration);
   try {
-    await JustAudioBackground.init(
-      androidNotificationChannelId:
-          'com.mustafasenoglu.hac_umre_sesli_rehber.audio',
-      androidNotificationChannelName: 'Sesli rehber oynatma',
-    );
-    await narration.initialize();
-    final catalogs = await const LocalContentRepository().load();
+    try {
+      await JustAudioBackground.init(
+        androidNotificationChannelId:
+            'com.mustafasenoglu.hac_umre_sesli_rehber.audio',
+        androidNotificationChannelName: 'Sesli rehber oynatma',
+      );
+    } catch (_) {
+      // Keep the offline guide available; first play reports device audio errors.
+    }
     final supportDirectory = await getApplicationSupportDirectory();
     OfflinePackageRuntimeConfig? packageConfig;
     String? packageConfigurationError;
@@ -46,6 +60,11 @@ Future<void> main() async {
       root: Directory(path.join(supportDirectory.path, 'offline_packages')),
       trustPolicy: packageTrust,
     );
+    final narration = JustAudioNarrationService(packages: packages);
+    final settings = ReaderSettings(store, narration);
+    // Device audio is initialized on first play; the guide remains available if it fails.
+    final contentRepository = LocalContentRepository(packages: packages);
+    final catalogs = await contentRepository.load();
     final packageProvider = packageConfig == null
         ? null
         : ConfiguredOfflinePackageProvider(
@@ -61,11 +80,26 @@ Future<void> main() async {
               allowedHosts: packageConfig.allowedHosts,
             ),
           );
+    GroupRepository groups = UnconfiguredGroupRepository();
+    try {
+      final config = GroupRuntimeConfig.fromCompileTime();
+      if (config != null) {
+        await Supabase.initialize(
+          url: config.url,
+          publishableKey: config.publishableKey,
+        );
+        groups = SupabaseGroupRepository(Supabase.instance.client);
+      }
+    } catch (_) {
+      // A backend failure never locks the offline guide behind sign-in.
+    }
     await settings.load();
     runApp(
       SesliRehberApp(
+        groups: groups,
         store: store,
         catalogs: catalogs,
+        contentRepository: contentRepository,
         narration: narration,
         settings: settings,
         packages: packages,
@@ -108,6 +142,8 @@ class SesliRehberApp extends StatelessWidget {
     required this.catalogs,
     required this.narration,
     required this.settings,
+    this.groups,
+    this.contentRepository,
     this.packages,
     this.packageProvider,
     this.packageConfigurationError,
@@ -115,6 +151,8 @@ class SesliRehberApp extends StatelessWidget {
     this.safetyCatalog,
   });
 
+  final GroupRepository? groups;
+  final LocalContentRepository? contentRepository;
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
   final NarrationService narration;
@@ -138,18 +176,9 @@ class SesliRehberApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF176E68)),
-        scaffoldBackgroundColor: const Color(0xFFF8F7F2),
-        appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFF8F7F2)),
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(minimumSize: const Size(0, 56)),
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(minimumSize: const Size(0, 56)),
-        ),
-      ),
+      theme: RehberTheme.build(Brightness.light),
+      darkTheme: RehberTheme.build(Brightness.dark),
+      themeMode: settings.themeMode,
       builder: (context, child) {
         final media = MediaQuery.of(context);
         final systemScale = media.textScaler.scale(1);
@@ -163,6 +192,8 @@ class SesliRehberApp extends StatelessWidget {
         );
       },
       home: HomeScreen(
+        groups: groups,
+        contentRepository: contentRepository,
         store: store,
         catalogs: catalogs,
         narration: narration,

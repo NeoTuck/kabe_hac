@@ -52,7 +52,12 @@ class _CounterScreenState extends State<CounterScreen> {
         widget.sessionId,
         widget.counterKey,
       );
-      if (mounted) setState(() => _count = count);
+      if (mounted) {
+        setState(() {
+          _count = count;
+          _error = null;
+        });
+      }
     } catch (_) {
       if (mounted) setState(() => _error = 'Sayaç okunamadı.');
     }
@@ -151,12 +156,14 @@ class _CounterScreenState extends State<CounterScreen> {
             const SizedBox(height: 32),
             Center(
               child: Semantics(
+                liveRegion: true,
+                excludeSemantics: true,
                 label: count == null
                     ? 'Sayaç yükleniyor'
                     : '$count / 7 tamamlanan',
                 child: Text(
                   count == null ? '…' : '$count / 7',
-                  style: Theme.of(context).textTheme.displayLarge
+                  style: Theme.of(context).textTheme.displayMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -186,6 +193,12 @@ class _CounterScreenState extends State<CounterScreen> {
             ),
             if (_error != null) ...[
               const SizedBox(height: 14),
+              if (_count == null)
+                FilledButton.icon(
+                  onPressed: _load,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Tekrar dene'),
+                ),
               Text(
                 _error!,
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
@@ -244,30 +257,32 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Gün ve hedef sayacı ekle'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Etiketler yalnız kişisel takip içindir; uygulama gün veya hedef sırası önermez.',
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: dayController,
-                maxLength: 60,
-                decoration: const InputDecoration(
-                  labelText: 'Gün etiketi',
-                  hintText: 'Örn. kişisel gün notu',
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Etiketler yalnız kişisel takip içindir; uygulama gün veya hedef sırası önermez.',
                 ),
-              ),
-              TextField(
-                controller: targetController,
-                maxLength: 60,
-                decoration: const InputDecoration(
-                  labelText: 'Hedef etiketi',
-                  hintText: 'Örn. hedef adı',
+                const SizedBox(height: 12),
+                TextField(
+                  controller: dayController,
+                  maxLength: 60,
+                  decoration: const InputDecoration(
+                    labelText: 'Gün etiketi',
+                    hintText: 'Örn. kişisel gün notu',
+                  ),
                 ),
-              ),
-            ],
+                TextField(
+                  controller: targetController,
+                  maxLength: 60,
+                  decoration: const InputDecoration(
+                    labelText: 'Hedef etiketi',
+                    hintText: 'Örn. hedef adı',
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             TextButton(

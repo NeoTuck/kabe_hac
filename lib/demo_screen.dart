@@ -56,7 +56,11 @@ class _DemoScreenState extends State<DemoScreen> {
             child: Text(
               'هذا نص تجريبي',
               textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 26, height: 1.6),
+              style: TextStyle(
+                fontFamily: 'NotoNaskhArabic',
+                fontSize: 26,
+                height: 1.6,
+              ),
             ),
           ),
           const SizedBox(height: 8),

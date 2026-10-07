@@ -107,6 +107,29 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
     }
   }
 
+  Future<void> _confirmNewJourney() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Yeni yolculuk başlat?'),
+        content: const Text(
+          'Yeni bir kişisel takip kaydı açılır. Önceki yolculuğun ve işaretlerin korunur.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Başlat'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true && mounted) await _newJourney();
+  }
+
   Future<void> _newJourney() async {
     try {
       final session = await widget.store.startNewJourney(
@@ -150,7 +173,23 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
       ),
       body: SafeArea(
         child: _error != null
-            ? Center(child: Text(_error!))
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(_error!),
+                      const SizedBox(height: 16),
+                      FilledButton.icon(
+                        onPressed: _load,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Tekrar dene'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             : session == null
             ? const Center(child: CircularProgressIndicator())
             : ListView(
@@ -189,7 +228,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                   if (widget.mode == GuideMode.journey) ...[
                     const SizedBox(height: 8),
                     OutlinedButton.icon(
-                      onPressed: _newJourney,
+                      onPressed: _confirmNewJourney,
                       icon: const Icon(Icons.add_rounded),
                       label: const Text('Yeni yolculuk kaydı aç'),
                     ),
@@ -201,6 +240,17 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                         : 'Adımlar · ${_markedIds.length}/${flowSteps.length} işaretli',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
+                  const SizedBox(height: 12),
+                  if (!isHajj || profileVerified)
+                    Semantics(
+                      label:
+                          '${_markedIds.length} / ${flowSteps.length} kişisel işaret',
+                      child: LinearProgressIndicator(
+                        value: _markedIds.length / flowSteps.length,
+                        minHeight: 8,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                   const SizedBox(height: 10),
                   for (final group
                       in GuideCatalog
@@ -371,7 +421,11 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                 child: Text(
                   step.arabic!,
                   textAlign: TextAlign.start,
-                  style: const TextStyle(fontSize: 26, height: 1.6),
+                  style: const TextStyle(
+                    fontFamily: 'NotoNaskhArabic',
+                    fontSize: 26,
+                    height: 1.6,
+                  ),
                 ),
               ),
             ],
@@ -509,7 +563,11 @@ class _PrayerCard extends StatelessWidget {
                 child: Text(
                   prayer.arabic!,
                   textAlign: TextAlign.start,
-                  style: const TextStyle(fontSize: 26, height: 1.6),
+                  style: const TextStyle(
+                    fontFamily: 'NotoNaskhArabic',
+                    fontSize: 26,
+                    height: 1.6,
+                  ),
                 ),
               ),
             ),

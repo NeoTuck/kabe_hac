@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'narration_service.dart';
 import 'progress_store.dart';
@@ -9,6 +9,8 @@ class ReaderSettings extends ChangeNotifier {
   final ProgressStore store;
   final NarrationService narration;
 
+  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode get themeMode => _themeMode;
   double _textMultiplier = 1;
   double _narrationSpeed = 1;
 
@@ -16,6 +18,10 @@ class ReaderSettings extends ChangeNotifier {
   double get narrationSpeed => _narrationSpeed;
 
   Future<void> load() async {
+    final savedTheme = await store.readAppValue('theme_mode');
+    _themeMode =
+        ThemeMode.values.where((mode) => mode.name == savedTheme).firstOrNull ??
+        ThemeMode.system;
     final savedText = double.tryParse(
       await store.readAppValue('text_scale') ?? '',
     );
@@ -29,6 +35,12 @@ class ReaderSettings extends ChangeNotifier {
       _narrationSpeed = savedSpeed!;
     }
     await narration.setSpeed(_narrationSpeed);
+    notifyListeners();
+  }
+
+  Future<void> setThemeMode(ThemeMode value) async {
+    await store.saveAppValue('theme_mode', value.name);
+    _themeMode = value;
     notifyListeners();
   }
 

@@ -69,7 +69,11 @@ class SafetyScreen extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                           child: Text(
                             card.arabic!,
-                            style: const TextStyle(fontSize: 26, height: 1.5),
+                            style: const TextStyle(
+                              fontFamily: 'NotoNaskhArabic',
+                              fontSize: 26,
+                              height: 1.5,
+                            ),
                           ),
                         ),
                         if (card.transliteration != null)

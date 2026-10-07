@@ -564,6 +564,72 @@ class OfflinePackageManager extends OfflinePackageStore {
     path.join(_packagesRoot.path, state.packageId, state.activeVersion),
   );
 
+  /// Rechecks trust and the requested file before use. No unlisted file is exposed.
+  Future<File?> resolveActiveFile(
+    String packageId,
+    String relativePath, {
+    OfflinePackageKind? kind,
+  }) async {
+    if (!RegExp(r'^[a-z0-9][a-z0-9._-]{2,63}$').hasMatch(packageId) ||
+        relativePath.contains('\\') ||
+        path.posix.normalize(relativePath) != relativePath ||
+        relativePath.startsWith('/') ||
+        relativePath.startsWith('../') ||
+        relativePath == '.') {
+      throw const PackageFormatException('Güvensiz paket dosya başvurusu.');
+    }
+    final state = await readActivation(packageId);
+    if (state == null) return null;
+    if (state.packageId != packageId ||
+        !RegExp(r'^[0-9]+\.[0-9]+\.[0-9]+(?:[-+][a-zA-Z0-9.-]+)?$')
+            .hasMatch(state.activeVersion)) {
+      throw const PackageFormatException('Paket etkinleştirme kaydı bozuk.');
+    }
+    final directory = activeDirectory(state);
+    // Reject links in every parent before reading even the manifest.
+    final realPackages = await _packagesRoot.resolveSymbolicLinks();
+    final realDirectory = await directory.resolveSymbolicLinks();
+    if (realDirectory !=
+        path.join(realPackages, packageId, state.activeVersion)) {
+      throw const PackageFormatException(
+        'Paket klasörü sembolik bağ içeremez.',
+      );
+    }
+    final manifestFile = File(path.join(directory.path, _manifestFileName));
+    if (await FileSystemEntity.type(manifestFile.path, followLinks: false) !=
+        FileSystemEntityType.file) {
+      throw const PackageFormatException('Kurulu manifest geçersiz.');
+    }
+    final manifest = await _readManifest(directory);
+    if (manifest.packageId != packageId ||
+        manifest.version != state.activeVersion ||
+        !manifest.supportsContentSchema(supportedContentSchema)) {
+      throw const PackageFormatException(
+        'Paket kimliği veya şeması uyuşmuyor.',
+      );
+    }
+    await trustPolicy.ensureTrusted(manifest);
+    if (kind != null && manifest.kind != kind) return null;
+    final entries = manifest.files.where(
+      (entry) => entry.relativePath == relativePath,
+    );
+    if (entries.isEmpty) return null;
+    final entry = entries.single;
+    final file = File(
+      path.joinAll([directory.path, ...relativePath.split('/')]),
+    );
+    final realFile = await file.resolveSymbolicLinks();
+    if (realFile != path.joinAll([realDirectory, ...relativePath.split('/')]) ||
+        await FileSystemEntity.type(file.path, followLinks: false) !=
+            FileSystemEntityType.file ||
+        await file.length() != entry.sizeBytes ||
+        (await sha256.bind(file.openRead()).first).toString() !=
+            entry.sha256Hex) {
+      throw const PackageFormatException('Etkin paket dosyası doğrulanamadı.');
+    }
+    return file;
+  }
+
   void _requireOwnedStaging(Directory staging) {
     final rootPath = path.normalize(path.absolute(_stagingRoot.path));
     final stagingPath = path.normalize(path.absolute(staging.path));

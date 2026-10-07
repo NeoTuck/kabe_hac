@@ -9,10 +9,12 @@ class GroupOutboxMessage {
     required this.attemptCount,
     required this.createdAt,
     required this.updatedAt,
+    this.ownerUserId,
     this.recipientId,
     this.lastError,
   });
 
+  final String? ownerUserId;
   final String clientId;
   final String groupId;
   final String? recipientId;

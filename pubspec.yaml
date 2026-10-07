@@ -44,6 +44,7 @@ dependencies:
   path_provider: ^2.1.6
   maplibre_gl: ^0.27.1
   just_audio_background: ^0.0.1-beta.17
+  supabase_flutter: 2.18.0
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +57,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   sqflite_common_ffi: '>=2.3.7 <2.4.0'
+  http: 1.6.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,6 +70,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/fonts/NotoSans-OFL.txt
+    - assets/fonts/NotoNaskhArabic-OFL.txt
     - assets/audio/teknik_demo.m4a
     - assets/content/umre_inventory.v1.json
     - assets/content/hac_inventory.v1.json
@@ -102,3 +106,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/NotoSans.ttf
+    - family: NotoNaskhArabic
+      fonts:
+        - asset: assets/fonts/NotoNaskhArabic.ttf
