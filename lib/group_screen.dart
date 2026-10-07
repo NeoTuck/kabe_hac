@@ -70,7 +70,7 @@ class _GroupScreenState extends State<GroupScreen> {
         });
       }
     } catch (_) {
-      if (mounted) {
+      if (mounted && uid == widget.repository.userId) {
         setState(() {
           _groups = null;
           _error = 'Kafileler alınamadı. Bağlantını kontrol edip tekrar dene.';
@@ -429,8 +429,12 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
               .toList(),
         );
       }
-      final snapshot = await widget.repository.snapshot(widget.group.id);
+      if (!mounted || _owner != widget.repository.userId) return;
       await _sync.sync(widget.group.id);
+      if (!mounted || _owner != widget.repository.userId) return;
+      // Read after delivery so confirmed messages remain visible even when
+      // Realtime is disconnected or its notification has not arrived yet.
+      final snapshot = await widget.repository.snapshot(widget.group.id);
       final outbox = await widget.store.readGroupOutbox();
       if (mounted && _owner == widget.repository.userId) {
         setState(() {
@@ -456,7 +460,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       }
     } catch (_) {
       // Do not retain group data after revoked membership or failed revalidation.
-      if (mounted) {
+      if (mounted && _owner == widget.repository.userId) {
         setState(() {
           _snapshot = null;
           _connected = false;
