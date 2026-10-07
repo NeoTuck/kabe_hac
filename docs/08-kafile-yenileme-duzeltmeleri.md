@@ -14,5 +14,7 @@ Mevcut rehber, ses, sayaç, gezi, paket, güvenlik, kafile ve ayar özellikleri 
 
 - `git diff --check`: geçti.
 - Paketli teknik ses: FFmpeg/ffprobe çözümleme, sonlu PCM, sessizlik ve kırpılma kontrolü geçti. Gerçek cihaz işitsel testi değildir.
-- Flutter format, analiz ve test sonuçları çalışma tamamlandığında bu bölüme yazılacaktır.
+- Flutter 3.47.6 / Dart 3.13.5: 49 Dart dosyası biçim kontrolü temiz, `flutter analyze --no-pub` temiz; tüm 91 Flutter testi geçti. Yerel SQLite testlerinde sistemdeki libsqlite3.so.0, yalnız test oturumu için ayrı dizindeki libsqlite3.so bağlantısıyla yüklendi.
+- Dört yeni test düzeltmede geçer. Eski uygulama kodunda görünürlük ve iki hesap geçişi testi başarısız; başarısız gönderimi koruma testi geçer. Regresyonun eski davranışı yakaladığı doğrulandı.
+- Güncel kod için GitHub mobil derleme sonucu CI üzerinden ayrıca doğrulanacaktır.
 - Bu değişiklik için gerçek Android/iPhone ve Maestro cihaz testi henüz çalıştırılmadı.

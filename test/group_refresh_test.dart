@@ -11,18 +11,22 @@ import 'test_fakes.dart';
 class QueuedStore extends MemoryGuideStore {
   MessageOutboxStatus status = MessageOutboxStatus.pending;
   @override
-  Future<List<GroupOutboxMessage>> readGroupOutbox() async => [
-    GroupOutboxMessage(
-      clientId: 'queued',
-      groupId: 'group-a',
-      ownerUserId: 'user-a',
-      body: 'Bekleyen mesaj',
-      status: status,
-      attemptCount: 0,
-      createdAt: DateTime.utc(2026),
-      updatedAt: DateTime.utc(2026),
-    ),
-  ];
+  Future<List<GroupOutboxMessage>> readGroupOutbox({
+    MessageOutboxStatus? status,
+  }) async => status != null && status != this.status
+      ? []
+      : [
+          GroupOutboxMessage(
+            clientId: 'queued',
+            groupId: 'group-a',
+            ownerUserId: 'user-a',
+            body: 'Bekleyen mesaj',
+            status: this.status,
+            attemptCount: 0,
+            createdAt: DateTime.utc(2026),
+            updatedAt: DateTime.utc(2026),
+          ),
+        ];
   @override
   Future<void> markGroupMessageAttempt({
     required String clientId,
@@ -115,7 +119,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(store.status, MessageOutboxStatus.failed);
     final status = find.textContaining('Gönderilemedi');
-    await tester.scrollUntilVisible(status, 250);
+    await tester.scrollUntilVisible(
+      status,
+      250,
+      scrollable: find
+          .descendant(
+            of: find.byType(ListView),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     expect(status, findsOneWidget);
     expect(repo.delivered, isEmpty);
     await tester.pumpWidget(const SizedBox.shrink());

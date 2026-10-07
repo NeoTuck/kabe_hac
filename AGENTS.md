@@ -60,6 +60,12 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Adım ekranında açıklama, ses ve manuel sayaç öne alınır; dua, kaynak, ayrıntı, önceki/sonraki ve kişisel işaretleme korunur. İçerik onayı veya veri şeması değişmez.
 - `8e87120` commit CI çalışması 37590553180: format/analyze, 87 Flutter testi, ses QA, database ve Android/iOS debug build başarılı. 320/390 piksel ve %100/%200 yazı matrisi geçti; gerçek Flutter ana ekran renderı incelendi. APK 210197775 bayt; SHA-256 `75e8e7c9afc6f966ba2651833ae2e0f0acede6b65a5e73e5dce55f284ee19ca4`. Fiziksel cihaz kabulü bekliyor. Ayrıntı: `docs/07-ozellikleri-koruyan-ux.md`.
 
+### Kafile yenileme ve hesap geçişi incelemesi
+
+- Gönderimden sonra sohbet listesi okunur; Realtime bildirimi olmadan teslim teyitli mesaj görünür. Başarısız gönderim bekleyenler arasında kalır.
+- Eski hesap liste/ayrıntı isteğinin hatası yeni hesap verisini veya oturum değişimi uyarısını ezmez. Ekran/hesap değişiminden sonra yeni ayrıntı isteği başlatılmaz.
+- Flutter 3.47.6 yerel format/analiz temiz; tüm 91 Flutter testi geçti. Yeni 4 testten 3'ü eski uygulama kodunda başarısızdır. Teknik ses dosyası QA geçti. Güncel kod için CI mobil build, fiziksel cihaz ve gerçek Supabase kabulü ayrı doğrulanır. Ayrıntı: `docs/08-kafile-yenileme-duzeltmeleri.md`.
+
 ### GitHub devir durumu
 
 - 7 Ekim 2026: entegrasyonla dal oluşturma başarılı; önceki 403 erişim engeli giderildi. MVP devir dalı `codex/mvp1-pilot`. CI sonucu ve main birleşmesi ayrı doğrulanmalıdır.
