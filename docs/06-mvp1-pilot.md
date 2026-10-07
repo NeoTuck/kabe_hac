@@ -71,3 +71,7 @@ Ses dosyası QA komutu ffmpeg/ffprobe ister; bunlar mobil uygulama bağımlılı
 ## GitHub ve devir
 
 7 Ekim 2026 tarihinde GitHub yazma erişimi yeniden doğrulandı ve `codex/mvp1-pilot` dalı oluşturuldu. Önceki 403 erişim engeli giderildi. MVP çalışması bu dal üzerinden incelemeye sunulur; `main` ile eşit olduğu veya CI kontrollerinin geçtiği yalnız uzak depo kanıtıyla söylenebilir. Teslim paketi patch, doğrulama çıktıları ve ekran görüntülerini içerir. Temiz `b3ae97d` tabanına patch için önce `git apply --check mvp1.patch`, ardından `git apply mvp1.patch` çalıştırın. Yerel değişiklik varsa üzerine zorla uygulamayın; ayrı dal kullanın. Patch eski güvenlik/paket düzeltmelerini de içerir.
+
+## Android CI ilk derleme düzeltmesi
+
+İlk GitHub çalışması SDK action varsayılanının artık bulunamayan `tools` paketini istemesi nedeniyle APK üretmeden durdu. SDK paketleri platform-tools, Android 36 ve build-tools 36.0.0 olarak açıkça seçildi. SQL işinde eksik ripgrep kurulumu eklendi. Yeni workflow sonucu doğrulanana kadar APK hazır sayılmaz.

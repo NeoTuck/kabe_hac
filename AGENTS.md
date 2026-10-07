@@ -63,7 +63,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Ortak tema, navigasyon, Türkçe/Arapça paketli fontlar ve kalıcı açık/koyu tema eklendi. Küçük ekran/büyük yazı taşması düzeltildi; gerçek Flutter UI render'ları `docs/mvp-ui/` içindedir.
 - Ses yükleme/iptal yarışları, seek/ileri/geri, süre/konum ve yeniden deneme testleri eklendi. İlk dinlemeye kadar cihaz ses başlatılmaz.
 - Supabase mobil repository ve kafile UI; hesap bağlı outbox; atomic grup bootstrap RPC; mock SDK HTTP testleri eklendi. Gerçek proje ve cihaz kabulü bekliyor.
-- GitHub Actions ile analiz/test, Android/iOS derleme ve SQL kontrol işleri eklendi; workflow henüz çalışmadı.
+- GitHub Actions ilk çalışması Android SDK action varsayılanındaki bulunamayan `tools` paketi ve SQL işindeki eksik `rg` nedeniyle durdu. SDK paketleri açıkça seçildi, ripgrep kurulumu eklendi; yeni çalışma sonucu bekleniyor.
 - Analiz/format temiz; 87 Flutter testi geçti. Ayrıntı `docs/06-mvp1-pilot.md` içindedir. 35 bağımsız pgTAP testi geçti; yeni Android build denemesi SDK eksikliğiyle durdu. iOS bu Linux ortamında çalıştırılamadı.
 
 ### Önceki doğrulama kanıtı (6 Ekim, bu değişiklik için tekrar edilmedi)

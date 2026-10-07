@@ -19,6 +19,8 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools platforms;android-36 build-tools;36.0.0
       - run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev ffmpeg
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test
@@ -30,6 +32,7 @@ jobs:
         with:
           name: android-debug-pilot
           path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
   ios:
     runs-on: macos-15
     steps:
@@ -47,7 +50,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: sudo apt-get update && sudo apt-get install -y postgresql-16-pgtap
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-16-pgtap ripgrep
       - run: npm install --prefix /tmp/kabe-pglite @electric-sql/pglite@0.5.8
       - run: |
           export PGTAP_SQL="$(rg --files /usr/share/postgresql/16/extension | rg '/pgtap--[0-9.]+\.sql$' | sort -V | tail -1)"
