@@ -36,12 +36,14 @@ void main() {
   bool mismatch = false;
   int membershipReads = 0;
   bool revokeOnRecheck = false;
+  List<Map<String, dynamic>>? historyRows;
   setUp(() {
     requests = [];
     membership = true;
     mismatch = false;
     membershipReads = 0;
     revokeOnRecheck = false;
+    historyRows = null;
     client = SupabaseClient(
       'https://example.supabase.co',
       'test-public-key',
@@ -80,10 +82,12 @@ void main() {
               'recipient_id': null,
             };
           } else {
-            response = [
-              {'body': 'new'},
-              {'body': 'old'},
-            ];
+            response =
+                historyRows ??
+                [
+                  {'body': 'new'},
+                  {'body': 'old'},
+                ];
           }
         } else if (table == 'groups') {
           response = [
@@ -147,6 +151,71 @@ void main() {
     membershipReads = 0;
     revokeOnRecheck = true;
     await expectLater(adapter.snapshot(group), throwsStateError);
+  });
+  test('history uses a timestamp/id cursor and one-row lookahead', () async {
+    const time = '2026-10-07T20:00:00.123456Z';
+    historyRows = List.generate(
+      51,
+      (i) => {
+        'id': '20000000-0000-0000-0000-${(99 - i).toString().padLeft(12, '0')}',
+        'created_at': time,
+        'body': 'message ${99 - i}',
+      },
+    );
+    final cursor = MessageCursor.fromRow({
+      'id': '20000000-0000-0000-0000-000000000100',
+      'created_at': time,
+    });
+    final page = await adapter.olderMessages(group, before: cursor);
+    expect(page.messages.length, 50);
+    expect(page.hasMore, true);
+    expect(page.messages.first['body'], 'message 50');
+    expect(page.messages.last['body'], 'message 99');
+    expect(membershipReads, 2);
+    final query = requests
+        .singleWhere((r) => r.url.path.endsWith('/messages'))
+        .url
+        .queryParameters;
+    expect(query['group_id'], 'eq.$group');
+    expect(query['order'], 'created_at.desc,id.desc');
+    expect(query['limit'], '51');
+    expect(
+      query['or'],
+      '(created_at.lt.$time,and(created_at.eq.$time,id.lt.${cursor.id}))',
+    );
+  });
+  test('history end and access revoked during fetch are explicit', () async {
+    final cursor = MessageCursor(createdAt: DateTime.utc(2026), id: group);
+    historyRows = [];
+    expect((await adapter.olderMessages(group, before: cursor)).hasMore, false);
+    membershipReads = 0;
+    revokeOnRecheck = true;
+    await expectLater(
+      adapter.olderMessages(group, before: cursor),
+      throwsA(isA<GroupAccessError>()),
+    );
+  });
+  test('history rejects invalid cursor and signed-out requests', () async {
+    expect(
+      () => MessageCursor.fromRow({
+        'id': 'x),body.neq.test',
+        'created_at': '2026-10-07',
+      }),
+      throwsFormatException,
+    );
+    expect(
+      () => MessageCursor.fromRow({'id': group, 'created_at': 'bad date'}),
+      throwsFormatException,
+    );
+    adapter.uid = null;
+    await expectLater(
+      adapter.olderMessages(
+        group,
+        before: MessageCursor(createdAt: DateTime.utc(2026), id: group),
+      ),
+      throwsStateError,
+    );
+    expect(requests, isEmpty);
   });
   test('group bootstrap and programs use the database contract', () async {
     expect((await adapter.createGroup('  Kafile  ')).id, group);

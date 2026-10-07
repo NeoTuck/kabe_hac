@@ -17,7 +17,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 **Son doğrulama:** 7 Ekim 2026, MVP 1 teknik pilot; GitHub Android APK ve iOS debug/no-codesign build başarılı, fiziksel cihaz kabulü bekliyor
 
-**Aktif paket:** Tam sürüm aşama 1 QA temeli ve aşama 2 editöryal tablolar; cihaz/canlı servis ve onaylı içerik kabulü bekliyor
+**Aktif paket:** Kafile mesaj geçmişi sayfalama; yeni kodun CI doğrulaması sürüyor. Cihaz/canlı servis ve onaylı içerik kabulü bekliyor.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -73,6 +73,12 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - 18 Umre / 35 Hac envanter satırı denetlendi; tamamı taslak. Kaynak/hak/uzman alanları boş editöryal CSV'lere taşındı. Mevcut editöryal dosyalar dışa aktarımda ezilmez; bunlar uygulama yayın katalogları değildir.
 - Yedi aşama ve alan bazlı kabul matrisi `docs/09-tam-surum-gelistirme.md`; cihaz yönergeleri `docs/qa/MOBIL_TEST.md`. Yeni CI qa-foundation işi yalnız statik QA/kimlik denetimidir; mobil cihaz başarısı sayılmaz.
 
+### Kafile mesaj geçmişi
+
+- Son 100 mesajın öncesi 50'şer yüklenir; görünür üst sınır 500 mesajdır. UTC zaman/UUID cursor, tekrar ayıklama, hesap/üyelik ve bekleyen istek kontrolleri eklendi.
+- Yenileme açılmış sayfaları tekrar okur; silme/düzenleme günceldir. 8 widget, 3 SDK ve 4 SQL regresyonu eklendi. Format temiz; bu değişiklik için CI bekleniyor. Ayrıntı: `docs/10-kafile-mesaj-gecmisi.md`.
+- Önceki QA temeli CI 37680799787: Flutter, Android debug, iOS debug/no-codesign, database ve qa-foundation başarılı.
+
 ### GitHub devir durumu
 
 - 7 Ekim 2026: entegrasyonla dal oluşturma başarılı; önceki 403 erişim engeli giderildi. MVP devir dalı `codex/mvp1-pilot`. CI sonucu ve main birleşmesi ayrı doğrulanmalıdır.
@@ -113,7 +119,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ### Hesap/üyelik kontrollü kafile geçmişi sayfalama
 
-Tam sürüm için yeni plan `docs/09-tam-surum-gelistirme.md` içindedir. Erişilebilen sıradaki kod dilimi son 100 mesajın öncesini getirme ve UI akışıdır. Aynı zaman damgalı mesajlar için kararlı cursor, hesap/üyelik değişiminde temizleme, tekrarların giderilmesi ve mock HTTP/widget regresyonları gereklidir. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
+Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Mesaj geçmişi kodu eklendi; önce yeni CI sonucunu tamamla ve gerçek Flutter renderını incele. Hata varsa bu dilimi düzelt. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
 Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 

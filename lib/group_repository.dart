@@ -45,6 +45,37 @@ class GroupRecord {
   final String name;
 }
 
+class GroupAccessError extends StateError {
+  GroupAccessError() : super('Grup erişimi kapandı.');
+}
+
+class MessageCursor {
+  MessageCursor({required DateTime createdAt, required String id})
+    : createdAt = createdAt.toUtc(),
+      id = id.toLowerCase() {
+    if (!validGroupId(id)) {
+      throw const FormatException('Mesaj kimliği geçersiz.');
+    }
+  }
+  final DateTime createdAt;
+  final String id;
+
+  factory MessageCursor.fromRow(Map<String, dynamic> row) {
+    final time = DateTime.tryParse(row['created_at'].toString());
+    final id = row['id'];
+    if (time == null || id is! String) {
+      throw const FormatException('Mesaj sayfalama bilgisi geçersiz.');
+    }
+    return MessageCursor(createdAt: time, id: id);
+  }
+}
+
+class GroupMessagePage {
+  const GroupMessagePage({required this.messages, required this.hasMore});
+  final List<Map<String, dynamic>> messages;
+  final bool hasMore;
+}
+
 class GroupSnapshot {
   const GroupSnapshot({
     required this.members,
@@ -71,6 +102,10 @@ abstract class GroupRepository extends ChangeNotifier {
   Future<GroupRecord> createGroup(String name);
   Future<String> createInvitation(String groupId);
   Future<GroupSnapshot> snapshot(String groupId);
+  Future<GroupMessagePage> olderMessages(
+    String groupId, {
+    required MessageCursor before,
+  });
   Future<void> send(GroupOutboxMessage message);
   Future<void> publish(String groupId, String kind, String title, String body);
   Future<void> Function() watch(
@@ -101,6 +136,11 @@ class UnconfiguredGroupRepository extends GroupRepository {
   Future<String> createInvitation(String groupId) async => _unavailable();
   @override
   Future<GroupSnapshot> snapshot(String groupId) async => _unavailable();
+  @override
+  Future<GroupMessagePage> olderMessages(
+    String groupId, {
+    required MessageCursor before,
+  }) async => _unavailable();
   @override
   Future<void> send(GroupOutboxMessage message) async => _unavailable();
   @override
@@ -215,8 +255,34 @@ class SupabaseGroupRepository extends GroupRepository {
         .eq('status', 'active')
         .maybeSingle();
     if (membership == null || uid != userId) {
-      throw StateError('Grup erişimi kapandı.');
+      throw GroupAccessError();
     }
+  }
+
+  @override
+  Future<GroupMessagePage> olderMessages(
+    String groupId, {
+    required MessageCursor before,
+  }) async {
+    _id(groupId);
+    final uid = _user();
+    await _membership(groupId, uid);
+    final time = before.createdAt.toIso8601String();
+    // UUID and canonical UTC timestamp are validated before raw filters.
+    // Tie-break by ID: messages sharing a timestamp must not be skipped.
+    final rows = await client
+        .from('messages')
+        .select()
+        .eq('group_id', groupId)
+        .or('created_at.lt.$time,and(created_at.eq.$time,id.lt.${before.id})')
+        .order('created_at', ascending: false)
+        .order('id', ascending: false)
+        .limit(51);
+    await _membership(groupId, uid);
+    return GroupMessagePage(
+      messages: rows.take(50).toList().reversed.toList(),
+      hasMore: rows.length > 50,
+    );
   }
 
   @override

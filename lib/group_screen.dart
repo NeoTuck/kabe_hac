@@ -361,6 +361,13 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   bool _connected = false;
   bool _refreshing = false;
   bool _reloadPending = false;
+  static const _maxHistoryPages = 8;
+  List<Map<String, dynamic>> _historyRows = [];
+  int _historyPages = 0;
+  int _historyEpoch = 0;
+  bool _hasOlder = false;
+  bool _loadingOlder = false;
+  String? _historyError;
   Future<void> Function()? _unsubscribe;
   Timer? _debounce;
   Timer? _membershipTimer;
@@ -388,9 +395,17 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   void _authChanged() {
     if (_owner != widget.repository.userId && mounted) {
+      _historyEpoch++;
       setState(() {
         _snapshot = null;
         _outbox = [];
+        _historyRows = [];
+        _historyPages = 0;
+        _loadingOlder = false;
+        _hasOlder = false;
+        _historyError = null;
+        _connected = false;
+        _recipient = null;
         _error = 'Oturum değişti. Kafile ekranından geri dön.';
       });
     }
@@ -415,6 +430,11 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       return;
     }
     _refreshing = true;
+    final epoch = ++_historyEpoch;
+    setState(() {
+      _loadingOlder = false;
+      _historyError = null;
+    });
     try {
       final pending = await widget.store.readGroupOutbox();
       if (mounted && _owner == widget.repository.userId) {
@@ -435,10 +455,31 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       // Read after delivery so confirmed messages remain visible even when
       // Realtime is disconnected or its notification has not arrived yet.
       final snapshot = await widget.repository.snapshot(widget.group.id);
+      // Re-read previously loaded pages: edits/deletions and access changes
+      // must not leave an indefinitely stale local message history.
+      var history = <Map<String, dynamic>>[];
+      var hasOlder = snapshot.messages.length == 100;
+      var loadedPages = 0;
+      for (var i = 0; i < _historyPages && hasOlder; i++) {
+        if (!mounted || _owner != widget.repository.userId) return;
+        final rows = _mergeMessages(history, snapshot.messages);
+        final page = await widget.repository.olderMessages(
+          widget.group.id,
+          before: MessageCursor.fromRow(rows.first),
+        );
+        history = _mergeMessages(page.messages, history);
+        hasOlder = page.hasMore;
+        if (page.messages.isNotEmpty) loadedPages++;
+      }
       final outbox = await widget.store.readGroupOutbox();
-      if (mounted && _owner == widget.repository.userId) {
+      if (mounted &&
+          _owner == widget.repository.userId &&
+          epoch == _historyEpoch) {
         setState(() {
           _snapshot = snapshot;
+          _historyRows = history;
+          _historyPages = loadedPages;
+          _hasOlder = hasOlder;
           if (_recipient != null &&
               !snapshot.members.any(
                 (m) =>
@@ -463,12 +504,16 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       if (mounted && _owner == widget.repository.userId) {
         setState(() {
           _snapshot = null;
+          _historyRows = [];
+          _historyPages = 0;
+          _hasOlder = false;
           _connected = false;
           _error = 'Kafileye erişilemedi. Bağlantı ve üyeliğini kontrol et.';
         });
       }
     } finally {
       _refreshing = false;
+      if (mounted) setState(() {});
       if (_reloadPending && mounted) {
         _reloadPending = false;
         unawaited(_reload());
@@ -476,8 +521,82 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     }
   }
 
+  List<Map<String, dynamic>> _mergeMessages(
+    List<Map<String, dynamic>> older,
+    List<Map<String, dynamic>> newer,
+  ) {
+    final seen = <String>{};
+    return [...older, ...newer].reversed
+        .where((row) {
+          final id = row['id'];
+          return id is! String || seen.add(id);
+        })
+        .toList()
+        .reversed
+        .toList();
+  }
+
+  Future<void> _loadOlder() async {
+    final snapshot = _snapshot;
+    if (snapshot == null ||
+        _loadingOlder ||
+        _refreshing ||
+        !_hasOlder ||
+        _historyPages >= _maxHistoryPages ||
+        _owner != widget.repository.userId) {
+      return;
+    }
+    final epoch = _historyEpoch;
+    setState(() {
+      _loadingOlder = true;
+      _historyError = null;
+    });
+    try {
+      final rows = _mergeMessages(_historyRows, snapshot.messages);
+      final page = await widget.repository.olderMessages(
+        widget.group.id,
+        before: MessageCursor.fromRow(rows.first),
+      );
+      if (!mounted ||
+          _owner != widget.repository.userId ||
+          epoch != _historyEpoch)
+        return;
+      final history = _mergeMessages(page.messages, _historyRows);
+      if (page.messages.isNotEmpty && history.length == _historyRows.length) {
+        throw StateError('Mesaj geçmişi ilerlemedi.');
+      }
+      setState(() {
+        _historyRows = history;
+        _hasOlder = page.hasMore;
+        if (page.messages.isNotEmpty) _historyPages++;
+      });
+    } catch (error) {
+      if (!mounted ||
+          _owner != widget.repository.userId ||
+          epoch != _historyEpoch)
+        return;
+      setState(() {
+        _connected = false;
+        if (error is GroupAccessError) {
+          _snapshot = null;
+          _historyRows = [];
+          _historyPages = 0;
+          _hasOlder = false;
+          _error = 'Kafileye erişilemedi. Bağlantı ve üyeliğini kontrol et.';
+        } else {
+          _historyError = 'Eski mesajlar alınamadı. Tekrar deneyebilirsin.';
+        }
+      });
+    } finally {
+      if (mounted && epoch == _historyEpoch) {
+        setState(() => _loadingOlder = false);
+      }
+    }
+  }
+
   @override
   void dispose() {
+    _historyEpoch++;
     _membershipTimer?.cancel();
     _debounce?.cancel();
     widget.repository.removeListener(_authChanged);
@@ -494,6 +613,14 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     bytes[8] = (bytes[8] & 63) | 128;
     final hex = bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
     return '${hex.substring(0, 8)}-${hex.substring(8, 12)}-${hex.substring(12, 16)}-${hex.substring(16, 20)}-${hex.substring(20)}';
+  }
+
+  String _messageTime(Object? value) {
+    final parsed = DateTime.tryParse(value.toString());
+    if (parsed == null) return 'Tarih bilgisi yok';
+    final local = parsed.toLocal();
+    String two(int number) => number.toString().padLeft(2, '0');
+    return '${two(local.day)}.${two(local.month)}.${local.year} · ${two(local.hour)}:${two(local.minute)}';
   }
 
   Future<void> _send() async {
@@ -634,6 +761,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   @override
   Widget build(BuildContext context) {
     final snapshot = _snapshot;
+    final messages = _mergeMessages(_historyRows, snapshot?.messages ?? []);
     final guides =
         snapshot?.members
             .where(
@@ -740,10 +868,37 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                 ),
               const SizedBox(height: 24),
               Text(
-                'Sohbet · son 100 mesaj',
+                'Sohbet · ${messages.length} mesaj',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              for (final m in snapshot.messages)
+              if (_hasOlder && _historyPages < _maxHistoryPages)
+                OutlinedButton.icon(
+                  onPressed: _loadingOlder || _refreshing ? null : _loadOlder,
+                  icon: const Icon(Icons.history),
+                  label: Text(
+                    _loadingOlder
+                        ? 'Eski mesajlar yükleniyor'
+                        : 'Eski mesajları yükle',
+                  ),
+                )
+              else if (_hasOlder)
+                const Text('Bu ekranda en fazla 500 mesaj gösterilir.'),
+              if (_historyError != null)
+                Semantics(
+                  liveRegion: true,
+                  child: Text(
+                    _historyError!,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
+              if (messages.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: Text('Henüz sohbet mesajı yok.'),
+                ),
+              for (final m in messages)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   child: Card.filled(
@@ -764,7 +919,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                                 : 'Mesaj silindi.',
                           ),
                           Text(
-                            m['created_at'].toString(),
+                            _messageTime(m['created_at']),
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                         ],

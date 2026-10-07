@@ -1,5 +1,5 @@
 begin;
-select plan(35);
+select plan(39);
 
 insert into auth.users (id, aud, role, email, encrypted_password)
 values
@@ -159,6 +159,38 @@ select throws_ok($$ select public.create_personal_group('Yetkisiz') $$, '42501',
 reset role;
 set local role anon;
 select throws_ok($$ select public.create_personal_group('Anonim') $$, '42501', null, 'Anonim rol RPC çalıştıramaz');
+reset role;
+
+-- Fixed-time history fixtures exercise equal timestamp boundaries under RLS.
+insert into public.messages (id, group_id, sender_id, client_id, body, created_at)
+values
+ ('50000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000001', 'history tie 1', '2020-01-01T00:00:00.123456Z'),
+ ('50000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000002', 'history tie 2', '2020-01-01T00:00:00.123456Z'),
+ ('50000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000004', 'history older', '2019-01-01T00:00:00Z');
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select results_eq(
+ $$ select body from public.messages where group_id = '10000000-0000-0000-0000-000000000001'
+ and (created_at < '2020-01-01T00:00:00.123456Z' or (created_at = '2020-01-01T00:00:00.123456Z' and id < '50000000-0000-0000-0000-000000000003'))
+ order by created_at desc, id desc limit 50 $$,
+ $$ values ('history tie 2'::text), ('history tie 1'::text), ('history older'::text) $$,
+ 'History includes equal timestamps using the ID tie-breaker');
+select results_eq(
+ $$ select body from public.messages where group_id = '10000000-0000-0000-0000-000000000001'
+ and (created_at < '2020-01-01T00:00:00.123456Z' or (created_at = '2020-01-01T00:00:00.123456Z' and id < '50000000-0000-0000-0000-000000000001'))
+ order by created_at desc, id desc limit 50 $$,
+ $$ values ('history older'::text) $$,
+ 'Next history page does not repeat its cursor message');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000002', true);
+select is((select count(*) from public.messages where group_id = '10000000-0000-0000-0000-000000000001'
+ and created_at <= '2020-01-01T00:00:00.123456Z'), 0::bigint, 'Another group cannot read old history');
+reset role;
+update public.group_members set status = 'removed'
+ where group_id = '10000000-0000-0000-0000-000000000001' and user_id = '00000000-0000-0000-0000-000000000001';
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select is((select count(*) from public.messages where group_id = '10000000-0000-0000-0000-000000000001'
+ and created_at <= '2020-01-01T00:00:00.123456Z'), 0::bigint, 'Removed member cannot read old history');
 reset role;
 
 select * from finish();
