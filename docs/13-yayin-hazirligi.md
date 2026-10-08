@@ -18,11 +18,12 @@
 `android/key.properties` dosyası Git'e girmez. Yerel/CI gizli dosyada `storeFile` (android dizinine göre ya da mutlak yol), `storePassword`, `keyAlias`, `keyPassword` değerlerini sağla. Keystore'u da Git'e koyma. Teknik pilot ortam değişkenini üretim ortamında kullanma. Gerçek upload anahtarının SHA-256 sertifikası ve Play Console kaydı ayrıca karşılaştırılır; yalnız dosyanın bulunması bunu kanıtlamaz.
 
 ```sh
-python3 tools/release_preflight.py --evidence-dir release-inputs
 flutter build appbundle --release
+# İmzalı paket ve diğer kabul belgeleri hazırlandıktan sonra:
+python3 tools/release_preflight.py --evidence-dir release-inputs
 ```
 
-Ön kontrol yeşil olsa bile bu komutların sonucu, imza, sürüm kodu, üretim yapılandırması ve mağaza kabulü bağımsız doğrulanır. iOS için Apple Developer takım/provisioning ile gerçek imzalı archive/TestFlight gerekir; simulator veya no-codesign bunun yerine geçmez.
+Girdi kontrolü yeşil olsa bile bu komutların sonucu, imza, sürüm kodu, üretim yapılandırması ve mağaza kabulü bağımsız doğrulanır. iOS için Apple Developer takım/provisioning ile gerçek imzalı archive/TestFlight gerekir; simulator veya no-codesign bunun yerine geçmez.
 
 ## Kabul kanıtı sözleşmesi
 
@@ -45,3 +46,5 @@ CI `37765942469`, kod `e253b9aff`: 153 Flutter testi, format/analiz, teknik AAC 
 API28 dört pilot akışı geçti. API35 ilk launchApp sırasında `device offline` ile başarısız, diğer üç akış geçti. iOS sorgusu test başlamadan simctl 30 sn timeout ile blocked döndü. Bunlar tam mobil kabul sayılmaz. Android testlerinden önce ayrı Maestro hierarchy sürücü hazırlığı eklendi; en fazla iki hazırlık girişimi kaydedilir, başarısız UI akışına tekrar uygulanmaz. CoreSimulator başlangıç sorgusunda en fazla üç hazırlık girişimi vardır. Yerel Python regresyonları 14 kontrolle başarılı; yeni mobil CI sonucu ayrı doğrulanır.
 
 Rehber yenileme testinin fake-async varlık okuma zaman aşımı tester.runAsync ile giderildi; yeni CI'da iki yenileme testi geçti. Yeni gezi paketinin güven/hash/symlink/geri dönüş/silme/çakışma kontrolleri ve UI paket dönüşü geçti. Ana sayfa, ses, ayar ve kapalı kafile güncel renderları gözle incelendi; 320/390 px ve %100/%200 yazı matrisi geçti. Fiziksel cihaz ve işitsel kalite kabulü değildir.
+
+CI 37768070990 / c7cb0c96: iOS no-codesign/simulator ve dört pilot UI akışı başarılı; 14 Python/39 SQL ve Android split release başarılı. Linux Flutter işi dependency apt kurulumunda ilerlemeden bekledi; yeni düzeltme ağ tekrarlarını ve iki apt adımını 180'er saniye, Flutter işini 25 dakika ile sınırlar. Android yeni sürücü hazırlığının UI kabulü bu noktada bekliyor.
