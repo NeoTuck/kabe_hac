@@ -627,7 +627,9 @@ class _PrayerCard extends StatelessWidget {
             Text(prayer.transliteration!),
           if (prayer.isApproved && parentApproved && prayer.meaningTr != null)
             Text(prayer.meaningTr!),
-          if (prayer.isApproved && parentApproved && prayer.sourceTitle != null) ...[
+          if (prayer.isApproved &&
+              parentApproved &&
+              prayer.sourceTitle != null) ...[
             const SizedBox(height: 8),
             Text('Kaynak: ${prayer.sourceTitle} · ${prayer.sourceLocation}'),
             if (prayer.sourceUrl != null) SelectableText(prayer.sourceUrl!),
