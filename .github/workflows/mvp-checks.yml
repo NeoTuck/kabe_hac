@@ -64,6 +64,24 @@ jobs:
           cache: true
       - run: flutter pub get
       - run: flutter build ios --debug --no-codesign
+      - run: flutter build ios --simulator --debug
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install pinned Maestro CLI
+        run: |
+          curl --fail --location --retry 3 https://github.com/mobile-dev-inc/maestro/releases/download/cli-2.11.0/maestro.zip -o /tmp/maestro.zip
+          unzip -q /tmp/maestro.zip -d /tmp/maestro-cli
+          echo '/tmp/maestro-cli/maestro/bin' >> "$GITHUB_PATH"
+      - run: python3 tools/run_ci_ios_qa.py
+      - name: Preserve simulator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-simulator-ui
+          path: build/mobile-qa
+          if-no-files-found: warn
   database:
     runs-on: ubuntu-24.04
     steps:
