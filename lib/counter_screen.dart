@@ -29,6 +29,7 @@ class CounterScreen extends StatefulWidget {
 class _CounterScreenState extends State<CounterScreen> {
   int? _count;
   bool _busy = false;
+  bool _loading = false;
   String? _error;
   final Random _random = Random.secure();
 
@@ -47,6 +48,8 @@ class _CounterScreenState extends State<CounterScreen> {
   }
 
   Future<void> _load() async {
+    if (!mounted || _loading) return;
+    setState(() => _loading = true);
     try {
       final count = await widget.store.readCounterCount(
         widget.sessionId,
@@ -60,6 +63,8 @@ class _CounterScreenState extends State<CounterScreen> {
       }
     } catch (_) {
       if (mounted) setState(() => _error = 'Sayaç okunamadı.');
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
@@ -112,25 +117,31 @@ class _CounterScreenState extends State<CounterScreen> {
 
   Future<void> _confirmReset() async {
     if (_busy || (_count ?? 0) == 0) return;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Sayacı sıfırla?'),
-        content: const Text(
-          'Bu kişisel uygulama kaydındaki sayı sıfırlanacak.',
+    setState(() => _busy = true);
+    bool? confirmed;
+    try {
+      confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Sayacı sıfırla?'),
+          content: const Text(
+            'Bu kişisel uygulama kaydındaki sayı sıfırlanacak.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Sıfırla'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Vazgeç'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Sıfırla'),
-          ),
-        ],
-      ),
-    );
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
     if (confirmed == true && mounted) await _apply(CounterAction.reset);
   }
 
@@ -195,7 +206,7 @@ class _CounterScreenState extends State<CounterScreen> {
               const SizedBox(height: 14),
               if (_count == null)
                 FilledButton.icon(
-                  onPressed: _load,
+                  onPressed: _loading ? null : _load,
                   icon: const Icon(Icons.refresh),
                   label: const Text('Tekrar dene'),
                 ),
@@ -229,6 +240,8 @@ class JamaratCounterHubScreen extends StatefulWidget {
 class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
   List<JamaratCounterContext>? _contexts;
   String? _error;
+  bool _loading = false;
+  bool _busy = false;
 
   @override
   void initState() {
@@ -237,6 +250,8 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
   }
 
   Future<void> _load() async {
+    if (!mounted || _loading) return;
+    setState(() => _loading = true);
     try {
       final contexts = await widget.store.readJamaratCounters(widget.sessionId);
       if (!mounted) return;
@@ -246,10 +261,14 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
       });
     } catch (_) {
       if (mounted) setState(() => _error = 'Sayaçlar okunamadı.');
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _addContext() async {
+    if (_busy || _loading) return;
+    setState(() => _busy = true);
     final dayController = TextEditingController();
     final targetController = TextEditingController();
     try {
@@ -303,7 +322,7 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
           ],
         ),
       );
-      if (values == null) return;
+      if (values == null || !mounted) return;
       await widget.store.createJamaratCounter(
         sessionId: widget.sessionId,
         dayLabel: values.$1,
@@ -317,22 +336,29 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
     } finally {
       dayController.dispose();
       targetController.dispose();
+      if (mounted) setState(() => _busy = false);
     }
   }
 
   Future<void> _open(JamaratCounterContext context) async {
-    await Navigator.of(this.context).push<void>(
-      MaterialPageRoute(
-        builder: (_) => CounterScreen(
-          store: widget.store,
-          sessionId: widget.sessionId,
-          counterKey: context.counterKey,
-          title: 'Cemarat sayacı',
-          contextLabel: context.label,
+    if (_busy || _loading) return;
+    setState(() => _busy = true);
+    try {
+      await Navigator.of(this.context).push<void>(
+        MaterialPageRoute(
+          builder: (_) => CounterScreen(
+            store: widget.store,
+            sessionId: widget.sessionId,
+            counterKey: context.counterKey,
+            title: 'Cemarat sayacı',
+            contextLabel: context.label,
+          ),
         ),
-      ),
-    );
-    if (mounted) await _load();
+      );
+      if (mounted) await _load();
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
   @override
@@ -349,7 +375,7 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
             ),
             const SizedBox(height: 18),
             FilledButton.icon(
-              onPressed: _addContext,
+              onPressed: _busy || _loading ? null : _addContext,
               icon: const Icon(Icons.add_rounded),
               label: const Text('Yeni gün/hedef sayacı'),
             ),
@@ -359,10 +385,17 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
                 _error!,
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
+              OutlinedButton.icon(
+                onPressed: _loading || _busy ? null : _load,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Sayaçları yeniden dene'),
+              ),
             ],
             const SizedBox(height: 18),
-            if (contexts == null)
+            if (contexts == null && _error == null)
               const Center(child: CircularProgressIndicator())
+            else if (contexts == null)
+              const Text('Sayaç listesi yüklenemedi.')
             else if (contexts.isEmpty)
               const Text('Henüz gün/hedef sayacı eklenmedi.')
             else
@@ -372,7 +405,7 @@ class _JamaratCounterHubScreenState extends State<JamaratCounterHubScreen> {
                     title: Text(item.label),
                     subtitle: Text('${item.count} / 7'),
                     trailing: const Icon(Icons.chevron_right_rounded),
-                    onTap: () => _open(item),
+                    onTap: _busy || _loading ? null : () => _open(item),
                   ),
                 ),
           ],
