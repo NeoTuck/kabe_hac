@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/travel_catalog.dart';
 import 'package:hac_umre_sesli_rehber/travel_screen.dart';
+import 'package:hac_umre_sesli_rehber/travel_details.dart';
 
 import 'test_fakes.dart';
 
@@ -89,4 +90,97 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+  test('Türkçe arama işaret ve büyük harf farklarını tolere eder', () {
+    final catalog = fixture();
+    expect(catalog.searchPoints(query: 'BULUSMA').length, 1);
+    expect(catalog.searchPoints(query: 'buluşma').length, 1);
+    expect(catalog.searchPoints(query: 'noktasI').length, 1);
+  });
+
+  testWidgets('yer ayrıntısı kayıt ve kaynak bilgisini çevrimdışı gösterir', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: TravelScreen(store: MemoryGuideStore(), catalog: fixture()),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Teknik buluşma noktası'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TravelPoiScreen), findsOneWidget);
+    expect(find.text('0.000000, 0.000000'), findsOneWidget);
+    await tester.tap(find.text('Kaynak ve güncellik'));
+    await tester.pumpAndSettle();
+    expect(find.text('https://example.com/test-fixture'), findsOneWidget);
+  });
+
+  testWidgets('rota durakları sırayla açılır ve POI ayrıntısına gider', (
+    tester,
+  ) async {
+    final catalog = fixture();
+    final route = TravelRoute(
+      id: 'TEST-ROUTE',
+      region: TravelRegion.mecca,
+      title: 'Teknik test rotası',
+      version: '1.0.0',
+      ownerType: RouteOwnerType.user,
+      visibility: RouteVisibility.private,
+      moderationStatus: RouteModerationStatus.draft,
+      stops: const [
+        RouteStop(
+          order: 1,
+          title: 'Birinci test durağı',
+          poiId: 'TEST-POI-1',
+          point: null,
+        ),
+        RouteStop(
+          order: 2,
+          title: 'İkinci test durağı',
+          poiId: null,
+          point: GeoPoint(1, 2),
+        ),
+      ],
+      geometry: const [],
+      sourceTitle: 'Teknik fixture',
+      sourceUri: Uri.parse('https://example.com/test'),
+      verifiedAt: DateTime.utc(2026, 10, 8),
+      isTestData: true,
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: TravelRouteScreen(route: route, catalog: catalog),
+      ),
+    );
+    expect(find.text('Birinci test durağı'), findsOneWidget);
+    expect(find.text('İkinci test durağı'), findsOneWidget);
+    expect(find.text('Bu rota yayın onayından geçmemiştir.'), findsOneWidget);
+    await tester.tap(find.text('Birinci test durağı'));
+    await tester.pumpAndSettle();
+    expect(find.byType(TravelPoiScreen), findsOneWidget);
+  });
+
+  testWidgets('yer ayrıntısı küçük ekranda yüzde 200 yazıyı taşırmaz', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(
+      MaterialApp(
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(2)),
+          child: child!,
+        ),
+        home: TravelPoiScreen(point: fixture().points.single),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Kaynak ve güncellik'), 200);
+    await tester.tap(find.text('Kaynak ve güncellik'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
 }

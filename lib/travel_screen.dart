@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'progress_store.dart';
 import 'travel_catalog.dart';
+import 'travel_details.dart';
+import 'source_details.dart';
 
 class TravelScreen extends StatefulWidget {
   const TravelScreen({super.key, required this.store, required this.catalog});
@@ -174,10 +176,15 @@ class _TravelScreenState extends State<TravelScreen> {
                 Card.outlined(
                   child: ListTile(
                     title: Text(point.nameTr),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => TravelPoiScreen(point: point),
+                      ),
+                    ),
                     subtitle: Text(
                       '${point.category.label}\n'
                       '${point.isTestData ? 'TEKNİK TEST VERİSİ · ' : ''}'
-                      'Doğrulama: ${point.verifiedAt.toLocal()}',
+                      'Doğrulama: ${localDateTimeLabel(point.verifiedAt)}',
                     ),
                     isThreeLine: true,
                     trailing: IconButton(
@@ -205,6 +212,14 @@ class _TravelScreenState extends State<TravelScreen> {
                 Card.outlined(
                   child: ListTile(
                     title: Text(route.title),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => TravelRouteScreen(
+                          route: route,
+                          catalog: widget.catalog,
+                        ),
+                      ),
+                    ),
                     subtitle: Text(
                       '${route.stops.length} durak · '
                       '${route.hasRouteGeometry ? 'indirilen rota çizgisi' : 'yalnız durak listesi'}'

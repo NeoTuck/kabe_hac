@@ -380,14 +380,24 @@ class TravelCatalog {
   }
 
   List<TravelPoi> searchPoints({String query = '', PoiCategory? category}) {
-    final normalized = query.trim().toLowerCase();
+    String normalize(String value) => value
+        .toLowerCase()
+        .replaceAll('i\u0307', 'i')
+        .replaceAll('ı', 'i')
+        .replaceAll('ş', 's')
+        .replaceAll('ğ', 'g')
+        .replaceAll('ü', 'u')
+        .replaceAll('ö', 'o')
+        .replaceAll('ç', 'c');
+    final normalized = normalize(query.trim());
     return List.unmodifiable(
       points.where(
         (point) =>
             (category == null || point.category == category) &&
             (normalized.isEmpty ||
-                point.nameTr.toLowerCase().contains(normalized) ||
-                (point.localName?.toLowerCase().contains(normalized) ?? false)),
+                normalize(point.nameTr).contains(normalized) ||
+                (point.localName != null &&
+                    normalize(point.localName!).contains(normalized))),
       ),
     );
   }
