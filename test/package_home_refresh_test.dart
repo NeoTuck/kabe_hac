@@ -52,10 +52,13 @@ void main() {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     final travel = ChangingTravelRepository();
+    final catalogs = (await tester.runAsync(
+      () => const LocalContentRepository().load(),
+    ))!;
     await tester.pumpWidget(
       SesliRehberApp(
         store: store,
-        catalogs: await const LocalContentRepository().load(),
+        catalogs: catalogs,
         travelRepository: travel,
         travelCatalog: LocalTravelRepository.empty,
         narration: narration,
@@ -88,11 +91,13 @@ void main() {
       await tester.pumpAndSettle();
     }
     expect(travel.loads, 2);
-  });
+  }, timeout: const Timeout(Duration(minutes: 1)));
   testWidgets('paket ekranından dönüş rehberi yeniden başlatmadan yeniler', (
     tester,
   ) async {
-    final catalogs = await const LocalContentRepository().load();
+    final catalogs = (await tester.runAsync(
+      () => const LocalContentRepository().load(),
+    ))!;
     final repository = ChangingContentRepository(catalogs);
     final store = MemoryGuideStore();
     final narration = FakeNarration();
@@ -118,7 +123,9 @@ void main() {
     await tester.tap(find.text('Çevrimdışı paketleri yönet'));
     await tester.pumpAndSettle();
     final source = jsonDecode(
-      await rootBundle.loadString('assets/content/umre_inventory.v1.json'),
+      (await tester.runAsync(
+        () => rootBundle.loadString('assets/content/umre_inventory.v1.json'),
+      ))!,
     ) as Map<String, dynamic>;
     source['steps'][0]['title'] = 'Test paket başlığı';
     repository.current = {
@@ -135,5 +142,5 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Test paket başlığı'), findsOneWidget);
     expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
-  });
+  }, timeout: const Timeout(Duration(minutes: 1)));
 }
