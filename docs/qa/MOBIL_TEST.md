@@ -1,8 +1,17 @@
 # Mobil testleri çalıştırma
 
-Bu paket dört ilk test akışıdır; bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
+Güncel `--flow all` paketi beş uygulama akışıdır: Umre girişleri, ayarlar, onaylı ses yok durumu, yapılandırılmamış servisler ve isteğe bağlı prova. Bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
 
-İsteğe bağlı prova için ayrı `.maestro/practice-flow.yaml` vardır; temel dört pilot sayısını değiştirmez. Aynı açık test cihazına aynı build kurulduktan sonra `maestro --device DEVICE test --env APP_ID=APP_ID .maestro/practice-flow.yaml` ile başlatma, duraklatma ve yeniden açıp devam akışı denenir. Taslak dinî metin/sayaç ve gerçek ses kabulü bu akışın kapsamı değildir. Yerel API35 kanıtı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` içindedir.
+İsteğe bağlı prova artık `.maestro/flows/05-prova.yaml` ile ana beşli matrise dahildir. Eski `.maestro/practice-flow.yaml` tarihsel tek akış olarak korunur. Prova başlatma, duraklatma ve yeniden açıp devam test edilir; taslak dinî metin/sayaç ve gerçek ses kabulü değildir.
+
+## Ayrı native ses paketi
+
+Üretim uygulaması teknik demo sesini içermez. Üretim build tamamlandıktan sonra `python3 tools/build_audio_probe.py --platform android` veya `--platform ios-simulator`, geçici asset manifesti ile **ayrı debug QA uygulaması** derler. Üretim manifesti ve önceki üretim artifact'ı `finally` ile geri getirilir. QA uygulamasını kullanıcıya dağıtmayın; aynı application ID ile kurulum önceki teknik test uygulamasının yerini alır, bu yüzden yalnız açıkça seçilen boş test cihazında çalıştırın.
+
+QA artifact kurulduktan sonra genel çalıştırıcıya `--flow audio` verin. `.maestro/audio-probe.yaml` gerçek native eklentide süre/konum, pause/resume, seek/completion, replay ve stop durumlarını zorunlu tutar. Konum ilerlemesi tek başına işitsel çıktı kabulü değildir. CI Android emülatörü `-noaudio` kullanır; duyma, ses netliği, insan telaffuzu, kilit ekranı, Bluetooth ve telefon çağrısı fiziksel kabul bekler. Probe dinî ilerleme kaydetmez. `KABE_AUDIO_QA=true` ve debug hedefi zorunludur; üretim giriş noktası probe'u import etmez.
+
+Her platformda beş uygulama vakasının JUnit/session kanıtı ile ayrı bir ses vakasının kanıtını birlikte okuyun. Yalnız build, YAML veya test dosyasının bulunması native başarı değildir. Güncel inceleme: `docs/19-ilk-kullanici-kabul-incelemesi.md`.
+
 
 ## Ön koşullar
 
@@ -24,7 +33,7 @@ python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-
 python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device
 # iOS Simulator; gerçek açılmış simülatör UUID'sini kullanın:
 python3 tools/run_mobile_qa.py --platform ios-simulator --device SIMULATOR_UUID --test-device
-# Yalnız yapılandırılmamış kafile/paket pilotunda:
+# Beş uygulama akışı (isteğe bağlı prova dahil):
 python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow all
 ```
 
@@ -46,7 +55,7 @@ Maestro sürümü, platform, hedef, kurulu Android sürüm bilgileri, workspace 
 
 Gerçek kişilere test mesajı/davet gönderilmez; acil numaralar aranmaz. Çıkışta kanıtlar kişisel veri açısından kontrol edilerek paylaşılır.
 
-## 8 Ekim CI genişletmesi
+## 8 Ekim CI genişletmesi — tarihsel dört akış kanıtı
 
 MVP workflow Android API 28 ve 35 için ayrı, yeni CI emülatörleri kullanır. APK aynı run'daki build artifact'ından indirilir. `--expected-apk PATH` verildiğinde çalıştırıcı kurulu tek APK'yı yalnız okumak için geçici klasöre çeker ve SHA-256 karşılaştırır; eşleşmezse ekran testini başlatmaz. Manuel testte bu bayrak isteğe bağlıdır. Akış süresi 10 dakika ile sınırlıdır.
 
