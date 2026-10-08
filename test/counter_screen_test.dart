@@ -101,7 +101,7 @@ void main() {
     expect(find.text('1 / 7'), findsOneWidget);
   });
   testWidgets(
-    'rapid reset taps open one confirmation and cancel preserves count',
+    'rapid reset callbacks open one confirmation and cancel preserves count',
     (tester) async {
       final store = MemoryCounterStore()..count = 3;
       await tester.pumpWidget(
@@ -110,8 +110,13 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Sayacı sıfırla'));
-      await tester.tap(find.text('Sayacı sıfırla'));
+      // Invoke the same callback twice before a rebuild. A second screen tap
+      // would hit the first dialog's modal barrier instead of the reset action.
+      final reset = tester.widget<TextButton>(
+        find.widgetWithText(TextButton, 'Sayacı sıfırla'),
+      );
+      reset.onPressed!();
+      reset.onPressed!();
       await tester.pumpAndSettle();
       expect(find.byType(AlertDialog), findsOneWidget);
       await tester.tap(find.text('Vazgeç'));
