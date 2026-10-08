@@ -175,7 +175,7 @@ class JustAudioNarrationService extends NarrationService {
     final id = _request;
     try {
       await _backend.pause();
-      if (id == _request) {
+      if (id == _request && _state.status == NarrationStatus.playing) {
         _publish(NarrationState(NarrationStatus.paused, asset: _state.asset));
       }
     } catch (_) {

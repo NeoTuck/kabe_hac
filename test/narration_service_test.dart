@@ -12,6 +12,7 @@ class ControlledAudio extends NarrationBackend {
   final durationEvents = StreamController<Duration?>.broadcast(sync: true);
   final loaded = <String>[];
   Completer<void>? gate;
+  Completer<void>? pauseGate;
   bool active = true;
   bool failLoad = false;
   bool failSpeed = false;
@@ -55,6 +56,7 @@ class ControlledAudio extends NarrationBackend {
   @override
   Future<void> pause() async {
     pauses++;
+    await pauseGate?.future;
   }
 
   @override
@@ -92,6 +94,17 @@ void main() {
     service = JustAudioNarrationService(backend: backend);
   });
   tearDown(() => service.dispose());
+
+  test('completion during a pending pause remains completed', () async {
+    await service.playAsset('one');
+    backend.pauseGate = Completer<void>();
+    final pendingPause = service.pause();
+    backend.completed.add(null);
+    expect(service.state.status, NarrationStatus.completed);
+    backend.pauseGate!.complete();
+    await pendingPause;
+    expect(service.state.status, NarrationStatus.completed);
+  });
 
   test('speed stays lazy and is applied to first playback', () async {
     await service.setSpeed(1.25);

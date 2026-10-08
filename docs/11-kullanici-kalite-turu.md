@@ -62,6 +62,8 @@ Ses UI'ında duraklatılma ve tamamlanma açıkça ayrılır; yalnız seçilmiş
 
 Yalnız mevcut sentetik teknik demo tekrarlanarak 30 saniyeye uzatıldı; sessizlik, yeni dinî içerik veya üçüncü taraf anlatım eklenmedi. Önceki kayıt SHA/provenance/yeniden üretim `assets/audio/README.md` içindedir. Yerelde decode/süre/sessizlik/clipping kontrolü geçti: 30 sn AAC, RMS -17,5 dBFS, peak -3,2 dBFS. İnsan sesi/hak/onay değildir. “Ses duraklatıldı” beklentisi korunur; yeni mobil tekrar sonucu ayrıca gerekir.
 
+Oynatıcı duraklatma isteği beklerken tamamlanma olayı gelirse tamamlandı durumu korunur; geç duraklatma yanıtı bunu duraklatıldı diye değiştirmez. Kontrollü backend ile regresyon eklendi. Tamamlanan kaydın yeniden oynatım için başa sarılma davranışı böylece korunur. Güncel 146 Flutter testinin CI sonucu ayrıca gerekir.
+
 ## Ürün sınırları ve sonraki iş
 
 18 Umre ve 35 Hac kimliği hâlâ taslak. Gerçek uzman onaylı metin/profil matrisi, ses dosyaları/hakları, lisanslı harita/POI/saha verisi ve Supabase proje girdileri eksik. Harita gösterimi, POI/rota paketinin gezi kataloğuna bağlanması, şirket rota paylaşımı, gerçek GPS/push ve sensör/yoğunluk ürün akışları ayrıca tamamlanmalıdır. Gerçek Android/iPhone, işitsel çıktı/kilit ekranı/Bluetooth ve veri koruyan imzalı güncelleme kabulü ayrıca gerekir.
