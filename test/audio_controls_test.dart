@@ -9,6 +9,8 @@ void main() {
   testWidgets('paused and completed audio have distinct visible states', (
     tester,
   ) async {
+    final semantics = tester.ensureSemantics();
+    addTearDown(semantics.dispose);
     final audio = FakeNarration();
     await tester.pumpWidget(
       MaterialApp(
@@ -27,6 +29,10 @@ void main() {
     await tester.tap(find.text('Duraklat'));
     await tester.pumpAndSettle();
     expect(find.text('Ses duraklatıldı'), findsOneWidget);
+    expect(
+      tester.getSemantics(find.text('Ses duraklatıldı')).label,
+      'Ses duraklatıldı',
+    );
     expect(find.text('Ses tamamlandı'), findsNothing);
     audio.finish();
     await tester.pumpAndSettle();

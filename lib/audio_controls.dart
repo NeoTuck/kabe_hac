@@ -101,6 +101,7 @@ class AudioControls extends StatelessWidget {
                 if (state.status == NarrationStatus.paused ||
                     state.status == NarrationStatus.completed) ...[
                   Semantics(
+                    container: true,
                     liveRegion: true,
                     child: Text(
                       state.status == NarrationStatus.paused
