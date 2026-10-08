@@ -3,7 +3,12 @@ name: Umre hazırlık ve yolculuk girişleri
 ---
 - launchApp
 - assertVisible: "Hac ve Umre Sesli Rehber"
-- tapOn: "(?s)Umreye hazırlanıyorum.*"
+- scrollUntilVisible:
+    element: "(?s)Umreye hazırlanıyorum.*"
+    direction: DOWN
+- tapOn:
+    text: "(?s)Umreye hazırlanıyorum.*"
+    retryTapIfNoChange: true
 - assertVisible: "Umre · Öğrenme"
 - scrollUntilVisible:
     element: "Kaldığım başlığa git"
@@ -12,7 +17,12 @@ name: Umre hazırlık ve yolculuk girişleri
 - assertVisible: "(?s)İçerik hazırlanıyor.*"
 - takeScreenshot: umre-taslak-adim
 - launchApp
-- tapOn: "(?s)Umredeyim.*"
+- scrollUntilVisible:
+    element: "(?s)Umredeyim.*"
+    direction: DOWN
+- tapOn:
+    text: "(?s)Umredeyim.*"
+    retryTapIfNoChange: true
 - assertVisible: "Umre · Yolculukta rehber"
 - scrollUntilVisible:
     element: "Yeni yolculuk kaydı aç"

@@ -124,7 +124,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
-8 Ekim içerik/ekran yeniden incelemesi: `docs/12-icerik-ve-ekran-gozden-gecirme.md`. Umre 18/Hac 35 taslak kaydı Diyanet başlangıç kaynaklarıyla kapsam düzeyinde karşılaştırıldı; metin veya dua onayı verilmedi. Ana ekrana taslak uyarısı, dua kartına onaysız metin gizleme ve buna dair regresyon eklendi. Bu değişikliğin yeni CI kabulü önceki `58708cfb` kabulünün yerine geçmeden ayrıca doğrulanmalı.
+8 Ekim içerik/ekran yeniden incelemesi: `docs/12-icerik-ve-ekran-gozden-gecirme.md`. Umre 18/Hac 35 taslak kaydı Diyanet başlangıç kaynaklarıyla kapsam düzeyinde karşılaştırıldı; metin veya dua onayı verilmedi. Ana ekrana taslak uyarısı, dua kartına onaysız metin gizleme ve buna dair regresyon eklendi. CI `37747539216` 147 Flutter, Android API 28/35 dört akış ve derlemeleri geçti; iOS derleme geçti fakat UI işi başarısız. İlk iOS Umre girişi boş ekranda kaldı, ikinci girişim sürücü açılış zaman aşımıyla durdu. Test görünürlük/açılış iyileştirmesinin CI sonucu bekleniyor; iOS tam kabul ilan etme.
 
 8 Ekim son teknik kabul `58708cfb` / CI `37741666923`: yedi iş ve üç ortamda dört pilot akış geçti. Önceki bölümdeki ara run/pending kayıtları tarihsel teşhistir. Ses duraklatılma/tamamlanma UI ve tamamlanma yarışı ayrılır; 30 sn sentetik demo gerçek dinî ses değildir. JUnit/session/hash/ekran kanıtı `docs/11` başındadır.
 

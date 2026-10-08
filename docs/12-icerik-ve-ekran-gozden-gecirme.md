@@ -14,6 +14,8 @@ Bu belge dinî uzman onayı değildir. Mevcut kataloglara yeni dinî talimat vey
 
 Ekran görüntüsü kontrolü: `docs/mvp-ui/home.png`, `audio-demo.png`, `groups.png`, `settings-dark.png`. Ana ekran ve ayarlarda Türkçe, okunaklı dokunma alanları ve taslak/teknik örnek ayrımı var. Yeni uyarı, “Umredeyim” girişinden önce taslak içeriği açıkça belirtiyor; yolculuk kartının alt yazısı da kişisel takip sınırını söylüyor. Dua kartı, taslak Arapça/okunuş/anlam metni yanlışlıkla doldurulmuş olsa dahi onay gelmeden bunları göstermiyor. Onaylı adım ile taslak bağlantılı dua varken katalog önizleme sayılıyor. Bunlar görsel ve widget kontrolleridir; fiziksel cihaz erişilebilirliği, işitilebilirlik veya gerçek saha kabulü değildir.
 
+Yeni CI `37747539216`: 147 Flutter testi, analiz/format, 39 SQL, QA, Android debug/release ve iki Android emülatöründeki dört akış geçti. iOS derlemesi geçti; ilk Maestro koşusunda Umre girişi sonrasında boş ekran yakalandı (diğer üç akış başarılı), ikinci denemede XCTest sürücüsü açılışta süre aşımına uğradı ve hiç akış çalışmadı. Bu koşu iOS kabulü değildir. Testin ilk kartı görünür alana kaydırması ve Maestro'nun belgelenmiş sürücü açılış süresini 180 saniyeye çıkarması ayrı düzeltmedir; yeniden çalıştırılmadan sonucu başarılı yazılmamalı.
+
 ## Yayın için hâlâ gerekenler
 
 1. Dinî editör, 18 Umre/35 Hac satırını; ilgili dua, kaynak yeri, kullanım izni ve profil kararlarını tek tek inceleyip ad/tarih ile onaylasın. Kaynak bilgisi tek başına fetva veya uzman onayı yerine geçmez.
