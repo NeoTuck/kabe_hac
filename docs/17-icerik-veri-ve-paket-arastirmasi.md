@@ -8,7 +8,7 @@ Bu çalışma **editöryal/teknik hazırlıktır**. Kaynak incelemesi dinî uzma
 
 Başlıca kaynaklar:
 
-- [Diyanet İlmihal I, Hac ve Umre bölümü, basılı s. 548–554](https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf): genel sıra, üç hac türü ve sonraki menâsik. Metinler kopyalanmadı; özgün kısa taslaklar yazıldı.
+- [Diyanet İlmihal I, Dokuzuncu Bölüm: Hac ve Umre, basılı s. 511–554](https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf): ihram (518–525), tavaf (528–533), sa‘y (533–535), cemarat (537–541), umre (547–548), üç hac türü (548–550) ve yapılış sırası (550–554) için bölüm başlangıçları içindekilerden doğrulandı. Adım bazında ilgili alt bölüm/sayfa `sourceLocation` alanına işlendi; saha güvenliği yorumları kaynak hükmü olarak sunulmadı. Metinler kopyalanmadı; özgün kısa taslaklar yazıldı.
 - [Din İşleri Yüksek Kurulu, İhram ne demektir?](https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351): niyet/telbiye ve mezhep ayrımı.
 - [Din İşleri Yüksek Kurulu, Tavaf nedir?](https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759): tavaf yönü ve şavt bağlamı.
 - [Din İşleri Yüksek Kurulu, Sa’yin eksik şavtları](https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b): tek yönlü geçiş sayımı.
@@ -21,7 +21,7 @@ Başlıca kaynaklar:
 | Temettü | Önce umre; ihramdan çıkış; hac için yeni ihram | H02.4/H02.5 ayrımı, kurban ve hac sa’yinin kişisel sıra kararı |
 | Kıran | Tek ihramda umre ve hac ilişkisi | H02.4 ön aşaması, ihram sürekliliği, sa’y ve kurban hükümleri |
 
-`P-U02.2-01` dua kaydında Arapça, telaffuz ve Türkçe anlam henüz boş; Türkçe telbiye anlatımı ile Arapça okuma birbirine karıştırılmadı. [Diyanet Hac Eğitimi materyal sayfası](https://hacumreegitim.hac.gov.tr/kaynaklar) Telbiye Arapça/Türkçe seslerini ve dua PDF'sini listeliyor; **uygulamada yeniden dağıtım veya seslendirme hakkı vermiyor**. Bu kaynaklar aday inceleme kayıtlarıdır. Metin, okunuş, anlam ve kullanım hakkı ayrı kişi/kurumca teyit edilmeden kataloğa `approved` yazılmaz. Dua önerisi bir ibadetin zorunlu şartı olarak gösterilmez.
+`P-U02.2-01` telbiye kaydına [Diyanet'in 28 Haziran 2019 tarihli hutbesindeki Arapça metin ve kaynak atfı](https://www.diyanet.gov.tr/tr-TR/Kurumsal/Detay/25737/cuma-hutbesi-bir-mukaddes-yolculuk-hac) başlangıç alınarak Arapça, taslak okunuş ve özgün kısa Türkçe anlam eklendi. Hutbe ayrıca Müslim, Hac 19 ve 21'e atıf yapar. Bu bir **editöryal taslaktır**; uzman/dil incelemesi ve uygulamada yayımlama hakkı doğrulanmadığı için `draft` kalır ve kullanıcı ekranında metin gizlidir. `docs/content-review/2026-10-09-dua-onay-calisma.csv` karar alanlarını boş bırakır. Türkçe anlatım sesi ile Arapça okuma ayrı kimliklerdedir. [Diyanet Hac Eğitimi materyal sayfası](https://hacumreegitim.hac.gov.tr/kaynaklar) Telbiye Arapça/Türkçe seslerini ve dua PDF'sini listeliyor; **uygulamada yeniden dağıtım veya seslendirme hakkı vermiyor**. Metin, okunuş, anlam ve kullanım hakkı ayrı kişi/kurumca teyit edilmeden kataloğa `approved` yazılmaz. Dua önerisi bir ibadetin zorunlu şartı olarak gösterilmez.
 
 ## Ses
 
@@ -49,7 +49,7 @@ python3 tools/build_offline_manifest.py \
 
 ## Açık kabul girdileri
 
-1. Yetkili dinî uzman: 53 adım, dua/niyet Arapçası/anlamı, üç profil matrisi ve manuel sayaç hedefleri.
+1. Yetkili dinî uzman ve Arapça dil uzmanı: 53 adım, telbiye/dua taslağı ve anlamı, üç profil matrisi ve manuel sayaç hedefleri.
 2. Hak sahipleri: gerçek insan sesi/TTS kullanım ve dağıtım yetkisi; Diyanet materyalinin yeniden kullanımı gerekiyorsa ayrıca yazılı izin.
 3. Paket işletmecisi: HTTPS dosya/katalog barındırması, sabit güven özeti yönetimi ve kaynak lisansları.
 4. Harita/saha sorumlusu: offline tile hakkı, görünür atıf, doğrulanmış POI/rota, resmî iletişim ve veri yenileme süreci.

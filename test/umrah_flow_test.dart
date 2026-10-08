@@ -117,10 +117,15 @@ void main() {
     expect(find.text('İçerik durumu: Taslak'), findsWidgets);
     expect(find.textContaining('onaylı içerik değildir'), findsOneWidget);
     expect(
-      find.text('Arapça metin, okunuş ve Türkçe anlam henüz sağlanmadı.'),
+      find.text(
+        'Arapça metin, okunuş ve Türkçe anlam uzman incelemesi tamamlanınca gösterilir.',
+      ),
       findsOneWidget,
     );
-    expect(find.text('Kaynak bilgisi henüz sağlanmadı.'), findsOneWidget);
+    expect(
+      find.text('Kaynak bilgisi inceleme tamamlanınca gösterilir.'),
+      findsOneWidget,
+    );
     await tester.scrollUntilVisible(
       find.textContaining('Türkçe anlatım: Taslak'),
       300,
@@ -133,15 +138,8 @@ void main() {
   });
 
   testWidgets('taslak dua metni onay gelmeden gösterilmez', (tester) async {
-    final source = jsonDecode(umrahJson) as Map<String, dynamic>;
-    final prayer =
-        (source['prayerRecords'] as List).first as Map<String, dynamic>;
-    prayer.addAll({
-      'arabic': 'نص اختبار',
-      'transliteration': 'Taslak okunuş',
-      'meaningTr': 'Taslak anlam',
-    });
-    final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
+    final catalog = catalogs[GuideType.umrah]!;
+    final prayer = catalog.prayerRecords['P-U02.2-01']!;
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     final session = await store.openOrCreateSession(
@@ -165,9 +163,10 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.textContaining('Bu dua hazırlama kaydıdır'), findsOneWidget);
-    expect(find.text('نص اختبار'), findsNothing);
-    expect(find.text('Taslak okunuş'), findsNothing);
-    expect(find.text('Taslak anlam'), findsNothing);
+    expect(find.text(prayer.arabic!), findsNothing);
+    expect(find.text(prayer.transliteration!), findsNothing);
+    expect(find.text(prayer.meaningTr!), findsNothing);
+    expect(find.textContaining(prayer.sourceUrl!), findsNothing);
   });
 
   testWidgets(

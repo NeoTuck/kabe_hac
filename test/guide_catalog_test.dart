@@ -212,7 +212,16 @@ void main() {
     expect(step.prayerIds, ['P-U02.2-01']);
     expect(step.linkedAudioIds, ['A-U02.2-TR-01']);
     expect(catalog.audioRecords['A-U02.2-TR-01']?.asset, isNull);
-    expect(catalog.prayerRecords['P-U02.2-01']?.arabic, isNull);
+    final prayer = catalog.prayerRecords['P-U02.2-01']!;
+    expect(prayer.status, ReviewStatus.draft);
+    expect(prayer.arabic, startsWith('لَبَّيْكَ'));
+    expect(prayer.meaningTr, isNotEmpty);
+    expect(prayer.sourceAccessedAt, '2026-10-09');
+    expect(prayer.reviewedBy, isNull);
+    expect(
+      catalog.audioRecords['A-P-U02.2-AR-01']?.textVersion,
+      prayer.textVersion,
+    );
   });
 
   test('53 kaynaklı taslak açıklama dört editöryal alanı içerir', () async {

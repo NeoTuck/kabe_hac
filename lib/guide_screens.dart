@@ -597,7 +597,12 @@ class _PrayerCard extends StatelessWidget {
             const Text(
               'Bu dua hazırlama kaydıdır; dinî incelemesi tamamlanmadı.',
             ),
-          if (prayer.arabic == null &&
+          if (!prayer.isApproved || !parentApproved) ...[
+            const SizedBox(height: 8),
+            const Text(
+              'Arapça metin, okunuş ve Türkçe anlam uzman incelemesi tamamlanınca gösterilir.',
+            ),
+          ] else if (prayer.arabic == null &&
               prayer.transliteration == null &&
               prayer.meaningTr == null) ...[
             const SizedBox(height: 8),
@@ -635,7 +640,7 @@ class _PrayerCard extends StatelessWidget {
             if (prayer.sourceUrl != null) SelectableText(prayer.sourceUrl!),
           ] else ...[
             const SizedBox(height: 8),
-            const Text('Kaynak bilgisi henüz sağlanmadı.'),
+            const Text('Kaynak bilgisi inceleme tamamlanınca gösterilir.'),
           ],
           const SizedBox(height: 12),
           for (final audioId in prayer.linkedAudioIds)
