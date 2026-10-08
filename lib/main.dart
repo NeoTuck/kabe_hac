@@ -65,6 +65,7 @@ Future<void> main() async {
     final settings = ReaderSettings(store, narration);
     // Device audio is initialized on first play; the guide remains available if it fails.
     final contentRepository = LocalContentRepository(packages: packages);
+    final bundledCatalogs = await const LocalContentRepository().load();
     final catalogs = await contentRepository.load();
     final travelRepository = LocalTravelRepository(packages: packages);
     final travelCatalog = await travelRepository.load();
@@ -102,6 +103,7 @@ Future<void> main() async {
         groups: groups,
         store: store,
         catalogs: catalogs,
+        bundledCatalogs: bundledCatalogs,
         contentRepository: contentRepository,
         travelRepository: travelRepository,
         narration: narration,
@@ -140,6 +142,7 @@ class SesliRehberApp extends StatelessWidget {
     super.key,
     required this.store,
     required this.catalogs,
+    this.bundledCatalogs,
     required this.narration,
     required this.settings,
     this.groups,
@@ -157,6 +160,7 @@ class SesliRehberApp extends StatelessWidget {
   final LocalTravelRepository? travelRepository;
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
+  final Map<GuideType, GuideCatalog>? bundledCatalogs;
   final NarrationService narration;
   final ReaderSettings settings;
   final OfflinePackageManager? packages;
@@ -199,6 +203,7 @@ class SesliRehberApp extends StatelessWidget {
         travelRepository: travelRepository,
         store: store,
         catalogs: catalogs,
+        bundledCatalogs: bundledCatalogs,
         narration: narration,
         settings: settings,
         packages: packages,

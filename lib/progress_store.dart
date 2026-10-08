@@ -34,6 +34,34 @@ class GuideSession {
   );
 }
 
+enum PracticePhase { preparation, practicing, paused, finished }
+
+class PracticeSession {
+  const PracticeSession({
+    required this.id,
+    required this.type,
+    required this.profile,
+    required this.contentVersion,
+    required this.currentStepId,
+    required this.sectionGroupId,
+    required this.phase,
+    required this.audioEnabled,
+    required this.useOptionalPackage,
+    required this.updatedAt,
+  });
+
+  final int id;
+  final GuideType type;
+  final HajjProfile? profile;
+  final String contentVersion;
+  final String currentStepId;
+  final String? sectionGroupId;
+  final PracticePhase phase;
+  final bool audioEnabled;
+  final bool useOptionalPackage;
+  final int updatedAt;
+}
+
 class JamaratCounterContext {
   const JamaratCounterContext({
     required this.id,
@@ -70,7 +98,7 @@ class ProgressStore {
     return dbFactory.openDatabase(
       dbPath,
       options: OpenDatabaseOptions(
-        version: 8,
+        version: 9,
         onConfigure: (database) async {
           await database.execute('PRAGMA foreign_keys = ON');
         },
@@ -84,6 +112,7 @@ class ProgressStore {
           await _createTravelTables(database);
           await _createGroupSyncTables(database);
           await _upgradeOutboxOwner(database);
+          await _createPracticeTables(database);
         },
         onUpgrade: (database, oldVersion, newVersion) async {
           if (oldVersion < 2) await _createGuideTables(database);
@@ -95,6 +124,7 @@ class ProgressStore {
           if (oldVersion < 6) await _createTravelTables(database);
           if (oldVersion < 7) await _createGroupSyncTables(database);
           if (oldVersion < 8) await _upgradeOutboxOwner(database);
+          if (oldVersion < 9) await _createPracticeTables(database);
         },
       ),
     );
@@ -243,6 +273,55 @@ class ProgressStore {
         started_at INTEGER NOT NULL,
         ends_at INTEGER NOT NULL,
         stopped_at INTEGER
+      )
+    ''');
+  }
+
+  Future<void> _createPracticeTables(Database database) async {
+    await database.execute('''
+      CREATE TABLE practice_sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        guide_type TEXT NOT NULL CHECK (guide_type IN ('umrah', 'hajj')),
+        profile TEXT NOT NULL DEFAULT '',
+        section_group_id TEXT NOT NULL DEFAULT '',
+        current_step_id TEXT NOT NULL,
+        content_version TEXT NOT NULL,
+        phase TEXT NOT NULL CHECK (phase IN ('preparation', 'practicing', 'paused', 'finished')),
+        audio_enabled INTEGER NOT NULL CHECK (audio_enabled IN (0, 1)),
+        use_optional_package INTEGER NOT NULL CHECK (use_optional_package IN (0, 1)),
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL
+      )
+    ''');
+    await database.execute('''
+      CREATE TABLE practice_step_marks (
+        session_id INTEGER NOT NULL,
+        step_id TEXT NOT NULL,
+        marked_at INTEGER NOT NULL,
+        PRIMARY KEY (session_id, step_id),
+        FOREIGN KEY (session_id) REFERENCES practice_sessions(id) ON DELETE CASCADE
+      )
+    ''');
+    await database.execute('''
+      CREATE TABLE practice_counter_state (
+        session_id INTEGER NOT NULL,
+        step_id TEXT NOT NULL,
+        count INTEGER NOT NULL CHECK (count >= 0),
+        updated_at INTEGER NOT NULL,
+        PRIMARY KEY (session_id, step_id),
+        FOREIGN KEY (session_id) REFERENCES practice_sessions(id) ON DELETE CASCADE
+      )
+    ''');
+    await database.execute('''
+      CREATE TABLE practice_counter_events (
+        action_token TEXT PRIMARY KEY,
+        session_id INTEGER NOT NULL,
+        step_id TEXT NOT NULL,
+        action TEXT NOT NULL CHECK (action IN ('increment', 'undo', 'reset')),
+        target INTEGER NOT NULL CHECK (target BETWEEN 1 AND 100),
+        value_after INTEGER NOT NULL,
+        created_at INTEGER NOT NULL,
+        FOREIGN KEY (session_id) REFERENCES practice_sessions(id) ON DELETE CASCADE
       )
     ''');
   }
@@ -906,6 +985,212 @@ class ProgressStore {
         'counter_key': counterKey,
         'action_token': actionToken,
         'action': action,
+        'value_after': next,
+        'created_at': now,
+      });
+      return next;
+    });
+  }
+
+  PracticeSession _practiceFromRow(Map<String, Object?> row) => PracticeSession(
+    id: row['id'] as int,
+    type: GuideType.values.byName(row['guide_type'] as String),
+    profile: (row['profile'] as String).isEmpty
+        ? null
+        : HajjProfile.values.byName(row['profile'] as String),
+    contentVersion: row['content_version'] as String,
+    currentStepId: row['current_step_id'] as String,
+    sectionGroupId: (row['section_group_id'] as String).isEmpty
+        ? null
+        : row['section_group_id'] as String,
+    phase: PracticePhase.values.byName(row['phase'] as String),
+    audioEnabled: row['audio_enabled'] == 1,
+    useOptionalPackage: row['use_optional_package'] == 1,
+    updatedAt: row['updated_at'] as int,
+  );
+
+  Future<PracticeSession?> readLatestPracticeSession() async {
+    final database = await _database;
+    final rows = await database.query(
+      'practice_sessions',
+      orderBy: 'updated_at DESC, id DESC',
+      limit: 1,
+    );
+    return rows.isEmpty ? null : _practiceFromRow(rows.single);
+  }
+
+  Future<PracticeSession?> readPracticeSession(int id) async {
+    final database = await _database;
+    final rows = await database.query(
+      'practice_sessions',
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
+    return rows.isEmpty ? null : _practiceFromRow(rows.single);
+  }
+
+  Future<PracticeSession> startPracticeSession({
+    required GuideType type,
+    required HajjProfile? profile,
+    required String contentVersion,
+    required String firstStepId,
+    String? sectionGroupId,
+    bool audioEnabled = false,
+    bool useOptionalPackage = false,
+  }) async {
+    _validateProfile(type, profile);
+    if (contentVersion.trim().isEmpty || firstStepId.trim().isEmpty) {
+      throw ArgumentError('Prova içerik sürümü ve ilk adım gerekli.');
+    }
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final database = await _database;
+    final id = await database.insert('practice_sessions', {
+      'guide_type': type.name,
+      'profile': profile?.name ?? '',
+      'section_group_id': sectionGroupId ?? '',
+      'current_step_id': firstStepId,
+      'content_version': contentVersion,
+      'phase': PracticePhase.preparation.name,
+      'audio_enabled': audioEnabled ? 1 : 0,
+      'use_optional_package': useOptionalPackage ? 1 : 0,
+      'created_at': now,
+      'updated_at': now,
+    });
+    return (await readPracticeSession(id))!;
+  }
+
+  Future<PracticeSession> updatePracticeSession(
+    int id, {
+    String? currentStepId,
+    PracticePhase? phase,
+    bool? audioEnabled,
+  }) async {
+    if (currentStepId != null && currentStepId.trim().isEmpty) {
+      throw ArgumentError.value(currentStepId, 'currentStepId');
+    }
+    final values = <String, Object?>{
+      'updated_at': DateTime.now().millisecondsSinceEpoch,
+    };
+    if (currentStepId != null) values['current_step_id'] = currentStepId;
+    if (phase != null) values['phase'] = phase.name;
+    if (audioEnabled != null) values['audio_enabled'] = audioEnabled ? 1 : 0;
+    final database = await _database;
+    final updated = await database.update(
+      'practice_sessions',
+      values,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    if (updated != 1) throw StateError('Prova kaydı bulunamadı.');
+    return (await readPracticeSession(id))!;
+  }
+
+  Future<Set<String>> readPracticeMarkedStepIds(int sessionId) async {
+    final database = await _database;
+    final rows = await database.query(
+      'practice_step_marks',
+      columns: ['step_id'],
+      where: 'session_id = ?',
+      whereArgs: [sessionId],
+    );
+    return rows.map((row) => row['step_id'] as String).toSet();
+  }
+
+  Future<void> setPracticeStepMarked(
+    int sessionId,
+    String stepId,
+    bool marked,
+  ) async {
+    if (stepId.trim().isEmpty) throw ArgumentError.value(stepId, 'stepId');
+    final database = await _database;
+    await database.transaction((transaction) async {
+      if (marked) {
+        await transaction.insert('practice_step_marks', {
+          'session_id': sessionId,
+          'step_id': stepId,
+          'marked_at': DateTime.now().millisecondsSinceEpoch,
+        }, conflictAlgorithm: ConflictAlgorithm.ignore);
+      } else {
+        await transaction.delete(
+          'practice_step_marks',
+          where: 'session_id = ? AND step_id = ?',
+          whereArgs: [sessionId, stepId],
+        );
+      }
+    });
+  }
+
+  Future<int> readPracticeCounter(int sessionId, String stepId) async {
+    final database = await _database;
+    final rows = await database.query(
+      'practice_counter_state',
+      columns: ['count'],
+      where: 'session_id = ? AND step_id = ?',
+      whereArgs: [sessionId, stepId],
+      limit: 1,
+    );
+    return rows.isEmpty ? 0 : rows.single['count'] as int;
+  }
+
+  Future<int> applyPracticeCounter({
+    required int sessionId,
+    required String stepId,
+    required String actionToken,
+    required String action,
+    required int target,
+  }) async {
+    if (stepId.trim().isEmpty ||
+        actionToken.trim().isEmpty ||
+        !const {'increment', 'undo', 'reset'}.contains(action) ||
+        target < 1 ||
+        target > 100) {
+      throw ArgumentError('Geçersiz prova sayacı isteği.');
+    }
+    final database = await _database;
+    return database.transaction((transaction) async {
+      final prior = await transaction.query(
+        'practice_counter_events',
+        where: 'action_token = ?',
+        whereArgs: [actionToken],
+        limit: 1,
+      );
+      if (prior.isNotEmpty) {
+        final row = prior.single;
+        if (row['session_id'] != sessionId ||
+            row['step_id'] != stepId ||
+            row['action'] != action ||
+            row['target'] != target) {
+          throw StateError('Prova işlem kimliği çakıştı.');
+        }
+        return row['value_after'] as int;
+      }
+      final rows = await transaction.query(
+        'practice_counter_state',
+        columns: ['count'],
+        where: 'session_id = ? AND step_id = ?',
+        whereArgs: [sessionId, stepId],
+        limit: 1,
+      );
+      final current = rows.isEmpty ? 0 : rows.single['count'] as int;
+      final next = switch (action) {
+        'increment' => current < target ? current + 1 : current,
+        'undo' => current > 0 ? current - 1 : 0,
+        _ => 0,
+      };
+      final now = DateTime.now().millisecondsSinceEpoch;
+      await transaction.insert('practice_counter_state', {
+        'session_id': sessionId,
+        'step_id': stepId,
+        'count': next,
+        'updated_at': now,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
+      await transaction.insert('practice_counter_events', {
+        'action_token': actionToken,
+        'session_id': sessionId,
+        'step_id': stepId,
+        'action': action,
+        'target': target,
         'value_after': next,
         'created_at': now,
       });

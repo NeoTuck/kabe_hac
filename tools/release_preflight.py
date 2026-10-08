@@ -28,6 +28,10 @@ def audit_catalog(data):
         linked = ([step['audioId']] if step.get('audioId') else []) + step.get('audioIds', [])
         if not any(audios.get(a, {}).get('kind') == 'turkishNarration' for a in linked):
             blockers.append({'id': step.get('id'), 'type': 'missing_step_narration'})
+        if step.get('counterKey') and step.get('status') == 'approved':
+            target = step.get('counterTarget')
+            if type(target) is not int or not 1 <= target <= 100:
+                blockers.append({'id': step.get('id'), 'type': 'practice_counter_target'})
     for audio in audios.values():
         target = records.get(audio.get('textId'), {})
         if not target or target.get('textVersion') != audio.get('textVersion'):

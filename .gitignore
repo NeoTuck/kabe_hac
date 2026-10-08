@@ -43,6 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/.kotlin/
+/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+/ios/Runner.xcworkspace/xcshareddata/swiftpm/
 
 # Widget Preview related
 .widget_preview/

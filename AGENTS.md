@@ -15,6 +15,10 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
+**8 Ekim isteğe bağlı prova dilimi:** `f59c8ef9` tabanındaki yerel `codex/mvp1-pilot-desktop` dalında ana akışa 3D'siz “Simülasyonu dene” girişi eklendi. Prova oturumu, adım işaretleri ve sayaçları SQLite sürüm 9'da gerçek rehberden ayrıdır. Paket tercihi, duraklatma/devam, katalog sürümü değişince eski kaydı koruyarak yeni prova ve taslak metni gizleme eklendi. Manuel prova sayacı yalnız uzman onaylı adımda ve onaylı `counterTarget` ile açılır; mevcut 53 adım taslak olduğu için kapalıdır. Yerel format/analiz, 159 Flutter, 15 Python, 39 bağımsız SQL fixture, teknik ses QA ve Android debug build geçti. Android API35 emülatörde mevcut dört pilot ve ayrı prova akışı geçti. Xcode/iOS runtime kuruldu ama bu Mac'te iOS derlemeleri başarısız; ayrıntı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md`. Üretim kabulü değildir.
+
+**8 Ekim Mac kod/log incelemesi:** `origin/codex/mvp1-pilot` commit'i `f59c8ef9b609dc11b2c94d9d34bd3cc1042ef514` temiz yerel dala fast-forward ile alındı. Bu Mac'te 153 Flutter ve 14 Python testi, format/analiz, teknik ses QA ve Android debug derlemesi geçti. Sayaç çift sıfırlama regresyonundaki kaçan ikinci dokunuş testi düzeltildi. Android pilot oturumu `blocked` / `device_tests_run=false`; iOS, Xcode lisansı/developer directory/CocoaPods nedeniyle çalıştırılmadı. Kapsam kullanıcı isteğiyle kod/log incelemesine sınırlandı. Ayrıntı `docs/14-mac-inceleme.md`.
+
 **Son doğrulama:** 8 Ekim 2026; kod `67335ffb`, CI `37769687931` yedi iş başarılı: 153 Flutter/39 bağımsız fixture SQL/14 QA, format/analiz, teknik AAC ses, Android debug/split release ve iOS no-codesign/simulator. Android API28/API35 ve iOS18.5/iPhone16 simulator'de dört pilot akış geçti. JUnit/session, Android driver_prepared ve APK hash eşleşmesi ile native duraklatma ekranları incelendi. Fiziksel cihaz/canlı servis/dinî içerik/mağaza kabulü değildir.
 
 **Aktif paket:** Yayın hazırlığı kod dilimi teknik kabulü tamamlandı. Gerçek metin/dua/insan sesi, lisanslı saha verileri, canlı Supabase, GPS/push entegrasyonu, üretim imzası ve fiziksel cihaz kabulü açık. Güncel kanıt `docs/13-yayin-hazirligi.md` başındadır; 18/35 içerik kaydı hâlâ taslaktır.
@@ -32,7 +36,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Ses, kart, GPS, gezi durağı veya sayaç olayı dinî ilerlemeyi otomatik işaretlemiyor.
 - Metin/dua/ses şeması kaynak, sürüm, inceleme ve kullanım hakkını ayırıyor. `U02.2` taslak hattı ve dua kartı çalışıyor.
 - Hac profil filtrelemesi yalnız uygulanabilirlik verisinin tamamı onaylandığında etkinleşiyor; mevcut Hac akışı önizleme kalıyor.
-- SQLite şema sürümü `8`. Gezi favorileri, mesaj outbox ve konum paylaşım rızası dinî ilerlemeden ayrı.
+- SQLite şema sürümü `9`. Gezi favorileri, mesaj outbox, konum paylaşım rızası ve prova kayıtları dinî ilerlemeden ayrı.
 
 ### Geniş ürün için eklenen teknik temel
 
@@ -128,6 +132,8 @@ Doğrulanmış POI/rota paketini geziye bağlama dilimi tamamlandı: güven/hash
 
 Sıradaki içerik işi gerçek uzman incelemesinden geçmiş ilk Umre metni, dua ve izinli insan sesini mevcut sürüm/kimlik/hak hattına bağlamaktır. Kaynak kontrollü özgün öneriler `docs/content-review/umre-kaynakli-oneri.md` içinde; uzman onayı değildir. Girdi gelmeden approved, gerçek inceleyen veya ses hakkı uydurma. Katalog yenilenirken kullanıcı ilerlemesi ve favorileri korunur.
 
+Önceki Mac kod/log incelemesi `docs/14-mac-inceleme.md` içinde tarihsel kanıttır; sonraki prova geliştirmesi ve cihaz sonuçları `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` içinde ayrı tutulur.
+
 Canlı servis kabulü için gerçek Supabase proje URL/publishable key ve test hesapları gerekir. RLS/Auth/Realtime, offline outbox ve hesap/üyelik sınırları gerçek ortamda ayrıca denenir. GPS izin/ölçüm/konum gönderimi ile APNs/FCM teslim entegrasyonu hâlâ eksiktir; yerel rıza modelini bunlar tamamlanmış gibi sunma. Harita/iletişim/dil verileri gerçek lisans ve insan incelemesi ister.
 
 Teknik pilot APK debug imzalıdır; üretim Android derlemesi gerçek key.properties ister. TestFlight için gerçek Apple dağıtım imzası ve fiziksel cihaz gerekir. `tools/release_preflight.py` mevcut eksik girdilerle blocked döner; bu kontrol bağımsız uzman veya mağaza onayı değildir. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota ve kaynak/güncellik kontrollerini koru.
@@ -150,7 +156,7 @@ Teknik pilot APK debug imzalıdır; üretim Android derlemesi gerçek key.proper
 ## 5. Teknoloji ve çalışma ortamı
 
 - **İstemci:** Flutter 3.47.6, Dart 3.13.5, Material.
-- **Yerel veri:** `sqflite`, şema sürümü 8.
+- **Yerel veri:** `sqflite`, şema sürümü 9; sürüm 9 yalnız gerçek rehberden ayrı prova tabloları ekler.
 - **İçerik:** `assets/content/` altında sürümlü JSON, içerik şeması 1.
 - **Ses:** `just_audio`, `audio_session`, `just_audio_background`/`audio_service`; tek konuşma kanalı.
 - **Paket:** SHA-256, sabit güven özeti, geçici indirme ve atomik durum işaretçisi.
@@ -167,6 +173,7 @@ Paket yükseltmesini ayrı ve test edilen değişiklik olarak yap. Özellik değ
 - `lib/main.dart`: başlangıç, bağımlılık kurulumu ve kapalı varsayılan kataloglar.
 - `lib/selection_screens.dart`: ana sayfa ve seçim akışları.
 - `lib/guide_catalog.dart`, `lib/guide_screens.dart`: rehber modelleri, onay filtresi, liste/ayrıntı/dua.
+- `lib/practice_screen.dart`: isteğe bağlı 2D eğitim provası ve gerçek rehberden ayrı akış.
 - `lib/progress_store.dart`: SQLite şeması, ilerleme, sayaç, favori, outbox ve konum rızası.
 - `lib/counter_screen.dart`: tavaf, sa‘y ve cemarat sayaçları.
 - `lib/narration_service.dart`, `lib/audio_controls.dart`: tek ses, medya oturumu ve kontroller.

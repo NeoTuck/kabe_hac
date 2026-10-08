@@ -4,6 +4,8 @@
 
 ## Güncel başlangıç kanıtı
 
+8 Ekim isteğe bağlı eğitim provası, mevcut rehberi değiştirmeden ayrı SQLite kaydı ve 2D başlık akışı olarak eklendi. 159 Flutter, 15 Python ve 39 SQL fixture kontrolü ile Android API35 emülatöründe dört mevcut pilot ve ayrıca prova başlatma/duraklatma/yeniden açma akışı yerel çalıştı. Bu, 53 taslak dinî metni, onaylı sayaç hedefini, izinli insan sesini veya fiziksel cihaz kabulünü sağlamaz. Güncel sınırlar ve kanıt `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` içindedir.
+
 8 Ekim güncel teknik kabul: kod `58708cfb`, CI `37741666923` yedi iş başarılı. 146 Flutter/39 SQL/5 QA, Android debug/release, iOS no-codesign/simulator ve Android API 28/35 + iPhone 16 / iOS 18.5 üzerinde dört pilot akış geçti. Fiziksel cihaz ve bütün ürün kabulü değildir. Kanıt ve ara hataların teşhisi `docs/11-kullanici-kalite-turu.md` başındadır; aşağıdaki başlangıç kanıtı tarihseldir.
 
 `6d02270b2d2460767508474b2a218898d8fcf323` için GitHub çalışması https://github.com/NeoTuck/kabe_hac/actions/runs/37669070487 başarılı: format/analiz, Flutter test işi, ses QA, Android debug APK, iOS debug/no-codesign ve database. Bu commit için yerel Flutter test kanıtı 91 testtir. İmzalı iOS dağıtımı, gerçek cihaz, Maestro ve canlı Supabase kabulü değildir.
@@ -28,6 +30,7 @@
 |---|---|---|
 | Rehber, seçim, devam, SQLite | Unit/widget ve migrasyon testleri | Fiziksel iki platformda yeniden açma/güncelleme |
 | Manuel sayaçlar | Tavaf/sa‘y/cemarat ve geri alma testleri | Sayaç/pil/ekran kilidi saha deneyimi |
+| İsteğe bağlı 2D prova | Ayrı SQLite oturumu, işaret/sayaç ayrımı, katalog yenileme ve API35 simülatör akışı | Uzman onaylı hedef/içerik/ses; fiziksel cihaz ve işitsel kabul |
 | UI/tema/RTL/yazı | 320/390 ve %100/%200 widget matrisi | TalkBack/VoiceOver, gerçek yaşlı kullanıcı deneyimi |
 | Umre/Hac içerik | 18/35 taslak kimlik; şema/onay filtreleri | 53 gerçek metin; uzman; profil uygulanabilirliği |
 | Dua ve üç ses türü | Bir taslak dua, üç taslak ses kaydı tanımı | Arapça/telaffuz/anlam, gerçek ses dosyaları ve haklar |

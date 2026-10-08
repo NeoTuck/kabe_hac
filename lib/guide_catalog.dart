@@ -317,6 +317,7 @@ class GuideStep {
     this.audioId,
     this.audioIds = const [],
     this.counterKey,
+    this.counterTarget,
   });
 
   final String id;
@@ -341,6 +342,7 @@ class GuideStep {
   final List<String> audioIds;
   final List<String> prayerIds;
   final String? counterKey;
+  final int? counterTarget;
   final Map<HajjProfile, ProfileApplicability> profileApplicability;
 
   bool get isApproved => status == ReviewStatus.approved;
@@ -378,6 +380,14 @@ class GuideStep {
     } else if (json['profileApplicability'] != null) {
       throw const FormatException('Umre adımında hac profil kuralı olamaz.');
     }
+    final rawCounterTarget = json['counterTarget'];
+    if (rawCounterTarget != null &&
+        (rawCounterTarget is! int ||
+            rawCounterTarget < 1 ||
+            rawCounterTarget > 100 ||
+            json['counterKey'] == null)) {
+      throw const FormatException('Geçersiz sayaç hedefi.');
+    }
     final step = GuideStep(
       id: _requiredString(json, 'id'),
       order: order,
@@ -405,6 +415,7 @@ class GuideStep {
       audioIds: _optionalIds(json, 'audioIds'),
       prayerIds: List.unmodifiable(prayerIds),
       counterKey: _optionalString(json, 'counterKey'),
+      counterTarget: rawCounterTarget as int?,
       profileApplicability: Map.unmodifiable(profiles),
     );
     _validateSourceAndReview(

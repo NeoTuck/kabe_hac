@@ -10,6 +10,7 @@ import 'narration_service.dart';
 import 'offline_package.dart';
 import 'package_catalog.dart';
 import 'package_screen.dart';
+import 'practice_screen.dart';
 import 'progress_store.dart';
 import 'reader_settings.dart';
 import 'safety_catalog.dart';
@@ -24,6 +25,7 @@ class HomeScreen extends StatefulWidget {
     super.key,
     required this.store,
     required this.catalogs,
+    this.bundledCatalogs,
     required this.narration,
     required this.settings,
     this.groups,
@@ -41,6 +43,7 @@ class HomeScreen extends StatefulWidget {
   final LocalTravelRepository? travelRepository;
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
+  final Map<GuideType, GuideCatalog>? bundledCatalogs;
   final NarrationService narration;
   final ReaderSettings settings;
   final OfflinePackageManager? packages;
@@ -250,6 +253,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? 'Taslak başlıkları ve sayaçları kişisel olarak takip et'
                   : 'Yolculuk kaydını aç, adımları ve sayaçları takip et',
               onTap: () => _openUmrah(GuideMode.journey),
+            ),
+            const SizedBox(height: 12),
+            _ChoiceCard(
+              icon: Icons.play_circle_outline_rounded,
+              title: 'Simülasyonu dene',
+              subtitle:
+                  'İsteğe bağlı eğitim provası · gerçek ibadetin yerine geçmez',
+              onTap: () => _open(
+                PracticeScreen(
+                  store: widget.store,
+                  catalogs: _catalogs,
+                  bundledCatalogs: widget.bundledCatalogs,
+                  narration: widget.narration,
+                  contentRepository: widget.contentRepository,
+                  packages: widget.packages,
+                  packageProvider: widget.packageProvider,
+                  packageConfigurationError: widget.packageConfigurationError,
+                ),
+              ),
             ),
             const SizedBox(height: 28),
             Text(

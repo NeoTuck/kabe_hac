@@ -23,6 +23,15 @@ class ReleaseAuditTests(unittest.TestCase):
         self.assertTrue(any(b['type'] == 'hajj_profile_review' for b in
             audit_catalog({'guideType': 'hajj', 'steps': [{'id': 'H01.1'}]})))
 
+    def test_approved_counter_requires_catalog_target(self):
+        data = {'guideType': 'umrah', 'steps': [
+            {'id': 'U06.2', 'status': 'approved', 'counterKey': 'tawaf'}]}
+        self.assertTrue(any(b['type'] == 'practice_counter_target'
+                            for b in audit_catalog(data)))
+        data['steps'][0]['counterTarget'] = 7
+        self.assertFalse(any(b['type'] == 'practice_counter_target'
+                             for b in audit_catalog(data)))
+
     def test_missing_changed_and_outside_evidence_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
             root = pathlib.Path(temp)

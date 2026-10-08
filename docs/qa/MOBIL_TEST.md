@@ -2,6 +2,8 @@
 
 Bu paket dört ilk test akışıdır; bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
 
+İsteğe bağlı prova için ayrı `.maestro/practice-flow.yaml` vardır; temel dört pilot sayısını değiştirmez. Aynı açık test cihazına aynı build kurulduktan sonra `maestro --device DEVICE test --env APP_ID=APP_ID .maestro/practice-flow.yaml` ile başlatma, duraklatma ve yeniden açıp devam akışı denenir. Taslak dinî metin/sayaç ve gerçek ses kabulü bu akışın kapsamı değildir. Yerel API35 kanıtı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` içindedir.
+
 ## Ön koşullar
 
 1. Aynı commit'ten Android APK veya iOS simülatör `.app` derleyin; ayrı test cihazına kurun. No-codesign iPhone `.app` dosyasını simülatör veya imzalı iPhone paketi sanmayın.
