@@ -10,6 +10,10 @@ import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/offline_package.dart';
 import 'package:hac_umre_sesli_rehber/package_screen.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
+import 'package:hac_umre_sesli_rehber/travel_catalog.dart';
+import 'package:hac_umre_sesli_rehber/travel_repository.dart';
+
+import 'travel_screen_test.dart' show fixture;
 
 import 'test_fakes.dart';
 
@@ -30,7 +34,58 @@ class EmptyPackageManager extends OfflinePackageManager {
   Future<List<PackageActivationState>> listActivations() async => [];
 }
 
+class ChangingTravelRepository extends LocalTravelRepository {
+  ChangingTravelRepository() : super(packages: EmptyPackageManager());
+  TravelCatalog current = LocalTravelRepository.empty;
+  int loads = 0;
+  @override
+  Future<TravelCatalog> load() async {
+    loads++;
+    return current;
+  }
+}
+
 void main() {
+  testWidgets('travel catalog refreshes after package install and deletion', (
+    tester,
+  ) async {
+    final store = MemoryGuideStore();
+    final narration = FakeNarration();
+    final travel = ChangingTravelRepository();
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: await const LocalContentRepository().load(),
+        travelRepository: travel,
+        travelCatalog: LocalTravelRepository.empty,
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+        packages: EmptyPackageManager(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(travel.loads, 0);
+    for (final installed in [true, false]) {
+      await tester.scrollUntilVisible(
+        find.text('Çevrimdışı paketleri yönet'),
+        250,
+      );
+      await tester.tap(find.text('Çevrimdışı paketleri yönet'));
+      await tester.pumpAndSettle();
+      travel.current = installed ? fixture() : LocalTravelRepository.empty;
+      Navigator.of(tester.element(find.byType(OfflinePackagesScreen))).pop();
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Yolculuk'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Teknik buluşma noktası'),
+        installed ? findsOneWidget : findsNothing,
+      );
+      Navigator.of(tester.element(find.byType(TextField))).pop();
+      await tester.pumpAndSettle();
+    }
+    expect(travel.loads, 2);
+  });
   testWidgets('paket ekranından dönüş rehberi yeniden başlatmadan yeniler', (
     tester,
   ) async {

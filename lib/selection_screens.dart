@@ -16,6 +16,7 @@ import 'safety_catalog.dart';
 import 'safety_screen.dart';
 import 'settings_screen.dart';
 import 'travel_catalog.dart';
+import 'travel_repository.dart';
 import 'travel_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class HomeScreen extends StatefulWidget {
     required this.settings,
     this.groups,
     this.contentRepository,
+    this.travelRepository,
     this.packages,
     this.packageProvider,
     this.packageConfigurationError,
@@ -36,6 +38,7 @@ class HomeScreen extends StatefulWidget {
 
   final GroupRepository? groups;
   final LocalContentRepository? contentRepository;
+  final LocalTravelRepository? travelRepository;
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
   final NarrationService narration;
@@ -54,6 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late final GroupRepository _groups =
       widget.groups ?? UnconfiguredGroupRepository();
   late Map<GuideType, GuideCatalog> _catalogs;
+  TravelCatalog? _travelCatalog;
+  int _refreshEpoch = 0;
   GuideSession? _latest;
   bool _demoVisited = false;
   String? _error;
@@ -62,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _catalogs = widget.catalogs;
+    _travelCatalog = widget.travelCatalog;
     _refresh();
   }
 
@@ -72,22 +78,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _refresh({bool reloadContent = false}) async {
+    final epoch = ++_refreshEpoch;
     try {
       final catalogs = reloadContent
           ? await widget.contentRepository?.load() ?? widget.catalogs
           : _catalogs;
+      final travel = reloadContent
+          ? await widget.travelRepository?.load() ?? widget.travelCatalog
+          : _travelCatalog;
       final session = await widget.store.readMostRecentSession();
       final lastDemo = await widget.store.readLastStepId();
-      if (mounted) {
+      if (mounted && epoch == _refreshEpoch) {
         setState(() {
           _catalogs = catalogs;
+          _travelCatalog = travel;
           _latest = session;
           _demoVisited = lastDemo == DemoScreen.stepId;
           _error = null;
         });
       }
     } catch (_) {
-      if (mounted) setState(() => _error = 'Kayıtlar okunamadı.');
+      if (mounted && epoch == _refreshEpoch) {
+        setState(() => _error = 'Kayıtlar okunamadı.');
+      }
     }
   }
 
@@ -147,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
               TravelScreen(
                 store: widget.store,
                 catalog:
-                    widget.travelCatalog ??
+                    _travelCatalog ??
                     const TravelCatalog(
                       dataVersion: 'not-configured',
                       points: [],
@@ -260,15 +273,12 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => _choose(GuideType.hajj),
             ),
             const SizedBox(height: 32),
-            if (widget.travelCatalog != null) ...[
+            if (_travelCatalog != null) ...[
               Text('Gezi', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 8),
               TextButton.icon(
                 onPressed: () => _open(
-                  TravelScreen(
-                    store: widget.store,
-                    catalog: widget.travelCatalog!,
-                  ),
+                  TravelScreen(store: widget.store, catalog: _travelCatalog!),
                 ),
                 icon: const Icon(Icons.map_outlined),
                 label: const Text('Harita, yerler ve rotalar'),

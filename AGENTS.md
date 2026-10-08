@@ -124,13 +124,17 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
+8 Ekim yayın hazırlığı dilimi: güven/hash/yol kontrollü gezi kataloğu uygulamaya bağlandı; paket ekranından dönüşte güncelleme/silme yenilenir. Üretim Android imzası zorunlu, teknik pilot debug imzası açık çevre bayrağına bağlıdır. Yayın girdi denetimi eksik içerik ve kabul kanıtında blocked döner. Kaynaklı özgün Umre önerileri uzman incelemesine hazırlanmıştır; onay verilmedi. Ayrıntı `docs/13-yayin-hazirligi.md`. Yeni CI kabulü bekliyor.
+
+Önceki `ec6472fb` / CI `37750736491`: 147 Flutter/39 SQL, teknik ses, Android/iOS derlemeleri ve iOS/API28 dört pilot akışı başarılı; API35 ilk launchApp cihaz offline hatasıyla başarısız. Ürün/saha/mağaza kabulü değildir.
+
 8 Ekim içerik/ekran yeniden incelemesi: `docs/12-icerik-ve-ekran-gozden-gecirme.md`. Umre 18/Hac 35 taslak kaydı Diyanet başlangıç kaynaklarıyla kapsam düzeyinde karşılaştırıldı; metin veya dua onayı verilmedi. Ana ekrana taslak uyarısı, dua kartına onaysız metin gizleme ve buna dair regresyon eklendi. CI `37747539216` 147 Flutter, Android API 28/35 dört akış ve derlemeleri geçti; iOS derleme geçti fakat UI işi başarısız. İlk iOS Umre girişi boş ekranda kaldı, ikinci girişim sürücü açılış zaman aşımıyla durdu. Test görünürlük/açılış iyileştirmesinin CI sonucu bekleniyor; iOS tam kabul ilan etme.
 
 8 Ekim son teknik kabul `58708cfb` / CI `37741666923`: yedi iş ve üç ortamda dört pilot akış geçti. Önceki bölümdeki ara run/pending kayıtları tarihsel teşhistir. Ses duraklatılma/tamamlanma UI ve tamamlanma yarışı ayrılır; 30 sn sentetik demo gerçek dinî ses değildir. JUnit/session/hash/ekran kanıtı `docs/11` başındadır.
 
 ### Doğrulanmış POI/rota paketini geziye bağla
 
-Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. 8 Ekim turunun 146 test/native/dört pilot akış kabulünü tekrar kurma. Sıradaki bağımsız dilim doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağlamak: manifest türü ve güven/hash/yol kontrolleri, tekrar/çakışan kimlikler, paket silme/güncelleme sonrası yenileme ve teknik fixture regresyonları gerekir. Gerçek lisanslı veri gelmeden sahaya hazır denmez. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota, hesap/üyelik ve kaynak/güncellik kontrollerini koru. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
+Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. 8 Ekim turunun 146 test/native/dört pilot akış kabulünü tekrar kurma. Tamamlanan kod dilimi doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağlar (CI kabulü bekliyor): manifest türü ve güven/hash/yol kontrolleri, tekrar/çakışan kimlikler, paket silme/güncelleme sonrası yenileme ve teknik fixture regresyonları gerekir. Gerçek lisanslı veri gelmeden sahaya hazır denmez. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota, hesap/üyelik ve kaynak/güncellik kontrollerini koru. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
 Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 

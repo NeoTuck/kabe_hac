@@ -342,8 +342,8 @@ class TravelCatalog {
     }
     List<T> records<T>(String key, T Function(Map<String, Object?>) parse) {
       final raw = json[key];
-      if (raw is! List) {
-        throw TravelCatalogFormatException('$key liste olmalı.');
+      if (raw is! List || raw.length > 10000) {
+        throw TravelCatalogFormatException('$key en fazla 10000 kayıt olmalı.');
       }
       return [
         for (final value in raw)

@@ -24,6 +24,7 @@ import 'reader_settings.dart';
 import 'safety_catalog.dart';
 import 'selection_screens.dart';
 import 'travel_catalog.dart';
+import 'travel_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +66,8 @@ Future<void> main() async {
     // Device audio is initialized on first play; the guide remains available if it fails.
     final contentRepository = LocalContentRepository(packages: packages);
     final catalogs = await contentRepository.load();
+    final travelRepository = LocalTravelRepository(packages: packages);
+    final travelCatalog = await travelRepository.load();
     final packageProvider = packageConfig == null
         ? null
         : ConfiguredOfflinePackageProvider(
@@ -100,16 +103,13 @@ Future<void> main() async {
         store: store,
         catalogs: catalogs,
         contentRepository: contentRepository,
+        travelRepository: travelRepository,
         narration: narration,
         settings: settings,
         packages: packages,
         packageProvider: packageProvider,
         packageConfigurationError: packageConfigurationError,
-        travelCatalog: const TravelCatalog(
-          dataVersion: 'not-configured',
-          points: [],
-          routes: [],
-        ),
+        travelCatalog: travelCatalog,
         safetyCatalog: const SafetyCatalog(
           dataVersion: 'not-configured',
           contacts: [],
@@ -144,6 +144,7 @@ class SesliRehberApp extends StatelessWidget {
     required this.settings,
     this.groups,
     this.contentRepository,
+    this.travelRepository,
     this.packages,
     this.packageProvider,
     this.packageConfigurationError,
@@ -153,6 +154,7 @@ class SesliRehberApp extends StatelessWidget {
 
   final GroupRepository? groups;
   final LocalContentRepository? contentRepository;
+  final LocalTravelRepository? travelRepository;
   final ProgressStore store;
   final Map<GuideType, GuideCatalog> catalogs;
   final NarrationService narration;
@@ -194,6 +196,7 @@ class SesliRehberApp extends StatelessWidget {
       home: HomeScreen(
         groups: groups,
         contentRepository: contentRepository,
+        travelRepository: travelRepository,
         store: store,
         catalogs: catalogs,
         narration: narration,

@@ -5,6 +5,7 @@ import datetime
 import json
 import hashlib
 import tempfile
+import time
 import pathlib
 import re
 import shutil
@@ -31,6 +32,23 @@ def file_hash(path):
         for chunk in iter(lambda: stream.read(1024 * 1024), b''):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def wait_for_android(device, attempts=6, pause=2):
+    """Require consecutive responsive boot probes; never retry UI assertions."""
+    stable = 0
+    for attempt in range(attempts):
+        try:
+            state = probe(['adb', '-s', device, 'get-state'])
+            boot = probe(['adb', '-s', device, 'shell', 'getprop', 'sys.boot_completed'])
+            stable = stable + 1 if state == 'device' and boot == '1' else 0
+            if stable >= 2:
+                return
+        except (RuntimeError, subprocess.TimeoutExpired):
+            stable = 0
+        if attempt + 1 < attempts:
+            time.sleep(pause)
+    raise RuntimeError('Android transport/boot did not become stably ready')
 
 
 def main():
@@ -76,8 +94,7 @@ def main():
         if missing:
             raise RuntimeError('Missing tools: ' + ', '.join(missing))
         if args.platform == 'android':
-            if probe(['adb', '-s', args.device, 'get-state']) != 'device':
-                raise RuntimeError('Android device not authorized/ready')
+            wait_for_android(args.device)
             installed_paths = probe(['adb', '-s', args.device, 'shell', 'pm', 'path', app_id]).splitlines()
             if not installed_paths or not all(line.startswith('package:') for line in installed_paths):
                 raise RuntimeError('Application is not installed on this device')
@@ -104,6 +121,8 @@ def main():
         if args.preflight:
             evidence['status'] = 'preflight_ready'
         else:
+            if args.platform == 'android':
+                wait_for_android(args.device)
             evidence['device_tests_run'] = True
             with (output / 'maestro.log').open('w') as log:
                 result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, timeout=600)
