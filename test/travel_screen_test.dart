@@ -79,6 +79,7 @@ void main() {
       await tester.pump();
       await tester.tap(find.byTooltip('Favoriye ekle'));
       expect(store.calls, 1);
+      expect(find.byType(TravelPoiScreen), findsNothing);
       store.gate.complete();
       await tester.pumpAndSettle();
       await tester.tap(find.text('Yalnız favoriler'));
@@ -178,7 +179,16 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Kaynak ve güncellik'), 200);
+    await tester.scrollUntilVisible(
+      find.text('Kaynak ve güncellik'),
+      200,
+      scrollable: find
+          .descendant(
+            of: find.byType(ListView),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     await tester.tap(find.text('Kaynak ve güncellik'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);

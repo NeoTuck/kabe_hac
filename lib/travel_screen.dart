@@ -176,11 +176,13 @@ class _TravelScreenState extends State<TravelScreen> {
                 Card.outlined(
                   child: ListTile(
                     title: Text(point.nameTr),
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => TravelPoiScreen(point: point),
-                      ),
-                    ),
+                    onTap: _loading || _savingFavorites.contains(point.id)
+                        ? null
+                        : () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => TravelPoiScreen(point: point),
+                            ),
+                          ),
                     subtitle: Text(
                       '${point.category.label}\n'
                       '${point.isTestData ? 'TEKNİK TEST VERİSİ · ' : ''}'
