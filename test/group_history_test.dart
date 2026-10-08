@@ -300,6 +300,12 @@ void main() {
     );
     expect(find.text('Eski mesajları yükle'), findsNothing);
     expect(repo.historyCalls, 8);
+    expect(find.text('Mesaj yaz').hitTestable(), findsOneWidget);
+    await tester.tap(find.text('Mesaj yaz'));
+    await tester.pumpAndSettle();
+    expect(find.text('Mesajın'), findsOneWidget);
+    await tester.tap(find.text('Kapat'));
+    await tester.pumpAndSettle();
     await close(tester, repo);
   });
 }

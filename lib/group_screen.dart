@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'app_theme.dart';
 import 'group_repository.dart';
+import 'group_message_composer.dart';
 import 'group_sync.dart';
 import 'progress_store.dart';
 
@@ -358,6 +359,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   String? _recipient;
   String? _error;
   bool _sending = false;
+  bool _composerOpen = false;
   bool _connected = false;
   bool _refreshing = false;
   bool _reloadPending = false;
@@ -396,6 +398,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   void _authChanged() {
     if (_owner != widget.repository.userId && mounted) {
       _historyEpoch++;
+      _body.clear();
       setState(() {
         _snapshot = null;
         _outbox = [];
@@ -625,13 +628,15 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     return '${two(local.day)}.${two(local.month)}.${local.year} · ${two(local.hour)}:${two(local.minute)}';
   }
 
-  Future<void> _send() async {
-    final body = _body.text.trim();
-    if (_sending ||
+  Future<bool> _send() async {
+    final rawBody = _body.text;
+    final body = rawBody.trim();
+    if (_snapshot == null ||
+        _sending ||
         body.isEmpty ||
         body.length > 4000 ||
         _owner != widget.repository.userId) {
-      return;
+      return false;
     }
     setState(() => _sending = true);
     try {
@@ -642,7 +647,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         recipientId: _recipient,
         body: body,
       );
-      _body.clear();
+      if (!mounted || _owner != widget.repository.userId) return false;
+      if (_body.text == rawBody) _body.clear();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -653,10 +659,50 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         );
       }
       await _reload();
+      return true;
     } catch (_) {
-      if (mounted) setState(() => _error = 'Mesaj kaydedilemedi. Tekrar dene.');
+      if (mounted && _owner == widget.repository.userId)
+        setState(() => _error = 'Mesaj kaydedilemedi. Tekrar dene.');
+      return false;
     } finally {
       if (mounted) setState(() => _sending = false);
+    }
+  }
+
+  Future<void> _compose(List<Map<String, dynamic>> guides) async {
+    if (_composerOpen ||
+        _snapshot == null ||
+        _owner != widget.repository.userId)
+      return;
+    setState(() => _composerOpen = true);
+    try {
+      final recipient = await showModalBottomSheet<String>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (_) => GroupMessageComposer(
+          repository: widget.repository,
+          controller: _body,
+          guides: guides,
+          recipient: _recipient,
+          onSend: (recipient) async {
+            if (_owner != widget.repository.userId || _snapshot == null)
+              return false;
+            if (recipient != null &&
+                !_snapshot!.members.any(
+                  (m) =>
+                      m['user_id'] == recipient &&
+                      ['guide', 'group_admin'].contains(m['role']),
+                ))
+              return false;
+            _recipient = recipient;
+            return _send();
+          },
+        ),
+      );
+      if (mounted && _owner == widget.repository.userId) _recipient = recipient;
+    } finally {
+      if (mounted) setState(() => _composerOpen = false);
     }
   }
 
@@ -775,6 +821,21 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         [];
     return Scaffold(
       appBar: AppBar(title: Text(widget.group.name)),
+      bottomNavigationBar: snapshot == null
+          ? null
+          : SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+                child: FilledButton.icon(
+                  onPressed: _composerOpen || _sending
+                      ? null
+                      : () => _compose(guides),
+                  icon: const Icon(Icons.edit_outlined),
+                  label: const Text('Mesaj yaz'),
+                ),
+              ),
+            ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
@@ -929,39 +990,6 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                     ),
                   ),
                 ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String?>(
-                key: ValueKey(_recipient),
-                initialValue: _recipient,
-                isExpanded: true,
-                decoration: const InputDecoration(labelText: 'Mesaj alıcısı'),
-                items: [
-                  const DropdownMenuItem(
-                    value: null,
-                    child: Text('Kafile sohbeti'),
-                  ),
-                  for (final g in guides)
-                    DropdownMenuItem(
-                      value: g['user_id'] as String,
-                      child: Text(
-                        'Rehber · ${(g['user_id'] as String).substring(0, 8)}',
-                      ),
-                    ),
-                ],
-                onChanged: (value) => setState(() => _recipient = value),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _body,
-                maxLines: 3,
-                maxLength: 4000,
-                decoration: const InputDecoration(labelText: 'Mesajın'),
-              ),
-              FilledButton.icon(
-                onPressed: _sending ? null : _send,
-                icon: const Icon(Icons.send_outlined),
-                label: Text(_sending ? 'Kaydediliyor' : 'Mesajı gönder'),
-              ),
               const SizedBox(height: 16),
               Text('${snapshot.members.length} aktif üye'),
             ],

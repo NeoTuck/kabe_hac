@@ -16,8 +16,11 @@ class TravelScreen extends StatefulWidget {
 class _TravelScreenState extends State<TravelScreen> {
   final _searchController = TextEditingController();
   PoiCategory? _category;
+  bool _favoritesOnly = false;
   Set<String> _favorites = {};
   String? _error;
+  bool _loading = true;
+  final _savingFavorites = <String>{};
 
   @override
   void initState() {
@@ -34,28 +37,46 @@ class _TravelScreenState extends State<TravelScreen> {
   Future<void> _loadFavorites() async {
     try {
       final values = await widget.store.readTravelFavoriteIds('poi');
-      if (mounted) setState(() => _favorites = values);
+      if (mounted)
+        setState(() {
+          _favorites = values;
+          _error = null;
+        });
     } catch (_) {
       if (mounted) setState(() => _error = 'Favoriler okunamadı.');
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _toggleFavorite(TravelPoi point) async {
+    if (_loading || _savingFavorites.contains(point.id)) return;
     final favorite = !_favorites.contains(point.id);
+    setState(() => _savingFavorites.add(point.id));
     try {
       await widget.store.setTravelFavorite('poi', point.id, favorite);
-      await _loadFavorites();
+      if (mounted)
+        setState(() {
+          if (favorite) {
+            _favorites.add(point.id);
+          } else {
+            _favorites.remove(point.id);
+          }
+          _error = null;
+        });
     } catch (_) {
       if (mounted) setState(() => _error = 'Favori kaydedilemedi.');
+    } finally {
+      if (mounted) setState(() => _savingFavorites.remove(point.id));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final points = widget.catalog.searchPoints(
-      query: _searchController.text,
-      category: _category,
-    );
+    final points = widget.catalog
+        .searchPoints(query: _searchController.text, category: _category)
+        .where((p) => !_favoritesOnly || _favorites.contains(p.id))
+        .toList();
     return Scaffold(
       appBar: AppBar(title: const Text('Gezi ve önemli yerler')),
       body: SafeArea(
@@ -74,9 +95,17 @@ class _TravelScreenState extends State<TravelScreen> {
             TextField(
               controller: _searchController,
               onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Yer ara',
-                prefixIcon: Icon(Icons.search_rounded),
+                prefixIcon: const Icon(Icons.search_rounded),
+                suffixIcon: _searchController.text.isEmpty
+                    ? null
+                    : IconButton(
+                        tooltip: 'Aramayı temizle',
+                        icon: const Icon(Icons.clear),
+                        onPressed: () =>
+                            setState(() => _searchController.clear()),
+                      ),
               ),
             ),
             const SizedBox(height: 12),
@@ -99,6 +128,15 @@ class _TravelScreenState extends State<TravelScreen> {
               ],
               onChanged: (value) => setState(() => _category = value),
             ),
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: FilterChip(
+                label: const Text('Yalnız favoriler'),
+                selected: _favoritesOnly,
+                onSelected: (value) => setState(() => _favoritesOnly = value),
+              ),
+            ),
             if (_error != null) ...[
               const SizedBox(height: 12),
               Text(
@@ -106,6 +144,17 @@ class _TravelScreenState extends State<TravelScreen> {
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
             ],
+            if (_error != null)
+              OutlinedButton.icon(
+                onPressed: _loading || _savingFavorites.isNotEmpty
+                    ? null
+                    : () {
+                        setState(() => _loading = true);
+                        _loadFavorites();
+                      },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Favorileri yeniden dene'),
+              ),
             const SizedBox(height: 20),
             Text(
               'Önemli yerler',
@@ -133,7 +182,9 @@ class _TravelScreenState extends State<TravelScreen> {
                       tooltip: _favorites.contains(point.id)
                           ? 'Favoriden çıkar'
                           : 'Favoriye ekle',
-                      onPressed: () => _toggleFavorite(point),
+                      onPressed: _loading || _savingFavorites.contains(point.id)
+                          ? null
+                          : () => _toggleFavorite(point),
                       icon: Icon(
                         _favorites.contains(point.id)
                             ? Icons.favorite_rounded

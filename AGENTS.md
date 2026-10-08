@@ -17,7 +17,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 **Son doğrulama:** 7 Ekim 2026, MVP 1 teknik pilot; GitHub Android APK ve iOS debug/no-codesign build başarılı, fiziksel cihaz kabulü bekliyor
 
-**Aktif paket:** Kafile mesaj geçmişi teknik dilimi doğrulandı; kullanıcı deneyimi ve cihaz/canlı servis kabulü devam ediyor. Onaylı içerik kabulü bekliyor.
+**Aktif paket:** 8 Ekim kullanıcı kalite turu; sohbet editörü, işlem yarışları ve mobil erişilebilirlik için yeni CI doğrulaması sürüyor. Dış girdiler ve cihaz kabulü bekliyor.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -115,11 +115,15 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - APNs/FCM, server push, GPS izin akışı ve arka plan konum takibi yok.
 - Gerçek Android/iPhone cihaz testi ve imzalı iOS dağıtımı yok; GitHub iOS debug/no-codesign build geçti.
 
+### 8 Ekim kullanıcı kalite turu
+
+- Sabit sohbet editörü, paket/favori işlem korumaları, rehber geçiş korumaları ve sıralı ayar yazmaları eklendi. Yeni format temiz; CI ve test kanıtı bekleniyor. Ayrıntı: `docs/11-kullanici-kalite-turu.md`.
+
 ## 3. Sıradaki tek iş
 
-### Uzun kafile sohbetinde mesaj yazma alanına erişim
+### Kullanıcı kalite turunu test ve kanıtla tamamla
 
-Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Mesaj geçmişi kodu ve CI/render kabulü tamamlandı. Sıradaki kullanıcı deneyimi dilimi uzun sohbetlerde mesaj yazma alanına kolay erişimdir. Kafile sohbeti/rehberle özel mesaj, bekleyen gönderimler, duyuru/program/rota, hesap/üyelik kontrolleri korunmalı; küçük ekran, büyük yazı ve klavye açıkken akış test edilmelidir. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
+Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Mesaj geçmişi kodu ve CI/render kabulü tamamlandı. Kullanıcı editörü ve işlem korumaları eklendi; önce yeni CI test/analiz ve derleme kabulünü tamamla. Sonraki incelemeler için bütün ana akışları tara ve yalnız kanıtlanmış sorunlara müdahale et. Kafile sohbeti/rehberle özel mesaj, bekleyen gönderimler, duyuru/program/rota, hesap/üyelik kontrolleri korunmalı; küçük ekran, büyük yazı ve klavye açıkken akış test edilmelidir. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
 Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 

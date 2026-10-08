@@ -34,6 +34,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   GuideSession? _session;
   Set<String> _markedIds = {};
   String? _error;
+  bool _openingStep = false;
+  bool _loading = false;
+  bool _creatingJourney = false;
 
   List<GuideStep> get _flowSteps => widget.catalog.stepsForProfile(
     widget.catalog.type == GuideType.hajj ? widget.profile : null,
@@ -46,6 +49,8 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   }
 
   Future<void> _load() async {
+    if (_loading) return;
+    _loading = true;
     try {
       final known = _session ?? widget.existingSession;
       final session = known == null
@@ -69,12 +74,15 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
       }
     } catch (_) {
       if (mounted) setState(() => _error = 'Kayıt açılmadı. Tekrar dene.');
+    } finally {
+      _loading = false;
     }
   }
 
   Future<void> _openStep(GuideStep step) async {
     final session = _session;
-    if (session == null) return;
+    if (session == null || _openingStep || _creatingJourney) return;
+    _openingStep = true;
     try {
       GuideStep? selected = step;
       while (selected != null && mounted) {
@@ -104,30 +112,38 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
           const SnackBar(content: Text('Başlık açılamadı. Tekrar dene.')),
         );
       }
+    } finally {
+      _openingStep = false;
     }
   }
 
   Future<void> _confirmNewJourney() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Yeni yolculuk başlat?'),
-        content: const Text(
-          'Yeni bir kişisel takip kaydı açılır. Önceki yolculuğun ve işaretlerin korunur.',
+    if (_creatingJourney || _openingStep || _loading) return;
+    _creatingJourney = true;
+    try {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Yeni yolculuk başlat?'),
+          content: const Text(
+            'Yeni bir kişisel takip kaydı açılır. Önceki yolculuğun ve işaretlerin korunur.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Başlat'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Başlat'),
-          ),
-        ],
-      ),
-    );
-    if (confirmed == true && mounted) await _newJourney();
+      );
+      if (confirmed == true && mounted) await _newJourney();
+    } finally {
+      _creatingJourney = false;
+    }
   }
 
   Future<void> _newJourney() async {
@@ -320,6 +336,7 @@ class GuideStepScreen extends StatefulWidget {
 class _GuideStepScreenState extends State<GuideStepScreen> {
   late bool _marked = widget.initiallyMarked;
   bool _busy = false;
+  bool _navigating = false;
 
   @override
   void dispose() {
@@ -328,7 +345,7 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
   }
 
   Future<void> _toggleMarked() async {
-    if (_busy) return;
+    if (_busy || _navigating) return;
     setState(() => _busy = true);
     try {
       await widget.store.setStepMarked(
@@ -349,8 +366,19 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
   }
 
   Future<void> _select(GuideStep step) async {
-    await widget.narration.stop();
-    if (mounted) Navigator.of(context).pop(step);
+    if (_navigating || _busy) return;
+    setState(() => _navigating = true);
+    try {
+      await widget.narration.stop();
+      if (mounted) Navigator.of(context).pop(step);
+    } catch (_) {
+      if (mounted)
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Başlık değiştirilemedi. Tekrar dene.')),
+        );
+    } finally {
+      if (mounted) setState(() => _navigating = false);
+    }
   }
 
   @override
@@ -499,7 +527,7 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
             if (canMark) ...[
               const SizedBox(height: 18),
               OutlinedButton.icon(
-                onPressed: _busy ? null : _toggleMarked,
+                onPressed: _busy || _navigating ? null : _toggleMarked,
                 icon: Icon(
                   _marked
                       ? Icons.check_circle_rounded
@@ -515,14 +543,16 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
             const SizedBox(height: 20),
             if (previous != null)
               OutlinedButton.icon(
-                onPressed: () => _select(previous),
+                onPressed: _busy || _navigating
+                    ? null
+                    : () => _select(previous),
                 icon: const Icon(Icons.arrow_back_rounded),
                 label: const Text('Önceki başlık'),
               ),
             if (next != null) ...[
               const SizedBox(height: 8),
               FilledButton.icon(
-                onPressed: () => _select(next),
+                onPressed: _busy || _navigating ? null : () => _select(next),
                 icon: const Icon(Icons.arrow_forward_rounded),
                 label: const Text('Sonraki başlık'),
               ),
