@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/group_repository.dart';
 import 'package:hac_umre_sesli_rehber/group_screen.dart';
+import 'package:hac_umre_sesli_rehber/group_sync.dart';
 
 import 'test_fakes.dart';
 
@@ -48,6 +49,13 @@ class ManagementRepository extends UnconfiguredGroupRepository {
   }
 }
 
+class ManagementStore extends MemoryGuideStore {
+  @override
+  Future<List<GroupOutboxMessage>> readGroupOutbox({
+    MessageOutboxStatus? status,
+  }) async => [];
+}
+
 void main() {
   Future<void> open(WidgetTester tester, ManagementRepository repo) async {
     await tester.pumpWidget(
@@ -55,7 +63,7 @@ void main() {
         home: GroupDetailScreen(
           group: const GroupRecord('group-a', 'Kafile'),
           repository: repo,
-          store: MemoryGuideStore(),
+          store: ManagementStore(),
         ),
       ),
     );
