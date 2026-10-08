@@ -15,9 +15,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** 7 Ekim 2026, MVP 1 teknik pilot; GitHub Android APK ve iOS debug/no-codesign build başarılı, fiziksel cihaz kabulü bekliyor
+**Son doğrulama:** 8 Ekim 2026; `82708e1e` CI `37713783433`: 143 Flutter/39 SQL, analiz/format, teknik ses QA, Android debug/release ve iOS no-codesign/simulator derlemeleri başarılı. Mobil ekran testleri başarısız; düzeltme `bd89c83a` CI `37715121386` yeniden kabul bekliyor. Fiziksel cihaz kabulü bekliyor.
 
-**Aktif paket:** 8 Ekim kullanıcı kalite turu; sohbet editörü, işlem yarışları ve mobil erişilebilirlik için yeni CI doğrulaması sürüyor. Dış girdiler ve cihaz kabulü bekliyor.
+**Aktif paket:** 8 Ekim kullanıcı kalite turu; sohbet/işlem/indirme/güncellik düzeltmeleri, yer/rota ayrıntıları ve Android/iOS simülatör CI hattı eklendi. Toplu CI kabulü sürüyor; dış girdiler ve fiziksel cihaz kabulü bekliyor.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -117,13 +117,16 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ### 8 Ekim kullanıcı kalite turu
 
-- Sabit sohbet editörü, paket/favori işlem korumaları, rehber geçiş korumaları ve sıralı ayar yazmaları eklendi. Yeni format temiz; CI ve test kanıtı bekleniyor. Ayrıntı: `docs/11-kullanici-kalite-turu.md`.
+- Sabit klavye üstü sohbet editörü; paket/favori/rehber/sayaç işlem korumaları; sıralı ayar yazmaları ve ses hızı hata düzeltmesi eklendi. Özel alıcı kafileden ayrıldığında yeniden seçim gerekir. Davet/yayın işlemleri hesap değişimine karşı korunur.
+- HTTP dosya ve katalog indirmeleri zaman/boyut/Range sınırlarına bağlıdır. Geri dönüşte manifest güveni ve aktivasyon yolları doğrulanır; yedek işaretçi listelenir. Kaynak/güncellik ayrıntısı, inceleme bekleyen numaranın gizlenmesi ve konum zaman kontrolleri eklendi.
+- Gezi yer/rota ayrıntıları açılır; favori filtresi ve Türkçe arama vardır. Gerçek veri hâlâ sağlanmadı; POI/rota paketini gezi kataloğuna bağlama ayrı eksiktir.
+- İlk dilim `123ccbc4` CI `37710748385`: 113 Flutter/39 SQL, analiz, teknik ses QA ve Android/iOS debug build başarılı. Tüm güncel kod `82708e1e` CI `37713783433`: analiz/format, 143 Flutter/39 SQL, teknik ses QA, Android debug APK ve release/split paketler başarılı. Mobil ekran testleri geçti sayılmaz: Android birleşmiş erişilebilirlik etiketi ve iOS SDK/runtime uyumsuzluğu yakalandı. `bd89c83a` düzeltmesi CI `37715121386` ile tekrar kabul bekliyor. Önceki run iki gezi senaryosunda hata yakaladı; favori dokunma ve test kaydırma hedefi düzeltildi. Android API 28/35 ve iPhone simulator UI; release/split boyut raporu yeni CI hattında. Fiziksel cihaz/TestFlight/canlı backend kabulü değildir. Ayrıntı: `docs/11-kullanici-kalite-turu.md`.
 
 ## 3. Sıradaki tek iş
 
-### Kullanıcı kalite turunu test ve kanıtla tamamla
+### Toplu kabulü tamamla; ardından POI/rota paketini geziye bağla
 
-Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Mesaj geçmişi kodu ve CI/render kabulü tamamlandı. Kullanıcı editörü ve işlem korumaları eklendi; önce yeni CI test/analiz ve derleme kabulünü tamamla. Sonraki incelemeler için bütün ana akışları tara ve yalnız kanıtlanmış sorunlara müdahale et. Kafile sohbeti/rehberle özel mesaj, bekleyen gönderimler, duyuru/program/rota, hesap/üyelik kontrolleri korunmalı; küçük ekran, büyük yazı ve klavye açıkken akış test edilmelidir. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
+Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Önce 8 Ekim turunun güncel CI/143 test/native/simülatör sonuçlarını gerçek kanıtla tamamla; bekleyen veya başarısız sonucu başarılı yazma. Ardından doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağla: manifest türü ve güven/hash/yol kontrolleri, tekrar/çakışan kimlikler, paket silme/güncelleme sonrası yenileme ve teknik fixture regresyonları gerekir. Gerçek lisanslı veri gelmeden sahaya hazır denmez. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota, hesap/üyelik ve kaynak/güncellik kontrollerini koru. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
 Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 
@@ -153,7 +156,7 @@ Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık 
 - **Backend adayı:** Supabase Auth/PostgreSQL/Realtime/Storage; supabase_flutter 2.18.0 ve mobil adaptör eklendi, canlı credential/kabul yok.
 - **Test:** `flutter_test`, `sqflite_common_ffi`; backend için 35 pgTAP kontrolü bağımsız PostgreSQL motorunda geçti; gerçek Supabase testi bekliyor.
 - **Android:** En düşük API 28; SDK/build-tools 36; Android 35 emülatör kanıtı.
-- **iOS:** Proje dosyaları var; tam Xcode ve CocoaPods gerekiyor.
+- **iOS:** Minimum 15.0; tam Xcode/iOS SDK gerekir. Mevcut eklenti hattı Swift Package Manager kullanır. Simulator derlemesi ayrı; imzalı fiziksel dağıtım ayrıca gerekir.
 
 Paket yükseltmesini ayrı ve test edilen değişiklik olarak yap. Özellik değişikliği sırasında ilgisiz toplu paket yükseltmesi yapma.
 
@@ -210,7 +213,7 @@ Biçim kontrolü:
 /Users/mustafasenoglu/.local/share/flutter-3.47.6/bin/dart format --output=none --set-exit-if-changed lib test
 ```
 
-iOS yalnız tam Xcode ve CocoaPods hazır olduğunda:
+Mevcut iOS projesi FlutterGeneratedPluginSwiftPackage / Swift Package Manager kullanıyor. Tam Xcode, Flutter ve gerekli iOS SDK/simülatör çalışma ortamı hazır olduğunda:
 
 ```sh
 $FLUTTER --no-version-check build ios --debug --no-codesign

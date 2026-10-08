@@ -1,6 +1,6 @@
 # Mobil testleri çalıştırma
 
-Bu paket dört ilk test akışıdır; bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür.
+Bu paket dört ilk test akışıdır; bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
 
 ## Ön koşullar
 
@@ -43,3 +43,13 @@ Maestro sürümü, platform, hedef, kurulu Android sürüm bilgileri, workspace 
 | Performans | Profile/release, düşük bellek, başlangıç/kare/bellek | Ölçüm yöntemi ve cihaz modeli |
 
 Gerçek kişilere test mesajı/davet gönderilmez; acil numaralar aranmaz. Çıkışta kanıtlar kişisel veri açısından kontrol edilerek paylaşılır.
+
+## 8 Ekim CI genişletmesi
+
+MVP workflow Android API 28 ve 35 için ayrı, yeni CI emülatörleri kullanır. APK aynı run'daki build artifact'ından indirilir. `--expected-apk PATH` verildiğinde çalıştırıcı kurulu tek APK'yı yalnız okumak için geçici klasöre çeker ve SHA-256 karşılaştırır; eşleşmezse ekran testini başlatmaz. Manuel testte bu bayrak isteğe bağlıdır. Akış süresi 10 dakika ile sınırlıdır.
+
+iOS işi fiziksel hedef no-codesign build ardından `--simulator --debug` derler. `run_ci_ios_qa.py` yalnız `GITHUB_ACTIONS=true` içinde kendi test simülatörünü oluşturur, kurar ve dört akışı çalıştırır; kendi oluşturduğu UUID'yi kapatıp siler. CI simülatör runtime sürümü seçili Xcode SDK major/minor sürümüne eşlenir; en yeni kurulu runtime körlemesine seçilmez. Kişisel Mac'te bu yardımcı çalıştırılmaz; açık seçilen test simülatörüyle genel çalıştırıcı kullanılır.
+
+CI'a eklenmiş olmak başarılı kabul anlamına gelmez. Run sonucu, JUnit ve session durumu birlikte okunmalıdır. Dört pilot akış bütün ürün, hoparlör sesi, gerçek iPhone, Bluetooth veya canlı backend kabulü değildir. Release/split APK'lar boyut ölçümü için teknik debug imzasıyla üretilir; kalıcı dağıtım imzası ayrıca gerekir. Güncel kanıt: `docs/11-kullanici-kalite-turu.md`.
+
+Maestro seçicileri Flutter'ın birleştirdiği başlık/alt açıklama ve sekme sırası metnini destekler. İlk CI'da yakalanan seçici ve SDK/runtime hatalarının düzeltmesi `bd89c83a`, tekrar run `37715121386`; sonuç kanıtı olmadan cihaz akışını geçti saymayın.

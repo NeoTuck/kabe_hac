@@ -18,7 +18,7 @@
 | 6 | Canlı kafile backend, geçmiş, program, konum ve push | İki hesap/grup RLS, offline senkronizasyon, rıza/iptal ve bildirim teslimi |
 | 7 | UI/UX, erişilebilirlik, performans, veri koruyan güncelleme, imza/mağaza | Gerçek Android/iPhone; sabit güvenli imza, TestFlight ve yayın beyanları |
 
-İlk bağımsız uygulama: aşama 1 test temeli ve aşama 2 editöryal çalışma tabloları. Aşama 1 cihaz yürütmesi eksik olduğu için tamamen bitmiş değildir. Kafile geçmişi sayfalama teknik dilimi `docs/10-kafile-mesaj-gecmisi.md` kapsamında doğrulandı. Sonraki kod dilimi uzun sohbetlerde mesaj yazma alanına kolay erişimdir. Canlı backend kurulumu gelmeden servis kabulü verilmez.
+İlk bağımsız uygulama: aşama 1 test temeli ve aşama 2 editöryal çalışma tabloları. Aşama 1 cihaz yürütmesi eksik olduğu için tamamen bitmiş değildir. Kafile geçmişi sayfalama teknik dilimi `docs/10-kafile-mesaj-gecmisi.md` kapsamında doğrulandı. Uzun sohbetlerde sabit mesaj yazma alanı, işlem korumaları, yer/rota ayrıntıları ve mobil CI genişletmesi 8 Ekim kalite turunda eklendi; güncel kabul `docs/11-kullanici-kalite-turu.md` içindedir. Sonraki bağımsız kod dilimi doğrulanmış POI/rota paketini gezi ekranına bağlamaktır. Canlı backend kurulumu gelmeden servis kabulü verilmez.
 
 ## Ürün kabul matrisi
 
@@ -33,12 +33,12 @@
 | Offline paket | Hash/atomik etkinleştirme/kesinti testleri | Gerçek sunucu/manifest/yayın paketleri; uçak modu |
 | Harita/POI/rotalar | Adaptör, model, liste/arama/favori | Etkileşimli harita, izinli veri, şirket rotası indirme |
 | Güvenlik/dil/saha | Şema, kaynak/güncellik ve boş durumlar | Doğrulanmış kurum numaraları/dil kartları/kapı-saat verisi |
-| Kafile/Auth/davet/sohbet | Repository/mock HTTP/widget; sayfalama; 39 SQL kontrolü | Gerçek Supabase/OTP/Realtime/RLS; uzun sohbet yazma deneyimi |
+| Kafile/Auth/davet/sohbet | Repository/mock HTTP/widget; sayfalama; 39 SQL kontrolü | Gerçek Supabase/OTP/Realtime/RLS; iki hesapla saha kabulü |
 | Konum | Yerel süreli rıza modeli | GPS izinleri/gönderim/iptal/saklama kabulü |
 | Push | Tamamlanmadı | APNs/FCM, token yaşam döngüsü, teslim testi |
 | Adım sensörü/yoğunluk | Tamamlanmadı | Sensör/veri kaynağı ve cihaz kabulü |
 | Şirket yönetimi/rota paylaşımı | Tamamlanmadı | Panel/yetki/oluşturma/indirme/moderasyon |
-| Dağıtım | Android debug ve iOS no-codesign CI | Kalıcı imza, veri koruyan güncelleme, iOS imzalı dağıtım |
+| Dağıtım | Android debug/release split ve iOS no-codesign/simulator CI hattı | Güncel run kabulü, kalıcı imza, veri koruyan güncelleme, iOS imzalı dağıtım |
 
 ## İlk uygulamanın araçları ve sınırları
 
