@@ -180,10 +180,26 @@ class PushTokenCoordinator extends ChangeNotifier {
   Future<void> _refreshTail = Future<void>.value();
   String? _registeredUser;
   String? _registeredToken;
+  Future<void> _actions = Future<void>.value();
+  bool _disposed = false;
   String? error;
   bool get enabled => _registeredUser != null;
 
-  Future<void> resumeIfEnabled() async {
+  Future<void> _serial(Future<void> Function() action) {
+    final run = _actions.then((_) async {
+      if (_disposed) return;
+      await action();
+    });
+    _actions = run.catchError((Object _) {});
+    return run;
+  }
+
+  void _publish() {
+    if (!_disposed) notifyListeners();
+  }
+
+  Future<void> resumeIfEnabled() => _serial(_resumeIfEnabled);
+  Future<void> _resumeIfEnabled() async {
     final savedUser = await store.readAppValue(_optInKey);
     if (savedUser == null || savedUser.isEmpty) return;
     final userId = currentUserId();
@@ -195,20 +211,21 @@ class PushTokenCoordinator extends ChangeNotifier {
       await store.saveAppValue(_optInKey, '');
       _registeredUser = null;
       _registeredToken = null;
-      notifyListeners();
+      _publish();
       return;
     }
     if (_registeredUser == userId) return;
     final token = await source.currentToken();
     if (token == null) {
       error = 'Bildirim kaydı yenilenemedi. Tekrar açmayı dene.';
-      notifyListeners();
+      _publish();
       return;
     }
     await _registerAndListen(userId, token);
   }
 
-  Future<void> enable() async {
+  Future<void> enable() => _serial(_enable);
+  Future<void> _enable() async {
     final userId = currentUserId();
     if (userId == null || !['android', 'ios'].contains(platform)) {
       throw const PushException('Kafile oturumu ve desteklenen cihaz gerekli.');
@@ -222,14 +239,14 @@ class PushTokenCoordinator extends ChangeNotifier {
     try {
       await store.saveAppValue(_optInKey, userId);
     } catch (_) {
-      await disable();
+      await _disable();
       rethrow;
     }
   }
 
   Future<void> _registerAndListen(String userId, String token) async {
     await remote.register(userId, platform, token);
-    if (currentUserId() != userId) {
+    if (_disposed || currentUserId() != userId) {
       throw const PushException('Bildirim hesabı değişti.');
     }
     _registeredUser = userId;
@@ -237,30 +254,35 @@ class PushTokenCoordinator extends ChangeNotifier {
     error = null;
     await _refreshSubscription?.cancel();
     _refreshSubscription = source.tokenRefreshes.listen((newToken) {
-      if (currentUserId() != userId || _registeredUser != userId) return;
+      if (_disposed || currentUserId() != userId || _registeredUser != userId)
+        return;
       _refreshTail = _refreshTail.then((_) => _replaceToken(userId, newToken));
       unawaited(_refreshTail);
     });
-    notifyListeners();
+    _publish();
   }
 
   Future<void> _replaceToken(String userId, String newToken) async {
     final oldToken = _registeredToken;
+    if (_disposed || currentUserId() != userId || _registeredUser != userId)
+      return;
     if (oldToken == null || oldToken == newToken) return;
     try {
       await remote.register(userId, platform, newToken);
-      if (currentUserId() != userId || _registeredUser != userId) return;
+      if (_disposed || currentUserId() != userId || _registeredUser != userId)
+        return;
       await remote.revoke(userId, oldToken);
       _registeredToken = newToken;
       error = null;
-      notifyListeners();
+      _publish();
     } catch (_) {
       error = 'Yeni bildirim kaydı sunucuya iletilemedi.';
-      notifyListeners();
+      _publish();
     }
   }
 
-  Future<void> disable() async {
+  Future<void> disable() => _serial(_disable);
+  Future<void> _disable() async {
     await _refreshSubscription?.cancel();
     _refreshSubscription = null;
     await _refreshTail;
@@ -276,7 +298,7 @@ class PushTokenCoordinator extends ChangeNotifier {
       }
       await source.deleteToken();
       await store.saveAppValue(_optInKey, '');
-      notifyListeners();
+      _publish();
       return;
     }
     if (currentUserId() != userId) {
@@ -286,7 +308,7 @@ class PushTokenCoordinator extends ChangeNotifier {
       _registeredToken = null;
       await source.deleteToken();
       await store.saveAppValue(_optInKey, '');
-      notifyListeners();
+      _publish();
       return;
     }
     if (token != null) await remote.revoke(userId, token);
@@ -297,11 +319,12 @@ class PushTokenCoordinator extends ChangeNotifier {
     _registeredUser = null;
     _registeredToken = null;
     error = null;
-    notifyListeners();
+    _publish();
   }
 
   @override
   void dispose() {
+    _disposed = true;
     unawaited(_refreshSubscription?.cancel());
     super.dispose();
   }

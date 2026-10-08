@@ -323,6 +323,9 @@ class LocationShareCoordinator {
         throw const LocationShareException('Konum paylaşım izni kapandı.');
       }
       await remote.send(shareId, userId, update);
+      if (generation != _generation || currentUserId() != userId) {
+        throw const LocationShareException('Konum paylaşımı iptal edildi.');
+      }
       return update;
     } catch (_) {
       await store.stopLocationShare(groupId);

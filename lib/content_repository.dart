@@ -16,9 +16,12 @@ class LocalContentRepository {
     GuideType.hajj: 'assets/content/hac_inventory.v1.json',
   };
 
-  Future<Map<GuideType, GuideCatalog>> load() async {
-    final catalogs = <GuideType, GuideCatalog>{};
+  Future<Map<GuideType, GuideCatalog>> load({
+    Map<GuideType, GuideCatalog>? bundledCatalogs,
+  }) async {
+    final catalogs = <GuideType, GuideCatalog>{...?bundledCatalogs};
     for (final entry in catalogPaths.entries) {
+      if (catalogs.containsKey(entry.key)) continue;
       final text = await (bundle ?? rootBundle).loadString(entry.value);
       final catalog = GuideCatalog.fromJsonText(text);
       if (catalog.type != entry.key) {
@@ -40,6 +43,7 @@ class LocalContentRepository {
               kind: OfflinePackageKind.audio,
             );
             if (file == null) continue;
+            if (await file.length() > 8 * 1024 * 1024) continue;
             final text = await file.readAsString();
             final catalog = GuideCatalog.fromJsonText(text);
             final base = catalogs[entry.key]!;

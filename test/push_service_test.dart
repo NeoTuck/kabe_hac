@@ -11,12 +11,13 @@ const groupId = '11111111-1111-4111-8111-111111111111';
 class FakePushSource extends PushTokenSource {
   final refreshes = StreamController<String>.broadcast();
   String? token = 'first-token';
+  Completer<String?>? tokenGate;
   int requests = 0;
   int deletes = 0;
   @override
   Future<String?> requestToken() async {
     requests++;
-    return token;
+    return tokenGate == null ? token : await tokenGate!.future;
   }
 
   @override
@@ -113,6 +114,36 @@ void main() {
       await expectLater(coordinator.disable(), throwsStateError);
       expect(coordinator.enabled, isTrue);
       expect(source.deletes, 0);
+    },
+  );
+
+  test(
+    'disable requested during permission prompt revokes the eventual token',
+    () async {
+      final gate = Completer<String?>();
+      final source = FakePushSource()..tokenGate = gate;
+      final remote = FakePushRemote();
+      final store = MemoryGuideStore();
+      final coordinator = PushTokenCoordinator(
+        source: source,
+        remote: remote,
+        currentUserId: () => userId,
+        platform: 'android',
+        store: store,
+      );
+      addTearDown(() async {
+        coordinator.dispose();
+        await source.refreshes.close();
+      });
+      final enabling = coordinator.enable();
+      await Future<void>.delayed(Duration.zero);
+      final disabling = coordinator.disable();
+      gate.complete('late-token');
+      await Future.wait([enabling, disabling]);
+      expect(coordinator.enabled, isFalse);
+      expect(remote.revocations, ['late-token']);
+      expect(source.deletes, 1);
+      expect(await store.readAppValue('push_opt_in_user'), '');
     },
   );
 

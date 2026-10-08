@@ -59,8 +59,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final GroupRepository _groups =
-      widget.groups ?? UnconfiguredGroupRepository();
+  final GroupRepository _fallbackGroups = UnconfiguredGroupRepository();
+  GroupRepository get _groups => widget.groups ?? _fallbackGroups;
   late Map<GuideType, GuideCatalog> _catalogs;
   TravelCatalog? _travelCatalog;
   int _refreshEpoch = 0;
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    if (widget.groups == null) _groups.dispose();
+    _fallbackGroups.dispose();
     super.dispose();
   }
 

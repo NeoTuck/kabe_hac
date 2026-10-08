@@ -58,6 +58,7 @@ class FakeLocationRemote extends LocationShareRemote {
   int sends = 0;
   int stops = 0;
   bool failStop = false;
+  Completer<void>? sendGate;
   List<RecentSharedLocation> recent = [];
 
   @override
@@ -73,6 +74,7 @@ class FakeLocationRemote extends LocationShareRemote {
     SharedLocationUpdate update,
   ) async {
     sends++;
+    await sendGate?.future;
   }
 
   @override
@@ -195,6 +197,30 @@ void main() {
     await expectLater(coordinator.stop(groupId), throwsStateError);
     expect(store.value!.enabled, isFalse);
   });
+
+  test(
+    'cancelling while send is pending never reports successful sharing',
+    () async {
+      final store = FakeLocationStore();
+      final gate = Completer<void>();
+      final remote = FakeLocationRemote()..sendGate = gate;
+      final coordinator = LocationShareCoordinator(
+        store: store,
+        reader: FakeLocationReader(() async => fresh()),
+        remote: remote,
+        currentUserId: () => userId,
+      );
+      final pending = coordinator.shareOnce(groupId);
+      while (remote.sends == 0) {
+        await Future<void>.delayed(Duration.zero);
+      }
+      coordinator.cancelPending();
+      gate.complete();
+      await expectLater(pending, throwsA(isA<LocationShareException>()));
+      expect(store.value!.enabled, isFalse);
+      expect(remote.stops, 1);
+    },
+  );
 
   test('manager view hides expired, stale and own locations', () async {
     final now = DateTime.now().toUtc();

@@ -23,7 +23,7 @@ jobs:
       - run: python -m py_compile tools/run_mobile_qa.py tools/verify_mobile_qa.py tools/content_audit.py tools/build_offline_manifest.py tools/release_preflight.py
   flutter:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -40,7 +40,7 @@ jobs:
       - name: Refresh test dependency index with bounded network retries
         run: timeout 180s sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
       - name: Install test dependencies with bounded network retries
-        run: timeout 180s sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install -y libsqlite3-dev ffmpeg
+        run: timeout 600s sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install --no-install-recommends -y libsqlite3-dev ffmpeg
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter analyze
@@ -54,10 +54,17 @@ jobs:
           if-no-files-found: error
       - run: python3 tools/verify_audio.py
       - run: flutter build apk --debug
+      - run: python3 tools/verify_production_assets.py build/app/outputs/flutter-apk/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
           name: android-debug-pilot
           path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+      - run: python3 tools/build_audio_probe.py --platform android
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-audio-qa-only
+          path: build/audio-qa/app-debug.apk
           if-no-files-found: error
   ios:
     runs-on: macos-15
@@ -70,6 +77,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build ios --debug --no-codesign
       - run: flutter build ios --simulator --debug
+      - run: python3 tools/build_audio_probe.py --platform ios-simulator
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -106,7 +114,7 @@ jobs:
   android-ui:
     needs: flutter
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -124,6 +132,10 @@ jobs:
         with:
           name: android-debug-pilot
           path: build/app/outputs/flutter-apk
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-audio-qa-only
+          path: build/audio-qa
       - name: Install pinned Maestro CLI
         run: |
           curl --fail --location --retry 3 https://github.com/mobile-dev-inc/maestro/releases/download/cli-2.11.0/maestro.zip -o /tmp/maestro.zip
@@ -145,6 +157,8 @@ jobs:
           script: |
             adb -s emulator-5554 install build/app/outputs/flutter-apk/app-debug.apk
             python tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow all --expected-apk build/app/outputs/flutter-apk/app-debug.apk
+            adb -s emulator-5554 install -r build/audio-qa/app-debug.apk
+            python tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow audio --expected-apk build/audio-qa/app-debug.apk
       - name: Preserve device evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -154,7 +168,7 @@ jobs:
           if-no-files-found: warn
   android-release-size:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -172,6 +186,7 @@ jobs:
       - run: flutter build apk --release --split-per-abi
         env:
           KABE_TECHNICAL_PILOT: 'true'
+      - run: python3 tools/verify_production_assets.py build/app/outputs/flutter-apk/app-*-release.apk
       - run: python3 tools/report_apk_sizes.py
       - uses: actions/upload-artifact@v4
         with:

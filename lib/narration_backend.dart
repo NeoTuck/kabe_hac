@@ -32,6 +32,13 @@ class DeviceNarrationBackend extends NarrationBackend {
   @override
   Future<void> initialize() async {
     if (_player != null) return;
+    // Register media integration only when audio is actually requested.
+    // Offline reading must not wait for platform audio services at launch.
+    await JustAudioBackground.init(
+      androidNotificationChannelId:
+          'com.mustafasenoglu.hac_umre_sesli_rehber.audio',
+      androidNotificationChannelName: 'Sesli rehber oynatma',
+    );
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
     _session = session;

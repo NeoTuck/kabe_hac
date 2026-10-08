@@ -46,14 +46,35 @@ def main():
         'device': device, 'runtime': runtime['identifier'], 'device_type': phone['identifier'],
         'app_id': app_id, 'sdk_version': sdk_version, 'physical_iphone_tested': False,
     }, indent=2) + '\n')
+    console = None
+    console_stream = None
     try:
         run('xcrun', 'simctl', 'boot', device)
         run('xcrun', 'simctl', 'bootstatus', device, '-b', timeout=180)
         run('xcrun', 'simctl', 'install', device, str(APP), timeout=120)
-        return subprocess.run([sys.executable, str(ROOT / 'tools/run_mobile_qa.py'),
+        console_stream = (evidence / 'ios-console.log').open('w')
+        console = subprocess.Popen(['xcrun', 'simctl', 'spawn', device, 'log', 'stream',
+            '--level', 'info', '--predicate', 'process == \"Runner\"'], stdout=console_stream, stderr=subprocess.STDOUT)
+        result = subprocess.run([sys.executable, str(ROOT / 'tools/run_mobile_qa.py'),
             '--platform', 'ios-simulator', '--device', device, '--app-id', app_id,
             '--test-device', '--flow', 'all'], cwd=ROOT, timeout=900).returncode
+        if result != 0:
+            return result
+        audio_app = ROOT / 'build/audio-qa/Runner.app'
+        subprocess.run(['xcrun', 'simctl', 'terminate', device, app_id], timeout=30)
+        run('xcrun', 'simctl', 'install', device, str(audio_app), timeout=120)
+        return subprocess.run([sys.executable, str(ROOT / 'tools/run_mobile_qa.py'),
+            '--platform', 'ios-simulator', '--device', device, '--app-id', app_id,
+            '--test-device', '--flow', 'audio'], cwd=ROOT, timeout=900).returncode
     finally:
+        if console is not None:
+            console.terminate()
+            try:
+                console.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                console.kill()
+        if console_stream is not None:
+            console_stream.close()
         subprocess.run(['xcrun', 'simctl', 'shutdown', device], timeout=60)
         subprocess.run(['xcrun', 'simctl', 'delete', device], timeout=60)
 

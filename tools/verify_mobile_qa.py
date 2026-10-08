@@ -8,8 +8,8 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ALLOWED = {'launchApp', 'assertVisible', 'tapOn', 'scrollUntilVisible', 'takeScreenshot'}
 files = sorted((ROOT / '.maestro/flows').glob('*.yaml'))
-if len(files) != 4:
-    sys.exit('FAIL: expected four pilot flows')
+if len(files) != 5:
+    sys.exit('FAIL: expected five pilot flows')
 for path in files:
     documents = list(yaml.safe_load_all(path.read_text()))
     if len(documents) != 2:

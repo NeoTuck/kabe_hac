@@ -82,6 +82,15 @@ def prepare_android_driver(device, output):
         raise RuntimeError('Maestro driver preparation failed; UI flows were not started')
 
 
+def prepare_ios_driver(device, output):
+    """Warm XCTest separately from measured flows; never retry UI assertions."""
+    with (output / 'driver-preflight.log').open('w') as log:
+        result = subprocess.run(['maestro', '--device', device, 'hierarchy'],
+                                stdout=log, stderr=subprocess.STDOUT, timeout=240)
+    if result.returncode != 0:
+        raise RuntimeError('iOS driver preparation failed; UI flows were not started')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--platform', required=True, choices=list(IDS))
@@ -91,7 +100,7 @@ def main():
     parser.add_argument('--test-device', action='store_true', help='Dedicated test device; flow creates/resumes guide records')
     parser.add_argument('--dry-run', action='store_true', help='Print command only; no device checks or tests')
     parser.add_argument('--preflight', action='store_true', help='Check tools/device/app only; do not run UI tests')
-    parser.add_argument('--flow', choices=['all', 'core', '01', '02', '03', '04'], default='core')
+    parser.add_argument('--flow', choices=['all', 'core', '01', '02', '03', '04', '05', 'audio'], default='core')
     args = parser.parse_args()
     app_id = args.app_id or IDS[args.platform]
     if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_.-]+', app_id) or args.device.startswith('-'):
@@ -103,8 +112,10 @@ def main():
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     output = ROOT / 'build/mobile-qa' / (stamp + '-' + uuid.uuid4().hex[:8])
     flows = sorted((ROOT / '.maestro/flows').glob('*.yaml'))
-    if args.flow == 'core':
-        flows = [p for p in flows if not p.name.startswith('04')]
+    if args.flow == 'audio':
+        flows = [ROOT / '.maestro/audio-probe.yaml']
+    elif args.flow == 'core':
+        flows = [p for p in flows if p.name.startswith(('01', '02', '03'))]
     elif args.flow != 'all':
         flows = [p for p in flows if p.name.startswith(args.flow)]
     command = ['maestro', '--device', args.device, 'test', '--env', f'APP_ID={app_id}',
@@ -155,6 +166,9 @@ def main():
         else:
             if args.platform == 'android':
                 prepare_android_driver(args.device, output)
+                evidence['driver_prepared'] = True
+            else:
+                prepare_ios_driver(args.device, output)
                 evidence['driver_prepared'] = True
             evidence['device_tests_run'] = True
             with (output / 'maestro.log').open('w') as log:

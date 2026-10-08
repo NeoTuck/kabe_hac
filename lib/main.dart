@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 import 'app_theme.dart';
+import 'app_startup.dart';
 import 'content_repository.dart';
 import 'guide_catalog.dart';
 import 'group_repository.dart';
@@ -40,17 +40,14 @@ Future<void> main() async {
       ], await rootBundle.loadString('assets/fonts/$name-OFL.txt'));
     }
   });
+  runApp(AppStartup(load: _loadApplication));
+}
+
+Future<Widget> _loadApplication() async {
   final store = ProgressStore();
+  NarrationService? allocatedNarration;
+  ReaderSettings? allocatedSettings;
   try {
-    try {
-      await JustAudioBackground.init(
-        androidNotificationChannelId:
-            'com.mustafasenoglu.hac_umre_sesli_rehber.audio',
-        androidNotificationChannelName: 'Sesli rehber oynatma',
-      );
-    } catch (_) {
-      // Keep the offline guide available; first play reports device audio errors.
-    }
     final supportDirectory = await getApplicationSupportDirectory();
     OfflinePackageRuntimeConfig? packageConfig;
     String? packageConfigurationError;
@@ -67,13 +64,24 @@ Future<void> main() async {
       trustPolicy: packageTrust,
     );
     final narration = JustAudioNarrationService(packages: packages);
+    allocatedNarration = narration;
     final settings = ReaderSettings(store, narration);
+    allocatedSettings = settings;
     // Device audio is initialized on first play; the guide remains available if it fails.
     final contentRepository = LocalContentRepository(packages: packages);
     final bundledCatalogs = await const LocalContentRepository().load();
-    final catalogs = await contentRepository.load();
+    final catalogsFuture = contentRepository.load(
+      bundledCatalogs: bundledCatalogs,
+    );
     final travelRepository = LocalTravelRepository(packages: packages);
-    final travelCatalog = await travelRepository.load();
+    final travelFuture = travelRepository.load();
+    final local = await Future.wait<Object>([
+      catalogsFuture,
+      travelFuture,
+      settings.load().then((_) => true),
+    ]);
+    final catalogs = local[0] as Map<GuideType, GuideCatalog>;
+    final travelCatalog = local[1] as TravelCatalog;
     final packageProvider = packageConfig == null
         ? null
         : ConfiguredOfflinePackageProvider(
@@ -89,51 +97,13 @@ Future<void> main() async {
               allowedHosts: packageConfig.allowedHosts,
             ),
           );
-    GroupRepository groups = UnconfiguredGroupRepository();
-    try {
-      final config = GroupRuntimeConfig.fromCompileTime();
-      if (config != null) {
-        await Supabase.initialize(
-          url: config.url,
-          publishableKey: config.publishableKey,
-        );
-        groups = SupabaseGroupRepository(Supabase.instance.client);
-      }
-    } catch (_) {
-      // A backend failure never locks the offline guide behind sign-in.
-    }
     final navigatorKey = GlobalKey<NavigatorState>();
-    PushTokenCoordinator? push;
-    if (groups is SupabaseGroupRepository &&
-        (Platform.isAndroid || Platform.isIOS)) {
-      try {
-        final config = PushRuntimeConfig.fromCompileTime();
-        if (config != null) {
-          await Firebase.initializeApp(options: config.firebaseOptions);
-          push = PushTokenCoordinator(
-            source: const FirebasePushTokenSource(),
-            remote: SupabasePushTokenRemote(groups.client),
-            currentUserId: () => groups.userId,
-            platform: Platform.isAndroid ? 'android' : 'ios',
-            store: store,
-          );
-          unawaited(push.resumeIfEnabled().catchError((Object _) {}));
-          _wirePushRouting(
-            FirebaseMessaging.instance,
-            groups,
-            store,
-            navigatorKey,
-          );
-        }
-      } catch (_) {
-        // No permission is requested when project setup is incomplete.
-      }
-    }
-    await settings.load();
-    runApp(
-      SesliRehberApp(
-        groups: groups,
-        push: push,
+    return DeferredValue<OnlineServices>(
+      initialValue: OnlineServices(UnconfiguredGroupRepository(), null),
+      load: () => _loadOnlineServices(store, navigatorKey),
+      builder: (services) => SesliRehberApp(
+        groups: services.groups,
+        push: services.push,
         navigatorKey: navigatorKey,
         store: store,
         catalogs: catalogs,
@@ -155,20 +125,63 @@ Future<void> main() async {
       ),
     );
   } catch (_) {
-    runApp(
-      const MaterialApp(
-        home: Scaffold(
-          body: SafeArea(
-            child: Center(
-              child: Text(
-                'İçerik veya yerel kayıt açılamadı. Uygulamayı yeniden başlat.',
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    allocatedSettings?.dispose();
+    allocatedNarration?.dispose();
+    await store.close();
+    rethrow;
   }
+}
+
+class OnlineServices {
+  const OnlineServices(this.groups, this.push);
+  final GroupRepository groups;
+  final PushTokenCoordinator? push;
+}
+
+Future<OnlineServices> _loadOnlineServices(
+  ProgressStore store,
+  GlobalKey<NavigatorState> navigatorKey,
+) async {
+  GroupRepository groups = UnconfiguredGroupRepository();
+  try {
+    final config = GroupRuntimeConfig.fromCompileTime();
+    if (config != null) {
+      await Supabase.initialize(
+        url: config.url,
+        publishableKey: config.publishableKey,
+      );
+      groups = SupabaseGroupRepository(Supabase.instance.client);
+    }
+  } catch (_) {
+    // A backend failure never locks the offline guide behind sign-in.
+  }
+  PushTokenCoordinator? push;
+  if (groups is SupabaseGroupRepository &&
+      (Platform.isAndroid || Platform.isIOS)) {
+    try {
+      final config = PushRuntimeConfig.fromCompileTime();
+      if (config != null) {
+        await Firebase.initializeApp(options: config.firebaseOptions);
+        push = PushTokenCoordinator(
+          source: const FirebasePushTokenSource(),
+          remote: SupabasePushTokenRemote(groups.client),
+          currentUserId: () => groups.userId,
+          platform: Platform.isAndroid ? 'android' : 'ios',
+          store: store,
+        );
+        unawaited(push.resumeIfEnabled().catchError((Object _) {}));
+        _wirePushRouting(
+          FirebaseMessaging.instance,
+          groups,
+          store,
+          navigatorKey,
+        );
+      }
+    } catch (_) {
+      // No permission is requested when project setup is incomplete.
+    }
+  }
+  return OnlineServices(groups, push);
 }
 
 void _wirePushRouting(
@@ -216,6 +229,7 @@ void _wirePushRouting(
           .catchError((Object _) {}),
     );
   });
+  WidgetsBinding.instance.scheduleFrame();
 }
 
 class SesliRehberApp extends StatelessWidget {

@@ -22,7 +22,9 @@ class ChangingContentRepository extends LocalContentRepository {
   Map<GuideType, GuideCatalog> current;
   int loads = 0;
   @override
-  Future<Map<GuideType, GuideCatalog>> load() async {
+  Future<Map<GuideType, GuideCatalog>> load({
+    Map<GuideType, GuideCatalog>? bundledCatalogs,
+  }) async {
     loads++;
     return current;
   }

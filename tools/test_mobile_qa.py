@@ -53,3 +53,16 @@ class MobileConfigurationTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class ExtendedCoverageTests(unittest.TestCase):
+    def test_optional_practice_is_in_the_measured_suite(self):
+        flow = commands('05-prova.yaml')
+        self.assertIn({'tapOn': 'Kaldığım provadan devam et'}, flow)
+        self.assertIn({'assertVisible': 'Kullanım biçimi seçimi'}, flow)
+
+    def test_audio_suite_requires_position_pause_completion_and_stop(self):
+        docs = list(yaml.safe_load_all((ROOT / '.maestro/audio-probe.yaml').read_text()))
+        flow = docs[1]
+        for label in ('Konum ilerledi', 'Süre alındı', 'Ses duraklatıldı',
+                      'Ses tamamlandı', 'Ses durdu'):
+            self.assertIn({'assertVisible': label}, flow)
