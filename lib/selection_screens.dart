@@ -201,6 +201,17 @@ class _HomeScreenState extends State<HomeScreen> {
             const Text(
               'Hazırlık ve yolculuk kayıtların ayrı tutulur. İstediğin zaman diğer rehberlere geçebilirsin.',
             ),
+            if (_catalogs[GuideType.umrah]!.isPreview) ...[
+              const SizedBox(height: 16),
+              const Card.filled(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    'Umre içeriği henüz incelemede. Yolculuk ekranı kişisel takip içindir; onaylı ibadet anlatımı ve insan sesi henüz yok.',
+                  ),
+                ),
+              ),
+            ],
             if (latest != null) ...[
               const SizedBox(height: 26),
               FilledButton.icon(
@@ -222,7 +233,9 @@ class _HomeScreenState extends State<HomeScreen> {
             _ChoiceCard(
               icon: Icons.route_outlined,
               title: 'Umredeyim',
-              subtitle: 'Yolculuk kaydını aç, adımları ve sayaçları takip et',
+              subtitle: _catalogs[GuideType.umrah]!.isPreview
+                  ? 'Taslak başlıkları ve sayaçları kişisel olarak takip et'
+                  : 'Yolculuk kaydını aç, adımları ve sayaçları takip et',
               onTap: () => _openUmrah(GuideMode.journey),
             ),
             const SizedBox(height: 28),
@@ -234,7 +247,9 @@ class _HomeScreenState extends State<HomeScreen> {
             _ChoiceCard(
               icon: Icons.menu_book_rounded,
               title: 'Umre',
-              subtitle: '18 başlık · içerik incelemede',
+              subtitle: _catalogs[GuideType.umrah]!.isPreview
+                  ? '18 başlık · içerik incelemede'
+                  : '18 başlık · içerik onaylı',
               onTap: () => _choose(GuideType.umrah),
             ),
             const SizedBox(height: 12),

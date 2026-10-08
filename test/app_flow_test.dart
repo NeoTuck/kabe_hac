@@ -27,6 +27,14 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    expect(
+      find.textContaining('Umre içeriği henüz incelemede'),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Taslak başlıkları ve sayaçları kişisel olarak takip et'),
+      findsOneWidget,
+    );
     await tester.scrollUntilVisible(find.text('Umre'), 200);
     await tester.ensureVisible(find.text('Umre'));
     await tester.pumpAndSettle();

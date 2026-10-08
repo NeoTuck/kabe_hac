@@ -219,7 +219,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                             ? 'Hac türlerinin hangi başlıklardan geçeceği henüz onaylanmadı. Bu liste 35 başlığın önizlemesidir; kişisel işaretleme kapalıdır.'
                             : isHajj
                             ? '${widget.profile!.label} için onaylı profil akışı gösteriliyor. İşaretler yalnız kişisel kayıttır.'
-                            : 'Bu başlıklar içerik taslağıdır. Kaynaklı açıklama ve insan sesi inceleme sonrası açılacak. İşaretler yalnız kişisel kayıttır.',
+                            : widget.catalog.isPreview
+                            ? 'Bu başlıkların bir bölümü içerik taslağıdır. Onaylanan metin ve sesler kendi kartında açılır. İşaretler yalnız kişisel kayıttır.'
+                            : 'Onaylı Umre başlıkları gösteriliyor. İşaretler yalnız kişisel kayıttır.',
                       ),
                     ),
                   ),
@@ -603,7 +605,7 @@ class _PrayerCard extends StatelessWidget {
               'Arapça metin, okunuş ve Türkçe anlam henüz sağlanmadı.',
             ),
           ],
-          if (prayer.arabic != null)
+          if (prayer.isApproved && parentApproved && prayer.arabic != null)
             Semantics(
               label: 'Arapça dua metni',
               child: Directionality(
@@ -619,9 +621,13 @@ class _PrayerCard extends StatelessWidget {
                 ),
               ),
             ),
-          if (prayer.transliteration != null) Text(prayer.transliteration!),
-          if (prayer.meaningTr != null) Text(prayer.meaningTr!),
-          if (prayer.sourceTitle != null) ...[
+          if (prayer.isApproved &&
+              parentApproved &&
+              prayer.transliteration != null)
+            Text(prayer.transliteration!),
+          if (prayer.isApproved && parentApproved && prayer.meaningTr != null)
+            Text(prayer.meaningTr!),
+          if (prayer.isApproved && parentApproved && prayer.sourceTitle != null) ...[
             const SizedBox(height: 8),
             Text('Kaynak: ${prayer.sourceTitle} · ${prayer.sourceLocation}'),
             if (prayer.sourceUrl != null) SelectableText(prayer.sourceUrl!),

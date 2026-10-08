@@ -132,6 +132,44 @@ void main() {
     );
   });
 
+  testWidgets('taslak dua metni onay gelmeden gösterilmez', (tester) async {
+    final source = jsonDecode(umrahJson) as Map<String, dynamic>;
+    final prayer =
+        (source['prayerRecords'] as List).first as Map<String, dynamic>;
+    prayer.addAll({
+      'arabic': 'نص اختبار',
+      'transliteration': 'Taslak okunuş',
+      'meaningTr': 'Taslak anlam',
+    });
+    final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
+    final store = MemoryGuideStore();
+    final narration = FakeNarration();
+    final session = await store.openOrCreateSession(
+      type: GuideType.umrah,
+      mode: GuideMode.learning,
+      profile: null,
+      firstStepId: 'U02.2',
+      contentVersion: catalog.contentVersion,
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: GuideStepScreen(
+          store: store,
+          catalog: catalog,
+          narration: narration,
+          session: session,
+          step: catalog.stepById('U02.2')!,
+          initiallyMarked: false,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Bu dua hazırlama kaydıdır'), findsOneWidget);
+    expect(find.text('نص اختبار'), findsNothing);
+    expect(find.text('Taslak okunuş'), findsNothing);
+    expect(find.text('Taslak anlam'), findsNothing);
+  });
+
   testWidgets(
     'onaylı örnek veride dua kartı doğru metin ve ses türlerini açar',
     (tester) async {

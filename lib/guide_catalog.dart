@@ -519,7 +519,12 @@ class GuideCatalog {
   }
 
   bool get isPreview =>
-      type == GuideType.hajj || steps.any((s) => !s.isApproved);
+      type == GuideType.hajj ||
+      steps.any(
+        (step) =>
+            !step.isApproved ||
+            step.prayerIds.any((id) => !prayerRecords[id]!.isApproved),
+      );
 
   factory GuideCatalog.fromJsonText(String text) {
     final decoded = _object(jsonDecode(text), 'Katalog');
