@@ -19,8 +19,8 @@ IDS = {'android': 'com.mustafasenoglu.hac_umre_sesli_rehber',
        'ios-simulator': 'com.mustafasenoglu.hacUmreSesliRehber'}
 
 
-def probe(command):
-    result = subprocess.run(command, capture_output=True, text=True, timeout=30)
+def probe(command, timeout=30):
+    result = subprocess.run(command, capture_output=True, text=True, timeout=timeout)
     if result.returncode != 0:
         raise RuntimeError(f'Command failed: {command[0]} (exit {result.returncode})')
     return result.stdout.strip()
@@ -148,7 +148,8 @@ def main():
                        for group in devices['devices'].values() for d in group):
                 raise RuntimeError('Requested iOS simulator is not booted; physical iPhone is not supported here')
             probe(['xcrun', 'simctl', 'get_app_container', args.device, app_id, 'app'])
-        evidence['maestro_version'] = probe(['maestro', '--version'])
+        # macOS CI may cold-start the Java CLI after Xcode/simulator setup.
+        evidence['maestro_version'] = probe(['maestro', '--version'], timeout=120)
         if args.preflight:
             evidence['status'] = 'preflight_ready'
         else:
