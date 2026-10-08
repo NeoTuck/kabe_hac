@@ -40,4 +40,8 @@ Kategoriler: religious_expert_review, human_audio_rights, offline_map_license, v
 
 ## Doğrulama
 
-Yerel Python regresyonları ve YAML kontrolleri çalıştırıldı. Tam Flutter analiz/test ve Android/iOS derlemeleri GitHub CI'da doğrulanır; tamamlanmadan geçti yazılmaz. Güncel sonuç bu bölümde eklenecek.
+CI `37765942469`, kod `e253b9aff`: 153 Flutter testi, format/analiz, teknik AAC ses QA, 39 bağımsız fixture SQL ve 11 Python kontrolü başarılı. Android debug/split release, iOS no-codesign/simulator derlemeleri geçti. ARM64 teknik pilot APK 35869863 bayt; SHA-256 987fd632aa162711ff35f9d77452fdd28d8becb0b7e44663f8c8673f1b84e9cb. Gerçek upload imzası değildir.
+
+API28 dört pilot akışı geçti. API35 ilk launchApp sırasında `device offline` ile başarısız, diğer üç akış geçti. iOS sorgusu test başlamadan simctl 30 sn timeout ile blocked döndü. Bunlar tam mobil kabul sayılmaz. Android testlerinden önce ayrı Maestro hierarchy sürücü hazırlığı eklendi; en fazla iki hazırlık girişimi kaydedilir, başarısız UI akışına tekrar uygulanmaz. CoreSimulator başlangıç sorgusunda en fazla üç hazırlık girişimi vardır. Yerel Python regresyonları 14 kontrolle başarılı; yeni mobil CI sonucu ayrı doğrulanır.
+
+Rehber yenileme testinin fake-async varlık okuma zaman aşımı tester.runAsync ile giderildi; yeni CI'da iki yenileme testi geçti. Yeni gezi paketinin güven/hash/symlink/geri dönüş/silme/çakışma kontrolleri ve UI paket dönüşü geçti. Ana sayfa, ses, ayar ve kapalı kafile güncel renderları gözle incelendi; 320/390 px ve %100/%200 yazı matrisi geçti. Fiziksel cihaz ve işitsel kalite kabulü değildir.

@@ -51,6 +51,37 @@ def wait_for_android(device, attempts=6, pause=2):
     raise RuntimeError('Android transport/boot did not become stably ready')
 
 
+def booted_ios_devices(attempts=3):
+    """Retry only CoreSimulator startup queries, never application UI flows."""
+    for attempt in range(attempts):
+        try:
+            return json.loads(probe(['xcrun', 'simctl', 'list', 'devices', 'booted', '-j']))
+        except (RuntimeError, subprocess.TimeoutExpired):
+            if attempt + 1 == attempts:
+                raise
+            time.sleep(2)
+
+
+def prepare_android_driver(device, output):
+    """Install/connect Maestro before measured flows; preserve both attempts."""
+    command = ['maestro', '--device', device, 'hierarchy']
+    with (output / 'driver-preflight.log').open('w') as log:
+        for attempt in range(2):
+            wait_for_android(device)
+            log.write(f'Driver preparation attempt {attempt + 1}\n')
+            try:
+                result = subprocess.run(command, capture_output=True, text=True, timeout=120)
+                log.write(result.stdout + result.stderr)
+                log.flush()
+                if result.returncode == 0:
+                    wait_for_android(device)
+                    return
+            except subprocess.TimeoutExpired:
+                log.write('Driver preparation timed out\n')
+                log.flush()
+        raise RuntimeError('Maestro driver preparation failed; UI flows were not started')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--platform', required=True, choices=list(IDS))
@@ -112,7 +143,7 @@ def main():
             evidence['installed_version_lines'] = [line.strip() for line in package.splitlines()
                                                    if 'versionName=' in line or 'versionCode=' in line]
         else:
-            devices = json.loads(probe(['xcrun', 'simctl', 'list', 'devices', 'booted', '-j']))
+            devices = booted_ios_devices()
             if not any(d['udid'] == args.device and d['state'] == 'Booted'
                        for group in devices['devices'].values() for d in group):
                 raise RuntimeError('Requested iOS simulator is not booted; physical iPhone is not supported here')
@@ -122,7 +153,8 @@ def main():
             evidence['status'] = 'preflight_ready'
         else:
             if args.platform == 'android':
-                wait_for_android(args.device)
+                prepare_android_driver(args.device, output)
+                evidence['driver_prepared'] = True
             evidence['device_tests_run'] = True
             with (output / 'maestro.log').open('w') as log:
                 result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, timeout=600)

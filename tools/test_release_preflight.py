@@ -50,3 +50,25 @@ class ReleaseAuditTests(unittest.TestCase):
         with patch('run_mobile_qa.probe', side_effect=RuntimeError('offline')), patch('run_mobile_qa.time.sleep'):
             with self.assertRaisesRegex(RuntimeError, 'stably ready'):
                 wait_for_android('emulator-5554')
+
+    def test_ios_startup_query_timeout_can_recover(self):
+        from run_mobile_qa import booted_ios_devices
+        import subprocess
+        with patch('run_mobile_qa.probe', side_effect=[subprocess.TimeoutExpired('simctl', 30), '{"devices": {}}']), patch('run_mobile_qa.time.sleep'):
+            self.assertEqual(booted_ios_devices(), {'devices': {}})
+
+    def test_android_driver_preparation_is_separate_from_flows(self):
+        from run_mobile_qa import prepare_android_driver
+        import subprocess
+        with tempfile.TemporaryDirectory() as temp, patch('run_mobile_qa.wait_for_android'), patch('run_mobile_qa.subprocess.run', side_effect=[subprocess.CompletedProcess([], 1, '', 'device offline'), subprocess.CompletedProcess([], 0, 'hierarchy', '')]) as run:
+            prepare_android_driver('emulator-5554', pathlib.Path(temp))
+            self.assertEqual(run.call_count, 2)
+            self.assertEqual(run.call_args.args[0], ['maestro', '--device', 'emulator-5554', 'hierarchy'])
+            self.assertIn('device offline', (pathlib.Path(temp) / 'driver-preflight.log').read_text())
+
+    def test_failed_driver_preparation_never_returns_success(self):
+        from run_mobile_qa import prepare_android_driver
+        import subprocess
+        with tempfile.TemporaryDirectory() as temp, patch('run_mobile_qa.wait_for_android'), patch('run_mobile_qa.subprocess.run', return_value=subprocess.CompletedProcess([], 1, '', 'offline')):
+            with self.assertRaisesRegex(RuntimeError, 'UI flows were not started'):
+                prepare_android_driver('emulator-5554', pathlib.Path(temp))
