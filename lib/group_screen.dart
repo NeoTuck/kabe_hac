@@ -8,12 +8,20 @@ import 'app_theme.dart';
 import 'group_repository.dart';
 import 'group_message_composer.dart';
 import 'group_sync.dart';
+import 'location_share_service.dart';
+import 'push_service.dart';
 import 'progress_store.dart';
 
 class GroupScreen extends StatefulWidget {
-  const GroupScreen({super.key, required this.repository, required this.store});
+  const GroupScreen({
+    super.key,
+    required this.repository,
+    required this.store,
+    this.push,
+  });
   final GroupRepository repository;
   final ProgressStore store;
+  final PushTokenCoordinator? push;
   @override
   State<GroupScreen> createState() => _GroupScreenState();
 }
@@ -32,6 +40,10 @@ class _GroupScreenState extends State<GroupScreen> {
     super.initState();
     _lastUser = widget.repository.userId;
     widget.repository.addListener(_authChanged);
+    widget.push?.addListener(_pushChanged);
+    if (_lastUser != null && widget.push != null) {
+      unawaited(widget.push!.resumeIfEnabled().catchError((Object _) {}));
+    }
     if (_lastUser != null) _load();
   }
 
@@ -45,14 +57,24 @@ class _GroupScreenState extends State<GroupScreen> {
         _emailSent = null;
       });
       if (_lastUser != null) unawaited(_load());
+      if (_lastUser != null && widget.push != null) {
+        unawaited(widget.push!.resumeIfEnabled().catchError((Object _) {}));
+      } else if (widget.push != null) {
+        unawaited(widget.push!.disable().catchError((Object _) {}));
+      }
     } else {
       setState(() {});
     }
   }
 
+  void _pushChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
     widget.repository.removeListener(_authChanged);
+    widget.push?.removeListener(_pushChanged);
     _email.dispose();
     _code.dispose();
     _invite.dispose();
@@ -260,6 +282,24 @@ class _GroupScreenState extends State<GroupScreen> {
                 label: const Text('Kafile oluştur'),
               ),
               const SizedBox(height: 24),
+              if (widget.push != null) ...[
+                SwitchListTile.adaptive(
+                  value: widget.push!.enabled,
+                  onChanged: _busy
+                      ? null
+                      : (enabled) => _action(() async {
+                          if (enabled) {
+                            await widget.push!.enable();
+                          } else {
+                            await widget.push!.disable();
+                          }
+                        }),
+                  title: const Text('Kafile bildirimleri'),
+                  subtitle: Text(
+                    widget.push!.error ?? 'İzin verirsen bildirim kaydı açılır. Kilit ekranındaki içerik için sunucu şablonu ayrıca denetlenmelidir.',
+                  ),
+                ),
+              ],
               if (_groups == null && _error == null)
                 const Center(child: CircularProgressIndicator())
               else if (_groups?.isEmpty == true)
@@ -296,6 +336,7 @@ class _GroupScreenState extends State<GroupScreen> {
                     ? null
                     : () => _action(() async {
                         final uid = repository.userId!;
+                        await widget.push?.disable();
                         await repository.signOut();
                         await widget.store.clearAccountOutbox(uid);
                       }),
@@ -365,6 +406,13 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   bool _refreshing = false;
   bool _reloadPending = false;
   bool _foreground = true;
+  LocationShareCoordinator? _location;
+  DateTime? _locationActiveUntil;
+  bool _locationBusy = false;
+  bool _locationRevocationPending = false;
+  String? _locationError;
+  List<RecentSharedLocation> _recentLocations = [];
+  String? _recentLocationError;
   static const _maxHistoryPages = 8;
   List<Map<String, dynamic>> _historyRows = [];
   int _historyPages = 0;
@@ -382,6 +430,16 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     super.initState();
     _owner = widget.repository.userId;
     _sync = GroupOutboxSynchronizer(widget.store, widget.repository);
+    final repository = widget.repository;
+    if (repository is SupabaseGroupRepository) {
+      _location = LocationShareCoordinator(
+        store: widget.store,
+        reader: const GeolocatorLocationReader(),
+        remote: SupabaseLocationShareRemote(repository.client),
+        currentUserId: () => widget.repository.userId,
+      );
+      unawaited(_refreshLocation());
+    }
     widget.repository.addListener(_authChanged);
     WidgetsBinding.instance.addObserver(this);
     _unsubscribe = widget.repository.watch(widget.group.id, (connected) {
@@ -401,6 +459,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   void _authChanged() {
     if (_owner != widget.repository.userId && mounted) {
+      _location?.cancelPending();
       _historyEpoch++;
       _membershipTimer?.cancel();
       _debounce?.cancel();
@@ -418,6 +477,10 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         _historyError = null;
         _connected = false;
         _recipient = null;
+        _locationActiveUntil = null;
+        _locationError = null;
+        _recentLocations = [];
+        _recentLocationError = null;
         _error = 'Oturum değişti. Kafile ekranından geri dön.';
       });
     }
@@ -429,11 +492,143 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     _debounce?.cancel();
     _foreground = state == AppLifecycleState.resumed;
     if (state == AppLifecycleState.resumed) {
+      unawaited(_refreshLocation());
       _reload();
       _membershipTimer = Timer.periodic(
         const Duration(seconds: 30),
         (_) => _reload(),
       );
+    }
+    if (!_foreground) _location?.cancelPending();
+  }
+
+  Future<void> _refreshLocation() async {
+    final service = _location;
+    if (service == null ||
+        _owner == null ||
+        _owner != widget.repository.userId) {
+      return;
+    }
+    try {
+      final until = await service.activeUntil(widget.group.id);
+      if (mounted && _owner == widget.repository.userId) {
+        setState(() {
+          _locationActiveUntil = until;
+          if (until == null) _locationRevocationPending = false;
+        });
+      }
+    } catch (_) {
+      if (mounted && _owner == widget.repository.userId) {
+        setState(() => _locationError = 'Konum paylaşım durumu alınamadı.');
+      }
+    }
+  }
+
+  Future<void> _refreshRecentLocations() async {
+    final service = _location;
+    if (service == null || !_managementAllowed) {
+      if (mounted) setState(() => _recentLocations = []);
+      return;
+    }
+    try {
+      final locations = await service.recentForGroup(widget.group.id);
+      if (mounted && _managementAllowed) {
+        setState(() {
+          _recentLocations = locations;
+          _recentLocationError = null;
+        });
+      }
+    } catch (_) {
+      if (mounted && _managementAllowed) {
+        setState(() {
+          _recentLocations = [];
+          _recentLocationError =
+              'Son konumlar alınamadı. Bağlantıyı kontrol edip yenile.';
+        });
+      }
+    }
+  }
+
+  Future<void> _shareLocation() async {
+    final service = _location;
+    if (service == null ||
+        _locationBusy ||
+        _owner != widget.repository.userId) {
+      return;
+    }
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Konumunu paylaş?'),
+        content: const Text(
+          'Konumun yalnız bu kafilenin rehberi/yöneticisiyle paylaşılır. '
+          'Bir kez ölçülür; 15 dakika görünür, sonra otomatik sona erer. '
+          'Konum izni bu onaydan sonra istenir. İstediğin an durdurabilirsin.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Konumumu paylaş'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted || _owner != widget.repository.userId) {
+      return;
+    }
+    setState(() {
+      _locationBusy = true;
+      _locationError = null;
+    });
+    try {
+      await service.shareOnce(widget.group.id);
+      if (mounted && _owner == widget.repository.userId) {
+        await _refreshLocation();
+      }
+    } on LocationShareException catch (error) {
+      if (mounted && _owner == widget.repository.userId) {
+        setState(() => _locationError = error.message);
+      }
+    } catch (_) {
+      if (mounted && _owner == widget.repository.userId) {
+        setState(
+          () => _locationError =
+              'Konum gönderilemedi. Bağlantı ve kafile erişimini kontrol et.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _locationBusy = false);
+    }
+  }
+
+  Future<void> _stopLocation() async {
+    final service = _location;
+    if (service == null || _locationBusy) return;
+    setState(() {
+      _locationBusy = true;
+      _locationError = null;
+    });
+    try {
+      await service.stop(widget.group.id);
+      if (mounted) {
+        setState(() {
+          _locationActiveUntil = null;
+          _locationRevocationPending = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _locationRevocationPending = true;
+          _locationError = 'Cihazda durdu, sunucuda iptal doğrulanamadı. Bağlanıp yeniden dene; kayıt en geç 15 dakikada biter.';
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _locationBusy = false);
     }
   }
 
@@ -450,6 +645,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     setState(() {
       _loadingOlder = false;
       _historyError = null;
+      _recentLocations = [];
     });
     try {
       final pending = await widget.store.readGroupOutbox();
@@ -514,6 +710,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
               )
               .toList();
         });
+        unawaited(_refreshRecentLocations());
       }
     } catch (_) {
       // Do not retain group data after revoked membership or failed revalidation.
@@ -524,6 +721,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
           _historyPages = 0;
           _hasOlder = false;
           _connected = false;
+          _recentLocations = [];
+          _recentLocationError = null;
           _error = 'Kafileye erişilemedi. Bağlantı ve üyeliğini kontrol et.';
         });
       }
@@ -616,6 +815,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   @override
   void dispose() {
     _historyEpoch++;
+    _location?.cancelPending();
     _membershipTimer?.cancel();
     _debounce?.cancel();
     widget.repository.removeListener(_authChanged);
@@ -860,6 +1060,11 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   @override
   Widget build(BuildContext context) {
     final snapshot = _snapshot;
+    final visibleLocations = _canManage
+        ? _recentLocations
+              .where((location) => location.isVisibleAt(DateTime.now().toUtc()))
+              .toList()
+        : <RecentSharedLocation>[];
     final messages = _mergeMessages(_historyRows, snapshot?.messages ?? []);
     final guides =
         snapshot?.members
@@ -916,6 +1121,103 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
             if (snapshot == null && _error == null)
               const Center(child: CircularProgressIndicator())
             else if (snapshot != null) ...[
+              if (_location != null) ...[
+                Card.outlined(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Konum paylaşımı',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const Text(
+                          'Yalnız seçersen tek konum gönderilir. Arka planda takip yapılmaz.',
+                        ),
+                        if (_locationActiveUntil != null)
+                          Text(
+                            'Tek seferlik konum kaydı ${_locationActiveUntil!.toLocal().hour.toString().padLeft(2, '0')}:${_locationActiveUntil!.toLocal().minute.toString().padLeft(2, '0')} saatine kadar geçerlidir.',
+                          ),
+                        if (_locationError != null)
+                          Semantics(
+                            liveRegion: true,
+                            child: Text(
+                              _locationError!,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 8),
+                        if (_locationActiveUntil != null ||
+                            _locationRevocationPending)
+                          OutlinedButton.icon(
+                            onPressed: _locationBusy ? null : _stopLocation,
+                            icon: const Icon(Icons.location_off_outlined),
+                            label: Text(
+                              _locationRevocationPending
+                                  ? 'İptali yeniden dene'
+                                  : 'Konum paylaşımını durdur',
+                            ),
+                          )
+                        else
+                          OutlinedButton.icon(
+                            onPressed: _locationBusy ? null : _shareLocation,
+                            icon: const Icon(Icons.my_location_outlined),
+                            label: Text(
+                              _locationBusy
+                                  ? 'Konum alınıyor'
+                                  : 'Konumumu bir kez paylaş',
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+              if (_canManage && _location != null) ...[
+                Card.outlined(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Paylaşılan son konumlar',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const Text(
+                          'Yalnız son 5 dakikada ölçülen, hâlen izinli kayıtlar görünür. Bu canlı takip değildir.',
+                        ),
+                        if (_recentLocationError != null)
+                          Text(
+                            _recentLocationError!,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          )
+                        else if (visibleLocations.isEmpty)
+                          const Text('Güncel paylaşım yok.')
+                        else
+                          for (final location in visibleLocations)
+                            ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                'Üye ${location.userId.substring(0, 8)} · son bilinen konum',
+                              ),
+                              subtitle: Text(
+                                '${location.update.latitude.toStringAsFixed(5)}, ${location.update.longitude.toStringAsFixed(5)} · ±${location.update.accuracyMeters.round()} m\n'
+                                'Ölçüm: ${location.update.measuredAt.toLocal().hour.toString().padLeft(2, '0')}:${location.update.measuredAt.toLocal().minute.toString().padLeft(2, '0')}',
+                              ),
+                            ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
               if (_canManage)
                 Wrap(
                   spacing: 8,

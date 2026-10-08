@@ -10,7 +10,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FIELDS = ['id', 'order', 'groupId', 'title', 'status', 'textVersion', 'summary', 'details',
           'arabic', 'transliteration', 'meaningTr', 'sourceTitle', 'sourceUrl',
-          'sourceLocation', 'sourceUsageRights', 'reviewedBy', 'reviewedAt']
+          'sourceLocation', 'sourceAccessedAt', 'sourceUsageRights', 'reviewedBy', 'reviewedAt']
 
 
 def main():

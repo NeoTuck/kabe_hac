@@ -38,9 +38,9 @@ def audit_catalog(data):
             blockers.append({'id': audio.get('id'), 'type': 'audio_text_binding'})
     for record_type, fields in (
         ('steps', ('summary', 'details', 'textVersion', 'sourceTitle', 'sourceUrl',
-                   'sourceLocation', 'sourceUsageRights', 'reviewedBy', 'reviewedAt')),
+                   'sourceLocation', 'sourceAccessedAt', 'sourceUsageRights', 'reviewedBy', 'reviewedAt')),
         ('prayerRecords', ('arabic', 'transliteration', 'meaningTr', 'textVersion',
-                          'sourceTitle', 'sourceUrl', 'sourceLocation',
+                          'sourceTitle', 'sourceUrl', 'sourceLocation', 'sourceAccessedAt',
                           'sourceUsageRights', 'reviewedBy', 'reviewedAt')),
         ('audioRecords', ('asset', 'textId', 'textVersion', 'recordingOwner', 'rights', 'reviewedBy', 'reviewedAt')),
     ):
@@ -50,6 +50,10 @@ def audit_catalog(data):
             if record.get('status') != 'approved' or missing:
                 blockers.append({'id': record.get('id'), 'type': record_type,
                                  'status': record.get('status'), 'missing': missing})
+            rights = str(record.get('sourceUsageRights', '')).lower()
+            if record.get('status') == 'approved' and any(
+                    marker in rights for marker in ('teyit edilmedi', 'bekliyor', 'bilinmiyor')):
+                blockers.append({'id': record.get('id'), 'type': 'source_rights_unverified'})
     # Three profiles must be reviewed for every Hajj step, not just some steps.
     if data.get('guideType') == 'hajj':
         for step in data.get('steps', []):

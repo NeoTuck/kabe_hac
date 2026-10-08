@@ -99,6 +99,7 @@ void _validateSourceAndReview({
   required String? sourceTitle,
   required String? sourceUrl,
   required String? sourceLocation,
+  required String? sourceAccessedAt,
   required String? sourceUsageRights,
   required String? reviewedBy,
   required String? reviewedAt,
@@ -117,6 +118,11 @@ void _validateSourceAndReview({
       (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(reviewedAt) ||
           DateTime.tryParse(reviewedAt) == null)) {
     throw FormatException('Geçersiz inceleme tarihi: $id');
+  }
+  if (sourceAccessedAt != null &&
+      (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(sourceAccessedAt) ||
+          DateTime.tryParse(sourceAccessedAt) == null)) {
+    throw FormatException('Geçersiz kaynak erişim tarihi: $id');
   }
   if (status != ReviewStatus.draft &&
       [
@@ -225,6 +231,7 @@ class PrayerRecord {
     this.sourceTitle,
     this.sourceUrl,
     this.sourceLocation,
+    this.sourceAccessedAt,
     this.sourceUsageRights,
     this.reviewedBy,
     this.reviewedAt,
@@ -242,6 +249,7 @@ class PrayerRecord {
   final String? sourceTitle;
   final String? sourceUrl;
   final String? sourceLocation;
+  final String? sourceAccessedAt;
   final String? sourceUsageRights;
   final String? reviewedBy;
   final String? reviewedAt;
@@ -267,6 +275,7 @@ class PrayerRecord {
       sourceTitle: _optionalString(json, 'sourceTitle'),
       sourceUrl: _optionalString(json, 'sourceUrl'),
       sourceLocation: _optionalString(json, 'sourceLocation'),
+      sourceAccessedAt: _optionalString(json, 'sourceAccessedAt'),
       sourceUsageRights: _optionalString(json, 'sourceUsageRights'),
       reviewedBy: _optionalString(json, 'reviewedBy'),
       reviewedAt: _optionalString(json, 'reviewedAt'),
@@ -280,6 +289,7 @@ class PrayerRecord {
       sourceTitle: record.sourceTitle,
       sourceUrl: record.sourceUrl,
       sourceLocation: record.sourceLocation,
+      sourceAccessedAt: record.sourceAccessedAt,
       sourceUsageRights: record.sourceUsageRights,
       reviewedBy: record.reviewedBy,
       reviewedAt: record.reviewedAt,
@@ -311,6 +321,7 @@ class GuideStep {
     this.sourceTitle,
     this.sourceUrl,
     this.sourceLocation,
+    this.sourceAccessedAt,
     this.sourceUsageRights,
     this.reviewedBy,
     this.reviewedAt,
@@ -335,6 +346,7 @@ class GuideStep {
   final String? sourceTitle;
   final String? sourceUrl;
   final String? sourceLocation;
+  final String? sourceAccessedAt;
   final String? sourceUsageRights;
   final String? reviewedBy;
   final String? reviewedAt;
@@ -408,6 +420,7 @@ class GuideStep {
       sourceTitle: _optionalString(json, 'sourceTitle'),
       sourceUrl: _optionalString(json, 'sourceUrl'),
       sourceLocation: _optionalString(json, 'sourceLocation'),
+      sourceAccessedAt: _optionalString(json, 'sourceAccessedAt'),
       sourceUsageRights: _optionalString(json, 'sourceUsageRights'),
       reviewedBy: _optionalString(json, 'reviewedBy'),
       reviewedAt: _optionalString(json, 'reviewedAt'),
@@ -425,6 +438,7 @@ class GuideStep {
       sourceTitle: step.sourceTitle,
       sourceUrl: step.sourceUrl,
       sourceLocation: step.sourceLocation,
+      sourceAccessedAt: step.sourceAccessedAt,
       sourceUsageRights: step.sourceUsageRights,
       reviewedBy: step.reviewedBy,
       reviewedAt: step.reviewedAt,

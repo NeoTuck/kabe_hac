@@ -181,7 +181,22 @@ class SupabaseGroupRepository extends GroupRepository {
   }
 
   @override
-  Future<void> signOut() => client.auth.signOut();
+  Future<void> signOut() async {
+    final uid = userId;
+    if (uid != null) {
+      // A failed server revocation keeps the session so the user can retry.
+      await client
+          .from('location_shares')
+          .update({
+            'status': 'stopped',
+            'stopped_at': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('user_id', uid)
+          .eq('status', 'active');
+    }
+    await client.auth.signOut();
+  }
+
   @override
   Future<List<GroupRecord>> groups() async {
     final uid = _user();
@@ -412,6 +427,7 @@ class SupabaseGroupRepository extends GroupRepository {
       'group_programs',
       'group_routes',
       'group_members',
+      'location_shares',
     ]) {
       channel.onPostgresChanges(
         event: PostgresChangeEvent.all,

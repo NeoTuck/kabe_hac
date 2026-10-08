@@ -15,6 +15,8 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
+**9 Ekim güncel kod dilimi:** Başlangıç yerel/uzak HEAD `0853ad123ab0756a108220088c7274192e88b54a`. 53 sabit kimlikli Umre/Hac adımına kaynaklı özgün Türkçe **taslak** açıklama, uzman çalışma CSV'si, offline manifest aracı ve yerel paket regresyonu eklendi. Kafilede açık rızalı tek GPS ölçümü/15 dakika paylaşım ve yöneticiye son 5 dakikalık “son bilinen” görüntüsü; izinli FCM cihaz token kaydı/yenileme/çıkış/yönlendirme kodu eklendi. Format/analiz temiz, 174 Flutter/19 Python/39 bağımsız SQL fixture kontrolü geçti. Android/iOS yeni yerel derlemeleri ve GitHub CI ayrıca doğrulanır. Canlı Supabase/Firebase, gerçek cihaz, uzman, hak veya mağaza kabulü değildir. Ayrıntı `docs/17-icerik-veri-ve-paket-arastirmasi.md` ve `docs/18-09-ekim-gelistirme-dogrulama.md`.
+
 **8 Ekim kullanıcı ekranı temizliği:** Teknik örnek kartı ve `DEMO-001` ana ekran girişi kaldırıldı. Sentetik `teknik_demo.m4a` QA dosyası repoda kalır, ancak `pubspec.yaml` varlığından çıkarıldığı için yeni APK'ye paketlenmez. `isTestData=true` gezi yeri/rotası kullanıcı listesinde ve doğrudan ayrıntıda gösterilmez; kayıtlı favoriler silinmez. Ses düğmesinin duraklatma/bitirme etiketleri düzeltildi. Yerel format/analiz, 161 Flutter, 15 Python, ses dosyası QA ve Android debug build geçti; API35 emülatöründe dört güncel pilot akış JUnit 4/4 geçti. APK SHA-256 `adf6d619f8a29e1c31eef4b1d82d04b9a15daef91c4357aeb2428dc08846b118`. Ayrıntı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` başındadır. Üretim içerik, insan sesi, lisans ve mağaza kabulü hâlâ bekliyor.
 
 **8 Ekim isteğe bağlı prova dilimi:** `f59c8ef9` tabanındaki yerel `codex/mvp1-pilot-desktop` dalında ana akışa 3D'siz “Simülasyonu dene” girişi eklendi. Prova oturumu, adım işaretleri ve sayaçları SQLite sürüm 9'da gerçek rehberden ayrıdır. Paket tercihi, duraklatma/devam, katalog sürümü değişince eski kaydı koruyarak yeni prova ve taslak metni gizleme eklendi. Manuel prova sayacı yalnız uzman onaylı adımda ve onaylı `counterTarget` ile açılır; mevcut 53 adım taslak olduğu için kapalıdır. Yerel format/analiz, 159 Flutter, 15 Python, 39 bağımsız SQL fixture, teknik ses QA ve Android debug build geçti. Android API35 emülatörde mevcut dört pilot ve ayrı prova akışı geçti. Xcode/iOS runtime kuruldu ama bu Mac'te iOS derlemeleri başarısız; ayrıntı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md`. Üretim kabulü değildir.
@@ -23,9 +25,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 **8 Ekim Mac kod/log incelemesi:** `origin/codex/mvp1-pilot` commit'i `f59c8ef9b609dc11b2c94d9d34bd3cc1042ef514` temiz yerel dala fast-forward ile alındı. Bu Mac'te 153 Flutter ve 14 Python testi, format/analiz, teknik ses QA ve Android debug derlemesi geçti. Sayaç çift sıfırlama regresyonundaki kaçan ikinci dokunuş testi düzeltildi. Android pilot oturumu `blocked` / `device_tests_run=false`; iOS, Xcode lisansı/developer directory/CocoaPods nedeniyle çalıştırılmadı. Kapsam kullanıcı isteğiyle kod/log incelemesine sınırlandı. Ayrıntı `docs/14-mac-inceleme.md`.
 
-**Son doğrulama:** 8 Ekim 2026; kod `67335ffb`, CI `37769687931` yedi iş başarılı: 153 Flutter/39 bağımsız fixture SQL/14 QA, format/analiz, teknik AAC ses, Android debug/split release ve iOS no-codesign/simulator. Android API28/API35 ve iOS18.5/iPhone16 simulator'de dört pilot akış geçti. JUnit/session, Android driver_prepared ve APK hash eşleşmesi ile native duraklatma ekranları incelendi. Fiziksel cihaz/canlı servis/dinî içerik/mağaza kabulü değildir.
+**Önceki CI doğrulaması:** 8 Ekim 2026; kod `67335ffb`, CI `37769687931` yedi iş başarılı: 153 Flutter/39 bağımsız fixture SQL/14 QA, format/analiz, teknik AAC ses, Android debug/split release ve iOS no-codesign/simulator. Android API28/API35 ve iOS18.5/iPhone16 simulator'de dört pilot akış geçti. JUnit/session, Android driver_prepared ve APK hash eşleşmesi ile native duraklatma ekranları incelendi. Fiziksel cihaz/canlı servis/dinî içerik/mağaza kabulü değildir.
 
-**Aktif paket:** Yayın hazırlığı kod dilimi teknik kabulü tamamlandı. Gerçek metin/dua/insan sesi, lisanslı saha verileri, canlı Supabase, GPS/push entegrasyonu, üretim imzası ve fiziksel cihaz kabulü açık. Güncel kanıt `docs/13-yayin-hazirligi.md` başındadır; 18/35 içerik kaydı hâlâ taslaktır.
+**Aktif paket:** 9 Ekim kaynak/kod hazırlığı ve native/CI doğrulaması. Gerçek uzman kararı, insan sesi hakkı, lisanslı saha verisi, canlı Supabase/Firebase ve bildirim göndericisi, üretim imzası ve fiziksel cihaz kabulü açık. 18/35 içerik kaydı hâlâ taslaktır.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -120,7 +122,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 - Offline dağıtım izni bulunan harita sağlayıcısı/stili/bölgesi yok. Gerçek POI ve rota kataloğu yok.
 - Doğrulanmış acil durum/kurum numarası, insan incelemeli Arapça dil kartı veya güncel saha akışı yok.
 - Supabase mobil adaptörü ve mock HTTP testleri var; proje URL/publishable key ve gerçek Supabase Auth/Realtime/RLS kabulü yok.
-- APNs/FCM, server push, GPS izin akışı ve arka plan konum takibi yok.
+- 9 Ekim diliminden önce APNs/FCM ve GPS izin akışı yoktu. Güncel dilimde foreground GPS ve FCM cihaz kayıt kodu vardır; sunucu push gönderimi, gerçek APNs/FCM teslimi ve arka plan konum takibi yoktur.
 - Gerçek Android/iPhone cihaz testi ve imzalı iOS dağıtımı yok; GitHub iOS debug/no-codesign build geçti.
 
 ### 8 Ekim kullanıcı kalite turu
@@ -132,13 +134,15 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
+**Güncel tek iş:** 9 Ekim GPS/FCM/içerik/paket diliminin Android/iOS derleme ve uygun simülatör/CI sonuçlarını doğrula, `docs/18-09-ekim-gelistirme-dogrulama.md` dosyasına gerçek çıktı/hash/engelleri kaydet. Ardından canlı servis hesabı ve hak/uzman/cihaz girdileri gelene kadar onaylı etiket veya üretim kabulü verme. Sunucu push gönderimi ve konum saklama/silme otomasyonu ayrı kod/servis işi olarak açık kalır.
+
 Doğrulanmış POI/rota paketini geziye bağlama dilimi tamamlandı: güven/hash/tür/yol, bozulma/symlink/çakışma, güncelleme/geri dönüş/silme ve ana ekran yenileme testleri geçti. Bu dilimi yeniden kurma. Son kabul `67335ffb` / CI `37769687931`; ayrıntı `docs/13-yayin-hazirligi.md`.
 
 Sıradaki içerik işi gerçek uzman incelemesinden geçmiş ilk Umre metni, dua ve izinli insan sesini mevcut sürüm/kimlik/hak hattına bağlamaktır. Kaynak kontrollü özgün öneriler `docs/content-review/umre-kaynakli-oneri.md` içinde; uzman onayı değildir. Girdi gelmeden approved, gerçek inceleyen veya ses hakkı uydurma. Katalog yenilenirken kullanıcı ilerlemesi ve favorileri korunur.
 
 Önceki Mac kod/log incelemesi `docs/14-mac-inceleme.md` içinde tarihsel kanıttır; sonraki prova geliştirmesi ve cihaz sonuçları `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` içinde ayrı tutulur.
 
-Canlı servis kabulü için gerçek Supabase proje URL/publishable key ve test hesapları gerekir. RLS/Auth/Realtime, offline outbox ve hesap/üyelik sınırları gerçek ortamda ayrıca denenir. GPS izin/ölçüm/konum gönderimi ile APNs/FCM teslim entegrasyonu hâlâ eksiktir; yerel rıza modelini bunlar tamamlanmış gibi sunma. Harita/iletişim/dil verileri gerçek lisans ve insan incelemesi ister.
+Canlı servis kabulü için gerçek Supabase proje URL/publishable key ve test hesapları gerekir. RLS/Auth/Realtime, offline outbox ve hesap/üyelik sınırları gerçek ortamda ayrıca denenir. GPS izin/ölçüm/gönderim ile FCM token/yönlendirme kodu 9 Ekim diliminde eklendi; gerçek konum paylaşımı, sunucu push gönderimi ve APNs/FCM teslimi kabul edilmedi. Harita/iletişim/dil verileri gerçek lisans ve insan incelemesi ister.
 
 Teknik pilot APK debug imzalıdır; üretim Android derlemesi gerçek key.properties ister. TestFlight için gerçek Apple dağıtım imzası ve fiziksel cihaz gerekir. `tools/release_preflight.py` mevcut eksik girdilerle blocked döner; bu kontrol bağımsız uzman veya mağaza onayı değildir. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota ve kaynak/güncellik kontrollerini koru.
 
@@ -152,7 +156,7 @@ Teknik pilot APK debug imzalıdır; üretim Android derlemesi gerçek key.proper
 | P3 | Harita, POI ve rotalar | Adaptör ve modeller hazır; sağlayıcı bekliyor | İzinli bölgede gerçek uçak modu harita, durak, arama ve yeniden açma. |
 | P4 | Güvenli gezi, dil, saha, adım | Veri modelleri hazır; içerik/sensör bekliyor | Kaynaklı yerel içerik, insan incelemesi ve cihaz sensör kanıtı. |
 | P5 | Grup backend'i ve senkronizasyon | SQL/outbox taslağı; servis bekliyor | İki hesap ve iki grup ile RLS izolasyonu, Auth/Realtime ve offline senkronizasyon. |
-| P6 | Konum ve push | Yerel rıza modeli; servis bekliyor | Rıza/iptal/son konum, saklama ve gerçek APNs/FCM teslim sınırları. |
+| P6 | Konum ve push | Foreground GPS/FCM istemci kodu; canlı servis ve cihaz kabulü bekliyor | Rıza/iptal/son konum, saklama/silme otomasyonu ve gerçek APNs/FCM teslim sınırları. |
 | P7 | Bütünleşik mobil test ve yayın hazırlığı | Sırada | Gerçek cihaz matrisi, erişilebilirlik, güvenlik, mağaza ve final durum matrisi. |
 
 3D bu planın kapsamı değildir. Bir paketi yalnız kabul ölçütü kanıtlandığında tamamlandı yaz.
@@ -186,6 +190,7 @@ Paket yükseltmesini ayrı ve test edilen değişiklik olarak yap. Özellik değ
 - `lib/travel_catalog.dart`, `lib/travel_screen.dart`: POI/rota ve gezi ekranı.
 - `lib/safety_catalog.dart`, `lib/safety_screen.dart`: iletişim, dil ve güncel saha bilgisi.
 - `lib/group_sync.dart`: mesaj outbox ve konum güncellik modelleri.
+- `lib/location_share_service.dart`, `lib/push_service.dart`: tek seferlik GPS paylaşımı ve opt-in cihaz token akışı; gerçek servis/cihaz kabulü ayrı.
 - `assets/content/umre_inventory.v1.json`, `hac_inventory.v1.json`: 18/35 envanter.
 - `supabase/migrations/`: backend şeması ve RLS.
 - `supabase/tests/database/`: pgTAP erişim izolasyonu taslağı.

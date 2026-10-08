@@ -10,6 +10,7 @@ import 'offline_package.dart';
 import 'package_catalog.dart';
 import 'package_screen.dart';
 import 'practice_screen.dart';
+import 'push_service.dart';
 import 'progress_store.dart';
 import 'reader_settings.dart';
 import 'safety_catalog.dart';
@@ -35,6 +36,7 @@ class HomeScreen extends StatefulWidget {
     this.packageConfigurationError,
     this.travelCatalog,
     this.safetyCatalog,
+    this.push,
   });
 
   final GroupRepository? groups;
@@ -50,6 +52,7 @@ class HomeScreen extends StatefulWidget {
   final String? packageConfigurationError;
   final TravelCatalog? travelCatalog;
   final SafetyCatalog? safetyCatalog;
+  final PushTokenCoordinator? push;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -169,7 +172,13 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
           if (index == 2) {
-            _open(GroupScreen(repository: _groups, store: widget.store));
+            _open(
+              GroupScreen(
+                repository: _groups,
+                store: widget.store,
+                push: widget.push,
+              ),
+            );
           }
           if (index == 3) _open(SettingsScreen(settings: widget.settings));
         },

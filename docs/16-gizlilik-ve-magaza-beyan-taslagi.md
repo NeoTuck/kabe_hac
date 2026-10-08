@@ -1,6 +1,6 @@
 # Gizlilik ve mağaza beyanı çalışma taslağı
 
-8 Ekim 2026. Bu metin yayınlanmış gizlilik politikası veya App Store/Play Console beyanı değildir. Ürün sorumlusu, canlı servis ve hukuk/gizlilik incelemesiyle tamamlanmalıdır. Uygulama sürümü `0.1.0+1` teknik pilottur.
+9 Ekim 2026. Bu metin yayınlanmış gizlilik politikası veya App Store/Play Console beyanı değildir. Ürün sorumlusu, canlı servis ve hukuk/gizlilik incelemesiyle tamamlanmalıdır. Uygulama sürümü `0.1.0+1` teknik pilottur.
 
 ## Kodda bugün görülen veri akışları
 
@@ -8,12 +8,12 @@
 | --- | --- | --- |
 | Rehber ve prova ilerlemesi, sayaç, favori, tema | `sqflite` ile cihazda tutulur; prova gerçek rehberden ayrıdır. | Yedekleme, cihaz aktarımı ve silme yordamı uygulama sahibi tarafından doğrulanmalı. |
 | İsteğe bağlı paket | Yapılandırılırsa HTTPS katalog/dosya isteği ve doğrulanmış yerel dosya saklama vardır. Mevcut derlemede gerçek sunucu/güven kökü yok. | Sağlayıcı, sunucu log/IP saklama, lisans/atıf ve silme politikası belirlenmeli. |
-| Ses | Paketli sentetik teknik kayıt veya onaylı paket dosyası cihazda çalınır; Android medya servisi ve iOS arka plan ses modu kullanılır. Mikrofon kaydı kodu yok. | Gerçek ses sahipliği ve izinleri gelince beyan güncellenmeli. |
+| Ses | Onaylı paket dosyası varsa cihazda çalınır; Android medya servisi ve iOS arka plan ses modu kullanılır. Sentetik teknik kayıt APK/IPA varlığı değildir ve yalnız QA fixture'ıdır. Mikrofon kaydı kodu yok. | Gerçek ses sahipliği ve izinleri gelince beyan güncellenmeli. |
 | Kafile hesabı ve mesaj | URL/publishable key verildiğinde Supabase Auth/mesaj/üyelik adaptörü devreye girer; çevrimdışı mesaj outbox cihazda kalabilir. Varsayılan yapıda canlı servis yok. | Veri sorumlusu, barındırma bölgesi, saklama, erişim, hesap/veri silme ve alt işleyenler gerçek proje üzerinden kararlaştırılmalı. |
-| Konum | Yalnız süreli/iptal edilebilir yerel rıza modeli var. GPS izin/okuma/gönderim akışı yok; manifestte konum izni yok. | Gelecek entegrasyon için ayrı açık rıza, izin reddi, sunucu saklama ve gizlilik beyanı gerekir. Şimdiden konum toplandığı iddia edilmez. |
-| Bildirim | APNs/FCM token ve teslim entegrasyonu yok. | İzin, token yaşam döngüsü, kilit ekranı içeriği ve sağlayıcı beyanı entegrasyonla hazırlanmalı. |
+| Konum | Android/iOS yalnız kullanım sırasında konum izni tanımlı. Kafile hesabı ve açık onay varsa bir GPS ölçümü alınır, Supabase'e gönderilir ve 15 dakikalık paylaşım kaydı açılır; otomatik arka plan takibi yok. Durdurma yerel kaydı hemen kapatır, sunucu iptali ağ yoksa doğrulanamaz ve UI bunu belirtir. Varsayılan derlemede canlı Supabase yoktur. | Alıcı rolü, sunucu saklama ve silme, izin reddi, ağ kesintisi ve gerçek cihaz kabulü gerekli. |
+| Bildirim | Firebase projesi derleme zamanı yapılandırılmışsa kullanıcı izniyle FCM token'ı Supabase'e kaydedilir; yenilemede eski token kaldırılır, çıkışta bu cihazın token'ı silinir. Varsayılan derlemede yapılandırma yok ve izin istemi yok. Bildirime dokunma yalnız doğrulanmış kafile üyeliğine gider. | APNs/FCM kimlikleri, sunucu göndericisi, anonim kilit ekranı şablonu ve iki cihazlı teslim kabulü gerekli. |
 
-Android manifestinde internet, wake lock ve foreground media playback izinleri bulunur; mikrofon/konum izni tanımlı değildir. iOS `Info.plist` arka plan ses modunu belirtir. Üçüncü taraf paketler arasında `supabase_flutter`, `maplibre_gl`, `just_audio` ve `sqflite` vardır; bunların gerçek veri kullanımı uygulama yapılandırmasıyla yeniden denetlenmelidir. Analitik/izleme SDK'sı doğrudan uygulama bağımlılıklarında görülmedi; bu ifade tüm transitive ağ trafiği veya ilerideki dağıtım için garanti değildir.
+Android manifestinde internet, wake lock, foreground media playback ve coarse/fine konum izinleri vardır. Firebase otomatik bildirim kaydı varsayılan kapalıdır; son birleşmiş manifest ayrıca incelenmelidir. iOS `Info.plist` yalnız kullanım sırasında konum açıklaması ve arka plan **ses** modu belirtir; konum arka plan modu yoktur. Üçüncü taraf paketler arasında `supabase_flutter`, `maplibre_gl`, `just_audio`, `geolocator`, `firebase_core`, `firebase_messaging` ve `sqflite` vardır. Firebase Analytics uygulama bağımlılığı eklenmedi; Firebase SDK'larının ve gerçek servis yapılandırmasının veri akışı mağaza formlarında ayrıca denetlenmelidir.
 
 ## Yayın öncesi doldurulacak alanlar
 

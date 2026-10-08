@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "inventory-2026-10-05.1",
+  "contentVersion": "inventory-2026-10-09-draft1",
   "guideType": "umrah",
   "audioRecords": [
     {
@@ -8,7 +8,7 @@
       "status": "draft",
       "kind": "turkishNarration",
       "textId": "U02.2",
-      "textVersion": "U02.2-text-v1"
+      "textVersion": "U02.2-draft-2026-10-09-v1"
     },
     {
       "id": "A-P-U02.2-AR-01",
@@ -42,21 +42,45 @@
       "order": 1,
       "groupId": "U01",
       "title": "Kullanım biçimi seçimi",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir.",
+      "details": "Hazırlık: İçeriğin taslak ve onay durumunu gör.\nYapılacak işlem: Amacına uygun kullanım biçimini seç.\nDikkat: Uygulama seçimi dinî bir karar yerine geçmez.\nSonraki aşama: Hazırlık başlığına ilerle.",
+      "textVersion": "U01.1-draft-2026-10-09-v1",
+      "sourceTitle": "Uygulama kullanım akışı",
+      "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
+      "sourceLocation": "Yerel rehber ve prova işleyişi",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir."
     },
     {
       "id": "U01.2",
       "order": 2,
       "groupId": "U01",
       "title": "Hazırlık",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Yolculuk ve ibadet hazırlığını önceden gözden geçir.",
+      "details": "Hazırlık: Sağlık, seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula.\nYapılacak işlem: Rehberin içerik ve çevrimdışı paket durumunu kontrol et.\nDikkat: Eksik veya eski saha bilgisini kesin bilgi sayma.\nSonraki aşama: Mikat ve ihram konusuna geç.",
+      "textVersion": "U01.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U02.1",
       "order": 3,
       "groupId": "U02",
       "title": "İhram ve mikat bağlamı",
-      "status": "draft"
+      "status": "draft",
+      "summary": "İhram ve mikat, umrenin başlangıcını anlamak için birlikte ele alınır.",
+      "details": "Hazırlık: Güzergâhındaki mikat bilgisini kafile rehberinden öğren.\nYapılacak işlem: İhramın niyetle ilgili ibadet hâli olduğunu incele.\nDikkat: Mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz.\nSonraki aşama: Niyet ve telbiye başlığına geç.",
+      "textVersion": "U02.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U02.2",
@@ -64,48 +88,95 @@
       "groupId": "U02",
       "title": "Niyet ve telbiye",
       "status": "draft",
-      "textVersion": "U02.2-text-v1",
+      "textVersion": "U02.2-draft-2026-10-09-v1",
       "prayerIds": [
         "P-U02.2-01"
       ],
       "audioIds": [
         "A-U02.2-TR-01"
-      ]
+      ],
+      "summary": "Niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır.",
+      "details": "Hazırlık: İhram ve mikat bilgisini yetkili rehberinle teyit et.\nYapılacak işlem: Niyet ve telbiyenin kendi durumundaki uygulanışını öğren.\nDikkat: Buradaki taslak, Arapça telaffuz veya onaylı dua sunmaz.\nSonraki aşama: İhramla ilgili kısıtlamaları gözden geçir.",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U02.3",
       "order": 5,
       "groupId": "U02",
       "title": "İhram bilgileri",
-      "status": "draft"
+      "status": "draft",
+      "summary": "İhram hâlinde uyulacak kurallar kişisel duruma göre incelenmelidir.",
+      "details": "Hazırlık: Yolculuk ve sağlık gereksinimlerini önceden bildir.\nYapılacak işlem: İhram süresindeki temel sınırları yetkili rehberden öğren.\nDikkat: Sağlık, kadınlara özgü durumlar ve ihlaller için otomatik hüküm verme.\nSonraki aşama: Mescid-i Haram’a yaklaşma başlığına geç.",
+      "textVersion": "U02.3-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U03.1",
       "order": 6,
       "groupId": "U03",
       "title": "Mescid-i Haram'a yaklaşma",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Mescid-i Haram’a varışta fiziksel güvenlik ve grup düzeni önemlidir.",
+      "details": "Hazırlık: Buluşma noktanı ve güncel giriş bilgisini kafilenle teyit et.\nYapılacak işlem: Kalabalık içinde yönlendirmeleri izleyerek ilerle.\nDikkat: Uygulama canlı kapı veya yoğunluk bilgisi sağlamaz.\nSonraki aşama: Kâbe’yi ilk görüş başlığına geç.",
+      "textVersion": "U03.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U04.1",
       "order": 7,
       "groupId": "U04",
       "title": "Kâbe'yi ilk görüş bağlamı",
-      "status": "draft"
+      "status": "draft",
+      "summary": "İlk görüş, ibadet akışına hazırlık için bir duraktır.",
+      "details": "Hazırlık: Bulunduğun yerde güvenli biçimde durup yönünü belirle.\nYapılacak işlem: Kişisel dua etmek istersen güvenilir metni rehberinle seç.\nDikkat: Bu kart belirli bir duayı zorunlu ilan etmez.\nSonraki aşama: Tavafın başlangıç noktasını öğren.",
+      "textVersion": "U04.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U05.1",
       "order": 8,
       "groupId": "U05",
       "title": "Tavaf başlangıcı ve yönü",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Tavaf Hacer-i Esved hizasından başlar ve Kâbe sol tarafta kalır.",
+      "details": "Hazırlık: Kalabalık ve erişilebilir güzergâh koşullarını gözet.\nYapılacak işlem: Başlangıç hizasını ve dönüş yönünü öğren.\nDikkat: Sayaç konum ölçmez veya ibadet geçerliliği vermez.\nSonraki aşama: İlk şavtın nasıl sayıldığını incele.",
+      "textVersion": "U05.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
+      "sourceLocation": "Tanım ve umre tavafı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U06.1",
       "order": 9,
       "groupId": "U06",
       "title": "İlk şavtı öğrenme",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Başlangıç hizasına geri gelen tam dönüş bir şavttır.",
+      "details": "Hazırlık: Tavafa başlamadan sayım mantığını gözden geçir.\nYapılacak işlem: Bir tam dönüşün bitişini kendin takip et.\nDikkat: Tereddütte uygulamanın sayısından dinî hüküm çıkarma.\nSonraki aşama: Yedi şavt takibine geç.",
+      "textVersion": "U06.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
+      "sourceLocation": "Tanım ve umre tavafı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U06.2",
@@ -113,42 +184,90 @@
       "groupId": "U06",
       "title": "Yedi şavt takibi",
       "status": "draft",
-      "counterKey": "tawaf"
+      "counterKey": "tawaf",
+      "summary": "Tavafın yedi şavtı manuel olarak izlenebilir.",
+      "details": "Hazırlık: Her tam dönüşü ayrı saymaya hazırlan.\nYapılacak işlem: Tamamladığın şavtı kendin işaretle.\nDikkat: Sayaç ibadeti otomatik doğrulamaz; özel durumda rehbere danış.\nSonraki aşama: Tavaf sonrası başlığına geç.",
+      "textVersion": "U06.2-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
+      "sourceLocation": "Tanım ve umre tavafı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U06.3",
       "order": 11,
       "groupId": "U06",
       "title": "Tavaf sonrası geçiş",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir.",
+      "details": "Hazırlık: Sayımı ve bulunduğun yeri kontrol et.\nYapılacak işlem: Tavaf namazı konusunu öğrenmek için devam et.\nDikkat: Eksik şavt veya özel durum hükmünü uygulama belirlemez.\nSonraki aşama: Tavaf namazı başlığına geç.",
+      "textVersion": "U06.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U07.1",
       "order": 12,
       "groupId": "U07",
       "title": "Tavaf namazını öğrenme",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Tavaftan sonra kılınan namazın yerini ve koşullarını öğren.",
+      "details": "Hazırlık: Kalabalığı ve uygun namaz alanını dikkate al.\nYapılacak işlem: Uygun uygulamayı yetkili rehberle teyit et.\nDikkat: Belirli bir noktaya ulaşmak için insanları zorlamaya çalışma.\nSonraki aşama: Zemzem başlığına geç.",
+      "textVersion": "U07.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U07.2",
       "order": 13,
       "groupId": "U07",
       "title": "Zemzem",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Zemzem, umre akışındaki sonraki hatırlatma başlığıdır.",
+      "details": "Hazırlık: Ulaşım ve kalabalık koşullarını gözet.\nYapılacak işlem: Güvenli ve uygun olduğunda bu aşamayı değerlendir.\nDikkat: Bu kart içme miktarı veya zorunlu dua hükmü üretmez.\nSonraki aşama: Safâ ve sa‘y başlangıcına geç.",
+      "textVersion": "U07.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U08.1",
       "order": 14,
       "groupId": "U08",
       "title": "Safâ ve sa‘y başlangıcı",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Sa‘y Safâ ve Merve arasında tek yönlü geçişlerle sayılır.",
+      "details": "Hazırlık: Başlangıç yönünü ve yürüyüş düzenini öğren.\nYapılacak işlem: İlk geçişe Safâ yönünden başlanacağını rehberinle teyit et.\nDikkat: Fiziksel koşullar ve özel hükümler için kişisel destek al.\nSonraki aşama: İlk gidiş ve dönüş sayımına geç.",
+      "textVersion": "U08.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
+      "sourceLocation": "Şavt tanımı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U09.1",
       "order": 15,
       "groupId": "U09",
       "title": "İlk gidiş/dönüş ve sayım",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Safâ’dan Merve’ye gidiş ile geri dönüş ayrı şavtlardır.",
+      "details": "Hazırlık: Her yön değişimini ayrı bir geçiş olarak düşün.\nYapılacak işlem: Tamamlanan tek yönlü geçişleri manuel say.\nDikkat: Gidiş-dönüşü tek sayı yapma.\nSonraki aşama: Yedi geçişin tamamını izle.",
+      "textVersion": "U09.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
+      "sourceLocation": "Şavt tanımı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U09.2",
@@ -156,21 +275,45 @@
       "groupId": "U09",
       "title": "Yedi geçişin takibi",
       "status": "draft",
-      "counterKey": "say"
+      "counterKey": "say",
+      "summary": "Sa‘y yedi tek yönlü geçişten oluşur ve Merve’de biter.",
+      "details": "Hazırlık: Kaldığın yönü ve sayıyı gözden geçir.\nYapılacak işlem: Her tamamlanan geçişte sayacı kendin artır.\nDikkat: Eksik geçişin dinî sonucu sayaçtan belirlenmez.\nSonraki aşama: Tahallül bilgisine geç.",
+      "textVersion": "U09.2-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
+      "sourceLocation": "Şavt tanımı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U10.1",
       "order": 17,
       "groupId": "U10",
       "title": "Tahallül bilgisi",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Sa‘yden sonra ihramdan çıkış aşamasının koşulları öğrenilir.",
+      "details": "Hazırlık: Kendi ibadet ve sağlık durumunu rehberle doğrula.\nYapılacak işlem: Saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir.\nDikkat: Özel durumlar için uygulama hüküm vermez.\nSonraki aşama: Yolculuk özetine geç.",
+      "textVersion": "U10.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U10.2",
       "order": 18,
       "groupId": "U10",
       "title": "Öğrenme/yolculuk özeti",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Özet kişisel takibi gözden geçirmek içindir.",
+      "details": "Hazırlık: İşaretlerini ve varsa eksik başlıkları kontrol et.\nYapılacak işlem: Gerektiğinde önceki adıma dön veya rehbere başvur.\nDikkat: Uygulama tamamlandı işareti ibadetin geçerlilik belgesi değildir.\nSonraki aşama: Yolculuk kaydını koru.",
+      "textVersion": "U10.2-draft-2026-10-09-v1",
+      "sourceTitle": "Uygulama kullanım akışı",
+      "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
+      "sourceLocation": "Yerel rehber ve prova işleyişi",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir."
     }
   ]
 }

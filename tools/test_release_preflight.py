@@ -19,6 +19,12 @@ class ReleaseAuditTests(unittest.TestCase):
     def test_draft_never_becomes_approved_from_complete_text(self):
         self.assertTrue(audit_catalog({'steps': [{'id': 'U01.1', 'status': 'draft'}]}))
 
+    def test_unknown_source_rights_block_approved_label(self):
+        record = {'id': 'U01.1', 'status': 'approved',
+                  'sourceUsageRights': 'Yeniden dağıtım izni teyit edilmedi'}
+        self.assertTrue(any(b['type'] == 'source_rights_unverified'
+                            for b in audit_catalog({'steps': [record]})))
+
     def test_hajj_profile_review_is_separate(self):
         self.assertTrue(any(b['type'] == 'hajj_profile_review' for b in
             audit_catalog({'guideType': 'hajj', 'steps': [{'id': 'H01.1'}]})))

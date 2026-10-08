@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "inventory-2026-10-05",
+  "contentVersion": "inventory-2026-10-09-draft1",
   "guideType": "hajj",
   "audioRecords": [],
   "prayerRecords": [],
@@ -15,7 +15,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Temettü, ifrad ve kıran farklı ihram ve umre ilişkileri taşır.",
+      "details": "Hazırlık: Kendi hac türünü yetkili kafile kaydından doğrula.\nYapılacak işlem: Profili seçip akışın taslak olduğunu gör.\nDikkat: Profil uygulanabilirlik matrisi henüz uzman onaylı değildir.\nSonraki aşama: Gün ve güzergâh başlığına geç.",
+      "textVersion": "H01.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H01.2",
@@ -27,7 +35,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Hac günleri ve geçişler seçilen profile ve organizasyona göre değişebilir.",
+      "details": "Hazırlık: Resmî kafile programının güncel sürümünü öğren.\nYapılacak işlem: Aşamaları genel sıra olarak gözden geçir.\nDikkat: Uygulama canlı saha, ulaşım veya fetva kaynağı değildir.\nSonraki aşama: Paket hazırlığına geç.",
+      "textVersion": "H01.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H01.3",
@@ -39,7 +55,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Çevrimdışı içerik ve kişisel takip ayrı işlevlerdir.",
+      "details": "Hazırlık: Paketin kaynağını, sürümünü ve indirme durumunu kontrol et.\nYapılacak işlem: İstersen paketi etkinleştir; normal rehber için zorunlu değildir.\nDikkat: Taslak veya eksik paket onaylı dinî içerik sayılmaz.\nSonraki aşama: Hazırlık ve mikat başlığına geç.",
+      "textVersion": "H01.3-draft-2026-10-09-v1",
+      "sourceTitle": "Uygulama kullanım akışı",
+      "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
+      "sourceLocation": "Yerel rehber ve prova işleyişi",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir."
     },
     {
       "id": "H02.1",
@@ -51,7 +75,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Mikat ve ihram hazırlığı seçilen hac türüne bağlıdır.",
+      "details": "Hazırlık: Güzergâhı ve hac türünü kafile görevlisinden doğrula.\nYapılacak işlem: İhrama giriş zamanını ve hazırlığını kişisel rehberlikle öğren.\nDikkat: Temettü, ifrad ve kıranı tek hüküm gibi birleştirme.\nSonraki aşama: Niyet ve telbiye başlığına geç.",
+      "textVersion": "H02.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H02.2",
@@ -63,7 +95,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Niyet ve telbiye ihram akışında ele alınır.",
+      "details": "Hazırlık: Seçilen profilin ihram düzenini teyit et.\nYapılacak işlem: Niyet ve telbiyenin uygulanışını yetkili rehberden öğren.\nDikkat: Arapça telaffuz ve profil hükümleri burada onaylı değildir.\nSonraki aşama: Mekke’ye varış başlığına geç.",
+      "textVersion": "H02.2-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H02.3",
@@ -75,7 +115,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Mekke’ye varış ve ilk görüş sonraki ibadetleri hazırlama bağlamıdır.",
+      "details": "Hazırlık: Buluşma ve giriş bilgisini yetkili kaynaktan öğren.\nYapılacak işlem: Kafile yönlendirmesiyle güvenli hareket et.\nDikkat: Canlı kapı ve kalabalık bilgisi uygulamada bulunmaz.\nSonraki aşama: İlgili ön aşamaya geç.",
+      "textVersion": "H02.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H02.4",
@@ -87,7 +135,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Hac öncesi tavaf ve sa‘y ilişkisi profile göre farklılaşabilir.",
+      "details": "Hazırlık: İfrad, temettü veya kıran kaydını kontrol et.\nYapılacak işlem: Kendine uygulanacak ön aşamayı rehberle belirle.\nDikkat: Uzman onayı olmayan profil filtresi otomatik uygulanmaz.\nSonraki aşama: Hac başlangıcına geçişi incele.",
+      "textVersion": "H02.4-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H02.5",
@@ -99,7 +155,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Hac başlangıcına geçişte ihram durumunu yeniden gözden geçir.",
+      "details": "Hazırlık: Kafile takvimini ve kişisel profili teyit et.\nYapılacak işlem: Bir sonraki günün programına hazırlan.\nDikkat: Temettüde ayrı ihram, ifrad ve kıranda farklı sıra olabilir.\nSonraki aşama: İlk güzergâh başlığına geç.",
+      "textVersion": "H02.5-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H03.1",
@@ -111,7 +175,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "İlk güzergâh Mina veya Arafat yönüne uzanabilir.",
+      "details": "Hazırlık: Resmî ulaşım ve buluşma planını kontrol et.\nYapılacak işlem: Kafile talimatıyla uygun güzergâhı izle.\nDikkat: Uygulama gerçek zamanlı rota ya da kalabalık garantisi vermez.\nSonraki aşama: Uygulanırsa Mina başlığına geç.",
+      "textVersion": "H03.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H03.2",
@@ -123,7 +195,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Mina’daki ilk durak organizasyon planına göre ele alınır.",
+      "details": "Hazırlık: Kafile programında bu durağın olup olmadığını doğrula.\nYapılacak işlem: Varsa konaklama ve hareket talimatlarına uy.\nDikkat: Bu başlık herkes için otomatik zorunlu gösterilmez.\nSonraki aşama: Arafat’a geçişi incele.",
+      "textVersion": "H03.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H03.3",
@@ -135,7 +215,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Arafat’a geçişin zaman ve sınır bilgisi önemlidir.",
+      "details": "Hazırlık: Kafile ve resmî yönlendirmelerin güncelliğini kontrol et.\nYapılacak işlem: Geçişi kendi programına göre planla.\nDikkat: Saha sınırlarını telefon konumuyla hükme bağlama.\nSonraki aşama: Arafat başlığına geç.",
+      "textVersion": "H03.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H04.1",
@@ -147,7 +235,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Arafat vakfesinin yer ve zaman bağlamı yetkili rehberlikle doğrulanır.",
+      "details": "Hazırlık: Kafile programını ve bölge sınırını öğren.\nYapılacak işlem: Güvenli konumlanma talimatlarını izle.\nDikkat: GPS noktası vakfenin geçerliliğini belirlemez.\nSonraki aşama: Namaz ve vakfe başlığına geç.",
+      "textVersion": "H04.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H04.2",
@@ -159,7 +255,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Arafat günü namaz ve vakfe birlikte değerlendirilir.",
+      "details": "Hazırlık: Vakit ve kafile düzenini yetkili rehberden öğren.\nYapılacak işlem: Kendi durumuna uygun ibadet akışını takip et.\nDikkat: Mezhep ve özel durum ayrıntıları bu taslakta karara bağlanmaz.\nSonraki aşama: Dua zamanı başlığına geç.",
+      "textVersion": "H04.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H04.3",
@@ -171,7 +275,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Arafat’ta dua kişisel ibadet bağlamında ele alınır.",
+      "details": "Hazırlık: Güvenilir ve onaylı dua kaynağını rehberinle seç.\nYapılacak işlem: İstersen kendi dilinde dua et.\nDikkat: Belirli bir taslak metni zorunlu dua olarak sunma.\nSonraki aşama: Sonraki geçişe hazırlan.",
+      "textVersion": "H04.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H04.4",
@@ -183,7 +295,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Arafat sonrasında sıradaki geçiş Muzdelife yönündedir.",
+      "details": "Hazırlık: Ulaşım ve kalabalık koşullarını kontrol et.\nYapılacak işlem: Kafile hareket planına uy.\nDikkat: Uygulama canlı ulaşım veya saha sınırı sağlamaz.\nSonraki aşama: Gece varışı başlığına geç.",
+      "textVersion": "H04.4-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H05.1",
@@ -195,7 +315,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Muzdelife’ye gece varış organizasyon planıyla izlenir.",
+      "details": "Hazırlık: Güncel konaklama ve buluşma bilgisini edin.\nYapılacak işlem: Kafile görevlilerinin güvenlik yönlendirmelerini izle.\nDikkat: Telefon konumu dinî geçerlilik kararı değildir.\nSonraki aşama: Namaz ve vakfe başlığına geç.",
+      "textVersion": "H05.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H05.2",
@@ -207,7 +335,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Muzdelife’de namaz ve vakfe hükümleri birlikte incelenir.",
+      "details": "Hazırlık: Vakit ve kişisel durumunu rehberle doğrula.\nYapılacak işlem: Uygulanacak sırayı yetkili yönlendirmeyle öğren.\nDikkat: Özel durumlar için otomatik hüküm çıkarma.\nSonraki aşama: Taş hazırlığına geç.",
+      "textVersion": "H05.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H05.3",
@@ -219,7 +355,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Mina ve cemarat aşaması için hazırlık yapılır.",
+      "details": "Hazırlık: Kafile rota ve güvenlik talimatlarını al.\nYapılacak işlem: Taş hazırlığı ve sonraki hareketi rehberlikle öğren.\nDikkat: Kalabalıkta güvenliği sayım hızının önüne koy.\nSonraki aşama: Aktif gün ve hedefe geç.",
+      "textVersion": "H05.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H06.1",
@@ -231,7 +375,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Cemarat akışında gün ve hedef ayrımı gerekir.",
+      "details": "Hazırlık: Resmî gün programını ve bulunduğun hedefi doğrula.\nYapılacak işlem: Manuel sayımı yalnız ilgili gün ve hedef için aç.\nDikkat: Uygulama hedefi GPS ile otomatik seçmez.\nSonraki aşama: Yaklaşma bilgisine geç.",
+      "textVersion": "H06.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H06.2",
@@ -243,7 +395,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Cemreye yaklaşırken güvenli güzergâh ve kalabalık yönetimi önemlidir.",
+      "details": "Hazırlık: Kafile ve resmî saha talimatlarını izle.\nYapılacak işlem: Atış alanına güvenli biçimde ilerle.\nDikkat: Uygulama canlı yoğunluk veya geçiş izni bildirmez.\nSonraki aşama: Manuel atış takibine geç.",
+      "textVersion": "H06.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H06.3",
@@ -256,7 +416,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Atış sayımı seçili gün ve hedefte manuel tutulur.",
+      "details": "Hazırlık: Gün, hedef ve dinî uygulama kararını rehberle teyit et.\nYapılacak işlem: Gerçekleştirdiğin atışları kendin işaretle.\nDikkat: Sayaç taşın isabetini veya ibadetin geçerliliğini ölçmez.\nSonraki aşama: Sonraki hedefe geç.",
+      "textVersion": "H06.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H06.4",
@@ -268,7 +436,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Sonraki cemre hedefi ancak günün doğrulanmış sırasıyla seçilir.",
+      "details": "Hazırlık: Kafile planında sıradaki hedefi kontrol et.\nYapılacak işlem: Gerekirse yeni hedef için ayrı manuel sayaç aç.\nDikkat: Bir hedefin sayısı başka hedefe otomatik taşınmaz.\nSonraki aşama: Kurban bağlamına geç.",
+      "textVersion": "H06.4-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H07.1",
@@ -280,7 +456,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Kurban yükümlülüğü hac türüyle ilişkilidir.",
+      "details": "Hazırlık: Seçilen profil ve resmî organizasyon belgesini doğrula.\nYapılacak işlem: Kendi durumunu yetkili rehberle değerlendir.\nDikkat: Uygulama kurbanın gerçekleştiğini otomatik doğrulamaz.\nSonraki aşama: Tahallül başlığına geç.",
+      "textVersion": "H07.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H07.2",
@@ -292,7 +476,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Tahallül ihramdan çıkış aşamasıdır.",
+      "details": "Hazırlık: Önceki ibadetlerin durumunu rehberle kontrol et.\nYapılacak işlem: Saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle öğren.\nDikkat: Özel durumlar için uygulama hüküm vermez.\nSonraki aşama: Sonraki aşamaya geç.",
+      "textVersion": "H07.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H07.3",
@@ -304,7 +496,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Tahallül sonrası ziyaret tavafı aşaması gözden geçirilir.",
+      "details": "Hazırlık: Kafile programını ve fiziksel durumunu kontrol et.\nYapılacak işlem: Uygun zaman ve güzergâhı yetkili rehberle belirle.\nDikkat: Canlı saha koşulları bu taslakta doğrulanmaz.\nSonraki aşama: Ziyaret tavafına geç.",
+      "textVersion": "H07.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H08.1",
@@ -316,7 +516,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Ziyaret tavafı hac akışının temel aşamalarındandır.",
+      "details": "Hazırlık: Uygun zaman ve tavaf başlangıcını yetkili rehberle teyit et.\nYapılacak işlem: Şavtları kendin takip et.\nDikkat: Sayaç veya GPS dinî geçerlilik kararı vermez.\nSonraki aşama: Tavaf sonrası başlığına geç.",
+      "textVersion": "H08.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H08.2",
@@ -328,7 +536,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Ziyaret tavafından sonraki işlemler kişisel duruma bağlanır.",
+      "details": "Hazırlık: Önceki sa‘y ve profil bilgisini gözden geçir.\nYapılacak işlem: Sonraki adımı rehberinle belirle.\nDikkat: Herkesin aynı sırayı uyguladığını varsayma.\nSonraki aşama: Gerekiyorsa sa‘y başlığına geç.",
+      "textVersion": "H08.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H08.3",
@@ -340,7 +556,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Hac sa‘yinin gerekliliği önceki uygulamaya göre değişebilir.",
+      "details": "Hazırlık: Önceden yapılan sa‘y durumunu yetkili rehberle doğrula.\nYapılacak işlem: Gerekliyse Safâ–Merve geçişlerini manuel izle.\nDikkat: Profil ve önceki fiil onayı olmadan otomatik filtre açılmaz.\nSonraki aşama: Sonraki duruma geç.",
+      "textVersion": "H08.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H08.4",
@@ -352,7 +576,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Ziyaret aşaması sonrası kalan günler için program güncellenir.",
+      "details": "Hazırlık: Kafile gün ve konaklama planını edin.\nYapılacak işlem: Mina ve sonraki cemre günlerini gözden geçir.\nDikkat: Bu kart canlı program kaynağı değildir.\nSonraki aşama: Mina ve yeni gün başlığına geç.",
+      "textVersion": "H08.4-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H09.1",
@@ -364,7 +596,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Mina’daki sonraki gün için sayım bağlamı yenilenir.",
+      "details": "Hazırlık: Günü ve ilk hedefi resmî programdan doğrula.\nYapılacak işlem: Yeni gün kaydını ayrı aç.\nDikkat: Önceki günün sayısı yeni güne otomatik aktarılmaz.\nSonraki aşama: Günün cemre sırasına geç.",
+      "textVersion": "H09.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H09.2",
@@ -377,7 +617,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Günün cemre sırası ve her hedefin sayımı ayrı tutulur.",
+      "details": "Hazırlık: Kafile ve yetkili rehberden sırayı teyit et.\nYapılacak işlem: Her hedefte gerçekleşen atışları manuel işaretle.\nDikkat: Sayaç dini kabul, isabet veya saha güvenliği ölçümü değildir.\nSonraki aşama: Devam veya ayrılma dalına geç.",
+      "textVersion": "H09.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H09.3",
@@ -389,7 +637,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Mina’da devam veya ayrılma kararı gün ve şartlara bağlıdır.",
+      "details": "Hazırlık: Program ve kişisel durumu yetkili rehberle gözden geçir.\nYapılacak işlem: Uygun sonraki hareketi kafilenle belirle.\nDikkat: Taslak akış otomatik ayrılma hükmü vermez.\nSonraki aşama: Veda uygulanabilirliğine geç.",
+      "textVersion": "H09.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H10.1",
@@ -401,7 +657,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Veda tavafının uygulanabilirliği kişisel durumla değerlendirilir.",
+      "details": "Hazırlık: Seyahat zamanı ve özel durumunu rehberle doğrula.\nYapılacak işlem: Gerekli olup olmadığını yetkili kişiyle kararlaştır.\nDikkat: Uygulama herkese otomatik aynı hükmü uygulamaz.\nSonraki aşama: Veda açıklamasına geç.",
+      "textVersion": "H10.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H10.2",
@@ -413,7 +677,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Veda tavafı Mekke’den ayrılma aşamasıyla ilişkilidir.",
+      "details": "Hazırlık: Ayrılış ve tavaf zamanını kafileyle planla.\nYapılacak işlem: Kendine uygulanıyorsa işlemi rehberlikle yerine getir.\nDikkat: Sayaç ibadetin dinî kabulünü belirlemez.\nSonraki aşama: Son özete geç.",
+      "textVersion": "H10.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve Umre bölümü, basılı s. 548–554",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "H10.3",
@@ -425,7 +697,15 @@
         "temettu": "unverified",
         "ifrad": "unverified",
         "kiran": "unverified"
-      }
+      },
+      "summary": "Özet yalnız kişisel takip kaydını gösterir.",
+      "details": "Hazırlık: Açık kalan başlıkları ve kafile programını kontrol et.\nYapılacak işlem: Gerekiyorsa önceki adıma veya yetkili rehbere dön.\nDikkat: Tamamlandı işareti hac kabul belgesi değildir.\nSonraki aşama: Kayıtları sakla.",
+      "textVersion": "H10.3-draft-2026-10-09-v1",
+      "sourceTitle": "Uygulama kullanım akışı",
+      "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
+      "sourceLocation": "Yerel rehber ve prova işleyişi",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir."
     }
   ]
 }

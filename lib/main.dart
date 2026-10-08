@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -12,6 +15,7 @@ import 'app_theme.dart';
 import 'content_repository.dart';
 import 'guide_catalog.dart';
 import 'group_repository.dart';
+import 'group_screen.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -20,6 +24,7 @@ import 'offline_package.dart';
 import 'package_catalog.dart';
 import 'package_downloader.dart';
 import 'progress_store.dart';
+import 'push_service.dart';
 import 'reader_settings.dart';
 import 'safety_catalog.dart';
 import 'selection_screens.dart';
@@ -97,10 +102,39 @@ Future<void> main() async {
     } catch (_) {
       // A backend failure never locks the offline guide behind sign-in.
     }
+    final navigatorKey = GlobalKey<NavigatorState>();
+    PushTokenCoordinator? push;
+    if (groups is SupabaseGroupRepository &&
+        (Platform.isAndroid || Platform.isIOS)) {
+      try {
+        final config = PushRuntimeConfig.fromCompileTime();
+        if (config != null) {
+          await Firebase.initializeApp(options: config.firebaseOptions);
+          push = PushTokenCoordinator(
+            source: const FirebasePushTokenSource(),
+            remote: SupabasePushTokenRemote(groups.client),
+            currentUserId: () => groups.userId,
+            platform: Platform.isAndroid ? 'android' : 'ios',
+            store: store,
+          );
+          unawaited(push.resumeIfEnabled().catchError((Object _) {}));
+          _wirePushRouting(
+            FirebaseMessaging.instance,
+            groups,
+            store,
+            navigatorKey,
+          );
+        }
+      } catch (_) {
+        // No permission is requested when project setup is incomplete.
+      }
+    }
     await settings.load();
     runApp(
       SesliRehberApp(
         groups: groups,
+        push: push,
+        navigatorKey: navigatorKey,
         store: store,
         catalogs: catalogs,
         bundledCatalogs: bundledCatalogs,
@@ -137,6 +171,53 @@ Future<void> main() async {
   }
 }
 
+void _wirePushRouting(
+  FirebaseMessaging messaging,
+  GroupRepository groups,
+  ProgressStore store,
+  GlobalKey<NavigatorState> navigatorKey,
+) {
+  Future<void> open(RemoteMessage message) async {
+    final target = PushRouteTarget.parse(message.data);
+    final uid = groups.userId;
+    if (target == null || uid == null) return;
+    try {
+      final available = await groups.groups();
+      if (groups.userId != uid) return;
+      final matching = available
+          .where((g) => g.id == target.groupId)
+          .firstOrNull;
+      final navigator = navigatorKey.currentState;
+      if (matching == null || navigator == null) return;
+      await navigator.push<void>(
+        MaterialPageRoute(
+          builder: (_) => GroupDetailScreen(
+            group: matching,
+            repository: groups,
+            store: store,
+          ),
+        ),
+      );
+    } catch (_) {
+      // Revoked membership or network failure never exposes notification data.
+    }
+  }
+
+  FirebaseMessaging.onMessageOpenedApp.listen(
+    (message) => unawaited(open(message)),
+  );
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    unawaited(
+      messaging
+          .getInitialMessage()
+          .then((message) async {
+            if (message != null) await open(message);
+          })
+          .catchError((Object _) {}),
+    );
+  });
+}
+
 class SesliRehberApp extends StatelessWidget {
   const SesliRehberApp({
     super.key,
@@ -153,6 +234,8 @@ class SesliRehberApp extends StatelessWidget {
     this.packageConfigurationError,
     this.travelCatalog,
     this.safetyCatalog,
+    this.push,
+    this.navigatorKey,
   });
 
   final GroupRepository? groups;
@@ -168,11 +251,14 @@ class SesliRehberApp extends StatelessWidget {
   final String? packageConfigurationError;
   final TravelCatalog? travelCatalog;
   final SafetyCatalog? safetyCatalog;
+  final PushTokenCoordinator? push;
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
     animation: settings,
     builder: (context, _) => MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Hac ve Umre Sesli Rehber',
       debugShowCheckedModeBanner: false,
       locale: const Locale('tr'),
@@ -199,6 +285,7 @@ class SesliRehberApp extends StatelessWidget {
       },
       home: HomeScreen(
         groups: groups,
+        push: push,
         contentRepository: contentRepository,
         travelRepository: travelRepository,
         store: store,

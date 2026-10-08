@@ -1,0 +1,10 @@
+id,kategori,turkce,arapca,okunus,kaynak,insan_inceleyen,inceleme_tarihi,durum
+L01,directions,Çıkış nerede?,,,,,,draft
+L02,hotel,Oteli bulmama yardım eder misiniz?,,,,,,draft
+L03,food,Su alabileceğim yer nerede?,,,,,,draft
+L04,shopping,Bunun fiyatı nedir?,,,,,,draft
+L05,transport,Bu araç nereye gidiyor?,,,,,,draft
+L06,lost,Kafilemi kaybettim; yardım eder misiniz?,,,,,,draft
+L07,pharmacy,En yakın eczane nerede?,,,,,,draft
+L08,health,Tıbbi yardıma ihtiyacım var.,,,,,,draft
+L09,help,Lütfen görevli birine haber verin.,,,,,,draft

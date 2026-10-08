@@ -20,7 +20,7 @@ jobs:
       - run: python tools/verify_mobile_qa.py
       - run: python -m unittest discover -s tools -p 'test_*.py' -v
       - run: python tools/content_audit.py
-      - run: python -m py_compile tools/run_mobile_qa.py tools/verify_mobile_qa.py tools/content_audit.py
+      - run: python -m py_compile tools/run_mobile_qa.py tools/verify_mobile_qa.py tools/content_audit.py tools/build_offline_manifest.py tools/release_preflight.py
   flutter:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -36,7 +36,7 @@ jobs:
           java-version: '21'
       - uses: android-actions/setup-android@v3
         with:
-          packages: platform-tools platforms;android-36 build-tools;36.0.0
+          packages: platform-tools platforms;android-34 platforms;android-36 build-tools;36.0.0
       - name: Refresh test dependency index with bounded network retries
         run: timeout 180s sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
       - name: Install test dependencies with bounded network retries
@@ -167,7 +167,7 @@ jobs:
           java-version: '21'
       - uses: android-actions/setup-android@v3
         with:
-          packages: platform-tools platforms;android-36 build-tools;36.0.0
+          packages: platform-tools platforms;android-34 platforms;android-36 build-tools;36.0.0
       - run: flutter pub get
       - run: flutter build apk --release --split-per-abi
         env:
