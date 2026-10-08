@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/package_downloader.dart';
+import 'package:hac_umre_sesli_rehber/package_catalog.dart';
 
 class FakeHeaders implements HttpHeaders {
   final values = <String, String>{};
@@ -205,5 +206,52 @@ void main() {
     gate.complete(request);
     await Future<void>.delayed(Duration.zero);
     expect(request.aborted, true);
+  });
+  test('catalog uses bounded transport and reads valid UTF-8', () async {
+    final request = FakeRequest(
+      Future.value(FakeResponse(Stream.value([123, 125]))),
+    );
+    final catalog = HttpPackageCatalogTextFetcher(
+      client: FakeHttp(Future.value(request)),
+    );
+    expect(await catalog.fetch(uri), '{}');
+    expect(request.headers.value(HttpHeaders.rangeHeader), isNull);
+    catalog.close();
+  });
+  test(
+    'catalog overflow cancels without buffering an unlimited body',
+    () async {
+      final request = FakeRequest(
+        Future.value(FakeResponse(Stream.value([1, 2, 3]))),
+      );
+      final catalog = HttpPackageCatalogTextFetcher(
+        client: FakeHttp(Future.value(request)),
+        maximumBytes: 2,
+      );
+      await expectLater(
+        catalog.fetch(uri),
+        throwsA(isA<PackageCatalogException>()),
+      );
+      expect(request.aborted, true);
+      catalog.close();
+    },
+  );
+  test('catalog connection timeout aborts a late request', () async {
+    final gate = Completer<HttpClientRequest>();
+    final catalog = HttpPackageCatalogTextFetcher(
+      client: FakeHttp(gate.future),
+      timeout: const Duration(milliseconds: 20),
+    );
+    await expectLater(
+      catalog.fetch(uri),
+      throwsA(isA<PackageCatalogException>()),
+    );
+    final request = FakeRequest(
+      Future.value(FakeResponse(const Stream.empty())),
+    );
+    gate.complete(request);
+    await Future<void>.delayed(Duration.zero);
+    expect(request.aborted, true);
+    catalog.close();
   });
 }
