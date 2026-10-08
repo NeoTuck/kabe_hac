@@ -15,9 +15,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** 8 Ekim 2026; kod `58708cfb`, CI `37741666923` yedi iş başarılı: 146 Flutter/39 SQL/5 QA yapılandırma kontrolü, analiz/format, teknik ses QA, Android debug/release ve iOS no-codesign/simulator derlemeleri. Dört pilot akış Android API 28, API 35 ve iOS 18.5 / iPhone 16 simulator'de geçti. JUnit/session/kurulu Android APK hash eşleşmesi ve duraklatma ekranları kontrol edildi. Fiziksel cihaz/işitsel çıktı/canlı backend/yayın kabulü değildir.
+**Son doğrulama:** 8 Ekim 2026; kod `67335ffb`, CI `37769687931` yedi iş başarılı: 153 Flutter/39 bağımsız fixture SQL/14 QA, format/analiz, teknik AAC ses, Android debug/split release ve iOS no-codesign/simulator. Android API28/API35 ve iOS18.5/iPhone16 simulator'de dört pilot akış geçti. JUnit/session, Android driver_prepared ve APK hash eşleşmesi ile native duraklatma ekranları incelendi. Fiziksel cihaz/canlı servis/dinî içerik/mağaza kabulü değildir.
 
-**Aktif paket:** 8 Ekim kullanıcı kalite turu teknik kabulü tamamlandı. Mevcut özellikler korunur; dış girdiler ve fiziksel cihaz kabulü bekliyor. Güncel kanıt `docs/11-kullanici-kalite-turu.md` başındadır.
+**Aktif paket:** Yayın hazırlığı kod dilimi teknik kabulü tamamlandı. Gerçek metin/dua/insan sesi, lisanslı saha verileri, canlı Supabase, GPS/push entegrasyonu, üretim imzası ve fiziksel cihaz kabulü açık. Güncel kanıt `docs/13-yayin-hazirligi.md` başındadır; 18/35 içerik kaydı hâlâ taslaktır.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -124,19 +124,13 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
-8 Ekim yayın hazırlığı dilimi: güven/hash/yol kontrollü gezi kataloğu uygulamaya bağlandı; paket ekranından dönüşte güncelleme/silme yenilenir. Üretim Android imzası zorunlu, teknik pilot debug imzası açık çevre bayrağına bağlıdır. Yayın girdi denetimi eksik içerik ve kabul kanıtında blocked döner. Kaynaklı özgün Umre önerileri uzman incelemesine hazırlanmıştır; onay verilmedi. Ayrıntı `docs/13-yayin-hazirligi.md`. CI 37765942469: 153 Flutter/39 SQL/11 Python ve derlemeler başarılı; API28 dört akış geçti. API35 ilk launchApp device offline ile başarısız, iOS preflight simctl sorgusu 30 sn timeout ile blocked. CI 37768070990 / c7cb0c96: iOS dört akış ve derlemeleri, Android split release, 14 Python/39 SQL başarılı. Linux bağımlılık kurulumu ilerlemeden bekledi; apt adımlarına ağ/süre sınırı eklendi. Android yeni sürücü hazırlığının kabulü son CI ile bekliyor.
+Doğrulanmış POI/rota paketini geziye bağlama dilimi tamamlandı: güven/hash/tür/yol, bozulma/symlink/çakışma, güncelleme/geri dönüş/silme ve ana ekran yenileme testleri geçti. Bu dilimi yeniden kurma. Son kabul `67335ffb` / CI `37769687931`; ayrıntı `docs/13-yayin-hazirligi.md`.
 
-Önceki `ec6472fb` / CI `37750736491`: 147 Flutter/39 SQL, teknik ses, Android/iOS derlemeleri ve iOS/API28 dört pilot akışı başarılı; API35 ilk launchApp cihaz offline hatasıyla başarısız. Ürün/saha/mağaza kabulü değildir.
+Sıradaki içerik işi gerçek uzman incelemesinden geçmiş ilk Umre metni, dua ve izinli insan sesini mevcut sürüm/kimlik/hak hattına bağlamaktır. Kaynak kontrollü özgün öneriler `docs/content-review/umre-kaynakli-oneri.md` içinde; uzman onayı değildir. Girdi gelmeden approved, gerçek inceleyen veya ses hakkı uydurma. Katalog yenilenirken kullanıcı ilerlemesi ve favorileri korunur.
 
-8 Ekim içerik/ekran yeniden incelemesi: `docs/12-icerik-ve-ekran-gozden-gecirme.md`. Umre 18/Hac 35 taslak kaydı Diyanet başlangıç kaynaklarıyla kapsam düzeyinde karşılaştırıldı; metin veya dua onayı verilmedi. Ana ekrana taslak uyarısı, dua kartına onaysız metin gizleme ve buna dair regresyon eklendi. CI `37747539216` 147 Flutter, Android API 28/35 dört akış ve derlemeleri geçti; iOS derleme geçti fakat UI işi başarısız. İlk iOS Umre girişi boş ekranda kaldı, ikinci girişim sürücü açılış zaman aşımıyla durdu. Test görünürlük/açılış iyileştirmesinin CI sonucu bekleniyor; iOS tam kabul ilan etme.
+Canlı servis kabulü için gerçek Supabase proje URL/publishable key ve test hesapları gerekir. RLS/Auth/Realtime, offline outbox ve hesap/üyelik sınırları gerçek ortamda ayrıca denenir. GPS izin/ölçüm/konum gönderimi ile APNs/FCM teslim entegrasyonu hâlâ eksiktir; yerel rıza modelini bunlar tamamlanmış gibi sunma. Harita/iletişim/dil verileri gerçek lisans ve insan incelemesi ister.
 
-8 Ekim son teknik kabul `58708cfb` / CI `37741666923`: yedi iş ve üç ortamda dört pilot akış geçti. Önceki bölümdeki ara run/pending kayıtları tarihsel teşhistir. Ses duraklatılma/tamamlanma UI ve tamamlanma yarışı ayrılır; 30 sn sentetik demo gerçek dinî ses değildir. JUnit/session/hash/ekran kanıtı `docs/11` başındadır.
-
-### Doğrulanmış POI/rota paketini geziye bağla
-
-Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. 8 Ekim turunun 146 test/native/dört pilot akış kabulünü tekrar kurma. Tamamlanan kod dilimi doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağlar (CI kabulü bekliyor): manifest türü ve güven/hash/yol kontrolleri, tekrar/çakışan kimlikler, paket silme/güncelleme sonrası yenileme ve teknik fixture regresyonları gerekir. Gerçek lisanslı veri gelmeden sahaya hazır denmez. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota, hesap/üyelik ve kaynak/güncellik kontrollerini koru. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
-
-Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
+Teknik pilot APK debug imzalıdır; üretim Android derlemesi gerçek key.properties ister. TestFlight için gerçek Apple dağıtım imzası ve fiziksel cihaz gerekir. `tools/release_preflight.py` mevcut eksik girdilerle blocked döner; bu kontrol bağımsız uzman veya mağaza onayı değildir. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota ve kaynak/güncellik kontrollerini koru.
 
 ## 4. Birleşik yol haritası
 
@@ -162,7 +156,7 @@ Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık 
 - **Paket:** SHA-256, sabit güven özeti, geçici indirme ve atomik durum işaretçisi.
 - **Harita:** `maplibre_gl`; sağlayıcı verisi yapılandırılmadı.
 - **Backend adayı:** Supabase Auth/PostgreSQL/Realtime/Storage; supabase_flutter 2.18.0 ve mobil adaptör eklendi, canlı credential/kabul yok.
-- **Test:** `flutter_test`, `sqflite_common_ffi`; backend için 35 pgTAP kontrolü bağımsız PostgreSQL motorunda geçti; gerçek Supabase testi bekliyor.
+- **Test:** `flutter_test`, `sqflite_common_ffi`; backend için 39 pgTAP kontrolü bağımsız PostgreSQL motorunda geçti; gerçek Supabase testi bekliyor.
 - **Android:** En düşük API 28; SDK/build-tools 36; Android 35 emülatör kanıtı.
 - **iOS:** Minimum 15.0; tam Xcode/iOS SDK gerekir. Mevcut eklenti hattı Swift Package Manager kullanır. Simulator derlemesi ayrı; imzalı fiziksel dağıtım ayrıca gerekir.
 

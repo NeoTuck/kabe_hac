@@ -1,6 +1,29 @@
 # Yayın hazırlığı — 8 Ekim 2026
 
-**Durum: teknik yayın hazırlığı sürüyor; tam ürün mağaza kabulü verilmedi.** Mevcut rehber, sayaç, kafile, güvenlik, dil, gezi ve paket özellikleri korunmuştur. 3D eklenmez.
+**Durum: bu kod diliminin teknik kabulü tamamlandı; tam ürün mağaza kabulü verilmedi.** Mevcut rehber, sayaç, kafile, güvenlik, dil, gezi ve paket özellikleri korunmuştur. 3D eklenmez.
+
+## Son teknik kabul
+
+8 Ekim 2026 — kaynak kod `67335ffb2475d8492336b207032fb8467e405b40`; PR merge/test çalışma ağacı commit'i `6b0752bd4e7e547be7ad6f8da362461aaf22510c`. CI [37769687931](https://github.com/NeoTuck/kabe_hac/actions/runs/37769687931): yedi iş başarılı.
+
+| Kontrol | Kanıt |
+| --- | --- |
+| Flutter | Format/analiz temiz; 153 test başarılı. |
+| Backend fixture | 39 bağımsız SQL kontrolü başarılı; canlı Supabase değildir. |
+| QA araçları | 14 Python kontrolü, YAML ve envanter denetimi başarılı. |
+| Ses dosyası | AAC, 30 saniye, RMS -17.5 / peak -3.2 dBFS; sentetik teknik kayıt. |
+| Android build | Debug ve üç ABI split release başarılı; release APK'lar teknik pilot debug imzalıdır. |
+| iOS build | No-codesign ve simulator derlemeleri başarılı; dağıtım imzası yok. |
+| Android API28 / API35 | İkisinde dört pilot akış passed; driver_prepared true; JUnit/session incelendi. |
+| iOS 18.5 / iPhone16 simulator | Dört pilot akış passed; JUnit/session ve SDK/runtime incelendi. |
+| UI/UX | 320/390 px, %100/%200 yazı; güncel Flutter renderları ve native duraklatma ekranları incelendi. |
+
+Kurulu Android debug APK, iki cihazda beklenen dosya SHA-256 ile eşleşti: `e7d29e62b9f97b927c63cf5ea7b627011c4682c7fc4c913884fdb8f5c6502594`.
+ARM64 teknik pilot APK: 35869863 bayt (~35.9 MB), SHA-256 `810315533ba6662a62d68dcd6edf9e0a491563fb9c9c6165a0474859ab392b99`.
+
+Kanıt artifact kimlikleri: API28 11548505375; API35 11547845907; iOS 11547856051; UI preview 11547223955; debug APK 11547725322; split APK 11547930180. Her native raporda dört vaka, sıfır failure/error/skipped doğrulandı. Android ve iOS duraklatma ekranında oynatma konumu toplam sürenin altında ve “Ses duraklatıldı” görünür; yalnız doğal ses bitişi sayılmadı.
+
+**Bu kabul dört pilot akış ve otomatik test kapsamıyla sınırlıdır. Fiziksel cihaz, işitsel kalite, Bluetooth/çağrı/batarya, lisanslı saha haritası, canlı servis, imzalı TestFlight/Play veya dinî içerik kabulü değildir.** 18 Umre/35 Hac kaydı hâlâ taslak; yayın girdi denetimi bu yüzden blocked döner. GPS/push ve canlı konum servisleri için eksik entegrasyon kodu ve gerçek cihaz kabulü gerekir; yalnız belge eklemek bunları tamamlamaz.
 
 ## Bu dilimdeki değişiklikler
 
@@ -39,7 +62,7 @@ Kategoriler: religious_expert_review, human_audio_rights, offline_map_license, v
 4. Canlı Supabase Auth/RLS/Realtime kabulü; gerçek GPS izin akışı, konum gönderimi, APNs/FCM teslimi. Bunlar yalnız kanıt dosyası eklenerek tamamlanmış olmaz, eksik servis kodu ve entegrasyon testi gerekir.
 5. Gerçek Android/iPhone, performans/batarya/uçak modu/erişilebilirlik ve gizlilik kabulü; üretim imzaları, mağaza açıklamaları ve gerçek destek/gizlilik URL'leri.
 
-## Doğrulama
+## Önceki ara çalışmalar (son kabul üstte)
 
 CI `37765942469`, kod `e253b9aff`: 153 Flutter testi, format/analiz, teknik AAC ses QA, 39 bağımsız fixture SQL ve 11 Python kontrolü başarılı. Android debug/split release, iOS no-codesign/simulator derlemeleri geçti. ARM64 teknik pilot APK 35869863 bayt; SHA-256 987fd632aa162711ff35f9d77452fdd28d8becb0b7e44663f8c8673f1b84e9cb. Gerçek upload imzası değildir.
 
