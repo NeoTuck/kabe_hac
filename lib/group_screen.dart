@@ -661,8 +661,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       await _reload();
       return true;
     } catch (_) {
-      if (mounted && _owner == widget.repository.userId)
+      if (mounted && _owner == widget.repository.userId) {
         setState(() => _error = 'Mesaj kaydedilemedi. Tekrar dene.');
+      }
       return false;
     } finally {
       if (mounted) setState(() => _sending = false);
@@ -672,8 +673,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   Future<void> _compose(List<Map<String, dynamic>> guides) async {
     if (_composerOpen ||
         _snapshot == null ||
-        _owner != widget.repository.userId)
+        _owner != widget.repository.userId) {
       return;
+    }
     setState(() => _composerOpen = true);
     try {
       final recipient = await showModalBottomSheet<String>(
@@ -686,15 +688,17 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
           guides: guides,
           recipient: _recipient,
           onSend: (recipient) async {
-            if (_owner != widget.repository.userId || _snapshot == null)
+            if (_owner != widget.repository.userId || _snapshot == null) {
               return false;
+            }
             if (recipient != null &&
                 !_snapshot!.members.any(
                   (m) =>
                       m['user_id'] == recipient &&
                       ['guide', 'group_admin'].contains(m['role']),
-                ))
+                )) {
               return false;
+            }
             _recipient = recipient;
             return _send();
           },

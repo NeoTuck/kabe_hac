@@ -37,11 +37,12 @@ class _TravelScreenState extends State<TravelScreen> {
   Future<void> _loadFavorites() async {
     try {
       final values = await widget.store.readTravelFavoriteIds('poi');
-      if (mounted)
+      if (mounted) {
         setState(() {
           _favorites = values;
           _error = null;
         });
+      }
     } catch (_) {
       if (mounted) setState(() => _error = 'Favoriler okunamadı.');
     } finally {
@@ -55,7 +56,7 @@ class _TravelScreenState extends State<TravelScreen> {
     setState(() => _savingFavorites.add(point.id));
     try {
       await widget.store.setTravelFavorite('poi', point.id, favorite);
-      if (mounted)
+      if (mounted) {
         setState(() {
           if (favorite) {
             _favorites.add(point.id);
@@ -64,6 +65,7 @@ class _TravelScreenState extends State<TravelScreen> {
           }
           _error = null;
         });
+      }
     } catch (_) {
       if (mounted) setState(() => _error = 'Favori kaydedilemedi.');
     } finally {

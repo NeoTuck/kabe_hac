@@ -372,10 +372,11 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
       await widget.narration.stop();
       if (mounted) Navigator.of(context).pop(step);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Başlık değiştirilemedi. Tekrar dene.')),
         );
+      }
     } finally {
       if (mounted) setState(() => _navigating = false);
     }
