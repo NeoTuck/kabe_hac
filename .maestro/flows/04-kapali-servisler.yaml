@@ -3,7 +3,7 @@ name: Yapılandırılmamış teknik pilot hizmetleri
 ---
 - launchApp
 - tapOn: "(?s)Kafile.*"
-- assertVisible: "Kafile hizmeti hazırlanıyor"
+- assertVisible: "(?s)Kafile hizmeti hazırlanıyor.*"
 - takeScreenshot: kafile-yapilandirilmamis
 - launchApp
 - scrollUntilVisible:

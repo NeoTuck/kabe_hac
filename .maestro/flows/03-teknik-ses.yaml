@@ -12,8 +12,14 @@ name: Teknik ses oynatma ve duraklatma
 - scrollUntilVisible:
     element: "Anlatımı dinle"
     direction: DOWN
-- tapOn: "Anlatımı dinle"
+# The synthetic clip is six seconds: do not wait for its moving progress
+# indicator to settle (which would mean waiting until playback has finished).
+- tapOn:
+    text: "Anlatımı dinle"
+    waitToSettleTimeoutMs: 500
 - assertVisible: "Duraklat"
-- tapOn: "Duraklat"
+- tapOn:
+    text: "Duraklat"
+    waitToSettleTimeoutMs: 500
 - assertVisible: "Anlatımı dinle"
 - takeScreenshot: teknik-ses-duraklatildi

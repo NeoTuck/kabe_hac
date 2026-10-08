@@ -52,6 +52,12 @@ Düzeltme `bd89c83a`: seçiciler başlık ve birleşmiş açıklama/sekme metnin
 
 ## Ürün sınırları ve sonraki iş
 
+### Mobil kabul devamı — 8 Ekim sabahı
+
+`bd89c83a` / CI `37715121386` tamamlandı: 143 Flutter testi, analiz/format, teknik ses dosyası QA, 39 SQL kontrolü ve Android/iOS derlemeleri yeniden geçti. iOS 18.5 runtime ile test sürücüsü artık açıldı. Ayarlar akışı iOS ve Android API 28/35'te; ses oynat/duraklat iOS ve API 28'de geçti. Rehber/kafile akışları, native Card'ın birleştirdiği başlık ve açıklamaya tam metin seçicisi uygulanması nedeniyle başarısız. API 35 ses hata ekranında konum 0:06 / 0:06: altı saniyelik teknik kayıt oynatma sonrası testin ekranın sabitlenmesini beklediği sırada bitmiş.
+
+Başlık seçicileri başlıkla başlayan birleşik açıklamayı eşler; onaylı/başka başlık eşleşmez. Ses tap işleminin ekran sabitlenme beklemesi 500 ms ile sınırlanır; “Duraklat” ve tekrar “Anlatımı dinle” beklentileri kaldırılmaz. SDK/runtime seçimi ve üç akışın beklentisi için beş Python regresyon kontrolü eklendi; yerelde geçti. Bunlar yapılandırma testidir, cihaz kabulü değildir. Yeni tüm platform tekrarının sonucu ayrıca kaydedilecek.
+
 18 Umre ve 35 Hac kimliği hâlâ taslak. Gerçek uzman onaylı metin/profil matrisi, ses dosyaları/hakları, lisanslı harita/POI/saha verisi ve Supabase proje girdileri eksik. Harita gösterimi, POI/rota paketinin gezi kataloğuna bağlanması, şirket rota paylaşımı, gerçek GPS/push ve sensör/yoğunluk ürün akışları ayrıca tamamlanmalıdır. Gerçek Android/iPhone, işitsel çıktı/kilit ekranı/Bluetooth ve veri koruyan imzalı güncelleme kabulü ayrıca gerekir.
 
 Sonraki bağımsız kod dilimi: doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağlamak; önce teknik fixture ile hash/yol/çakışma/yenileme testleri, sonra izinli gerçek veri. Üretime hazır iddiası bu turun sonucu değildir.

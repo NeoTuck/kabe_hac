@@ -9,7 +9,7 @@ name: Umre hazırlık ve yolculuk girişleri
     element: "Kaldığım başlığa git"
     direction: DOWN
 - tapOn: "Kaldığım başlığa git"
-- assertVisible: "İçerik hazırlanıyor"
+- assertVisible: "(?s)İçerik hazırlanıyor.*"
 - takeScreenshot: umre-taslak-adim
 - launchApp
 - tapOn: "(?s)Umredeyim.*"

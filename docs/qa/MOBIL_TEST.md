@@ -53,3 +53,5 @@ iOS işi fiziksel hedef no-codesign build ardından `--simulator --debug` derler
 CI'a eklenmiş olmak başarılı kabul anlamına gelmez. Run sonucu, JUnit ve session durumu birlikte okunmalıdır. Dört pilot akış bütün ürün, hoparlör sesi, gerçek iPhone, Bluetooth veya canlı backend kabulü değildir. Release/split APK'lar boyut ölçümü için teknik debug imzasıyla üretilir; kalıcı dağıtım imzası ayrıca gerekir. Güncel kanıt: `docs/11-kullanici-kalite-turu.md`.
 
 Maestro seçicileri Flutter'ın birleştirdiği başlık/alt açıklama ve sekme sırası metnini destekler. İlk CI'da yakalanan seçici ve SDK/runtime hatalarının düzeltmesi `bd89c83a`, tekrar run `37715121386`; sonuç kanıtı olmadan cihaz akışını geçti saymayın.
+
+Altı saniyelik teknik kaydın ilerleme göstergesi sürekli değişir. Oynat/duraklat tap komutları `waitToSettleTimeoutMs: 500` kullanır; testin hareketli ekran sabitlenene kadar (yani ses bitene kadar) beklemesi önlenir. Oynatma ve duraklatma durumlarının görünürlük beklentileri zorunludur. Beş yapılandırma regresyonu `python3 -m unittest discover -s tools -p 'test_mobile_qa.py' -v` ile yürütülür; cihaz testinin yerine geçmez.
