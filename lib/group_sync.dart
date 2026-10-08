@@ -46,7 +46,10 @@ class LocalLocationShare {
   final DateTime? stoppedAt;
 
   bool isActiveAt(DateTime now) =>
-      enabled && stoppedAt == null && now.isBefore(endsAt);
+      enabled &&
+      stoppedAt == null &&
+      !now.isBefore(startedAt) &&
+      now.isBefore(endsAt);
 }
 
 class SharedLocationUpdate {
@@ -70,6 +73,12 @@ class SharedLocationUpdate {
     DateTime now, {
     Duration maximumAge = const Duration(minutes: 5),
   }) {
-    return now.difference(measuredAt) > maximumAge;
+    return measuredAt.isAfter(now) ||
+        sentAt.isAfter(now) ||
+        sentAt.isBefore(measuredAt) ||
+        now.difference(measuredAt) > maximumAge ||
+        !latitude.isFinite ||
+        !longitude.isFinite ||
+        !accuracyMeters.isFinite;
   }
 }

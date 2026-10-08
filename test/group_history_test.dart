@@ -25,6 +25,17 @@ class HistoryRepository extends UnconfiguredGroupRepository {
   String? uid = 'user-a';
   int base = 100;
   int historyCalls = 0;
+  int snapshotCalls = 0;
+  bool unsubscribed = false;
+  void Function(bool)? refresh;
+  @override
+  Future<void> Function() watch(String groupId, void Function(bool) callback) {
+    refresh = callback;
+    return () async {
+      unsubscribed = true;
+    };
+  }
+
   bool offline = false;
   bool revoked = false;
   bool duplicate = false;
@@ -48,13 +59,17 @@ class HistoryRepository extends UnconfiguredGroupRepository {
     'deleted_at': deleteOld && i == 99 ? '2026-10-07T20:01:00Z' : null,
   };
   @override
-  Future<GroupSnapshot> snapshot(String groupId) async => GroupSnapshot(
-    members: const [],
-    messages: List.generate(100, (i) => row(base + i)),
-    announcements: const [],
-    programs: const [],
-    routes: const [],
-  );
+  Future<GroupSnapshot> snapshot(String groupId) async {
+    snapshotCalls++;
+    return GroupSnapshot(
+      members: const [],
+      messages: List.generate(100, (i) => row(base + i)),
+      announcements: const [],
+      programs: const [],
+      routes: const [],
+    );
+  }
+
   @override
   Future<GroupMessagePage> olderMessages(
     String groupId, {
@@ -306,6 +321,29 @@ void main() {
     expect(find.text('Mesajın'), findsOneWidget);
     await tester.tap(find.text('Kapat'));
     await tester.pumpAndSettle();
+    await close(tester, repo);
+  });
+  testWidgets('background screen does not refresh and resume revalidates', (
+    tester,
+  ) async {
+    final repo = HistoryRepository();
+    await open(tester, repo);
+    expect(repo.snapshotCalls, 1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    addTearDown(
+      () => tester.binding.handleAppLifecycleStateChanged(
+        AppLifecycleState.resumed,
+      ),
+    );
+    repo.refresh!(true);
+    await tester.pump(const Duration(seconds: 31));
+    expect(repo.snapshotCalls, 1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pumpAndSettle();
+    expect(repo.snapshotCalls, 2);
+    repo.switchAccount();
+    await tester.pumpAndSettle();
+    expect(repo.unsubscribed, true);
     await close(tester, repo);
   });
 }

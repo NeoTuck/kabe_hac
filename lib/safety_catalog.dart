@@ -248,9 +248,11 @@ class FieldInformation {
   final DateTime observedAt;
   final DateTime validUntil;
 
-  bool isFreshAt(DateTime now) => !now.toUtc().isAfter(validUntil);
+  bool isFreshAt(DateTime now) =>
+      !now.toUtc().isBefore(observedAt) && now.toUtc().isBefore(validUntil);
 
   String displayStateAt(DateTime now) {
+    if (now.toUtc().isBefore(observedAt)) return 'Henüz geçerli olmayan bilgi';
     if (!isFreshAt(now)) return 'Süresi dolmuş bilgi';
     return switch (state) {
       FieldInformationState.planned => 'Planlanmış bilgi',

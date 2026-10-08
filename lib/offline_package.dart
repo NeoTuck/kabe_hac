@@ -438,7 +438,7 @@ class OfflinePackageManager extends OfflinePackageStore {
     OfflinePackageManifest manifest,
     Directory stagingDirectory,
   ) async {
-    _requireOwnedStaging(stagingDirectory);
+    await requireOwnedStaging(stagingDirectory);
     await trustPolicy.ensureTrusted(manifest);
     await verifyStagedPackage(manifest, stagingDirectory);
     final current = await readActivation(manifest.packageId);
@@ -483,6 +483,9 @@ class OfflinePackageManager extends OfflinePackageStore {
   }
 
   Future<PackageActivationState?> readActivation(String packageId) async {
+    if (!RegExp(r'^[a-z0-9][a-z0-9._-]{2,63}$').hasMatch(packageId)) {
+      throw const PackageFormatException('Geçersiz paket kimliği.');
+    }
     final pointer = _stateFile(packageId);
     final backup = File('${pointer.path}.backup');
     File? source;
@@ -492,6 +495,11 @@ class OfflinePackageManager extends OfflinePackageStore {
       source = backup;
     }
     if (source == null) return null;
+    if (await FileSystemEntity.type(source.path, followLinks: false) !=
+            FileSystemEntityType.file ||
+        await source.length() > 16 * 1024) {
+      throw const PackageFormatException('Paket etkinleştirme kaydı bozuk.');
+    }
     Object? decoded;
     try {
       decoded = jsonDecode(await source.readAsString());
@@ -501,16 +509,36 @@ class OfflinePackageManager extends OfflinePackageStore {
     if (decoded is! Map || decoded['schemaVersion'] != 1) {
       throw const PackageFormatException('Paket etkinleştirme kaydı bozuk.');
     }
-    return PackageActivationState.fromJson(Map<String, Object?>.from(decoded));
+    final state = PackageActivationState.fromJson(
+      Map<String, Object?>.from(decoded),
+    );
+    final versionPattern = RegExp(
+      r'^[0-9]+\.[0-9]+\.[0-9]+(?:[-+][a-zA-Z0-9.-]+)?$',
+    );
+    if (state.packageId != packageId ||
+        !versionPattern.hasMatch(state.activeVersion) ||
+        (state.previousVersion != null &&
+            !versionPattern.hasMatch(state.previousVersion!))) {
+      throw const PackageFormatException('Paket etkinleştirme kaydı bozuk.');
+    }
+    return state;
   }
 
   @override
   Future<List<PackageActivationState>> listActivations() async {
     if (!await _stateRoot.exists()) return const [];
     final states = <PackageActivationState>[];
+    final ids = <String>{};
     await for (final entity in _stateRoot.list(followLinks: false)) {
-      if (entity is! File || !entity.path.endsWith('.json')) continue;
-      final packageId = path.basenameWithoutExtension(entity.path);
+      if (entity is! File) continue;
+      final name = path.basename(entity.path);
+      final pointerName = name.endsWith('.json.backup')
+          ? name.substring(0, name.length - 7)
+          : name;
+      if (!pointerName.endsWith('.json')) continue;
+      ids.add(path.basenameWithoutExtension(pointerName));
+    }
+    for (final packageId in ids) {
       final state = await readActivation(packageId);
       if (state != null) states.add(state);
     }
@@ -544,7 +572,19 @@ class OfflinePackageManager extends OfflinePackageStore {
     final previousDirectory = Directory(
       path.join(_packagesRoot.path, packageId, current.previousVersion),
     );
+    final realPackages = await _packagesRoot.resolveSymbolicLinks();
+    if (await previousDirectory.resolveSymbolicLinks() !=
+        path.join(realPackages, packageId, current.previousVersion)) {
+      throw const PackageFormatException(
+        'Paket klasörü sembolik bağ içeremez.',
+      );
+    }
     final manifest = await _readManifest(previousDirectory);
+    if (manifest.packageId != packageId ||
+        manifest.version != current.previousVersion) {
+      throw const PackageFormatException('Geri dönüş manifesti uyuşmuyor.');
+    }
+    await trustPolicy.ensureTrusted(manifest);
     await verifyStagedPackage(
       manifest,
       previousDirectory,
@@ -630,10 +670,15 @@ class OfflinePackageManager extends OfflinePackageStore {
     return file;
   }
 
-  void _requireOwnedStaging(Directory staging) {
+  Future<void> requireOwnedStaging(Directory staging) async {
     final rootPath = path.normalize(path.absolute(_stagingRoot.path));
     final stagingPath = path.normalize(path.absolute(staging.path));
-    if (!path.isWithin(rootPath, stagingPath)) {
+    final realRoot = await _stagingRoot.resolveSymbolicLinks();
+    if (!path.isWithin(rootPath, stagingPath) ||
+        await FileSystemEntity.type(_stagingRoot.path, followLinks: false) !=
+            FileSystemEntityType.directory ||
+        await staging.resolveSymbolicLinks() !=
+            path.join(realRoot, path.relative(stagingPath, from: rootPath))) {
       throw const PackageFormatException(
         'Etkinleştirme klasörü paket yöneticisine ait değil.',
       );
@@ -642,7 +687,8 @@ class OfflinePackageManager extends OfflinePackageStore {
 
   Future<OfflinePackageManifest> _readManifest(Directory directory) async {
     final file = File(path.join(directory.path, _manifestFileName));
-    if (!await file.exists()) {
+    if (await FileSystemEntity.type(file.path, followLinks: false) !=
+        FileSystemEntityType.file) {
       throw const PackageFormatException('Kurulu paket manifesti bulunamadı.');
     }
     return OfflinePackageManifest.fromJsonText(await file.readAsString());

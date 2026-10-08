@@ -363,6 +363,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   bool _connected = false;
   bool _refreshing = false;
   bool _reloadPending = false;
+  bool _foreground = true;
   static const _maxHistoryPages = 8;
   List<Map<String, dynamic>> _historyRows = [];
   int _historyPages = 0;
@@ -383,7 +384,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     widget.repository.addListener(_authChanged);
     WidgetsBinding.instance.addObserver(this);
     _unsubscribe = widget.repository.watch(widget.group.id, (connected) {
-      if (!mounted) return;
+      if (!mounted || !_foreground || _owner != widget.repository.userId)
+        return;
       setState(() => _connected = connected);
       _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 250), _reload);
@@ -398,6 +400,11 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   void _authChanged() {
     if (_owner != widget.repository.userId && mounted) {
       _historyEpoch++;
+      _membershipTimer?.cancel();
+      _debounce?.cancel();
+      final unsubscribe = _unsubscribe;
+      _unsubscribe = null;
+      if (unsubscribe != null) unawaited(unsubscribe());
       _body.clear();
       setState(() {
         _snapshot = null;
@@ -417,6 +424,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _membershipTimer?.cancel();
+    _debounce?.cancel();
+    _foreground = state == AppLifecycleState.resumed;
     if (state == AppLifecycleState.resumed) {
       _reload();
       _membershipTimer = Timer.periodic(
@@ -427,7 +436,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   Future<void> _reload() async {
-    if (_owner == null || _owner != widget.repository.userId) return;
+    if (!_foreground || _owner == null || _owner != widget.repository.userId)
+      return;
     if (_refreshing) {
       _reloadPending = true;
       return;
@@ -542,6 +552,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   Future<void> _loadOlder() async {
     final snapshot = _snapshot;
     if (snapshot == null ||
+        !_foreground ||
         _loadingOlder ||
         _refreshing ||
         !_hasOlder ||
