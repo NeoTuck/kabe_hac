@@ -56,6 +56,10 @@ class AudioControls extends StatelessWidget {
                       ? 'Ses yükleniyor'
                       : playing
                       ? 'Duraklat'
+                      : selected && state.status == NarrationStatus.paused
+                      ? 'Devam et'
+                      : selected && state.status == NarrationStatus.completed
+                      ? 'Baştan dinle'
                       : 'Anlatımı dinle',
                 ),
               ),

@@ -77,9 +77,24 @@ class _TravelScreenState extends State<TravelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final visiblePoints = widget.catalog.points
+        .where((point) => !point.isTestData)
+        .toList();
+    final visiblePointIds = visiblePoints.map((point) => point.id).toSet();
     final points = widget.catalog
         .searchPoints(query: _searchController.text, category: _category)
+        .where((point) => !point.isTestData)
         .where((p) => !_favoritesOnly || _favorites.contains(p.id))
+        .toList();
+    final routes = widget.catalog.routes
+        .where(
+          (route) =>
+              !route.isTestData &&
+              route.stops.every(
+                (stop) =>
+                    stop.poiId == null || visiblePointIds.contains(stop.poiId),
+              ),
+        )
         .toList();
     return Scaffold(
       appBar: AppBar(title: const Text('Gezi ve önemli yerler')),
@@ -165,10 +180,8 @@ class _TravelScreenState extends State<TravelScreen> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            if (widget.catalog.points.isEmpty)
-              const Text(
-                'Kaynağı ve doğrulama tarihi bulunan gerçek POI paketi henüz yüklenmedi.',
-              )
+            if (visiblePoints.isEmpty)
+              const Text('Doğrulanmış yer bilgisi henüz yüklenmedi.')
             else if (points.isEmpty)
               const Text('Arama ölçütlerine uyan yer yok.')
             else
@@ -185,7 +198,6 @@ class _TravelScreenState extends State<TravelScreen> {
                           ),
                     subtitle: Text(
                       '${point.category.label}\n'
-                      '${point.isTestData ? 'TEKNİK TEST VERİSİ · ' : ''}'
                       'Doğrulama: ${localDateTimeLabel(point.verifiedAt)}',
                     ),
                     isThreeLine: true,
@@ -207,10 +219,10 @@ class _TravelScreenState extends State<TravelScreen> {
             const SizedBox(height: 24),
             Text('Rotalar', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
-            if (widget.catalog.routes.isEmpty)
+            if (routes.isEmpty)
               const Text('Doğrulanmış veya kişisel rota paketi henüz yok.')
             else
-              for (final route in widget.catalog.routes)
+              for (final route in routes)
                 Card.outlined(
                   child: ListTile(
                     title: Text(route.title),
@@ -224,8 +236,7 @@ class _TravelScreenState extends State<TravelScreen> {
                     ),
                     subtitle: Text(
                       '${route.stops.length} durak · '
-                      '${route.hasRouteGeometry ? 'indirilen rota çizgisi' : 'yalnız durak listesi'}'
-                      '${route.isTestData ? ' · TEKNİK TEST VERİSİ' : ''}',
+                      '${route.hasRouteGeometry ? 'indirilen rota çizgisi' : 'yalnız durak listesi'}',
                     ),
                   ),
                 ),

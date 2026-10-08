@@ -1,0 +1,20 @@
+appId: ${APP_ID}
+name: Rehberde onaylı ses bulunmadığında durum
+---
+- launchApp
+- scrollUntilVisible:
+    element: "(?s)Umreye hazırlanıyorum.*"
+    direction: DOWN
+- tapOn:
+    text: "(?s)Umreye hazırlanıyorum.*"
+    retryTapIfNoChange: true
+- assertVisible: "Umre · Öğrenme"
+- scrollUntilVisible:
+    element: "Kaldığım başlığa git"
+    direction: DOWN
+- tapOn: "Kaldığım başlığa git"
+- scrollUntilVisible:
+    element: "Bu başlık için onaylı ses kaydı henüz yok."
+    direction: DOWN
+- assertVisible: "Bu başlık için onaylı ses kaydı henüz yok."
+- takeScreenshot: rehber-ses-kaydi-yok

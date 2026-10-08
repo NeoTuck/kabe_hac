@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
-import 'package:hac_umre_sesli_rehber/demo_screen.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
@@ -67,6 +66,23 @@ void main() {
             await tester.pumpAndSettle();
             expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
             expect(tester.takeException(), isNull);
+            if (size.width == 390 &&
+                scale == 1 &&
+                action == 'Umreye hazırlanıyorum') {
+              await tester.tap(find.text('Kullanım biçimi seçimi').first);
+              await tester.pumpAndSettle();
+              await tester.scrollUntilVisible(
+                find.text('Bu başlık için onaylı ses kaydı henüz yok.'),
+                160,
+              );
+              await tester.ensureVisible(
+                find.text('Bu başlık için onaylı ses kaydı henüz yok.'),
+              );
+              await tester.pumpAndSettle();
+              await capture(tester, key, 'guide-no-audio');
+              Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
+              await tester.pumpAndSettle();
+            }
             Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
             await tester.pumpAndSettle();
           }
@@ -78,26 +94,6 @@ void main() {
           await tester.pumpAndSettle();
           if (size.width == 390 && scale == 1) {
             await capture(tester, key, 'home');
-          }
-          if (size.width == 390 && scale == 1) {
-            await tester.scrollUntilVisible(
-              find.text('Ses ve Arapça örnek kartını aç'),
-              200,
-            );
-            await tester.ensureVisible(
-              find.text('Ses ve Arapça örnek kartını aç'),
-            );
-            await tester.pumpAndSettle();
-            await tester.tap(find.text('Ses ve Arapça örnek kartını aç'));
-            await tester.pumpAndSettle();
-            expect(find.byType(DemoScreen), findsOneWidget);
-            final arabic = tester.widget<Text>(find.text('هذا نص تجريبي'));
-            expect(arabic.style?.fontFamily, 'NotoNaskhArabic');
-            await tester.tap(find.text('Anlatımı dinle'));
-            await tester.pumpAndSettle();
-            await capture(tester, key, 'audio-demo');
-            Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
-            await tester.pumpAndSettle();
           }
           await tester.tap(find.text('Kafile'));
           await tester.pumpAndSettle();

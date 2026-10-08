@@ -34,10 +34,16 @@ void main() {
         'Ses duraklatıldı',
       );
       expect(find.text('Ses tamamlandı'), findsNothing);
+      expect(find.text('Devam et'), findsOneWidget);
+      await tester.tap(find.text('Devam et'));
+      await tester.pumpAndSettle();
+      expect(find.text('Duraklat'), findsOneWidget);
+      expect(find.text('Ses duraklatıldı'), findsNothing);
       audio.finish();
       await tester.pumpAndSettle();
       expect(find.text('Ses tamamlandı'), findsOneWidget);
       expect(find.text('Ses duraklatıldı'), findsNothing);
+      expect(find.text('Baştan dinle'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       audio.dispose();
     } finally {

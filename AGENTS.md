@@ -15,6 +15,8 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
+**8 Ekim kullanıcı ekranı temizliği:** Teknik örnek kartı ve `DEMO-001` ana ekran girişi kaldırıldı. Sentetik `teknik_demo.m4a` QA dosyası repoda kalır, ancak `pubspec.yaml` varlığından çıkarıldığı için yeni APK'ye paketlenmez. `isTestData=true` gezi yeri/rotası kullanıcı listesinde ve doğrudan ayrıntıda gösterilmez; kayıtlı favoriler silinmez. Ses düğmesinin duraklatma/bitirme etiketleri düzeltildi. Yerel format/analiz, 161 Flutter, 15 Python, ses dosyası QA ve Android debug build geçti; API35 emülatöründe dört güncel pilot akış JUnit 4/4 geçti. APK SHA-256 `adf6d619f8a29e1c31eef4b1d82d04b9a15daef91c4357aeb2428dc08846b118`. Ayrıntı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md` başındadır. Üretim içerik, insan sesi, lisans ve mağaza kabulü hâlâ bekliyor.
+
 **8 Ekim isteğe bağlı prova dilimi:** `f59c8ef9` tabanındaki yerel `codex/mvp1-pilot-desktop` dalında ana akışa 3D'siz “Simülasyonu dene” girişi eklendi. Prova oturumu, adım işaretleri ve sayaçları SQLite sürüm 9'da gerçek rehberden ayrıdır. Paket tercihi, duraklatma/devam, katalog sürümü değişince eski kaydı koruyarak yeni prova ve taslak metni gizleme eklendi. Manuel prova sayacı yalnız uzman onaylı adımda ve onaylı `counterTarget` ile açılır; mevcut 53 adım taslak olduğu için kapalıdır. Yerel format/analiz, 159 Flutter, 15 Python, 39 bağımsız SQL fixture, teknik ses QA ve Android debug build geçti. Android API35 emülatörde mevcut dört pilot ve ayrı prova akışı geçti. Xcode/iOS runtime kuruldu ama bu Mac'te iOS derlemeleri başarısız; ayrıntı `docs/15-son-kullanici-ve-simulasyon-hazirligi.md`. Üretim kabulü değildir.
 
 **GitHub kabul durumu:** `bf1a14c34c26b5795cd182fab491f7e163e9fb65` için PR CI [37824311139](https://github.com/NeoTuck/kabe_hac/actions/runs/37824311139): format/analiz/159 Flutter, 15 Python QA, 39 SQL fixture, Android debug/split release, iOS no-codesign/simulator derlemeleri ve Android API28/API35 dört pilot akışı başarılı. iOS UI işi Maestro `--version` 30 sn zaman aşımında `blocked`, `device_tests_run=false`; iOS ekran akışı geçmedi. Çalıştırıcı sürüm sorgusu 120 sn ile sınırlandı, yeni CI kabulü bekleniyor. Fiziksel cihaz/üretim kabulü değildir.
@@ -62,7 +64,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ### Özellikleri koruyan kullanım düzenlemesi
 
-- Umre hazırlığı ve yolculuk için doğrudan girişler eklendi; mevcut Umre/Hac seçim akışları, kafile/gezi/güvenlik/paket/ayarlar ve teknik deneme korunur.
+- Umre hazırlığı ve yolculuk için doğrudan girişler eklendi; Umre/Hac seçim akışları, kafile/gezi/güvenlik/paket/ayarlar korunur. O tarihteki teknik deneme ekranı sonraki kullanıcı ekranı temizliğinde kaldırıldı.
 - Adım ekranında açıklama, ses ve manuel sayaç öne alınır; dua, kaynak, ayrıntı, önceki/sonraki ve kişisel işaretleme korunur. İçerik onayı veya veri şeması değişmez.
 - `8e87120` commit CI çalışması 37590553180: format/analyze, 87 Flutter testi, ses QA, database ve Android/iOS debug build başarılı. 320/390 piksel ve %100/%200 yazı matrisi geçti; gerçek Flutter ana ekran renderı incelendi. APK 210197775 bayt; SHA-256 `75e8e7c9afc6f966ba2651833ae2e0f0acede6b65a5e73e5dce55f284ee19ca4`. Fiziksel cihaz kabulü bekliyor. Ayrıntı: `docs/07-ozellikleri-koruyan-ux.md`.
 

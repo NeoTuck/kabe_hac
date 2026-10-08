@@ -10,53 +10,51 @@ class TravelPoiScreen extends StatelessWidget {
   const TravelPoiScreen({super.key, required this.point});
   final TravelPoi point;
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(point.nameTr)),
-    body: SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          if (point.isTestData)
-            const Card.filled(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'TEKNİK TEST VERİSİ · Gerçek bir ziyaret veya yardım noktası değildir.',
+  Widget build(BuildContext context) => point.isTestData
+      ? Scaffold(
+          appBar: AppBar(title: const Text('Yer bilgisi')),
+          body: const SafeArea(
+            child: Center(child: Text('Bu yer bilgisi kullanıma açık değil.')),
+          ),
+        )
+      : Scaffold(
+          appBar: AppBar(title: Text(point.nameTr)),
+          body: SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(
+                  point.category.label,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              ),
+                const SizedBox(height: 12),
+                if (point.localName != null) SelectableText(point.localName!),
+                const SizedBox(height: 12),
+                const Text('Koordinatlar'),
+                SelectableText(coordinatesLabel(point.point)),
+                if (point.phone != null) ...[
+                  const SizedBox(height: 16),
+                  const Text('Kayıtlı telefon'),
+                  SelectableText(point.phone!),
+                ],
+                if (point.hours != null) ...[
+                  const SizedBox(height: 16),
+                  const Text('Kayıtlı çalışma saatleri'),
+                  Text(point.hours!),
+                  const Text(
+                    'Saatler kaynak kaydına aittir; güncel açık/kapalı durumunu doğrulayın.',
+                  ),
+                ],
+                const SizedBox(height: 20),
+                SourceDetails(
+                  title: point.sourceTitle,
+                  uri: point.sourceUri,
+                  verifiedAt: point.verifiedAt,
+                ),
+              ],
             ),
-          Text(
-            point.category.label,
-            style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 12),
-          if (point.localName != null) SelectableText(point.localName!),
-          const SizedBox(height: 12),
-          const Text('Koordinatlar'),
-          SelectableText(coordinatesLabel(point.point)),
-          if (point.phone != null) ...[
-            const SizedBox(height: 16),
-            const Text('Kayıtlı telefon'),
-            SelectableText(point.phone!),
-          ],
-          if (point.hours != null) ...[
-            const SizedBox(height: 16),
-            const Text('Kayıtlı çalışma saatleri'),
-            Text(point.hours!),
-            const Text(
-              'Saatler kaynak kaydına aittir; güncel açık/kapalı durumunu doğrulayın.',
-            ),
-          ],
-          const SizedBox(height: 20),
-          SourceDetails(
-            title: point.sourceTitle,
-            uri: point.sourceUri,
-            verifiedAt: point.verifiedAt,
-          ),
-        ],
-      ),
-    ),
-  );
+        );
 }
 
 class TravelRouteScreen extends StatelessWidget {
@@ -69,7 +67,18 @@ class TravelRouteScreen extends StatelessWidget {
   final TravelCatalog catalog;
   @override
   Widget build(BuildContext context) {
-    final points = {for (final point in catalog.points) point.id: point};
+    if (route.isTestData) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Rota bilgisi')),
+        body: const SafeArea(
+          child: Center(child: Text('Bu rota kullanıma açık değil.')),
+        ),
+      );
+    }
+    final points = {
+      for (final point in catalog.points)
+        if (!point.isTestData) point.id: point,
+    };
     return Scaffold(
       appBar: AppBar(title: Text(route.title)),
       body: SafeArea(
@@ -84,7 +93,6 @@ class TravelRouteScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (route.isTestData) const Text('TEKNİK TEST VERİSİ'),
                       Text(
                         '${route.stops.length} durak · Sürüm ${route.version}',
                       ),

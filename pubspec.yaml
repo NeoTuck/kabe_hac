@@ -72,7 +72,6 @@ flutter:
   assets:
     - assets/fonts/NotoSans-OFL.txt
     - assets/fonts/NotoNaskhArabic-OFL.txt
-    - assets/audio/teknik_demo.m4a
     - assets/content/umre_inventory.v1.json
     - assets/content/hac_inventory.v1.json
 

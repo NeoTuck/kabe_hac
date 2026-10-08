@@ -104,8 +104,9 @@ void main() {
     expect(store.sessions.values.single.profile, HajjProfile.ifrad);
   });
 
-  testWidgets('teknik örnek son kart kaydı yeniden okunur', (tester) async {
+  testWidgets('eski demo kaydı ana ekranda giriş oluşturmaz', (tester) async {
     final store = MemoryGuideStore();
+    await store.saveLastStepId('DEMO-001');
     final narration = FakeNarration();
     final app = SesliRehberApp(
       store: store,
@@ -115,29 +116,17 @@ void main() {
     );
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Ses ve Arapça örnek kartını aç'),
-      200,
-    );
-    await tester.ensureVisible(find.text('Ses ve Arapça örnek kartını aç'));
+    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Ses ve Arapça örnek kartını aç'));
-    await tester.pumpAndSettle();
-    expect(await store.readLastStepId(), 'DEMO-001');
-    Navigator.of(tester.element(find.text('Teknik örnek kart'))).pop();
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Ses örneğine kaldığım yerden devam'),
-      200,
-    );
-    expect(find.text('Ses örneğine kaldığım yerden devam'), findsOneWidget);
+    expect(find.text('Teknik deneme'), findsNothing);
+    expect(find.text('Ses örneğine kaldığım yerden devam'), findsNothing);
+    expect(find.text('Ses ve Arapça örnek kartını aç'), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Ses örneğine kaldığım yerden devam'),
-      200,
-    );
-    expect(find.text('Ses örneğine kaldığım yerden devam'), findsOneWidget);
+    expect(await store.readLastStepId(), 'DEMO-001');
+    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
+    await tester.pumpAndSettle();
+    expect(find.text('Teknik deneme'), findsNothing);
   });
 }

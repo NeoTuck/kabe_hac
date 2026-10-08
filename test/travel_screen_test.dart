@@ -9,27 +9,58 @@ import 'package:hac_umre_sesli_rehber/travel_details.dart';
 
 import 'test_fakes.dart';
 
-TravelCatalog fixture() => TravelCatalog.fromJsonText(
-  jsonEncode({
-    'schemaVersion': 1,
-    'dataVersion': 'test-1',
-    'points': [
-      {
-        'id': 'TEST-POI-1',
-        'region': 'mecca',
-        'nameTr': 'Teknik buluşma noktası',
-        'latitude': 0.0,
-        'longitude': 0.0,
-        'category': 'meetingPoint',
-        'sourceTitle': 'Otomatik test fixture',
-        'sourceUrl': 'https://example.com/test-fixture',
-        'verifiedAt': '2026-10-06T00:00:00Z',
-        'isTestData': true,
-      },
-    ],
-    'routes': [],
-  }),
-);
+TravelCatalog fixture({bool testData = false, bool withRoute = false}) =>
+    TravelCatalog.fromJsonText(
+      jsonEncode({
+        'schemaVersion': 1,
+        'dataVersion': 'test-1',
+        'points': [
+          {
+            'id': 'TEST-POI-1',
+            'region': 'mecca',
+            'nameTr': 'Teknik buluşma noktası',
+            'latitude': 0.0,
+            'longitude': 0.0,
+            'category': 'meetingPoint',
+            'sourceTitle': 'Otomatik test fixture',
+            'sourceUrl': 'https://example.com/test-fixture',
+            'verifiedAt': '2026-10-06T00:00:00Z',
+            'isTestData': testData,
+          },
+        ],
+        'routes': withRoute
+            ? [
+                {
+                  'id': 'TEST-ROUTE-1',
+                  'region': 'mecca',
+                  'title': 'Teknik rota',
+                  'version': '1.0.0',
+                  'ownerType': 'user',
+                  'visibility': 'private',
+                  'moderationStatus': 'draft',
+                  'stops': [
+                    {
+                      'order': 1,
+                      'title': 'Teknik durak',
+                      'poiId': 'TEST-POI-1',
+                    },
+                    {
+                      'order': 2,
+                      'title': 'Teknik durak 2',
+                      'latitude': 1.0,
+                      'longitude': 2.0,
+                    },
+                  ],
+                  'geometry': [],
+                  'sourceTitle': 'Otomatik test fixture',
+                  'sourceUrl': 'https://example.com/test-fixture',
+                  'verifiedAt': '2026-10-06T00:00:00Z',
+                  'isTestData': testData,
+                },
+              ]
+            : [],
+      }),
+    );
 
 class SlowFavoritesStore extends MemoryGuideStore {
   final gate = Completer<void>();
@@ -43,9 +74,7 @@ class SlowFavoritesStore extends MemoryGuideStore {
 }
 
 void main() {
-  testWidgets('gezi ekranı test verisini etiketler, arar ve favoriler', (
-    tester,
-  ) async {
+  testWidgets('gezi ekranı yerleri arar ve favoriler', (tester) async {
     final catalog = fixture();
     final store = MemoryGuideStore();
     await tester.pumpWidget(
@@ -55,7 +84,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('TEKNİK TEST VERİSİ'), findsOneWidget);
+    expect(find.text('Teknik buluşma noktası'), findsOneWidget);
     await tester.tap(find.byTooltip('Favoriye ekle'));
     await tester.pumpAndSettle();
     expect(store.travelFavorites['poi'], {'TEST-POI-1'});
@@ -64,6 +93,50 @@ void main() {
     await tester.enterText(find.byType(TextField), 'olmayan');
     await tester.pump();
     expect(find.text('Arama ölçütlerine uyan yer yok.'), findsOneWidget);
+  });
+  testWidgets('işaretli teknik yer ve rota kullanıcıya gösterilmez', (
+    tester,
+  ) async {
+    final catalog = fixture(testData: true, withRoute: true);
+    final store = MemoryGuideStore();
+    await store.setTravelFavorite('poi', 'TEST-POI-1', true);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: TravelScreen(store: store, catalog: catalog),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Teknik buluşma noktası'), findsNothing);
+    expect(find.text('Teknik rota'), findsNothing);
+    expect(
+      find.text('Doğrulanmış yer bilgisi henüz yüklenmedi.'),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Doğrulanmış veya kişisel rota paketi henüz yok.'),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Yalnız favoriler'));
+    await tester.pumpAndSettle();
+    expect(find.text('Teknik buluşma noktası'), findsNothing);
+    expect(store.travelFavorites['poi'], {'TEST-POI-1'});
+  });
+  testWidgets('doğrudan açılan teknik kayıt ayrıntıları gizlenir', (
+    tester,
+  ) async {
+    final catalog = fixture(testData: true, withRoute: true);
+    await tester.pumpWidget(
+      MaterialApp(home: TravelPoiScreen(point: catalog.points.single)),
+    );
+    expect(find.text('Bu yer bilgisi kullanıma açık değil.'), findsOneWidget);
+    expect(find.text('Teknik buluşma noktası'), findsNothing);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: TravelRouteScreen(route: catalog.routes.single, catalog: catalog),
+      ),
+    );
+    expect(find.text('Bu rota kullanıma açık değil.'), findsOneWidget);
+    expect(find.text('Teknik rota'), findsNothing);
   });
   testWidgets(
     'favorite save is single flight and filter reflects saved state',
@@ -146,7 +219,7 @@ void main() {
       sourceTitle: 'Teknik fixture',
       sourceUri: Uri.parse('https://example.com/test'),
       verifiedAt: DateTime.utc(2026, 10, 8),
-      isTestData: true,
+      isTestData: false,
     );
     await tester.pumpWidget(
       MaterialApp(
@@ -189,6 +262,8 @@ void main() {
           )
           .first,
     );
+    await tester.ensureVisible(find.text('Kaynak ve güncellik'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Kaynak ve güncellik'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);

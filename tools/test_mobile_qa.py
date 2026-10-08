@@ -32,15 +32,11 @@ class MobileConfigurationTests(unittest.TestCase):
         self.assertIsNotNone(re.fullmatch(selector, 'Kafile hizmeti hazırlanıyor\nDavet, sohbet ve gezi programı bağlantı kurulunca açılacak.'))
         self.assertIsNone(re.fullmatch(selector, 'Kafilem'))
 
-    def test_audio_still_requires_play_pause_and_resume_control(self):
-        flow = commands('03-teknik-ses.yaml')
-        play = next(i for i, c in enumerate(flow) if isinstance(c, dict)
-                    and isinstance(c.get('tapOn'), dict) and c['tapOn'].get('text') == 'Anlatımı dinle')
-        self.assertLessEqual(flow[play]['tapOn']['waitToSettleTimeoutMs'], 500)
-        self.assertEqual(flow[play + 1], {'assertVisible': 'Duraklat'})
-        self.assertEqual(flow[play + 2]['tapOn']['text'], 'Duraklat')
-        self.assertEqual(flow[play + 3], {'assertVisible': 'Anlatımı dinle'})
-        self.assertEqual(flow[play + 4], {'assertVisible': 'Ses duraklatıldı'})
+    def test_guide_flow_shows_honest_missing_audio_state(self):
+        flow = commands('03-rehber-ses-durumu.yaml')
+        self.assertIn({'assertVisible': 'Bu başlık için onaylı ses kaydı henüz yok.'}, flow)
+        self.assertFalse(any('Demo' in str(command) or 'Teknik örnek' in str(command)
+                             for command in flow))
 
     def test_sdk_match_does_not_choose_newer_incompatible_runtime(self):
         def runtime(version, available=True):

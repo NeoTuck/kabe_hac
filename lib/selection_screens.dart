@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'content_repository.dart';
-import 'demo_screen.dart';
 import 'guide_catalog.dart';
 import 'group_repository.dart';
 import 'group_screen.dart';
@@ -63,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
   TravelCatalog? _travelCatalog;
   int _refreshEpoch = 0;
   GuideSession? _latest;
-  bool _demoVisited = false;
   String? _error;
 
   @override
@@ -90,13 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ? await widget.travelRepository?.load() ?? widget.travelCatalog
           : _travelCatalog;
       final session = await widget.store.readMostRecentSession();
-      final lastDemo = await widget.store.readLastStepId();
       if (mounted && epoch == _refreshEpoch) {
         setState(() {
           _catalogs = catalogs;
           _travelCatalog = travel;
           _latest = session;
-          _demoVisited = lastDemo == DemoScreen.stepId;
           _error = null;
         });
       }
@@ -342,22 +338,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
             ],
-            Text(
-              'Teknik deneme',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            TextButton.icon(
-              onPressed: () => _open(
-                DemoScreen(store: widget.store, narration: widget.narration),
-              ),
-              icon: const Icon(Icons.volume_up_rounded),
-              label: Text(
-                _demoVisited
-                    ? 'Ses örneğine kaldığım yerden devam'
-                    : 'Ses ve Arapça örnek kartını aç',
-              ),
-            ),
             if (_error != null) ...[
               const SizedBox(height: 12),
               Text(
