@@ -149,4 +149,36 @@ void main() {
     expect(tester.takeException(), isNull);
     await finish(tester, repo, draft);
   });
+  testWidgets('removed private recipient cannot silently become a group send', (
+    tester,
+  ) async {
+    final repo = ComposerAccount();
+    final draft = TextEditingController(text: 'Özel mesaj');
+    var calls = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: GroupMessageComposer(
+            repository: repo,
+            controller: draft,
+            guides: const [],
+            recipient: 'removed-guide',
+            onSend: (_) async {
+              calls++;
+              return true;
+            },
+          ),
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+    expect(find.textContaining('Mesaj alıcısını yeniden seç'), findsOneWidget);
+    expect(
+      tester.widget<FilledButton>(find.byType(FilledButton)).onPressed,
+      isNull,
+    );
+    expect(calls, 0);
+    expect(draft.text, 'Özel mesaj');
+    await finish(tester, repo, draft);
+  });
 }

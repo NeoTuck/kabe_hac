@@ -25,6 +25,7 @@ class _GroupMessageComposerState extends State<GroupMessageComposer> {
   late final String? _owner;
   String? _recipient;
   bool _busy = false;
+  bool _needsRecipientChoice = false;
   String? _error;
   bool get _sameAccount => _owner != null && _owner == widget.repository.userId;
   @override
@@ -32,6 +33,12 @@ class _GroupMessageComposerState extends State<GroupMessageComposer> {
     super.initState();
     _owner = widget.repository.userId;
     _recipient = widget.recipient;
+    if (_recipient != null &&
+        !widget.guides.any((guide) => guide['user_id'] == _recipient)) {
+      _recipient = null;
+      _needsRecipientChoice = true;
+      _error = 'Önceki rehber artık listede yok. Mesaj alıcısını yeniden seç.';
+    }
     widget.repository.addListener(_authChanged);
   }
 
@@ -49,7 +56,11 @@ class _GroupMessageComposerState extends State<GroupMessageComposer> {
   }
 
   Future<void> _send() async {
-    if (_busy || !_sameAccount || widget.controller.text.trim().isEmpty) return;
+    if (_busy ||
+        _needsRecipientChoice ||
+        !_sameAccount ||
+        widget.controller.text.trim().isEmpty)
+      return;
     setState(() {
       _busy = true;
       _error = null;
@@ -116,7 +127,11 @@ class _GroupMessageComposerState extends State<GroupMessageComposer> {
                   ],
                   onChanged: _busy || !_sameAccount
                       ? null
-                      : (value) => setState(() => _recipient = value),
+                      : (value) => setState(() {
+                          _recipient = value;
+                          if (_needsRecipientChoice) _error = null;
+                          _needsRecipientChoice = false;
+                        }),
                 ),
                 const SizedBox(height: 12),
                 TextField(
@@ -130,7 +145,9 @@ class _GroupMessageComposerState extends State<GroupMessageComposer> {
                 ),
                 const SizedBox(height: 12),
                 FilledButton.icon(
-                  onPressed: _busy || !_sameAccount ? null : _send,
+                  onPressed: _busy || _needsRecipientChoice || !_sameAccount
+                      ? null
+                      : _send,
                   icon: const Icon(Icons.send_outlined),
                   label: Text(_busy ? 'Kaydediliyor' : 'Mesajı gönder'),
                 ),
