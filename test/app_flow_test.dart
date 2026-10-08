@@ -119,6 +119,8 @@ void main() {
       find.text('Ses ve Arapça örnek kartını aç'),
       200,
     );
+    await tester.ensureVisible(find.text('Ses ve Arapça örnek kartını aç'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Ses ve Arapça örnek kartını aç'));
     await tester.pumpAndSettle();
     expect(await store.readLastStepId(), 'DEMO-001');
