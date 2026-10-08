@@ -16,7 +16,7 @@ name: İsteğe bağlı Umre provası
 - tapOn: "Hazırlığa geç"
 - assertVisible: "Hazırlık"
 - tapOn: "Provaya başla"
-- assertVisible: "Kullanım biçimi seçimi"
+- assertVisible: '(?s)(?:1 / 18 · U01\n)?Kullanım biçimi seçimi(?:\n.*)?'
 - assertVisible: "(?s)Bu başlığı prova ettim.*"
 - takeScreenshot: prova-taslak-baslik
 - scrollUntilVisible:
@@ -33,5 +33,5 @@ name: İsteğe bağlı Umre provası
 - tapOn: "Kaldığım provadan devam et"
 - assertVisible: "(?s)Prova duraklatıldı.*"
 - tapOn: "Devam et"
-- assertVisible: "Kullanım biçimi seçimi"
+- assertVisible: '(?s)(?:1 / 18 · U01\n)?Kullanım biçimi seçimi(?:\n.*)?'
 - takeScreenshot: prova-devam

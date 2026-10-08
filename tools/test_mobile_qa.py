@@ -58,7 +58,11 @@ class ExtendedCoverageTests(unittest.TestCase):
     def test_optional_practice_is_in_the_measured_suite(self):
         flow = commands('05-prova.yaml')
         self.assertIn({'tapOn': 'Kaldığım provadan devam et'}, flow)
-        self.assertIn({'assertVisible': 'Kullanım biçimi seçimi'}, flow)
+        selector = next(c['assertVisible'] for c in flow if isinstance(c, dict)
+                        and 'assertVisible' in c and 'Kullanım biçimi seçimi' in c['assertVisible'])
+        self.assertIsNotNone(re.fullmatch(selector, 'Kullanım biçimi seçimi'))
+        self.assertIsNotNone(re.fullmatch(selector, '1 / 18 · U01\nKullanım biçimi seçimi\nBu aşama için görsel şema bulunmuyor.'))
+        self.assertIsNone(re.fullmatch(selector, 'Başka bir başlık'))
 
     def test_audio_suite_requires_position_pause_completion_and_stop(self):
         docs = list(yaml.safe_load_all((ROOT / '.maestro/audio-probe.yaml').read_text()))
