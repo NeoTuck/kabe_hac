@@ -24,6 +24,9 @@ abstract class NarrationBackend {
 }
 
 class DeviceNarrationBackend extends NarrationBackend {
+  // The plugin replaces the process-wide audio platform. Re-registering it
+  // would wrap the previous background platform instead of the device plugin.
+  static Future<void>? _backgroundInitialization;
   AudioPlayer? _player;
   AudioSession? _session;
   StreamSubscription<AudioInterruptionEvent>? _interruption;
@@ -35,11 +38,11 @@ class DeviceNarrationBackend extends NarrationBackend {
     if (_player != null) return;
     // Register media integration only when audio is actually requested.
     // Offline reading must not wait for platform audio services at launch.
-    await JustAudioBackground.init(
+    await (_backgroundInitialization ??= JustAudioBackground.init(
       androidNotificationChannelId:
           'com.mustafasenoglu.hac_umre_sesli_rehber.audio',
       androidNotificationChannelName: 'Sesli rehber oynatma',
-    );
+    ));
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
     _session = session;

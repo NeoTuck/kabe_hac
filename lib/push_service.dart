@@ -255,8 +255,9 @@ class PushTokenCoordinator extends ChangeNotifier {
     await _refreshSubscription?.cancel();
     if (_disposed) return;
     _refreshSubscription = source.tokenRefreshes.listen((newToken) {
-      if (_disposed || currentUserId() != userId || _registeredUser != userId)
+      if (_disposed || currentUserId() != userId || _registeredUser != userId) {
         return;
+      }
       _refreshTail = _refreshTail.then((_) => _replaceToken(userId, newToken));
       unawaited(_refreshTail);
     });
@@ -265,13 +266,15 @@ class PushTokenCoordinator extends ChangeNotifier {
 
   Future<void> _replaceToken(String userId, String newToken) async {
     final oldToken = _registeredToken;
-    if (_disposed || currentUserId() != userId || _registeredUser != userId)
+    if (_disposed || currentUserId() != userId || _registeredUser != userId) {
       return;
+    }
     if (oldToken == null || oldToken == newToken) return;
     try {
       await remote.register(userId, platform, newToken);
-      if (_disposed || currentUserId() != userId || _registeredUser != userId)
+      if (_disposed || currentUserId() != userId || _registeredUser != userId) {
         return;
+      }
       await remote.revoke(userId, oldToken);
       _registeredToken = newToken;
       error = null;
