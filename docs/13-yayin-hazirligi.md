@@ -11,6 +11,8 @@
 - `tools/release_preflight.py` içerik/ses bağlantısı, Hac profilleri ve dış kabul kanıtları için hata halinde kapalı kalan girdi denetimi sağlar. Eksik girdide exit 2 verir; boş veya yalnız approved etiketi olan kayıtlar geçmez.
 - Kaynak kontrollü özgün Umre açıklama önerileri `docs/content-review/umre-kaynakli-oneri.md` içinde. Uzman onayı veya ses kullanım izni değildir; uygulamanın taslak onay bilgileri değiştirilmez.
 
+- Hac önizleme/akış etiketleri gerçek katalog/profil durumuna bağlıdır; uzman onaylı teknik fixture üzerinde sabit önizleme etiketi kaldırılmış, gerçek taslak katalog korunmuştur.
+
 ## Android üretim imzası
 
 `android/key.properties` dosyası Git'e girmez. Yerel/CI gizli dosyada `storeFile` (android dizinine göre ya da mutlak yol), `storePassword`, `keyAlias`, `keyPassword` değerlerini sağla. Keystore'u da Git'e koyma. Teknik pilot ortam değişkenini üretim ortamında kullanma. Gerçek upload anahtarının SHA-256 sertifikası ve Play Console kaydı ayrıca karşılaştırılır; yalnız dosyanın bulunması bunu kanıtlamaz.

@@ -518,13 +518,15 @@ class GuideCatalog {
     return index > 0 ? flow[index - 1] : null;
   }
 
-  bool get isPreview =>
-      type == GuideType.hajj ||
-      steps.any(
-        (step) =>
-            !step.isApproved ||
-            step.prayerIds.any((id) => !prayerRecords[id]!.isApproved),
-      );
+  bool get isPreview => steps.any(
+    (step) =>
+        !step.isApproved ||
+        (type == GuideType.hajj &&
+            step.profileApplicability.values.contains(
+              ProfileApplicability.unverified,
+            )) ||
+        step.prayerIds.any((id) => !prayerRecords[id]!.isApproved),
+  );
 
   factory GuideCatalog.fromJsonText(String text) {
     final decoded = _object(jsonDecode(text), 'Katalog');

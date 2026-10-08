@@ -106,6 +106,7 @@ void main() {
     final draftSource = jsonDecode(text) as Map<String, dynamic>;
     final draftCatalog = GuideCatalog.fromJsonText(jsonEncode(draftSource));
     expect(draftCatalog.isProfileFlowVerified(HajjProfile.ifrad), isFalse);
+    expect(draftCatalog.isPreview, isTrue);
     expect(draftCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(35));
     expect(draftCatalog.stepById('H06.3')?.counterKey, 'jamarat');
     expect(draftCatalog.stepById('H09.2')?.counterKey, 'jamarat');
@@ -138,6 +139,7 @@ void main() {
       jsonEncode(approvedSource),
     );
     expect(approvedCatalog.isProfileFlowVerified(HajjProfile.ifrad), isTrue);
+    expect(approvedCatalog.isPreview, isFalse);
     expect(approvedCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(34));
     expect(approvedCatalog.stepsForProfile(HajjProfile.temettu), hasLength(35));
     expect(

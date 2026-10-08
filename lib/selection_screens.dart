@@ -269,7 +269,9 @@ class _HomeScreenState extends State<HomeScreen> {
             _ChoiceCard(
               icon: Icons.map_outlined,
               title: 'Hac',
-              subtitle: '35 başlık · profil kuralları önizlemede',
+              subtitle: _catalogs[GuideType.hajj]!.isPreview
+                  ? '35 başlık · profil kuralları önizlemede'
+                  : '35 başlık · içerik ve profiller onaylı',
               onTap: () => _choose(GuideType.hajj),
             ),
             const SizedBox(height: 32),
@@ -481,15 +483,19 @@ class HajjProfileScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          const Text(
-            'Profil kuralları henüz uzman onayından geçmedi. Seçim yalnız başlık envanterinin önizlemesini açar.',
+          Text(
+            HajjProfile.values.every(catalog.isProfileFlowVerified)
+                ? 'Hac türüne göre incelenmiş akış açılır. İşaretler yalnız kişisel kayıttır.'
+                : 'Profil kuralları henüz uzman onayından geçmedi. Seçim yalnız başlık envanterinin önizlemesini açar.',
           ),
           const SizedBox(height: 24),
           for (final profile in HajjProfile.values) ...[
             _ChoiceCard(
               icon: Icons.list_alt_rounded,
               title: profile.label,
-              subtitle: 'Uygulanabilirlik doğrulanmadı',
+              subtitle: catalog.isProfileFlowVerified(profile)
+                  ? 'İncelenmiş profil akışı'
+                  : 'Uygulanabilirlik doğrulanmadı',
               onTap: () => Navigator.of(context).push<void>(
                 MaterialPageRoute(
                   builder: (_) => GuideFlowScreen(
