@@ -70,6 +70,9 @@ void main() {
         find.text('Çevrimdışı paketleri yönet'),
         250,
       );
+      await tester.ensureVisible(find.text('Çevrimdışı paketleri yönet'));
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -120));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Çevrimdışı paketleri yönet'));
       await tester.pumpAndSettle();
       travel.current = installed ? fixture() : LocalTravelRepository.empty;
