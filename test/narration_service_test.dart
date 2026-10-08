@@ -14,6 +14,7 @@ class ControlledAudio extends NarrationBackend {
   Completer<void>? gate;
   bool active = true;
   bool failLoad = false;
+  bool failSpeed = false;
   bool failInitialize = false;
   Future<void>? nextPlay;
   int plays = 0, pauses = 0, stops = 0, initializations = 0;
@@ -68,6 +69,7 @@ class ControlledAudio extends NarrationBackend {
 
   @override
   Future<void> setSpeed(double value) async {
+    if (failSpeed) throw StateError('speed unavailable');
     speed = value;
   }
 
@@ -197,6 +199,17 @@ void main() {
       await service.playAsset('package:untrusted/audio/one.m4a');
       expect(service.state.status, NarrationStatus.error);
       expect(backend.loaded, isEmpty);
+    },
+  );
+  test(
+    'failed speed change does not change later playback preference',
+    () async {
+      await service.playAsset('one');
+      backend.failSpeed = true;
+      await expectLater(service.setSpeed(1.25), throwsStateError);
+      backend.failSpeed = false;
+      await service.playAsset('two');
+      expect(backend.speed, 1);
     },
   );
 }

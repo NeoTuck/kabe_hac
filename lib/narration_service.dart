@@ -267,8 +267,8 @@ class JustAudioNarrationService extends NarrationService {
     if (speed < 0.75 || speed > 1.5 || !speed.isFinite) {
       throw ArgumentError.value(speed, 'speed');
     }
-    _speed = speed;
     if (_listening) await _backend.setSpeed(speed);
+    _speed = speed;
   }
 
   @override

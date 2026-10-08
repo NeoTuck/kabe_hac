@@ -19,4 +19,32 @@ void main() {
     expect(share.isActiveAt(start), isTrue);
     expect(share.isActiveAt(share.endsAt), isFalse);
   });
+  test('future, reversed and nonfinite location updates are not current', () {
+    final now = DateTime.utc(2026, 10, 8);
+    for (final update in [
+      SharedLocationUpdate(
+        latitude: 0,
+        longitude: 0,
+        accuracyMeters: 1,
+        measuredAt: now.add(const Duration(seconds: 1)),
+        sentAt: now.add(const Duration(seconds: 2)),
+      ),
+      SharedLocationUpdate(
+        latitude: 0,
+        longitude: 0,
+        accuracyMeters: 1,
+        measuredAt: now,
+        sentAt: now.subtract(const Duration(seconds: 1)),
+      ),
+      SharedLocationUpdate(
+        latitude: 0,
+        longitude: 0,
+        accuracyMeters: double.infinity,
+        measuredAt: now,
+        sentAt: now,
+      ),
+    ]) {
+      expect(update.isStaleAt(now), isTrue);
+    }
+  });
 }
