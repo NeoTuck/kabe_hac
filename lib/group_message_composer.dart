@@ -59,8 +59,9 @@ class _GroupMessageComposerState extends State<GroupMessageComposer> {
     if (_busy ||
         _needsRecipientChoice ||
         !_sameAccount ||
-        widget.controller.text.trim().isEmpty)
+        widget.controller.text.trim().isEmpty) {
       return;
+    }
     setState(() {
       _busy = true;
       _error = null;

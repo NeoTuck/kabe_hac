@@ -359,6 +359,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   String? _recipient;
   String? _error;
   bool _sending = false;
+  bool _managementBusy = false;
   bool _composerOpen = false;
   bool _connected = false;
   bool _refreshing = false;
@@ -730,96 +731,129 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
             ['guide', 'group_admin'].contains(m['role']),
       ) ==
       true;
+  bool get _managementAllowed =>
+      _owner != null && _owner == widget.repository.userId && _canManage;
+
   Future<void> _publish(String kind) async {
+    if (_managementBusy || !_managementAllowed) return;
+    setState(() => _managementBusy = true);
     final title = TextEditingController();
     final body = TextEditingController();
-    final values = await showDialog<(String, String)>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(kind == 'program' ? 'Program ekle' : 'Duyuru ekle'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: title,
-                maxLength: 160,
-                decoration: const InputDecoration(labelText: 'Başlık'),
-              ),
-              TextField(
-                controller: body,
-                maxLength: 4000,
-                maxLines: 4,
-                decoration: const InputDecoration(labelText: 'Açıklama'),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Vazgeç'),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (title.text.trim().isNotEmpty && body.text.trim().isNotEmpty) {
-                Navigator.pop(context, (title.text.trim(), body.text.trim()));
-              }
-            },
-            child: const Text('Yayınla'),
-          ),
-        ],
-      ),
-    );
-    await Future<void>.delayed(const Duration(milliseconds: 250));
-    title.dispose();
-    body.dispose();
-    if (values == null || !mounted) return;
     try {
+      final values = await showDialog<(String, String)>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(kind == 'program' ? 'Program ekle' : 'Duyuru ekle'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: title,
+                  maxLength: 160,
+                  decoration: const InputDecoration(labelText: 'Başlık'),
+                ),
+                TextField(
+                  controller: body,
+                  maxLength: 4000,
+                  maxLines: 4,
+                  decoration: const InputDecoration(labelText: 'Açıklama'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () {
+                if (title.text.trim().isNotEmpty &&
+                    body.text.trim().isNotEmpty) {
+                  Navigator.pop(context, (title.text.trim(), body.text.trim()));
+                }
+              },
+              child: const Text('Yayınla'),
+            ),
+          ],
+        ),
+      );
+      if (values == null || !mounted || !_managementAllowed) return;
       await widget.repository.publish(
         widget.group.id,
         kind,
         values.$1,
         values.$2,
       );
-      await _reload();
+      if (mounted && _managementAllowed) await _reload();
     } catch (_) {
-      if (mounted) {
+      if (mounted && _managementAllowed) {
         setState(
           () => _error =
               'Yayınlanamadı. Kafile yetkini ve bağlantını kontrol et.',
         );
       }
+    } finally {
+      await Future<void>.delayed(const Duration(milliseconds: 250));
+      title.dispose();
+      body.dispose();
+      if (mounted) setState(() => _managementBusy = false);
     }
   }
 
   Future<void> _invite() async {
+    if (_managementBusy || !_managementAllowed) return;
+    setState(() => _managementBusy = true);
     try {
       final token = await widget.repository.createInvitation(widget.group.id);
-      if (!mounted) return;
+      if (!mounted || !_managementAllowed) return;
       await showDialog<void>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Tek kullanımlık davet'),
-          content: SelectableText('24 saat geçerli davet kodu:\n$token'),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                await Clipboard.setData(ClipboardData(text: token));
-                if (context.mounted) Navigator.pop(context);
-              },
-              child: const Text('Kodu kopyala'),
-            ),
-          ],
+        builder: (context) => ListenableBuilder(
+          listenable: widget.repository,
+          builder: (context, _) => AlertDialog(
+            title: const Text('Tek kullanımlık davet'),
+            content: _managementAllowed
+                ? SelectableText('24 saat geçerli davet kodu:\n$token')
+                : const Text('Oturum değişti. Davet kodu gizlendi.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Kapat'),
+              ),
+              TextButton(
+                onPressed: !_managementAllowed
+                    ? null
+                    : () async {
+                        try {
+                          await Clipboard.setData(ClipboardData(text: token));
+                          if (context.mounted) Navigator.pop(context);
+                        } catch (_) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Davet kodu kopyalanamadı.'),
+                              ),
+                            );
+                          }
+                        }
+                      },
+                child: const Text('Kodu kopyala'),
+              ),
+            ],
+          ),
         ),
       );
     } catch (_) {
-      if (mounted) {
+      if (mounted && _managementAllowed) {
         setState(
           () => _error =
               'Davet oluşturulamadı. Yetkini ve bağlantını kontrol et.',
         );
       }
+    } finally {
+      if (mounted) setState(() => _managementBusy = false);
     }
   }
 
@@ -888,15 +922,19 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                   runSpacing: 8,
                   children: [
                     OutlinedButton(
-                      onPressed: _invite,
+                      onPressed: _managementBusy ? null : _invite,
                       child: const Text('Davet oluştur'),
                     ),
                     OutlinedButton(
-                      onPressed: () => _publish('announcement'),
+                      onPressed: _managementBusy
+                          ? null
+                          : () => _publish('announcement'),
                       child: const Text('Duyuru ekle'),
                     ),
                     OutlinedButton(
-                      onPressed: () => _publish('program'),
+                      onPressed: _managementBusy
+                          ? null
+                          : () => _publish('program'),
                       child: const Text('Program ekle'),
                     ),
                   ],
