@@ -15,7 +15,7 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** 8 Ekim 2026; `bd89c83a` CI `37715121386`: 143 Flutter/39 SQL, analiz/format, teknik ses QA, Android debug/release ve iOS no-codesign/simulator derlemeleri başarılı. Ayarlar üç ortamda, ses iOS/API 28'de geçti. Rehber/kafile birleşik başlık seçicileri ve API 35 kısa sesin test beklerken bitmesi düzeltildi; beş yerel QA regresyon kontrolü geçti, yeni mobil kabul bekliyor. Fiziksel cihaz kabulü bekliyor.
+**Son doğrulama:** 8 Ekim 2026; `3a57540a` CI `37739530513`: 145 Flutter/39 SQL/5 QA yapılandırma kontrolü, analiz/format, teknik ses QA, Android debug/release ve iOS no-codesign/simulator derlemeleri başarılı. Üç ortamda rehber/ayarlar/kapalı hizmetler geçti. Sıkı ses duraklatma kabulü kısa kaydın native bekleme sırasında bitmesini yakaladı; mevcut sentetik demo 30 saniyeye uzatıldı, yeni mobil tekrar bekliyor. Fiziksel cihaz kabulü bekliyor.
 
 **Aktif paket:** 8 Ekim kullanıcı kalite turu; sohbet/işlem/indirme/güncellik düzeltmeleri, yer/rota ayrıntıları ve Android/iOS simülatör CI hattı eklendi. Toplu CI kabulü sürüyor; dış girdiler ve fiziksel cihaz kabulü bekliyor.
 

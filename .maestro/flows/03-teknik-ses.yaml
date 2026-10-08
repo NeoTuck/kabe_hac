@@ -12,8 +12,8 @@ name: Teknik ses oynatma ve duraklatma
 - scrollUntilVisible:
     element: "Anlatımı dinle"
     direction: DOWN
-# The synthetic clip is six seconds: do not wait for its moving progress
-# indicator to settle (which would mean waiting until playback has finished).
+# The synthetic demo is 30 seconds; a native driver may spend several seconds
+# locating a moving screen. Still limit settling and require actual pause.
 - tapOn:
     text: "Anlatımı dinle"
     waitToSettleTimeoutMs: 500

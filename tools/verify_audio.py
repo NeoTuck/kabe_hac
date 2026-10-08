@@ -16,6 +16,8 @@ for file in files:
     streams = [s for s in metadata['streams'] if s['codec_type'] == 'audio']
     if len(streams) != 1 or float(metadata['format']['duration']) <= 0:
         raise SystemExit(f'FAIL: invalid stream {file.name}')
+    if file.name == 'teknik_demo.m4a' and float(metadata['format']['duration']) < 30:
+        raise SystemExit('FAIL: synthetic mobile QA demo must last at least 30 seconds')
     decoded = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(file), '-f', 'f32le', '-ac', '1', '-ar', '22050', '-'], check=True, capture_output=True)
     samples = array.array('f', decoded.stdout)
     if not samples or any(not math.isfinite(s) for s in samples):

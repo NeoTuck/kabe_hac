@@ -50,15 +50,19 @@ Düzeltme `bd89c83a`: seçiciler başlık ve birleşmiş açıklama/sekme metnin
 
 Önceki run iki gezi regresyonunda hata yakaladı; favori kaydı sırasında kartın yanlışlıkla ayrıntı açması ve belirsiz test kaydırma hedefi düzeltildi. 143 testlik kabul bu düzeltmeleri içerir. Geçmiş başarılı run yeni kodun yerine kabul sayılmaz.
 
-## Ürün sınırları ve sonraki iş
-
-### Mobil kabul devamı — 8 Ekim sabahı
+## Mobil kabul devamı — 8 Ekim sabahı
 
 `bd89c83a` / CI `37715121386` tamamlandı: 143 Flutter testi, analiz/format, teknik ses dosyası QA, 39 SQL kontrolü ve Android/iOS derlemeleri yeniden geçti. iOS 18.5 runtime ile test sürücüsü artık açıldı. Ayarlar akışı iOS ve Android API 28/35'te; ses oynat/duraklat iOS ve API 28'de geçti. Rehber/kafile akışları, native Card'ın birleştirdiği başlık ve açıklamaya tam metin seçicisi uygulanması nedeniyle başarısız. API 35 ses hata ekranında konum 0:06 / 0:06: altı saniyelik teknik kayıt oynatma sonrası testin ekranın sabitlenmesini beklediği sırada bitmiş.
 
 Başlık seçicileri başlıkla başlayan birleşik açıklamayı eşler; onaylı/başka başlık eşleşmez. Ses tap işleminin ekran sabitlenme beklemesi 500 ms ile sınırlanır; “Duraklat” ve tekrar “Anlatımı dinle” beklentileri kaldırılmaz. SDK/runtime seçimi ve üç akışın beklentisi için beş Python regresyon kontrolü eklendi; yerelde geçti. Bunlar yapılandırma testidir, cihaz kabulü değildir. Yeni tüm platform tekrarının sonucu ayrıca kaydedilecek.
 
 Ses UI'ında duraklatılma ve tamamlanma açıkça ayrılır; yalnız seçilmiş ses kartında “Ses duraklatıldı” veya “Ses tamamlandı” gösterilir. Mobil test artık “Ses duraklatıldı” durumunu da zorunlu tutar; kendiliğinden biten kaydı başarılı duraklatma saymaz. İki Flutter regresyonu eklendi; çalıştırma CI'da bekliyor.
+
+`3a57540a` / CI `37739530513`: 145 Flutter/39 SQL/5 Python yapılandırma kontrolü, analiz/format, teknik ses dosyası QA ve Android/iOS derlemeleri geçti. Üç ortamda rehber, ayarlar ve kapalı hizmet akışları geçti. Ses akışı daha sıkı beklentide başarısız: Android native tap işlemi 8–9 saniye sürerken 6,6 saniyelik kayıt bitmiş, ekran “Ses tamamlandı” gösteriyor; iOS'ta “Duraklat” kontrolü sırasında kayıt bitmiş. 500 ms sınırı native iç işlemi kesmedi. Önceki yalın oynat düğmesi beklentisi gerçek duraklatmayı ayırmıyordu.
+
+Yalnız mevcut sentetik teknik demo tekrarlanarak 30 saniyeye uzatıldı; sessizlik, yeni dinî içerik veya üçüncü taraf anlatım eklenmedi. Önceki kayıt SHA/provenance/yeniden üretim `assets/audio/README.md` içindedir. Yerelde decode/süre/sessizlik/clipping kontrolü geçti: 30 sn AAC, RMS -17,5 dBFS, peak -3,2 dBFS. İnsan sesi/hak/onay değildir. “Ses duraklatıldı” beklentisi korunur; yeni mobil tekrar sonucu ayrıca gerekir.
+
+## Ürün sınırları ve sonraki iş
 
 18 Umre ve 35 Hac kimliği hâlâ taslak. Gerçek uzman onaylı metin/profil matrisi, ses dosyaları/hakları, lisanslı harita/POI/saha verisi ve Supabase proje girdileri eksik. Harita gösterimi, POI/rota paketinin gezi kataloğuna bağlanması, şirket rota paylaşımı, gerçek GPS/push ve sensör/yoğunluk ürün akışları ayrıca tamamlanmalıdır. Gerçek Android/iPhone, işitsel çıktı/kilit ekranı/Bluetooth ve veri koruyan imzalı güncelleme kabulü ayrıca gerekir.
 
