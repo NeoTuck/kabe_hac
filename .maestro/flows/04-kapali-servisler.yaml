@@ -2,14 +2,14 @@ appId: ${APP_ID}
 name: Yapılandırılmamış teknik pilot hizmetleri
 ---
 - launchApp
-- tapOn: "Kafile"
+- tapOn: "(?s)Kafile.*"
 - assertVisible: "Kafile hizmeti hazırlanıyor"
 - takeScreenshot: kafile-yapilandirilmamis
 - launchApp
 - scrollUntilVisible:
-    element: "Çevrimdışı paketleri yönet"
+    element: "(?s)Çevrimdışı paketleri yönet.*"
     direction: DOWN
-- tapOn: "Çevrimdışı paketleri yönet"
+- tapOn: "(?s)Çevrimdışı paketleri yönet.*"
 - assertVisible: "Çevrimdışı paketler"
 - assertVisible: "Paket kataloğu kapalı."
 - takeScreenshot: paket-katalogu-kapali

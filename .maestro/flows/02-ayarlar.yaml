@@ -2,7 +2,7 @@ appId: ${APP_ID}
 name: Ayarlara erişim
 ---
 - launchApp
-- tapOn: "Ayarlar"
+- tapOn: "(?s)Ayarlar.*"
 - assertVisible: "Yazı ve ses ayarları"
 - assertVisible: "Görünüm"
 - scrollUntilVisible:
