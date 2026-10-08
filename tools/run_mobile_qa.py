@@ -3,6 +3,8 @@
 import argparse
 import datetime
 import json
+import hashlib
+import tempfile
 import pathlib
 import re
 import shutil
@@ -23,11 +25,20 @@ def probe(command):
     return result.stdout.strip()
 
 
+def file_hash(path):
+    digest = hashlib.sha256()
+    with pathlib.Path(path).open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--platform', required=True, choices=list(IDS))
     parser.add_argument('--device', required=True)
     parser.add_argument('--app-id')
+    parser.add_argument('--expected-apk', type=pathlib.Path, help='Android APK whose SHA-256 must match the installed base APK')
     parser.add_argument('--test-device', action='store_true', help='Dedicated test device; flow creates/resumes guide records')
     parser.add_argument('--dry-run', action='store_true', help='Print command only; no device checks or tests')
     parser.add_argument('--preflight', action='store_true', help='Check tools/device/app only; do not run UI tests')
@@ -36,6 +47,8 @@ def main():
     app_id = args.app_id or IDS[args.platform]
     if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_.-]+', app_id) or args.device.startswith('-'):
         parser.error('Invalid app or device identifier')
+    if args.expected_apk and args.platform != 'android':
+        parser.error('--expected-apk is Android-only')
     if not args.test_device:
         parser.error('--test-device is required; personal guide progress must be preserved')
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
@@ -65,8 +78,19 @@ def main():
         if args.platform == 'android':
             if probe(['adb', '-s', args.device, 'get-state']) != 'device':
                 raise RuntimeError('Android device not authorized/ready')
-            if not probe(['adb', '-s', args.device, 'shell', 'pm', 'path', app_id]).startswith('package:'):
+            installed_paths = probe(['adb', '-s', args.device, 'shell', 'pm', 'path', app_id]).splitlines()
+            if not installed_paths or not all(line.startswith('package:') for line in installed_paths):
                 raise RuntimeError('Application is not installed on this device')
+            if args.expected_apk:
+                if len(installed_paths) != 1:
+                    raise RuntimeError('Expected a single APK installation; split installs need a separate hash contract')
+                evidence['expected_build_hash'] = file_hash(args.expected_apk)
+                with tempfile.TemporaryDirectory(prefix='kabe-apk-proof-') as temporary:
+                    installed_apk = pathlib.Path(temporary) / 'installed.apk'
+                    probe(['adb', '-s', args.device, 'pull', installed_paths[0][len('package:'):], str(installed_apk)])
+                    evidence['installed_build_hash'] = file_hash(installed_apk)
+                if evidence['installed_build_hash'] != evidence['expected_build_hash']:
+                    raise RuntimeError('Installed APK hash does not match the expected build')
             package = probe(['adb', '-s', args.device, 'shell', 'dumpsys', 'package', app_id])
             evidence['installed_version_lines'] = [line.strip() for line in package.splitlines()
                                                    if 'versionName=' in line or 'versionCode=' in line]
@@ -82,7 +106,7 @@ def main():
         else:
             evidence['device_tests_run'] = True
             with (output / 'maestro.log').open('w') as log:
-                result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
+                result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, timeout=600)
             evidence['exit_code'] = result.returncode
             evidence['status'] = 'passed' if result.returncode == 0 else 'failed'
             if result.returncode == 0:
