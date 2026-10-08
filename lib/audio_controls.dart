@@ -98,6 +98,18 @@ class AudioControls extends StatelessWidget {
               ],
               if (selected) ...[
                 const SizedBox(height: 8),
+                if (state.status == NarrationStatus.paused ||
+                    state.status == NarrationStatus.completed) ...[
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      state.status == NarrationStatus.paused
+                          ? 'Ses duraklatıldı'
+                          : 'Ses tamamlandı',
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                ],
                 if (!loading)
                   OutlinedButton.icon(
                     onPressed: state.status == NarrationStatus.error

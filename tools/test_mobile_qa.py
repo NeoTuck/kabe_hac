@@ -40,6 +40,7 @@ class MobileConfigurationTests(unittest.TestCase):
         self.assertEqual(flow[play + 1], {'assertVisible': 'Duraklat'})
         self.assertEqual(flow[play + 2]['tapOn']['text'], 'Duraklat')
         self.assertEqual(flow[play + 3], {'assertVisible': 'Anlatımı dinle'})
+        self.assertEqual(flow[play + 4], {'assertVisible': 'Ses duraklatıldı'})
 
     def test_sdk_match_does_not_choose_newer_incompatible_runtime(self):
         def runtime(version, available=True):

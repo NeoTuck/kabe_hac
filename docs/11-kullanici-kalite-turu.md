@@ -58,6 +58,8 @@ Düzeltme `bd89c83a`: seçiciler başlık ve birleşmiş açıklama/sekme metnin
 
 Başlık seçicileri başlıkla başlayan birleşik açıklamayı eşler; onaylı/başka başlık eşleşmez. Ses tap işleminin ekran sabitlenme beklemesi 500 ms ile sınırlanır; “Duraklat” ve tekrar “Anlatımı dinle” beklentileri kaldırılmaz. SDK/runtime seçimi ve üç akışın beklentisi için beş Python regresyon kontrolü eklendi; yerelde geçti. Bunlar yapılandırma testidir, cihaz kabulü değildir. Yeni tüm platform tekrarının sonucu ayrıca kaydedilecek.
 
+Ses UI'ında duraklatılma ve tamamlanma açıkça ayrılır; yalnız seçilmiş ses kartında “Ses duraklatıldı” veya “Ses tamamlandı” gösterilir. Mobil test artık “Ses duraklatıldı” durumunu da zorunlu tutar; kendiliğinden biten kaydı başarılı duraklatma saymaz. İki Flutter regresyonu eklendi; çalıştırma CI'da bekliyor.
+
 18 Umre ve 35 Hac kimliği hâlâ taslak. Gerçek uzman onaylı metin/profil matrisi, ses dosyaları/hakları, lisanslı harita/POI/saha verisi ve Supabase proje girdileri eksik. Harita gösterimi, POI/rota paketinin gezi kataloğuna bağlanması, şirket rota paylaşımı, gerçek GPS/push ve sensör/yoğunluk ürün akışları ayrıca tamamlanmalıdır. Gerçek Android/iPhone, işitsel çıktı/kilit ekranı/Bluetooth ve veri koruyan imzalı güncelleme kabulü ayrıca gerekir.
 
 Sonraki bağımsız kod dilimi: doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağlamak; önce teknik fixture ile hash/yol/çakışma/yenileme testleri, sonra izinli gerçek veri. Üretime hazır iddiası bu turun sonucu değildir.

@@ -22,4 +22,5 @@ name: Teknik ses oynatma ve duraklatma
     text: "Duraklat"
     waitToSettleTimeoutMs: 500
 - assertVisible: "Anlatımı dinle"
+- assertVisible: "Ses duraklatıldı"
 - takeScreenshot: teknik-ses-duraklatildi
