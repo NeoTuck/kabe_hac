@@ -32,7 +32,7 @@ class FakeResponse extends Stream<List<int>> implements HttpClientResponse {
   @override
   final int contentLength;
   @override
-  final headers = FakeHeaders();
+  final FakeHeaders headers = FakeHeaders();
   @override
   bool get isRedirect => statusCode == 302;
   @override
@@ -55,7 +55,7 @@ class FakeRequest implements HttpClientRequest {
   FakeRequest(this.response);
   final Future<HttpClientResponse> response;
   @override
-  final headers = FakeHeaders();
+  final FakeHeaders headers = FakeHeaders();
   @override
   bool followRedirects = true;
   bool aborted = false;

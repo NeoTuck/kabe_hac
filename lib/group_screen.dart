@@ -384,8 +384,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     widget.repository.addListener(_authChanged);
     WidgetsBinding.instance.addObserver(this);
     _unsubscribe = widget.repository.watch(widget.group.id, (connected) {
-      if (!mounted || !_foreground || _owner != widget.repository.userId)
+      if (!mounted || !_foreground || _owner != widget.repository.userId) {
         return;
+      }
       setState(() => _connected = connected);
       _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 250), _reload);
@@ -436,8 +437,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   Future<void> _reload() async {
-    if (!_foreground || _owner == null || _owner != widget.repository.userId)
+    if (!_foreground || _owner == null || _owner != widget.repository.userId) {
       return;
+    }
     if (_refreshing) {
       _reloadPending = true;
       return;

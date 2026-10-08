@@ -295,9 +295,6 @@ void main() {
     addTearDown(() => root.delete(recursive: true));
     final external = await Directory.systemTemp.createTemp('external_stage_');
     addTearDown(() => external.delete(recursive: true));
-    final manifest = OfflinePackageManifest.fromJson(
-      manifestJson(version: '1.0.0', bytes: [1]),
-    );
     final manager = OfflinePackageManager(root: root);
     await Directory('${root.path}/.staging').create();
     final link = Link('${root.path}/.staging/linked');
