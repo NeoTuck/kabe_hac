@@ -148,9 +148,15 @@ class HttpPackageFileFetcher extends PackageFileFetcher {
       try {
         await sink.addStream(bounded());
         await sink.flush();
-      } finally {
-        await sink.close();
+      } catch (error, stack) {
+        // addStream can close the file itself on failure. Cleanup must not
+        // replace the useful timeout/size error with a second close error.
+        try {
+          await sink.close();
+        } catch (_) {}
+        Error.throwWithStackTrace(error, stack);
       }
+      await sink.close();
       return PackageFetchResult(resumed: resumed);
     } catch (_) {
       request.abort();
