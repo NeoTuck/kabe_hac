@@ -2,6 +2,26 @@
 
 8 Ekim 2026. Mevcut özellikler, veri kayıtları ve görsel yön korunur; 3D eklenmez. Çalışmanın kapsamı uygulama kalitesi ve teknik kabulüdür; eksik dinî/saha girdilerini üretilmiş veriyle doldurmaz.
 
+## Güncel kabul — tamamlandı
+
+Kod `58708cfb` / [CI 37741666923](https://github.com/NeoTuck/kabe_hac/actions/runs/37741666923): yedi işin tamamı başarılı. PR test çalışma commit'i `6289e6d78e76755a302196ec43f41c1a147bd042`; yalnız doküman değişikliği bu kanıtın yerine yeni uygulama kabulü sayılmaz. Dal `codex/mvp1-pilot`, PR #1; main birleşmesi yapılmadı.
+
+| Kontrol | Sonuç |
+| --- | --- |
+| Format / analiz | 60 dosya değişikliksiz; analiz temiz |
+| Flutter | 146 test başarılı |
+| SQL | 39 bağımsız pgTAP fixture kontrolü başarılı; canlı Supabase değil |
+| QA yapılandırması | Beş Python regresyonu ve dört YAML akışı başarılı |
+| Ses dosyası | 30 sn sentetik AAC; decode / clipping / sessizlik QA başarılı |
+| Android API 28 | Dört pilot akış başarılı |
+| Android API 35 | Dört pilot akış başarılı |
+| iPhone 16 / iOS 18.5 simulator | Dört pilot akış başarılı; fiziksel iPhone değil |
+| Derleme | Android debug / üç release ABI; iOS no-codesign / simulator başarılı |
+
+Üç native artifact indirildi; JUnit'te dört ayrı SUCCESS, session'da `passed` / dört vaka ve gerçek “Ses duraklatıldı” komutunun COMPLETED durumu kontrol edildi. Android iki emülatörde kurulu APK hash'i aynı run'ın beklenen APK'sıyla eşleşti: `0cedb6f6a252bba37a73810b32a81bc882f41b8a5956a78813e4a368ee6ce47a`. Artifact kimlikleri: API 28 `11534099594`, API 35 `11534471356`, iOS `11534721612`. iOS ve Android 35 duraklatma ekranları görsel olarak incelendi; kayıt tamamlanmamışken “Ses duraklatıldı” görünür (iOS 0:06 / 0:29, Android 0:12 / 0:30). UI süre gösterimi tam saniyeye aşağı yuvarlar.
+
+Arm64 release **35.804.043 bayt** (SHA-256 `4a159ed43dd7ad74fc8b7c3c487418f4aec4f0babc928fdd4b1b3b35e355d0e7`); armeabi-v7a 30.450.677, x86_64 37.639.404 bayt. İmza teknik debug anahtarıdır. Bu dört pilot akış bütün ürün / işitsel insan sesi / çağrı / Bluetooth / fiziksel cihaz / TestFlight / veri koruyan güncelleme veya performans kabulü değildir. Aşağıdaki ara deneme kayıtları tarihsel teşhis içindir; güncel sonuç bu bölümdür.
+
 ## Kullanıcı akışları
 
 - Kafilede sabit “Mesaj yaz” girişi ve klavye üstünde kaydırılabilen editör var. Taslak kapatınca korunur, hesap değişince temizlenir. Çift gönderim engellenir. Önceki özel alıcı kafileden ayrılmışsa yeniden seçim gerekir; mesaj sessizce genel sohbete dönmez. Yerel kaydın alınması teslim edildi iddiası değildir. Davet ve duyuru/program işlemleri tek işlem olarak yürür; eski hesabın geç daveti yeni hesaba gösterilmez, açık davet hesabın değişmesiyle gizlenir ve değişmiş hesapla yayın gönderilmez.

@@ -4,6 +4,8 @@
 
 ## Güncel başlangıç kanıtı
 
+8 Ekim güncel teknik kabul: kod `58708cfb`, CI `37741666923` yedi iş başarılı. 146 Flutter/39 SQL/5 QA, Android debug/release, iOS no-codesign/simulator ve Android API 28/35 + iPhone 16 / iOS 18.5 üzerinde dört pilot akış geçti. Fiziksel cihaz ve bütün ürün kabulü değildir. Kanıt ve ara hataların teşhisi `docs/11-kullanici-kalite-turu.md` başındadır; aşağıdaki başlangıç kanıtı tarihseldir.
+
 `6d02270b2d2460767508474b2a218898d8fcf323` için GitHub çalışması https://github.com/NeoTuck/kabe_hac/actions/runs/37669070487 başarılı: format/analiz, Flutter test işi, ses QA, Android debug APK, iOS debug/no-codesign ve database. Bu commit için yerel Flutter test kanıtı 91 testtir. İmzalı iOS dağıtımı, gerçek cihaz, Maestro ve canlı Supabase kabulü değildir.
 
 ## Yedi aşama

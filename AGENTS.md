@@ -15,9 +15,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 2. Mevcut durum
 
-**Son doğrulama:** 8 Ekim 2026; `3a57540a` CI `37739530513`: 145 Flutter/39 SQL/5 QA yapılandırma kontrolü, analiz/format, teknik ses QA, Android debug/release ve iOS no-codesign/simulator derlemeleri başarılı. Üç ortamda rehber/ayarlar/kapalı hizmetler geçti. Sıkı ses duraklatma kabulü kısa kaydın native bekleme sırasında bitmesini yakaladı; mevcut sentetik demo 30 saniyeye uzatıldı, yeni mobil tekrar bekliyor. Fiziksel cihaz kabulü bekliyor.
+**Son doğrulama:** 8 Ekim 2026; kod `58708cfb`, CI `37741666923` yedi iş başarılı: 146 Flutter/39 SQL/5 QA yapılandırma kontrolü, analiz/format, teknik ses QA, Android debug/release ve iOS no-codesign/simulator derlemeleri. Dört pilot akış Android API 28, API 35 ve iOS 18.5 / iPhone 16 simulator'de geçti. JUnit/session/kurulu Android APK hash eşleşmesi ve duraklatma ekranları kontrol edildi. Fiziksel cihaz/işitsel çıktı/canlı backend/yayın kabulü değildir.
 
-**Aktif paket:** 8 Ekim kullanıcı kalite turu; sohbet/işlem/indirme/güncellik düzeltmeleri, yer/rota ayrıntıları ve Android/iOS simülatör CI hattı eklendi. Toplu CI kabulü sürüyor; dış girdiler ve fiziksel cihaz kabulü bekliyor.
+**Aktif paket:** 8 Ekim kullanıcı kalite turu teknik kabulü tamamlandı. Mevcut özellikler korunur; dış girdiler ve fiziksel cihaz kabulü bekliyor. Güncel kanıt `docs/11-kullanici-kalite-turu.md` başındadır.
 
 **Depo:** `https://github.com/NeoTuck/kabe_hac`
 
@@ -124,9 +124,11 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
-### Toplu kabulü tamamla; ardından POI/rota paketini geziye bağla
+8 Ekim son teknik kabul `58708cfb` / CI `37741666923`: yedi iş ve üç ortamda dört pilot akış geçti. Önceki bölümdeki ara run/pending kayıtları tarihsel teşhistir. Ses duraklatılma/tamamlanma UI ve tamamlanma yarışı ayrılır; 30 sn sentetik demo gerçek dinî ses değildir. JUnit/session/hash/ekran kanıtı `docs/11` başındadır.
 
-Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. Önce 8 Ekim turunun güncel CI/143 test/native/simülatör sonuçlarını gerçek kanıtla tamamla; bekleyen veya başarısız sonucu başarılı yazma. Ardından doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağla: manifest türü ve güven/hash/yol kontrolleri, tekrar/çakışan kimlikler, paket silme/güncelleme sonrası yenileme ve teknik fixture regresyonları gerekir. Gerçek lisanslı veri gelmeden sahaya hazır denmez. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota, hesap/üyelik ve kaynak/güncellik kontrollerini koru. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
+### Doğrulanmış POI/rota paketini geziye bağla
+
+Tam sürüm planı `docs/09-tam-surum-gelistirme.md` içindedir. 8 Ekim turunun 146 test/native/dört pilot akış kabulünü tekrar kurma. Sıradaki bağımsız dilim doğrulanmış çevrimdışı POI/rota paketini gezi ekranına bağlamak: manifest türü ve güven/hash/yol kontrolleri, tekrar/çakışan kimlikler, paket silme/güncelleme sonrası yenileme ve teknik fixture regresyonları gerekir. Gerçek lisanslı veri gelmeden sahaya hazır denmez. Mevcut rehber, sayaç, sohbet/özel mesaj/outbox/duyuru/program/rota, hesap/üyelik ve kaynak/güncellik kontrollerini koru. Canlı Supabase RLS/Realtime kabulü ayrı açık kalır.
 
 Mobil cihaz erişimi geldiğinde önce `docs/qa/MOBIL_TEST.md` içindeki açık cihaz seçimi ve pilot akışlarını yürütün. `prepared`, `blocked` veya `preflight_ready` sonuçlarını cihaz testi geçti saymayın. Gerçek içerik, ses hakları, harita sağlayıcısı, Supabase ve push girdileri olmadan taslakları üretime hazır göstermeyin.
 
