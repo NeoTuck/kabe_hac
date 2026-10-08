@@ -77,8 +77,23 @@ class JustAudioNarrationService extends NarrationService {
       }),
     );
     _subscriptions.add(
+      _backend.playbackChanges.listen((playing) {
+        // Lock-screen/headset commands act directly on the native player.
+        // Keep controls in sync without touching loading, completion or progress.
+        if (_state.asset == null) return;
+        if (!playing && _state.status == NarrationStatus.playing) {
+          _publish(NarrationState(NarrationStatus.paused, asset: _state.asset));
+        } else if (playing && _state.status == NarrationStatus.paused) {
+          _publish(
+            NarrationState(NarrationStatus.playing, asset: _state.asset),
+          );
+        }
+      }),
+    );
+    _subscriptions.add(
       _backend.completions.listen((_) {
-        if (_state.status == NarrationStatus.playing) {
+        if (_state.status == NarrationStatus.playing ||
+            _state.status == NarrationStatus.paused) {
           _publish(
             NarrationState(NarrationStatus.completed, asset: _state.asset),
           );

@@ -14,6 +14,7 @@ class AppStartup extends StatefulWidget {
 class _AppStartupState extends State<AppStartup> {
   Widget? _app;
   bool _failed = false;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -22,13 +23,16 @@ class _AppStartupState extends State<AppStartup> {
   }
 
   Future<void> _load() async {
-    if (!mounted) return;
+    if (!mounted || _loading) return;
+    _loading = true;
     setState(() => _failed = false);
     try {
       final app = await widget.load();
       if (mounted) setState(() => _app = app);
     } catch (_) {
       if (mounted) setState(() => _failed = true);
+    } finally {
+      _loading = false;
     }
   }
 

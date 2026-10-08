@@ -12,6 +12,7 @@ abstract class NarrationBackend {
   Stream<void> get completions;
   Stream<Duration> get positions;
   Stream<Duration?> get durations;
+  Stream<bool> get playbackChanges => const Stream<bool>.empty();
   Future<bool> activate();
   Future<void> load(String reference, File? file, String title);
   Future<void> play();
@@ -61,6 +62,8 @@ class DeviceNarrationBackend extends NarrationBackend {
   Stream<Duration> get positions => _audio.positionStream;
   @override
   Stream<Duration?> get durations => _audio.durationStream;
+  @override
+  Stream<bool> get playbackChanges => _audio.playingStream;
   @override
   Future<bool> activate() async => await _session?.setActive(true) ?? false;
   @override

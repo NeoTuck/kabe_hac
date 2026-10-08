@@ -253,6 +253,7 @@ class PushTokenCoordinator extends ChangeNotifier {
     _registeredToken = token;
     error = null;
     await _refreshSubscription?.cancel();
+    if (_disposed) return;
     _refreshSubscription = source.tokenRefreshes.listen((newToken) {
       if (_disposed || currentUserId() != userId || _registeredUser != userId)
         return;

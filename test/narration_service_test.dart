@@ -10,6 +10,7 @@ class ControlledAudio extends NarrationBackend {
   final completed = StreamController<void>.broadcast(sync: true);
   final positionEvents = StreamController<Duration>.broadcast(sync: true);
   final durationEvents = StreamController<Duration?>.broadcast(sync: true);
+  final playingEvents = StreamController<bool>.broadcast(sync: true);
   final loaded = <String>[];
   Completer<void>? gate;
   Completer<void>? pauseGate;
@@ -29,6 +30,8 @@ class ControlledAudio extends NarrationBackend {
   Stream<Duration> get positions => positionEvents.stream;
   @override
   Stream<Duration?> get durations => durationEvents.stream;
+  @override
+  Stream<bool> get playbackChanges => playingEvents.stream;
   @override
   Future<void> initialize() async {
     initializations++;
@@ -81,6 +84,7 @@ class ControlledAudio extends NarrationBackend {
     await completed.close();
     await positionEvents.close();
     await durationEvents.close();
+    await playingEvents.close();
   }
 }
 
@@ -94,6 +98,24 @@ void main() {
     service = JustAudioNarrationService(backend: backend);
   });
   tearDown(() => service.dispose());
+
+  test(
+    'native media commands update controls without reviving stopped audio',
+    () async {
+      await service.playAsset('one');
+      backend.playingEvents.add(false);
+      expect(service.state.status, NarrationStatus.paused);
+      backend.playingEvents.add(true);
+      expect(service.state.status, NarrationStatus.playing);
+      backend.playingEvents.add(false);
+      backend.completed.add(null);
+      expect(service.state.status, NarrationStatus.completed);
+      await service.stop();
+      backend.playingEvents.add(true);
+      expect(service.state.status, NarrationStatus.idle);
+      expect(service.state.asset, isNull);
+    },
+  );
 
   test('completion during a pending pause remains completed', () async {
     await service.playAsset('one');
