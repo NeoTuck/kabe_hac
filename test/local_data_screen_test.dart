@@ -22,6 +22,7 @@ class _LocalStore extends MemoryGuideStore {
 class _PushSource extends PushTokenSource {
   int deleteCount = 0;
   String? token = 'test-token';
+  final _refreshes = StreamController<String>.broadcast();
 
   @override
   Future<String?> requestToken() async => 'test-token';
@@ -30,7 +31,9 @@ class _PushSource extends PushTokenSource {
   Future<String?> currentToken() async => token;
 
   @override
-  Stream<String> get tokenRefreshes => const Stream<String>.empty();
+  Stream<String> get tokenRefreshes => _refreshes.stream;
+
+  Future<void> close() => _refreshes.close();
 
   @override
   Future<void> deleteToken() async {
@@ -56,11 +59,17 @@ Future<void> _confirmClear(WidgetTester tester) async {
   await tester.tap(find.text('Yerel kayıtları sil').first);
   await tester.pumpAndSettle();
   await tester.tap(find.text('Yerel kayıtları sil').last);
-  // Revocation and the subsequent local transaction complete on separate
-  // microtask turns after the confirmation route closes.
-  for (var i = 0; i < 10; i++) {
-    await tester.pump(const Duration(milliseconds: 1));
+  await tester.pump();
+  // Subscription cancellation runs outside the fake frame clock. Wait for the
+  // operation to finish before asserting its remote and local side effects.
+  for (var attempt = 0; attempt < 20; attempt++) {
+    await tester.runAsync(() async {
+      await Future<void>.delayed(Duration.zero);
+    });
+    await tester.pump();
+    if (find.text('Siliniyor').evaluate().isEmpty) break;
   }
+  expect(find.text('Siliniyor'), findsNothing);
   await tester.pumpAndSettle();
 }
 
@@ -76,7 +85,10 @@ void main() {
       platform: 'android',
       store: store,
     );
-    addTearDown(push.dispose);
+    addTearDown(() async {
+      push.dispose();
+      await source.close();
+    });
     await push.enable();
 
     await tester.pumpWidget(
@@ -96,14 +108,18 @@ void main() {
   testWidgets('token geri alınamazsa kayıtlar yerinde kalır', (tester) async {
     final store = _LocalStore();
     final remote = _PushRemote()..failRevoke = true;
+    final source = _PushSource();
     final push = PushTokenCoordinator(
-      source: _PushSource(),
+      source: source,
       remote: remote,
       currentUserId: () => _userId,
       platform: 'android',
       store: store,
     );
-    addTearDown(push.dispose);
+    addTearDown(() async {
+      push.dispose();
+      await source.close();
+    });
     await push.enable();
 
     await tester.pumpWidget(
@@ -146,7 +162,10 @@ void main() {
       platform: 'android',
       store: store,
     );
-    addTearDown(push.dispose);
+    addTearDown(() async {
+      push.dispose();
+      await source.close();
+    });
 
     await tester.pumpWidget(
       MaterialApp(
@@ -165,14 +184,18 @@ void main() {
   ) async {
     final store = _LocalStore();
     await store.saveAppValue('push_opt_in_user', _userId);
+    final source = _PushSource();
     final push = PushTokenCoordinator(
-      source: _PushSource(),
+      source: source,
       remote: _PushRemote(),
       currentUserId: () => '33333333-3333-4333-8333-333333333333',
       platform: 'android',
       store: store,
     );
-    addTearDown(push.dispose);
+    addTearDown(() async {
+      push.dispose();
+      await source.close();
+    });
 
     await tester.pumpWidget(
       MaterialApp(
