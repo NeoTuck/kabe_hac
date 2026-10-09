@@ -20,6 +20,9 @@ name: İsteğe bağlı Umre provası
 - assertVisible: "Hazırlık"
 - tapOn: "Provaya başla"
 - assertVisible: '(?s)(?:1 / 18 · U01\n)?Kullanım biçimi seçimi(?:\n.*)?'
+- scrollUntilVisible:
+    element: "(?s)Bu başlığı prova ettim.*"
+    direction: DOWN
 - assertVisible: "(?s)Bu başlığı prova ettim.*"
 - takeScreenshot: prova-taslak-baslik
 - scrollUntilVisible:

@@ -1,21 +1,22 @@
 appId: ${APP_ID}
-name: Rehberde onaylı ses bulunmadığında durum
+name: Rehberde sentetik taslak ses durumu
 ---
 - launchApp
-# Previous flows can leave the home list scrolled below this top card.
 - scrollUntilVisible:
-    element: "(?s)Umreye hazırlanıyorum.*"
-    direction: UP
+    element: "(?s)Umre.*18 başlık.*"
+    direction: DOWN
 - tapOn:
-    text: "(?s)Umreye hazırlanıyorum.*"
+    text: "(?s)Umre.*18 başlık.*"
     retryTapIfNoChange: true
+- assertVisible: "Umre · kullanım biçimi"
+- tapOn: "(?s)Öğrenme.*Başlıkları serbestçe incele.*"
 - assertVisible: "Umre · Öğrenme"
 - scrollUntilVisible:
     element: "Kaldığım başlığa git"
     direction: DOWN
 - tapOn: "Kaldığım başlığa git"
 - scrollUntilVisible:
-    element: "Bu başlık için onaylı ses kaydı henüz yok."
+    element: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
     direction: DOWN
-- assertVisible: "Bu başlık için onaylı ses kaydı henüz yok."
-- takeScreenshot: rehber-ses-kaydi-yok
+- assertVisible: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
+- takeScreenshot: rehber-sentetik-taslak-ses
