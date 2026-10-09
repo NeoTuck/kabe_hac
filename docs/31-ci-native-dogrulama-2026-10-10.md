@@ -25,7 +25,7 @@ PR #1 test birleştirmesi: `33f37b98974936c7b962e796bcde191ec3af0c9a`; iki commi
 
 İki Android cihazdaki kullanıcı APK SHA-256: `5fc3e772a1b517ea5bb39df7fb579e21cca0e35f7ac565dc3a536476ab8f164e`.
 Ayrı teknik ses APK SHA-256: `b86be715a2b98aa29a546e60be446f829ce04c4b6266e628913d11d0de759837`.
-Kurulu APK ile beklenen paket hash değerleri her iki platform oturumunda eşleşir.
+Kurulu APK ile beklenen paket hash değerleri Android API28 ve API35'in uygulama/ses oturumlarında eşleşir. iOS oturumlarında `installed_build_hash` ölçülmemiştir (`null`); iOS kurulu build hash kabulü iddia edilmez.
 
 ## Yayın sınırı
 
