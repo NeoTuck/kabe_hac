@@ -17,7 +17,7 @@ for select to authenticated using (
     and public.can_manage_group(group_id, auth.uid())
     and public.is_group_member(group_id, user_id)
     and status = 'active' and stopped_at is null
-    and starts_at <= now() and ends_at > now() and retention_until > now()
+    and starts_at <= clock_timestamp() and ends_at > clock_timestamp() and retention_until > clock_timestamp()
   )
 );
 drop policy location_updates_select_owner_or_manager on public.location_updates;
@@ -25,15 +25,31 @@ create policy location_updates_select_owner_or_manager on public.location_update
 for select to authenticated using (
   exists (select 1 from public.location_shares s
     where s.id = share_id and s.user_id = location_updates.user_id
-      and s.retention_until > now() and (
+      and s.retention_until > clock_timestamp() and (
         location_updates.user_id = auth.uid() or (
           public.is_group_member(s.group_id, auth.uid())
           and public.can_manage_group(s.group_id, auth.uid())
           and public.is_group_member(s.group_id, s.user_id)
           and s.status = 'active' and s.stopped_at is null
-          and s.starts_at <= now() and s.ends_at > now()
+          and s.starts_at <= clock_timestamp() and s.ends_at > clock_timestamp()
         )
       )
+  )
+);
+
+-- Match the trigger's wall-clock contract. Transaction-start now() can reject a
+-- measurement made during the same transaction, or keep expired access alive.
+drop policy location_updates_insert_active_share on public.location_updates;
+create policy location_updates_insert_active_share on public.location_updates
+for insert to authenticated with check (
+  user_id = auth.uid() and exists (
+    select 1 from public.location_shares s where s.id = share_id
+      and s.user_id = auth.uid() and public.is_group_member(s.group_id, auth.uid())
+      and s.status = 'active' and s.stopped_at is null
+      and s.starts_at <= clock_timestamp() and s.ends_at > clock_timestamp()
+      and s.retention_until > clock_timestamp()
+      and measured_at >= s.starts_at and measured_at < s.ends_at
+      and measured_at <= clock_timestamp()
   )
 );
 
@@ -50,6 +66,23 @@ end;
 $$;
 create trigger location_retention before insert on public.location_shares
   for each row execute function public.apply_location_retention();
+
+-- Opening consent must also serialize with removal. Otherwise an uncommitted
+-- new share could be missed by the removal trigger and revive on later rejoin.
+create function public.lock_location_share_member() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare active_member boolean;
+begin
+  select status = 'active' into active_member from public.group_members
+    where group_id = NEW.group_id and user_id = NEW.user_id for share;
+  if not coalesce(active_member, false) then
+    raise exception 'location membership unavailable' using errcode = '42501';
+  end if;
+  return NEW;
+end;
+$$;
+create trigger location_share_member before insert on public.location_shares
+  for each row execute function public.lock_location_share_member();
 
 -- Serialize insertion with revocation/cleanup and membership removal.
 -- Membership first everywhere prevents share/member lock inversion.
@@ -106,6 +139,7 @@ end;
 $$;
 revoke all on function public.apply_location_retention() from public, anon, authenticated;
 revoke all on function public.lock_location_consent() from public, anon, authenticated;
+revoke all on function public.lock_location_share_member() from public, anon, authenticated;
 revoke all on function public.stop_removed_member_location() from public, anon, authenticated;
 revoke all on function public.cleanup_expired_locations(integer) from public, anon, authenticated;
 grant execute on function public.cleanup_expired_locations(integer) to service_role;

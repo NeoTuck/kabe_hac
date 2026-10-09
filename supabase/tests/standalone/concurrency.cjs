@@ -73,6 +73,27 @@ async function main() {
     assert.equal((await observer.query('select status from public.location_shares where id=$1',[third])).rows[0].status,'stopped');
     ok('rejoining does not restore revoked consent');
 
+    await b.query('begin');
+    const opening = (await b.query(`insert into public.location_shares
+      (group_id,user_id,mode,ends_at,retention_until) values ($1,$2,'one_time',clock_timestamp()+interval '15 minutes',
+      clock_timestamp()+interval '1 day') returning id`, [group,user])).rows[0].id;
+    await a.query('begin');
+    const removeAfterOpening = a.query('update public.group_members set status=\'removed\' where group_id=$1 and user_id=$2',[group,user]);
+    await blocked(aPid); await b.query('commit'); await removeAfterOpening; await a.query('commit');
+    assert.equal((await observer.query('select status from public.location_shares where id=$1',[opening])).rows[0].status,'stopped');
+    ok('consent opening first: removal waits and revokes the newly committed share');
+    await observer.query('update public.group_members set status=\'active\' where group_id=$1 and user_id=$2',[group,user]);
+    await a.query('begin');
+    await a.query('update public.group_members set status=\'removed\' where group_id=$1 and user_id=$2',[group,user]);
+    await b.query('begin');
+    const openingAfterRemoval = b.query(`insert into public.location_shares
+      (group_id,user_id,mode,ends_at,retention_until) values ($1,$2,'one_time',clock_timestamp()+interval '15 minutes',
+      clock_timestamp()+interval '1 day')`,[group,user]).then(() => null,e => e);
+    await blocked(bPid); await a.query('commit');
+    assert.equal((await openingAfterRemoval)?.code,'42501'); await b.query('rollback');
+    ok('removal first: concurrent new consent is rejected');
+    await observer.query('update public.group_members set status=\'active\' where group_id=$1 and user_id=$2',[group,user]);
+
     await observer.query('insert into public.device_push_tokens(user_id,platform,token) values ($1,\'android\',\'concurrency-token\')',[user]);
     for (let i=0;i<2;i++) await observer.query(`insert into public.messages(group_id,sender_id,client_id,body)
       values ($1,$2,gen_random_uuid(),'fixture')`,[group,admin]);
