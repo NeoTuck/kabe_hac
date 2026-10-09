@@ -127,7 +127,7 @@ def main():
     parser.add_argument('--test-device', action='store_true', help='Dedicated test device; flow creates/resumes guide records')
     parser.add_argument('--dry-run', action='store_true', help='Print command only; no device checks or tests')
     parser.add_argument('--preflight', action='store_true', help='Check tools/device/app only; do not run UI tests')
-    parser.add_argument('--flow', choices=['all', 'core', '01', '02', '03', '04', '05', '06', 'audio'], default='core')
+    parser.add_argument('--flow', choices=['all', 'core', '01', '02', '03', '04', '05', '06', '07', 'audio'], default='core')
     args = parser.parse_args()
     app_id = args.app_id or IDS[args.platform]
     if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_.-]+', app_id) or args.device.startswith('-'):

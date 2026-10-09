@@ -40,6 +40,15 @@ def asset_entry(path):
     elif rel.startswith('assets/fonts/'):
         entry.update({'kind': 'font_license', 'license': 'OFL-1.1',
                       'releaseStatus': 'bundled'})
+    elif rel == 'assets/content/safety_catalog.v1.json':
+        entry.update({'kind': 'official_contact_facts',
+                      'owner': 'project original labels; cited official contact facts',
+                      'license': 'factual directory; original UI labels',
+                      'source': 'docs/qa/source-registry.v1.json',
+                      'releaseStatus': 'source_checked_not_human_reviewed'})
+    elif rel == 'assets/content/package_defaults.v1.json':
+        entry.update({'kind': 'package_trust_configuration', 'owner': 'project',
+                      'license': 'original project configuration', 'releaseStatus': 'bundled'})
     elif rel.startswith('assets/content/'):
         entry.update({'kind': 'religious_content_draft',
                       'owner': 'project original summaries',

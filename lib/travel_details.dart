@@ -28,6 +28,15 @@ class TravelPoiScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 12),
+                if (point.isSourceSnapshot)
+                  const Card.filled(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        'OpenStreetMap kaynak kaydıdır. Yerinde açık olduğunu veya güvenli ulaşımı doğrulamaz. © OpenStreetMap contributors · ODbL 1.0',
+                      ),
+                    ),
+                  ),
                 if (point.localName != null) SelectableText(point.localName!),
                 const SizedBox(height: 12),
                 const Text('Koordinatlar'),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'safety_catalog.dart';
 import 'source_details.dart';
@@ -73,7 +74,12 @@ class _SafetyScreenState extends State<SafetyScreen>
     final now = _now;
     final catalog = widget.catalog;
     final approvedContacts = catalog.contacts
-        .where((c) => c.status == SafetyReviewStatus.approved)
+        .where(
+          (c) =>
+              (c.status == SafetyReviewStatus.approved ||
+                  c.status == SafetyReviewStatus.sourceVerified) &&
+              !c.verifiedAt.isAfter(now),
+        )
         .toList();
     final approvedCards = catalog.languageCards
         .where((card) => card.isApproved)
@@ -88,7 +94,7 @@ class _SafetyScreenState extends State<SafetyScreen>
               child: Padding(
                 padding: EdgeInsets.all(18),
                 child: Text(
-                  'Numaralar, Arapça yardım ifadeleri ve saha bilgileri yalnız kaynak ve insan incelemesiyle yayınlanır. Bağlantı yokken eski veri canlı durum olarak gösterilmez.',
+                  'Numaraların resmî kaynağı ve son kontrol tarihi her kartta bulunur. Arapça yardım kartları ayrıca insan incelemesi ister. Çevrimdışı kayıtlar canlı durumu göstermez.',
                 ),
               ),
             ),
@@ -115,9 +121,41 @@ class _SafetyScreenState extends State<SafetyScreen>
                               contact.name,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            Text('${contact.region} · Onaylı kayıt'),
+                            Text(
+                              '${contact.region} · ${contact.status == SafetyReviewStatus.sourceVerified ? 'Resmî kaynaktan kontrol edildi' : 'Onaylı kayıt'}',
+                            ),
                             SelectableText(contact.phone!),
+                            if (now.difference(contact.verifiedAt).inDays > 180)
+                              const Text(
+                                'Eski kayıt: güncel numarayı kaynaktan kontrol edin.',
+                              ),
                             Text('Diller: ${contact.languages.join(', ')}'),
+                            const SizedBox(height: 8),
+                            OutlinedButton.icon(
+                              onPressed: () async {
+                                try {
+                                  final opened = await launchUrl(
+                                    Uri(scheme: 'tel', path: contact.phone!),
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                  if (!opened) {
+                                    throw StateError('dialer unavailable');
+                                  }
+                                } catch (_) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Arama ekranı açılamadı. Numarayı seçip kopyalayabilirsin.',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              icon: const Icon(Icons.phone_outlined),
+                              label: const Text('Arama ekranını aç'),
+                            ),
                           ],
                         ),
                       ),

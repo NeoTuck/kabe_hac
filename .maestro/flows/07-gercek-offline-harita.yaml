@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: Gerçek paket indirme ve yerel harita renderı
+---
+- launchApp
+- scrollUntilVisible:
+    element: "(?s)Çevrimdışı paketleri yönet.*"
+    direction: DOWN
+- tapOn: "(?s)Çevrimdışı paketleri yönet.*"
+- scrollUntilVisible:
+    element: "Mekke haritasını indir"
+    direction: DOWN
+- tapOn: "Mekke haritasını indir"
+- assertVisible: "Doğrulandı"
+- launchApp
+- tapOn: "(?s)Yolculuk.*"
+- tapOn: "Çevrimdışı haritayı aç"
+- assertVisible: "Çevrimdışı şehir haritası"
+- assertVisible: "Harita hazır · Çevrimdışı"
+- takeScreenshot: gercek-mekke-haritasi

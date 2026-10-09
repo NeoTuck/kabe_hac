@@ -161,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _open(
               TravelScreen(
                 store: widget.store,
+                packages: widget.packages,
                 catalog:
                     _travelCatalog ??
                     const TravelCatalog(
@@ -307,7 +308,11 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 8),
               TextButton.icon(
                 onPressed: () => _open(
-                  TravelScreen(store: widget.store, catalog: _travelCatalog!),
+                  TravelScreen(
+                    store: widget.store,
+                    catalog: _travelCatalog!,
+                    packages: widget.packages,
+                  ),
                 ),
                 icon: const Icon(Icons.map_outlined),
                 label: const Text('Harita, yerler ve rotalar'),

@@ -125,6 +125,7 @@ class TravelPoi {
     required this.isTestData,
     this.phone,
     this.hours,
+    this.isSourceSnapshot = false,
   });
 
   final String id;
@@ -139,6 +140,7 @@ class TravelPoi {
   final bool isTestData;
   final String? phone;
   final String? hours;
+  final bool isSourceSnapshot;
 
   factory TravelPoi.fromJson(Map<String, Object?> json) {
     final id = _requiredString(json, 'id');
@@ -148,6 +150,12 @@ class TravelPoi {
     final isTestData = json['isTestData'];
     if (isTestData is! bool) {
       throw const TravelCatalogFormatException('isTestData belirtilmeli.');
+    }
+    final isSourceSnapshot = json['isSourceSnapshot'] ?? false;
+    if (isSourceSnapshot is! bool) {
+      throw const TravelCatalogFormatException(
+        'Kaynak kaydı işareti geçersiz.',
+      );
     }
     return TravelPoi(
       id: id,
@@ -168,6 +176,7 @@ class TravelPoi {
       sourceUri: _httpsUri(json, 'sourceUrl'),
       verifiedAt: _dateTime(json, 'verifiedAt'),
       isTestData: isTestData,
+      isSourceSnapshot: isSourceSnapshot,
       phone: _optionalString(json, 'phone'),
       hours: _optionalString(json, 'hours'),
     );

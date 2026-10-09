@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'offline_package.dart';
 import 'package_catalog.dart';
 
+String _packageTitle(String id) => switch (id) {
+  'map-mecca' => 'Mekke çevrimdışı haritası',
+  'map-medina' => 'Medine çevrimdışı haritası',
+  'travel-pilgrim-snapshot' => 'Mekke ve Medine yerleri',
+  _ => id,
+};
+
 class OfflinePackagesScreen extends StatefulWidget {
   const OfflinePackagesScreen({
     super.key,
@@ -143,7 +150,10 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(state.packageId, style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            _packageTitle(state.packageId),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           Text(
             'Etkin sürüm: ${state.activeVersion}${state.previousVersion == null ? '' : '\nGeri dönüş: ${state.previousVersion}'}',
           ),
@@ -201,7 +211,7 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              manifest.packageId,
+              _packageTitle(manifest.packageId),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
@@ -215,7 +225,16 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
                 onPressed: installed || _busyPackageId != null || _loading
                     ? null
                     : () => _download(manifest),
-                child: Text(installed ? 'Doğrulandı' : 'İndir'),
+                child: Text(
+                  installed
+                      ? 'Doğrulandı'
+                      : switch (manifest.packageId) {
+                          'map-mecca' => 'Mekke haritasını indir',
+                          'map-medina' => 'Medine haritasını indir',
+                          'travel-pilgrim-snapshot' => 'Yer kayıtlarını indir',
+                          _ => 'İndir',
+                        },
+                ),
               ),
           ],
         ),

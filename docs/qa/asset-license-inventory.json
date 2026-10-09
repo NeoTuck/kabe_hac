@@ -70,6 +70,25 @@
       "releaseStatus": "draft_guarded"
     },
     {
+      "path": "assets/content/package_defaults.v1.json",
+      "sha256": "386ea99e1238a89f702c1f06310f28f9346a41b23eb5b1a8772ed6287afa178c",
+      "bytes": 467,
+      "kind": "package_trust_configuration",
+      "owner": "project",
+      "license": "original project configuration",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "assets/content/safety_catalog.v1.json",
+      "sha256": "e11889886f8ee8654b159e7ae2fadc362a23554c94f624c9edd7ab58eb08197e",
+      "bytes": 2864,
+      "kind": "official_contact_facts",
+      "owner": "project original labels; cited official contact facts",
+      "license": "factual directory; original UI labels",
+      "source": "docs/qa/source-registry.v1.json",
+      "releaseStatus": "source_checked_not_human_reviewed"
+    },
+    {
       "path": "assets/content/umre_inventory.v1.json",
       "sha256": "8c7b73dfe25eaf0ef2ac5cf14163fdec1d8df3c758a43c13fd9b6e4221ddcdce",
       "bytes": 19450,
@@ -2017,7 +2036,7 @@
     {
       "name": "url_launcher",
       "version": "6.3.3",
-      "dependency": "transitive",
+      "dependency": "direct main",
       "source": "hosted",
       "licenseUrl": "https://pub.dev/packages/url_launcher/versions/6.3.3/license",
       "licenseFiles": [

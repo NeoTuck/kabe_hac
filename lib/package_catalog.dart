@@ -24,6 +24,25 @@ class OfflinePackageRuntimeConfig {
   final Set<String> allowedHosts;
   final Set<String> trustedManifestDigests;
 
+  factory OfflinePackageRuntimeConfig.fromJson(Map<String, Object?> json) {
+    final catalog = json['catalogUrl'];
+    final hosts = json['allowedHosts'];
+    final digests = json['trustedManifestDigests'];
+    if (json['schemaVersion'] != 1 ||
+        catalog is! String ||
+        hosts is! List ||
+        digests is! List ||
+        hosts.any((v) => v is! String) ||
+        digests.any((v) => v is! String)) {
+      throw const PackageCatalogException('Paket varsayılanları geçersiz.');
+    }
+    return _parse(
+      catalog,
+      hosts.cast<String>().join(','),
+      digests.cast<String>().join(','),
+    );
+  }
+
   static OfflinePackageRuntimeConfig? fromCompileTime() {
     const rawCatalog = String.fromEnvironment('PACKAGE_CATALOG_URL');
     const rawHosts = String.fromEnvironment('PACKAGE_ALLOWED_HOSTS');
@@ -31,6 +50,14 @@ class OfflinePackageRuntimeConfig {
     if (rawCatalog.isEmpty && rawHosts.isEmpty && rawDigests.isEmpty) {
       return null;
     }
+    return _parse(rawCatalog, rawHosts, rawDigests);
+  }
+
+  static OfflinePackageRuntimeConfig _parse(
+    String rawCatalog,
+    String rawHosts,
+    String rawDigests,
+  ) {
     final catalogUri = Uri.tryParse(rawCatalog);
     final hosts = rawHosts
         .split(',')

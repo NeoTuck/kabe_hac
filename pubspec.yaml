@@ -48,6 +48,7 @@ dependencies:
   geolocator: 14.1.1
   firebase_core: 4.15.0
   firebase_messaging: 16.7.0
+  url_launcher: 6.3.3
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,8 @@ flutter:
     - assets/fonts/NotoNaskhArabic-OFL.txt
     - assets/content/umre_inventory.v1.json
     - assets/content/hac_inventory.v1.json
+    - assets/content/safety_catalog.v1.json
+    - assets/content/package_defaults.v1.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

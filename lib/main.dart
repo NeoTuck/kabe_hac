@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ import 'progress_store.dart';
 import 'push_service.dart';
 import 'reader_settings.dart';
 import 'safety_catalog.dart';
+import 'safety_repository.dart';
 import 'selection_screens.dart';
 import 'travel_catalog.dart';
 import 'travel_repository.dart';
@@ -52,7 +54,17 @@ Future<Widget> _loadApplication() async {
     OfflinePackageRuntimeConfig? packageConfig;
     String? packageConfigurationError;
     try {
-      packageConfig = OfflinePackageRuntimeConfig.fromCompileTime();
+      packageConfig =
+          OfflinePackageRuntimeConfig.fromCompileTime() ??
+          OfflinePackageRuntimeConfig.fromJson(
+            Map<String, Object?>.from(
+              jsonDecode(
+                await rootBundle.loadString(
+                  'assets/content/package_defaults.v1.json',
+                ),
+              ) as Map,
+            ),
+          );
     } on PackageCatalogException catch (error) {
       packageConfigurationError = error.message;
     }
@@ -79,9 +91,11 @@ Future<Widget> _loadApplication() async {
       catalogsFuture,
       travelFuture,
       settings.load().then((_) => true),
+      const LocalSafetyRepository().load(),
     ]);
     final catalogs = local[0] as Map<GuideType, GuideCatalog>;
     final travelCatalog = local[1] as TravelCatalog;
+    final safetyCatalog = local[3] as SafetyCatalog;
     final packageProvider = packageConfig == null
         ? null
         : ConfiguredOfflinePackageProvider(
@@ -116,12 +130,7 @@ Future<Widget> _loadApplication() async {
         packageProvider: packageProvider,
         packageConfigurationError: packageConfigurationError,
         travelCatalog: travelCatalog,
-        safetyCatalog: const SafetyCatalog(
-          dataVersion: 'not-configured',
-          contacts: [],
-          languageCards: [],
-          fieldInformation: [],
-        ),
+        safetyCatalog: safetyCatalog,
       ),
     );
   } catch (_) {

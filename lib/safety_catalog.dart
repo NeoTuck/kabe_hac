@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-enum SafetyReviewStatus { draft, pendingReview, approved }
+enum SafetyReviewStatus { draft, pendingReview, approved, sourceVerified }
 
 enum ContactKind { groupLeader, company, consulate, police, emergency, health }
 
@@ -117,9 +117,26 @@ class SafetyContact {
       'inceleme durumu',
     );
     final phone = _optionalString(json, 'phone');
-    if (status == SafetyReviewStatus.approved && phone == null) {
+    if ((status == SafetyReviewStatus.approved ||
+            status == SafetyReviewStatus.sourceVerified) &&
+        phone == null) {
       throw const SafetyCatalogFormatException(
         'Onaylı iletişim kaydı doğrulanmış numara ister.',
+      );
+    }
+    final sourceUri = _httpsUri(json, 'sourceUrl');
+    final verifiedAt = _utcDateTime(json, 'verifiedAt');
+    if (status == SafetyReviewStatus.sourceVerified &&
+        (!const {
+              'cidde-bk.mfa.gov.tr',
+              'www.moh.gov.sa',
+              'www.spa.gov.sa',
+              'my.gov.sa',
+            }.contains(sourceUri.host) ||
+            !RegExp(r'^\+?[0-9]{3,15}$').hasMatch(phone!) ||
+            verifiedAt.isAfter(DateTime.now().toUtc()))) {
+      throw const SafetyCatalogFormatException(
+        'Kaynak kontrolü resmî bağlantı, numara ve geçmiş kontrol tarihi ister.',
       );
     }
     return SafetyContact(
@@ -134,8 +151,8 @@ class SafetyContact {
       phone: phone,
       languages: List.unmodifiable(languages),
       sourceTitle: _requiredString(json, 'sourceTitle'),
-      sourceUri: _httpsUri(json, 'sourceUrl'),
-      verifiedAt: _utcDateTime(json, 'verifiedAt'),
+      sourceUri: sourceUri,
+      verifiedAt: verifiedAt,
       status: status,
     );
   }
@@ -176,6 +193,11 @@ class LanguageCard {
       _requiredString(json, 'status'),
       'inceleme durumu',
     );
+    if (status == SafetyReviewStatus.sourceVerified) {
+      throw const SafetyCatalogFormatException(
+        'Kaynak kontrolü dil kartının insan incelemesi yerine geçmez.',
+      );
+    }
     final sourceTitle = _optionalString(json, 'sourceTitle');
     final sourceUrl = _optionalString(json, 'sourceUrl');
     final reviewedBy = _optionalString(json, 'reviewedBy');
