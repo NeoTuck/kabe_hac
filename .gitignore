@@ -55,3 +55,5 @@ app.*.map.json
 *.jks
 *.keystore
 /release-inputs/
+supabase/functions/.env*
+!supabase/functions/.env.example

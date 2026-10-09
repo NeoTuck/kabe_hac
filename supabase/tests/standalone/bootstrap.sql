@@ -1,6 +1,8 @@
 -- Disposable PGlite-only fixture. Does not reproduce Supabase Auth/Realtime services.
 create role authenticated nologin;
 create role anon nologin;
+create role service_role nologin bypassrls;
+grant usage on schema public to service_role;
 grant usage on schema public to anon;
 create schema auth;
 create schema realtime;

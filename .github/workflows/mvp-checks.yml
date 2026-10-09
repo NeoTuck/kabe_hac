@@ -17,6 +17,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -r tools/qa-requirements.txt
+      - name: Recording integrity decoder
+        run: |
+          timeout 180s sudo apt-get -o Acquire::Retries=2 update
+          timeout 600s sudo apt-get -o Acquire::Retries=2 install --no-install-recommends -y ffmpeg
       - run: python tools/verify_mobile_qa.py
       - run: python -m unittest discover -s tools -p 'test_*.py' -v
       - run: python tools/content_audit.py
@@ -105,7 +109,20 @@ jobs:
         with:
           node-version: '22'
       - run: sudo apt-get update && sudo apt-get install -y postgresql-16-pgtap ripgrep
-      - run: npm install --prefix /tmp/kabe-pglite @electric-sql/pglite@0.5.8
+      - run: npm install --prefix /tmp/kabe-pglite @electric-sql/pglite@0.5.8 pg@8.16.3
+      - run: node --test supabase/functions/group-push/core.test.mjs
+      - run: node supabase/tests/standalone/server.cjs
+        env:
+          NODE_PATH: /tmp/kabe-pglite/node_modules
+      - name: Real PostgreSQL concurrent cancellation and queue leases
+        run: |
+          sudo service postgresql start
+          sudo -u postgres createdb kabe_concurrency
+          sudo -u postgres env GITHUB_ACTIONS=true NODE_PATH=/tmp/kabe-pglite/node_modules node supabase/tests/standalone/concurrency.cjs
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.5.6
+      - run: deno check supabase/functions/group-push/index.ts supabase/functions/location-cleanup/index.ts
       - run: |
           export PGTAP_SQL="$(rg --files /usr/share/postgresql/16/extension | rg '/pgtap--[0-9.]+\.sql$' | sort -V | tail -1)"
           node supabase/tests/standalone/run.cjs
