@@ -76,19 +76,30 @@ def verify(catalog, receipt, directory):
         count = 0
         energy = 0.0
         peak = 0.0
+        boundary_samples = 2205  # First and last 100 ms of the 22.05 kHz decode.
+        first, last = [], []
         while block := pcm.read(65536):
             samples = array.array('f', block)
             if any(not math.isfinite(s) for s in samples):
                 raise ValueError('Invalid decoded PCM')
+            if len(first) < boundary_samples:
+                first.extend(samples[:boundary_samples - len(first)])
+            last = (last + list(samples))[-boundary_samples:]
             count += len(samples)
             energy += sum(s * s for s in samples)
             peak = max(peak, max((abs(s) for s in samples), default=0))
         rms = math.sqrt(energy / count) if count else 0
         if peak >= 0.999 or rms < 0.0001:
             raise ValueError('Clipping or silence detected')
+        boundary_peak = max((abs(s) for s in first + last), default=0)
+        boundary_quiet = boundary_peak <= 10 ** (-30 / 20)
+        if receipt.get('boundarySilenceRequired') is True and not boundary_quiet:
+            raise ValueError('Recording reaches first or last 100 ms; possible cut word')
     return {'audioId': receipt['audioId'], 'textId': receipt['textId'], 'textVersion': receipt['textVersion'],
             'sha256': receipt['sha256'], 'durationSeconds': duration, 'codec': 'aac',
             'peakDbFS': 20 * math.log10(peak), 'rmsDbFS': 20 * math.log10(rms),
+            'boundaryPeakDbFS': 20 * math.log10(max(boundary_peak, 1e-6)),
+            'boundaryQuiet': boundary_quiet,
             'declaredOrigin': receipt['declaredOrigin'], 'technicalIntegrity': 'passed',
             'humanVoiceVerified': False, 'rightsVerified': False,
             'listeningReview': 'required: pronunciation, missing words, clipped start/end and device playback'}

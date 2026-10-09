@@ -1,7 +1,11 @@
 import hashlib
+import math
 import pathlib
+import struct
+import subprocess
 import tempfile
 import unittest
+import wave
 
 from verify_recording import binding, verify
 
@@ -51,3 +55,23 @@ class RecordingTests(unittest.TestCase):
         with self.assertRaises(subprocess.SubprocessError):
             verify(self.catalog, {**self.receipt, 'sha256': hashlib.sha256(data).hexdigest(),
                                   'sizeBytes': len(data)}, self.root)
+
+    def test_boundary_padding_is_checked_when_declared(self):
+        wav = self.root / 'padded.wav'
+        with wave.open(str(wav), 'wb') as output:
+            output.setnchannels(1)
+            output.setsampwidth(2)
+            output.setframerate(22050)
+            samples = [0] * 5513 + [int(6000 * math.sin(i * 2 * math.pi * 440 / 22050))
+                                    for i in range(22050)] + [0] * 5513
+            output.writeframes(b''.join(struct.pack('<h', value) for value in samples))
+        encoded = self.root / 'padded.m4a'
+        subprocess.run(['ffmpeg', '-nostdin', '-v', 'error', '-i', str(wav),
+                        '-c:a', 'aac', str(encoded)], check=True)
+        data = encoded.read_bytes()
+        receipt = {**self.receipt, 'file': encoded.name, 'sha256': hashlib.sha256(data).hexdigest(),
+                   'sizeBytes': len(data), 'durationSeconds': 1.5,
+                   'boundarySilenceRequired': True}
+        self.assertTrue(verify(self.catalog, receipt, self.root)['boundaryQuiet'])
+        with self.assertRaises(ValueError):
+            verify(self.catalog, {**self.receipt, 'boundarySilenceRequired': True}, self.root)

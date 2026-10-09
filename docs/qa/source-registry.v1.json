@@ -43,6 +43,30 @@
       "limits": "Accessible recording is not an offline redistribution grant."
     },
     {
+      "id": "A04",
+      "kind": "local-tts-engine",
+      "url": "https://github.com/canberk7/ema-lightning/blob/main/LICENSE",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "Apache-2.0",
+      "limits": "EMA Lightning 1.0.4 is used only on the preparation machine; engine code is not bundled with the app."
+    },
+    {
+      "id": "A05",
+      "kind": "local-tts-weights",
+      "url": "https://huggingface.co/canberkkkkkk/ema-lightning/blob/7a6ba1ad216bb2f1da9863f80ac8770a6a807632/README.md",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "Apache-2.0-author-declaration; training-corpus-chain-unverified",
+      "limits": "The card explicitly includes commercial use of weights and code but describes an internal single-speaker corpus without a separate corpus license/consent chain. Draft listening copies remain outside app and Git until this, text and pronunciation are reviewed."
+    },
+    {
+      "id": "A06",
+      "kind": "tts-text-normalizer",
+      "url": "https://github.com/erdemtuna/normalizer-tr/blob/main/LICENSE",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "Apache-2.0",
+      "limits": "normalizer-tr 0.4.0 runs only during preparation; special religious terms still need listening review."
+    },
+    {
       "id": "M01",
       "kind": "map-poi-data",
       "url": "https://download.geofabrik.de/asia/gcc-states.html",
@@ -113,8 +137,28 @@
       "checkedAt": "2026-10-09",
       "rightsStatus": "CC-BY-NC-SA-4.0",
       "limits": "Not selected for commercial distribution."
+    },
+    {
+      "id": "R03",
+      "kind": "rejected-tts-model",
+      "url": "https://huggingface.co/facebook/mms-tts-tur",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "CC-BY-NC-4.0",
+      "limits": "Non-commercial model license excludes the requested commercial/offline distribution path."
     }
   ],
+  "localDraftTts": {
+    "engine": "ema-lightning==1.0.4",
+    "normalizer": "normalizer-tr==0.4.0",
+    "modelRevision": "7a6ba1ad216bb2f1da9863f80ac8770a6a807632",
+    "modelSha256": {
+      "config.json": "27546c470dd4e86d9ab8172fd1c85c45a4bffdf52d9ccb3f511c4b0c3ae38241",
+      "ema.pt": "95aec03dafbe0e1d69bca774ab597c779464729a14bc99bfcb52480090c7dfe6",
+      "decoder.pt": "9595819b173f411340f63d11332695121a97f8bf1f6d8b6fef0b21cf99c7ad67",
+      "README.md": "d079e6aef3524a61873cc14cbd8eaed206d3dcc465b35a8d629d141e53905d80"
+    },
+    "distributionStatus": "review-only-outside-app-and-git"
+  },
   "diyanetRecordings": [
     {
       "url": "https://hacumreegitim.hac.gov.tr/uploads/materials/mat_69c24151a04fa.mp3",

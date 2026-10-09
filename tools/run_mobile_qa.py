@@ -137,7 +137,7 @@ def prepare_ios_driver(device, output):
     """Warm XCTest separately from measured flows; never retry UI assertions."""
     with (output / 'driver-preflight.log').open('w') as log:
         result = subprocess.run(['maestro', '--device', device, 'hierarchy'],
-                                stdout=log, stderr=subprocess.STDOUT, timeout=240)
+                                stdout=log, stderr=subprocess.STDOUT, timeout=360)
     if result.returncode != 0:
         raise RuntimeError('iOS driver preparation failed; UI flows were not started')
 

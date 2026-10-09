@@ -109,7 +109,7 @@ jobs:
           echo '/tmp/maestro-cli/maestro/bin' >> "$GITHUB_PATH"
       - run: python3 tools/run_ci_ios_qa.py
         env:
-          MAESTRO_DRIVER_STARTUP_TIMEOUT: '180000'
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: '300000'
       - name: Preserve simulator evidence
         if: always()
         uses: actions/upload-artifact@v4
