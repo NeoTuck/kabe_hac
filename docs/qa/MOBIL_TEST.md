@@ -1,10 +1,10 @@
 # Mobil testleri çalıştırma
 
-9 Ekim sunucu dilimi için son kaynak kod, CI ve artifact kapsamı `../20-sunucu-bildirim-ve-konum-isleri.md` içinde tutulur. SQL/PGlite, gerçek PostgreSQL kilit testi ve Edge işleyici testi canlı Supabase/FCM/APNs veya mobil uçtan uca kabul değildir. Gerçek push testi hem `PUSH_TEST_USER_IDS` hem `PUSH_TEST_TOKEN_IDS` allowlist'iyle, açık seçilmiş test hesap ve cihazlarında yapılır. Son uygulama CI'ının native sonucu aynı belgede ayrı kaydedilir; önceki kabulü yeni SHA'ya taşımayın.
+9 Ekim sunucu diliminin kod, CI ve artifact kapsamı `../20-sunucu-bildirim-ve-konum-isleri.md` içindedir; en yeni uygulama kodunun native CI kabulü `../21-yayin-hazirligi-dilimi.md` içindedir. SQL/PGlite, gerçek PostgreSQL kilit testi ve Edge işleyici testi canlı Supabase/FCM/APNs veya mobil uçtan uca kabul değildir. Gerçek push testi hem `PUSH_TEST_USER_IDS` hem `PUSH_TEST_TOKEN_IDS` allowlist'iyle, açık seçilmiş test hesap ve cihazlarında yapılır. Önceki kabulü yeni SHA'ya taşımayın.
 
-Güncel `--flow all` paketi beş uygulama akışıdır: Umre girişleri, ayarlar, onaylı ses yok durumu, yapılandırılmamış servisler ve isteğe bağlı prova. Bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
+Güncel `--flow all` paketi altı uygulama akışıdır: Umre girişleri, ayarlar, onaylı ses yok durumu, yapılandırılmamış servisler, isteğe bağlı prova ve lisans/kaynak metni. Bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
 
-İsteğe bağlı prova artık `.maestro/flows/05-prova.yaml` ile ana beşli matrise dahildir. Eski `.maestro/practice-flow.yaml` tarihsel tek akış olarak korunur. Prova başlatma, duraklatma ve yeniden açıp devam test edilir; taslak dinî metin/sayaç ve gerçek ses kabulü değildir.
+İsteğe bağlı prova `.maestro/flows/05-prova.yaml` ile ana matrise dahildir. Eski `.maestro/practice-flow.yaml` tarihsel tek akış olarak korunur. Prova başlatma, duraklatma ve yeniden açıp devam test edilir; taslak dinî metin/sayaç ve gerçek ses kabulü değildir. `.maestro/flows/06-lisans-kaynak.yaml` font lisansının uygulama içinden açılmasını kontrol eder; tüm üçüncü taraf ve gelecekte indirilen paket haklarının hukuki kabulü değildir.
 
 ## Ayrı native ses paketi
 
@@ -35,7 +35,7 @@ python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-
 python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device
 # iOS Simulator; gerçek açılmış simülatör UUID'sini kullanın:
 python3 tools/run_mobile_qa.py --platform ios-simulator --device SIMULATOR_UUID --test-device
-# Beş uygulama akışı (isteğe bağlı prova dahil):
+# Altı uygulama akışı (isteğe bağlı prova ve lisans dahil):
 python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow all
 ```
 
