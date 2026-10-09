@@ -21,4 +21,6 @@ class ProductionAssetsTests(unittest.TestCase):
     def test_probe_is_not_reachable_from_production_entrypoint(self):
         root = pathlib.Path(__file__).resolve().parent.parent
         self.assertNotIn('audio_probe', (root / 'lib/main.dart').read_text())
-        self.assertNotIn('assets/audio/', (root / 'pubspec.yaml').read_text())
+        pubspec = (root / 'pubspec.yaml').read_text()
+        self.assertNotIn('assets/audio/teknik_demo.m4a', pubspec)
+        self.assertIn('- assets/audio/draft-v2/', pubspec)

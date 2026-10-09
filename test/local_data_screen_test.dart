@@ -56,6 +56,11 @@ Future<void> _confirmClear(WidgetTester tester) async {
   await tester.tap(find.text('Yerel kayıtları sil').first);
   await tester.pumpAndSettle();
   await tester.tap(find.text('Yerel kayıtları sil').last);
+  // Revocation and the subsequent local transaction complete on separate
+  // microtask turns after the confirmation route closes.
+  for (var i = 0; i < 10; i++) {
+    await tester.pump(const Duration(milliseconds: 1));
+  }
   await tester.pumpAndSettle();
 }
 
