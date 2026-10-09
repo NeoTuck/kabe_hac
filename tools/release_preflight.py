@@ -12,7 +12,8 @@ EVIDENCE = ('religious_expert_review', 'human_audio_rights', 'offline_map_licens
             'verified_travel_safety_language_data', 'live_supabase_acceptance',
             'push_location_acceptance', 'physical_android_acceptance',
             'physical_iphone_acceptance', 'ios_distribution_signing',
-            'privacy_store_declarations', 'signed_android_artifact')
+            'privacy_store_declarations', 'chat_safety_acceptance',
+            'account_deletion_acceptance', 'signed_android_artifact')
 
 
 def audit_catalog(data):

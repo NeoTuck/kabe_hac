@@ -155,6 +155,9 @@ class AudioRecord {
     this.textId,
     this.textVersion,
     this.asset,
+    this.assetSha256,
+    this.origin,
+    this.reviewOnly = false,
     this.recordingOwner,
     this.rights,
     this.reviewedBy,
@@ -167,6 +170,9 @@ class AudioRecord {
   final String? textId;
   final String? textVersion;
   final String? asset;
+  final String? assetSha256;
+  final String? origin;
+  final bool reviewOnly;
   final String? recordingOwner;
   final String? rights;
   final String? reviewedBy;
@@ -188,6 +194,9 @@ class AudioRecord {
       textId: _optionalString(json, 'textId'),
       textVersion: _optionalString(json, 'textVersion'),
       asset: _optionalString(json, 'asset'),
+      assetSha256: _optionalString(json, 'assetSha256'),
+      origin: _optionalString(json, 'origin'),
+      reviewOnly: json['reviewOnly'] == true,
       recordingOwner: _optionalString(json, 'recordingOwner'),
       rights: _optionalString(json, 'rights'),
       reviewedBy: _optionalString(json, 'reviewedBy'),
@@ -195,6 +204,16 @@ class AudioRecord {
     );
     if ((record.textId == null) != (record.textVersion == null)) {
       throw FormatException('Ses ${record.id} için metin bağlantısı eksik.');
+    }
+    if (json['reviewOnly'] != null && json['reviewOnly'] is! bool) {
+      throw FormatException('Ses ${record.id} inceleme bayrağı geçersiz.');
+    }
+    if (record.assetSha256 != null &&
+        !RegExp(r'^[a-f0-9]{64}$').hasMatch(record.assetSha256!)) {
+      throw FormatException('Ses ${record.id} hash değeri geçersiz.');
+    }
+    if (record.reviewOnly && record.status == ReviewStatus.approved) {
+      throw FormatException('Ses ${record.id} hem taslak hem onaylı olamaz.');
     }
     if (record.reviewedAt != null &&
         (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(record.reviewedAt!) ||
@@ -217,6 +236,13 @@ class AudioRecord {
     }
     return record;
   }
+
+  bool get isSyntheticDraftPreview =>
+      status == ReviewStatus.draft &&
+      reviewOnly &&
+      origin == 'synthetic' &&
+      asset != null &&
+      assetSha256 != null;
 }
 
 class PrayerRecord {

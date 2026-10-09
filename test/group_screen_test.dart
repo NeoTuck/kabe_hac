@@ -10,6 +10,7 @@ class LoginRepository extends UnconfiguredGroupRepository {
   String? uid;
   String? requestedEmail;
   bool denied = false;
+  bool deletionRequested = false;
   @override
   bool get configured => true;
   @override
@@ -28,6 +29,14 @@ class LoginRepository extends UnconfiguredGroupRepository {
 
   @override
   Future<List<GroupRecord>> groups() async => [];
+
+  @override
+  Future<bool> accountDeletionRequested() async => deletionRequested;
+
+  @override
+  Future<void> requestAccountDeletion() async {
+    deletionRequested = true;
+  }
 }
 
 void main() {
@@ -96,4 +105,36 @@ void main() {
       repo.dispose();
     },
   );
+
+  testWidgets('account deletion request needs confirmation and shows receipt', (
+    tester,
+  ) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(390, 844);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final repo = LoginRepository()..uid = 'account';
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: RehberTheme.build(Brightness.light),
+        home: GroupScreen(repository: repo, store: MemoryGuideStore()),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Hesap silme isteği gönder'),
+      180,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('Hesap silme isteği gönder'));
+    await tester.pumpAndSettle();
+    expect(repo.deletionRequested, isFalse);
+    expect(find.textContaining('hesabını hemen silmez'), findsOneWidget);
+    await tester.tap(find.text('İsteği gönder'));
+    await tester.pumpAndSettle();
+    expect(repo.deletionRequested, isTrue);
+    expect(find.text('Hesap silme isteği alındı'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+    repo.dispose();
+  });
 }

@@ -50,7 +50,10 @@ void main() {
     narration.finish();
     await tester.pump();
     expect(await store.readMarkedStepIds(session.id), isEmpty);
-    await tester.ensureVisible(find.text('Kişisel ilerleme olarak işaretle'));
+    await tester.scrollUntilVisible(
+      find.text('Kişisel ilerleme olarak işaretle'),
+      250,
+    );
     await tester.tap(find.text('Kişisel ilerleme olarak işaretle'));
     await tester.pumpAndSettle();
     expect(await store.readMarkedStepIds(session.id), {'U01.1'});
@@ -116,10 +119,12 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('İçerik durumu: Taslak'), findsWidgets);
     expect(find.textContaining('onaylı içerik değildir'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.textContaining('Aşağıdaki Türkçe anlam sesi sentetik taslaktır.'),
+      300,
+    );
     expect(
-      find.text(
-        'Arapça metin, okunuş ve Türkçe anlam uzman incelemesi tamamlanınca gösterilir.',
-      ),
+      find.textContaining('Aşağıdaki Türkçe anlam sesi sentetik taslaktır.'),
       findsOneWidget,
     );
     expect(
@@ -127,14 +132,12 @@ void main() {
       findsOneWidget,
     );
     await tester.scrollUntilVisible(
-      find.textContaining('Türkçe anlatım: Taslak'),
+      find.text('Türkçe anlatım · sentetik taslak'),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(
-      find.text('Türkçe anlatım: Taslak. Ses dosyası henüz sağlanmadı.'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('kullanım hakkı incelemesi'), findsWidgets);
+    expect(find.text('Anlatımı dinle'), findsNWidgets(2));
   });
 
   testWidgets('taslak dua metni onay gelmeden gösterilmez', (tester) async {
@@ -162,6 +165,10 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.textContaining('Bu dua hazırlama kaydıdır'),
+      300,
+    );
     expect(find.textContaining('Bu dua hazırlama kaydıdır'), findsOneWidget);
     expect(find.text(prayer.arabic!), findsNothing);
     expect(find.text(prayer.transliteration!), findsNothing);
@@ -201,6 +208,8 @@ void main() {
         'reviewedBy': 'Test inceleyicisi',
         'reviewedAt': '2026-10-05',
       });
+      // The synthetic review files remain draft even in this approved-text fixture.
+      // A future approved recording requires a separate rights and review record.
       final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
       final store = MemoryGuideStore();
       final narration = FakeNarration();
@@ -229,12 +238,12 @@ void main() {
       expect(find.text('Test anlamı'), findsOneWidget);
       expect(find.text('Kaynak: Dua test kaynağı · Sayfa 10'), findsOneWidget);
       await tester.scrollUntilVisible(
-        find.textContaining('Türkçe anlam: Taslak'),
+        find.text('Türkçe anlam · sentetik taslak'),
         300,
         scrollable: find.byType(Scrollable).first,
       );
       expect(find.textContaining('Arapça okuma: Taslak'), findsOneWidget);
-      expect(find.textContaining('Türkçe anlam: Taslak'), findsOneWidget);
+      expect(find.textContaining('Türkçe anlam: Taslak'), findsNothing);
       final rtl = tester.widget<Directionality>(
         find
             .ancestor(

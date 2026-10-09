@@ -72,7 +72,7 @@ void main() {
     );
     await tester.tap(find.text('Aç'));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Sonraki başlık'));
+    await tester.scrollUntilVisible(find.text('Sonraki başlık'), 250);
     await tester.pumpAndSettle();
   }
 
@@ -109,13 +109,27 @@ void main() {
     final audio = DelayedStop()..fail = true;
     final observer = PopObserver();
     await open(tester, store, audio, observer);
-    await tester.tap(find.text('Sonraki başlık'));
+    tester
+        .widget<FilledButton>(
+          find.ancestor(
+            of: find.text('Sonraki başlık'),
+            matching: find.byType(FilledButton),
+          ),
+        )
+        .onPressed!();
     audio.gate.complete();
     await tester.pumpAndSettle();
     expect(observer.pops, 0);
     expect(find.textContaining('Başlık değiştirilemedi'), findsOneWidget);
     audio.fail = false;
-    await tester.tap(find.text('Sonraki başlık'));
+    tester
+        .widget<FilledButton>(
+          find.ancestor(
+            of: find.text('Sonraki başlık'),
+            matching: find.byType(FilledButton),
+          ),
+        )
+        .onPressed!();
     await tester.pumpAndSettle();
     expect(observer.pops, 1);
     await tester.pumpWidget(const SizedBox.shrink());

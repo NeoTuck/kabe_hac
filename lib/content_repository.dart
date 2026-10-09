@@ -68,6 +68,16 @@ class LocalContentRepository {
             for (final audio in json['audioRecords'] as List) {
               final asset = audio['asset'];
               if (asset == null) continue;
+              final bundled = base.audioRecords[audio['id']];
+              if (asset == bundled?.asset &&
+                  bundled?.isSyntheticDraftPreview == true &&
+                  audio['assetSha256'] == bundled?.assetSha256 &&
+                  audio['origin'] == 'synthetic' &&
+                  audio['reviewOnly'] == true &&
+                  audio['status'] == 'draft') {
+                // The immutable review asset is already in the signed app.
+                continue;
+              }
               if (asset is! String ||
                   !asset.startsWith('audio/') ||
                   await manager.resolveActiveFile(

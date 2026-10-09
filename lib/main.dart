@@ -31,6 +31,7 @@ import 'reader_settings.dart';
 import 'safety_catalog.dart';
 import 'safety_repository.dart';
 import 'selection_screens.dart';
+import 'service_readiness.dart';
 import 'travel_catalog.dart';
 import 'travel_repository.dart';
 
@@ -159,7 +160,7 @@ Future<OnlineServices> _loadOnlineServices(
   GroupRepository groups = UnconfiguredGroupRepository();
   try {
     final config = GroupRuntimeConfig.fromCompileTime();
-    if (config != null) {
+    if (config != null && ServiceReadiness.liveServiceAccepted) {
       await Supabase.initialize(
         url: config.url,
         publishableKey: config.publishableKey,

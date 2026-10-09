@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "inventory-2026-10-09-draft1",
+  "contentVersion": "inventory-2026-10-09-draft2-audio",
   "guideType": "umrah",
   "audioRecords": [
     {
@@ -8,7 +8,11 @@
       "status": "draft",
       "kind": "turkishNarration",
       "textId": "U02.2",
-      "textVersion": "U02.2-draft-2026-10-09-v1"
+      "textVersion": "U02.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.2-TR-01.m4a",
+      "assetSha256": "ad1ddb479a596fa7621eefb7937d96853270906a231fb620d39ecafb8eca3274",
+      "origin": "synthetic",
+      "reviewOnly": true
     },
     {
       "id": "A-P-U02.2-AR-01",
@@ -22,7 +26,198 @@
       "status": "draft",
       "kind": "turkishMeaning",
       "textId": "P-U02.2-01",
-      "textVersion": "P-U02.2-01-draft-2026-10-09-v1"
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-P-U02.2-ANLAM-01.m4a",
+      "assetSha256": "bc2a011632216ee2f40c12c60e1187aed90828c28cbf4b4c76c0838068ae0f43",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U01.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U01.1",
+      "textVersion": "U01.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U01.1-TR-01.m4a",
+      "assetSha256": "6e4a226582ea0e7e70ef87a6c124b3c49f17bb2e29489f637466fc9f427c1511",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U01.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U01.2",
+      "textVersion": "U01.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U01.2-TR-01.m4a",
+      "assetSha256": "d40d5c3d952a60533f7e64eb94a6dc7e1c1624bd45a7f63cdd3940808a2bdc70",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U02.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U02.1",
+      "textVersion": "U02.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.1-TR-01.m4a",
+      "assetSha256": "ec60c378037eeb39a4d049a038f5cdcb3693b215addc9f59f4bee785911ddd5b",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U02.3-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U02.3",
+      "textVersion": "U02.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.3-TR-01.m4a",
+      "assetSha256": "d3a8d407c814a9783f2d47c82aecef8f3f2ff110f659e9aeb16d6507ba362f9d",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U03.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U03.1",
+      "textVersion": "U03.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U03.1-TR-01.m4a",
+      "assetSha256": "db232b6fc52357505bee1e0a1616af3d99ff38b620800882c14829ce83274eea",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U04.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U04.1",
+      "textVersion": "U04.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U04.1-TR-01.m4a",
+      "assetSha256": "7eda691cef7bf831ddc972db26fba074010b663c81f8952462f4c4a6559aeb46",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U05.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U05.1",
+      "textVersion": "U05.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U05.1-TR-01.m4a",
+      "assetSha256": "3d1b9111f88b43c11ea082553877346f1851f5f7e6a6fb625dae758d6d954802",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U06.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U06.1",
+      "textVersion": "U06.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.1-TR-01.m4a",
+      "assetSha256": "854252a0d73c2a2054814050dacd759c3d985722ebdddaf0b431e1214f20a751",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U06.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U06.2",
+      "textVersion": "U06.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.2-TR-01.m4a",
+      "assetSha256": "5fa42ef7c07a156c625742f6059fb9d9eaa3e9720380c5baacf5dc46e6e46a08",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U06.3-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U06.3",
+      "textVersion": "U06.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.3-TR-01.m4a",
+      "assetSha256": "22bbb8ceb2367e1dcc4d0597d58949081a0e0ad3885b42482ddc89fe841bff3d",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U07.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U07.1",
+      "textVersion": "U07.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U07.1-TR-01.m4a",
+      "assetSha256": "ab7de65a1dd3f3c77def05bb61568ae770fa88b79caf2491879bae4fe9da18b3",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U07.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U07.2",
+      "textVersion": "U07.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U07.2-TR-01.m4a",
+      "assetSha256": "60a7fd9f99d0e828f224a30507cf17fba844be72fe54132378b32292faae293c",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U08.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U08.1",
+      "textVersion": "U08.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U08.1-TR-01.m4a",
+      "assetSha256": "8452e490a293134241cba563374bdda7af82f157692f5dd1075b1c92b195fb3c",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U09.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U09.1",
+      "textVersion": "U09.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U09.1-TR-01.m4a",
+      "assetSha256": "825f38e5ddba18600b8f5eb3e122b71567c043ef0042ce10157993215aca6f0d",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U09.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U09.2",
+      "textVersion": "U09.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U09.2-TR-01.m4a",
+      "assetSha256": "d6c9983690c7c23720f42feae312744349ddbda00baa2a03f293e35ce57edd80",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U10.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U10.1",
+      "textVersion": "U10.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U10.1-TR-01.m4a",
+      "assetSha256": "24c9434050cf6f6a644008abd8ac70139645e2c99dd156f541ea17d233f8732b",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U10.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U10.2",
+      "textVersion": "U10.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U10.2-TR-01.m4a",
+      "assetSha256": "95242ac627691db094cd765ffc59d0beba71a9a1ded16908cf8f385b5ae71623",
+      "origin": "synthetic",
+      "reviewOnly": true
     }
   ],
   "prayerRecords": [
@@ -58,7 +253,10 @@
       "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
       "sourceLocation": "Yerel rehber ve prova işleyişi",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir."
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir.",
+      "audioIds": [
+        "A-U01.1-TR-01"
+      ]
     },
     {
       "id": "U01.2",
@@ -73,7 +271,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Dokuzuncu Bölüm, ilkeler ve hazırlık bağlamı, basılı s. 511–518",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U01.2-TR-01"
+      ]
     },
     {
       "id": "U02.1",
@@ -88,7 +289,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
       "sourceLocation": "Cevap bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U02.1-TR-01"
+      ]
     },
     {
       "id": "U02.2",
@@ -124,7 +328,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
       "sourceLocation": "Cevap bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U02.3-TR-01"
+      ]
     },
     {
       "id": "U03.1",
@@ -139,7 +346,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Hac ve umrenin yapılışı, basılı s. 550–554; saha güvenliği uygulama uyarısı",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U03.1-TR-01"
+      ]
     },
     {
       "id": "U04.1",
@@ -154,7 +364,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Hac ve umrenin yapılışı, basılı s. 550–554; ilk görüş anlatımı uzman teyidinde",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U04.1-TR-01"
+      ]
     },
     {
       "id": "U05.1",
@@ -169,7 +382,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
       "sourceLocation": "Tanım ve umre tavafı bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U05.1-TR-01"
+      ]
     },
     {
       "id": "U06.1",
@@ -184,7 +400,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
       "sourceLocation": "Tanım ve umre tavafı bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U06.1-TR-01"
+      ]
     },
     {
       "id": "U06.2",
@@ -200,7 +419,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
       "sourceLocation": "Tanım ve umre tavafı bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U06.2-TR-01"
+      ]
     },
     {
       "id": "U06.3",
@@ -215,7 +437,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Tavafın yapılışı ve tavaf namazı, basılı s. 530–532",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U06.3-TR-01"
+      ]
     },
     {
       "id": "U07.1",
@@ -230,7 +455,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Tavafın vâcipleri ve yapılışı, basılı s. 530–532",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U07.1-TR-01"
+      ]
     },
     {
       "id": "U07.2",
@@ -245,7 +473,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Hac ve umrenin yapılışı, zemzem geçişi, basılı s. 551–552",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U07.2-TR-01"
+      ]
     },
     {
       "id": "U08.1",
@@ -260,7 +491,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
       "sourceLocation": "Şavt tanımı bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U08.1-TR-01"
+      ]
     },
     {
       "id": "U09.1",
@@ -275,7 +509,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
       "sourceLocation": "Şavt tanımı bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U09.1-TR-01"
+      ]
     },
     {
       "id": "U09.2",
@@ -291,7 +528,10 @@
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
       "sourceLocation": "Şavt tanımı bölümü",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U09.2-TR-01"
+      ]
     },
     {
       "id": "U10.1",
@@ -306,7 +546,10 @@
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
       "sourceLocation": "Umrenin yapılışı ve saçları kısaltma, basılı s. 541–543, 547–548",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U10.1-TR-01"
+      ]
     },
     {
       "id": "U10.2",
@@ -321,7 +564,10 @@
       "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
       "sourceLocation": "Yerel rehber ve prova işleyişi",
       "sourceAccessedAt": "2026-10-09",
-      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir."
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir.",
+      "audioIds": [
+        "A-U10.2-TR-01"
+      ]
     }
   ]
 }

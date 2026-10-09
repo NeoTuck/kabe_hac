@@ -143,6 +143,25 @@ class ProgressStore {
     );
   }
 
+  /// Clears device records while retaining the reader's appearance settings.
+  /// This does not revoke a remote account or an active server location share.
+  Future<void> clearLocalRecords() async {
+    final database = await _database;
+    await database.transaction((transaction) async {
+      // Session children are removed by the database's cascade constraints.
+      await transaction.delete('guide_sessions');
+      await transaction.delete('practice_sessions');
+      await transaction.delete('travel_favorites');
+      await transaction.delete('message_outbox');
+      await transaction.delete('location_share_state');
+      await transaction.delete(
+        'app_state',
+        where: 'key = ?',
+        whereArgs: ['last_step_id'],
+      );
+    });
+  }
+
   Future<void> _createGuideTables(Database database) async {
     await database.execute('''
       CREATE TABLE guide_sessions (

@@ -134,6 +134,10 @@ void main() {
         applicability[profile.name] = 'applicable';
       }
     }
+    for (final value in approvedSource['audioRecords'] as List<dynamic>) {
+      final audio = value as Map<String, dynamic>;
+      audio['textVersion'] = '${audio['textId']}-test-v1';
+    }
     (steps[1] as Map<String, dynamic>)['profileApplicability']['ifrad'] =
         'notApplicable';
     final approvedCatalog = GuideCatalog.fromJsonText(
@@ -211,7 +215,14 @@ void main() {
     expect(step.summary, isNotEmpty);
     expect(step.prayerIds, ['P-U02.2-01']);
     expect(step.linkedAudioIds, ['A-U02.2-TR-01']);
-    expect(catalog.audioRecords['A-U02.2-TR-01']?.asset, isNull);
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.asset,
+      'assets/audio/draft-v2/A-U02.2-TR-01.m4a',
+    );
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.isSyntheticDraftPreview,
+      isTrue,
+    );
     final prayer = catalog.prayerRecords['P-U02.2-01']!;
     expect(prayer.status, ReviewStatus.draft);
     expect(prayer.arabic, startsWith('لَبَّيْكَ'));

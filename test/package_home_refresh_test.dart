@@ -12,6 +12,7 @@ import 'package:hac_umre_sesli_rehber/package_screen.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
 import 'package:hac_umre_sesli_rehber/travel_catalog.dart';
 import 'package:hac_umre_sesli_rehber/travel_repository.dart';
+import 'package:hac_umre_sesli_rehber/travel_screen.dart';
 
 import 'travel_screen_test.dart' show fixture;
 
@@ -85,11 +86,36 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Yolculuk'));
       await tester.pumpAndSettle();
+      expect(travel.loads, installed ? 1 : 2);
+      expect(
+        tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex,
+        1,
+      );
+      expect(
+        tester
+            .widget<TravelScreen>(find.byType(TravelScreen))
+            .catalog
+            .points
+            .length,
+        installed ? 1 : 0,
+      );
+      if (installed) {
+        await tester.scrollUntilVisible(
+          find.text('Teknik buluşma noktası'),
+          160,
+          scrollable: find
+              .descendant(
+                of: find.byType(TravelScreen),
+                matching: find.byType(Scrollable),
+              )
+              .first,
+        );
+      }
       expect(
         find.text('Teknik buluşma noktası'),
         installed ? findsOneWidget : findsNothing,
       );
-      Navigator.of(tester.element(find.byType(TextField))).pop();
+      await tester.tap(find.text('Rehber').last);
       await tester.pumpAndSettle();
     }
     expect(travel.loads, 2);

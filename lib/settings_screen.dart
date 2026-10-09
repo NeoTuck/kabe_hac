@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'reader_settings.dart';
 import 'licenses_and_sources_screen.dart';
+import 'local_data_screen.dart';
+import 'support_links_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key, required this.settings});
@@ -87,8 +89,28 @@ class SettingsScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            const Text('Onaylı anlatım kayıtları henüz eklenmedi.'),
+            const Text(
+              'Sentetik taslak sesler rehberde dinlenebilir. Onaylı anlatım kayıtları henüz eklenmedi.',
+            ),
             const SizedBox(height: 24),
+            OutlinedButton.icon(
+              onPressed: () => Navigator.of(context).push<void>(
+                MaterialPageRoute(builder: (_) => const SupportLinksScreen()),
+              ),
+              icon: const Icon(Icons.privacy_tip_outlined),
+              label: const Text('Gizlilik ve destek'),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                  builder: (_) => LocalDataScreen(store: settings.store),
+                ),
+              ),
+              icon: const Icon(Icons.storage_outlined),
+              label: const Text('Cihazdaki veriler'),
+            ),
+            const SizedBox(height: 12),
             OutlinedButton.icon(
               onPressed: () => Navigator.of(context).push<void>(
                 MaterialPageRoute(

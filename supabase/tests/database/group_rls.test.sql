@@ -1,5 +1,5 @@
 begin;
-select plan(39);
+select plan(55);
 
 insert into auth.users (id, aud, role, email, encrypted_password)
 values
@@ -185,12 +185,93 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000002
 select is((select count(*) from public.messages where group_id = '10000000-0000-0000-0000-000000000001'
  and created_at <= '2020-01-01T00:00:00.123456Z'), 0::bigint, 'Another group cannot read old history');
 reset role;
+
+-- Personal blocking and reports stay inside the current group and JWT user.
+insert into public.device_push_tokens (user_id, platform, token)
+values ('00000000-0000-0000-0000-000000000001', 'android', 'block-test-token');
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', true);
+select lives_ok($$ insert into public.messages (id, group_id, sender_id, client_id, body)
+ values ('70000000-0000-0000-0000-000000000001',
+ '10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004',
+ '71000000-0000-0000-0000-000000000001', 'D mesajı') $$,
+ 'Aktif üye genel mesaj yazabilir');
+reset role;
+select is((select public.push_delivery_allowed(d) from public.push_deliveries d
+ where d.source_id = '70000000-0000-0000-0000-000000000001'), true,
+ 'Engel yokken mesaj bildirimi teslim edilebilir');
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select lives_ok($$ insert into public.message_reports (message_id, group_id, reporter_id, reason)
+ values ('70000000-0000-0000-0000-000000000001',
+ '10000000-0000-0000-0000-000000000001',
+ '00000000-0000-0000-0000-000000000001', 'spam') $$,
+ 'Görünen başka üyenin mesajı şikâyet edilebilir');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000002', true);
+select throws_ok($$ insert into public.message_reports (message_id, group_id, reporter_id, reason)
+ values ('70000000-0000-0000-0000-000000000001',
+ '10000000-0000-0000-0000-000000000001',
+ '00000000-0000-0000-0000-000000000002', 'spam') $$,
+ '42501', null, 'Başka kafilenin mesajı şikâyet edilemez');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select lives_ok($$ insert into public.user_blocks (blocker_id, blocked_id) values
+ ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004') $$,
+ 'Aynı kafiledeki kullanıcı engellenebilir');
+reset role;
+select is((select public.push_delivery_allowed(d) from public.push_deliveries d
+ where d.source_id = '70000000-0000-0000-0000-000000000001'), false,
+ 'Engellenen kişinin kuyruktaki bildirimi teslim edilmez');
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
+select is((select count(*) from public.messages where id = '70000000-0000-0000-0000-000000000001'),
+ 0::bigint, 'Engellenen gönderenin eski mesajı gizlenir');
+select throws_ok($$ insert into public.messages (group_id, sender_id, recipient_id, client_id, message_type, body)
+ values ('10000000-0000-0000-0000-000000000001',
+ '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004',
+ '71000000-0000-0000-0000-000000000002', 'guide_private', 'özel') $$,
+ '42501', null, 'Engelleyen kullanıcı özel mesaj gönderemez');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', true);
+select throws_ok($$ insert into public.messages (group_id, sender_id, recipient_id, client_id, message_type, body)
+ values ('10000000-0000-0000-0000-000000000001',
+ '00000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000001',
+ '71000000-0000-0000-0000-000000000003', 'guide_private', 'özel') $$,
+ '42501', null, 'Engellenen kullanıcı özel mesaj gönderemez');
+reset role;
 update public.group_members set status = 'removed'
  where group_id = '10000000-0000-0000-0000-000000000001' and user_id = '00000000-0000-0000-0000-000000000001';
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
 select is((select count(*) from public.messages where group_id = '10000000-0000-0000-0000-000000000001'
  and created_at <= '2020-01-01T00:00:00.123456Z'), 0::bigint, 'Removed member cannot read old history');
+reset role;
+
+insert into public.location_shares (id, group_id, user_id, mode, starts_at, ends_at, retention_until)
+values ('40000000-0000-0000-0000-000000000004',
+ '10000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000004',
+ 'trip', now(), now() + interval '1 hour', now() + interval '1 day');
+insert into public.device_push_tokens (user_id, platform, token)
+values ('00000000-0000-0000-0000-000000000004', 'android', 'delete-test-token');
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000004', true);
+select lives_ok($$ insert into public.account_deletion_requests (user_id)
+ values ('00000000-0000-0000-0000-000000000004') $$,
+ 'Kullanıcı hesap silme isteği gönderebilir');
+select is((select count(*) from public.account_deletion_requests), 1::bigint,
+ 'Kullanıcı kendi silme isteğini görür');
+select is((select count(*) from public.location_shares where status = 'active'), 0::bigint,
+ 'Silme isteği aktif konumu durdurur');
+select is((select count(*) from public.device_push_tokens), 0::bigint,
+ 'Silme isteği bildirim tokenını kaldırır');
+select throws_ok($$ insert into public.location_shares (group_id, user_id, mode, ends_at, retention_until)
+ values ('10000000-0000-0000-0000-000000000001',
+ '00000000-0000-0000-0000-000000000004', 'trip', now() + interval '1 hour', now() + interval '1 day') $$,
+ '42501', null, 'Silme isteğinden sonra konum yeniden açılamaz');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000002', true);
+select is((select count(*) from public.account_deletion_requests), 0::bigint,
+ 'Başka kullanıcı silme isteğini göremez');
+select throws_ok($$ insert into public.account_deletion_requests (user_id)
+ values ('00000000-0000-0000-0000-000000000004') $$,
+ '42501', null, 'Başka kullanıcı adına silme isteği açılamaz');
 reset role;
 
 select * from finish();

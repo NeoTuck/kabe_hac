@@ -342,7 +342,10 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
 
   @override
   void dispose() {
-    unawaited(widget.narration.stop());
+    final narration = widget.narration;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(narration.stop());
+    });
     super.dispose();
   }
 
@@ -460,6 +463,24 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                 audio: widget.catalog.audioRecords[audioId]!,
                 narration: widget.narration,
                 textApproved: step.isApproved,
+              ),
+            if (!step.isApproved &&
+                step.summary != null &&
+                step.details != null)
+              ExpansionTile(
+                title: const Text('Sesin taslak metni'),
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'Uzman incelemesi bekliyor; ibadet hükmü veya kişisel fetva olarak kullanma.',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text('${step.summary!}\n${step.details!}'),
+                  ),
+                ],
               ),
             if (step.counterKey != null) ...[
               const SizedBox(height: 18),
@@ -600,7 +621,7 @@ class _PrayerCard extends StatelessWidget {
           if (!prayer.isApproved || !parentApproved) ...[
             const SizedBox(height: 8),
             const Text(
-              'Arapça metin, okunuş ve Türkçe anlam uzman incelemesi tamamlanınca gösterilir.',
+              'Arapça metin, okunuş ve yazılı Türkçe anlam uzman incelemesi tamamlanınca gösterilir. Aşağıdaki Türkçe anlam sesi sentetik taslaktır.',
             ),
           ] else if (prayer.arabic == null &&
               prayer.transliteration == null &&
@@ -668,17 +689,31 @@ class _LinkedAudio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playable =
+    final approvedPlayable =
         textApproved &&
         audio.status == ReviewStatus.approved &&
         audio.asset != null;
+    final draftPlayable = audio.isSyntheticDraftPreview;
+    final playable = approvedPlayable || draftPlayable;
+    final title = draftPlayable
+        ? '${audio.kind.label} · sentetik taslak'
+        : audio.kind.label;
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: playable
-          ? AudioControls(
-              narration: narration,
-              asset: audio.asset!,
-              title: audio.kind.label,
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (draftPlayable)
+                  const Text(
+                    'Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı.',
+                  ),
+                AudioControls(
+                  narration: narration,
+                  asset: audio.asset!,
+                  title: title,
+                ),
+              ],
             )
           : Semantics(
               label: '${audio.kind.label} ses durumu: ${audio.status.label}',

@@ -34,6 +34,7 @@ class _GroupScreenState extends State<GroupScreen> {
   String? _error;
   bool _busy = false;
   List<GroupRecord>? _groups;
+  bool? _accountDeletionRequested;
   String? _lastUser;
   @override
   void initState() {
@@ -53,6 +54,7 @@ class _GroupScreenState extends State<GroupScreen> {
       _lastUser = widget.repository.userId;
       setState(() {
         _groups = null;
+        _accountDeletionRequested = null;
         _error = null;
         _emailSent = null;
       });
@@ -86,9 +88,12 @@ class _GroupScreenState extends State<GroupScreen> {
     if (uid == null) return;
     try {
       final groups = await widget.repository.groups();
+      final deletionRequested = await widget.repository
+          .accountDeletionRequested();
       if (mounted && uid == widget.repository.userId) {
         setState(() {
           _groups = groups;
+          _accountDeletionRequested = deletionRequested;
           _error = null;
         });
       }
@@ -169,6 +174,43 @@ class _GroupScreenState extends State<GroupScreen> {
     await _action(() async {
       await widget.repository.createGroup(name);
       await _load();
+    });
+  }
+
+  Future<void> _requestAccountDeletion() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Hesap silme isteği'),
+        content: const Text(
+          'İsteği göndermek hesabını hemen silmez. Açık konum paylaşımı ve bildirim kaydı durdurulur. Yetkili ekip isteği işleyip sonucu ayrıca bildirmelidir.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('İsteği gönder'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    await _action(() async {
+      await widget.repository.requestAccountDeletion();
+      if (mounted) setState(() => _accountDeletionRequested = true);
+      try {
+        await widget.push?.disable();
+      } catch (_) {
+        // The database trigger has already removed this user's token.
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Hesap silme isteği kaydedildi.')),
+        );
+      }
     });
   }
 
@@ -285,7 +327,7 @@ class _GroupScreenState extends State<GroupScreen> {
               if (widget.push != null) ...[
                 SwitchListTile.adaptive(
                   value: widget.push!.enabled,
-                  onChanged: _busy
+                  onChanged: _busy || _accountDeletionRequested == true
                       ? null
                       : (enabled) => _action(() async {
                           if (enabled) {
@@ -330,6 +372,16 @@ class _GroupScreenState extends State<GroupScreen> {
                 onPressed: _busy ? null : _load,
                 icon: const Icon(Icons.refresh),
                 label: const Text('Kafileleri yenile'),
+              ),
+              TextButton(
+                onPressed: _busy || _accountDeletionRequested == true
+                    ? null
+                    : _requestAccountDeletion,
+                child: Text(
+                  _accountDeletionRequested == true
+                      ? 'Hesap silme isteği alındı'
+                      : 'Hesap silme isteği gönder',
+                ),
               ),
               TextButton(
                 onPressed: _busy
@@ -415,6 +467,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   String? _recentLocationError;
   static const _maxHistoryPages = 8;
   List<Map<String, dynamic>> _historyRows = [];
+  Set<String> _blockedUserIds = {};
   int _historyPages = 0;
   int _historyEpoch = 0;
   bool _hasOlder = false;
@@ -471,6 +524,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         _snapshot = null;
         _outbox = [];
         _historyRows = [];
+        _blockedUserIds = {};
         _historyPages = 0;
         _loadingOlder = false;
         _hasOlder = false;
@@ -648,6 +702,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       _recentLocations = [];
     });
     try {
+      final blocked = await widget.repository.blockedUserIds();
       final pending = await widget.store.readGroupOutbox();
       if (mounted && _owner == widget.repository.userId) {
         setState(
@@ -689,6 +744,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
           epoch == _historyEpoch) {
         setState(() {
           _snapshot = snapshot;
+          _blockedUserIds = blocked;
           _historyRows = history;
           _historyPages = loadedPages;
           _hasOlder = hasOlder;
@@ -718,6 +774,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         setState(() {
           _snapshot = null;
           _historyRows = [];
+          _blockedUserIds = {};
           _historyPages = 0;
           _hasOlder = false;
           _connected = false;
@@ -924,6 +981,99 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     }
   }
 
+  Future<void> _reportMessage(Map<String, dynamic> message) async {
+    final owner = _owner;
+    final messageId = message['id'];
+    if (owner == null ||
+        owner != widget.repository.userId ||
+        messageId is! String) {
+      return;
+    }
+    final reason = await showDialog<String>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: const Text('Mesajı şikâyet et'),
+        children: [
+          for (final entry in const {
+            'harassment': 'Taciz veya tehdit',
+            'spam': 'İstenmeyen içerik',
+            'misinformation': 'Yanıltıcı bilgi',
+            'other': 'Diğer',
+          }.entries)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, entry.key),
+              child: Text(entry.value),
+            ),
+        ],
+      ),
+    );
+    if (reason == null || !mounted || owner != widget.repository.userId) return;
+    try {
+      await widget.repository.reportMessage(widget.group.id, messageId, reason);
+      if (mounted && owner == widget.repository.userId) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Şikâyet kaydedildi.')));
+      }
+    } catch (_) {
+      if (mounted && owner == widget.repository.userId) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Şikâyet kaydedilemedi. Tekrar dene.')),
+        );
+      }
+    }
+  }
+
+  Future<void> _blockSender(Map<String, dynamic> message) async {
+    final owner = _owner;
+    final sender = message['sender_id'];
+    if (owner == null ||
+        owner != widget.repository.userId ||
+        sender is! String ||
+        sender == owner) {
+      return;
+    }
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Kullanıcı engellensin mi?'),
+        content: const Text(
+          'Bu kullanıcının mesajları sana gösterilmez ve aranızda özel mesaj gönderilemez. '
+          'Kafiledeki diğer üyeler için genel sohbet açık kalır.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Engelle'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted || owner != widget.repository.userId) {
+      return;
+    }
+    try {
+      await widget.repository.blockUser(sender);
+      if (!mounted || owner != widget.repository.userId) return;
+      setState(() {
+        _blockedUserIds = {..._blockedUserIds, sender};
+        if (_recipient == sender) _recipient = null;
+      });
+      await _reload();
+    } catch (_) {
+      if (mounted && owner == widget.repository.userId) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Kullanıcı engellenemedi. Tekrar dene.'),
+          ),
+        );
+      }
+    }
+  }
+
   bool get _canManage =>
       _snapshot?.members.any(
         (m) =>
@@ -1065,13 +1215,17 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
               .where((location) => location.isVisibleAt(DateTime.now().toUtc()))
               .toList()
         : <RecentSharedLocation>[];
-    final messages = _mergeMessages(_historyRows, snapshot?.messages ?? []);
+    final messages = _mergeMessages(
+      _historyRows,
+      snapshot?.messages ?? [],
+    ).where((m) => !_blockedUserIds.contains(m['sender_id'])).toList();
     final guides =
         snapshot?.members
             .where(
               (m) =>
                   ['guide', 'group_admin'].contains(m['role']) &&
-                  m['user_id'] != _owner,
+                  m['user_id'] != _owner &&
+                  !_blockedUserIds.contains(m['user_id']),
             )
             .toList() ??
         [];
@@ -1342,6 +1496,31 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                             _messageTime(m['created_at']),
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
+                          if (m['sender_id'] != _owner &&
+                              m['deleted_at'] == null)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: PopupMenuButton<String>(
+                                tooltip: 'Mesaj işlemleri',
+                                onSelected: (action) {
+                                  if (action == 'report') {
+                                    unawaited(_reportMessage(m));
+                                  } else if (action == 'block') {
+                                    unawaited(_blockSender(m));
+                                  }
+                                },
+                                itemBuilder: (_) => const [
+                                  PopupMenuItem(
+                                    value: 'report',
+                                    child: Text('Şikâyet et'),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'block',
+                                    child: Text('Kullanıcıyı engelle'),
+                                  ),
+                                ],
+                              ),
+                            ),
                         ],
                       ),
                     ),

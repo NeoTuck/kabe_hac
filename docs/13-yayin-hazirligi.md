@@ -52,7 +52,7 @@ Girdi kontrolü yeşil olsa bile bu komutların sonucu, imza, sürüm kodu, üre
 
 `release-inputs/` özel ve gitignore kapsamındadır. Her kategori için `<kategori>.json` ve aynı dizin altında gerçek kanıt dosyası gerekir. JSON alanları: `file`, `sha256`, `result: accepted`, `reviewedBy`, `reviewedAt` (YYYY-MM-DD), `scope`. Hash yalnız dosya bütünlüğünü doğrular; uzman yetkisini veya belgenin doğruluğunu otomatik onaylamaz. Üretim commit/build/hash ve değerlendirilen kapsam gerçek belgede bulunmalı; değişen sürümde kabul yeniden yapılmalı.
 
-Kategoriler: religious_expert_review, human_audio_rights, offline_map_license, verified_travel_safety_language_data, live_supabase_acceptance, push_location_acceptance, physical_android_acceptance, physical_iphone_acceptance, ios_distribution_signing, privacy_store_declarations, signed_android_artifact.
+Kategoriler: religious_expert_review, human_audio_rights, offline_map_license, verified_travel_safety_language_data, live_supabase_acceptance, push_location_acceptance, physical_android_acceptance, physical_iphone_acceptance, ios_distribution_signing, privacy_store_declarations, chat_safety_acceptance, account_deletion_acceptance, signed_android_artifact.
 
 ## Gerçek yayın için açık bağımlılıklar
 

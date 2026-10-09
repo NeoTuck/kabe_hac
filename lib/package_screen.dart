@@ -164,6 +164,7 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
           Text(
             'Etkin sürüm: ${state.activeVersion}${state.previousVersion == null ? '' : '\nGeri dönüş: ${state.previousVersion}'}',
           ),
+          const Text('Çevrimdışı hazır · indirmeden yeniden açılabilir.'),
           const SizedBox(height: 8),
           if (_busyPackageId == state.packageId)
             const LinearProgressIndicator()

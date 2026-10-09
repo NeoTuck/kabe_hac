@@ -91,6 +91,46 @@ class HistoryRepository extends UnconfiguredGroupRepository {
   }
 }
 
+class ModerationRepository extends HistoryRepository {
+  final blocked = <String>{};
+  final reports = <String>[];
+
+  @override
+  Future<Set<String>> blockedUserIds() async => Set.of(blocked);
+
+  @override
+  Future<void> blockUser(String blockedId) async {
+    blocked.add(blockedId);
+  }
+
+  @override
+  Future<void> reportMessage(
+    String groupId,
+    String messageId,
+    String reason,
+  ) async {
+    reports.add('$messageId:$reason');
+  }
+
+  @override
+  Future<GroupSnapshot> snapshot(String groupId) async => GroupSnapshot(
+    members: const [],
+    messages: [
+      {
+        'id': '20000000-0000-0000-0000-000000000001',
+        'created_at': '2026-10-09T12:00:00Z',
+        'sender_id': 'user-b',
+        'body': 'Uygunsuz mesaj',
+        'recipient_id': null,
+        'deleted_at': null,
+      },
+    ],
+    announcements: const [],
+    programs: const [],
+    routes: const [],
+  );
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   final frame = GlobalKey();
@@ -172,6 +212,31 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     repository.dispose();
   }
+
+  testWidgets('mesaj şikâyeti kaydedilir ve engellenen gönderen gizlenir', (
+    tester,
+  ) async {
+    final repo = ModerationRepository();
+    await open(tester, repo);
+    await scrollTo(tester, 'Uygunsuz mesaj');
+    await tester.tap(find.byTooltip('Mesaj işlemleri'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Şikâyet et'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('İstenmeyen içerik'));
+    await tester.pumpAndSettle();
+    expect(repo.reports, ['20000000-0000-0000-0000-000000000001:spam']);
+
+    await tester.tap(find.byTooltip('Mesaj işlemleri'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Kullanıcıyı engelle'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Engelle'));
+    await tester.pumpAndSettle();
+    expect(repo.blocked, {'user-b'});
+    expect(find.text('Uygunsuz mesaj'), findsNothing);
+    await close(tester, repo);
+  });
 
   testWidgets('older pages are deduplicated and preserve chronological order', (
     tester,

@@ -17,3 +17,7 @@ Her satırda mevcut kimlik, sıra, grup, başlık ve taslak durum korunur. Metin
 | `H06.3`, `H09.2` | Cemarat | Hac profili, gün/hedef bağlamı ve her adımın manuel hedefi |
 
 Hac için her 35 adımda Temettü, İfrad ve Kıran uygulanabilirliği ayrıca incelenir. Taslak profile göre otomatik filtreleme yapılmaz. Dua Arapçası, telaffuzu, Türkçe anlamı ve her ses kaydının metin kimliği/sürümü, sahipliği ve yeniden dağıtım hakkı ayrı kabul girdileridir. `tools/release_preflight.py` eksik onay alanlarında `blocked` verir; bu teknik alan denetimi uzman incelemesinin yerine geçmez.
+
+## OSM yer adı incelemesi
+
+`2026-10-09-kritik-osm-yer-incelemesi.csv`, kaynak OSM kataloğundaki 1.284 sağlık, eczane, polis, ulaşım ve dinî mekân kaydını öncelikli insan incelemesine ayırır. `source_name` mevcut ham alanı korur; boş `proposed_turkish_name`, `reviewer` ve `reviewed_at` alanları gerçek editör tarafından doldurulur. Bu tablo uygulamaya yüklenmez ve herhangi bir yeri sahada doğrulanmış yapmaz. Kaynak değişirse `tools/build_poi_review_queue.py` yeniden üretilebilir; önce insan düzenlemeleri ayrı saklanmalıdır.

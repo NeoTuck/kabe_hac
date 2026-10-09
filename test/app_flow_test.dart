@@ -41,10 +41,7 @@ void main() {
       find.textContaining('Umre içeriği henüz incelemede'),
       findsOneWidget,
     );
-    expect(
-      find.text('Taslak başlıkları ve sayaçları kişisel olarak takip et'),
-      findsOneWidget,
-    );
+    expect(find.text('Rehber seç'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Umre'), 200);
     await tester.ensureVisible(find.text('Umre'));
     await tester.pumpAndSettle();
@@ -57,7 +54,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(GuideStepScreen), findsOneWidget);
     expect(find.text('U01 · 1 / 18'), findsOneWidget);
-    await tester.ensureVisible(find.text('Sonraki başlık'));
+    await tester.scrollUntilVisible(find.text('Sonraki başlık'), 250);
     await tester.tap(find.text('Sonraki başlık'));
     await tester.pumpAndSettle();
     expect(find.text('U01 · 2 / 18'), findsOneWidget);

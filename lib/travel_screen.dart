@@ -109,7 +109,7 @@ class _TravelScreenState extends State<TravelScreen> {
         child: Padding(
           padding: EdgeInsets.all(18),
           child: Text(
-            'Şehir haritalarını Paketler ekranından seçerek indirebilirsin. Yer kayıtları ve indirilen haritalar çevrimdışı kullanılabilir; güncel açık/kapalı durumunu doğrulayın.',
+            'Şehir haritalarını Paketler ekranından seçerek indirebilirsin. Yer adları ve kategoriler OSM kaynak kaydıdır; Türkçe ve saha incelemesi tamamlanmadı. İndirilen harita çevrimdışı açılır; güncel açık/kapalı durumunu ayrıca doğrula.',
           ),
         ),
       ),
@@ -192,7 +192,7 @@ class _TravelScreenState extends State<TravelScreen> {
           label: const Text('Favorileri yeniden dene'),
         ),
       const SizedBox(height: 20),
-      Text('Önemli yerler', style: Theme.of(context).textTheme.titleLarge),
+      Text('Yer kayıtları', style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 8),
       if (visiblePoints.isEmpty)
         const Text('Doğrulanmış yer bilgisi henüz yüklenmedi.')

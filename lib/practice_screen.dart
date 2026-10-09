@@ -80,7 +80,10 @@ class _PracticeScreenState extends State<PracticeScreen> {
 
   @override
   void dispose() {
-    unawaited(widget.narration.stop());
+    final narration = widget.narration;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(narration.stop());
+    });
     super.dispose();
   }
 
@@ -742,7 +745,10 @@ class _PracticeScreenState extends State<PracticeScreen> {
         .whereType<AudioRecord>()
         .where(
           (record) =>
-              record.status == ReviewStatus.approved && record.asset != null,
+              record.isSyntheticDraftPreview ||
+              (step.isApproved &&
+                  record.status == ReviewStatus.approved &&
+                  record.asset != null),
         )
         .toList();
     return Column(
@@ -755,15 +761,22 @@ class _PracticeScreenState extends State<PracticeScreen> {
         ),
         if (!session.audioEnabled)
           const Text('Sessiz prova seçildi.')
-        else if (!step.isApproved || records.isEmpty)
+        else if (records.isEmpty)
           const Text('Bu başlık için onaylı ses henüz yok.')
         else
-          for (final record in records)
+          for (final record in records) ...[
+            if (record.isSyntheticDraftPreview)
+              const Text(
+                'Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı.',
+              ),
             AudioControls(
               narration: widget.narration,
               asset: record.asset!,
-              title: record.kind.label,
+              title: record.isSyntheticDraftPreview
+                  ? '${record.kind.label} · sentetik taslak'
+                  : record.kind.label,
             ),
+          ],
         const Text(
           'Ortam sesi: izinli paket henüz yok; varsayılan olarak kapalı.',
         ),

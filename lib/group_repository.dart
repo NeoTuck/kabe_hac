@@ -108,6 +108,17 @@ abstract class GroupRepository extends ChangeNotifier {
   });
   Future<void> send(GroupOutboxMessage message);
   Future<void> publish(String groupId, String kind, String title, String body);
+  Future<Set<String>> blockedUserIds() async => const {};
+  Future<void> blockUser(String blockedId) async =>
+      throw StateError('Engelleme hizmeti kullanılamıyor.');
+  Future<void> reportMessage(
+    String groupId,
+    String messageId,
+    String reason,
+  ) async => throw StateError('Şikâyet hizmeti kullanılamıyor.');
+  Future<bool> accountDeletionRequested() async => false;
+  Future<void> requestAccountDeletion() async =>
+      throw StateError('Hesap silme isteği kullanılamıyor.');
   Future<void> Function() watch(
     String groupId,
     void Function(bool connected) refresh,
@@ -166,6 +177,75 @@ class SupabaseGroupRepository extends GroupRepository {
   @override
   String? get userId => client.auth.currentUser?.id;
   String _user() => userId ?? (throw StateError('Oturum gerekli.'));
+  @override
+  Future<bool> accountDeletionRequested() async {
+    final uid = _user();
+    final rows = await client
+        .from('account_deletion_requests')
+        .select('id')
+        .eq('user_id', uid)
+        .limit(1);
+    if (userId != uid) throw GroupAccessError();
+    return rows.isNotEmpty;
+  }
+
+  @override
+  Future<void> requestAccountDeletion() async {
+    final uid = _user();
+    await client.from('account_deletion_requests').insert({'user_id': uid});
+    if (userId != uid) throw GroupAccessError();
+  }
+
+  @override
+  Future<Set<String>> blockedUserIds() async {
+    final uid = _user();
+    final rows = await client
+        .from('user_blocks')
+        .select('blocked_id')
+        .eq('blocker_id', uid);
+    if (userId != uid) throw GroupAccessError();
+    return rows.map((row) => row['blocked_id'] as String).toSet();
+  }
+
+  @override
+  Future<void> blockUser(String blockedId) async {
+    if (!validGroupId(blockedId) || blockedId == userId) {
+      throw const FormatException('Engellenecek kullanıcı geçersiz.');
+    }
+    final uid = _user();
+    await client.from('user_blocks').insert({
+      'blocker_id': uid,
+      'blocked_id': blockedId,
+    });
+    if (userId != uid) throw GroupAccessError();
+  }
+
+  @override
+  Future<void> reportMessage(
+    String groupId,
+    String messageId,
+    String reason,
+  ) async {
+    _id(groupId);
+    _id(messageId);
+    if (!const {
+      'harassment',
+      'spam',
+      'misinformation',
+      'other',
+    }.contains(reason)) {
+      throw const FormatException('Şikâyet nedeni geçersiz.');
+    }
+    final uid = _user();
+    await client.from('message_reports').insert({
+      'message_id': messageId,
+      'group_id': groupId,
+      'reporter_id': uid,
+      'reason': reason,
+    });
+    if (userId != uid) throw GroupAccessError();
+  }
+
   void _id(String id) {
     if (!validGroupId(id)) {
       throw const FormatException('Grup kimliği geçersiz.');

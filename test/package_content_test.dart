@@ -29,8 +29,19 @@ void main() {
     String packageId = 'umre-content-tr',
     String? audioPath,
     String kind = 'audio',
+    bool preserveBundledDraft = false,
   }) async {
     source['contentVersion'] = version;
+    if (!preserveBundledDraft) {
+      for (final audio in source['audioRecords'] as List) {
+        // This fixture tests package-local files; bundled draft assets stay in
+        // the application and must not be interpreted as package paths.
+        audio.remove('asset');
+        audio.remove('assetSha256');
+        audio.remove('origin');
+        audio.remove('reviewOnly');
+      }
+    }
     if (audioPath != null) {
       // Technical fixture remains draft: no invented religious approval.
       source['audioRecords'] = [
@@ -48,6 +59,9 @@ void main() {
       ];
       source['steps'][0]['textVersion'] = '1.0.0';
       source['steps'][0]['audioId'] = 'test-audio';
+      for (final audio in source['audioRecords'] as List) {
+        if (audio['textId'] == 'U01.1') audio['textVersion'] = '1.0.0';
+      }
     }
     final files = <String, List<int>>{
       'content/umre_inventory.v1.json': utf8.encode(jsonEncode(source)),
@@ -87,6 +101,20 @@ void main() {
     }
     await manager.activate(manifest, directory);
   }
+
+  test(
+    'paket aynı güvenilir gömülü taslak sesleri yeniden kullanabilir',
+    () async {
+      await install(preserveBundledDraft: true);
+      final catalog = (await LocalContentRepository(packages: manager)
+          .load())[GuideType.umrah]!;
+      expect(catalog.contentVersion, '1.0.0');
+      expect(
+        catalog.audioRecords['A-U01.1-TR-01']?.asset,
+        'assets/audio/draft-v2/A-U01.1-TR-01.m4a',
+      );
+    },
+  );
 
   test(
     'aktif katalog ve ses yeniden açmada, geri dönüşte ve silmede çözülür',

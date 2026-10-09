@@ -53,9 +53,11 @@ void main() {
           );
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
-          for (final action in ['Umreye hazırlanıyorum', 'Umredeyim']) {
-            await tester.scrollUntilVisible(find.text(action), 160);
-            await tester.ensureVisible(find.text(action));
+          for (final action in ['Öğrenme', 'Yolculukta rehber']) {
+            await tester.scrollUntilVisible(find.text('Umre'), 160);
+            await tester.ensureVisible(find.text('Umre'));
+            await tester.pumpAndSettle();
+            await tester.tap(find.text('Umre'));
             await tester.pumpAndSettle();
             await tester.tap(find.text(action));
             await tester.pumpAndSettle();
@@ -66,23 +68,23 @@ void main() {
             await tester.pumpAndSettle();
             expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
             expect(tester.takeException(), isNull);
-            if (size.width == 390 &&
-                scale == 1 &&
-                action == 'Umreye hazırlanıyorum') {
+            if (size.width == 390 && scale == 1 && action == 'Öğrenme') {
               await tester.tap(find.text('Kullanım biçimi seçimi').first);
               await tester.pumpAndSettle();
               await tester.scrollUntilVisible(
-                find.text('Bu başlık için onaylı ses kaydı henüz yok.'),
+                find.text('Türkçe anlatım · sentetik taslak'),
                 160,
               );
               await tester.ensureVisible(
-                find.text('Bu başlık için onaylı ses kaydı henüz yok.'),
+                find.text('Türkçe anlatım · sentetik taslak'),
               );
               await tester.pumpAndSettle();
               await capture(tester, key, 'guide-no-audio');
               Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
               await tester.pumpAndSettle();
             }
+            Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
+            await tester.pumpAndSettle();
             Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
             await tester.pumpAndSettle();
           }
@@ -102,14 +104,10 @@ void main() {
           if (size.width == 390 && scale == 1) {
             await capture(tester, key, 'groups');
           }
-          Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
-          await tester.pumpAndSettle();
           await tester.tap(find.text('Yolculuk'));
           await tester.pumpAndSettle();
           expect(find.text('Gezi ve önemli yerler'), findsOneWidget);
           expect(tester.takeException(), isNull);
-          Navigator.of(tester.element(find.byType(Scaffold).last)).pop();
-          await tester.pumpAndSettle();
           await tester.tap(find.text('Ayarlar'));
           await tester.pumpAndSettle();
           await tester.tap(find.text('Koyu'));
