@@ -1,5 +1,7 @@
 # İlk kullanıcı kabul incelemesi — 9 Ekim 2026
 
+**Sonraki sunucu dilimi:** Yetki denetimli FCM outbox/Edge göndericisi, konum saklama/temizleme/kilit düzeltmeleri ve gerçek kayıt QA aracı `docs/20-sunucu-bildirim-ve-konum-isleri.md` içinde, kendi kaynak SHA/CI/artifact kanıtıyla tutulur. Aşağıdaki `2fbaaf5`/CI 37856131455 kabulü tarihsel kapsamdır; sonraki kod için otomatik kabul değildir.
+
 **Son kullanıcı yayını hâlâ engelli.** Bu tur açılış, ses, izin/iptal yarışları ve native test kapsamını iyileştirir. Teknik emülatör kabulü, dinî içerik ve gerçek saha kullanım kabulünden ayrıdır.
 
 Başlangıç: `04e7ebdd2ab2ec4d422798216844faa9caef2b34`. Doğrulanan son kod: `2fbaaf5e091858fae36b4c810b930d6a51c130ca`, dal `codex/mvp1-pilot`. PR test çalışma ağacı: `4139051b604f4df6a46712f12a5813bb06bbdf14`. [CI 37856131455](https://github.com/NeoTuck/kabe_hac/actions/runs/37856131455).
