@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
         store: widget.store,
         push: widget.push,
       ),
-      3 => SettingsScreen(settings: widget.settings),
+      3 => SettingsScreen(settings: widget.settings, push: widget.push),
       _ => const SizedBox.shrink(),
     };
   }
@@ -217,8 +217,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     tooltip: 'Yazı ve ses ayarları',
                     icon: const Icon(Icons.settings_rounded),
-                    onPressed: () =>
-                        _open(SettingsScreen(settings: widget.settings)),
+                    onPressed: () => _open(
+                      SettingsScreen(
+                        settings: widget.settings,
+                        push: widget.push,
+                      ),
+                    ),
                   ),
                 ],
               )

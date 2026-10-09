@@ -12,6 +12,7 @@ void main() {
         privacyUrl: valid,
         supportUrl: valid,
         accountDeletionUrl: valid,
+        termsOfUseUrl: valid,
       ),
       isFalse,
     );
@@ -21,6 +22,7 @@ void main() {
         privacyUrl: valid,
         supportUrl: valid,
         accountDeletionUrl: '',
+        termsOfUseUrl: valid,
       ),
       isFalse,
     );
@@ -30,6 +32,17 @@ void main() {
         privacyUrl: valid,
         supportUrl: valid,
         accountDeletionUrl: valid,
+        termsOfUseUrl: '',
+      ),
+      isFalse,
+    );
+    expect(
+      ServiceReadiness.ready(
+        accepted: true,
+        privacyUrl: valid,
+        supportUrl: valid,
+        accountDeletionUrl: valid,
+        termsOfUseUrl: valid,
       ),
       isTrue,
     );

@@ -17,18 +17,21 @@ class ServiceReadiness {
     required String privacyUrl,
     required String supportUrl,
     required String accountDeletionUrl,
+    required String termsOfUseUrl,
   }) =>
       accepted &&
       httpsUrl(privacyUrl) != null &&
       httpsUrl(supportUrl) != null &&
-      httpsUrl(accountDeletionUrl) != null;
+      httpsUrl(accountDeletionUrl) != null &&
+      httpsUrl(termsOfUseUrl) != null;
 
-  // Set only after the privacy, support, deletion, report/block and live
-  // service acceptance records have been reviewed for this exact build.
+  // Set only after public links, versioned terms acceptance, report/block and
+  // live service acceptance records have been reviewed for this exact build.
   static bool get liveServiceAccepted => ready(
     accepted: const bool.fromEnvironment('LIVE_SERVICE_ACCEPTED'),
     privacyUrl: const String.fromEnvironment('PRIVACY_POLICY_URL'),
     supportUrl: const String.fromEnvironment('SUPPORT_URL'),
     accountDeletionUrl: const String.fromEnvironment('ACCOUNT_DELETION_URL'),
+    termsOfUseUrl: const String.fromEnvironment('TERMS_OF_USE_URL'),
   );
 }

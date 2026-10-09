@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'progress_store.dart';
+import 'push_service.dart';
 
 class LocalDataScreen extends StatefulWidget {
-  const LocalDataScreen({super.key, required this.store});
+  const LocalDataScreen({super.key, required this.store, this.push});
 
   final ProgressStore store;
+  final PushTokenCoordinator? push;
 
   @override
   State<LocalDataScreen> createState() => _LocalDataScreenState();
@@ -23,6 +25,7 @@ class _LocalDataScreenState extends State<LocalDataScreen> {
         content: const Text(
           'Rehber ve prova ilerlemesi, sayaçlar, favoriler, gönderilmemiş '
           'kafile mesajları ve yerel konum paylaşımı ayarları silinir. '
+          'Bu cihazın açık bildirim kaydı önce kapatılır. '
           'Yazı ve ses ayarları ile indirilmiş paketler kalır. '
           'Bu işlem sunucudaki hesabı, mesajları veya etkin konum paylaşımını silmez.',
         ),
@@ -41,16 +44,38 @@ class _LocalDataScreenState extends State<LocalDataScreen> {
     if (confirmed != true || !mounted) return;
     setState(() => _busy = true);
     try {
+      final savedPushUser = await widget.store.readAppValue('push_opt_in_user');
+      if (savedPushUser != null &&
+          savedPushUser.isNotEmpty &&
+          (widget.push == null ||
+              widget.push!.currentUserId() != savedPushUser)) {
+        throw const _PushCleanupUnavailable();
+      }
+      await widget.push?.disable();
       await widget.store.clearLocalRecords();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cihazdaki kayıtlar silindi.')),
         );
       }
+    } on _PushCleanupUnavailable {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Bildirim kaydı kapatılamıyor. Kafile bağlantısını ve bildirimi açtığın hesabı kontrol edip tekrar dene.',
+            ),
+          ),
+        );
+      }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Kayıtlar silinemedi. Tekrar dene.')),
+          const SnackBar(
+            content: Text(
+              'Kayıtlar silinemedi. Bildirimleri kapatma işlemi başarısız olmuş olabilir; tekrar dene.',
+            ),
+          ),
         );
       }
     } finally {
@@ -79,4 +104,8 @@ class _LocalDataScreenState extends State<LocalDataScreen> {
       ),
     ),
   );
+}
+
+class _PushCleanupUnavailable implements Exception {
+  const _PushCleanupUnavailable();
 }

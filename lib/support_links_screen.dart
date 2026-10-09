@@ -29,6 +29,7 @@ class SupportLinksScreen extends StatelessWidget {
         'Hesap silme sayfası',
         const String.fromEnvironment('ACCOUNT_DELETION_URL'),
       ),
+      ('Kullanım koşulları', const String.fromEnvironment('TERMS_OF_USE_URL')),
     ];
     return Scaffold(
       appBar: AppBar(title: const Text('Gizlilik ve destek')),

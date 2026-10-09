@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'reader_settings.dart';
 import 'licenses_and_sources_screen.dart';
 import 'local_data_screen.dart';
+import 'push_service.dart';
 import 'support_links_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key, required this.settings});
+  const SettingsScreen({super.key, required this.settings, this.push});
 
   final ReaderSettings settings;
+  final PushTokenCoordinator? push;
 
   Future<void> _save(
     BuildContext context,
@@ -104,7 +106,8 @@ class SettingsScreen extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: () => Navigator.of(context).push<void>(
                 MaterialPageRoute(
-                  builder: (_) => LocalDataScreen(store: settings.store),
+                  builder: (_) =>
+                      LocalDataScreen(store: settings.store, push: push),
                 ),
               ),
               icon: const Icon(Icons.storage_outlined),

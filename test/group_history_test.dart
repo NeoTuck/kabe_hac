@@ -94,6 +94,7 @@ class HistoryRepository extends UnconfiguredGroupRepository {
 class ModerationRepository extends HistoryRepository {
   final blocked = <String>{};
   final reports = <String>[];
+  bool failUnblock = false;
 
   @override
   Future<Set<String>> blockedUserIds() async => Set.of(blocked);
@@ -101,6 +102,12 @@ class ModerationRepository extends HistoryRepository {
   @override
   Future<void> blockUser(String blockedId) async {
     blocked.add(blockedId);
+  }
+
+  @override
+  Future<void> unblockUser(String blockedId) async {
+    if (failUnblock) throw StateError('offline');
+    blocked.remove(blockedId);
   }
 
   @override
@@ -235,6 +242,33 @@ void main() {
     await tester.pumpAndSettle();
     expect(repo.blocked, {'user-b'});
     expect(find.text('Uygunsuz mesaj'), findsNothing);
+    await scrollTo(tester, 'Engellenen kullanıcılar');
+    await tester.tap(find.text('Engeli kaldır').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Engeli kaldır').last);
+    await tester.pumpAndSettle();
+    expect(repo.blocked, isEmpty);
+    await scrollTo(tester, 'Uygunsuz mesaj');
+    expect(find.text('Uygunsuz mesaj'), findsOneWidget);
+    await close(tester, repo);
+  });
+
+  testWidgets('failed unblock retains the block and hidden message', (
+    tester,
+  ) async {
+    final repo = ModerationRepository()
+      ..blocked.add('user-b')
+      ..failUnblock = true;
+    await open(tester, repo);
+    expect(find.text('Uygunsuz mesaj'), findsNothing);
+    await scrollTo(tester, 'Engellenen kullanıcılar');
+    await tester.tap(find.text('Engeli kaldır').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Engeli kaldır').last);
+    await tester.pumpAndSettle();
+    expect(repo.blocked, {'user-b'});
+    expect(find.text('Uygunsuz mesaj'), findsNothing);
+    expect(find.text('Engel kaldırılamadı. Tekrar dene.'), findsOneWidget);
     await close(tester, repo);
   });
 

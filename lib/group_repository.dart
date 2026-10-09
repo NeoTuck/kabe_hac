@@ -111,6 +111,8 @@ abstract class GroupRepository extends ChangeNotifier {
   Future<Set<String>> blockedUserIds() async => const {};
   Future<void> blockUser(String blockedId) async =>
       throw StateError('Engelleme hizmeti kullanılamıyor.');
+  Future<void> unblockUser(String blockedId) async =>
+      throw StateError('Engeli kaldırma hizmeti kullanılamıyor.');
   Future<void> reportMessage(
     String groupId,
     String messageId,
@@ -217,6 +219,20 @@ class SupabaseGroupRepository extends GroupRepository {
       'blocker_id': uid,
       'blocked_id': blockedId,
     });
+    if (userId != uid) throw GroupAccessError();
+  }
+
+  @override
+  Future<void> unblockUser(String blockedId) async {
+    if (!validGroupId(blockedId)) {
+      throw const FormatException('Engeli kaldırılacak kullanıcı geçersiz.');
+    }
+    final uid = _user();
+    await client
+        .from('user_blocks')
+        .delete()
+        .eq('blocker_id', uid)
+        .eq('blocked_id', blockedId);
     if (userId != uid) throw GroupAccessError();
   }
 

@@ -43,6 +43,10 @@ void main() {
       );
       await store.saveLastStepId('U01.1');
       await store.saveAppValue('theme_mode', 'dark');
+      await store.saveAppValue(
+        'push_opt_in_user',
+        '22222222-2222-4222-8222-222222222222',
+      );
 
       await store.clearLocalRecords();
 
@@ -51,6 +55,7 @@ void main() {
       expect(await store.readTravelFavoriteIds('poi'), isEmpty);
       expect(await store.readLastStepId(), isNull);
       expect(await store.readAppValue('theme_mode'), 'dark');
+      expect(await store.readAppValue('push_opt_in_user'), isNull);
       expect(await store.readGroupOutbox(), isEmpty);
     },
   );

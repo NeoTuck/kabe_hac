@@ -11,6 +11,9 @@ create table auth.users(id uuid primary key, aud text, role text, email text, en
 create function auth.uid() returns uuid language sql stable as $$
   select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid
 $$;
+create function auth.role() returns text language sql stable as $$
+  select nullif(current_setting('request.jwt.claim.role', true), '')
+$$;
 create table realtime.messages(id bigint, topic text);
 alter table realtime.messages enable row level security;
 create function realtime.topic() returns text language sql stable as $$

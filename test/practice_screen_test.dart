@@ -155,6 +155,132 @@ void main() {
     },
   );
 
+  testWidgets('adım listesi yalnız prova konumunu değiştirir', (tester) async {
+    final store = MemoryPracticeStore();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: PracticeScreen(
+          store: store,
+          catalogs: catalogs,
+          narration: FakeNarration(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Yeni prova'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Paket seçimine geç'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Hazırlığa geç'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Provaya başla'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Bu aşama için görsel şema bulunmuyor.'), findsOneWidget);
+    await tester.tap(find.text('Adım sırasını gör (0 işaretli)'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Bir başlığa geçmek'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('practice-step-U01.2')));
+    await tester.pumpAndSettle();
+
+    expect(store.practice?.currentStepId, 'U01.2');
+    expect(store.practiceMarks, isEmpty);
+    expect(store.sessions, isEmpty);
+  });
+
+  testWidgets('ürün durumu kartları veri değiştirmeden yardım gösterir', (
+    tester,
+  ) async {
+    final store = MemoryPracticeStore();
+    final narration = FakeNarration();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: PracticeScreen(
+          store: store,
+          catalogs: catalogs,
+          narration: narration,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Ses kesildi'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('kulaklık bağlantısını'), findsOneWidget);
+    await tester.tap(find.text('Destek bağlantılarını gör'));
+    await tester.pumpAndSettle();
+    expect(find.text('Gizlilik ve destek'), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Paket çevrimdışı değil'));
+    await tester.tap(find.text('Paket çevrimdışı değil'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('temel içerikle devam et'), findsOneWidget);
+    await tester.tap(find.text('Provaya dön'));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Kafileden ayrıldım'));
+    await tester.tap(find.text('Kafileden ayrıldım'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('yeni davet iste'), findsOneWidget);
+    await tester.tap(find.text('Provaya dön'));
+    await tester.pumpAndSettle();
+
+    expect(store.practice, isNull);
+    expect(store.sessions, isEmpty);
+    expect(store.practiceMarks, isEmpty);
+    expect(narration.stopCount, 0);
+  });
+
+  testWidgets('özet işaretli başlık ve taslak durumunu gösterir', (
+    tester,
+  ) async {
+    final store = MemoryPracticeStore();
+    final first = catalogs[GuideType.umrah]!.steps.first;
+    final finished = PracticeSession(
+      id: 44,
+      type: GuideType.umrah,
+      profile: null,
+      contentVersion: catalogs[GuideType.umrah]!.contentVersion,
+      currentStepId: first.id,
+      sectionGroupId: null,
+      phase: PracticePhase.finished,
+      audioEnabled: false,
+      useOptionalPackage: false,
+      updatedAt: 1,
+    );
+    store.practice = finished;
+    store.practices[finished.id] = finished;
+    store.practiceMarks[finished.id] = {first.id};
+    await tester.pumpWidget(
+      MaterialApp(
+        home: PracticeScreen(
+          store: store,
+          catalogs: catalogs,
+          narration: FakeNarration(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Son prova özetini aç'));
+    await tester.pumpAndSettle();
+    expect(find.text('Prova edilen başlıklar'), findsOneWidget);
+    expect(find.text(first.title), findsOneWidget);
+    expect(
+      find.text('${first.groupId} · ${first.status.label}'),
+      findsOneWidget,
+    );
+    expect(store.sessions, isEmpty);
+
+    await tester.tap(find.text('Yeni prova'));
+    await tester.pumpAndSettle();
+    expect(
+      find.textContaining('Bu akışta uzman incelemesi bekleyen başlıklar var'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('katalog değişince eski prova ve işaretleri korunur', (
     tester,
   ) async {

@@ -468,6 +468,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   static const _maxHistoryPages = 8;
   List<Map<String, dynamic>> _historyRows = [];
   Set<String> _blockedUserIds = {};
+  String? _unblockingUserId;
   int _historyPages = 0;
   int _historyEpoch = 0;
   bool _hasOlder = false;
@@ -525,6 +526,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         _outbox = [];
         _historyRows = [];
         _blockedUserIds = {};
+        _unblockingUserId = null;
         _historyPages = 0;
         _loadingOlder = false;
         _hasOlder = false;
@@ -1074,6 +1076,60 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     }
   }
 
+  Future<void> _unblockUser(String blockedId) async {
+    final owner = _owner;
+    if (owner == null ||
+        owner != widget.repository.userId ||
+        !_blockedUserIds.contains(blockedId) ||
+        _unblockingUserId != null) {
+      return;
+    }
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Engel kaldırılsın mı?'),
+        content: const Text(
+          'Bu kullanıcının kafile mesajları yeniden görünür. '
+          'Aranızda özel mesaj gönderimi de yeniden mümkün olur.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Engeli kaldır'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted || owner != widget.repository.userId) {
+      return;
+    }
+    setState(() => _unblockingUserId = blockedId);
+    try {
+      await widget.repository.unblockUser(blockedId);
+      if (!mounted || owner != widget.repository.userId) return;
+      setState(() => _blockedUserIds = {..._blockedUserIds}..remove(blockedId));
+      await _reload();
+      if (mounted && owner == widget.repository.userId) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Engel kaldırıldı.')));
+      }
+    } catch (_) {
+      if (mounted && owner == widget.repository.userId) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Engel kaldırılamadı. Tekrar dene.')),
+        );
+      }
+    } finally {
+      if (mounted && owner == widget.repository.userId) {
+        setState(() => _unblockingUserId = null);
+      }
+    }
+  }
+
   bool get _canManage =>
       _snapshot?.members.any(
         (m) =>
@@ -1275,6 +1331,40 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
             if (snapshot == null && _error == null)
               const Center(child: CircularProgressIndicator())
             else if (snapshot != null) ...[
+              if (_blockedUserIds.isNotEmpty) ...[
+                Card.outlined(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Engellenen kullanıcılar',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const Text(
+                          'Engeli kaldırınca bu kullanıcının mesajları yeniden görünür.',
+                        ),
+                        for (final id in (_blockedUserIds.toList()..sort()))
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              'Kullanıcı ${id.length > 8 ? id.substring(0, 8) : id}',
+                            ),
+                            subtitle: Text(id),
+                            trailing: TextButton(
+                              onPressed: _unblockingUserId == null
+                                  ? () => _unblockUser(id)
+                                  : null,
+                              child: const Text('Engeli kaldır'),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
               if (_location != null) ...[
                 Card.outlined(
                   child: Padding(

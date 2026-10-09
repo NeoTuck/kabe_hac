@@ -298,7 +298,12 @@ class PushTokenCoordinator extends ChangeNotifier {
       final current = currentUserId();
       if (current == savedUser) {
         final existing = await source.currentToken();
-        if (existing != null) await remote.revoke(savedUser, existing);
+        if (existing == null) {
+          throw const PushException(
+            'Bildirim kaydı bulunamadı; sunucudaki kayıt doğrulanmadan yerel izin silinemez.',
+          );
+        }
+        await remote.revoke(savedUser, existing);
       }
       await source.deleteToken();
       await store.saveAppValue(_optInKey, '');

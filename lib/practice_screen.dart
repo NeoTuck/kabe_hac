@@ -11,8 +11,11 @@ import 'offline_package.dart';
 import 'package_catalog.dart';
 import 'package_screen.dart';
 import 'progress_store.dart';
+import 'support_links_screen.dart';
 
 enum _PracticeView { entry, selection, packages, preparation, running, summary }
+
+enum _ProductScenario { audioInterrupted, packageNotOffline, leftGroup }
 
 /// A local educational rehearsal. It never writes guide progress or counters.
 class PracticeScreen extends StatefulWidget {
@@ -165,6 +168,76 @@ class _PracticeScreenState extends State<PracticeScreen> {
     });
   }
 
+  Future<void> _showProductScenario(_ProductScenario scenario) async {
+    final (title, description, recovery) = switch (scenario) {
+      _ProductScenario.audioInterrupted => (
+        'Ses kesildi',
+        'Ses durduğunda cihazın ses düzeyini ve kulaklık bağlantısını kontrol et. '
+            'Rehber veya prova ekranındaki ses düğmesinden yeniden başlatmayı dene.',
+        'Ses geri gelmezse metin ve başlıklarla devam edebilirsin. Ses, prova işaretlerini değiştirmez.',
+      ),
+      _ProductScenario.packageNotOffline => (
+        'Paket çevrimdışı değil',
+        'İsteğe bağlı paketin indirilip etkinleştiğini paket yöneticisinde kontrol et. '
+            'İndirme için bağlantı gerekebilir; temel rehber indirme olmadan açılır.',
+        'Paket hazır görünmüyorsa temel içerikle devam et. Harita veya ses paketini çevrimdışı hazır sayma.',
+      ),
+      _ProductScenario.leftGroup => (
+        'Kafileden ayrıldım',
+        'Kafile sekmesinde üyeliğini kontrol et. Ayrıldıysan eski sohbet, duyuru ve konum paylaşımına erişimin sürüyormuş gibi davranma.',
+        'Yeniden katılmak için kafile yetkilisinden yeni davet iste. Bu kart üyeliği veya konum paylaşımını değiştirmez.',
+      ),
+    };
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) => SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 12),
+              Text(description),
+              const SizedBox(height: 12),
+              Text(recovery),
+              const SizedBox(height: 20),
+              if (scenario == _ProductScenario.packageNotOffline &&
+                  widget.packages != null)
+                OutlinedButton.icon(
+                  onPressed: () async {
+                    Navigator.of(sheetContext).pop();
+                    if (mounted) await _openPackages();
+                  },
+                  icon: const Icon(Icons.download_outlined),
+                  label: const Text('Paketleri yönet'),
+                ),
+              TextButton.icon(
+                onPressed: () async {
+                  Navigator.of(sheetContext).pop();
+                  if (!mounted) return;
+                  await Navigator.of(context).push<void>(
+                    MaterialPageRoute(
+                      builder: (_) => const SupportLinksScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.help_outline_rounded),
+                label: const Text('Destek bağlantılarını gör'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(sheetContext).pop(),
+                child: const Text('Provaya dön'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> _start() => _run(() async {
     final selected = steps;
     if (selected.isEmpty) throw StateError('Prova adımı bulunamadı.');
@@ -226,6 +299,59 @@ class _PracticeScreenState extends State<PracticeScreen> {
       });
     }
   });
+
+  Future<void> _showStepOrder(
+    List<GuideStep> selected,
+    int currentIndex,
+  ) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) => SafeArea(
+        child: SizedBox(
+          height: MediaQuery.sizeOf(sheetContext).height * 0.7,
+          child: Column(
+            children: [
+              const ListTile(
+                title: Text('Prova adımları'),
+                subtitle: Text(
+                  'Bir başlığa geçmek prova işaretlerini değiştirmez.',
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: selected.length,
+                  itemBuilder: (context, index) {
+                    final step = selected[index];
+                    return ListTile(
+                      key: ValueKey('practice-step-${step.id}'),
+                      selected: index == currentIndex,
+                      leading: Text('${index + 1}'),
+                      title: Text(step.title),
+                      subtitle: Text(
+                        _marked.contains(step.id)
+                            ? 'Prova edildi · ${step.groupId}'
+                            : 'Henüz işaretlenmedi · ${step.groupId}',
+                      ),
+                      trailing: index == currentIndex
+                          ? const Icon(Icons.place_rounded)
+                          : null,
+                      onTap: _busy
+                          ? null
+                          : () {
+                              Navigator.of(sheetContext).pop();
+                              unawaited(_goTo(index));
+                            },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Future<void> _recoverChangedCatalog() => _run(() async {
     final current = _session!;
@@ -421,6 +547,40 @@ class _PracticeScreenState extends State<PracticeScreen> {
           ),
         ),
       ],
+      const SizedBox(height: 24),
+      Text(
+        'Uygulama durumları',
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      const Text(
+        'Bu kısa kartlar uygulamayı kullanmayı prova ettirir; kayıtlarını değiştirmez.',
+      ),
+      for (final (scenario, title, subtitle, icon) in [
+        (
+          _ProductScenario.audioInterrupted,
+          'Ses kesildi',
+          'Sesi yeniden başlatma ve metinle devam etme',
+          Icons.volume_off_outlined,
+        ),
+        (
+          _ProductScenario.packageNotOffline,
+          'Paket çevrimdışı değil',
+          'Paket durumunu kontrol etme ve temel içeriğe dönme',
+          Icons.download_outlined,
+        ),
+        (
+          _ProductScenario.leftGroup,
+          'Kafileden ayrıldım',
+          'Üyeliği kontrol etme ve yeniden davet isteme',
+          Icons.group_off_outlined,
+        ),
+      ])
+        ListTile(
+          leading: Icon(icon),
+          title: Text(title),
+          subtitle: Text(subtitle),
+          onTap: _busy ? null : () => _showProductScenario(scenario),
+        ),
     ],
   );
 
@@ -490,11 +650,20 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 _sectionGroupId = value == null || value.isEmpty ? null : value,
           ),
         ),
+        if (selectedCatalog
+            .stepsForProfile(_type == GuideType.hajj ? _profile : null)
+            .any((step) => !step.isApproved))
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Text(
+              'Bu akışta uzman incelemesi bekleyen başlıklar var. Taslak açıklamalar onaylı anlatım olarak gösterilmez.',
+            ),
+          ),
         const SizedBox(height: 8),
         SwitchListTile.adaptive(
           title: const Text('Sesli kullanım'),
           subtitle: const Text(
-            'Yalnız onaylı ve erişilebilir kayıtlar çalınır.',
+            'Erişilebilir sentetik taslak kayıtlar ayrıca işaretlenir.',
           ),
           value: _audioEnabled,
           onChanged: _busy ? null : _setAudio,
@@ -631,6 +800,14 @@ class _PracticeScreenState extends State<PracticeScreen> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         LinearProgressIndicator(value: (index + 1) / selected.length),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: _busy ? null : () => _showStepOrder(selected, index),
+            icon: const Icon(Icons.list_alt_rounded),
+            label: Text('Adım sırasını gör (${_marked.length} işaretli)'),
+          ),
+        ),
         const SizedBox(height: 18),
         Text(step.title, style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 12),
@@ -841,6 +1018,21 @@ class _PracticeScreenState extends State<PracticeScreen> {
         Text(
           '${_marked.intersection(steps.map((step) => step.id).toSet()).length} / ${steps.length} başlık prova edildi.',
         ),
+      if (_session!.contentVersion == catalog.contentVersion &&
+          steps.isNotEmpty) ...[
+        const SizedBox(height: 12),
+        Text(
+          'Prova edilen başlıklar',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        if (!steps.any((step) => _marked.contains(step.id)))
+          const Text('Henüz bir başlık işaretlenmedi.'),
+        for (final step in steps.where((step) => _marked.contains(step.id)))
+          ListTile(
+            title: Text(step.title),
+            subtitle: Text('${step.groupId} · ${step.status.label}'),
+          ),
+      ],
       const Text(
         'Bu sonuç gerçek ibadetin yapıldığını veya geçerliliğini göstermez.',
       ),
@@ -875,48 +1067,54 @@ class _PracticeDiagram extends StatelessWidget {
         'Cemarat için soyut hedef şeması; gerçek saha veya sıra göstermez.',
       _ => 'Bu aşama için görsel şema bulunmuyor.',
     };
-    return Semantics(
-      label: label,
-      child: Container(
-        height: 132,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ExcludeSemantics(
+          child: Container(
+            height: 132,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Center(
+              child: switch (kind) {
+                'tawaf' => const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.rotate_left_rounded, size: 45),
+                    SizedBox(width: 16),
+                    Icon(Icons.crop_square_rounded, size: 60),
+                    SizedBox(width: 8),
+                    Icon(Icons.flag_outlined),
+                  ],
+                ),
+                'say' => const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Safa'),
+                    SizedBox(width: 12),
+                    Icon(Icons.swap_horiz_rounded, size: 55),
+                    SizedBox(width: 12),
+                    Text('Merve'),
+                  ],
+                ),
+                'jamarat' => const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.arrow_forward_rounded, size: 42),
+                    SizedBox(width: 16),
+                    Icon(Icons.adjust_rounded, size: 58),
+                  ],
+                ),
+                _ => const Icon(Icons.menu_book_outlined, size: 54),
+              },
+            ),
+          ),
         ),
-        child: Center(
-          child: switch (kind) {
-            'tawaf' => const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.rotate_left_rounded, size: 45),
-                SizedBox(width: 16),
-                Icon(Icons.crop_square_rounded, size: 60),
-                SizedBox(width: 8),
-                Icon(Icons.flag_outlined),
-              ],
-            ),
-            'say' => const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Safa'),
-                SizedBox(width: 12),
-                Icon(Icons.swap_horiz_rounded, size: 55),
-                SizedBox(width: 12),
-                Text('Merve'),
-              ],
-            ),
-            'jamarat' => const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.arrow_forward_rounded, size: 42),
-                SizedBox(width: 16),
-                Icon(Icons.adjust_rounded, size: 58),
-              ],
-            ),
-            _ => const Icon(Icons.menu_book_outlined, size: 54),
-          },
-        ),
-      ),
+        const SizedBox(height: 6),
+        Text(label, textAlign: TextAlign.center),
+      ],
     );
   }
 }

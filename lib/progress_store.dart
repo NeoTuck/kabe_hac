@@ -144,6 +144,7 @@ class ProgressStore {
   }
 
   /// Clears device records while retaining the reader's appearance settings.
+  /// The caller must revoke any registered push token before invoking this.
   /// This does not revoke a remote account or an active server location share.
   Future<void> clearLocalRecords() async {
     final database = await _database;
@@ -156,8 +157,8 @@ class ProgressStore {
       await transaction.delete('location_share_state');
       await transaction.delete(
         'app_state',
-        where: 'key = ?',
-        whereArgs: ['last_step_id'],
+        where: 'key IN (?, ?)',
+        whereArgs: ['last_step_id', 'push_opt_in_user'],
       );
     });
   }

@@ -22,6 +22,12 @@ FONT_RIGHTS = {
                             'assets/fonts/NotoNaskhArabic-OFL.txt',
                             'https://github.com/notofonts/arabic'),
 }
+REVIEW_AUDIO_DIR = 'assets/audio/draft-v2/'
+REVIEW_AUDIO_MODEL_REVISION = '7a6ba1ad216bb2f1da9863f80ac8770a6a807632'
+REVIEW_AUDIO_MODEL_CARD = (
+    'https://huggingface.co/canberkkkkkk/ema-lightning/blob/'
+    f'{REVIEW_AUDIO_MODEL_REVISION}/README.md'
+)
 
 
 def digest(path):
@@ -62,6 +68,26 @@ def asset_entry(path):
                       'license': 'original project asset',
                       'source': 'tools/build_app_icons.py',
                       'releaseStatus': 'bundled'})
+    elif rel.startswith(REVIEW_AUDIO_DIR) and path.suffix == '.m4a':
+        entry.update({
+            'kind': 'synthetic_turkish_review_audio',
+            'audioId': path.stem,
+            'declaredOrigin': 'synthetic',
+            'engine': 'EMA Lightning 1.0.4',
+            'model': 'canberkkkkkk/ema-lightning',
+            'modelRevision': REVIEW_AUDIO_MODEL_REVISION,
+            'normalizer': 'normalizer-tr 0.4.0',
+            'source': REVIEW_AUDIO_MODEL_CARD,
+            'provenanceReceipt': (
+                'release-inputs/local-review-audio-v2/receipts/'
+                f'{path.stem}.json'
+            ),
+            'license': 'Apache-2.0 (model author declaration)',
+            'rightsStatus': 'training_corpus_consent_and_output_distribution_unverified',
+            'listeningReview': 'pending',
+            'religiousContentReview': 'pending',
+            'releaseStatus': 'draft_guarded',
+        })
     elif rel == 'assets/audio/teknik_demo.m4a':
         entry.update({'kind': 'technical_audio', 'license': 'QA fixture only',
                       'releaseStatus': 'excluded_from_user_build'})
@@ -79,6 +105,10 @@ def collect_assets():
     paths += list((ROOT / 'ios/Runner/Assets.xcassets/AppIcon.appiconset').glob('*.png'))
     paths += list((ROOT / 'ios/Runner/Assets.xcassets/LaunchImage.imageset').glob('*.png'))
     paths.append(ROOT / 'assets/audio/teknik_demo.m4a')
+    review_audio = sorted((ROOT / REVIEW_AUDIO_DIR).glob('*.m4a'))
+    if len(review_audio) != 54:
+        raise SystemExit(f'Expected 54 bundled draft review audio files, found {len(review_audio)}.')
+    paths += review_audio
     return [asset_entry(p) for p in sorted(paths) if p.is_file()]
 
 
@@ -110,8 +140,8 @@ def main():
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     report = {
-        'scope': 'checked-in user assets, excluded QA audio, pubspec.lock Dart packages',
-        'limits': 'Native Gradle/Apple transitive packages and future downloaded packs require separate review.',
+        'scope': 'checked-in user assets including 54 guarded synthetic draft audio files, excluded QA audio, pubspec.lock Dart packages',
+        'limits': 'Audio model license is an author declaration; training corpus consent, output distribution rights, listening and religious review remain unverified. Native Gradle/Apple transitive packages and future downloaded packs require separate review.',
         'assets': collect_assets(),
         'dartPackages': collect_packages(),
     }
