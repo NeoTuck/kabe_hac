@@ -19,8 +19,11 @@ revoke all on public.message_report_audit from public, anon, authenticated,
   service_role;
 
 -- Only the trusted service role can see the cross-user moderation queue.
+create index message_reports_queue_cursor_idx
+  on public.message_reports (status, created_at, id);
 create function public.list_moderation_reports(
-  batch_size integer default 50, queue_status text default 'pending')
+  batch_size integer default 50, queue_status text default 'pending',
+  after_reported_at timestamptz default null, after_report_id uuid default null)
 returns table (
   report_id uuid, reported_at timestamptz, report_status text,
   reason text, detail text, group_id uuid, message_id uuid,
@@ -36,6 +39,16 @@ begin
   if queue_status is null or queue_status not in ('pending', 'reviewing') then
     raise exception 'invalid queue status';
   end if;
+  if (after_reported_at is null) <> (after_report_id is null) then
+    raise exception 'incomplete moderation cursor';
+  end if;
+  if after_report_id is not null and not exists (
+    select 1 from public.message_reports r
+    where r.id = after_report_id and r.created_at = after_reported_at
+      and r.status = queue_status
+  ) then
+    raise exception 'invalid moderation cursor';
+  end if;
   return query
     select r.id, r.created_at, r.status, r.reason, r.detail,
       r.group_id, r.message_id, r.reporter_id, m.sender_id,
@@ -43,6 +56,8 @@ begin
     from public.message_reports r
     join public.messages m on m.id = r.message_id
     where r.status = queue_status
+      and (after_report_id is null
+        or (r.created_at, r.id) > (after_reported_at, after_report_id))
     order by r.created_at, r.id
     limit batch_size;
 end;
@@ -92,10 +107,11 @@ begin
 end;
 $$;
 
-revoke all on function public.list_moderation_reports(integer, text)
+revoke all on function public.list_moderation_reports(integer, text, timestamptz, uuid)
   from public, anon, authenticated;
 revoke all on function public.record_moderation_review(uuid, text, text, text, text)
   from public, anon, authenticated;
-grant execute on function public.list_moderation_reports(integer, text) to service_role;
+grant execute on function public.list_moderation_reports(integer, text, timestamptz, uuid)
+  to service_role;
 grant execute on function public.record_moderation_review(uuid, text, text, text, text)
   to service_role;

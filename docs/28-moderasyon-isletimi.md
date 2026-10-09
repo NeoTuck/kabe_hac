@@ -2,8 +2,15 @@
 
 `20261009161000_moderation_operations.sql` yalnız sunucu tarafında iki RPC ekler.
 `list_moderation_reports` açık şikâyetleri durumuna göre (`pending` veya
-`reviewing`) ayrı kuyruklarda, en eski önce ve en çok 100 kayıt halinde verir.
-İncelemeye alınmış eski kayıtlar yeni başvuruları gizlemez. `record_moderation_review` şu geçişleri
+`reviewing`) ayrı kuyruklarda, en eski önce ve sayfa başına en çok 100 kayıt halinde verir.
+İncelemeye alınmış eski kayıtlar yeni başvuruları gizlemez. Son kaydın
+`reported_at` ve `report_id` değerleriyle sonraki sayfa istenir; iki değer birlikte
+verilmeli ve seçilen kuyruktaki aynı kaydı göstermelidir. Eksik, hatalı veya
+durumu değişmiş imleç hata verir: kuyruğun ilk sayfasından yeniden başlanır.
+Son sayfa boş veya istenen `batch_size` değerinden kısa olana kadar devam edilir.
+Sayfalar arasında yeni şikâyet ya da durum değişimi olursa bu işlem tek bir
+veritabanı anlık görüntüsü değildir; operatör kuyruğu yeniden taramalıdır.
+`record_moderation_review` şu geçişleri
 kilitli işlem içinde yapar ve ayrı bir audit satırı yazar:
 
 | Eski durum | İşlem kodu | Yeni durum | Anlamı |
@@ -31,6 +38,13 @@ apikey: <server-side service role secret>
 Content-Type: application/json
 
 {"batch_size":50,"queue_status":"pending"}
+```
+
+Yanıtın son satırı örneğin `reported_at=2026-10-09T10:00:00Z` ve
+`report_id=90000000-0000-0000-0000-000000000006` ise sonraki çağrı:
+
+```json
+{"batch_size":50,"queue_status":"pending","after_reported_at":"2026-10-09T10:00:00Z","after_report_id":"90000000-0000-0000-0000-000000000006"}
 ```
 
 ```http
