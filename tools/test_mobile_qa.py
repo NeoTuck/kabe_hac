@@ -105,3 +105,22 @@ class NativeEnvironmentRegressionTests(unittest.TestCase):
                 self.assertIsNotNone(re.fullmatch(wait['visible'], 'Nasıl devam etmek istersin?'))
                 self.assertIsNone(re.fullmatch(wait['visible'], 'Nasıl devam etmek istersin? Kayıtlar yükleniyor.'))
                 self.assertEqual(wait['timeout'], 30000)
+
+
+class StoreSdkCoverageTests(unittest.TestCase):
+    def test_ios_keeps_older_runtime_and_adds_store_eligible_sdk(self):
+        workflow = yaml.safe_load((ROOT / '.github/workflows/mvp-checks.yml').read_text())
+        job = workflow['jobs']['ios']
+        self.assertEqual(job['strategy']['matrix']['xcode'], ['16.4', '26.2'])
+        steps = job['steps']
+        selector = next(step for step in steps
+                        if step.get('uses') == 'maxim-lobanov/setup-xcode@v1')
+        self.assertEqual(selector['with']['xcode-version'], '${{ matrix.xcode }}')
+        builds = [step.get('run') for step in steps]
+        self.assertIn('flutter build ios --debug --no-codesign', builds)
+        self.assertIn('flutter build ios --simulator --debug', builds)
+        release = next(step for step in steps if step.get('run') == 'flutter build ios --release --no-codesign')
+        self.assertEqual(release['if'], "matrix.xcode == '26.2'")
+        self.assertIn('python3 tools/run_ci_ios_qa.py', builds)
+        artifact = next(step for step in steps if step.get('uses') == 'actions/upload-artifact@v4')
+        self.assertEqual(artifact['with']['name'], 'ios-simulator-ui-${{ matrix.xcode }}')

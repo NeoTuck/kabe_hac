@@ -1,8 +1,8 @@
 # Mobil testleri çalıştırma
 
-9 Ekim sunucu diliminin kod, CI ve artifact kapsamı `../20-sunucu-bildirim-ve-konum-isleri.md` içindedir; en yeni uygulama kodunun native CI kabulü `../21-yayin-hazirligi-dilimi.md` içindedir. SQL/PGlite, gerçek PostgreSQL kilit testi ve Edge işleyici testi canlı Supabase/FCM/APNs veya mobil uçtan uca kabul değildir. Gerçek push testi hem `PUSH_TEST_USER_IDS` hem `PUSH_TEST_TOKEN_IDS` allowlist'iyle, açık seçilmiş test hesap ve cihazlarında yapılır. Önceki kabulü yeni SHA'ya taşımayın.
+9 Ekim sunucu diliminin kod, CI ve artifact kapsamı `../20-sunucu-bildirim-ve-konum-isleri.md` içindedir; son gerçek veri/harita diliminin native CI durumu `../23-gercek-veri-ve-ses-uretim-hatti.md` içindedir. SQL/PGlite, gerçek PostgreSQL kilit testi ve Edge işleyici testi canlı Supabase/FCM/APNs veya mobil uçtan uca kabul değildir. Gerçek push testi hem `PUSH_TEST_USER_IDS` hem `PUSH_TEST_TOKEN_IDS` allowlist'iyle, açık seçilmiş test hesap ve cihazlarında yapılır. Önceki kabulü yeni SHA'ya taşımayın.
 
-Güncel `--flow all` paketi altı uygulama akışıdır: Umre girişleri, ayarlar, onaylı ses yok durumu, yapılandırılmamış servisler, isteğe bağlı prova ve lisans/kaynak metni. Bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
+Güncel `--flow all` paketi yedi uygulama akışıdır: Umre girişleri, ayarlar, onaylı ses yok durumu, yapılandırılmamış servisler, isteğe bağlı prova, lisans/kaynak metni ve gerçek çevrimdışı Mekke paketi indirme/render. Bütün ürünün veya fiziksel cihazın kabulü değildir. Maestro kurulumunu resmi belgeden yapın: https://docs.maestro.dev/maestro-cli/ . CLI referansı: https://docs.maestro.dev/maestro-cli/maestro-cli-commands-and-options . iOS burada yalnız simülatördür. Derleme minimumları Android API 28 (Android 9) ve iOS 15.0; gerçek cihaz uyumluluğu ayrıca kabul edilmelidir. Mevcut iOS proje bağımlılık hattı Swift Package Manager’dır.
 
 İsteğe bağlı prova `.maestro/flows/05-prova.yaml` ile ana matrise dahildir. Eski `.maestro/practice-flow.yaml` tarihsel tek akış olarak korunur. Prova başlatma, duraklatma ve yeniden açıp devam test edilir; taslak dinî metin/sayaç ve gerçek ses kabulü değildir. `.maestro/flows/06-lisans-kaynak.yaml` font lisansının uygulama içinden açılmasını kontrol eder; tüm üçüncü taraf ve gelecekte indirilen paket haklarının hukuki kabulü değildir.
 
@@ -12,7 +12,7 @@ Güncel `--flow all` paketi altı uygulama akışıdır: Umre girişleri, ayarla
 
 QA artifact kurulduktan sonra genel çalıştırıcıya `--flow audio` verin. `.maestro/audio-probe.yaml` gerçek native eklentide süre/konum, pause/resume, seek/completion, replay ve stop durumlarını zorunlu tutar. Konum ilerlemesi tek başına işitsel çıktı kabulü değildir. CI Android emülatörü `-noaudio` kullanır; duyma, ses netliği, insan telaffuzu, kilit ekranı, Bluetooth ve telefon çağrısı fiziksel kabul bekler. Probe dinî ilerleme kaydetmez. `KABE_AUDIO_QA=true` ve debug hedefi zorunludur; üretim giriş noktası probe'u import etmez.
 
-Her platformda beş uygulama vakasının JUnit/session kanıtı ile ayrı bir ses vakasının kanıtını birlikte okuyun. Yalnız build, YAML veya test dosyasının bulunması native başarı değildir. Güncel inceleme: `docs/19-ilk-kullanici-kabul-incelemesi.md`.
+Her platformda yedi uygulama vakasının JUnit/session kanıtı ile ayrı bir ses vakasının kanıtını birlikte okuyun. Yalnız build, YAML veya test dosyasının bulunması native başarı değildir. Güncel inceleme: `docs/19-ilk-kullanici-kabul-incelemesi.md`.
 
 
 ## Ön koşullar
@@ -35,7 +35,7 @@ python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-
 python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device
 # iOS Simulator; gerçek açılmış simülatör UUID'sini kullanın:
 python3 tools/run_mobile_qa.py --platform ios-simulator --device SIMULATOR_UUID --test-device
-# Altı uygulama akışı (isteğe bağlı prova ve lisans dahil):
+# Yedi uygulama akışı (isteğe bağlı prova, lisans ve gerçek harita dahil):
 python3 tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow all
 ```
 
@@ -59,7 +59,7 @@ Gerçek kişilere test mesajı/davet gönderilmez; acil numaralar aranmaz. Çık
 
 ## 8 Ekim CI genişletmesi — tarihsel dört akış kanıtı
 
-MVP workflow Android API 28 ve 35 için ayrı, yeni CI emülatörleri kullanır. APK aynı run'daki build artifact'ından indirilir. `--expected-apk PATH` verildiğinde çalıştırıcı kurulu tek APK'yı yalnız okumak için geçici klasöre çeker ve SHA-256 karşılaştırır; eşleşmezse ekran testini başlatmaz. Manuel testte bu bayrak isteğe bağlıdır. Akış süresi 10 dakika ile sınırlıdır.
+MVP workflow Android API 28 ve 35 için ayrı, yeni CI emülatörleri kullanır. APK aynı run'daki build artifact'ından indirilir. `--expected-apk PATH` verildiğinde çalıştırıcı kurulu tek APK'yı yalnız okumak için geçici klasöre çeker ve SHA-256 karşılaştırır; eşleşmezse ekran testini başlatmaz. Manuel testte bu bayrak isteğe bağlıdır. Çalıştırıcı süreleri platform/akış politikasında sınırlıdır; gerçek indirme ve render beklemeleri de ayrı üst sınır taşır.
 
 iOS işi fiziksel hedef no-codesign build ardından `--simulator --debug` derler. `run_ci_ios_qa.py` yalnız `GITHUB_ACTIONS=true` içinde kendi test simülatörünü oluşturur, kurar ve dört akışı çalıştırır; kendi oluşturduğu UUID'yi kapatıp siler. CI simülatör runtime sürümü seçili Xcode SDK major/minor sürümüne eşlenir; en yeni kurulu runtime körlemesine seçilmez. Kişisel Mac'te bu yardımcı çalıştırılmaz; açık seçilen test simülatörüyle genel çalıştırıcı kullanılır.
 
@@ -71,4 +71,4 @@ Teknik kaydın ilerleme göstergesi sürekli değişir. Oynat/duraklat tap komut
 
 Mobil ses akışı ayrıca ayrı erişilebilirlik canlı bölgesindeki “Ses duraklatıldı” bilgisini zorunlu tutar. “Ses tamamlandı” veya yalnız oynat düğmesinin geri gelmesi duraklatma kabulü değildir. Uygulama bu iki durumu açıkça ayırır; fiziksel işitsel çıktı ayrıca insan tarafından doğrulanmalıdır.
 
-Güncel kabul: `58708cfb`, CI `37741666923`. Dört pilot akış Android API 28, API 35 ve iPhone 16 / iOS 18.5 simulator'de başarılı. JUnit / session / Android kurulu APK hash eşleşmesi ve duraklatma görüntüleri incelendi. 146 Flutter, 39 bağımsız SQL ve beş QA yapılandırma kontrolü de geçti. Önceki run hataları tarihsel teşhistir; güncel kanıt `docs/11-kullanici-kalite-turu.md` başında. Fiziksel cihaz, hoparlör sesi, Bluetooth ve bütün ürün kabulü açık kalır.
+Tarihsel kabul: `58708cfb`, CI `37741666923`. Dört pilot akış Android API 28, API 35 ve iPhone 16 / iOS 18.5 simulator'de başarılı. JUnit / session / Android kurulu APK hash eşleşmesi ve duraklatma görüntüleri incelendi. 146 Flutter, 39 bağımsız SQL ve beş QA yapılandırma kontrolü de geçti. Önceki run hataları tarihsel teşhistir; güncel kanıt `docs/11-kullanici-kalite-turu.md` başında. Fiziksel cihaz, hoparlör sesi, Bluetooth ve bütün ürün kabulü açık kalır.

@@ -1,5 +1,8 @@
 # AGENTS.md
 
+**Güncel doğrulama (9 Ekim):** ddc8a8a / CI37935382604 Android API28/google_apis ve API35/default yedi uygulama + ayrı native teknik ses vakası passed; ZIP/JUnit/session/kurulu APK SHA-256 bağımsız doğrulandı. PR test merge 8c6bcf7 ile kod tree farkı yok. Yerel 190 Flutter/44 Python; aynı CI 39 pgTAP/45 sunucu SQL/7 gerçek PostgreSQL yarış testi/13 Node geçti. iOS18.5/iPhone16 de yedi uygulama + ayrı teknik ses vakasını geçti; üçüncü artifact/JUnit/session incelendi. Yeni Xcode16.4+26.2 matrisi mağaza SDK26 şartını test etmek için hazırlandı; gerçek dağıtım imzası değildir, yeni CI kabulü gerekir. Yeni yapılandırma 45 Python testini geçti. release_preflight blocked/155 korunur. docs/23 son durumu içerir.
+
+
 **Son native tanı (9 Ekim):** c4b9435 / CI37931892776 derlemeler başarılı; API28 6/7 (harita çizildi, driver erişilebilirlik stack overflow), API35 sistem Pixel Launcher ANR ile 0/7, iOS 6/7 (prova yeniden açılışında geç yüklenen kayıt nedeniyle erken selector). Android texture composition, API35 AOSP test imajı ve ana ekran kayıt semantiğini bekleyen prova testi uygulanıyor. Yeni native kabul beklenir; önceki sonuçlar tam geçiş sayılmaz. docs/23 günceldir.
 
 
