@@ -12,6 +12,10 @@ class ProductionAssetsTests(unittest.TestCase):
             apk = pathlib.Path(tmp) / 'app.apk'
             with zipfile.ZipFile(apk, 'w') as out:
                 out.writestr('assets/flutter_assets/assets/content/umre_inventory.v1.json', '{}')
+                out.writestr(
+                    'assets/flutter_assets/assets/audio/draft-v2/A-U01.1-TR-01.m4a',
+                    b'draft',
+                )
             audit(apk)
             with zipfile.ZipFile(apk, 'a') as out:
                 out.writestr('assets/flutter_assets/assets/audio/teknik_demo.m4a', b'fixture')
