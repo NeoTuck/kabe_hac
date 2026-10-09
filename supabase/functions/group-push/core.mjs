@@ -31,6 +31,14 @@ export function classifyFcm(
     const retryMs = retryAfter && Number.isFinite(numeric)
       ? numeric * 1000
       : Date.parse(retryAfter) - now;
+    if (retryMs > 86400000) {
+      // Do not retry before the provider's requested time merely to fit our window.
+      return {
+        outcome: "exhausted",
+        safe_code: "RETRY_WINDOW_EXCEEDED",
+        retry_seconds: 86400,
+      };
+    }
     const backoff = 60 * 2 ** Math.min(Math.max(attempt - 1, 0), 4);
     return {
       outcome: "retry",
@@ -86,11 +94,11 @@ export function fcmPayload(delivery) {
 }
 
 export async function processPushBatch(
-  { rpc, send, allowedUsers, mode, batchSize = 5 },
+  { rpc, send, allowedUsers, allowedTokens, mode, batchSize = 3 },
 ) {
   if (
     !["test", "production"].includes(mode) ||
-    (mode === "test" && !allowedUsers?.size)
+    (mode === "test" && (!allowedUsers?.size || !allowedTokens?.size))
   ) {
     return { claimed: 0, provider_accepted: 0, skipped: 0, disabled: true };
   }
@@ -112,7 +120,10 @@ export async function processPushBatch(
       continue;
     }
     let outcome;
-    if (mode === "test" && !allowedUsers.has(d.user_id)) {
+    if (
+      mode === "test" &&
+      (!allowedUsers.has(d.user_id) || !allowedTokens.has(d.token_id))
+    ) {
       outcome = {
         outcome: "permanent_failure",
         safe_code: "TEST_RECIPIENT_EXCLUDED",

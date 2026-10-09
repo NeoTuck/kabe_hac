@@ -15,6 +15,7 @@ const delivery = {
   group_id: "10000000-0000-0000-0000-000000000001",
   event_id: "1",
   user_id: "test-user",
+  token_id: "test-device",
   attempts: 1,
   body: "PRIVATE",
   latitude: 21.4,
@@ -70,6 +71,11 @@ test("transient errors have bounded backoff and respect Retry-After", () => {
     assert.equal(result.retry_seconds, 1200);
   }
   assert.equal(classifyFcm(429, null, "999999", 5).retry_seconds, 86400);
+  assert.equal(classifyFcm(429, null, "999999", 5).outcome, "exhausted");
+  assert.equal(
+    classifyFcm(429, null, "999999", 5).safe_code,
+    "RETRY_WINDOW_EXCEEDED",
+  );
   assert.equal(
     classifyFcm(503, null, "invalid", 3, 0, () => 0).retry_seconds,
     240,
@@ -118,6 +124,7 @@ function harness(rows = [delivery]) {
     sends,
     mode: "test",
     allowedUsers: new Set(["test-user"]),
+    allowedTokens: new Set(["test-device"]),
     rpc: async (name, args) => {
       calls.push([name, args]);
       if (name === "claim_push_deliveries") {
@@ -136,7 +143,11 @@ function harness(rows = [delivery]) {
   };
 }
 test("disabled job and unconfigured test allowlist never lease or send", async () => {
-  for (const config of [{ mode: "disabled" }, { allowedUsers: new Set() }]) {
+  for (
+    const config of [{ mode: "disabled" }, { allowedUsers: new Set() }, {
+      allowedTokens: new Set(),
+    }]
+  ) {
     const h = harness();
     await processPushBatch({ ...h, ...config });
     assert.equal(h.calls.length, 0);
@@ -152,6 +163,12 @@ test("revocation at preparation causes no provider send", async () => {
 });
 test("test mode excludes real users", async () => {
   const h = harness([{ ...delivery, user_id: "real-user" }]);
+  await processPushBatch(h);
+  assert.equal(h.sends.length, 0);
+  assert.equal(h.calls[2][1].safe_code, "TEST_RECIPIENT_EXCLUDED");
+});
+test("test mode excludes an unselected device of an allowed test account", async () => {
+  const h = harness([{ ...delivery, token_id: "unselected-device" }]);
   await processPushBatch(h);
   assert.equal(h.sends.length, 0);
   assert.equal(h.calls[2][1].safe_code, "TEST_RECIPIENT_EXCLUDED");

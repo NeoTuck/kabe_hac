@@ -136,7 +136,7 @@ end;
 $$;
 
 create function public.prepare_push_delivery(delivery_id bigint, worker_lease uuid)
-returns table(token text, kind text, group_id uuid, event_id text, user_id uuid, attempts integer)
+returns table(token text, kind text, group_id uuid, event_id text, user_id uuid, token_id uuid, attempts integer)
 language plpgsql security definer set search_path = public as $$
 declare d public.push_deliveries;
 begin
@@ -148,7 +148,7 @@ begin
       where id = d.id;
     return;
   end if;
-  return query select t.token, d.kind, d.group_id, d.id::text, t.user_id, d.attempts
+  return query select t.token, d.kind, d.group_id, d.id::text, t.user_id, t.id, d.attempts
     from public.device_push_tokens t where t.id = d.token_id;
 end;
 $$;
@@ -159,7 +159,7 @@ returns boolean language plpgsql security definer set search_path = public as $$
 declare d public.push_deliveries;
 begin
   if outcome is null or safe_code is null or retry_seconds is null
-    or outcome not in ('provider_accepted', 'invalid_token', 'permanent_failure', 'retry')
+    or outcome not in ('provider_accepted', 'invalid_token', 'permanent_failure', 'retry', 'exhausted')
     or safe_code !~ '^[A-Z0-9_]{1,64}$' or retry_seconds not between 60 and 86400 then
     raise exception 'invalid outcome';
   end if;

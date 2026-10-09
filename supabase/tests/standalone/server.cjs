@@ -149,6 +149,11 @@ async function main() {
     check(await scalar('select public.cleanup_expired_locations(1)'), 1, 'cleanup honors one-row bound on multi-row share');
     check(await scalar(`select count(*)::int from public.location_updates where share_id='${batchShare}'`), 1, 'remaining expired coordinate waits for next bounded batch');
     check(await scalar('select public.cleanup_expired_locations(1)'), 1, 'next cleanup drains remaining expired coordinate');
+    await query('update public.group_members set status=\'active\' where group_id=$1 and user_id=$2', [gid(1),uid(1)]);
+    await message(1);
+    const longWait = (await query('select * from public.claim_push_deliveries(1)'))[0];
+    await query('select public.finish_push_delivery($1,$2,\'exhausted\',\'RETRY_WINDOW_EXCEEDED\',86400)', [longWait.id,longWait.lease_id]);
+    check(await scalar(`select status from public.push_deliveries where id=${longWait.id}`), 'exhausted', 'provider wait beyond retry window terminates without premature retry');
     console.log(`PASS ${checks} disposable server SQL checks; live service and concurrency acceptance pending.`);
   } finally { await pg.close(); }
 }

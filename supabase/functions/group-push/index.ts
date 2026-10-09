@@ -20,7 +20,10 @@ Deno.serve(async (request: Request) => {
     const allowedUsers = new Set(
       (Deno.env.get("PUSH_TEST_USER_IDS") ?? "").split(",").filter(Boolean),
     );
-    if (mode === "test" && !allowedUsers.size) {
+    const allowedTokens = new Set(
+      (Deno.env.get("PUSH_TEST_TOKEN_IDS") ?? "").split(",").filter(Boolean),
+    );
+    if (mode === "test" && (!allowedUsers.size || !allowedTokens.size)) {
       return Response.json({ disabled: true });
     }
     const rpc = createRpc(
@@ -34,6 +37,7 @@ Deno.serve(async (request: Request) => {
       rpc,
       mode,
       allowedUsers,
+      allowedTokens,
       send: async (d: Record<string, string | number>) => {
         const response = await fetch(
           `https://fcm.googleapis.com/v1/projects/${account.project_id}/messages:send`,
