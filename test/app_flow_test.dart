@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
@@ -5,8 +7,16 @@ import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/guide_screens.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
+import 'package:hac_umre_sesli_rehber/progress_store.dart';
 
 import 'test_fakes.dart';
+
+class DelayedHomeStore extends MemoryGuideStore {
+  final pending = Completer<GuideSession?>();
+
+  @override
+  Future<GuideSession?> readMostRecentSession() => pending.future;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -128,5 +138,37 @@ void main() {
     await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
     await tester.pumpAndSettle();
     expect(find.text('Teknik deneme'), findsNothing);
+  });
+  testWidgets('ana ekran kayıt yükleme durumu erişilebilir ve sınırlıdır', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    final store = DelayedHomeStore();
+    final narration = FakeNarration();
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: catalogs,
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+      ),
+    );
+    await tester.pump();
+    expect(
+      find.bySemanticsLabel('Nasıl devam etmek istersin? Kayıtlar yükleniyor.'),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel('Nasıl devam etmek istersin?'), findsNothing);
+    store.pending.complete(null);
+    await tester.pumpAndSettle();
+    expect(
+      find.bySemanticsLabel('Nasıl devam etmek istersin?'),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel('Nasıl devam etmek istersin? Kayıtlar yükleniyor.'),
+      findsNothing,
+    );
+    semantics.dispose();
   });
 }

@@ -83,3 +83,25 @@ class ExtendedCoverageTests(unittest.TestCase):
         for label in ('Konum ilerledi', 'Süre alındı', 'Ses duraklatıldı',
                       'Ses tamamlandı', 'Ses durdu'):
             self.assertIn({'assertVisible': label}, flow)
+
+
+class NativeEnvironmentRegressionTests(unittest.TestCase):
+    def test_android_matrix_avoids_observed_api35_pixel_launcher_anr(self):
+        workflow = yaml.safe_load((ROOT / '.github/workflows/mvp-checks.yml').read_text())
+        job = workflow['jobs']['android-ui']
+        self.assertEqual(job['strategy']['matrix']['include'], [
+            {'api': 28, 'target': 'google_apis'},
+            {'api': 35, 'target': 'default'},
+        ])
+        runner = next(step for step in job['steps']
+                      if step.get('uses') == 'reactivecircus/android-emulator-runner@v2')
+        self.assertEqual(runner['with']['target'], '${{ matrix.target }}')
+
+    def test_practice_relaunch_waits_for_restored_home_records(self):
+        flow = commands('05-prova.yaml')
+        for index, command in enumerate(flow):
+            if command == 'launchApp':
+                wait = flow[index + 1]['extendedWaitUntil']
+                self.assertIsNotNone(re.fullmatch(wait['visible'], 'Nasıl devam etmek istersin?'))
+                self.assertIsNone(re.fullmatch(wait['visible'], 'Nasıl devam etmek istersin? Kayıtlar yükleniyor.'))
+                self.assertEqual(wait['timeout'], 30000)

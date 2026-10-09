@@ -66,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _refreshEpoch = 0;
   GuideSession? _latest;
   String? _error;
+  bool _loadingRecords = true;
 
   @override
   void initState() {
@@ -96,12 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
           _catalogs = catalogs;
           _travelCatalog = travel;
           _latest = session;
+          _loadingRecords = false;
           _error = null;
         });
       }
     } catch (_) {
       if (mounted && epoch == _refreshEpoch) {
-        setState(() => _error = 'Kayıtlar okunamadı.');
+        setState(() {
+          _loadingRecords = false;
+          _error = 'Kayıtlar okunamadı.';
+        });
       }
     }
   }
@@ -214,10 +219,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            Text(
-              'Nasıl devam etmek istersin?',
-              style: Theme.of(context).textTheme.headlineMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+            Semantics(
+              header: true,
+              excludeSemantics: true,
+              label: _loadingRecords
+                  ? 'Nasıl devam etmek istersin? Kayıtlar yükleniyor.'
+                  : 'Nasıl devam etmek istersin?',
+              child: Text(
+                'Nasıl devam etmek istersin?',
+                style: Theme.of(context).textTheme.headlineMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 12),
             const Text(

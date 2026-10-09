@@ -1,5 +1,8 @@
 # AGENTS.md
 
+**Son native tanı (9 Ekim):** c4b9435 / CI37931892776 derlemeler başarılı; API28 6/7 (harita çizildi, driver erişilebilirlik stack overflow), API35 sistem Pixel Launcher ANR ile 0/7, iOS 6/7 (prova yeniden açılışında geç yüklenen kayıt nedeniyle erken selector). Android texture composition, API35 AOSP test imajı ve ana ekran kayıt semantiğini bekleyen prova testi uygulanıyor. Yeni native kabul beklenir; önceki sonuçlar tam geçiş sayılmaz. docs/23 günceldir.
+
+
 Bu dosya depoda çalışan insan ve AI geliştiriciler için ana çalışma talimatıdır. Kök dizinin tamamına uygulanır. Güncel kanıt, teknik sınırlar ve sıradaki tek iş burada tutulur.
 
 ## 1. Her çalışmanın başlama sırası
