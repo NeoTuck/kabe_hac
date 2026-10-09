@@ -126,7 +126,7 @@ create function public.cleanup_expired_locations(batch_size integer default 100)
 returns integer language plpgsql security definer set search_path = public as $$
 declare removed integer;
 begin
-  if batch_size not between 1 and 1000 then raise exception 'invalid batch'; end if;
+  if batch_size is null or batch_size not between 1 and 1000 then raise exception 'invalid batch'; end if;
   -- Bound coordinate rows, rather than cascade-deleting an unbounded share history.
   with expired as (
     select u.id from public.location_updates u join public.location_shares s on s.id = u.share_id

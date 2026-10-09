@@ -38,6 +38,10 @@ async function main() {
     await denied('insert into public.announcements(group_id,author_id,title,body) values ($1,$2,\'forged\',\'forged\')', [gid(1),uid(3)], 'ordinary member cannot announce');
     const privateId = await message(3,1);
     await reset();
+    for (const name of ['claim_push_deliveries', 'cleanup_expired_locations']) {
+      await assert.rejects(query(`select * from public.${name}(null)`), /invalid batch/);
+      checks++; console.log(`ok ${checks} - ${name} rejects unbounded NULL batch`);
+    }
     check(await scalar(`select count(*)::int from public.push_deliveries where source_id = '${privateId}'`), 1, 'private message targets only other party');
     const chatId = await message(1);
     check(await scalar(`select count(*)::int from public.push_deliveries where source_id = '${chatId}'`), 2, 'chat excludes sender and other group');

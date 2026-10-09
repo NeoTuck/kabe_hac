@@ -117,7 +117,7 @@ create function public.claim_push_deliveries(batch_size integer default 20)
 returns table(id bigint, lease_id uuid) language plpgsql security definer
 set search_path = public as $$
 begin
-  if batch_size not between 1 and 100 then raise exception 'invalid batch'; end if;
+  if batch_size is null or batch_size not between 1 and 100 then raise exception 'invalid batch'; end if;
   return query
     with due as (
       select d.id from public.push_deliveries d
