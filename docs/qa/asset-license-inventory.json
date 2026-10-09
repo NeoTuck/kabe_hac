@@ -1,0 +1,2284 @@
+{
+  "scope": "checked-in user assets, excluded QA audio, pubspec.lock Dart packages",
+  "limits": "Native Gradle/Apple transitive packages and future downloaded packs require separate review.",
+  "assets": [
+    {
+      "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "sha256": "bc57fe981bb53cd26aecfb17ddfb3d3ba4d3eccb43e223a3453f5553f6a7e5c5",
+      "bytes": 2572,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "sha256": "1e9ad30522a2fd0da544c5c1aa82d5bafdeb6a25ba0c44d43e8e9de9bd5cbda9",
+      "bytes": 1685,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "sha256": "ddbddb570597dea233a4c7cf2b554b8d9d9593d1b7b00a60ff18f968b606698c",
+      "bytes": 3501,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "sha256": "d94516552afce233899c59f420009a331b298509c7dc4eb21576002c4043b404",
+      "bytes": 5219,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "sha256": "003d554f6722a8e6e84608d523d28cdbfbcfe40845f7d195267563fe501b8c02",
+      "bytes": 6846,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "assets/audio/teknik_demo.m4a",
+      "sha256": "c71e9797a92b6498653a0d69374c2b7f1b539a089f098fc4578e895c6ca88677",
+      "bytes": 250646,
+      "kind": "technical_audio",
+      "license": "QA fixture only",
+      "releaseStatus": "excluded_from_user_build"
+    },
+    {
+      "path": "assets/content/hac_inventory.v1.json",
+      "sha256": "805183502e10c3f704c5e0b50e821df2be1b5dee993575fcc9d4b2f72971e477",
+      "bytes": 37897,
+      "kind": "religious_content_draft",
+      "owner": "project original summaries",
+      "license": "source reuse and expert review pending",
+      "releaseStatus": "draft_guarded"
+    },
+    {
+      "path": "assets/content/umre_inventory.v1.json",
+      "sha256": "8c7b73dfe25eaf0ef2ac5cf14163fdec1d8df3c758a43c13fd9b6e4221ddcdce",
+      "bytes": 19450,
+      "kind": "religious_content_draft",
+      "owner": "project original summaries",
+      "license": "source reuse and expert review pending",
+      "releaseStatus": "draft_guarded"
+    },
+    {
+      "path": "assets/fonts/NotoNaskhArabic-OFL.txt",
+      "sha256": "a783ea143e23dc0374b472b79d3b76a369e57a28eb599d19535073c0a4b3aa4d",
+      "bytes": 4381,
+      "kind": "font_license",
+      "license": "OFL-1.1",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "assets/fonts/NotoNaskhArabic.ttf",
+      "sha256": "67b5a525a661b607971fbd3f96a81b89d3a768e74534fca84f18ac97e6fab72f",
+      "bytes": 307592,
+      "kind": "font",
+      "name": "Noto Naskh Arabic",
+      "owner": "The Noto Project Authors",
+      "license": "OFL-1.1",
+      "licenseFile": "assets/fonts/NotoNaskhArabic-OFL.txt",
+      "source": "https://github.com/notofonts/arabic",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "assets/fonts/NotoSans-OFL.txt",
+      "sha256": "e2e177a32561584d4fc13aaa3cd8e53758a12910f013fe9ca125419111722029",
+      "bytes": 4395,
+      "kind": "font_license",
+      "license": "OFL-1.1",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "assets/fonts/NotoSans.ttf",
+      "sha256": "bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d",
+      "bytes": 2049096,
+      "kind": "font",
+      "name": "Noto Sans",
+      "owner": "The Noto Project Authors",
+      "license": "OFL-1.1",
+      "licenseFile": "assets/fonts/NotoSans-OFL.txt",
+      "source": "https://github.com/notofonts/latin-greek-cyrillic",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "sha256": "614f9fc07ec1a8c86f01b30964e173336ad48905ed0f5b8f69713700167b2e12",
+      "bytes": 31506,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
+      "sha256": "b94ebefbc4fb8227dea5ed0d78c030d249f3be73062833437727cf8030ecaf95",
+      "bytes": 651,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
+      "sha256": "f55508e7e53fa7e238772159417a49765e2fbaad9623d55db471265472eea96e",
+      "bytes": 1341,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
+      "sha256": "77edd9a29e7890a09fa6cc7d3f5a0fdadeba3bee4741abea115ccf05d19cc470",
+      "bytes": 2062,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
+      "sha256": "b627c665abff870884bc29a69ee6419120ab6490f7b03c55fcecc0a89bd3716f",
+      "bytes": 1010,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
+      "sha256": "e6c3248e1127c385a77dce0dd76ac97f3c4a7f8473aa0d7cf91e31de04decb5d",
+      "bytes": 2031,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
+      "sha256": "753f575c80be00681f568efae11d3b64ebc73230c7b0c96ff3a55744e837c646",
+      "bytes": 3086,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
+      "sha256": "f55508e7e53fa7e238772159417a49765e2fbaad9623d55db471265472eea96e",
+      "bytes": 1341,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
+      "sha256": "17371196d8cd6d92b068a539d23ea10f35be309389f6235d3c3825daf1636aa8",
+      "bytes": 2862,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
+      "sha256": "8ec7df105141f33f836f6e335615a04707f6dc3f8d04201a32353fedec90a979",
+      "bytes": 4319,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
+      "sha256": "8ec7df105141f33f836f6e335615a04707f6dc3f8d04201a32353fedec90a979",
+      "bytes": 4319,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
+      "sha256": "1035ee2cef6ff484ffc852bf639ac31ee5ec64b9e62df28dff17431c8cb3b9a1",
+      "bytes": 6472,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
+      "sha256": "617e34832989d7e9f60d4d263b48f594555c6e87ff0287c14299990e196df6ff",
+      "bytes": 2708,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
+      "sha256": "55ea65b08d0f5019403b2f150ff6471ad360c5459118284b7fb19acfb20f488f",
+      "bytes": 5473,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
+      "sha256": "5b1fcdb6a3ca00307d2f786911fafee090b0ce1d4c57ad54418dee0fc4eb69ad",
+      "bytes": 5854,
+      "kind": "app_icon",
+      "owner": "project generated geometry",
+      "license": "original project asset",
+      "source": "tools/build_app_icons.py",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20",
+      "bytes": 68,
+      "kind": "template_asset",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20",
+      "bytes": 68,
+      "kind": "template_asset",
+      "releaseStatus": "bundled"
+    },
+    {
+      "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+      "sha256": "93ae7d494fad0fb30cbf3ae746a39c4bc7a0f8bbf87fbb587a3f3c01f3c5ce20",
+      "bytes": 68,
+      "kind": "template_asset",
+      "releaseStatus": "bundled"
+    }
+  ],
+  "dartPackages": [
+    {
+      "name": "_flutterfire_internals",
+      "version": "1.3.77",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/_flutterfire_internals/versions/1.3.77/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "762fc7b205198bc1cfee88bbe618e2c485ec6aff335f56df3da109e422e39014"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "app_links",
+      "version": "7.2.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/app_links/versions/7.2.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "app_links_linux",
+      "version": "1.0.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/app_links_linux/versions/1.0.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "app_links_platform_interface",
+      "version": "2.0.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/app_links_platform_interface/versions/2.0.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "app_links_web",
+      "version": "1.0.5",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/app_links_web/versions/1.0.5/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "archive",
+      "version": "4.3.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/archive/versions/4.3.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "32f97d332eae7453ec4079858e6f1d74be85beeb6d3881068b47d02a379cccea"
+        },
+        {
+          "name": "LICENSE-other.md",
+          "sha256": "ebe5a199af245d7e3e761673fbf3db341427060407e50713861ab24bb2cb1552"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/args/versions/2.7.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "dfb09c74e29386cd3e2719f32d4995d59526179753931d31840757c77fbf2791"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "async",
+      "version": "2.13.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/async/versions/2.13.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff15faa32a2e638107b7789592b14426162a75ba620044ee2340a20ec6ce5e73"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "audio_service",
+      "version": "0.18.19",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/audio_service/versions/0.18.19/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9cad5d44e82dccb45ceb822e16932e3a127db1960dc68b0e49a33ba7ab62477f"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "audio_service_platform_interface",
+      "version": "0.1.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/audio_service_platform_interface/versions/0.1.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "160f8768e3bbab986314ac5cc28043bd49c131809c63b34ddc1c4511500aac84"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "audio_service_web",
+      "version": "0.1.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/audio_service_web/versions/0.1.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ec9b14bdd5e74617c4c51770cb9df4cea156a82e05867df7ae36049f252f31a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "audio_session",
+      "version": "0.2.4",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/audio_session/versions/0.2.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "2568490c678ba27cc8a405238637c4ba76adc632232f05dc1c36cbf59381dba4"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "boolean_selector",
+      "version": "2.1.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/boolean_selector/versions/2.1.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "b71519245009a3b8f126196a5408ec031e216e8e0d985085958c6543f82a8a2a"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "characters",
+      "version": "1.4.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/characters/versions/1.4.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "0371d1da6a57fb791db29d29b95333429205f51f3cb2eb3a0c12d91838a38744"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "clock",
+      "version": "1.1.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/clock/versions/1.1.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "code_assets",
+      "version": "1.2.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/code_assets/versions/1.2.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "21ae23b0b9ff67a2dc75ab085d1e8db8ac548c5faf370af17f28dd2ef3b52b7b"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "collection",
+      "version": "1.19.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/collection/versions/1.19.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff15faa32a2e638107b7789592b14426162a75ba620044ee2340a20ec6ce5e73"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "convert",
+      "version": "3.1.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/convert/versions/3.1.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ad6a71997da90924b2cfb1fb47ec46537f70faf469efe016168794ae45ed6888"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/crypto/versions/3.0.7/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ad6a71997da90924b2cfb1fb47ec46537f70faf469efe016168794ae45ed6888"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "cupertino_icons",
+      "version": "1.0.9",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/cupertino_icons/versions/1.0.9/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "dart_jsonwebtoken",
+      "version": "3.4.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/dart_jsonwebtoken/versions/3.4.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "8643d70d5330e43faf15f7278352c24070eea08f5829e05b912a021f822f32f4"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "dbus",
+      "version": "0.7.15",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/dbus/versions/0.7.15/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "fake_async",
+      "version": "1.3.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/fake_async/versions/1.3.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "ffi",
+      "version": "2.2.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/ffi/versions/2.2.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "0371d1da6a57fb791db29d29b95333429205f51f3cb2eb3a0c12d91838a38744"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "ffi_leak_tracker",
+      "version": "0.1.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/ffi_leak_tracker/versions/0.1.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "332f290333e64ed007b4f59aeeebd8fd3ceaadfbfa226a6cf2a3ab1583281624"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "file",
+      "version": "7.0.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/file/versions/7.0.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "f6df86b1412172537273e8e80ee2fb8a66aa7307ce0b39ea5ddab47ca41b8c49"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "firebase_core",
+      "version": "4.15.0",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/firebase_core/versions/4.15.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "firebase_core_platform_interface",
+      "version": "8.1.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/firebase_core_platform_interface/versions/8.1.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "firebase_core_web",
+      "version": "3.12.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/firebase_core_web/versions/3.12.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "797f461f7003c078c12abf3ce054343820f16a2ac923bce0d613ab8bcebc16e0"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "firebase_messaging",
+      "version": "16.7.0",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/firebase_messaging/versions/16.7.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9f23ad2aa0fe3e877397294b6846868c2a7458fe394fbcd5b90ca4505a6b6ab8"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "firebase_messaging_platform_interface",
+      "version": "4.10.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/firebase_messaging_platform_interface/versions/4.10.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9c29a06d466904f29a570e43adf668af50f76cc0b9e3774472cdba9ea01bb730"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "firebase_messaging_web",
+      "version": "4.2.5",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/firebase_messaging_web/versions/4.2.5/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "cc4b1f6283542f52f31decf2c030862938d71f8a7b93b211a8c5bd97c5a93220"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "fixnum",
+      "version": "1.1.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/fixnum/versions/1.1.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff0b91d4f3c32b25cb6ec84985e8da89b0ba2a2b2f7eef353cda5e5423a20390"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "flutter",
+      "version": "0.0.0",
+      "dependency": "direct main",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
+      "name": "flutter_cache_manager",
+      "version": "3.4.5",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/flutter_cache_manager/versions/3.4.5/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c18c2b23af83fdb3dc1c857b1df7561f7807fc3667a01d9475878733258d840e"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "flutter_lints",
+      "version": "6.0.0",
+      "dependency": "direct dev",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/flutter_lints/versions/6.0.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "flutter_localizations",
+      "version": "0.0.0",
+      "dependency": "direct main",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
+      "name": "flutter_test",
+      "version": "0.0.0",
+      "dependency": "direct dev",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependency": "transitive",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
+      "name": "functions_client",
+      "version": "2.7.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/functions_client/versions/2.7.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geoclue",
+      "version": "0.1.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geoclue/versions/0.1.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator",
+      "version": "14.1.1",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator/versions/14.1.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator_android",
+      "version": "5.1.1+1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator_android/versions/5.1.1+1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator_apple",
+      "version": "2.3.14",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator_apple/versions/2.3.14/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator_linux",
+      "version": "0.2.6",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator_linux/versions/0.2.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator_platform_interface",
+      "version": "4.4.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator_platform_interface/versions/4.4.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator_web",
+      "version": "4.1.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator_web/versions/4.1.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "geolocator_windows",
+      "version": "0.2.5",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/geolocator_windows/versions/0.2.5/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "9a4d631b14df96d4886d95164878aa3c3d06ea0843a5da771fe2536f8dc5c844"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "gotrue",
+      "version": "2.27.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/gotrue/versions/2.27.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "gsettings",
+      "version": "0.2.8",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/gsettings/versions/0.2.8/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "hooks",
+      "version": "2.0.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/hooks/versions/2.0.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "21ae23b0b9ff67a2dc75ab085d1e8db8ac548c5faf370af17f28dd2ef3b52b7b"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "http",
+      "version": "1.6.0",
+      "dependency": "direct dev",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/http/versions/1.6.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "http_parser",
+      "version": "4.1.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/http_parser/versions/4.1.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "image",
+      "version": "4.10.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/image/versions/4.10.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "f3c17da84e0780e1c334325c73098257c32221d62498ed55ef3c1361904925aa"
+        },
+        {
+          "name": "LICENSE-other.md",
+          "sha256": "dea0e9e446e57c0987d241d5471e47e7b66796fb286706ec993c3fa6696cb08e"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "intl",
+      "version": "0.20.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/intl/versions/0.20.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "7e124af6a556f045cb3a20cafbdaa31602ac2c82cbcb3c3b15faaaf514b06028"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "jni",
+      "version": "1.1.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/jni/versions/1.1.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "08a004aa8956c3cf3b24f7f69c966247233953e18e6afaa61191ea47b7eb70f6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "jni_flutter",
+      "version": "1.0.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/jni_flutter/versions/1.0.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "b1fcb475d67817411f335ac92872507011e574c4cb29cfdaaf7707b75641932c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "jni_util",
+      "version": "1.0.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/jni_util/versions/1.0.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "b1fcb475d67817411f335ac92872507011e574c4cb29cfdaaf7707b75641932c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "js",
+      "version": "0.7.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/js/versions/0.7.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "efa4eaf6fdec22a36a61395ea70843db9ae815760bf663e068012c92b93c0184"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "json_annotation",
+      "version": "4.12.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/json_annotation/versions/4.12.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "143839f62c9b7f88143ea9f688361c27050888acde7696b34e04414bd254fafc"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "just_audio",
+      "version": "0.10.6",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/just_audio/versions/0.10.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "63ce4443e916b27424700d7fe970003add9f54944daf732f2dbcc1d8caf1bbad"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "just_audio_background",
+      "version": "0.0.1-beta.17",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/just_audio_background/versions/0.0.1-beta.17/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "160f8768e3bbab986314ac5cc28043bd49c131809c63b34ddc1c4511500aac84"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "just_audio_platform_interface",
+      "version": "4.6.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/just_audio_platform_interface/versions/4.6.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "2568490c678ba27cc8a405238637c4ba76adc632232f05dc1c36cbf59381dba4"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "just_audio_web",
+      "version": "0.4.16",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/just_audio_web/versions/0.4.16/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "2568490c678ba27cc8a405238637c4ba76adc632232f05dc1c36cbf59381dba4"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "leak_tracker",
+      "version": "11.0.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/leak_tracker/versions/11.0.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "08a004aa8956c3cf3b24f7f69c966247233953e18e6afaa61191ea47b7eb70f6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "leak_tracker_flutter_testing",
+      "version": "3.0.10",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/leak_tracker_flutter_testing/versions/3.0.10/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "08a004aa8956c3cf3b24f7f69c966247233953e18e6afaa61191ea47b7eb70f6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "leak_tracker_testing",
+      "version": "3.0.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/leak_tracker_testing/versions/3.0.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "08a004aa8956c3cf3b24f7f69c966247233953e18e6afaa61191ea47b7eb70f6"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "lints",
+      "version": "6.1.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/lints/versions/6.1.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "421fe78c3b5df297f8b4ab2c74f2450a274ee6d245a113091f6b9f90570af193"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "logging",
+      "version": "1.3.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/logging/versions/1.3.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "dfb09c74e29386cd3e2719f32d4995d59526179753931d31840757c77fbf2791"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "maplibre_gl",
+      "version": "0.27.1",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/maplibre_gl/versions/0.27.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "d64bcd744d8b8df4e26f68ef358fbae5d39e8eb5fc39eb7ff156b3d60ca47b45"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "maplibre_gl_platform_interface",
+      "version": "0.27.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/maplibre_gl_platform_interface/versions/0.27.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "8e90570d8f4bfb90f80625f5b565a1f08070cd10bcaa026b5d3697e257bf5d05"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "maplibre_gl_web",
+      "version": "0.27.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/maplibre_gl_web/versions/0.27.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "8e90570d8f4bfb90f80625f5b565a1f08070cd10bcaa026b5d3697e257bf5d05"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "matcher",
+      "version": "0.12.20",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/matcher/versions/0.12.20/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "material_color_utilities",
+      "version": "0.13.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/material_color_utilities/versions/0.13.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "d103f246ef4c18dab8af0c1dcf6a8af884e5cff554da7261a48ac43c17d98f2e"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "meta",
+      "version": "1.18.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/meta/versions/1.18.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "b71519245009a3b8f126196a5408ec031e216e8e0d985085958c6543f82a8a2a"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "mime",
+      "version": "2.1.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/mime/versions/2.1.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff15faa32a2e638107b7789592b14426162a75ba620044ee2340a20ec6ce5e73"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "objective_c",
+      "version": "9.5.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/objective_c/versions/9.5.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1cda25a8de6880c5338de0b4a06ee89e8537c213eb1379c16a4c035bfd198b5c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "package_config",
+      "version": "3.0.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/package_config/versions/3.0.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "0371d1da6a57fb791db29d29b95333429205f51f3cb2eb3a0c12d91838a38744"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "package_info_plus",
+      "version": "10.2.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/package_info_plus/versions/10.2.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3b38d48befd0af70b892e13d10c9e34679416c24a9277f962629951c64d71f4c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "package_info_plus_platform_interface",
+      "version": "4.1.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/package_info_plus_platform_interface/versions/4.1.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3b38d48befd0af70b892e13d10c9e34679416c24a9277f962629951c64d71f4c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "passkeys_platform_interface",
+      "version": "2.10.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/passkeys_platform_interface/versions/2.10.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "0422cdf4d700216b8ada10019aaf6f24b8a4efd825737fda9520fe21db6e43dc"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path",
+      "version": "1.9.1",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path/versions/1.9.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path_provider",
+      "version": "2.1.6",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path_provider/versions/2.1.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path_provider_android",
+      "version": "2.3.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path_provider_android/versions/2.3.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path_provider_foundation",
+      "version": "2.6.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path_provider_foundation/versions/2.6.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path_provider_linux",
+      "version": "2.2.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path_provider_linux/versions/2.2.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path_provider_platform_interface",
+      "version": "2.1.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path_provider_platform_interface/versions/2.1.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "path_provider_windows",
+      "version": "2.3.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/path_provider_windows/versions/2.3.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "petitparser",
+      "version": "7.0.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/petitparser/versions/7.0.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "d2e8ffdbe89acbc10d5d1f2b03e7dbddf0a9f1742e809176682b62ef3d573b3e"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "platform",
+      "version": "3.2.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/platform/versions/3.2.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "143839f62c9b7f88143ea9f688361c27050888acde7696b34e04414bd254fafc"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/plugin_platform_interface/versions/2.1.8/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "pointycastle",
+      "version": "4.0.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/pointycastle/versions/4.0.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3a7bb295473da049a1c6edd2f8c41b9e526a4e80f200c0200cc5600b2634df3f"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "posix",
+      "version": "6.5.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/posix/versions/6.5.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "aaf6271abd048deb3125828613f1797b7556472de6c7acd7103bd43e9cb6a84b"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "postgrest",
+      "version": "2.9.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/postgrest/versions/2.9.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "pub_semver",
+      "version": "2.2.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/pub_semver/versions/2.2.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "realtime_client",
+      "version": "2.13.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/realtime_client/versions/2.13.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "record_use",
+      "version": "0.6.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/record_use/versions/0.6.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "1cda25a8de6880c5338de0b4a06ee89e8537c213eb1379c16a4c035bfd198b5c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "rxdart",
+      "version": "0.28.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/rxdart/versions/0.28.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences",
+      "version": "2.5.6",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences/versions/2.5.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences_android",
+      "version": "2.4.28",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences_android/versions/2.4.28/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences_foundation",
+      "version": "2.5.7",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences_foundation/versions/2.5.7/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences_linux",
+      "version": "2.4.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences_linux/versions/2.4.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "version": "2.4.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences_platform_interface/versions/2.4.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences_web",
+      "version": "2.4.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences_web/versions/2.4.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "shared_preferences_windows",
+      "version": "2.4.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/shared_preferences_windows/versions/2.4.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sky_engine",
+      "version": "0.0.0",
+      "dependency": "transitive",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
+      "name": "source_span",
+      "version": "1.10.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/source_span/versions/1.10.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqflite",
+      "version": "2.4.4",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqflite/versions/2.4.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c81f9454cf3107c116bc3c1fd22b7d751523a2b11e17cf90c0db3327d3c9e0da"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqflite_android",
+      "version": "2.4.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqflite_android/versions/2.4.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c81f9454cf3107c116bc3c1fd22b7d751523a2b11e17cf90c0db3327d3c9e0da"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqflite_common",
+      "version": "2.5.13",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqflite_common/versions/2.5.13/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c81f9454cf3107c116bc3c1fd22b7d751523a2b11e17cf90c0db3327d3c9e0da"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqflite_common_ffi",
+      "version": "2.3.7+1",
+      "dependency": "direct dev",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqflite_common_ffi/versions/2.3.7+1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c81f9454cf3107c116bc3c1fd22b7d751523a2b11e17cf90c0db3327d3c9e0da"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqflite_darwin",
+      "version": "2.4.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqflite_darwin/versions/2.4.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c81f9454cf3107c116bc3c1fd22b7d751523a2b11e17cf90c0db3327d3c9e0da"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqflite_platform_interface",
+      "version": "2.4.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqflite_platform_interface/versions/2.4.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "c81f9454cf3107c116bc3c1fd22b7d751523a2b11e17cf90c0db3327d3c9e0da"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "sqlite3",
+      "version": "2.9.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sqlite3/versions/2.9.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "67e5d73a3a0c6e41f33d688a672b1161bf7f16e04da9ae48a7a14f1ba7436a4d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "stack_trace",
+      "version": "1.12.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/stack_trace/versions/1.12.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff0b91d4f3c32b25cb6ec84985e8da89b0ba2a2b2f7eef353cda5e5423a20390"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "storage_client",
+      "version": "2.8.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/storage_client/versions/2.8.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "stream_channel",
+      "version": "2.1.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/stream_channel/versions/2.1.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff15faa32a2e638107b7789592b14426162a75ba620044ee2340a20ec6ce5e73"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "string_scanner",
+      "version": "1.4.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/string_scanner/versions/1.4.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "3c32b53167c7dae9190c38dab5dd9fe1789c53623ebc7d1babcb29914c5b3f16"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "supabase",
+      "version": "2.16.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/supabase/versions/2.16.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "supabase_common",
+      "version": "0.1.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/supabase_common/versions/0.1.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "be8c4de36f5c20598e7dcb2dd8d33d398d3c74fda7f9d33d902804302abf41f2"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "supabase_flutter",
+      "version": "2.18.0",
+      "dependency": "direct main",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/supabase_flutter/versions/2.18.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "synchronized",
+      "version": "3.4.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/synchronized/versions/3.4.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "6d07c6bb60afb906049d507e19fcc4c6b59e35c0dd0f8a7302e87b3fb0576900"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "term_glyph",
+      "version": "1.2.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/term_glyph/versions/1.2.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ea97a7558a7bd7cee4e2355f7529e3cbebb0dcbb546ddb9a90f10c9eb6b08da5"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "test_api",
+      "version": "0.7.12",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/test_api/versions/0.7.12/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff1b9f0df9036c04be424b1e3ce12789bea880ad5ffc3a48e069ae2d40a087a4"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "typed_data",
+      "version": "1.4.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/typed_data/versions/1.4.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ff15faa32a2e638107b7789592b14426162a75ba620044ee2340a20ec6ce5e73"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher",
+      "version": "6.3.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher/versions/6.3.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_android",
+      "version": "6.3.33",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_android/versions/6.3.33/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_ios",
+      "version": "6.4.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_ios/versions/6.4.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_linux",
+      "version": "3.2.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_linux/versions/3.2.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_macos",
+      "version": "3.2.6",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_macos/versions/3.2.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_platform_interface",
+      "version": "2.3.2",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_platform_interface/versions/2.3.2/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_web",
+      "version": "2.4.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_web/versions/2.4.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "url_launcher_windows",
+      "version": "3.1.6",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/url_launcher_windows/versions/3.1.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "uuid",
+      "version": "4.6.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/uuid/versions/4.6.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ad3e5523e51004e94ba9ce728805b1b4242dbccdb65e62b523800e35a8a7cfdc"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "vector_math",
+      "version": "2.4.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/vector_math/versions/2.4.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "420f7739f169097f0aad1242045169cd643c8f1d94e62866fad265ae4c369b7d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "vm_service",
+      "version": "15.3.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/vm_service/versions/15.3.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "ad6a71997da90924b2cfb1fb47ec46537f70faf469efe016168794ae45ed6888"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "web",
+      "version": "1.1.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/web/versions/1.1.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "aa913ff50d7542eb8cc35b9f48a80928ac6819ba9057f85d424655e3e8dc271c"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "web_socket",
+      "version": "1.0.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/web_socket/versions/1.0.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "cbe822ef3446af4366b2b82c48b0979d0b12865edfe74c22b9aa617fc362d6e0"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "web_socket_channel",
+      "version": "3.0.3",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/web_socket_channel/versions/3.0.3/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "a4b5d7d31626e90b77e8696f1c47643aa31f52e17c1907c1ab60b068110e6e10"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "win32",
+      "version": "6.4.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/win32/versions/6.4.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "87ef8bccdd619f2345ba5b9026cf1d6cccb305e36ab83849a8a3af9293abde7e"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "xdg_directories",
+      "version": "1.1.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/xdg_directories/versions/1.1.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "89519eca6f7b9529b35bdddd623a58c3af06a88c458dbd6531ddb4675acf75a9"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "xml",
+      "version": "7.0.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/xml/versions/7.0.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "0be767174b97278f17da4923a74169e8645631f03ea3d8482ec3523c9b1a0dd3"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "yaml",
+      "version": "3.1.4",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/yaml/versions/3.1.4/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "d47b93335401b052d79a2f5a3710e4cf7b5aed782faedf84d40fbdd6eb934ec7"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "yet_another_json_isolate",
+      "version": "2.1.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/yet_another_json_isolate/versions/2.1.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "be8c4de36f5c20598e7dcb2dd8d33d398d3c74fda7f9d33d902804302abf41f2"
+        }
+      ],
+      "localEvidence": "found"
+    }
+  ]
+}

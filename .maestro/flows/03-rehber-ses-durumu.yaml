@@ -2,9 +2,10 @@ appId: ${APP_ID}
 name: Rehberde onaylı ses bulunmadığında durum
 ---
 - launchApp
+# Previous flows can leave the home list scrolled below this top card.
 - scrollUntilVisible:
     element: "(?s)Umreye hazırlanıyorum.*"
-    direction: DOWN
+    direction: UP
 - tapOn:
     text: "(?s)Umreye hazırlanıyorum.*"
     retryTapIfNoChange: true

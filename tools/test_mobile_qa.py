@@ -35,8 +35,15 @@ class MobileConfigurationTests(unittest.TestCase):
     def test_guide_flow_shows_honest_missing_audio_state(self):
         flow = commands('03-rehber-ses-durumu.yaml')
         self.assertIn({'assertVisible': 'Bu başlık için onaylı ses kaydı henüz yok.'}, flow)
+        self.assertIn({'scrollUntilVisible': {
+            'element': '(?s)Umreye hazırlanıyorum.*', 'direction': 'UP'}}, flow)
         self.assertFalse(any('Demo' in str(command) or 'Teknik örnek' in str(command)
                              for command in flow))
+
+    def test_bundled_font_license_has_native_route(self):
+        flow = commands('06-lisans-kaynak.yaml')
+        self.assertIn({'assertVisible': 'Uygulamaya gömülü yazı tipleri'}, flow)
+        self.assertIn({'assertVisible': 'Noto Sans lisansı'}, flow)
 
     def test_sdk_match_does_not_choose_newer_incompatible_runtime(self):
         def runtime(version, available=True):

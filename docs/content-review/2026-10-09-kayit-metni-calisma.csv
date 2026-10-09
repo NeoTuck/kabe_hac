@@ -1,0 +1,268 @@
+﻿kind,textId,textVersion,proposedAudioId,proposedFile,language,scriptDraft,estimatedSecondsLow,estimatedSecondsHigh,reviewStatus,rightsStatus
+step_narration,U01.1,U01.1-draft-2026-10-09-v1,A-U01.1-TR-01,A-U01.1-TR-01.m4a,tr-TR,"Öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir.
+Hazırlık: İçeriğin taslak ve onay durumunu gör.
+Yapılacak işlem: Amacına uygun kullanım biçimini seç.
+Dikkat: Uygulama seçimi dinî bir karar yerine geçmez.
+Sonraki aşama: Hazırlık başlığına ilerle.",16,26,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U01.2,U01.2-draft-2026-10-09-v1,A-U01.2-TR-01,A-U01.2-TR-01.m4a,tr-TR,"Yolculuk ve ibadet hazırlığını önceden gözden geçir.
+Hazırlık: Sağlık, seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula.
+Yapılacak işlem: Rehberin içerik ve çevrimdışı paket durumunu kontrol et.
+Dikkat: Eksik veya eski saha bilgisini kesin bilgi sayma.
+Sonraki aşama: Mikat ve ihram konusuna geç.",19,31,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U02.1,U02.1-draft-2026-10-09-v1,A-U02.1-TR-01,A-U02.1-TR-01.m4a,tr-TR,"İhram ve mikat, umrenin başlangıcını anlamak için birlikte ele alınır.
+Hazırlık: Güzergâhındaki mikat bilgisini kafile rehberinden öğren.
+Yapılacak işlem: İhramın niyetle ilgili ibadet hâli olduğunu incele.
+Dikkat: Mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz.
+Sonraki aşama: Niyet ve telbiye başlığına geç.",20,31,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U02.2,U02.2-draft-2026-10-09-v1,A-U02.2-TR-01,A-U02.2-TR-01.m4a,tr-TR,"Niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır.
+Hazırlık: İhram ve mikat bilgisini yetkili rehberinle teyit et.
+Yapılacak işlem: Niyet ve telbiyenin kendi durumundaki uygulanışını öğren.
+Dikkat: Buradaki taslak, Arapça telaffuz veya onaylı dua sunmaz.
+Sonraki aşama: İhramla ilgili kısıtlamaları gözden geçir.",19,31,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U02.3,U02.3-draft-2026-10-09-v1,A-U02.3-TR-01,A-U02.3-TR-01.m4a,tr-TR,"İhram hâlinde uyulacak kurallar kişisel duruma göre incelenmelidir.
+Hazırlık: Yolculuk ve sağlık gereksinimlerini önceden bildir.
+Yapılacak işlem: İhram süresindeki temel sınırları yetkili rehberden öğren.
+Dikkat: Sağlık, kadınlara özgü durumlar ve ihlaller için otomatik hüküm verme.
+Sonraki aşama: Mescid-i Haram’a yaklaşma başlığına geç.",19,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U03.1,U03.1-draft-2026-10-09-v1,A-U03.1-TR-01,A-U03.1-TR-01.m4a,tr-TR,"Mescid-i Haram’a varışta fiziksel güvenlik ve grup düzeni önemlidir.
+Hazırlık: Buluşma noktanı ve güncel giriş bilgisini kafilenle teyit et.
+Yapılacak işlem: Kalabalık içinde yönlendirmeleri izleyerek ilerle.
+Dikkat: Uygulama canlı kapı veya yoğunluk bilgisi sağlamaz.
+Sonraki aşama: Kâbe’yi ilk görüş başlığına geç.",18,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U04.1,U04.1-draft-2026-10-09-v1,A-U04.1-TR-01,A-U04.1-TR-01.m4a,tr-TR,"İlk görüş, ibadet akışına hazırlık için bir duraktır.
+Hazırlık: Bulunduğun yerde güvenli biçimde durup yönünü belirle.
+Yapılacak işlem: Kişisel dua etmek istersen güvenilir metni rehberinle seç.
+Dikkat: Bu kart belirli bir duayı zorunlu ilan etmez.
+Sonraki aşama: Tavafın başlangıç noktasını öğren.",18,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U05.1,U05.1-draft-2026-10-09-v1,A-U05.1-TR-01,A-U05.1-TR-01.m4a,tr-TR,"Tavaf Hacer-i Esved hizasından başlar ve Kâbe sol tarafta kalır.
+Hazırlık: Kalabalık ve erişilebilir güzergâh koşullarını gözet.
+Yapılacak işlem: Başlangıç hizasını ve dönüş yönünü öğren.
+Dikkat: Sayaç konum ölçmez veya ibadet geçerliliği vermez.
+Sonraki aşama: İlk şavtın nasıl sayıldığını incele.",18,29,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U06.1,U06.1-draft-2026-10-09-v1,A-U06.1-TR-01,A-U06.1-TR-01.m4a,tr-TR,"Başlangıç hizasına geri gelen tam dönüş bir şavttır.
+Hazırlık: Tavafa başlamadan sayım mantığını gözden geçir.
+Yapılacak işlem: Bir tam dönüşün bitişini kendin takip et.
+Dikkat: Tereddütte uygulamanın sayısından dinî hüküm çıkarma.
+Sonraki aşama: Yedi şavt takibine geç.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U06.2,U06.2-draft-2026-10-09-v1,A-U06.2-TR-01,A-U06.2-TR-01.m4a,tr-TR,"Tavafın yedi şavtı manuel olarak izlenebilir.
+Hazırlık: Her tam dönüşü ayrı saymaya hazırlan.
+Yapılacak işlem: Tamamladığın şavtı kendin işaretle.
+Dikkat: Sayaç ibadeti otomatik doğrulamaz; özel durumda rehbere danış.
+Sonraki aşama: Tavaf sonrası başlığına geç.",16,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U06.3,U06.3-draft-2026-10-09-v1,A-U06.3-TR-01,A-U06.3-TR-01.m4a,tr-TR,"Tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir.
+Hazırlık: Sayımı ve bulunduğun yeri kontrol et.
+Yapılacak işlem: Tavaf namazı konusunu öğrenmek için devam et.
+Dikkat: Eksik şavt veya özel durum hükmünü uygulama belirlemez.
+Sonraki aşama: Tavaf namazı başlığına geç.",18,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U07.1,U07.1-draft-2026-10-09-v1,A-U07.1-TR-01,A-U07.1-TR-01.m4a,tr-TR,"Tavaftan sonra kılınan namazın yerini ve koşullarını öğren.
+Hazırlık: Kalabalığı ve uygun namaz alanını dikkate al.
+Yapılacak işlem: Uygun uygulamayı yetkili rehberle teyit et.
+Dikkat: Belirli bir noktaya ulaşmak için insanları zorlamaya çalışma.
+Sonraki aşama: Zemzem başlığına geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U07.2,U07.2-draft-2026-10-09-v1,A-U07.2-TR-01,A-U07.2-TR-01.m4a,tr-TR,"Zemzem, umre akışındaki sonraki hatırlatma başlığıdır.
+Hazırlık: Ulaşım ve kalabalık koşullarını gözet.
+Yapılacak işlem: Güvenli ve uygun olduğunda bu aşamayı değerlendir.
+Dikkat: Bu kart içme miktarı veya zorunlu dua hükmü üretmez.
+Sonraki aşama: Safâ ve sa‘y başlangıcına geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U08.1,U08.1-draft-2026-10-09-v1,A-U08.1-TR-01,A-U08.1-TR-01.m4a,tr-TR,"Sa‘y Safâ ve Merve arasında tek yönlü geçişlerle sayılır.
+Hazırlık: Başlangıç yönünü ve yürüyüş düzenini öğren.
+Yapılacak işlem: İlk geçişe Safâ yönünden başlanacağını rehberinle teyit et.
+Dikkat: Fiziksel koşullar ve özel hükümler için kişisel destek al.
+Sonraki aşama: İlk gidiş ve dönüş sayımına geç.",20,31,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U09.1,U09.1-draft-2026-10-09-v1,A-U09.1-TR-01,A-U09.1-TR-01.m4a,tr-TR,"Safâ’dan Merve’ye gidiş ile geri dönüş ayrı şavtlardır.
+Hazırlık: Her yön değişimini ayrı bir geçiş olarak düşün.
+Yapılacak işlem: Tamamlanan tek yönlü geçişleri manuel say.
+Dikkat: Gidiş-dönüşü tek sayı yapma.
+Sonraki aşama: Yedi geçişin tamamını izle.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U09.2,U09.2-draft-2026-10-09-v1,A-U09.2-TR-01,A-U09.2-TR-01.m4a,tr-TR,"Sa‘y yedi tek yönlü geçişten oluşur ve Merve’de biter.
+Hazırlık: Kaldığın yönü ve sayıyı gözden geçir.
+Yapılacak işlem: Her tamamlanan geçişte sayacı kendin artır.
+Dikkat: Eksik geçişin dinî sonucu sayaçtan belirlenmez.
+Sonraki aşama: Tahallül bilgisine geç.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U10.1,U10.1-draft-2026-10-09-v1,A-U10.1-TR-01,A-U10.1-TR-01.m4a,tr-TR,"Sa‘yden sonra ihramdan çıkış aşamasının koşulları öğrenilir.
+Hazırlık: Kendi ibadet ve sağlık durumunu rehberle doğrula.
+Yapılacak işlem: Saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir.
+Dikkat: Özel durumlar için uygulama hüküm vermez.
+Sonraki aşama: Yolculuk özetine geç.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,U10.2,U10.2-draft-2026-10-09-v1,A-U10.2-TR-01,A-U10.2-TR-01.m4a,tr-TR,"Özet kişisel takibi gözden geçirmek içindir.
+Hazırlık: İşaretlerini ve varsa eksik başlıkları kontrol et.
+Yapılacak işlem: Gerektiğinde önceki adıma dön veya rehbere başvur.
+Dikkat: Uygulama tamamlandı işareti ibadetin geçerlilik belgesi değildir.
+Sonraki aşama: Yolculuk kaydını koru.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+arabic,P-U02.2-01,P-U02.2-01-draft-2026-10-09-v1,A-P-U02.2-AR-01,A-P-U02.2-AR-01.m4a,ar,لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ.,,,draft_unapproved,recording_and_distribution_permission_pending
+turkishMeaning,P-U02.2-01,P-U02.2-01-draft-2026-10-09-v1,A-P-U02.2-ANLAM-01,A-P-U02.2-ANLAM-01.m4a,tr-TR,"Buyur Allah’ım, çağrına geldim. Senin ortağın yoktur. Övgü, nimet ve mülk sana aittir; ortağın yoktur.",8,14,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H01.1,H01.1-draft-2026-10-09-v1,A-H01.1-TR-01,A-H01.1-TR-01.m4a,tr-TR,"Temettü, ifrad ve kıran farklı ihram ve umre ilişkileri taşır.
+Hazırlık: Kendi hac türünü yetkili kafile kaydından doğrula.
+Yapılacak işlem: Profili seçip akışın taslak olduğunu gör.
+Dikkat: Profil uygulanabilirlik matrisi henüz uzman onaylı değildir.
+Sonraki aşama: Gün ve güzergâh başlığına geç.",18,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H01.2,H01.2-draft-2026-10-09-v1,A-H01.2-TR-01,A-H01.2-TR-01.m4a,tr-TR,"Hac günleri ve geçişler seçilen profile ve organizasyona göre değişebilir.
+Hazırlık: Resmî kafile programının güncel sürümünü öğren.
+Yapılacak işlem: Aşamaları genel sıra olarak gözden geçir.
+Dikkat: Uygulama canlı saha, ulaşım veya fetva kaynağı değildir.
+Sonraki aşama: Paket hazırlığına geç.",18,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H01.3,H01.3-draft-2026-10-09-v1,A-H01.3-TR-01,A-H01.3-TR-01.m4a,tr-TR,"Çevrimdışı içerik ve kişisel takip ayrı işlevlerdir.
+Hazırlık: Paketin kaynağını, sürümünü ve indirme durumunu kontrol et.
+Yapılacak işlem: İstersen paketi etkinleştir; normal rehber için zorunlu değildir.
+Dikkat: Taslak veya eksik paket onaylı dinî içerik sayılmaz.
+Sonraki aşama: Hazırlık ve mikat başlığına geç.",19,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H02.1,H02.1-draft-2026-10-09-v1,A-H02.1-TR-01,A-H02.1-TR-01.m4a,tr-TR,"Mikat ve ihram hazırlığı seçilen hac türüne bağlıdır.
+Hazırlık: Güzergâhı ve hac türünü kafile görevlisinden doğrula.
+Yapılacak işlem: İhrama giriş zamanını ve hazırlığını kişisel rehberlikle öğren.
+Dikkat: Temettü, ifrad ve kıranı tek hüküm gibi birleştirme.
+Sonraki aşama: Niyet ve telbiye başlığına geç.",19,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H02.2,H02.2-draft-2026-10-09-v1,A-H02.2-TR-01,A-H02.2-TR-01.m4a,tr-TR,"Niyet ve telbiye ihram akışında ele alınır.
+Hazırlık: Seçilen profilin ihram düzenini teyit et.
+Yapılacak işlem: Niyet ve telbiyenin uygulanışını yetkili rehberden öğren.
+Dikkat: Arapça telaffuz ve profil hükümleri burada onaylı değildir.
+Sonraki aşama: Mekke’ye varış başlığına geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H02.3,H02.3-draft-2026-10-09-v1,A-H02.3-TR-01,A-H02.3-TR-01.m4a,tr-TR,"Mekke’ye varış ve ilk görüş sonraki ibadetleri hazırlama bağlamıdır.
+Hazırlık: Buluşma ve giriş bilgisini yetkili kaynaktan öğren.
+Yapılacak işlem: Kafile yönlendirmesiyle güvenli hareket et.
+Dikkat: Canlı kapı ve kalabalık bilgisi uygulamada bulunmaz.
+Sonraki aşama: İlgili ön aşamaya geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H02.4,H02.4-draft-2026-10-09-v1,A-H02.4-TR-01,A-H02.4-TR-01.m4a,tr-TR,"Hac öncesi tavaf ve sa‘y ilişkisi profile göre farklılaşabilir.
+Hazırlık: İfrad, temettü veya kıran kaydını kontrol et.
+Yapılacak işlem: Kendine uygulanacak ön aşamayı rehberle belirle.
+Dikkat: Uzman onayı olmayan profil filtresi otomatik uygulanmaz.
+Sonraki aşama: Hac başlangıcına geçişi incele.",18,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H02.5,H02.5-draft-2026-10-09-v1,A-H02.5-TR-01,A-H02.5-TR-01.m4a,tr-TR,"Hac başlangıcına geçişte ihram durumunu yeniden gözden geçir.
+Hazırlık: Kafile takvimini ve kişisel profili teyit et.
+Yapılacak işlem: Bir sonraki günün programına hazırlan.
+Dikkat: Temettüde ayrı ihram, ifrad ve kıranda farklı sıra olabilir.
+Sonraki aşama: İlk güzergâh başlığına geç.",18,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H03.1,H03.1-draft-2026-10-09-v1,A-H03.1-TR-01,A-H03.1-TR-01.m4a,tr-TR,"İlk güzergâh Mina veya Arafat yönüne uzanabilir.
+Hazırlık: Resmî ulaşım ve buluşma planını kontrol et.
+Yapılacak işlem: Kafile talimatıyla uygun güzergâhı izle.
+Dikkat: Uygulama gerçek zamanlı rota ya da kalabalık garantisi vermez.
+Sonraki aşama: Uygulanırsa Mina başlığına geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H03.2,H03.2-draft-2026-10-09-v1,A-H03.2-TR-01,A-H03.2-TR-01.m4a,tr-TR,"Mina’daki ilk durak organizasyon planına göre ele alınır.
+Hazırlık: Kafile programında bu durağın olup olmadığını doğrula.
+Yapılacak işlem: Varsa konaklama ve hareket talimatlarına uy.
+Dikkat: Bu başlık herkes için otomatik zorunlu gösterilmez.
+Sonraki aşama: Arafat’a geçişi incele.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H03.3,H03.3-draft-2026-10-09-v1,A-H03.3-TR-01,A-H03.3-TR-01.m4a,tr-TR,"Arafat’a geçişin zaman ve sınır bilgisi önemlidir.
+Hazırlık: Kafile ve resmî yönlendirmelerin güncelliğini kontrol et.
+Yapılacak işlem: Geçişi kendi programına göre planla.
+Dikkat: Saha sınırlarını telefon konumuyla hükme bağlama.
+Sonraki aşama: Arafat başlığına geç.",16,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H04.1,H04.1-draft-2026-10-09-v1,A-H04.1-TR-01,A-H04.1-TR-01.m4a,tr-TR,"Arafat vakfesinin yer ve zaman bağlamı yetkili rehberlikle doğrulanır.
+Hazırlık: Kafile programını ve bölge sınırını öğren.
+Yapılacak işlem: Güvenli konumlanma talimatlarını izle.
+Dikkat: GPS noktası vakfenin geçerliliğini belirlemez.
+Sonraki aşama: Namaz ve vakfe başlığına geç.",16,26,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H04.2,H04.2-draft-2026-10-09-v1,A-H04.2-TR-01,A-H04.2-TR-01.m4a,tr-TR,"Arafat günü namaz ve vakfe birlikte değerlendirilir.
+Hazırlık: Vakit ve kafile düzenini yetkili rehberden öğren.
+Yapılacak işlem: Kendi durumuna uygun ibadet akışını takip et.
+Dikkat: Mezhep ve özel durum ayrıntıları bu taslakta karara bağlanmaz.
+Sonraki aşama: Dua zamanı başlığına geç.",18,29,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H04.3,H04.3-draft-2026-10-09-v1,A-H04.3-TR-01,A-H04.3-TR-01.m4a,tr-TR,"Arafat’ta dua kişisel ibadet bağlamında ele alınır.
+Hazırlık: Güvenilir ve onaylı dua kaynağını rehberinle seç.
+Yapılacak işlem: İstersen kendi dilinde dua et.
+Dikkat: Belirli bir taslak metni zorunlu dua olarak sunma.
+Sonraki aşama: Sonraki geçişe hazırlan.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H04.4,H04.4-draft-2026-10-09-v1,A-H04.4-TR-01,A-H04.4-TR-01.m4a,tr-TR,"Arafat sonrasında sıradaki geçiş Muzdelife yönündedir.
+Hazırlık: Ulaşım ve kalabalık koşullarını kontrol et.
+Yapılacak işlem: Kafile hareket planına uy.
+Dikkat: Uygulama canlı ulaşım veya saha sınırı sağlamaz.
+Sonraki aşama: Gece varışı başlığına geç.",15,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H05.1,H05.1-draft-2026-10-09-v1,A-H05.1-TR-01,A-H05.1-TR-01.m4a,tr-TR,"Muzdelife’ye gece varış organizasyon planıyla izlenir.
+Hazırlık: Güncel konaklama ve buluşma bilgisini edin.
+Yapılacak işlem: Kafile görevlilerinin güvenlik yönlendirmelerini izle.
+Dikkat: Telefon konumu dinî geçerlilik kararı değildir.
+Sonraki aşama: Namaz ve vakfe başlığına geç.",16,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H05.2,H05.2-draft-2026-10-09-v1,A-H05.2-TR-01,A-H05.2-TR-01.m4a,tr-TR,"Muzdelife’de namaz ve vakfe hükümleri birlikte incelenir.
+Hazırlık: Vakit ve kişisel durumunu rehberle doğrula.
+Yapılacak işlem: Uygulanacak sırayı yetkili yönlendirmeyle öğren.
+Dikkat: Özel durumlar için otomatik hüküm çıkarma.
+Sonraki aşama: Taş hazırlığına geç.",15,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H05.3,H05.3-draft-2026-10-09-v1,A-H05.3-TR-01,A-H05.3-TR-01.m4a,tr-TR,"Mina ve cemarat aşaması için hazırlık yapılır.
+Hazırlık: Kafile rota ve güvenlik talimatlarını al.
+Yapılacak işlem: Taş hazırlığı ve sonraki hareketi rehberlikle öğren.
+Dikkat: Kalabalıkta güvenliği sayım hızının önüne koy.
+Sonraki aşama: Aktif gün ve hedefe geç.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H06.1,H06.1-draft-2026-10-09-v1,A-H06.1-TR-01,A-H06.1-TR-01.m4a,tr-TR,"Cemarat akışında gün ve hedef ayrımı gerekir.
+Hazırlık: Resmî gün programını ve bulunduğun hedefi doğrula.
+Yapılacak işlem: Manuel sayımı yalnız ilgili gün ve hedef için aç.
+Dikkat: Uygulama hedefi GPS ile otomatik seçmez.
+Sonraki aşama: Yaklaşma bilgisine geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H06.2,H06.2-draft-2026-10-09-v1,A-H06.2-TR-01,A-H06.2-TR-01.m4a,tr-TR,"Cemreye yaklaşırken güvenli güzergâh ve kalabalık yönetimi önemlidir.
+Hazırlık: Kafile ve resmî saha talimatlarını izle.
+Yapılacak işlem: Atış alanına güvenli biçimde ilerle.
+Dikkat: Uygulama canlı yoğunluk veya geçiş izni bildirmez.
+Sonraki aşama: Manuel atış takibine geç.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H06.3,H06.3-draft-2026-10-09-v1,A-H06.3-TR-01,A-H06.3-TR-01.m4a,tr-TR,"Atış sayımı seçili gün ve hedefte manuel tutulur.
+Hazırlık: Gün, hedef ve dinî uygulama kararını rehberle teyit et.
+Yapılacak işlem: Gerçekleştirdiğin atışları kendin işaretle.
+Dikkat: Sayaç taşın isabetini veya ibadetin geçerliliğini ölçmez.
+Sonraki aşama: Sonraki hedefe geç.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H06.4,H06.4-draft-2026-10-09-v1,A-H06.4-TR-01,A-H06.4-TR-01.m4a,tr-TR,"Sonraki cemre hedefi ancak günün doğrulanmış sırasıyla seçilir.
+Hazırlık: Kafile planında sıradaki hedefi kontrol et.
+Yapılacak işlem: Gerekirse yeni hedef için ayrı manuel sayaç aç.
+Dikkat: Bir hedefin sayısı başka hedefe otomatik taşınmaz.
+Sonraki aşama: Kurban bağlamına geç.",17,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H07.1,H07.1-draft-2026-10-09-v1,A-H07.1-TR-01,A-H07.1-TR-01.m4a,tr-TR,"Kurban yükümlülüğü hac türüyle ilişkilidir.
+Hazırlık: Seçilen profil ve resmî organizasyon belgesini doğrula.
+Yapılacak işlem: Kendi durumunu yetkili rehberle değerlendir.
+Dikkat: Uygulama kurbanın gerçekleştiğini otomatik doğrulamaz.
+Sonraki aşama: Tahallül başlığına geç.",14,24,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H07.2,H07.2-draft-2026-10-09-v1,A-H07.2-TR-01,A-H07.2-TR-01.m4a,tr-TR,"Tahallül ihramdan çıkış aşamasıdır.
+Hazırlık: Önceki ibadetlerin durumunu rehberle kontrol et.
+Yapılacak işlem: Saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle öğren.
+Dikkat: Özel durumlar için uygulama hüküm vermez.
+Sonraki aşama: Sonraki aşamaya geç.",15,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H07.3,H07.3-draft-2026-10-09-v1,A-H07.3-TR-01,A-H07.3-TR-01.m4a,tr-TR,"Tahallül sonrası ziyaret tavafı aşaması gözden geçirilir.
+Hazırlık: Kafile programını ve fiziksel durumunu kontrol et.
+Yapılacak işlem: Uygun zaman ve güzergâhı yetkili rehberle belirle.
+Dikkat: Canlı saha koşulları bu taslakta doğrulanmaz.
+Sonraki aşama: Ziyaret tavafına geç.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H08.1,H08.1-draft-2026-10-09-v1,A-H08.1-TR-01,A-H08.1-TR-01.m4a,tr-TR,"Ziyaret tavafı hac akışının temel aşamalarındandır.
+Hazırlık: Uygun zaman ve tavaf başlangıcını yetkili rehberle teyit et.
+Yapılacak işlem: Şavtları kendin takip et.
+Dikkat: Sayaç veya GPS dinî geçerlilik kararı vermez.
+Sonraki aşama: Tavaf sonrası başlığına geç.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H08.2,H08.2-draft-2026-10-09-v1,A-H08.2-TR-01,A-H08.2-TR-01.m4a,tr-TR,"Ziyaret tavafından sonraki işlemler kişisel duruma bağlanır.
+Hazırlık: Önceki sa‘y ve profil bilgisini gözden geçir.
+Yapılacak işlem: Sonraki adımı rehberinle belirle.
+Dikkat: Herkesin aynı sırayı uyguladığını varsayma.
+Sonraki aşama: Gerekiyorsa sa‘y başlığına geç.",15,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H08.3,H08.3-draft-2026-10-09-v1,A-H08.3-TR-01,A-H08.3-TR-01.m4a,tr-TR,"Hac sa‘yinin gerekliliği önceki uygulamaya göre değişebilir.
+Hazırlık: Önceden yapılan sa‘y durumunu yetkili rehberle doğrula.
+Yapılacak işlem: Gerekliyse Safâ–Merve geçişlerini manuel izle.
+Dikkat: Profil ve önceki fiil onayı olmadan otomatik filtre açılmaz.
+Sonraki aşama: Sonraki duruma geç.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H08.4,H08.4-draft-2026-10-09-v1,A-H08.4-TR-01,A-H08.4-TR-01.m4a,tr-TR,"Ziyaret aşaması sonrası kalan günler için program güncellenir.
+Hazırlık: Kafile gün ve konaklama planını edin.
+Yapılacak işlem: Mina ve sonraki cemre günlerini gözden geçir.
+Dikkat: Bu kart canlı program kaynağı değildir.
+Sonraki aşama: Mina ve yeni gün başlığına geç.",18,28,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H09.1,H09.1-draft-2026-10-09-v1,A-H09.1-TR-01,A-H09.1-TR-01.m4a,tr-TR,"Mina’daki sonraki gün için sayım bağlamı yenilenir.
+Hazırlık: Günü ve ilk hedefi resmî programdan doğrula.
+Yapılacak işlem: Yeni gün kaydını ayrı aç.
+Dikkat: Önceki günün sayısı yeni güne otomatik aktarılmaz.
+Sonraki aşama: Günün cemre sırasına geç.",16,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H09.2,H09.2-draft-2026-10-09-v1,A-H09.2-TR-01,A-H09.2-TR-01.m4a,tr-TR,"Günün cemre sırası ve her hedefin sayımı ayrı tutulur.
+Hazırlık: Kafile ve yetkili rehberden sırayı teyit et.
+Yapılacak işlem: Her hedefte gerçekleşen atışları manuel işaretle.
+Dikkat: Sayaç dini kabul, isabet veya saha güvenliği ölçümü değildir.
+Sonraki aşama: Devam veya ayrılma dalına geç.",19,30,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H09.3,H09.3-draft-2026-10-09-v1,A-H09.3-TR-01,A-H09.3-TR-01.m4a,tr-TR,"Mina’da devam veya ayrılma kararı gün ve şartlara bağlıdır.
+Hazırlık: Program ve kişisel durumu yetkili rehberle gözden geçir.
+Yapılacak işlem: Uygun sonraki hareketi kafilenle belirle.
+Dikkat: Taslak akış otomatik ayrılma hükmü vermez.
+Sonraki aşama: Veda uygulanabilirliğine geç.",17,27,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H10.1,H10.1-draft-2026-10-09-v1,A-H10.1-TR-01,A-H10.1-TR-01.m4a,tr-TR,"Veda tavafının uygulanabilirliği kişisel durumla değerlendirilir.
+Hazırlık: Seyahat zamanı ve özel durumunu rehberle doğrula.
+Yapılacak işlem: Gerekli olup olmadığını yetkili kişiyle kararlaştır.
+Dikkat: Uygulama herkese otomatik aynı hükmü uygulamaz.
+Sonraki aşama: Veda açıklamasına geç.",16,25,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H10.2,H10.2-draft-2026-10-09-v1,A-H10.2-TR-01,A-H10.2-TR-01.m4a,tr-TR,"Veda tavafı Mekke’den ayrılma aşamasıyla ilişkilidir.
+Hazırlık: Ayrılış ve tavaf zamanını kafileyle planla.
+Yapılacak işlem: Kendine uygulanıyorsa işlemi rehberlikle yerine getir.
+Dikkat: Sayaç ibadetin dinî kabulünü belirlemez.
+Sonraki aşama: Son özete geç.",15,24,draft_unapproved,recording_and_distribution_permission_pending
+step_narration,H10.3,H10.3-draft-2026-10-09-v1,A-H10.3-TR-01,A-H10.3-TR-01.m4a,tr-TR,"Özet yalnız kişisel takip kaydını gösterir.
+Hazırlık: Açık kalan başlıkları ve kafile programını kontrol et.
+Yapılacak işlem: Gerekiyorsa önceki adıma veya yetkili rehbere dön.
+Dikkat: Tamamlandı işareti hac kabul belgesi değildir.
+Sonraki aşama: Kayıtları sakla.",16,26,draft_unapproved,recording_and_distribution_permission_pending

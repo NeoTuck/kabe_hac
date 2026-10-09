@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'reader_settings.dart';
+import 'licenses_and_sources_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key, required this.settings});
@@ -89,13 +90,13 @@ class SettingsScreen extends StatelessWidget {
             const Text('Onaylı anlatım kayıtları henüz eklenmedi.'),
             const SizedBox(height: 24),
             OutlinedButton.icon(
-              onPressed: () => showLicensePage(
-                context: context,
-                applicationName: 'Hac ve Umre Sesli Rehber',
-                applicationVersion: '0.1.0 · MVP 1 pilot',
+              onPressed: () => Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                  builder: (_) => const LicensesAndSourcesScreen(),
+                ),
               ),
               icon: const Icon(Icons.info_outline),
-              label: const Text('Uygulama ve lisanslar'),
+              label: const Text('Lisanslar ve kaynaklar'),
             ),
           ],
         ),
