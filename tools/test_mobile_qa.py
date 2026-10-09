@@ -45,6 +45,12 @@ class MobileConfigurationTests(unittest.TestCase):
         self.assertIn({'assertVisible': 'Uygulamaya gömülü yazı tipleri'}, flow)
         self.assertIn({'assertVisible': 'Noto Sans lisansı'}, flow)
 
+    def test_real_catalog_card_matches_native_merged_metadata(self):
+        flow = commands('04-kapali-servisler.yaml')
+        selector = next(c['assertVisible'] for c in flow if isinstance(c, dict) and 'assertVisible' in c and 'Mekke ve Medine yerleri' in c['assertVisible'])
+        self.assertIsNotNone(re.fullmatch(selector, 'Mekke ve Medine yerleri\nGezi ve rotalar · 1.0.0 · 1.1 MB'))
+        self.assertIsNone(re.fullmatch(selector, 'Başka bir paket'))
+
     def test_sdk_match_does_not_choose_newer_incompatible_runtime(self):
         def runtime(version, available=True):
             return {'version': version, 'isAvailable': available,

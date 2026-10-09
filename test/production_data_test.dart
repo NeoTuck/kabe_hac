@@ -46,6 +46,16 @@ void main() {
       expect(maps.length, 2);
       for (final map in maps) {
         final geometry = await repository.load(map);
+        final nearby = (geometry['features'] as List).where((feature) {
+          final g = feature['geometry'];
+          final coordinates = g['type'] == 'Polygon'
+              ? g['coordinates'][0]
+              : g['coordinates'];
+          final first = coordinates[0] as List;
+          return ((first[0] as num) - map.centerLongitude).abs() < 0.015 &&
+              ((first[1] as num) - map.centerLatitude).abs() < 0.015;
+        });
+        expect(nearby.length, greaterThan(100));
         expect(
           (geometry['features'] as List).length,
           map.region == TravelRegion.mecca ? 40971 : 30291,

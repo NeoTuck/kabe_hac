@@ -33,6 +33,10 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
   String? _error;
   bool _loading = true;
   bool _styleReady = false;
+  bool _styleLoaded = false;
+  bool _checkingRendered = false;
+  bool _checkRenderedAgain = false;
+  Size _mapSize = Size.zero;
   int _epoch = 0;
   MapLibreMapController? _controller;
 
@@ -72,6 +76,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       _style = null;
       _controller = null;
       _styleReady = false;
+      _styleLoaded = false;
     });
     try {
       final geometry = await _repository.load(map);
@@ -94,6 +99,45 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
           _error = 'Harita açılamadı. Paketi yeniden indirip deneyebilirsin.';
           _loading = false;
         });
+      }
+    }
+  }
+
+  Future<void> _confirmRendered() async {
+    final controller = _controller;
+    if (!mounted ||
+        !_styleLoaded ||
+        _styleReady ||
+        controller == null ||
+        _mapSize.isEmpty) {
+      return;
+    }
+    if (_checkingRendered) {
+      _checkRenderedAgain = true;
+      return;
+    }
+    final epoch = _epoch;
+    _checkingRendered = true;
+    try {
+      final features = await controller.queryRenderedFeaturesInRect(
+        Rect.fromLTWH(0, 0, _mapSize.width, _mapSize.height),
+        ['roads', 'buildings', 'water'],
+        null,
+      );
+      if (mounted && epoch == _epoch && features.isNotEmpty) {
+        setState(() => _styleReady = true);
+      }
+    } catch (_) {
+      if (mounted && epoch == _epoch) {
+        setState(
+          () => _error = 'Harita görüntüsü hazırlanamadı. Yeniden dene.',
+        );
+      }
+    } finally {
+      _checkingRendered = false;
+      if (_checkRenderedAgain) {
+        _checkRenderedAgain = false;
+        _confirmRendered();
       }
     }
   }
@@ -219,33 +263,44 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                         ),
                       ),
                     )
-                  : MapLibreMap(
-                      key: ValueKey(
-                        '${selected.packageId}/${selected.version}',
-                      ),
-                      styleString: _style!,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                          (selected.south + selected.north) / 2,
-                          (selected.west + selected.east) / 2,
-                        ),
-                        zoom: 12,
-                      ),
-                      onMapCreated: (controller) => _controller = controller,
-                      onStyleLoadedCallback: () {
-                        if (mounted && selected == _selected) {
-                          setState(() => _styleReady = true);
-                        }
+                  : LayoutBuilder(
+                      builder: (context, constraints) {
+                        _mapSize = constraints.biggest;
+                        return MapLibreMap(
+                          key: ValueKey(
+                            '${selected.packageId}/${selected.version}',
+                          ),
+                          styleString: _style!,
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(
+                              selected.centerLatitude,
+                              selected.centerLongitude,
+                            ),
+                            zoom: 14,
+                          ),
+                          onMapCreated: (controller) =>
+                              _controller = controller,
+                          onStyleLoadedCallback: () {
+                            if (mounted && selected == _selected) {
+                              _styleLoaded = true;
+                              _confirmRendered();
+                            }
+                          },
+                          onMapIdle: _confirmRendered,
+                          myLocationEnabled: false,
+                          cameraTargetBounds: CameraTargetBounds(
+                            LatLngBounds(
+                              southwest: LatLng(selected.south, selected.west),
+                              northeast: LatLng(selected.north, selected.east),
+                            ),
+                          ),
+                          compassEnabled: true,
+                          minMaxZoomPreference: const MinMaxZoomPreference(
+                            10,
+                            18,
+                          ),
+                        );
                       },
-                      myLocationEnabled: false,
-                      cameraTargetBounds: CameraTargetBounds(
-                        LatLngBounds(
-                          southwest: LatLng(selected.south, selected.west),
-                          northeast: LatLng(selected.north, selected.east),
-                        ),
-                      ),
-                      compassEnabled: true,
-                      minMaxZoomPreference: const MinMaxZoomPreference(10, 18),
                     ),
             ),
             if (selected != null)

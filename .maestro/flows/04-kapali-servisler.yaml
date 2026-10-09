@@ -11,5 +11,5 @@ name: Yapılandırılmamış teknik pilot hizmetleri
     direction: DOWN
 - tapOn: "(?s)Çevrimdışı paketleri yönet.*"
 - assertVisible: "Çevrimdışı paketler"
-- assertVisible: "Mekke ve Medine yerleri"
+- assertVisible: "(?s)Mekke ve Medine yerleri.*"
 - takeScreenshot: gercek-paket-katalogu

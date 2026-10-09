@@ -21,5 +21,8 @@ name: Gerçek paket indirme ve yerel harita renderı
 - tapOn: "(?s)Yolculuk.*"
 - tapOn: "Çevrimdışı haritayı aç"
 - assertVisible: "Çevrimdışı şehir haritası"
+- extendedWaitUntil:
+    visible: "Harita hazır · Çevrimdışı"
+    timeout: 30000
 - assertVisible: "Harita hazır · Çevrimdışı"
 - takeScreenshot: gercek-mekke-haritasi

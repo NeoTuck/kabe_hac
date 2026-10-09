@@ -28,6 +28,30 @@ def probe(command, timeout=30):
     return result.stdout.strip()
 
 
+def capture_android_failure(device, app_id, output, evidence):
+    """Read-only diagnostics on the explicitly selected test device; no UI retry."""
+    commands = [('android-state.txt', ['get-state']),
+                ('android-activities.txt', ['shell', 'dumpsys', 'activity', 'activities']),
+                ('android-failure.png', ['exec-out', 'screencap', '-p'])]
+    try:
+        pid = probe(['adb', '-s', device, 'shell', 'pidof', app_id], timeout=10).split()[0]
+        if pid.isdigit():
+            commands.append(('android-app-logcat.txt', ['logcat', '-d', '--pid', pid, '-t', '600']))
+    except (RuntimeError, subprocess.TimeoutExpired, IndexError):
+        pass
+    results = {}
+    for name, arguments in commands:
+        try:
+            result = subprocess.run(['adb', '-s', device, *arguments], capture_output=True, timeout=10)
+            if result.returncode == 0:
+                limit = 16 * 1024 * 1024 if name.endswith('.png') else 256 * 1024
+                (output / name).write_bytes(result.stdout[:limit])
+            results[name] = {'exit_code': result.returncode}
+        except (subprocess.TimeoutExpired, OSError):
+            results[name] = {'status': 'unavailable'}
+    evidence['failure_diagnostics'] = results
+
+
 def read_installed_apk(device, remote_path, local_path, evidence):
     """Read the identical installed APK via sync or shell transport; keep failures.
 
@@ -212,6 +236,8 @@ def main():
     except (RuntimeError, subprocess.TimeoutExpired, OSError, ValueError, KeyError, ET.ParseError) as error:
         evidence['status'] = 'blocked'
         evidence['reason'] = str(error)
+    if args.platform == 'android' and evidence['status'] in ('blocked', 'failed'):
+        capture_android_failure(args.device, app_id, output, evidence)
     (output / 'session.json').write_text(json.dumps(evidence, ensure_ascii=False, indent=2))
     print(json.dumps({'status': evidence['status'], 'device_tests_run': evidence['device_tests_run'],
                       'evidence': str(output), 'reason': evidence.get('reason')}, ensure_ascii=False))

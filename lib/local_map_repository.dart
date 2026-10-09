@@ -33,6 +33,18 @@ class LocalMapDescriptor {
   final String featureFile;
   final double west, south, east, north;
 
+  // Initial city view uses coordinates present in the published OSM snapshot,
+  // not the midpoint of a large region that can fall on unbuilt terrain.
+  double get centerLatitude {
+    final value = region == TravelRegion.mecca ? 21.419716 : 24.465755;
+    return value >= south && value <= north ? value : (south + north) / 2;
+  }
+
+  double get centerLongitude {
+    final value = region == TravelRegion.mecca ? 39.825167 : 39.612498;
+    return value >= west && value <= east ? value : (west + east) / 2;
+  }
+
   factory LocalMapDescriptor.parse(String packageId, String text) {
     final json = jsonDecode(text);
     if (json is! Map || json['schemaVersion'] != 1) {
