@@ -22,8 +22,35 @@ IDS = {'android': 'com.mustafasenoglu.hac_umre_sesli_rehber',
 def probe(command, timeout=30):
     result = subprocess.run(command, capture_output=True, text=True, timeout=timeout)
     if result.returncode != 0:
-        raise RuntimeError(f'Command failed: {command[0]} (exit {result.returncode})')
+        # These probes contain only test app/tool identifiers, never credentials.
+        detail = (result.stderr or result.stdout).strip()[:2000]
+        raise RuntimeError(f'Command failed: {" ".join(command)} (exit {result.returncode}): {detail}')
     return result.stdout.strip()
+
+
+def read_installed_apk(device, remote_path, local_path, evidence):
+    """Read the identical installed APK via sync or shell transport; keep failures.
+
+    Some system images deny the ADB sync service access to /data/app while the
+    shell can read the APK. Neither path skips the required byte/hash comparison.
+    This is one bounded file-transfer fallback, not a retry of application tests.
+    """
+    if not remote_path.startswith('/data/app/') or '\n' in remote_path or '\r' in remote_path:
+        raise RuntimeError('Unexpected installed APK path')
+    try:
+        probe(['adb', '-s', device, 'pull', remote_path, str(local_path)])
+        evidence['apk_read_transport'] = 'adb-sync'
+    except RuntimeError as error:
+        evidence['apk_sync_error'] = str(error)
+        # ADB joins shell arguments; quote the package-manager supplied path.
+        import shlex
+        command = ['adb', '-s', device, 'exec-out', 'cat', shlex.quote(remote_path)]
+        with local_path.open('wb') as output:
+            result = subprocess.run(command, stdout=output, stderr=subprocess.PIPE, timeout=60)
+        if result.returncode != 0:
+            raise RuntimeError('Installed APK shell read failed: ' +
+                               result.stderr.decode('utf-8', errors='replace')[:2000])
+        evidence['apk_read_transport'] = 'adb-shell'
 
 
 def file_hash(path):
@@ -146,7 +173,7 @@ def main():
                 evidence['expected_build_hash'] = file_hash(args.expected_apk)
                 with tempfile.TemporaryDirectory(prefix='kabe-apk-proof-') as temporary:
                     installed_apk = pathlib.Path(temporary) / 'installed.apk'
-                    probe(['adb', '-s', args.device, 'pull', installed_paths[0][len('package:'):], str(installed_apk)])
+                    read_installed_apk(args.device, installed_paths[0][len('package:'):], installed_apk, evidence)
                     evidence['installed_build_hash'] = file_hash(installed_apk)
                 if evidence['installed_build_hash'] != evidence['expected_build_hash']:
                     raise RuntimeError('Installed APK hash does not match the expected build')

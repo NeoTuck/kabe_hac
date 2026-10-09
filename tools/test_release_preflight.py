@@ -66,6 +66,35 @@ class ReleaseAuditTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'stably ready'):
                 wait_for_android('emulator-5554')
 
+    def test_installed_apk_shell_fallback_keeps_sync_failure_and_exact_bytes(self):
+        from run_mobile_qa import read_installed_apk, file_hash
+        import subprocess
+        evidence = {}
+        payload = b'installed APK fixture bytes'
+        def shell_read(command, **kwargs):
+            self.assertEqual(command[3:5], ['exec-out', 'cat'])
+            kwargs['stdout'].write(payload)
+            return subprocess.CompletedProcess(command, 0, None, b'')
+        with tempfile.TemporaryDirectory() as temp, patch('run_mobile_qa.probe', side_effect=RuntimeError('sync denied')), patch('run_mobile_qa.subprocess.run', side_effect=shell_read):
+            target = pathlib.Path(temp) / 'installed.apk'
+            read_installed_apk('emulator-5554', '/data/app/fixture/base.apk', target, evidence)
+            self.assertEqual(file_hash(target), hashlib.sha256(payload).hexdigest())
+        self.assertEqual(evidence, {'apk_sync_error': 'sync denied', 'apk_read_transport': 'adb-shell'})
+
+    def test_failed_installed_apk_read_blocks_and_reports_transport_error(self):
+        from run_mobile_qa import read_installed_apk
+        import subprocess
+        with tempfile.TemporaryDirectory() as temp, patch('run_mobile_qa.probe', side_effect=RuntimeError('sync denied')), patch('run_mobile_qa.subprocess.run', return_value=subprocess.CompletedProcess([], 1, None, b'Permission denied')):
+            with self.assertRaisesRegex(RuntimeError, 'Permission denied'):
+                read_installed_apk('emulator-5554', '/data/app/fixture/base.apk', pathlib.Path(temp) / 'installed.apk', {})
+
+    def test_probe_failure_preserves_command_and_bounded_diagnostic(self):
+        from run_mobile_qa import probe
+        import subprocess
+        with patch('run_mobile_qa.subprocess.run', return_value=subprocess.CompletedProcess([], 1, '', 'Permission denied')):
+            with self.assertRaisesRegex(RuntimeError, 'adb pull.*Permission denied'):
+                probe(['adb', 'pull', '/data/app/fixture/base.apk'])
+
     def test_ios_startup_query_timeout_can_recover(self):
         from run_mobile_qa import booted_ios_devices
         import subprocess
