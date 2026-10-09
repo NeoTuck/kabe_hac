@@ -6,7 +6,7 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ALLOWED = {'launchApp', 'assertVisible', 'tapOn', 'scrollUntilVisible', 'takeScreenshot'}
+ALLOWED = {'launchApp', 'assertVisible', 'tapOn', 'scrollUntilVisible', 'takeScreenshot', 'extendedWaitUntil'}
 files = sorted((ROOT / '.maestro/flows').glob('*.yaml'))
 if len(files) != 7:
     sys.exit('FAIL: expected seven pilot flows')
@@ -23,6 +23,8 @@ for path in files:
         name = command if isinstance(command, str) else next(iter(command), None) if isinstance(command, dict) and len(command) == 1 else None
         if name not in ALLOWED:
             sys.exit(f'FAIL: unexpected command in {path.name}: {name}')
+        if name == 'extendedWaitUntil' and (not isinstance(command[name], dict) or not isinstance(command[name].get('timeout'), int) or not 1 <= command[name]['timeout'] <= 120000):
+            sys.exit(f'FAIL: bounded native wait required: {path.name}')
         if name == 'launchApp' and command != 'launchApp':
             sys.exit(f'FAIL: pilot flows must not clear state/permissions: {path.name}')
     if not any(isinstance(c, dict) and 'assertVisible' in c for c in commands):

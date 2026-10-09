@@ -40,6 +40,9 @@ def asset_entry(path):
     elif rel.startswith('assets/fonts/'):
         entry.update({'kind': 'font_license', 'license': 'OFL-1.1',
                       'releaseStatus': 'bundled'})
+    elif rel == 'assets/licenses/ODbL-1.0.txt':
+        entry.update({'kind': 'data_license', 'license': 'ODbL-1.0',
+                      'source': 'https://opendatacommons.org/licenses/odbl/1-0/', 'releaseStatus': 'bundled'})
     elif rel == 'assets/content/safety_catalog.v1.json':
         entry.update({'kind': 'official_contact_facts',
                       'owner': 'project original labels; cited official contact facts',
@@ -71,6 +74,7 @@ def asset_entry(path):
 def collect_assets():
     paths = list((ROOT / 'assets/fonts').glob('*'))
     paths += list((ROOT / 'assets/content').glob('*.json'))
+    paths += list((ROOT / 'assets/licenses').glob('*.txt'))
     paths += list((ROOT / 'android/app/src/main/res').glob('mipmap-*/ic_launcher.png'))
     paths += list((ROOT / 'ios/Runner/Assets.xcassets/AppIcon.appiconset').glob('*.png'))
     paths += list((ROOT / 'ios/Runner/Assets.xcassets/LaunchImage.imageset').glob('*.png'))

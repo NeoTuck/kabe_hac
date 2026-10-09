@@ -81,9 +81,25 @@ class LicensesAndSourcesScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Bu sürümde çevrimdışı şehir haritası veya doğrulanmış gezi '
-            'verisi paketlenmedi. İleride indirilen harita ve yer paketlerinin '
-            'sağlayıcı atıfları paketle birlikte gösterilmelidir.',
+            '© OpenStreetMap contributors · ODbL 1.0. Mekke ve Medine '
+            'şehir haritaları ve yer kayıtları Geofabrik kaynak verisinden '
+            'üretilmiştir. Paketler isteğe bağlı indirilir. Kaynak tarihi '
+            'pakette ve haritada gösterilir; kayıtlar canlı açılış, '
+            'güvenli yürüme rotası veya kutsal sınır doğrulaması değildir. '
+            'Türetilmiş veri tabanı aynı ODbL lisansıyla aşağıdaki adreste yayımlanır.',
+          ),
+          const SelectableText(
+            'https://github.com/NeoTuck/kabe_hac/tree/codex/mvp1-pilot/offline_packages/osm-2026-10-08',
+          ),
+          ListTile(
+            title: const Text('OpenStreetMap veri lisansı'),
+            subtitle: const Text('ODbL 1.0 · Tam lisans metni'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => _showFontLicense(
+              context,
+              'OpenStreetMap',
+              'assets/licenses/ODbL-1.0.txt',
+            ),
           ),
           const SizedBox(height: 20),
           OutlinedButton.icon(

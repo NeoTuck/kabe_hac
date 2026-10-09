@@ -135,6 +135,7 @@ def matching_receipt(record, receipt, destination, fingerprint):
 
 def generate(record, output, voice, evidence, token, synthesize=google_synthesize):
     body = request_body(record, voice)
+    evidence = rights_input(evidence, voice)
     fingerprint = sha(json.dumps({'request': body, 'rights': evidence},
                                 sort_keys=True, ensure_ascii=False).encode())
     expected_file = f"recordings/{record['audioId']}.m4a"

@@ -80,6 +80,7 @@ flutter:
     - assets/content/hac_inventory.v1.json
     - assets/content/safety_catalog.v1.json
     - assets/content/package_defaults.v1.json
+    - assets/licenses/ODbL-1.0.txt
 
   # To add assets to your application, add an assets section, like this:
   # assets:

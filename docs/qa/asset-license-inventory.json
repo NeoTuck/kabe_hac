@@ -138,6 +138,15 @@
       "releaseStatus": "bundled"
     },
     {
+      "path": "assets/licenses/ODbL-1.0.txt",
+      "sha256": "77d2692c3d64efdd4db18dce2407699baf62930e2b50d6e5ed90b48acf16b7c1",
+      "bytes": 25289,
+      "kind": "data_license",
+      "license": "ODbL-1.0",
+      "source": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "releaseStatus": "bundled"
+    },
+    {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
       "sha256": "614f9fc07ec1a8c86f01b30964e173336ad48905ed0f5b8f69713700167b2e12",
       "bytes": 31506,

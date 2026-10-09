@@ -10,6 +10,12 @@ name: Gerçek paket indirme ve yerel harita renderı
     element: "Mekke haritasını indir"
     direction: DOWN
 - tapOn: "Mekke haritasını indir"
+- extendedWaitUntil:
+    visible: "Mekke çevrimdışı haritası indirildi."
+    timeout: 90000
+- scrollUntilVisible:
+    element: "Doğrulandı"
+    direction: DOWN
 - assertVisible: "Doğrulandı"
 - launchApp
 - tapOn: "(?s)Yolculuk.*"

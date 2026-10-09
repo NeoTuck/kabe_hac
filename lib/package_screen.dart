@@ -125,6 +125,13 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
       });
       await provider.downloadAndActivate(manifest);
       await _load();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${_packageTitle(manifest.packageId)} indirildi.'),
+          ),
+        );
+      }
     } catch (_) {
       if (mounted) {
         setState(() {
