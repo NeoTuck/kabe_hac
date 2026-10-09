@@ -32,11 +32,12 @@ class MobileConfigurationTests(unittest.TestCase):
         self.assertIsNotNone(re.fullmatch(selector, 'Kafile hizmeti hazırlanıyor\nDavet, sohbet ve gezi programı bağlantı kurulunca açılacak.'))
         self.assertIsNone(re.fullmatch(selector, 'Kafilem'))
 
-    def test_guide_flow_shows_honest_missing_audio_state(self):
+    def test_guide_flow_shows_honest_draft_audio_state(self):
         flow = commands('03-rehber-ses-durumu.yaml')
-        self.assertIn({'assertVisible': 'Bu başlık için onaylı ses kaydı henüz yok.'}, flow)
+        self.assertIn({'assertVisible':
+                       'Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı.'}, flow)
         self.assertIn({'scrollUntilVisible': {
-            'element': '(?s)Umreye hazırlanıyorum.*', 'direction': 'UP'}}, flow)
+            'element': '(?s)Umre.*18 başlık.*', 'direction': 'DOWN'}}, flow)
         self.assertFalse(any('Demo' in str(command) or 'Teknik örnek' in str(command)
                              for command in flow))
 
