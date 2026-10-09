@@ -118,7 +118,11 @@ jobs:
         run: |
           sudo service postgresql start
           sudo -u postgres createdb kabe_concurrency
-          sudo -u postgres env GITHUB_ACTIONS=true NODE_PATH=/tmp/kabe-pglite/node_modules node supabase/tests/standalone/concurrency.cjs
+          mkdir -p /tmp/kabe-pg-concurrency/tests
+          cp -R supabase/migrations /tmp/kabe-pg-concurrency/
+          cp -R supabase/tests/standalone /tmp/kabe-pg-concurrency/tests/
+          chmod -R a+rX /tmp/kabe-pg-concurrency /tmp/kabe-pglite
+          sudo -u postgres env GITHUB_ACTIONS=true NODE_PATH=/tmp/kabe-pglite/node_modules node /tmp/kabe-pg-concurrency/tests/standalone/concurrency.cjs
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.5.6
