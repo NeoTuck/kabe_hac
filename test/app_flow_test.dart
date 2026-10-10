@@ -25,6 +25,28 @@ void main() {
     catalogs = await const LocalContentRepository().load();
   });
 
+  testWidgets('ilk açılışta Umre öğrenmeye doğrudan başlanır', (tester) async {
+    final store = MemoryGuideStore();
+    final narration = FakeNarration();
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: catalogs,
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Umreyi öğrenmeye başla'), findsOneWidget);
+    await tester.tap(find.text('Umreyi öğrenmeye başla'));
+    await tester.pumpAndSettle();
+    expect(find.byType(GuideFlowScreen), findsOneWidget);
+    expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
+    expect(store.sessions.values.single.mode, GuideMode.learning);
+    expect(store.sessions.values.single.type, GuideType.umrah);
+  });
+
   testWidgets('ana sayfa seçimi, ayrıntı ve son adıma dönüş', (tester) async {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
@@ -152,20 +174,19 @@ void main() {
     );
     await tester.pump();
     expect(
-      find.bySemanticsLabel('Nasıl devam etmek istersin? Kayıtlar yükleniyor.'),
+      find.bySemanticsLabel('Rehbere başla. Kayıtlar yükleniyor.'),
       findsOneWidget,
     );
-    expect(find.bySemanticsLabel('Nasıl devam etmek istersin?'), findsNothing);
+    expect(find.bySemanticsLabel('Rehbere başla'), findsNothing);
+    expect(find.text('Umreyi öğrenmeye başla'), findsNothing);
     store.pending.complete(null);
     await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel('Rehbere başla'), findsOneWidget);
     expect(
-      find.bySemanticsLabel('Nasıl devam etmek istersin?'),
-      findsOneWidget,
-    );
-    expect(
-      find.bySemanticsLabel('Nasıl devam etmek istersin? Kayıtlar yükleniyor.'),
+      find.bySemanticsLabel('Rehbere başla. Kayıtlar yükleniyor.'),
       findsNothing,
     );
+    expect(find.text('Umreyi öğrenmeye başla'), findsOneWidget);
     semantics.dispose();
   });
 }

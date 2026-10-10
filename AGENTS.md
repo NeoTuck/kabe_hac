@@ -1,5 +1,7 @@
 # AGENTS.md
 
+**11 Ekim ilk kullanım akışı:** Ana ekranda kısa “Rehbere başla” girişi ve kayıt yokken doğrudan Umre öğrenme düğmesi eklendi. Kaldığı yerden devam etme ve Umre/Hac kullanım biçimi seçimleri korunur; prova, rehber seçiminden sonra görünür. Taslak içerik uyarısı korunur. Ayrıntı ve doğrulama `docs/34-ilk-kullanim-akisi-2026-10-11.md` içinde. Uzman, ses hakkı, canlı servis ve yayın kabulü değişmedi.
+
 **10 Ekim çevrimdışı yer bulma:** Harita yer seçimine kategori, ortak Türkçe/yerel ad araması, aramayı temizleme ve sonuç sayısı eklendi. Klavye/yüzde 200 yazı için kaydırılabilir başlık ve lazy liste kullanılır; test verisi gizlenir. Yerel Flutter 210/210, hedefli 7/7, analiz ve 84 dosya format kontrolü geçti. Workflow/CI beklenmedi; native/fiziksel cihaz veya içerik/hak/canlı servis kabulü yok. Ayrıntı `docs/33-cevrimdisi-yer-bulma-2026-10-10.md`.
 
 **10 Ekim yerel ses/harita turu:** Kullanıcı CI/workflow beklenmeden yerel geliştirme istedi. Paket ekranının kurulu harita listesi ağ kataloğundan ayrıldı; silme/geri dönüş/indirme sonrası yalnız yerel kayıt yenilenir. Yerel 206 Flutter testi, format ve analiz geçti; 54 ses tam decode/hash/binding kontrolü ve Linux Flutter varlık paketinde doğrulandı. Üç harita/gezi paketinin 11 gerçek indirme dosyası hash/byte eşleşti; 2.928 POI ve iki geometri paketi çözümlendi. CI beklenmedi, workflow değişmedi. Sesler sentetik taslak; Arapça telbiye, uzman/hak, canlı servis, native/fiziksel cihaz ve üretim imzası kabulü yapılmadı. Ayrıntı `docs/32-yerel-ses-harita-2026-10-10.md`.

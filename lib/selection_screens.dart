@@ -238,25 +238,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     header: true,
                     excludeSemantics: true,
                     label: _loadingRecords
-                        ? 'Nasıl devam etmek istersin? Kayıtlar yükleniyor.'
-                        : 'Nasıl devam etmek istersin?',
+                        ? 'Rehbere başla. Kayıtlar yükleniyor.'
+                        : 'Rehbere başla',
                     child: Text(
-                      'Nasıl devam etmek istersin?',
+                      'Rehbere başla',
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text(
-                    'Hazırlık ve yolculuk kayıtların ayrı tutulur. İstediğin zaman diğer rehberlere geçebilirsin.',
-                  ),
+                  const Text('Hazırlık ve yolculuk kayıtların ayrı tutulur.'),
                   if (_catalogs[GuideType.umrah]!.isPreview) ...[
                     const SizedBox(height: 16),
                     const Card.filled(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Text(
-                          'Umre içeriği henüz incelemede. Sentetik taslak sesler dinlenebilir; onaylı ibadet anlatımı ve insan sesi henüz yok.',
+                          'Umre içeriği henüz incelemede. Taslak sesler onaylı anlatım değildir.',
                         ),
                       ),
                     ),
@@ -271,25 +269,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 24),
-                  _ChoiceCard(
-                    icon: Icons.play_circle_outline_rounded,
-                    title: 'Simülasyonu dene',
-                    subtitle: 'İsteğe bağlı eğitim provası · gerçek ibadetin yerine geçmez',
-                    onTap: () => _open(
-                      PracticeScreen(
-                        store: widget.store,
-                        catalogs: _catalogs,
-                        bundledCatalogs: widget.bundledCatalogs,
-                        narration: widget.narration,
-                        contentRepository: widget.contentRepository,
-                        packages: widget.packages,
-                        packageProvider: widget.packageProvider,
-                        packageConfigurationError:
-                            widget.packageConfigurationError,
+                  if (!_loadingRecords && latest == null) ...[
+                    const SizedBox(height: 24),
+                    FilledButton.icon(
+                      onPressed: () => _open(
+                        GuideFlowScreen(
+                          store: widget.store,
+                          catalog: _catalogs[GuideType.umrah]!,
+                          narration: widget.narration,
+                          mode: GuideMode.learning,
+                          profile: null,
+                        ),
                       ),
+                      icon: const Icon(Icons.menu_book_rounded),
+                      label: const Text('Umreyi öğrenmeye başla'),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Umre başlıklarını aç; ilk adımdan başlayabilirsin.',
+                    ),
+                  ],
                   const SizedBox(height: 28),
                   Text(
                     'Rehber seç',
@@ -314,6 +313,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () => _choose(GuideType.hajj),
                   ),
                   const SizedBox(height: 32),
+                  _ChoiceCard(
+                    icon: Icons.play_circle_outline_rounded,
+                    title: 'Simülasyonu dene',
+                    subtitle: 'İsteğe bağlı eğitim provası · gerçek ibadetin yerine geçmez',
+                    onTap: () => _open(
+                      PracticeScreen(
+                        store: widget.store,
+                        catalogs: _catalogs,
+                        bundledCatalogs: widget.bundledCatalogs,
+                        narration: widget.narration,
+                        contentRepository: widget.contentRepository,
+                        packages: widget.packages,
+                        packageProvider: widget.packageProvider,
+                        packageConfigurationError:
+                            widget.packageConfigurationError,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 28),
                   if (_travelCatalog != null) ...[
                     Text('Gezi', style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 8),
