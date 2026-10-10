@@ -106,3 +106,8 @@ Paralel dış üretim ayrıca yaklaşık 45–90 kişi-gün dinî içerik/uzman 
 6 Ekim 2026 kontrolünde biçimlendirme temiz, `flutter analyze` hatasız ve 45 test başarılıdır. Android debug APK derlendi; 227319901 bayt ve SHA-256 değeri `5ad14fc9e1dd369df42379cbaaaf9c8f900aacaee044c6cfe05cb1c59e2b3b4a` oldu. Android 35 emülatörde uygulama açıldı, teknik ses için medya bildirimi üretildi ve ekran kapalı sistem medya komutlarıyla duraklatma/devam durumu görüldü. Emülatör sessiz olduğundan işitsel kalite, çağrı, Bluetooth ve kulaklık doğrulanmadı.
 
 iOS için tam Xcode ve CocoaPods; gerçek arka plan sesi için Android/iPhone cihazı; offline harita için izinli sağlayıcı bölgesi gerekir. Backend SQL ve pgTAP dosyaları Docker kullanılmadan hazırlandı ve çalışan PostgreSQL üzerinde henüz yürütülmedi.
+
+
+## 7 Ekim 2026 inceleme düzeltmesi
+
+Yeni güvenlik migrasyonu mesaj alanlarının değiştirilmesini sınırlar ve konum için rıza/süre/saklama/üyelik erişimini kapatır. İndirilen katalog ve ses dosyalarının rehber/oynatıcı bağlantısı tamamlandı. 53 Flutter testi, temiz analiz/format ve bağımsız PGlite + pgTAP ortamında 28 SQL kontrolü doğrulandı. P5/P6 ürün kabulü verilmedi: gerçek Supabase servisleri, saklama temizleme işi, mobil konum önbelleğinin iptali ve gerçek cihaz kanıtı bekliyor. Ayrıntı, paket dosya sözleşmesi ve bu doğrulamanın sınırları `05-github-inceleme-duzeltmeleri.md` içinde. Bu ek yeni kanıttır; önceki 6 Ekim platform sonuçları yeni değişiklik için tekrar edilmemiştir.

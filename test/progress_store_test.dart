@@ -9,6 +9,57 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   sqfliteFfiInit();
 
+  test(
+    'yerel kayıt silme ilerleme ve bekleyen mesajı kaldırır, ayarları korur',
+    () async {
+      final directory = await Directory.systemTemp.createTemp('clear-local-');
+      final store = ProgressStore(
+        factory: databaseFactoryFfi,
+        databasePath: '${directory.path}/sesli_rehber.db',
+      );
+      addTearDown(() async {
+        await store.close();
+        await directory.delete(recursive: true);
+      });
+      final session = await store.openOrCreateSession(
+        type: GuideType.umrah,
+        mode: GuideMode.learning,
+        profile: null,
+        firstStepId: 'U01.1',
+        contentVersion: 'draft-v1',
+      );
+      await store.setStepMarked(session.id, 'U01.1', true);
+      await store.startPracticeSession(
+        type: GuideType.umrah,
+        profile: null,
+        contentVersion: 'draft-v1',
+        firstStepId: 'U01.1',
+      );
+      await store.setTravelFavorite('poi', 'MECCA-1', true);
+      await store.enqueueGroupMessage(
+        clientId: 'message-1',
+        groupId: 'group-1',
+        body: 'Bekleyen mesaj',
+      );
+      await store.saveLastStepId('U01.1');
+      await store.saveAppValue('theme_mode', 'dark');
+      await store.saveAppValue(
+        'push_opt_in_user',
+        '22222222-2222-4222-8222-222222222222',
+      );
+
+      await store.clearLocalRecords();
+
+      expect(await store.readMostRecentSession(), isNull);
+      expect(await store.readPracticeSession(1), isNull);
+      expect(await store.readTravelFavoriteIds('poi'), isEmpty);
+      expect(await store.readLastStepId(), isNull);
+      expect(await store.readAppValue('theme_mode'), 'dark');
+      expect(await store.readAppValue('push_opt_in_user'), isNull);
+      expect(await store.readGroupOutbox(), isEmpty);
+    },
+  );
+
   test('v3 oturum, işaret ve sayaç verileri v4 kimliklerine taşınır', () async {
     final directory = await Directory.systemTemp.createTemp('umre_migrate_');
     final dbPath = '${directory.path}/sesli_rehber.db';

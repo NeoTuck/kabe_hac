@@ -1,0 +1,46 @@
+appId: ${APP_ID}
+name: İsteğe bağlı Umre provası
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Nasıl devam etmek istersin\\?"
+    timeout: 30000
+- scrollUntilVisible:
+    element: "(?s)Simülasyonu dene.*"
+    direction: DOWN
+- tapOn: "(?s)Simülasyonu dene.*"
+- assertVisible: "Simülasyon"
+- assertVisible: "Yeni prova"
+- tapOn: "Yeni prova"
+- assertVisible: "Prova seçimi"
+- tapOn: "Paket seçimine geç"
+- assertVisible: "Paket seçimi"
+- assertVisible: "(?s)Temel metin ve şemalar.*"
+- tapOn: "Hazırlığa geç"
+- assertVisible: "Hazırlık"
+- tapOn: "Provaya başla"
+- assertVisible: '(?s)(?:1 / 18 · U01\n)?Kullanım biçimi seçimi(?:\n.*)?'
+- scrollUntilVisible:
+    element: "(?s)Bu başlığı prova ettim.*"
+    direction: DOWN
+- assertVisible: "(?s)Bu başlığı prova ettim.*"
+- takeScreenshot: prova-taslak-baslik
+- scrollUntilVisible:
+    element: "Provayı duraklat"
+    direction: DOWN
+- tapOn: "Provayı duraklat"
+- assertVisible: "(?s)Prova duraklatıldı.*"
+- takeScreenshot: prova-duraklatildi
+- launchApp
+- extendedWaitUntil:
+    visible: "Nasıl devam etmek istersin\\?"
+    timeout: 30000
+- scrollUntilVisible:
+    element: "(?s)Simülasyonu dene.*"
+    direction: DOWN
+- tapOn: "(?s)Simülasyonu dene.*"
+- tapOn: "Kaldığım provadan devam et"
+- assertVisible: "(?s)Prova duraklatıldı.*"
+- tapOn: "Devam et"
+- assertVisible: '(?s)(?:1 / 18 · U01\n)?Kullanım biçimi seçimi(?:\n.*)?'
+- takeScreenshot: prova-devam

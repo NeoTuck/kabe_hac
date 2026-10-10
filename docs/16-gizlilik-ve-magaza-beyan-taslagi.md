@@ -1,0 +1,29 @@
+# Gizlilik ve mağaza beyanı çalışma taslağı
+
+9 Ekim 2026. Bu metin yayınlanmış gizlilik politikası veya App Store/Play Console beyanı değildir. Ürün sorumlusu, canlı servis ve hukuk/gizlilik incelemesiyle tamamlanmalıdır. Uygulama sürümü `0.1.0+1` teknik pilottur.
+
+## Kodda bugün görülen veri akışları
+
+| Veri/izin | Yerel davranış | Sunucu/mağaza beyanında açık karar |
+| --- | --- | --- |
+| Rehber ve prova ilerlemesi, sayaç, favori, tema | `sqflite` ile cihazda tutulur; prova gerçek rehberden ayrıdır. Ayarlardaki cihaz verilerini silme işlemi ilerleme, sayaç, favori, yerel mesaj kuyruğu ve konum durumunu siler; indirilen paketleri ve okuma ayarlarını korur. | Gerçek cihazda silme/yeniden açma ve varsa sunucu verisini ayrı silme yordamı doğrulanmalı. |
+| İsteğe bağlı paket | Yapılandırılırsa HTTPS katalog/dosya isteği ve doğrulanmış yerel dosya saklama vardır. Mevcut derlemede gerçek sunucu/güven kökü yok. | Sağlayıcı, sunucu log/IP saklama, lisans/atıf ve silme politikası belirlenmeli. |
+| Ses | 53 Türkçe adım anlatımı ve telbiyenin bir Türkçe anlam kaydı sentetik taslak olarak uygulama varlıklarına eklendi. Android debug APK içinde 54 dosyanın hash'i doğrulandı. Rehber/prova aynı dosyaları kullanır; onaylı paket sesi varsa ayrıca çalınır. Android medya servisi ve iOS arka plan ses modu kullanılır. Mikrofon kaydı kodu yok. | Sentetik ses kullanım hakkı, işitsel kalite ve dinî/Arapça içerik incelemesi tamamlanmadan bu sesler yayın onayı almış sayılmaz. |
+| Kafile hesabı ve mesaj | Supabase bağlantısı yalnız proje bilgileri, üç doğrulanmış HTTPS gizlilik/destek/hesap silme bağlantısı ve `LIVE_SERVICE_ACCEPTED=true` birlikte derlemeye verildiğinde açılır. Varsayılan yapıda canlı servis yoktur. Giriş yapan kullanıcı hesap silme isteği kaydedebilir; sunucu tetikleyicisi o anda açık konum paylaşımını ve bildirim tokenını kapatır. Mesaj şikâyeti ve kullanıcı engelleme için istemci/SQL taslağı vardır; moderasyon işletimi ve hesabın gerçekten silinmesi henüz doğrulanmadı. Çevrimdışı mesaj outbox cihazda kalabilir. | Veri sorumlusu, barındırma bölgesi, saklama, erişim, hesap/veri silme ve sonuç bildirimi, şikâyet işletimi ve alt işleyenler gerçek proje üzerinden kararlaştırılmalı. Canlı sohbet kabul bayrağı bu işler tamamlanmadan verilmemeli. |
+| Konum | Android/iOS yalnız kullanım sırasında konum izni tanımlı. Kafile hesabı ve açık onay varsa bir GPS ölçümü alınır, Supabase'e gönderilir ve 15 dakikalık paylaşım kaydı açılır; otomatik arka plan takibi yok. Durdurma yerel kaydı hemen kapatır, sunucu iptali ağ yoksa doğrulanamaz ve UI bunu belirtir. Sunucu RLS/cleanup kodu vardır ancak canlı projeye uygulanmadı. Varsayılan derlemede canlı Supabase yoktur. | Veri sorumlusu koordinat ve koordinatsız rıza geçmişi saklama süresini seçmeli; açıklama, geçiş ve gerçek iki hesap/cihaz kabulü aynı kararla uyumlu olmalı. |
+| Bildirim | Firebase projesi derleme zamanı yapılandırılmışsa kullanıcı izniyle FCM token'ı Supabase'e kaydedilir; yenilemede eski token kaldırılır, çıkışta bu cihazın token'ı silinir. Varsayılan derlemede yapılandırma yok ve izin istemi yok. Bildirime dokunma yalnız doğrulanmış kafile üyeliğine gider. Sunucu outbox/FCM gönderici kodu test modunda dar allowlist ister; canlı projeye deploy edilmedi. | APNs/FCM kimlikleri, açık test hesap/cihaz listesi ve gerçek teslim kabulü gerekli. Sağlayıcının kabulü cihaz teslimi değildir. |
+
+9 Ekim yerel debug APK'sının birleşmiş manifesti `aapt dump permissions` ile okundu: `INTERNET` paket/servis istekleri; `ACCESS_COARSE_LOCATION`/`ACCESS_FINE_LOCATION` kullanıcı başlatmalı tek GPS ölçümü; `WAKE_LOCK`/`FOREGROUND_SERVICE`/`FOREGROUND_SERVICE_MEDIA_PLAYBACK` arka plan medya oynatımı; `POST_NOTIFICATIONS` opt-in FCM ve medya bildirimi; `ACCESS_NETWORK_STATE`/`ACCESS_WIFI_STATE` ağ eklentileri; `com.google.android.c2dm.permission.RECEIVE` FCM; `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` AndroidX iç alıcısı için vardır. Son alt izinlerin hangi native SDK tarafından eklendiği sürümlü birleşmiş manifestte ayrıca doğrulanır; kullanıcıya işlevsiz izin eklenmemelidir. Firebase otomatik bildirim kaydı varsayılan kapalıdır. iOS `Info.plist` yalnız kullanım sırasında konum açıklaması ve arka plan **ses** modu belirtir; konum arka plan modu yoktur. Üçüncü taraf paketler arasında `supabase_flutter`, `maplibre_gl`, `just_audio`, `geolocator`, `firebase_core`, `firebase_messaging` ve `sqflite` vardır. Firebase Analytics uygulama bağımlılığı eklenmedi; Firebase SDK'larının ve gerçek servis yapılandırmasının veri akışı mağaza formlarında ayrıca denetlenmelidir.
+
+Saklama kararı için üç ayrı seçenek ürün/veri sorumlusuna sunulur: (A) paylaşım bitişinde koordinatı silme; (B) mevcut pilot sözleşmesindeki 24 saatlik teknik saklama; (C) kayıtlı iş gerekçesi ve açık kullanıcı metniyle daha uzun, en fazla sunucu ayarının izin verdiği 30 günlük süre. Veri azaltımı açısından öneri A'dır; bu bir politika kararı değildir. Paylaşım bitince yönetici erişimi saklama süresinden bağımsız kapanır. Koordinatsız rıza geçmişinin süresi ayrıca belirlenir; karar gelince sunucu ayarı, istemci süresi, geçmiş kayıt geçişi ve kullanıcı açıklaması birlikte değiştirilir.
+
+## Yayın öncesi doldurulacak alanlar
+
+- Veri sorumlusu/ticari unvan, iletişim ve destek adresi; doğrulanmış politika URL'si.
+- Canlı Supabase proje bölgesi, kullanılan Auth yöntemi, mesaj/konum saklama süresi, hesap ve veri silme isteği akışı.
+- Paket/harita/ses sağlayıcıları, lisans ve atıf metinleri, varsa IP ve indirme loglarının süresi.
+- Play Data safety ve App Store App Privacy formunda gerçek yapılandırmayla eşleşen veri toplama/paylaşma/izleme cevapları.
+- Çocuk hedef kitle kararı, ülkeler ve uygulanacak mevzuat incelemesi.
+- Uygulama içi silme/hesap kapatma kullanıcı akışı ve mağaza inceleme hesabı gereksinimleri.
+
+Bu alanlar tamamlanmadan metin yayımlanmaz; `tools/release_preflight.py` içindeki `privacy_store_declarations` kanıtı kabul edilmiş sayılmaz.

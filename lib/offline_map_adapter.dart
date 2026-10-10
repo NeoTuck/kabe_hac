@@ -53,7 +53,15 @@ class OfflineMapRegionRequest {
     if (safeAttribution.isEmpty) {
       throw ArgumentError.value(attribution, 'attribution');
     }
-    if (south < -90 ||
+    if (![
+          south,
+          west,
+          north,
+          east,
+          minZoom,
+          maxZoom,
+        ].every((value) => value.isFinite) ||
+        south < -90 ||
         north > 90 ||
         west < -180 ||
         east > 180 ||

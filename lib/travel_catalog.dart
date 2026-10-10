@@ -125,6 +125,7 @@ class TravelPoi {
     required this.isTestData,
     this.phone,
     this.hours,
+    this.isSourceSnapshot = false,
   });
 
   final String id;
@@ -139,6 +140,7 @@ class TravelPoi {
   final bool isTestData;
   final String? phone;
   final String? hours;
+  final bool isSourceSnapshot;
 
   factory TravelPoi.fromJson(Map<String, Object?> json) {
     final id = _requiredString(json, 'id');
@@ -148,6 +150,12 @@ class TravelPoi {
     final isTestData = json['isTestData'];
     if (isTestData is! bool) {
       throw const TravelCatalogFormatException('isTestData belirtilmeli.');
+    }
+    final isSourceSnapshot = json['isSourceSnapshot'] ?? false;
+    if (isSourceSnapshot is! bool) {
+      throw const TravelCatalogFormatException(
+        'Kaynak kaydı işareti geçersiz.',
+      );
     }
     return TravelPoi(
       id: id,
@@ -168,6 +176,7 @@ class TravelPoi {
       sourceUri: _httpsUri(json, 'sourceUrl'),
       verifiedAt: _dateTime(json, 'verifiedAt'),
       isTestData: isTestData,
+      isSourceSnapshot: isSourceSnapshot,
       phone: _optionalString(json, 'phone'),
       hours: _optionalString(json, 'hours'),
     );
@@ -342,8 +351,8 @@ class TravelCatalog {
     }
     List<T> records<T>(String key, T Function(Map<String, Object?>) parse) {
       final raw = json[key];
-      if (raw is! List) {
-        throw TravelCatalogFormatException('$key liste olmalı.');
+      if (raw is! List || raw.length > 10000) {
+        throw TravelCatalogFormatException('$key en fazla 10000 kayıt olmalı.');
       }
       return [
         for (final value in raw)
@@ -380,17 +389,36 @@ class TravelCatalog {
   }
 
   List<TravelPoi> searchPoints({String query = '', PoiCategory? category}) {
-    final normalized = query.trim().toLowerCase();
-    return List.unmodifiable(
-      points.where(
-        (point) =>
-            (category == null || point.category == category) &&
-            (normalized.isEmpty ||
-                point.nameTr.toLowerCase().contains(normalized) ||
-                (point.localName?.toLowerCase().contains(normalized) ?? false)),
-      ),
-    );
+    return searchTravelPoints(points, query: query, category: category);
   }
+}
+
+/// Shared offline search for both the travel list and city map.
+List<TravelPoi> searchTravelPoints(
+  Iterable<TravelPoi> points, {
+  String query = '',
+  PoiCategory? category,
+}) {
+  String normalize(String value) => value
+      .toLowerCase()
+      .replaceAll('i\u0307', 'i')
+      .replaceAll('ı', 'i')
+      .replaceAll('ş', 's')
+      .replaceAll('ğ', 'g')
+      .replaceAll('ü', 'u')
+      .replaceAll('ö', 'o')
+      .replaceAll('ç', 'c');
+  final normalized = normalize(query.trim());
+  return List.unmodifiable(
+    points.where(
+      (point) =>
+          (category == null || point.category == category) &&
+          (normalized.isEmpty ||
+              normalize(point.nameTr).contains(normalized) ||
+              (point.localName != null &&
+                  normalize(point.localName!).contains(normalized))),
+    ),
+  );
 }
 
 double straightLineDistanceMeters(GeoPoint from, GeoPoint to) {

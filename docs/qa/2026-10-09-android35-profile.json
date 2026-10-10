@@ -1,0 +1,62 @@
+{
+  "device": "emulator-5580",
+  "api": "35",
+  "model": "Android SDK built for arm64",
+  "hostArch": "arm64",
+  "build": "profile",
+  "apkBytes": 154279916,
+  "apkSha256": "5943d0e38a509e038020abb175ee5dccf97480ce3ef2fe99ac54254ccafa648f",
+  "method": "adb am start -W; 3 process cold force-stop, 3 home-to-foreground warm, 3 offline process cold; not first usable Flutter frame",
+  "cold": [
+    {
+      "state": "COLD",
+      "totalMs": 2053,
+      "waitMs": 2055
+    },
+    {
+      "state": "COLD",
+      "totalMs": 1603,
+      "waitMs": 1606
+    },
+    {
+      "state": "COLD",
+      "totalMs": 1619,
+      "waitMs": 1621
+    }
+  ],
+  "warm": [
+    {
+      "state": "UNKNOWN (0)",
+      "totalMs": null,
+      "waitMs": 44
+    },
+    {
+      "state": "UNKNOWN (0)",
+      "totalMs": null,
+      "waitMs": 24
+    },
+    {
+      "state": "UNKNOWN (0)",
+      "totalMs": null,
+      "waitMs": 62
+    }
+  ],
+  "offline": [
+    {
+      "state": "COLD",
+      "totalMs": 1660,
+      "waitMs": 1666
+    },
+    {
+      "state": "COLD",
+      "totalMs": 1312,
+      "waitMs": 1333
+    },
+    {
+      "state": "COLD",
+      "totalMs": 1513,
+      "waitMs": 1515
+    }
+  ],
+  "totalPssKiB": 130884
+}

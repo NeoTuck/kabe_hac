@@ -24,6 +24,25 @@ class OfflinePackageRuntimeConfig {
   final Set<String> allowedHosts;
   final Set<String> trustedManifestDigests;
 
+  factory OfflinePackageRuntimeConfig.fromJson(Map<String, Object?> json) {
+    final catalog = json['catalogUrl'];
+    final hosts = json['allowedHosts'];
+    final digests = json['trustedManifestDigests'];
+    if (json['schemaVersion'] != 1 ||
+        catalog is! String ||
+        hosts is! List ||
+        digests is! List ||
+        hosts.any((v) => v is! String) ||
+        digests.any((v) => v is! String)) {
+      throw const PackageCatalogException('Paket varsayılanları geçersiz.');
+    }
+    return _parse(
+      catalog,
+      hosts.cast<String>().join(','),
+      digests.cast<String>().join(','),
+    );
+  }
+
   static OfflinePackageRuntimeConfig? fromCompileTime() {
     const rawCatalog = String.fromEnvironment('PACKAGE_CATALOG_URL');
     const rawHosts = String.fromEnvironment('PACKAGE_ALLOWED_HOSTS');
@@ -31,6 +50,14 @@ class OfflinePackageRuntimeConfig {
     if (rawCatalog.isEmpty && rawHosts.isEmpty && rawDigests.isEmpty) {
       return null;
     }
+    return _parse(rawCatalog, rawHosts, rawDigests);
+  }
+
+  static OfflinePackageRuntimeConfig _parse(
+    String rawCatalog,
+    String rawHosts,
+    String rawDigests,
+  ) {
     final catalogUri = Uri.tryParse(rawCatalog);
     final hosts = rawHosts
         .split(',')
@@ -70,47 +97,43 @@ abstract class PackageCatalogTextFetcher {
 class HttpPackageCatalogTextFetcher extends PackageCatalogTextFetcher {
   HttpPackageCatalogTextFetcher({
     HttpClient? client,
-    this.maximumBytes = 1024 * 1024,
-  }) : _client = client ?? HttpClient();
+    int maximumBytes = 1024 * 1024,
+    Duration timeout = const Duration(seconds: 30),
+  }) : _files = HttpPackageFileFetcher(
+         client: client,
+         maximumBytes: maximumBytes,
+         timeout: timeout,
+       );
 
-  final HttpClient _client;
-  final int maximumBytes;
+  final HttpPackageFileFetcher _files;
 
   @override
   Future<String> fetch(Uri uri) async {
-    if (uri.scheme != 'https' || uri.host.isEmpty || uri.userInfo.isNotEmpty) {
-      throw const PackageCatalogException('Güvensiz katalog bağlantısı.');
-    }
-    final request = await _client.getUrl(uri);
-    request.followRedirects = false;
-    final response = await request.close();
-    if (response.isRedirect) {
-      await response.drain<void>();
-      throw const PackageCatalogException(
-        'Katalog yönlendirmesi güvenlik nedeniyle reddedildi.',
-      );
-    }
-    if (response.statusCode != HttpStatus.ok) {
-      await response.drain<void>();
-      throw PackageCatalogException(
-        'Katalog alınamadı: HTTP ${response.statusCode}',
-      );
-    }
-    final bytes = <int>[];
-    await for (final chunk in response) {
-      bytes.addAll(chunk);
-      if (bytes.length > maximumBytes) {
-        throw const PackageCatalogException('Paket kataloğu çok büyük.');
-      }
-    }
+    // Share the bounded, timed and redirect-safe transport with package files.
+    // A fresh temporary file means catalog requests never send a Range header.
+    final temporary = await Directory.systemTemp.createTemp('kabe-catalog-');
     try {
-      return utf8.decode(bytes);
-    } on FormatException {
-      throw const PackageCatalogException('Paket kataloğu UTF-8 değil.');
+      final file = File('${temporary.path}/catalog.json');
+      await _files.fetch(uri, file);
+      try {
+        return utf8.decode(await file.readAsBytes());
+      } on FormatException {
+        throw const PackageCatalogException('Paket kataloğu UTF-8 değil.');
+      }
+    } on PackageCatalogException {
+      rethrow;
+    } catch (_) {
+      throw const PackageCatalogException(
+        'Paket kataloğu alınamadı. Bağlantıyı kontrol edip yeniden dene.',
+      );
+    } finally {
+      try {
+        await temporary.delete(recursive: true);
+      } catch (_) {}
     }
   }
 
-  void close() => _client.close(force: true);
+  void close() => _files.close();
 }
 
 class PackageCatalogClient {

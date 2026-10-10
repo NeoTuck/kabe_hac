@@ -1,0 +1,13 @@
+appId: ${APP_ID}
+name: Lisans ve kaynak metinleri
+---
+- launchApp
+- tapOn: "(?s)Ayarlar.*"
+- scrollUntilVisible:
+    element: "Lisanslar ve kaynaklar"
+    direction: DOWN
+- tapOn: "Lisanslar ve kaynaklar"
+- assertVisible: "Uygulamaya gömülü yazı tipleri"
+- tapOn: "(?s)Noto Sans.*OFL 1.1"
+- assertVisible: "Noto Sans lisansı"
+- takeScreenshot: noto-sans-lisans

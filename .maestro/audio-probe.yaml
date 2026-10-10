@@ -1,0 +1,21 @@
+appId: ${APP_ID}
+name: Ayrı teknik pakette cihaz ses oynatımı
+---
+- launchApp
+- assertVisible: "Yalnız teknik ses testi"
+- tapOn: "Test sesini oynat"
+- assertVisible: "Ses oynuyor"
+- assertVisible: "Süre alındı"
+- assertVisible: "Konum ilerledi"
+- tapOn: "Duraklat"
+- assertVisible: "Ses duraklatıldı"
+- takeScreenshot: ses-duraklatildi
+- tapOn: "Devam et"
+- assertVisible: "Ses oynuyor"
+- tapOn: "Sona yaklaş"
+- assertVisible: "Ses tamamlandı"
+- tapOn: "Baştan dinle"
+- assertVisible: "Ses oynuyor"
+- tapOn: "Durdur"
+- assertVisible: "Ses durdu"
+- takeScreenshot: ses-durdu

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
@@ -5,8 +7,16 @@ import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/guide_screens.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
+import 'package:hac_umre_sesli_rehber/progress_store.dart';
 
 import 'test_fakes.dart';
+
+class DelayedHomeStore extends MemoryGuideStore {
+  final pending = Completer<GuideSession?>();
+
+  @override
+  Future<GuideSession?> readMostRecentSession() => pending.future;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +37,14 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    expect(
+      find.textContaining('Umre içeriği henüz incelemede'),
+      findsOneWidget,
+    );
+    expect(find.text('Rehber seç'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Umre'), 200);
+    await tester.ensureVisible(find.text('Umre'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Umre'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Öğrenme'));
@@ -36,7 +54,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(GuideStepScreen), findsOneWidget);
     expect(find.text('U01 · 1 / 18'), findsOneWidget);
-    await tester.ensureVisible(find.text('Sonraki başlık'));
+    await tester.scrollUntilVisible(find.text('Sonraki başlık'), 250);
     await tester.tap(find.text('Sonraki başlık'));
     await tester.pumpAndSettle();
     expect(find.text('U01 · 2 / 18'), findsOneWidget);
@@ -53,6 +71,11 @@ void main() {
     await tester.pumpAndSettle();
     Navigator.of(tester.element(find.text('Öğrenme'))).pop();
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.textContaining('Kaldığım yerden devam'),
+      -200,
+    );
+    await tester.pumpAndSettle();
     expect(find.textContaining('Kaldığım yerden devam'), findsOneWidget);
   });
 
@@ -67,6 +90,9 @@ void main() {
         settings: ReaderSettings(store, narration),
       ),
     );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Hac'), 180);
+    await tester.ensureVisible(find.text('Hac'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Hac'));
     await tester.pumpAndSettle();
@@ -85,8 +111,9 @@ void main() {
     expect(store.sessions.values.single.profile, HajjProfile.ifrad);
   });
 
-  testWidgets('teknik örnek son kart kaydı yeniden okunur', (tester) async {
+  testWidgets('eski demo kaydı ana ekranda giriş oluşturmaz', (tester) async {
     final store = MemoryGuideStore();
+    await store.saveLastStepId('DEMO-001');
     final narration = FakeNarration();
     final app = SesliRehberApp(
       store: store,
@@ -96,16 +123,49 @@ void main() {
     );
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Ses ve Arapça örnek kartını aç'));
-    await tester.tap(find.text('Ses ve Arapça örnek kartını aç'));
+    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
     await tester.pumpAndSettle();
-    expect(await store.readLastStepId(), 'DEMO-001');
-    Navigator.of(tester.element(find.text('Teknik örnek kart'))).pop();
-    await tester.pumpAndSettle();
-    expect(find.text('Ses örneğine kaldığım yerden devam'), findsOneWidget);
+    expect(find.text('Teknik deneme'), findsNothing);
+    expect(find.text('Ses örneğine kaldığım yerden devam'), findsNothing);
+    expect(find.text('Ses ve Arapça örnek kartını aç'), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
-    expect(find.text('Ses örneğine kaldığım yerden devam'), findsOneWidget);
+    expect(await store.readLastStepId(), 'DEMO-001');
+    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
+    await tester.pumpAndSettle();
+    expect(find.text('Teknik deneme'), findsNothing);
+  });
+  testWidgets('ana ekran kayıt yükleme durumu erişilebilir ve sınırlıdır', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    final store = DelayedHomeStore();
+    final narration = FakeNarration();
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: catalogs,
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+      ),
+    );
+    await tester.pump();
+    expect(
+      find.bySemanticsLabel('Nasıl devam etmek istersin? Kayıtlar yükleniyor.'),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel('Nasıl devam etmek istersin?'), findsNothing);
+    store.pending.complete(null);
+    await tester.pumpAndSettle();
+    expect(
+      find.bySemanticsLabel('Nasıl devam etmek istersin?'),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel('Nasıl devam etmek istersin? Kayıtlar yükleniyor.'),
+      findsNothing,
+    );
+    semantics.dispose();
   });
 }

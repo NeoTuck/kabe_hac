@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'offline_package.dart';
 import 'package_catalog.dart';
 
+String _packageTitle(String id) => switch (id) {
+  'map-mecca' => 'Mekke çevrimdışı haritası',
+  'map-medina' => 'Medine çevrimdışı haritası',
+  'travel-pilgrim-snapshot' => 'Mekke ve Medine yerleri',
+  _ => id,
+};
+
 class OfflinePackagesScreen extends StatefulWidget {
   const OfflinePackagesScreen({
     super.key,
@@ -25,6 +32,8 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
   String? _error;
   String? _catalogError;
   String? _busyPackageId;
+  bool _loading = false;
+  bool _catalogLoading = false;
 
   @override
   void initState() {
@@ -32,65 +41,84 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
     _load();
   }
 
-  Future<void> _load() async {
+  Future<void> _load({bool refreshCatalog = true}) async {
+    if (_loading) return;
+    setState(() => _loading = true);
     try {
       final states = await widget.manager.listActivations();
-      List<OfflinePackageManifest>? catalog;
-      String? catalogError;
-      final provider = widget.provider;
-      if (provider != null) {
-        try {
-          catalog = await provider.loadCatalog();
-        } catch (_) {
-          catalogError = 'Paket kataloğu alınamadı veya güvenilir değil.';
-        }
-      }
       if (!mounted) return;
       setState(() {
         _states = states;
-        _catalog = catalog;
         _error = null;
-        _catalogError = catalogError;
       });
     } catch (_) {
       if (mounted) setState(() => _error = 'Paket kayıtları okunamadı.');
+      return;
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+    final provider = widget.provider;
+    if (!mounted || !refreshCatalog || _catalogLoading || provider == null) {
+      return;
+    }
+    // Local packages stay visible and manageable while the network is slow.
+    setState(() {
+      _catalogLoading = true;
+      _catalogError = null;
+    });
+    try {
+      final catalog = await provider.loadCatalog();
+      if (mounted) setState(() => _catalog = catalog);
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _catalogError = 'Paket kataloğu alınamadı veya güvenilir değil.';
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _catalogLoading = false);
     }
   }
 
   Future<void> _delete(PackageActivationState state) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Paketi sil?'),
-        content: Text(
-          '${state.packageId} dosyaları silinir. Rehber ilerlemesi ve sayaçlar korunur.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Vazgeç'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Paketi sil'),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true) return;
+    if (_busyPackageId != null || _loading) return;
+    setState(() => _busyPackageId = state.packageId);
     try {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Paketi sil?'),
+          content: Text(
+            '${state.packageId} dosyaları silinir. Rehber ilerlemesi ve sayaçlar korunur.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Paketi sil'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true || !mounted) return;
       await widget.manager.deletePackage(state.packageId);
-      await _load();
+      await _load(refreshCatalog: false);
     } catch (_) {
       if (mounted) setState(() => _error = 'Paket silinemedi.');
+    } finally {
+      if (mounted) setState(() => _busyPackageId = null);
     }
   }
 
   Future<void> _rollback(PackageActivationState state) async {
+    if (_busyPackageId != null || _loading) return;
     try {
       setState(() => _busyPackageId = state.packageId);
       await widget.manager.rollback(state.packageId);
-      await _load();
+      await _load(refreshCatalog: false);
     } catch (_) {
       if (mounted) setState(() => _error = 'Önceki paket sürümüne dönülemedi.');
     } finally {
@@ -100,14 +128,21 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
 
   Future<void> _download(OfflinePackageManifest manifest) async {
     final provider = widget.provider;
-    if (provider == null) return;
+    if (provider == null || _busyPackageId != null || _loading) return;
     try {
       setState(() {
         _busyPackageId = manifest.packageId;
         _catalogError = null;
       });
       await provider.downloadAndActivate(manifest);
-      await _load();
+      await _load(refreshCatalog: false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${_packageTitle(manifest.packageId)} indirildi.'),
+          ),
+        );
+      }
     } catch (_) {
       if (mounted) {
         setState(() {
@@ -125,6 +160,105 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
     final kib = bytes / 1024;
     if (kib < 1024) return '${kib.toStringAsFixed(1)} KB';
     return '${(kib / 1024).toStringAsFixed(1)} MB';
+  }
+
+  Widget _installedCard(PackageActivationState state) => Card.outlined(
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            _packageTitle(state.packageId),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Text(
+            'Etkin sürüm: ${state.activeVersion}${state.previousVersion == null ? '' : '\nGeri dönüş: ${state.previousVersion}'}',
+          ),
+          const Text('Çevrimdışı hazır · indirmeden yeniden açılabilir.'),
+          const SizedBox(height: 8),
+          if (_busyPackageId == state.packageId)
+            const LinearProgressIndicator()
+          else
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                if (state.previousVersion != null)
+                  OutlinedButton.icon(
+                    onPressed: _busyPackageId != null || _loading
+                        ? null
+                        : () => _rollback(state),
+                    icon: const Icon(Icons.restore_rounded),
+                    label: const Text('Önceki sürüme dön'),
+                  ),
+                TextButton.icon(
+                  onPressed: _busyPackageId != null || _loading
+                      ? null
+                      : () => _delete(state),
+                  icon: const Icon(Icons.delete_outline_rounded),
+                  label: const Text('Paketi sil'),
+                ),
+              ],
+            ),
+        ],
+      ),
+    ),
+  );
+
+  Widget _downloadCard(
+    OfflinePackageManifest manifest,
+    List<PackageActivationState>? states,
+  ) {
+    final installed =
+        states?.any(
+          (s) =>
+              s.packageId == manifest.packageId &&
+              s.activeVersion == manifest.version,
+        ) ==
+        true;
+    final label = switch (manifest.kind) {
+      OfflinePackageKind.audio => 'Ses ve rehber',
+      OfflinePackageKind.map => 'Harita',
+      OfflinePackageKind.travel => 'Gezi ve rotalar',
+      OfflinePackageKind.language => 'Dil ve iletişim',
+    };
+    return Card.outlined(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              _packageTitle(manifest.packageId),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Text(
+              '$label · ${manifest.version} · ${_sizeLabel(manifest.totalBytes)}',
+            ),
+            const SizedBox(height: 12),
+            if (_busyPackageId == manifest.packageId)
+              const LinearProgressIndicator()
+            else
+              FilledButton(
+                onPressed: installed || _busyPackageId != null || _loading
+                    ? null
+                    : () => _download(manifest),
+                child: Text(
+                  installed
+                      ? 'Doğrulandı'
+                      : switch (manifest.packageId) {
+                          'map-mecca' => 'Mekke haritasını indir',
+                          'map-medina' => 'Medine haritasını indir',
+                          'travel-pilgrim-snapshot' => 'Yer kayıtlarını indir',
+                          _ => 'İndir',
+                        },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -159,39 +293,18 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            if (states == null)
+            if (states == null && _error == null)
               const Center(child: CircularProgressIndicator())
+            else if (states == null)
+              OutlinedButton.icon(
+                onPressed: _loading ? null : _load,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Paketleri yeniden dene'),
+              )
             else if (states.isEmpty)
               const Text('Kurulu çevrimdışı paket yok.')
             else
-              for (final state in states)
-                Card.outlined(
-                  child: ListTile(
-                    title: Text(state.packageId),
-                    subtitle: Text(
-                      'Etkin sürüm: ${state.activeVersion}'
-                      '${state.previousVersion == null ? '' : '\nGeri dönüş: ${state.previousVersion}'}',
-                    ),
-                    isThreeLine: state.previousVersion != null,
-                    trailing: _busyPackageId == state.packageId
-                        ? const CircularProgressIndicator()
-                        : Wrap(
-                            children: [
-                              if (state.previousVersion != null)
-                                IconButton(
-                                  tooltip: 'Önceki sürüme dön',
-                                  onPressed: () => _rollback(state),
-                                  icon: const Icon(Icons.restore_rounded),
-                                ),
-                              IconButton(
-                                tooltip: 'Paketi sil',
-                                onPressed: () => _delete(state),
-                                icon: const Icon(Icons.delete_outline_rounded),
-                              ),
-                            ],
-                          ),
-                  ),
-                ),
+              for (final state in states) _installedCard(state),
             const SizedBox(height: 24),
             Text(
               'İndirilebilir paketler',
@@ -207,7 +320,9 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                onPressed: _load,
+                onPressed: _busyPackageId != null || _loading || _catalogLoading
+                    ? null
+                    : _load,
                 icon: const Icon(Icons.refresh_rounded),
                 label: const Text('Kataloğu yeniden dene'),
               ),
@@ -216,42 +331,15 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
             else if (_catalog!.isEmpty)
               const Text('Katalogda indirilebilir paket yok.')
             else
-              for (final manifest in _catalog!)
-                Card.outlined(
-                  child: ListTile(
-                    title: Text(manifest.packageId),
-                    subtitle: Text(
-                      '${manifest.kind.name} · ${manifest.version} · ${_sizeLabel(manifest.totalBytes)}',
-                    ),
-                    trailing: _busyPackageId == manifest.packageId
-                        ? const CircularProgressIndicator()
-                        : FilledButton(
-                            onPressed:
-                                states?.any(
-                                      (state) =>
-                                          state.packageId ==
-                                              manifest.packageId &&
-                                          state.activeVersion ==
-                                              manifest.version,
-                                    ) ==
-                                    true
-                                ? null
-                                : () => _download(manifest),
-                            child: Text(
-                              states?.any(
-                                        (state) =>
-                                            state.packageId ==
-                                                manifest.packageId &&
-                                            state.activeVersion ==
-                                                manifest.version,
-                                      ) ==
-                                      true
-                                  ? 'Doğrulandı'
-                                  : 'İndir',
-                            ),
-                          ),
-                  ),
-                ),
+              for (final manifest in _catalog!) _downloadCard(manifest, states),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: _busyPackageId != null || _loading || _catalogLoading
+                  ? null
+                  : _load,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Paketleri yenile'),
+            ),
           ],
         ),
       ),

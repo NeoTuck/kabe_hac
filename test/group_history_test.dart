@@ -1,0 +1,448 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:math';
+import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hac_umre_sesli_rehber/app_theme.dart';
+import 'package:hac_umre_sesli_rehber/group_repository.dart';
+import 'package:hac_umre_sesli_rehber/group_screen.dart';
+import 'package:hac_umre_sesli_rehber/group_sync.dart';
+
+import 'test_fakes.dart';
+
+class EmptyOutbox extends MemoryGuideStore {
+  @override
+  Future<List<GroupOutboxMessage>> readGroupOutbox({
+    MessageOutboxStatus? status,
+  }) async => [];
+}
+
+class HistoryRepository extends UnconfiguredGroupRepository {
+  String? uid = 'user-a';
+  int base = 100;
+  int historyCalls = 0;
+  int snapshotCalls = 0;
+  bool unsubscribed = false;
+  void Function(bool)? refresh;
+  @override
+  Future<void> Function() watch(String groupId, void Function(bool) callback) {
+    refresh = callback;
+    return () async {
+      unsubscribed = true;
+    };
+  }
+
+  bool offline = false;
+  bool revoked = false;
+  bool duplicate = false;
+  bool deleteOld = false;
+  Completer<GroupMessagePage>? gate;
+  @override
+  bool get configured => true;
+  @override
+  String? get userId => uid;
+  void switchAccount() {
+    uid = 'user-b';
+    notifyListeners();
+  }
+
+  Map<String, dynamic> row(int i) => {
+    'id': '20000000-0000-0000-0000-${i.toString().padLeft(12, '0')}',
+    'created_at': '2026-10-07T20:00:00.123456Z',
+    'sender_id': 'user-a',
+    'body': 'Mesaj $i',
+    'recipient_id': null,
+    'deleted_at': deleteOld && i == 99 ? '2026-10-07T20:01:00Z' : null,
+  };
+  @override
+  Future<GroupSnapshot> snapshot(String groupId) async {
+    snapshotCalls++;
+    return GroupSnapshot(
+      members: const [],
+      messages: List.generate(100, (i) => row(base + i)),
+      announcements: const [],
+      programs: const [],
+      routes: const [],
+    );
+  }
+
+  @override
+  Future<GroupMessagePage> olderMessages(
+    String groupId, {
+    required MessageCursor before,
+  }) async {
+    historyCalls++;
+    if (gate != null) return gate!.future;
+    if (revoked) throw GroupAccessError();
+    if (offline) throw StateError('offline');
+    final end = int.parse(before.id.split('-').last);
+    final start = max(0, end - 50);
+    return GroupMessagePage(
+      messages: [
+        for (var i = start; i < end; i++) row(i),
+        if (duplicate) row(end),
+      ],
+      hasMore: start > 0,
+    );
+  }
+}
+
+class ModerationRepository extends HistoryRepository {
+  final blocked = <String>{};
+  final reports = <String>[];
+  bool failUnblock = false;
+
+  @override
+  Future<Set<String>> blockedUserIds() async => Set.of(blocked);
+
+  @override
+  Future<void> blockUser(String blockedId) async {
+    blocked.add(blockedId);
+  }
+
+  @override
+  Future<void> unblockUser(String blockedId) async {
+    if (failUnblock) throw StateError('offline');
+    blocked.remove(blockedId);
+  }
+
+  @override
+  Future<void> reportMessage(
+    String groupId,
+    String messageId,
+    String reason,
+  ) async {
+    reports.add('$messageId:$reason');
+  }
+
+  @override
+  Future<GroupSnapshot> snapshot(String groupId) async => GroupSnapshot(
+    members: const [],
+    messages: [
+      {
+        'id': '20000000-0000-0000-0000-000000000001',
+        'created_at': '2026-10-09T12:00:00Z',
+        'sender_id': 'user-b',
+        'body': 'Uygunsuz mesaj',
+        'recipient_id': null,
+        'deleted_at': null,
+      },
+    ],
+    announcements: const [],
+    programs: const [],
+    routes: const [],
+  );
+}
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final frame = GlobalKey();
+  setUpAll(() async {
+    await (FontLoader(
+      'MaterialIcons',
+    )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
+    await (FontLoader(
+      'NotoSans',
+    )..addFont(rootBundle.load('assets/fonts/NotoSans.ttf'))).load();
+  });
+  Future<void> open(
+    WidgetTester tester,
+    HistoryRepository repository, {
+    bool small = false,
+  }) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = small
+        ? const Size(320, 568)
+        : const Size(390, 844);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    if (small) {
+      tester.platformDispatcher.textScaleFactorTestValue = 2;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    }
+    await tester.pumpWidget(
+      RepaintBoundary(
+        key: frame,
+        child: MaterialApp(
+          theme: RehberTheme.build(Brightness.light),
+          home: GroupDetailScreen(
+            group: const GroupRecord('group-a', 'Kafile'),
+            repository: repository,
+            store: EmptyOutbox(),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> scrollTo(
+    WidgetTester tester,
+    String text, {
+    double delta = 200,
+  }) async {
+    final target = text == 'Sohbet ·'
+        ? find.textContaining(text)
+        : find.text(text);
+    final scrollable = find
+        .descendant(
+          of: find.byType(ListView),
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    tester.state<ScrollableState>(scrollable).position.jumpTo(0);
+    await tester.pump();
+    await tester.scrollUntilVisible(
+      target,
+      delta.abs(),
+      maxScrolls: 100,
+      scrollable: scrollable,
+    );
+    await Scrollable.ensureVisible(tester.element(target), alignment: 0.3);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> load(WidgetTester tester) async {
+    await scrollTo(tester, 'Eski mesajları yükle');
+    await tester.tap(find.text('Eski mesajları yükle'));
+    await tester.pumpAndSettle();
+    if (find.textContaining('Kafileye erişilemedi').evaluate().isEmpty) {
+      await scrollTo(tester, 'Sohbet ·');
+    }
+  }
+
+  Future<void> close(WidgetTester tester, HistoryRepository repository) async {
+    await tester.pumpWidget(const SizedBox.shrink());
+    repository.dispose();
+  }
+
+  testWidgets('mesaj şikâyeti kaydedilir ve engellenen gönderen gizlenir', (
+    tester,
+  ) async {
+    final repo = ModerationRepository();
+    await open(tester, repo);
+    await scrollTo(tester, 'Uygunsuz mesaj');
+    await tester.tap(find.byTooltip('Mesaj işlemleri'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Şikâyet et'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('İstenmeyen içerik'));
+    await tester.pumpAndSettle();
+    expect(repo.reports, ['20000000-0000-0000-0000-000000000001:spam']);
+
+    await tester.tap(find.byTooltip('Mesaj işlemleri'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Kullanıcıyı engelle'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Engelle'));
+    await tester.pumpAndSettle();
+    expect(repo.blocked, {'user-b'});
+    expect(find.text('Uygunsuz mesaj'), findsNothing);
+    await scrollTo(tester, 'Engellenen kullanıcılar');
+    await tester.tap(find.text('Engeli kaldır').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Engeli kaldır').last);
+    await tester.pumpAndSettle();
+    expect(repo.blocked, isEmpty);
+    await scrollTo(tester, 'Uygunsuz mesaj');
+    expect(find.text('Uygunsuz mesaj'), findsOneWidget);
+    await close(tester, repo);
+  });
+
+  testWidgets('failed unblock retains the block and hidden message', (
+    tester,
+  ) async {
+    final repo = ModerationRepository()
+      ..blocked.add('user-b')
+      ..failUnblock = true;
+    await open(tester, repo);
+    expect(find.text('Uygunsuz mesaj'), findsNothing);
+    await scrollTo(tester, 'Engellenen kullanıcılar');
+    await tester.tap(find.text('Engeli kaldır').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Engeli kaldır').last);
+    await tester.pumpAndSettle();
+    expect(repo.blocked, {'user-b'});
+    expect(find.text('Uygunsuz mesaj'), findsNothing);
+    expect(find.text('Engel kaldırılamadı. Tekrar dene.'), findsOneWidget);
+    await close(tester, repo);
+  });
+
+  testWidgets('older pages are deduplicated and preserve chronological order', (
+    tester,
+  ) async {
+    final repo = HistoryRepository()..duplicate = true;
+    await open(tester, repo);
+    await load(tester);
+    expect(find.text('Sohbet · 150 mesaj'), findsOneWidget);
+    if (Platform.environment['MVP_CAPTURE_UI'] == 'true') {
+      await tester.runAsync(() async {
+        final boundary =
+            frame.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+        final image = await boundary.toImage(pixelRatio: 1);
+        final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
+        await Directory('docs/mvp-ui').create(recursive: true);
+        await File('docs/mvp-ui/group-history.png')
+            .writeAsBytes(bytes!.buffer.asUint8List());
+        image.dispose();
+      });
+    }
+    await scrollTo(tester, 'Mesaj 50');
+    expect(find.text('Mesaj 50'), findsOneWidget);
+    repo.duplicate = false;
+    await load(tester);
+    expect(find.text('Sohbet · 200 mesaj'), findsOneWidget);
+    expect(find.text('Eski mesajları yükle'), findsNothing);
+    await close(tester, repo);
+  });
+
+  testWidgets('refresh revalidates history and removes deleted message text', (
+    tester,
+  ) async {
+    final repo = HistoryRepository();
+    await open(tester, repo);
+    await load(tester);
+    repo.deleteOld = true;
+    await scrollTo(tester, 'Kafileyi yenile', delta: -250);
+    await tester.tap(find.text('Kafileyi yenile'));
+    await tester.pumpAndSettle();
+    expect(repo.historyCalls, 2);
+    await scrollTo(tester, 'Sohbet ·');
+    expect(find.text('Sohbet · 150 mesaj'), findsOneWidget);
+    await scrollTo(tester, 'Mesaj silindi.');
+    expect(find.text('Mesaj silindi.'), findsOneWidget);
+    expect(find.text('Mesaj 99'), findsNothing);
+    await close(tester, repo);
+  });
+
+  testWidgets('offline history load offers retry and keeps current messages', (
+    tester,
+  ) async {
+    final repo = HistoryRepository()..offline = true;
+    await open(tester, repo);
+    await load(tester);
+    expect(find.textContaining('Eski mesajlar alınamadı'), findsOneWidget);
+    expect(find.text('Sohbet · 100 mesaj'), findsOneWidget);
+    repo.offline = false;
+    await load(tester);
+    expect(find.text('Sohbet · 150 mesaj'), findsOneWidget);
+    expect(find.textContaining('Eski mesajlar alınamadı'), findsNothing);
+    await close(tester, repo);
+  });
+
+  testWidgets('revoked membership clears both recent and older messages', (
+    tester,
+  ) async {
+    final repo = HistoryRepository();
+    await open(tester, repo);
+    await load(tester);
+    repo.revoked = true;
+    await load(tester);
+    expect(find.textContaining('Kafileye erişilemedi'), findsOneWidget);
+    expect(find.textContaining('Sohbet ·'), findsNothing);
+    expect(find.text('Mesaj 50'), findsNothing);
+    await close(tester, repo);
+  });
+
+  testWidgets('account change discards an in-flight history page', (
+    tester,
+  ) async {
+    final repo = HistoryRepository()..gate = Completer<GroupMessagePage>();
+    await open(tester, repo);
+    await scrollTo(tester, 'Eski mesajları yükle');
+    await tester.tap(find.text('Eski mesajları yükle'));
+    await tester.pump();
+    repo.switchAccount();
+    repo.gate!.complete(
+      GroupMessagePage(messages: [repo.row(1)], hasMore: false),
+    );
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Oturum değişti'), findsOneWidget);
+    expect(find.text('Mesaj 1'), findsNothing);
+    expect(find.textContaining('Sohbet ·'), findsNothing);
+    await close(tester, repo);
+  });
+
+  testWidgets(
+    'refresh supersedes pending page and does not duplicate requests',
+    (tester) async {
+      final repo = HistoryRepository()..gate = Completer<GroupMessagePage>();
+      await open(tester, repo);
+      await scrollTo(tester, 'Eski mesajları yükle');
+      await tester.tap(find.text('Eski mesajları yükle'));
+      await tester.pump();
+      await tester.tap(find.text('Eski mesajlar yükleniyor'));
+      expect(repo.historyCalls, 1);
+      await scrollTo(tester, 'Kafileyi yenile', delta: -250);
+      await tester.tap(find.text('Kafileyi yenile'));
+      await tester.pumpAndSettle();
+      repo.gate!.complete(
+        GroupMessagePage(messages: [repo.row(1)], hasMore: false),
+      );
+      await tester.pumpAndSettle();
+      await scrollTo(tester, 'Sohbet ·');
+      expect(find.text('Sohbet · 100 mesaj'), findsOneWidget);
+      expect(find.text('Mesaj 1'), findsNothing);
+      expect(find.text('Eski mesajlar yükleniyor'), findsNothing);
+      await close(tester, repo);
+    },
+  );
+
+  testWidgets('history supports small screens and large text', (tester) async {
+    final repo = HistoryRepository();
+    await open(tester, repo, small: true);
+    await load(tester);
+    expect(find.text('Sohbet · 150 mesaj'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await close(tester, repo);
+  });
+
+  testWidgets('history rendering is bounded to 500 messages', (tester) async {
+    final repo = HistoryRepository()..base = 900;
+    await open(tester, repo);
+    for (var i = 0; i < 8; i++) {
+      await load(tester);
+    }
+    expect(find.text('Sohbet · 500 mesaj'), findsOneWidget);
+    expect(
+      find.text('Bu ekranda en fazla 500 mesaj gösterilir.'),
+      findsOneWidget,
+    );
+    expect(find.text('Eski mesajları yükle'), findsNothing);
+    expect(repo.historyCalls, 8);
+    expect(find.text('Mesaj yaz').hitTestable(), findsOneWidget);
+    await tester.tap(find.text('Mesaj yaz'));
+    await tester.pumpAndSettle();
+    expect(find.text('Mesajın'), findsOneWidget);
+    await tester.tap(find.text('Kapat'));
+    await tester.pumpAndSettle();
+    await close(tester, repo);
+  });
+  testWidgets('background screen does not refresh and resume revalidates', (
+    tester,
+  ) async {
+    final repo = HistoryRepository();
+    await open(tester, repo);
+    expect(repo.snapshotCalls, 1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    addTearDown(
+      () => tester.binding.handleAppLifecycleStateChanged(
+        AppLifecycleState.resumed,
+      ),
+    );
+    repo.refresh!(true);
+    await tester.pump(const Duration(seconds: 31));
+    expect(repo.snapshotCalls, 1);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pumpAndSettle();
+    expect(repo.snapshotCalls, 2);
+    repo.switchAccount();
+    await tester.pumpAndSettle();
+    expect(repo.unsubscribed, true);
+    await close(tester, repo);
+  });
+}

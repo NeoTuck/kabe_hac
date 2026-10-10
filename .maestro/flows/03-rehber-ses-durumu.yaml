@@ -1,0 +1,22 @@
+appId: ${APP_ID}
+name: Rehberde sentetik taslak ses durumu
+---
+- launchApp
+- scrollUntilVisible:
+    element: "(?s)Umre.*18 başlık.*"
+    direction: DOWN
+- tapOn:
+    text: "(?s)Umre.*18 başlık.*"
+    retryTapIfNoChange: true
+- assertVisible: "Umre · kullanım biçimi"
+- tapOn: "(?s)Öğrenme.*Başlıkları serbestçe incele.*"
+- assertVisible: "Umre · Öğrenme"
+- scrollUntilVisible:
+    element: "Kaldığım başlığa git"
+    direction: DOWN
+- tapOn: "Kaldığım başlığa git"
+- scrollUntilVisible:
+    element: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
+    direction: DOWN
+- assertVisible: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
+- takeScreenshot: rehber-sentetik-taslak-ses

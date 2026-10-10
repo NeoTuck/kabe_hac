@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "packages": [
+    {
+      "schemaVersion": 1,
+      "packageId": "travel-pilgrim-snapshot",
+      "kind": "travel",
+      "version": "1.0.0",
+      "changeClass": "C0",
+      "minContentSchema": 1,
+      "maxContentSchema": 1,
+      "totalBytes": 1153891,
+      "files": [
+        {
+          "path": "LICENSE-ODbL-1.0.txt",
+          "sha256": "77d2692c3d64efdd4db18dce2407699baf62930e2b50d6e5ed90b48acf16b7c1",
+          "sizeBytes": 25289,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/travel/LICENSE-ODbL-1.0.txt"
+        },
+        {
+          "path": "content/travel_catalog.v1.json",
+          "sha256": "3f46536176170997fae7c03c234a29d999de8da20a3ced562aa07722e4ae391b",
+          "sizeBytes": 1128165,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/travel/content/travel_catalog.v1.json"
+        },
+        {
+          "path": "source-license.json",
+          "sha256": "722548bf8a65aabbc4f7c7e9339d682c030cef1508fce161588d6e80907946b6",
+          "sizeBytes": 437,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/travel/source-license.json"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "packageId": "map-mecca",
+      "kind": "map",
+      "version": "1.0.0",
+      "changeClass": "C0",
+      "minContentSchema": 1,
+      "maxContentSchema": 1,
+      "totalBytes": 1308043,
+      "files": [
+        {
+          "path": "LICENSE-ODbL-1.0.txt",
+          "sha256": "77d2692c3d64efdd4db18dce2407699baf62930e2b50d6e5ed90b48acf16b7c1",
+          "sizeBytes": 25289,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-mecca/LICENSE-ODbL-1.0.txt"
+        },
+        {
+          "path": "features.geojson.gz",
+          "sha256": "6dc0cfb10cb5b376af467133a4fea438307921ee8cf9906167b0504b5f2de45f",
+          "sizeBytes": 1281906,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-mecca/features.geojson.gz"
+        },
+        {
+          "path": "map/catalog.v1.json",
+          "sha256": "81504ef953ca652b320d3ddf8cdeb5206cd9e73c6be4ea7351b0307a24c4106b",
+          "sizeBytes": 411,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-mecca/map/catalog.v1.json"
+        },
+        {
+          "path": "source-license.json",
+          "sha256": "722548bf8a65aabbc4f7c7e9339d682c030cef1508fce161588d6e80907946b6",
+          "sizeBytes": 437,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-mecca/source-license.json"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "packageId": "map-medina",
+      "kind": "map",
+      "version": "1.0.0",
+      "changeClass": "C0",
+      "minContentSchema": 1,
+      "maxContentSchema": 1,
+      "totalBytes": 915467,
+      "files": [
+        {
+          "path": "LICENSE-ODbL-1.0.txt",
+          "sha256": "77d2692c3d64efdd4db18dce2407699baf62930e2b50d6e5ed90b48acf16b7c1",
+          "sizeBytes": 25289,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-medina/LICENSE-ODbL-1.0.txt"
+        },
+        {
+          "path": "features.geojson.gz",
+          "sha256": "9efe9b748f46f7a9549b6f62bea20ac8368a84393155d8d581f29cdf8e8e2578",
+          "sizeBytes": 889330,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-medina/features.geojson.gz"
+        },
+        {
+          "path": "map/catalog.v1.json",
+          "sha256": "5cb13c3a641caa2374679a4c1358941fba9304e3129e094da5f7347ce289fb96",
+          "sizeBytes": 411,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-medina/map/catalog.v1.json"
+        },
+        {
+          "path": "source-license.json",
+          "sha256": "722548bf8a65aabbc4f7c7e9339d682c030cef1508fce161588d6e80907946b6",
+          "sizeBytes": 437,
+          "downloadUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/fed9f97861081f67cb5844598667347787f96502/offline_packages/osm-2026-10-08/map-medina/source-license.json"
+        }
+      ]
+    }
+  ]
+}

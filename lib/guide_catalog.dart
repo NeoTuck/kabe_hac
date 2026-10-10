@@ -99,6 +99,7 @@ void _validateSourceAndReview({
   required String? sourceTitle,
   required String? sourceUrl,
   required String? sourceLocation,
+  required String? sourceAccessedAt,
   required String? sourceUsageRights,
   required String? reviewedBy,
   required String? reviewedAt,
@@ -117,6 +118,11 @@ void _validateSourceAndReview({
       (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(reviewedAt) ||
           DateTime.tryParse(reviewedAt) == null)) {
     throw FormatException('Geçersiz inceleme tarihi: $id');
+  }
+  if (sourceAccessedAt != null &&
+      (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(sourceAccessedAt) ||
+          DateTime.tryParse(sourceAccessedAt) == null)) {
+    throw FormatException('Geçersiz kaynak erişim tarihi: $id');
   }
   if (status != ReviewStatus.draft &&
       [
@@ -149,6 +155,9 @@ class AudioRecord {
     this.textId,
     this.textVersion,
     this.asset,
+    this.assetSha256,
+    this.origin,
+    this.reviewOnly = false,
     this.recordingOwner,
     this.rights,
     this.reviewedBy,
@@ -161,6 +170,9 @@ class AudioRecord {
   final String? textId;
   final String? textVersion;
   final String? asset;
+  final String? assetSha256;
+  final String? origin;
+  final bool reviewOnly;
   final String? recordingOwner;
   final String? rights;
   final String? reviewedBy;
@@ -182,6 +194,9 @@ class AudioRecord {
       textId: _optionalString(json, 'textId'),
       textVersion: _optionalString(json, 'textVersion'),
       asset: _optionalString(json, 'asset'),
+      assetSha256: _optionalString(json, 'assetSha256'),
+      origin: _optionalString(json, 'origin'),
+      reviewOnly: json['reviewOnly'] == true,
       recordingOwner: _optionalString(json, 'recordingOwner'),
       rights: _optionalString(json, 'rights'),
       reviewedBy: _optionalString(json, 'reviewedBy'),
@@ -189,6 +204,16 @@ class AudioRecord {
     );
     if ((record.textId == null) != (record.textVersion == null)) {
       throw FormatException('Ses ${record.id} için metin bağlantısı eksik.');
+    }
+    if (json['reviewOnly'] != null && json['reviewOnly'] is! bool) {
+      throw FormatException('Ses ${record.id} inceleme bayrağı geçersiz.');
+    }
+    if (record.assetSha256 != null &&
+        !RegExp(r'^[a-f0-9]{64}$').hasMatch(record.assetSha256!)) {
+      throw FormatException('Ses ${record.id} hash değeri geçersiz.');
+    }
+    if (record.reviewOnly && record.status == ReviewStatus.approved) {
+      throw FormatException('Ses ${record.id} hem taslak hem onaylı olamaz.');
     }
     if (record.reviewedAt != null &&
         (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(record.reviewedAt!) ||
@@ -211,6 +236,13 @@ class AudioRecord {
     }
     return record;
   }
+
+  bool get isSyntheticDraftPreview =>
+      status == ReviewStatus.draft &&
+      reviewOnly &&
+      origin == 'synthetic' &&
+      asset != null &&
+      assetSha256 != null;
 }
 
 class PrayerRecord {
@@ -225,6 +257,7 @@ class PrayerRecord {
     this.sourceTitle,
     this.sourceUrl,
     this.sourceLocation,
+    this.sourceAccessedAt,
     this.sourceUsageRights,
     this.reviewedBy,
     this.reviewedAt,
@@ -242,6 +275,7 @@ class PrayerRecord {
   final String? sourceTitle;
   final String? sourceUrl;
   final String? sourceLocation;
+  final String? sourceAccessedAt;
   final String? sourceUsageRights;
   final String? reviewedBy;
   final String? reviewedAt;
@@ -267,6 +301,7 @@ class PrayerRecord {
       sourceTitle: _optionalString(json, 'sourceTitle'),
       sourceUrl: _optionalString(json, 'sourceUrl'),
       sourceLocation: _optionalString(json, 'sourceLocation'),
+      sourceAccessedAt: _optionalString(json, 'sourceAccessedAt'),
       sourceUsageRights: _optionalString(json, 'sourceUsageRights'),
       reviewedBy: _optionalString(json, 'reviewedBy'),
       reviewedAt: _optionalString(json, 'reviewedAt'),
@@ -280,6 +315,7 @@ class PrayerRecord {
       sourceTitle: record.sourceTitle,
       sourceUrl: record.sourceUrl,
       sourceLocation: record.sourceLocation,
+      sourceAccessedAt: record.sourceAccessedAt,
       sourceUsageRights: record.sourceUsageRights,
       reviewedBy: record.reviewedBy,
       reviewedAt: record.reviewedAt,
@@ -311,12 +347,14 @@ class GuideStep {
     this.sourceTitle,
     this.sourceUrl,
     this.sourceLocation,
+    this.sourceAccessedAt,
     this.sourceUsageRights,
     this.reviewedBy,
     this.reviewedAt,
     this.audioId,
     this.audioIds = const [],
     this.counterKey,
+    this.counterTarget,
   });
 
   final String id;
@@ -334,6 +372,7 @@ class GuideStep {
   final String? sourceTitle;
   final String? sourceUrl;
   final String? sourceLocation;
+  final String? sourceAccessedAt;
   final String? sourceUsageRights;
   final String? reviewedBy;
   final String? reviewedAt;
@@ -341,6 +380,7 @@ class GuideStep {
   final List<String> audioIds;
   final List<String> prayerIds;
   final String? counterKey;
+  final int? counterTarget;
   final Map<HajjProfile, ProfileApplicability> profileApplicability;
 
   bool get isApproved => status == ReviewStatus.approved;
@@ -378,6 +418,14 @@ class GuideStep {
     } else if (json['profileApplicability'] != null) {
       throw const FormatException('Umre adımında hac profil kuralı olamaz.');
     }
+    final rawCounterTarget = json['counterTarget'];
+    if (rawCounterTarget != null &&
+        (rawCounterTarget is! int ||
+            rawCounterTarget < 1 ||
+            rawCounterTarget > 100 ||
+            json['counterKey'] == null)) {
+      throw const FormatException('Geçersiz sayaç hedefi.');
+    }
     final step = GuideStep(
       id: _requiredString(json, 'id'),
       order: order,
@@ -398,6 +446,7 @@ class GuideStep {
       sourceTitle: _optionalString(json, 'sourceTitle'),
       sourceUrl: _optionalString(json, 'sourceUrl'),
       sourceLocation: _optionalString(json, 'sourceLocation'),
+      sourceAccessedAt: _optionalString(json, 'sourceAccessedAt'),
       sourceUsageRights: _optionalString(json, 'sourceUsageRights'),
       reviewedBy: _optionalString(json, 'reviewedBy'),
       reviewedAt: _optionalString(json, 'reviewedAt'),
@@ -405,6 +454,7 @@ class GuideStep {
       audioIds: _optionalIds(json, 'audioIds'),
       prayerIds: List.unmodifiable(prayerIds),
       counterKey: _optionalString(json, 'counterKey'),
+      counterTarget: rawCounterTarget as int?,
       profileApplicability: Map.unmodifiable(profiles),
     );
     _validateSourceAndReview(
@@ -414,6 +464,7 @@ class GuideStep {
       sourceTitle: step.sourceTitle,
       sourceUrl: step.sourceUrl,
       sourceLocation: step.sourceLocation,
+      sourceAccessedAt: step.sourceAccessedAt,
       sourceUsageRights: step.sourceUsageRights,
       reviewedBy: step.reviewedBy,
       reviewedAt: step.reviewedAt,
@@ -518,8 +569,15 @@ class GuideCatalog {
     return index > 0 ? flow[index - 1] : null;
   }
 
-  bool get isPreview =>
-      type == GuideType.hajj || steps.any((s) => !s.isApproved);
+  bool get isPreview => steps.any(
+    (step) =>
+        !step.isApproved ||
+        (type == GuideType.hajj &&
+            step.profileApplicability.values.contains(
+              ProfileApplicability.unverified,
+            )) ||
+        step.prayerIds.any((id) => !prayerRecords[id]!.isApproved),
+  );
 
   factory GuideCatalog.fromJsonText(String text) {
     final decoded = _object(jsonDecode(text), 'Katalog');

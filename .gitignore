@@ -43,6 +43,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/.kotlin/
+/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+/ios/Runner.xcworkspace/xcshareddata/swiftpm/
 
 # Widget Preview related
 .widget_preview/
+
+# Private production signing and release configuration
+/android/key.properties
+*.jks
+*.keystore
+/release-inputs/
+supabase/functions/.env*
+!supabase/functions/.env.example

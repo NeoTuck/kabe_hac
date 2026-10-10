@@ -1,15 +1,86 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'safety_catalog.dart';
+import 'source_details.dart';
 
-class SafetyScreen extends StatelessWidget {
-  const SafetyScreen({super.key, required this.catalog});
+class SafetyScreen extends StatefulWidget {
+  const SafetyScreen({super.key, required this.catalog, this.clock});
 
   final SafetyCatalog catalog;
+  final DateTime Function()? clock;
+  @override
+  State<SafetyScreen> createState() => _SafetyScreenState();
+}
+
+class _SafetyScreenState extends State<SafetyScreen>
+    with WidgetsBindingObserver {
+  Timer? _expiry;
+  DateTime get _now => (widget.clock?.call() ?? DateTime.now()).toUtc();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _schedule();
+  }
+
+  @override
+  void didUpdateWidget(SafetyScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _schedule();
+  }
+
+  void _schedule() {
+    _expiry?.cancel();
+    final now = _now;
+    final boundaries =
+        widget.catalog.fieldInformation
+            .expand((item) => [item.observedAt, item.validUntil])
+            .where((time) => time.isAfter(now))
+            .toList()
+          ..sort();
+    if (boundaries.isEmpty) return;
+    _expiry = Timer(
+      boundaries.first.difference(now) + const Duration(milliseconds: 1),
+      () {
+        if (mounted) {
+          setState(() {});
+          _schedule();
+        }
+      },
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _expiry?.cancel();
+    if (state == AppLifecycleState.resumed && mounted) {
+      setState(() {});
+      _schedule();
+    }
+  }
+
+  @override
+  void dispose() {
+    _expiry?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now().toUtc();
+    final now = _now;
+    final catalog = widget.catalog;
+    final approvedContacts = catalog.contacts
+        .where(
+          (c) =>
+              (c.status == SafetyReviewStatus.approved ||
+                  c.status == SafetyReviewStatus.sourceVerified) &&
+              !c.verifiedAt.isAfter(now),
+        )
+        .toList();
     final approvedCards = catalog.languageCards
         .where((card) => card.isApproved)
         .toList();
@@ -23,7 +94,7 @@ class SafetyScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(18),
                 child: Text(
-                  'Numaralar, Arapça yardım ifadeleri ve saha bilgileri yalnız kaynak ve insan incelemesiyle yayınlanır. Bağlantı yokken eski veri canlı durum olarak gösterilmez.',
+                  'Numaraların resmî kaynağı ve son kontrol tarihi her kartta bulunur. Arapça yardım kartları ayrıca insan incelemesi ister. Çevrimdışı kayıtlar canlı durumu göstermez.',
                 ),
               ),
             ),
@@ -33,20 +104,73 @@ class SafetyScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
-            if (catalog.contacts.isEmpty)
+            if (approvedContacts.isEmpty)
               const Text('Doğrulanmış iletişim kaydı henüz sağlanmadı.')
             else
-              for (final contact in catalog.contacts)
+              for (final contact in approvedContacts)
                 Card.outlined(
-                  child: ListTile(
-                    title: Text(contact.name),
-                    subtitle: Text(
-                      '${contact.region} · ${contact.status.name}\n'
-                      '${contact.phone ?? 'Numara doğrulama bekliyor'}',
-                    ),
-                    isThreeLine: true,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              contact.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text(
+                              '${contact.region} · ${contact.status == SafetyReviewStatus.sourceVerified ? 'Resmî kaynaktan kontrol edildi' : 'Onaylı kayıt'}',
+                            ),
+                            SelectableText(contact.phone!),
+                            if (now.difference(contact.verifiedAt).inDays > 180)
+                              const Text(
+                                'Eski kayıt: güncel numarayı kaynaktan kontrol edin.',
+                              ),
+                            Text('Diller: ${contact.languages.join(', ')}'),
+                            const SizedBox(height: 8),
+                            OutlinedButton.icon(
+                              onPressed: () async {
+                                try {
+                                  final opened = await launchUrl(
+                                    Uri(scheme: 'tel', path: contact.phone!),
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                  if (!opened) {
+                                    throw StateError('dialer unavailable');
+                                  }
+                                } catch (_) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Arama ekranı açılamadı. Numarayı seçip kopyalayabilirsin.',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              icon: const Icon(Icons.phone_outlined),
+                              label: const Text('Arama ekranını aç'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SourceDetails(
+                        title: contact.sourceTitle,
+                        uri: contact.sourceUri,
+                        verifiedAt: contact.verifiedAt,
+                      ),
+                    ],
                   ),
                 ),
+            if (catalog.contacts.length > approvedContacts.length)
+              Text(
+                '${catalog.contacts.length - approvedContacts.length} iletişim kaydı inceleme bekliyor.',
+              ),
             const SizedBox(height: 24),
             Text(
               'Türkçe–Arapça kartlar',
@@ -69,11 +193,20 @@ class SafetyScreen extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                           child: Text(
                             card.arabic!,
-                            style: const TextStyle(fontSize: 26, height: 1.5),
+                            style: const TextStyle(
+                              fontFamily: 'NotoNaskhArabic',
+                              fontSize: 26,
+                              height: 1.5,
+                            ),
                           ),
                         ),
                         if (card.transliteration != null)
                           Text(card.transliteration!),
+                        SourceDetails(
+                          title: card.sourceTitle!,
+                          uri: card.sourceUri!,
+                          verifiedAt: card.reviewedAt!,
+                        ),
                       ],
                     ),
                   ),
@@ -88,12 +221,32 @@ class SafetyScreen extends StatelessWidget {
             else
               for (final item in catalog.fieldInformation)
                 Card.outlined(
-                  child: ListTile(
-                    title: Text(item.title),
-                    subtitle: Text(
-                      '${item.value}\n${item.displayStateAt(now)} · ${item.sourceKind.name}',
-                    ),
-                    isThreeLine: true,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              item.title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text(item.value),
+                            Text(item.displayStateAt(now)),
+                            Text(
+                              'Geçerlilik sonu: ${localDateTimeLabel(item.validUntil)}',
+                            ),
+                          ],
+                        ),
+                      ),
+                      SourceDetails(
+                        title: item.sourceTitle,
+                        uri: item.sourceUri,
+                        verifiedAt: item.observedAt,
+                      ),
+                    ],
                   ),
                 ),
           ],

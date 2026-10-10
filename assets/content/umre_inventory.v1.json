@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "inventory-2026-10-05.1",
+  "contentVersion": "inventory-2026-10-09-draft2-audio",
   "guideType": "umrah",
   "audioRecords": [
     {
@@ -8,32 +8,235 @@
       "status": "draft",
       "kind": "turkishNarration",
       "textId": "U02.2",
-      "textVersion": "U02.2-text-v1"
+      "textVersion": "U02.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.2-TR-01.m4a",
+      "assetSha256": "ad1ddb479a596fa7621eefb7937d96853270906a231fb620d39ecafb8eca3274",
+      "origin": "synthetic",
+      "reviewOnly": true
     },
     {
       "id": "A-P-U02.2-AR-01",
       "status": "draft",
       "kind": "arabic",
       "textId": "P-U02.2-01",
-      "textVersion": "P-U02.2-01-text-v1"
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1"
     },
     {
       "id": "A-P-U02.2-ANLAM-01",
       "status": "draft",
       "kind": "turkishMeaning",
       "textId": "P-U02.2-01",
-      "textVersion": "P-U02.2-01-text-v1"
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-P-U02.2-ANLAM-01.m4a",
+      "assetSha256": "bc2a011632216ee2f40c12c60e1187aed90828c28cbf4b4c76c0838068ae0f43",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U01.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U01.1",
+      "textVersion": "U01.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U01.1-TR-01.m4a",
+      "assetSha256": "6e4a226582ea0e7e70ef87a6c124b3c49f17bb2e29489f637466fc9f427c1511",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U01.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U01.2",
+      "textVersion": "U01.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U01.2-TR-01.m4a",
+      "assetSha256": "d40d5c3d952a60533f7e64eb94a6dc7e1c1624bd45a7f63cdd3940808a2bdc70",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U02.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U02.1",
+      "textVersion": "U02.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.1-TR-01.m4a",
+      "assetSha256": "ec60c378037eeb39a4d049a038f5cdcb3693b215addc9f59f4bee785911ddd5b",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U02.3-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U02.3",
+      "textVersion": "U02.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.3-TR-01.m4a",
+      "assetSha256": "d3a8d407c814a9783f2d47c82aecef8f3f2ff110f659e9aeb16d6507ba362f9d",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U03.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U03.1",
+      "textVersion": "U03.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U03.1-TR-01.m4a",
+      "assetSha256": "db232b6fc52357505bee1e0a1616af3d99ff38b620800882c14829ce83274eea",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U04.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U04.1",
+      "textVersion": "U04.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U04.1-TR-01.m4a",
+      "assetSha256": "7eda691cef7bf831ddc972db26fba074010b663c81f8952462f4c4a6559aeb46",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U05.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U05.1",
+      "textVersion": "U05.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U05.1-TR-01.m4a",
+      "assetSha256": "3d1b9111f88b43c11ea082553877346f1851f5f7e6a6fb625dae758d6d954802",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U06.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U06.1",
+      "textVersion": "U06.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.1-TR-01.m4a",
+      "assetSha256": "854252a0d73c2a2054814050dacd759c3d985722ebdddaf0b431e1214f20a751",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U06.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U06.2",
+      "textVersion": "U06.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.2-TR-01.m4a",
+      "assetSha256": "5fa42ef7c07a156c625742f6059fb9d9eaa3e9720380c5baacf5dc46e6e46a08",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U06.3-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U06.3",
+      "textVersion": "U06.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.3-TR-01.m4a",
+      "assetSha256": "22bbb8ceb2367e1dcc4d0597d58949081a0e0ad3885b42482ddc89fe841bff3d",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U07.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U07.1",
+      "textVersion": "U07.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U07.1-TR-01.m4a",
+      "assetSha256": "ab7de65a1dd3f3c77def05bb61568ae770fa88b79caf2491879bae4fe9da18b3",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U07.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U07.2",
+      "textVersion": "U07.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U07.2-TR-01.m4a",
+      "assetSha256": "60a7fd9f99d0e828f224a30507cf17fba844be72fe54132378b32292faae293c",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U08.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U08.1",
+      "textVersion": "U08.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U08.1-TR-01.m4a",
+      "assetSha256": "8452e490a293134241cba563374bdda7af82f157692f5dd1075b1c92b195fb3c",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U09.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U09.1",
+      "textVersion": "U09.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U09.1-TR-01.m4a",
+      "assetSha256": "825f38e5ddba18600b8f5eb3e122b71567c043ef0042ce10157993215aca6f0d",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U09.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U09.2",
+      "textVersion": "U09.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U09.2-TR-01.m4a",
+      "assetSha256": "d6c9983690c7c23720f42feae312744349ddbda00baa2a03f293e35ce57edd80",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U10.1-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U10.1",
+      "textVersion": "U10.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U10.1-TR-01.m4a",
+      "assetSha256": "24c9434050cf6f6a644008abd8ac70139645e2c99dd156f541ea17d233f8732b",
+      "origin": "synthetic",
+      "reviewOnly": true
+    },
+    {
+      "id": "A-U10.2-TR-01",
+      "status": "draft",
+      "kind": "turkishNarration",
+      "textId": "U10.2",
+      "textVersion": "U10.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U10.2-TR-01.m4a",
+      "assetSha256": "95242ac627691db094cd765ffc59d0beba71a9a1ded16908cf8f385b5ae71623",
+      "origin": "synthetic",
+      "reviewOnly": true
     }
   ],
   "prayerRecords": [
     {
       "id": "P-U02.2-01",
       "status": "draft",
-      "textVersion": "P-U02.2-01-text-v1",
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
       "audioIds": [
         "A-P-U02.2-AR-01",
         "A-P-U02.2-ANLAM-01"
-      ]
+      ],
+      "arabic": "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ.",
+      "transliteration": "Lebbeyk Allahümme lebbeyk. Lebbeyke lâ şerîke leke lebbeyk. İnnel-hamde ven-ni‘mete leke vel-mülk, lâ şerîke lek.",
+      "meaningTr": "Buyur Allah’ım, çağrına geldim. Senin ortağın yoktur. Övgü, nimet ve mülk sana aittir; ortağın yoktur.",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, Bir Mukaddes Yolculuk: Hac (telbiye)",
+      "sourceUrl": "https://www.diyanet.gov.tr/tr-TR/Kurumsal/Detay/25737/cuma-hutbesi-bir-mukaddes-yolculuk-hac",
+      "sourceLocation": "28 Haziran 2019 hutbesi, telbiye paragrafı; Müslim, Hac, 19, 21",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Geleneksel telbiye metni; uygulama yayın hakkı ve dinî/dil incelemesi bekliyor."
     }
   ],
   "steps": [
@@ -42,21 +245,54 @@
       "order": 1,
       "groupId": "U01",
       "title": "Kullanım biçimi seçimi",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir.",
+      "details": "Hazırlık: İçeriğin taslak ve onay durumunu gör.\nYapılacak işlem: Amacına uygun kullanım biçimini seç.\nDikkat: Uygulama seçimi dinî bir karar yerine geçmez.\nSonraki aşama: Hazırlık başlığına ilerle.",
+      "textVersion": "U01.1-draft-2026-10-09-v1",
+      "sourceTitle": "Uygulama kullanım akışı",
+      "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
+      "sourceLocation": "Yerel rehber ve prova işleyişi",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir.",
+      "audioIds": [
+        "A-U01.1-TR-01"
+      ]
     },
     {
       "id": "U01.2",
       "order": 2,
       "groupId": "U01",
       "title": "Hazırlık",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Yolculuk ve ibadet hazırlığını önceden gözden geçir.",
+      "details": "Hazırlık: Sağlık, seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula.\nYapılacak işlem: Rehberin içerik ve çevrimdışı paket durumunu kontrol et.\nDikkat: Eksik veya eski saha bilgisini kesin bilgi sayma.\nSonraki aşama: Mikat ve ihram konusuna geç.",
+      "textVersion": "U01.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Dokuzuncu Bölüm, ilkeler ve hazırlık bağlamı, basılı s. 511–518",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U01.2-TR-01"
+      ]
     },
     {
       "id": "U02.1",
       "order": 3,
       "groupId": "U02",
       "title": "İhram ve mikat bağlamı",
-      "status": "draft"
+      "status": "draft",
+      "summary": "İhram ve mikat, umrenin başlangıcını anlamak için birlikte ele alınır.",
+      "details": "Hazırlık: Güzergâhındaki mikat bilgisini kafile rehberinden öğren.\nYapılacak işlem: İhramın niyetle ilgili ibadet hâli olduğunu incele.\nDikkat: Mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz.\nSonraki aşama: Niyet ve telbiye başlığına geç.",
+      "textVersion": "U02.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U02.1-TR-01"
+      ]
     },
     {
       "id": "U02.2",
@@ -64,48 +300,110 @@
       "groupId": "U02",
       "title": "Niyet ve telbiye",
       "status": "draft",
-      "textVersion": "U02.2-text-v1",
+      "textVersion": "U02.2-draft-2026-10-09-v1",
       "prayerIds": [
         "P-U02.2-01"
       ],
       "audioIds": [
         "A-U02.2-TR-01"
-      ]
+      ],
+      "summary": "Niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır.",
+      "details": "Hazırlık: İhram ve mikat bilgisini yetkili rehberinle teyit et.\nYapılacak işlem: Niyet ve telbiyenin kendi durumundaki uygulanışını öğren.\nDikkat: Buradaki taslak, Arapça telaffuz veya onaylı dua sunmaz.\nSonraki aşama: İhramla ilgili kısıtlamaları gözden geçir.",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi."
     },
     {
       "id": "U02.3",
       "order": 5,
       "groupId": "U02",
       "title": "İhram bilgileri",
-      "status": "draft"
+      "status": "draft",
+      "summary": "İhram hâlinde uyulacak kurallar kişisel duruma göre incelenmelidir.",
+      "details": "Hazırlık: Yolculuk ve sağlık gereksinimlerini önceden bildir.\nYapılacak işlem: İhram süresindeki temel sınırları yetkili rehberden öğren.\nDikkat: Sağlık, kadınlara özgü durumlar ve ihlaller için otomatik hüküm verme.\nSonraki aşama: Mescid-i Haram’a yaklaşma başlığına geç.",
+      "textVersion": "U02.3-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
+      "sourceLocation": "Cevap bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U02.3-TR-01"
+      ]
     },
     {
       "id": "U03.1",
       "order": 6,
       "groupId": "U03",
       "title": "Mescid-i Haram'a yaklaşma",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Mescid-i Haram’a varışta fiziksel güvenlik ve grup düzeni önemlidir.",
+      "details": "Hazırlık: Buluşma noktanı ve güncel giriş bilgisini kafilenle teyit et.\nYapılacak işlem: Kalabalık içinde yönlendirmeleri izleyerek ilerle.\nDikkat: Uygulama canlı kapı veya yoğunluk bilgisi sağlamaz.\nSonraki aşama: Kâbe’yi ilk görüş başlığına geç.",
+      "textVersion": "U03.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve umrenin yapılışı, basılı s. 550–554; saha güvenliği uygulama uyarısı",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U03.1-TR-01"
+      ]
     },
     {
       "id": "U04.1",
       "order": 7,
       "groupId": "U04",
       "title": "Kâbe'yi ilk görüş bağlamı",
-      "status": "draft"
+      "status": "draft",
+      "summary": "İlk görüş, ibadet akışına hazırlık için bir duraktır.",
+      "details": "Hazırlık: Bulunduğun yerde güvenli biçimde durup yönünü belirle.\nYapılacak işlem: Kişisel dua etmek istersen güvenilir metni rehberinle seç.\nDikkat: Bu kart belirli bir duayı zorunlu ilan etmez.\nSonraki aşama: Tavafın başlangıç noktasını öğren.",
+      "textVersion": "U04.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve umrenin yapılışı, basılı s. 550–554; ilk görüş anlatımı uzman teyidinde",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U04.1-TR-01"
+      ]
     },
     {
       "id": "U05.1",
       "order": 8,
       "groupId": "U05",
       "title": "Tavaf başlangıcı ve yönü",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Tavaf Hacer-i Esved hizasından başlar ve Kâbe sol tarafta kalır.",
+      "details": "Hazırlık: Kalabalık ve erişilebilir güzergâh koşullarını gözet.\nYapılacak işlem: Başlangıç hizasını ve dönüş yönünü öğren.\nDikkat: Sayaç konum ölçmez veya ibadet geçerliliği vermez.\nSonraki aşama: İlk şavtın nasıl sayıldığını incele.",
+      "textVersion": "U05.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
+      "sourceLocation": "Tanım ve umre tavafı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U05.1-TR-01"
+      ]
     },
     {
       "id": "U06.1",
       "order": 9,
       "groupId": "U06",
       "title": "İlk şavtı öğrenme",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Başlangıç hizasına geri gelen tam dönüş bir şavttır.",
+      "details": "Hazırlık: Tavafa başlamadan sayım mantığını gözden geçir.\nYapılacak işlem: Bir tam dönüşün bitişini kendin takip et.\nDikkat: Tereddütte uygulamanın sayısından dinî hüküm çıkarma.\nSonraki aşama: Yedi şavt takibine geç.",
+      "textVersion": "U06.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
+      "sourceLocation": "Tanım ve umre tavafı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U06.1-TR-01"
+      ]
     },
     {
       "id": "U06.2",
@@ -113,42 +411,108 @@
       "groupId": "U06",
       "title": "Yedi şavt takibi",
       "status": "draft",
-      "counterKey": "tawaf"
+      "counterKey": "tawaf",
+      "summary": "Tavafın yedi şavtı manuel olarak izlenebilir.",
+      "details": "Hazırlık: Her tam dönüşü ayrı saymaya hazırlan.\nYapılacak işlem: Tamamladığın şavtı kendin işaretle.\nDikkat: Sayaç ibadeti otomatik doğrulamaz; özel durumda rehbere danış.\nSonraki aşama: Tavaf sonrası başlığına geç.",
+      "textVersion": "U06.2-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
+      "sourceLocation": "Tanım ve umre tavafı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U06.2-TR-01"
+      ]
     },
     {
       "id": "U06.3",
       "order": 11,
       "groupId": "U06",
       "title": "Tavaf sonrası geçiş",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir.",
+      "details": "Hazırlık: Sayımı ve bulunduğun yeri kontrol et.\nYapılacak işlem: Tavaf namazı konusunu öğrenmek için devam et.\nDikkat: Eksik şavt veya özel durum hükmünü uygulama belirlemez.\nSonraki aşama: Tavaf namazı başlığına geç.",
+      "textVersion": "U06.3-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Tavafın yapılışı ve tavaf namazı, basılı s. 530–532",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U06.3-TR-01"
+      ]
     },
     {
       "id": "U07.1",
       "order": 12,
       "groupId": "U07",
       "title": "Tavaf namazını öğrenme",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Tavaftan sonra kılınan namazın yerini ve koşullarını öğren.",
+      "details": "Hazırlık: Kalabalığı ve uygun namaz alanını dikkate al.\nYapılacak işlem: Uygun uygulamayı yetkili rehberle teyit et.\nDikkat: Belirli bir noktaya ulaşmak için insanları zorlamaya çalışma.\nSonraki aşama: Zemzem başlığına geç.",
+      "textVersion": "U07.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Tavafın vâcipleri ve yapılışı, basılı s. 530–532",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U07.1-TR-01"
+      ]
     },
     {
       "id": "U07.2",
       "order": 13,
       "groupId": "U07",
       "title": "Zemzem",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Zemzem, umre akışındaki sonraki hatırlatma başlığıdır.",
+      "details": "Hazırlık: Ulaşım ve kalabalık koşullarını gözet.\nYapılacak işlem: Güvenli ve uygun olduğunda bu aşamayı değerlendir.\nDikkat: Bu kart içme miktarı veya zorunlu dua hükmü üretmez.\nSonraki aşama: Safâ ve sa‘y başlangıcına geç.",
+      "textVersion": "U07.2-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Hac ve umrenin yapılışı, zemzem geçişi, basılı s. 551–552",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U07.2-TR-01"
+      ]
     },
     {
       "id": "U08.1",
       "order": 14,
       "groupId": "U08",
       "title": "Safâ ve sa‘y başlangıcı",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Sa‘y Safâ ve Merve arasında tek yönlü geçişlerle sayılır.",
+      "details": "Hazırlık: Başlangıç yönünü ve yürüyüş düzenini öğren.\nYapılacak işlem: İlk geçişe Safâ yönünden başlanacağını rehberinle teyit et.\nDikkat: Fiziksel koşullar ve özel hükümler için kişisel destek al.\nSonraki aşama: İlk gidiş ve dönüş sayımına geç.",
+      "textVersion": "U08.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
+      "sourceLocation": "Şavt tanımı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U08.1-TR-01"
+      ]
     },
     {
       "id": "U09.1",
       "order": 15,
       "groupId": "U09",
       "title": "İlk gidiş/dönüş ve sayım",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Safâ’dan Merve’ye gidiş ile geri dönüş ayrı şavtlardır.",
+      "details": "Hazırlık: Her yön değişimini ayrı bir geçiş olarak düşün.\nYapılacak işlem: Tamamlanan tek yönlü geçişleri manuel say.\nDikkat: Gidiş-dönüşü tek sayı yapma.\nSonraki aşama: Yedi geçişin tamamını izle.",
+      "textVersion": "U09.1-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
+      "sourceLocation": "Şavt tanımı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U09.1-TR-01"
+      ]
     },
     {
       "id": "U09.2",
@@ -156,21 +520,54 @@
       "groupId": "U09",
       "title": "Yedi geçişin takibi",
       "status": "draft",
-      "counterKey": "say"
+      "counterKey": "say",
+      "summary": "Sa‘y yedi tek yönlü geçişten oluşur ve Merve’de biter.",
+      "details": "Hazırlık: Kaldığın yönü ve sayıyı gözden geçir.\nYapılacak işlem: Her tamamlanan geçişte sayacı kendin artır.\nDikkat: Eksik geçişin dinî sonucu sayaçtan belirlenmez.\nSonraki aşama: Tahallül bilgisine geç.",
+      "textVersion": "U09.2-draft-2026-10-09-v1",
+      "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
+      "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
+      "sourceLocation": "Şavt tanımı bölümü",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U09.2-TR-01"
+      ]
     },
     {
       "id": "U10.1",
       "order": 17,
       "groupId": "U10",
       "title": "Tahallül bilgisi",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Sa‘yden sonra ihramdan çıkış aşamasının koşulları öğrenilir.",
+      "details": "Hazırlık: Kendi ibadet ve sağlık durumunu rehberle doğrula.\nYapılacak işlem: Saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir.\nDikkat: Özel durumlar için uygulama hüküm vermez.\nSonraki aşama: Yolculuk özetine geç.",
+      "textVersion": "U10.1-draft-2026-10-09-v1",
+      "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
+      "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "sourceLocation": "Umrenin yapılışı ve saçları kısaltma, basılı s. 541–543, 547–548",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün özet; kaynak metnin yeniden dağıtım izni teyit edilmedi.",
+      "audioIds": [
+        "A-U10.1-TR-01"
+      ]
     },
     {
       "id": "U10.2",
       "order": 18,
       "groupId": "U10",
       "title": "Öğrenme/yolculuk özeti",
-      "status": "draft"
+      "status": "draft",
+      "summary": "Özet kişisel takibi gözden geçirmek içindir.",
+      "details": "Hazırlık: İşaretlerini ve varsa eksik başlıkları kontrol et.\nYapılacak işlem: Gerektiğinde önceki adıma dön veya rehbere başvur.\nDikkat: Uygulama tamamlandı işareti ibadetin geçerlilik belgesi değildir.\nSonraki aşama: Yolculuk kaydını koru.",
+      "textVersion": "U10.2-draft-2026-10-09-v1",
+      "sourceTitle": "Uygulama kullanım akışı",
+      "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
+      "sourceLocation": "Yerel rehber ve prova işleyişi",
+      "sourceAccessedAt": "2026-10-09",
+      "sourceUsageRights": "Özgün uygulama açıklaması; dinî hüküm değildir.",
+      "audioIds": [
+        "A-U10.2-TR-01"
+      ]
     }
   ]
 }

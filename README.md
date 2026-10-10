@@ -13,10 +13,14 @@ flutter test
 flutter build apk --debug
 ```
 
-Android debug APK derlemesi ve Android 35 emülatör akışı doğrulandı. Alt sınır Android 9'dur (API 28). iOS derlemesi için tam Xcode ve CocoaPods gerekir; gerçek Android/iPhone cihaz testi henüz yapılmadı.
+Önceki sürümün Android debug APK ve Android 35 emülatör kanıtı vardır. Yeni MVP 1 değişiklikleri bu Linux ortamında Android SDK eksikliği nedeniyle APK olarak doğrulanamadı. Alt sınır Android 9'dur (API 28). iOS derlemesi için tam Xcode ve CocoaPods gerekir; gerçek Android/iPhone cihaz testi henüz yapılmadı.
 
 ## İçerik sınırı
 
 `assets/content/umre_inventory.v1.json` ve `assets/content/hac_inventory.v1.json` sürümlü yerel kataloglardır. Sabit kimlikler `U01.1` ve `H01.1` biçimindedir. JSON doğrulayıcı kimlikleri, grup sayılarını, kaynak ve inceleme alanlarını, ses haklarını ve metin–ses sürüm eşleşmesini denetler. Taslaklar uygulamada açıkça işaretlenir.
 
 `assets/audio/teknik_demo.m4a` sistem sesiyle üretilmiş teknik örnektir; nihai insan seslendirmesi değildir. Dinî metin, dua ve sesler yalnız kaynak, uzman incelemesi ve kullanım hakkı kaydıyla yayınlanabilir. Mimari için [ana yapı belgesine](docs/02-ana-yapi.md), içerik hattı ve mobil doğrulama için [son doğrulama belgesine](docs/03-icerik-ve-mobil-dogrulama.md) bakın.
+
+## MVP 1 teknik pilot
+
+Yeni ortak UI, açık/koyu tema, Noto Türkçe/Arapça fontları, gelişmiş ses kontrolleri ve yapılandırmaya bağlı Supabase kafile adaptörü eklendi. Rehber hesap açmadan çalışır. Gerçek dinî içerik/insan sesleri ve servis/cihaz kabulü eksik olduğu için mağazaya hazır tam rehber değildir. Güncel uygulama, test ve eksik listesi: [MVP 1 teslim raporu](docs/06-mvp1-pilot.md).

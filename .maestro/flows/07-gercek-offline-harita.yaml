@@ -1,0 +1,28 @@
+appId: ${APP_ID}
+name: Gerçek paket indirme ve yerel harita renderı
+---
+- launchApp
+- scrollUntilVisible:
+    element: "(?s)Çevrimdışı paketleri yönet.*"
+    direction: DOWN
+- tapOn: "(?s)Çevrimdışı paketleri yönet.*"
+- scrollUntilVisible:
+    element: "Mekke haritasını indir"
+    direction: DOWN
+- tapOn: "Mekke haritasını indir"
+- extendedWaitUntil:
+    visible: "Mekke çevrimdışı haritası indirildi."
+    timeout: 90000
+- scrollUntilVisible:
+    element: "Doğrulandı"
+    direction: DOWN
+- assertVisible: "Doğrulandı"
+- launchApp
+- tapOn: "(?s)Yolculuk.*"
+- tapOn: "Çevrimdışı haritayı aç"
+- assertVisible: "Çevrimdışı şehir haritası"
+- extendedWaitUntil:
+    visible: "Harita hazır · Çevrimdışı"
+    timeout: 30000
+- assertVisible: "Harita hazır · Çevrimdışı"
+- takeScreenshot: gercek-mekke-haritasi

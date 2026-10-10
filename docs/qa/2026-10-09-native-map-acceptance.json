@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-09",
+  "codeCommit": "ddc8a8a0c39dc474d7d71896fa0f5c0e319584d1",
+  "prMergeCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+  "gitTreeDifference": "none",
+  "workflowRun": 37935382604,
+  "workflowResult": "success",
+  "checks": [
+    {
+      "platform": "api28",
+      "artifactId": 11618669110,
+      "suite": "application",
+      "status": "passed",
+      "cases": 7,
+      "caseNames": [
+        "Umre hazırlık ve yolculuk girişleri",
+        "Ayarlara erişim",
+        "Rehberde onaylı ses bulunmadığında durum",
+        "Yapılandırılmamış teknik pilot hizmetleri",
+        "İsteğe bağlı Umre provası",
+        "Lisans ve kaynak metinleri",
+        "Gerçek paket indirme ve yerel harita renderı"
+      ],
+      "deviceTestsRun": true,
+      "driverPrepared": true,
+      "workspaceCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+      "installedBuildSha256": "98dce3807c3bae78c8a9910221775cac40d971c569456bd4fb26f771437061b0",
+      "expectedBuildSha256": "98dce3807c3bae78c8a9910221775cac40d971c569456bd4fb26f771437061b0",
+      "hashMatched": true
+    },
+    {
+      "platform": "api28",
+      "artifactId": 11618669110,
+      "suite": "technical-audio",
+      "status": "passed",
+      "cases": 1,
+      "caseNames": [
+        "Ayrı teknik pakette cihaz ses oynatımı"
+      ],
+      "deviceTestsRun": true,
+      "driverPrepared": true,
+      "workspaceCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+      "installedBuildSha256": "b47c6a1c5c73c441a294e3eb5f5453590a169ca9a684d0a4ab240d8682f05a94",
+      "expectedBuildSha256": "b47c6a1c5c73c441a294e3eb5f5453590a169ca9a684d0a4ab240d8682f05a94",
+      "hashMatched": true
+    },
+    {
+      "platform": "api35",
+      "artifactId": 11618960174,
+      "suite": "application",
+      "status": "passed",
+      "cases": 7,
+      "caseNames": [
+        "Umre hazırlık ve yolculuk girişleri",
+        "Ayarlara erişim",
+        "Rehberde onaylı ses bulunmadığında durum",
+        "Yapılandırılmamış teknik pilot hizmetleri",
+        "İsteğe bağlı Umre provası",
+        "Lisans ve kaynak metinleri",
+        "Gerçek paket indirme ve yerel harita renderı"
+      ],
+      "deviceTestsRun": true,
+      "driverPrepared": true,
+      "workspaceCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+      "installedBuildSha256": "98dce3807c3bae78c8a9910221775cac40d971c569456bd4fb26f771437061b0",
+      "expectedBuildSha256": "98dce3807c3bae78c8a9910221775cac40d971c569456bd4fb26f771437061b0",
+      "hashMatched": true
+    },
+    {
+      "platform": "api35",
+      "artifactId": 11618960174,
+      "suite": "technical-audio",
+      "status": "passed",
+      "cases": 1,
+      "caseNames": [
+        "Ayrı teknik pakette cihaz ses oynatımı"
+      ],
+      "deviceTestsRun": true,
+      "driverPrepared": true,
+      "workspaceCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+      "installedBuildSha256": "b47c6a1c5c73c441a294e3eb5f5453590a169ca9a684d0a4ab240d8682f05a94",
+      "expectedBuildSha256": "b47c6a1c5c73c441a294e3eb5f5453590a169ca9a684d0a4ab240d8682f05a94",
+      "hashMatched": true
+    },
+    {
+      "platform": "ios",
+      "artifactId": 11619530622,
+      "suite": "application",
+      "status": "passed",
+      "cases": 7,
+      "caseNames": [
+        "Umre hazırlık ve yolculuk girişleri",
+        "Ayarlara erişim",
+        "Rehberde onaylı ses bulunmadığında durum",
+        "Yapılandırılmamış teknik pilot hizmetleri",
+        "İsteğe bağlı Umre provası",
+        "Lisans ve kaynak metinleri",
+        "Gerçek paket indirme ve yerel harita renderı"
+      ],
+      "deviceTestsRun": true,
+      "driverPrepared": true,
+      "workspaceCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+      "installedBuildSha256": null,
+      "expectedBuildSha256": null,
+      "hashMatched": null
+    },
+    {
+      "platform": "ios",
+      "artifactId": 11619530622,
+      "suite": "technical-audio",
+      "status": "passed",
+      "cases": 1,
+      "caseNames": [
+        "Ayrı teknik pakette cihaz ses oynatımı"
+      ],
+      "deviceTestsRun": true,
+      "driverPrepared": true,
+      "workspaceCommit": "8c6bcf787f9d671d27f3866ee8923cef9bc68ab9",
+      "installedBuildSha256": null,
+      "expectedBuildSha256": null,
+      "hashMatched": null
+    }
+  ],
+  "productionReady": false,
+  "releasePreflight": {
+    "status": "blocked",
+    "blockerCount": 155
+  },
+  "physicalAndroidTested": false,
+  "physicalIphoneTested": false,
+  "humanNarrationProduced": false,
+  "currentStoreSdkVerification": "not-started",
+  "storeSdkConfigurationCommit": "7765645cecc7b646bcabff189a7f510fec0f1f53",
+  "nativeCasesPassed": 24
+}
+

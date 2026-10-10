@@ -78,7 +78,8 @@ void main() {
     final source = jsonDecode(text) as Map<String, dynamic>;
     final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
     expect(catalog.steps.first.audioId, isNull);
-    expect(catalog.steps.first.summary, isNull);
+    expect(catalog.steps.first.summary, isNotEmpty);
+    expect(catalog.steps.first.sourceAccessedAt, '2026-10-09');
     expect(catalog.steps.first.prayerIds, isEmpty);
     (source['steps'] as List)[0]['status'] = 'approved';
     expect(
@@ -106,6 +107,7 @@ void main() {
     final draftSource = jsonDecode(text) as Map<String, dynamic>;
     final draftCatalog = GuideCatalog.fromJsonText(jsonEncode(draftSource));
     expect(draftCatalog.isProfileFlowVerified(HajjProfile.ifrad), isFalse);
+    expect(draftCatalog.isPreview, isTrue);
     expect(draftCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(35));
     expect(draftCatalog.stepById('H06.3')?.counterKey, 'jamarat');
     expect(draftCatalog.stepById('H09.2')?.counterKey, 'jamarat');
@@ -132,12 +134,17 @@ void main() {
         applicability[profile.name] = 'applicable';
       }
     }
+    for (final value in approvedSource['audioRecords'] as List<dynamic>) {
+      final audio = value as Map<String, dynamic>;
+      audio['textVersion'] = '${audio['textId']}-test-v1';
+    }
     (steps[1] as Map<String, dynamic>)['profileApplicability']['ifrad'] =
         'notApplicable';
     final approvedCatalog = GuideCatalog.fromJsonText(
       jsonEncode(approvedSource),
     );
     expect(approvedCatalog.isProfileFlowVerified(HajjProfile.ifrad), isTrue);
+    expect(approvedCatalog.isPreview, isFalse);
     expect(approvedCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(34));
     expect(approvedCatalog.stepsForProfile(HajjProfile.temettu), hasLength(35));
     expect(
@@ -177,6 +184,7 @@ void main() {
 
       final missingSource = source();
       (missingSource['steps'] as List)[3]['status'] = 'pendingReview';
+      (missingSource['steps'] as List)[3].remove('sourceUrl');
       expect(
         () => GuideCatalog.fromJsonText(jsonEncode(missingSource)),
         throwsFormatException,
@@ -198,16 +206,49 @@ void main() {
     },
   );
 
-  test('U02.2 hazırlama kaydı eksik metin ve sesle güvenle yüklenir', () async {
+  test('U02.2 taslak metin ve eksik duayla güvenle yüklenir', () async {
     final catalog = (await const LocalContentRepository()
         .load())[GuideType.umrah]!;
     final step = catalog.stepById('U02.2')!;
     expect(step.status, ReviewStatus.draft);
-    expect(step.textVersion, 'U02.2-text-v1');
-    expect(step.summary, isNull);
+    expect(step.textVersion, 'U02.2-draft-2026-10-09-v1');
+    expect(step.summary, isNotEmpty);
     expect(step.prayerIds, ['P-U02.2-01']);
     expect(step.linkedAudioIds, ['A-U02.2-TR-01']);
-    expect(catalog.audioRecords['A-U02.2-TR-01']?.asset, isNull);
-    expect(catalog.prayerRecords['P-U02.2-01']?.arabic, isNull);
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.asset,
+      'assets/audio/draft-v2/A-U02.2-TR-01.m4a',
+    );
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.isSyntheticDraftPreview,
+      isTrue,
+    );
+    final prayer = catalog.prayerRecords['P-U02.2-01']!;
+    expect(prayer.status, ReviewStatus.draft);
+    expect(prayer.arabic, startsWith('لَبَّيْكَ'));
+    expect(prayer.meaningTr, isNotEmpty);
+    expect(prayer.sourceAccessedAt, '2026-10-09');
+    expect(prayer.reviewedBy, isNull);
+    expect(
+      catalog.audioRecords['A-P-U02.2-AR-01']?.textVersion,
+      prayer.textVersion,
+    );
+  });
+
+  test('53 kaynaklı taslak açıklama dört editöryal alanı içerir', () async {
+    final catalogs = await const LocalContentRepository().load();
+    final steps = catalogs.values.expand((catalog) => catalog.steps).toList();
+    expect(steps, hasLength(53));
+    for (final step in steps) {
+      expect(step.status, ReviewStatus.draft);
+      expect(step.summary, isNotEmpty);
+      expect(step.details, contains('Hazırlık:'));
+      expect(step.details, contains('Yapılacak işlem:'));
+      expect(step.details, contains('Dikkat:'));
+      expect(step.details, contains('Sonraki aşama:'));
+      expect(step.sourceUrl, startsWith('https://'));
+      expect(step.sourceAccessedAt, '2026-10-09');
+      expect(step.reviewedBy, isNull);
+    }
   });
 }

@@ -74,6 +74,32 @@ void main() {
     expect(distance, lessThan(1200));
   });
 
+  test(
+    'shared map search handles local names, accents and category together',
+    () {
+      final data = testCatalog();
+      (data['points'] as List).first['nameTr'] = 'Şifa Işık Özel Sağlık';
+      final catalog = TravelCatalog.fromJsonText(jsonEncode(data));
+      expect(
+        searchTravelPoints(catalog.points, query: ' sifa isik ozel saglik '),
+        hasLength(1),
+      );
+      expect(
+        searchTravelPoints(catalog.points, query: 'TEST POINT'),
+        hasLength(1),
+      );
+      expect(
+        searchTravelPoints(
+          catalog.points,
+          query: 'test point',
+          category: PoiCategory.transport,
+        ),
+        isEmpty,
+      );
+      expect(catalog.searchPoints(query: 'İKİNCİ'), hasLength(1));
+    },
+  );
+
   test('bozuk rota sırası, bilinmeyen POI ve aşırı geometri reddedilir', () {
     final badOrder = testCatalog();
     ((badOrder['routes'] as List).first['stops'] as List)[1]['order'] = 4;
