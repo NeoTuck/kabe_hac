@@ -33,6 +33,7 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
   String? _catalogError;
   String? _busyPackageId;
   bool _loading = false;
+  bool _catalogLoading = false;
 
   @override
   void initState() {
@@ -40,32 +41,42 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
     _load();
   }
 
-  Future<void> _load() async {
+  Future<void> _load({bool refreshCatalog = true}) async {
     if (_loading) return;
     setState(() => _loading = true);
     try {
       final states = await widget.manager.listActivations();
-      List<OfflinePackageManifest>? catalog;
-      String? catalogError;
-      final provider = widget.provider;
-      if (provider != null) {
-        try {
-          catalog = await provider.loadCatalog();
-        } catch (_) {
-          catalogError = 'Paket kataloğu alınamadı veya güvenilir değil.';
-        }
-      }
       if (!mounted) return;
       setState(() {
         _states = states;
-        _catalog = catalog;
         _error = null;
-        _catalogError = catalogError;
       });
     } catch (_) {
       if (mounted) setState(() => _error = 'Paket kayıtları okunamadı.');
+      return;
     } finally {
       if (mounted) setState(() => _loading = false);
+    }
+    final provider = widget.provider;
+    if (!mounted || !refreshCatalog || _catalogLoading || provider == null) {
+      return;
+    }
+    // Local packages stay visible and manageable while the network is slow.
+    setState(() {
+      _catalogLoading = true;
+      _catalogError = null;
+    });
+    try {
+      final catalog = await provider.loadCatalog();
+      if (mounted) setState(() => _catalog = catalog);
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _catalogError = 'Paket kataloğu alınamadı veya güvenilir değil.';
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _catalogLoading = false);
     }
   }
 
@@ -94,7 +105,7 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
       );
       if (confirmed != true || !mounted) return;
       await widget.manager.deletePackage(state.packageId);
-      await _load();
+      await _load(refreshCatalog: false);
     } catch (_) {
       if (mounted) setState(() => _error = 'Paket silinemedi.');
     } finally {
@@ -107,7 +118,7 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
     try {
       setState(() => _busyPackageId = state.packageId);
       await widget.manager.rollback(state.packageId);
-      await _load();
+      await _load(refreshCatalog: false);
     } catch (_) {
       if (mounted) setState(() => _error = 'Önceki paket sürümüne dönülemedi.');
     } finally {
@@ -124,7 +135,7 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
         _catalogError = null;
       });
       await provider.downloadAndActivate(manifest);
-      await _load();
+      await _load(refreshCatalog: false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -309,7 +320,9 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                onPressed: _busyPackageId != null || _loading ? null : _load,
+                onPressed: _busyPackageId != null || _loading || _catalogLoading
+                    ? null
+                    : _load,
                 icon: const Icon(Icons.refresh_rounded),
                 label: const Text('Kataloğu yeniden dene'),
               ),
@@ -321,7 +334,9 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
               for (final manifest in _catalog!) _downloadCard(manifest, states),
             const SizedBox(height: 16),
             OutlinedButton.icon(
-              onPressed: _busyPackageId != null || _loading ? null : _load,
+              onPressed: _busyPackageId != null || _loading || _catalogLoading
+                  ? null
+                  : _load,
               icon: const Icon(Icons.refresh),
               label: const Text('Paketleri yenile'),
             ),

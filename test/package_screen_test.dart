@@ -12,9 +12,15 @@ class FakePackageProvider extends OfflinePackageProvider {
   final OfflinePackageManifest manifest;
   int downloadCalls = 0;
   Completer<void>? gate;
+  Completer<void>? catalogGate;
+  int catalogCalls = 0;
 
   @override
-  Future<List<OfflinePackageManifest>> loadCatalog() async => [manifest];
+  Future<List<OfflinePackageManifest>> loadCatalog() async {
+    catalogCalls++;
+    if (catalogGate != null) await catalogGate!.future;
+    return [manifest];
+  }
 
   @override
   Future<PackageActivationState> downloadAndActivate(
@@ -78,6 +84,40 @@ class FailingPackageStore extends FakePackageStore {
 }
 
 void main() {
+  testWidgets('installed maps remain manageable while catalog is stalled', (
+    tester,
+  ) async {
+    final store = FakePackageStore();
+    store.states.add(
+      PackageActivationState(
+        packageId: 'map-mecca',
+        activeVersion: '1.0.0',
+        previousVersion: null,
+        activatedAt: DateTime.utc(2026),
+      ),
+    );
+    final provider = FakePackageProvider(fixtureManifest())
+      ..catalogGate = Completer<void>();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: OfflinePackagesScreen(manager: store, provider: provider),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('Mekke çevrimdışı haritası'), findsOneWidget);
+    expect(find.textContaining('Çevrimdışı hazır'), findsOneWidget);
+    await tester.tap(find.text('Paketi sil'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.widgetWithText(FilledButton, 'Paketi sil'));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(store.states, isEmpty);
+    expect(find.text('Kurulu çevrimdışı paket yok.'), findsOneWidget);
+    expect(provider.catalogCalls, 1);
+    provider.catalogGate!.complete();
+    await tester.pumpAndSettle();
+    expect(find.text('umre-audio-tr'), findsOneWidget);
+    expect(find.textContaining('Çevrimdışı hazır'), findsNothing);
+  });
   testWidgets('yapılandırma yokken paket ağı kapalı görünür', (tester) async {
     final manager = FakePackageStore();
     await tester.pumpWidget(
