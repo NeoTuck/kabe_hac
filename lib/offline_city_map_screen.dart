@@ -9,6 +9,7 @@ import 'offline_package.dart';
 import 'source_details.dart';
 import 'travel_catalog.dart';
 import 'travel_details.dart';
+import 'map_place_picker.dart';
 
 String _encodeStyle(Map<String, Object?> style) => jsonEncode(style);
 
@@ -152,7 +153,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (_) => _PlacePicker(points: points),
+      builder: (_) => MapPlacePicker(points: points),
     );
     if (chosen == null || !mounted || map != _selected) return;
     try {
@@ -327,62 +328,6 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
               ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _PlacePicker extends StatefulWidget {
-  const _PlacePicker({required this.points});
-  final List<TravelPoi> points;
-  @override
-  State<_PlacePicker> createState() => _PlacePickerState();
-}
-
-class _PlacePickerState extends State<_PlacePicker> {
-  String _query = '';
-  @override
-  Widget build(BuildContext context) {
-    final values = widget.points
-        .where(
-          (p) =>
-              p.nameTr.toLowerCase().contains(_query.toLowerCase()) ||
-              (p.localName?.contains(_query) ?? false),
-        )
-        .toList();
-    return SizedBox(
-      height: MediaQuery.sizeOf(context).height * 0.75,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              autofocus: false,
-              decoration: const InputDecoration(
-                labelText: 'Yer ara',
-                prefixIcon: Icon(Icons.search),
-              ),
-              onChanged: (value) => setState(() => _query = value),
-            ),
-          ),
-          Expanded(
-            child: values.isEmpty
-                ? const Center(
-                    child: Text('Bu şehirde aramaya uygun yer kaydı yok.'),
-                  )
-                : ListView.builder(
-                    itemCount: values.length,
-                    itemBuilder: (context, index) {
-                      final point = values[index];
-                      return ListTile(
-                        title: Text(point.nameTr),
-                        subtitle: Text(point.category.label),
-                        onTap: () => Navigator.of(context).pop(point),
-                      );
-                    },
-                  ),
-          ),
-        ],
       ),
     );
   }

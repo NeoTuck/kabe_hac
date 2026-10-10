@@ -389,27 +389,36 @@ class TravelCatalog {
   }
 
   List<TravelPoi> searchPoints({String query = '', PoiCategory? category}) {
-    String normalize(String value) => value
-        .toLowerCase()
-        .replaceAll('i\u0307', 'i')
-        .replaceAll('ı', 'i')
-        .replaceAll('ş', 's')
-        .replaceAll('ğ', 'g')
-        .replaceAll('ü', 'u')
-        .replaceAll('ö', 'o')
-        .replaceAll('ç', 'c');
-    final normalized = normalize(query.trim());
-    return List.unmodifiable(
-      points.where(
-        (point) =>
-            (category == null || point.category == category) &&
-            (normalized.isEmpty ||
-                normalize(point.nameTr).contains(normalized) ||
-                (point.localName != null &&
-                    normalize(point.localName!).contains(normalized))),
-      ),
-    );
+    return searchTravelPoints(points, query: query, category: category);
   }
+}
+
+/// Shared offline search for both the travel list and city map.
+List<TravelPoi> searchTravelPoints(
+  Iterable<TravelPoi> points, {
+  String query = '',
+  PoiCategory? category,
+}) {
+  String normalize(String value) => value
+      .toLowerCase()
+      .replaceAll('i\u0307', 'i')
+      .replaceAll('ı', 'i')
+      .replaceAll('ş', 's')
+      .replaceAll('ğ', 'g')
+      .replaceAll('ü', 'u')
+      .replaceAll('ö', 'o')
+      .replaceAll('ç', 'c');
+  final normalized = normalize(query.trim());
+  return List.unmodifiable(
+    points.where(
+      (point) =>
+          (category == null || point.category == category) &&
+          (normalized.isEmpty ||
+              normalize(point.nameTr).contains(normalized) ||
+              (point.localName != null &&
+                  normalize(point.localName!).contains(normalized))),
+    ),
+  );
 }
 
 double straightLineDistanceMeters(GeoPoint from, GeoPoint to) {
