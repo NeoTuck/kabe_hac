@@ -5,9 +5,10 @@ import 'offline_package.dart';
 import 'package_downloader.dart';
 
 class PackageCatalogException implements Exception {
-  const PackageCatalogException(this.message);
+  const PackageCatalogException(this.message, {this.cause});
 
   final String message;
+  final Object? cause;
 
   @override
   String toString() => 'PackageCatalogException: $message';
@@ -122,9 +123,10 @@ class HttpPackageCatalogTextFetcher extends PackageCatalogTextFetcher {
       }
     } on PackageCatalogException {
       rethrow;
-    } catch (_) {
-      throw const PackageCatalogException(
+    } catch (error) {
+      throw PackageCatalogException(
         'Paket kataloğu alınamadı. Bağlantıyı kontrol edip yeniden dene.',
+        cause: error,
       );
     } finally {
       try {

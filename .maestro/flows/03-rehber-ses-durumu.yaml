@@ -3,6 +3,9 @@ name: Rehberde sentetik taslak ses durumu
 ---
 - launchApp
 - scrollUntilVisible:
+    element: "(?s)^Rehbere başla.*"
+    direction: UP
+- scrollUntilVisible:
     element: "(?s)Umre.*18 başlık.*"
     direction: DOWN
 - tapOn:

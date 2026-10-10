@@ -3,7 +3,7 @@ name: İsteğe bağlı Umre provası
 ---
 - launchApp
 - extendedWaitUntil:
-    visible: "Nasıl devam etmek istersin\\?"
+    visible: "Rehbere başla"
     timeout: 30000
 - scrollUntilVisible:
     element: "(?s)Simülasyonu dene.*"
@@ -33,7 +33,7 @@ name: İsteğe bağlı Umre provası
 - takeScreenshot: prova-duraklatildi
 - launchApp
 - extendedWaitUntil:
-    visible: "Nasıl devam etmek istersin\\?"
+    visible: "Rehbere başla"
     timeout: 30000
 - scrollUntilVisible:
     element: "(?s)Simülasyonu dene.*"

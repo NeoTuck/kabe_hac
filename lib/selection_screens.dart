@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'content_repository.dart';
 import 'guide_catalog.dart';
+import 'journey_preparation_screen.dart';
+import 'offline_city_map_screen.dart';
 import 'group_repository.dart';
 import 'group_screen.dart';
 import 'guide_screens.dart';
@@ -118,7 +120,40 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _open(Widget screen) async {
     await Navigator.of(context)
         .push<void>(MaterialPageRoute(builder: (_) => screen));
-    if (mounted) await _refresh(reloadContent: screen is OfflinePackagesScreen);
+    if (mounted) {
+      await _refresh(
+        reloadContent:
+            screen is OfflinePackagesScreen ||
+            screen is JourneyPreparationScreen,
+      );
+    }
+  }
+
+  Future<void> _openInstalledPackage(OfflinePackageManifest manifest) async {
+    if (manifest.kind == OfflinePackageKind.map ||
+        manifest.kind == OfflinePackageKind.travel) {
+      final travel = await LocalTravelRepository(packages: widget.packages!)
+          .load();
+      if (!mounted) return;
+      await _open(
+        manifest.kind == OfflinePackageKind.map
+            ? OfflineCityMapScreen(
+                packages: widget.packages!,
+                catalog: travel,
+                initialPackageId: manifest.packageId,
+              )
+            : TravelScreen(
+                store: widget.store,
+                packages: widget.packages,
+                catalog: travel,
+              ),
+      );
+    } else if (manifest.kind == OfflinePackageKind.audio) {
+      await _refresh(reloadContent: true);
+      if (mounted) _choose(_latest?.type ?? GuideType.umrah);
+    } else if (widget.safetyCatalog != null) {
+      await _open(SafetyScreen(catalog: widget.safetyCatalog!));
+    }
   }
 
   void _choose(GuideType type) {
@@ -268,8 +303,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Kaldığım yerden devam · ${latest.type.label}${latest.profile == null ? '' : ' / ${latest.profile!.label}'}',
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${latest.mode.label} · ${_catalogs[latest.type]?.stepById(latest.currentStepId)?.title ?? 'Kayıtlı adım: ${latest.currentStepId}'}',
+                    ),
+                    if (latest.contentVersion !=
+                        _catalogs[latest.type]?.contentVersion)
+                      const Text(
+                        'Rehber sürümü değişti. Eski kaydın korunur; devam ekranındaki sürüm uyarısını kontrol et.',
+                      ),
                   ],
-                  if (!_loadingRecords && latest == null) ...[
+                  if (!_loadingRecords && latest == null && _error == null) ...[
                     const SizedBox(height: 24),
                     FilledButton.icon(
                       onPressed: () => _open(
@@ -287,6 +331,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 8),
                     const Text(
                       'Umre başlıklarını aç; ilk adımdan başlayabilirsin.',
+                    ),
+                  ],
+                  if (widget.packages != null) ...[
+                    const SizedBox(height: 16),
+                    OutlinedButton.icon(
+                      onPressed: () => _open(
+                        JourneyPreparationScreen(
+                          catalogs: _catalogs,
+                          packages: widget.packages!,
+                          provider: widget.packageProvider,
+                          configurationError: widget.packageConfigurationError,
+                          initialType: latest?.type ?? GuideType.umrah,
+                          onOpenPackage: _openInstalledPackage,
+                        ),
+                      ),
+                      icon: const Icon(Icons.offline_pin_outlined),
+                      label: const Text('Yolculuğa hazır mıyım?'),
                     ),
                   ],
                   const SizedBox(height: 28),
@@ -374,6 +435,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           manager: widget.packages!,
                           provider: widget.packageProvider,
                           configurationError: widget.packageConfigurationError,
+                          onOpen: _openInstalledPackage,
                         ),
                       ),
                       icon: const Icon(Icons.offline_pin_outlined),
@@ -388,6 +450,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: _loadingRecords ? null : () => _refresh(),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Kayıtları yeniden oku'),
                     ),
                   ],
                 ],
@@ -417,40 +484,43 @@ class _ChoiceCard extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => Card.outlined(
-    child: InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(16),
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    child: Card.outlined(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  icon,
+                  size: 28,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
               ),
-              child: Icon(
-                icon,
-                size: 28,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: Theme.of(context).textTheme.titleLarge),
+                    const SizedBox(height: 4),
+                    Text(subtitle),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: Theme.of(context).textTheme.titleLarge),
-                  const SizedBox(height: 4),
-                  Text(subtitle),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right_rounded),
-          ],
+              const Icon(Icons.chevron_right_rounded),
+            ],
+          ),
         ),
       ),
     ),

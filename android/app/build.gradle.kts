@@ -14,6 +14,13 @@ val hasProductionSigning = listOf("storeFile", "storePassword", "keyAlias", "key
     .all { !signingProperties.getProperty(it).isNullOrBlank() }
 val technicalPilot = System.getenv("KABE_TECHNICAL_PILOT") == "true"
 
+val productionContentGate = tasks.register<Exec>("productionContentGate") {
+    commandLine("sh", rootProject.file("../tools/production_build_gate.sh").absolutePath)
+}
+tasks.configureEach {
+    if (name == "preReleaseBuild") dependsOn(productionContentGate)
+}
+
 gradle.taskGraph.whenReady {
     if (allTasks.any { it.name.contains("Release", ignoreCase = true) } &&
         !hasProductionSigning && !technicalPilot) {
@@ -23,7 +30,7 @@ gradle.taskGraph.whenReady {
 
 android {
     namespace = "com.mustafasenoglu.hac_umre_sesli_rehber"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -37,7 +44,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 28
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 36
         // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
         // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`

@@ -83,7 +83,53 @@ class FailingPackageStore extends FakePackageStore {
   }
 }
 
+class InspectingPackageStore extends FakePackageStore {
+  InspectingPackageStore(this.manifest);
+  final OfflinePackageManifest manifest;
+  bool damaged = false;
+  @override
+  Future<OfflinePackageManifest?> verifyActivePackage(String id) async {
+    if (damaged) throw const PackageFormatException('Dosya özeti uyuşmuyor');
+    return manifest;
+  }
+}
+
 void main() {
+  testWidgets(
+    'kurulu paketi açma anında yeniden kontrol eder; bozuk dosya açılmaz',
+    (tester) async {
+      final manifest = fixtureManifest();
+      final store = InspectingPackageStore(manifest);
+      store.states.add(
+        PackageActivationState(
+          packageId: manifest.packageId,
+          activeVersion: manifest.version,
+          previousVersion: null,
+          activatedAt: DateTime.utc(2026),
+        ),
+      );
+      var opened = 0;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: OfflinePackagesScreen(
+            manager: store,
+            onOpen: (_) async {
+              opened++;
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Dosyalar doğrulandı'), findsOneWidget);
+      store.damaged = true;
+      await tester.tap(find.text('Paketi aç'));
+      await tester.pumpAndSettle();
+      expect(opened, 0);
+      expect(find.textContaining('kullanıma açılmadı'), findsOneWidget);
+      expect(store.states.length, 1);
+    },
+  );
+
   testWidgets('installed maps remain manageable while catalog is stalled', (
     tester,
   ) async {
@@ -105,7 +151,7 @@ void main() {
     );
     await tester.pump();
     expect(find.text('Mekke çevrimdışı haritası'), findsOneWidget);
-    expect(find.textContaining('Çevrimdışı hazır'), findsOneWidget);
+    expect(find.textContaining('Kurulum kaydı var'), findsOneWidget);
     await tester.tap(find.text('Paketi sil'));
     await tester.pump(const Duration(milliseconds: 300));
     await tester.tap(find.widgetWithText(FilledButton, 'Paketi sil'));
@@ -116,7 +162,7 @@ void main() {
     provider.catalogGate!.complete();
     await tester.pumpAndSettle();
     expect(find.text('umre-audio-tr'), findsOneWidget);
-    expect(find.textContaining('Çevrimdışı hazır'), findsNothing);
+    expect(find.textContaining('Kurulum kaydı var'), findsNothing);
   });
   testWidgets('yapılandırma yokken paket ağı kapalı görünür', (tester) async {
     final manager = FakePackageStore();
@@ -150,6 +196,11 @@ void main() {
     await tester.tap(find.text('İndir'));
     await tester.pumpAndSettle();
     expect(provider.downloadCalls, 1);
+    expect(find.textContaining('dosyalar henüz doğrulanmadı'), findsOneWidget);
+    expect(
+      find.textContaining('indirildi ve dosyaları doğrulandı'),
+      findsNothing,
+    );
   });
   testWidgets('package download locks refresh and delete until it finishes', (
     tester,

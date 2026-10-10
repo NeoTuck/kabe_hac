@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "status": "awaiting_real_decisions",
+  "catalogs": {
+    "umre": {
+      "contentVersion": "inventory-2026-10-09-draft2-audio",
+      "sha256": "3a688578489cb2ebd46c1d3bbb9393a8a43cb33e93179c44171a3d8d5b259629"
+    },
+    "hac": {
+      "contentVersion": "inventory-2026-10-09-draft2-audio",
+      "sha256": "76f102c3137785ffda9ca4c43e6b7eee55976a047f16c396dccf9b64127668df"
+    }
+  },
+  "counts": {
+    "umre_steps": 18,
+    "umre_prayerRecords": 1,
+    "umre_audioRecords": 20,
+    "hac_steps": 35,
+    "hac_prayerRecords": 0,
+    "hac_audioRecords": 35
+  },
+  "sources": {
+    "2026-10-09-adim-onay-calisma.csv": "6346901d9624689f0a3821542e39846f35407a6ee432007da4bfb7772182f07a",
+    "2026-10-09-dua-onay-calisma.csv": "0b4a3ab3acf28e4924235ac3b6e442315c2795c2ac3b756c69e5482894af6fd1",
+    "2026-10-09-kayit-metni-calisma.csv": "4f4c873348b653c3113a6c0860e6e6bec52442375b92d47d40a1a8d377809f66",
+    "kayit-ve-hak-talebi.md": "c63764f10f49c3b3070ea8bbaa47d55c881398693fdcd4a35961ffec175521dc",
+    "2026-10-09-kritik-osm-yer-incelemesi.csv": "9f224a6658d17e0da50eefa5374121ce6d68ac7678f8d984b8024d6dc329c986",
+    "dil-kartlari-taslak.csv": "216ffa57c22b645916e3fddb14be67d71fc47da55ae3ffd53d98b6e95f32d444"
+  },
+  "decisionRows": 324
+}

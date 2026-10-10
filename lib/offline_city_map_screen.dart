@@ -18,9 +18,11 @@ class OfflineCityMapScreen extends StatefulWidget {
     super.key,
     required this.packages,
     required this.catalog,
+    this.initialPackageId,
   });
   final OfflinePackageManager packages;
   final TravelCatalog catalog;
+  final String? initialPackageId;
 
   @override
   State<OfflineCityMapScreen> createState() => _OfflineCityMapScreenState();
@@ -56,7 +58,12 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
         _loading = false;
       });
       if (maps.isNotEmpty) {
-        await _select(maps.first);
+        await _select(
+          maps
+                  .where((map) => map.packageId == widget.initialPackageId)
+                  .firstOrNull ??
+              maps.first,
+        );
       }
     } catch (_) {
       if (mounted) {

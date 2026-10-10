@@ -7,9 +7,10 @@ import 'package:crypto/crypto.dart';
 import 'offline_package.dart';
 
 class PackageDownloadException implements Exception {
-  const PackageDownloadException(this.message);
+  const PackageDownloadException(this.message, {this.cause});
 
   final String message;
+  final Object? cause;
 
   @override
   String toString() => 'PackageDownloadException: $message';
@@ -286,6 +287,7 @@ class PackageDownloadCoordinator {
       if (lastError != null) {
         throw PackageDownloadException(
           'Dosya indirilemedi: ${entry.relativePath}. $lastError',
+          cause: lastError,
         );
       }
     }

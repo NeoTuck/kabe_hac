@@ -51,6 +51,38 @@ Future<Directory> stage(
 }
 
 void main() {
+  test('hazırlık kontrolü eski kurulum kaydını güven kanıtı saymaz', () async {
+    final root = await Directory.systemTemp.createTemp('verify_active_');
+    addTearDown(() => root.delete(recursive: true));
+    final bytes = utf8.encode('technical fixture');
+    final manifest = OfflinePackageManifest.fromJson(
+      manifestJson(version: '1.0.0', bytes: bytes),
+    );
+    final manager = OfflinePackageManager(
+      root: root,
+      trustPolicy: PinnedManifestDigestPolicy([
+        PinnedManifestDigestPolicy.digestFor(manifest),
+      ]),
+    );
+    final state = await manager.activate(
+      manifest,
+      await stage(manager, manifest, bytes),
+    );
+    expect(
+      (await manager.verifyActivePackage(manifest.packageId))?.version,
+      '1.0.0',
+    );
+    await File('${manager.activeDirectory(state).path}/audio/demo.m4a')
+        .writeAsString('damaged');
+    await expectLater(
+      manager.verifyActivePackage(manifest.packageId),
+      throwsA(isA<PackageFormatException>()),
+    );
+    expect((await manager.listActivations()).single.activeVersion, '1.0.0');
+    await manager.deletePackage(manifest.packageId);
+    expect(await manager.verifyActivePackage(manifest.packageId), isNull);
+  });
+
   test('manifest yol, toplam boyut ve özet alanlarını doğrular', () {
     final bytes = utf8.encode('ilk-paket');
     final valid = OfflinePackageManifest.fromJson(

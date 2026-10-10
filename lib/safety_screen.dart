@@ -35,12 +35,14 @@ class _SafetyScreenState extends State<SafetyScreen>
   void _schedule() {
     _expiry?.cancel();
     final now = _now;
-    final boundaries =
-        widget.catalog.fieldInformation
-            .expand((item) => [item.observedAt, item.validUntil])
-            .where((time) => time.isAfter(now))
-            .toList()
-          ..sort();
+    final boundaries = [
+      ...widget.catalog.fieldInformation.expand(
+        (item) => [item.observedAt, item.validUntil],
+      ),
+      ...widget.catalog.contacts.map(
+        (c) => c.verifiedAt.add(SafetyContact.maximumContactAge),
+      ),
+    ].where((time) => time.isAfter(now)).toList()..sort();
     if (boundaries.isEmpty) return;
     _expiry = Timer(
       boundaries.first.difference(now) + const Duration(milliseconds: 1),
@@ -125,34 +127,47 @@ class _SafetyScreenState extends State<SafetyScreen>
                               '${contact.region} · ${contact.status == SafetyReviewStatus.sourceVerified ? 'Resmî kaynaktan kontrol edildi' : 'Onaylı kayıt'}',
                             ),
                             SelectableText(contact.phone!),
-                            if (now.difference(contact.verifiedAt).inDays > 180)
+                            if (!contact.canDialAt(now))
                               const Text(
-                                'Eski kayıt: güncel numarayı kaynaktan kontrol edin.',
+                                'Eski kayıt: doğrudan arama kapalı. Güncel numarayı resmî kaynaktan veya kafile sorumlundan kontrol et.',
                               ),
                             Text('Diller: ${contact.languages.join(', ')}'),
                             const SizedBox(height: 8),
                             OutlinedButton.icon(
-                              onPressed: () async {
-                                try {
-                                  final opened = await launchUrl(
-                                    Uri(scheme: 'tel', path: contact.phone!),
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                  if (!opened) {
-                                    throw StateError('dialer unavailable');
-                                  }
-                                } catch (_) {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Arama ekranı açılamadı. Numarayı seçip kopyalayabilirsin.',
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
+                              onPressed: !contact.canDialAt(now)
+                                  ? null
+                                  : () async {
+                                      // Recheck at tap time as a foreground timer can be delayed.
+                                      if (!contact.canDialAt(_now)) {
+                                        setState(() {});
+                                        return;
+                                      }
+                                      try {
+                                        final opened = await launchUrl(
+                                          Uri(
+                                            scheme: 'tel',
+                                            path: contact.phone!,
+                                          ),
+                                          mode: LaunchMode.externalApplication,
+                                        );
+                                        if (!opened) {
+                                          throw StateError(
+                                            'dialer unavailable',
+                                          );
+                                        }
+                                      } catch (_) {
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                    'Arama ekranı açılamadı. Numarayı seçip kopyalayabilirsin.',
+                                                  ),
+                                                ),
+                                              );
+                                        }
+                                      }
+                                    },
                               icon: const Icon(Icons.phone_outlined),
                               label: const Text('Arama ekranını aç'),
                             ),

@@ -317,6 +317,10 @@ abstract class OfflinePackageStore {
   const OfflinePackageStore();
 
   Future<List<PackageActivationState>> listActivations();
+
+  /// Null means the store cannot inspect bytes; a pointer alone is not proof.
+  Future<OfflinePackageManifest?> verifyActivePackage(String packageId) async =>
+      null;
   Future<void> deletePackage(String packageId);
   Future<PackageActivationState> rollback(String packageId);
 }
@@ -603,6 +607,36 @@ class OfflinePackageManager extends OfflinePackageStore {
   Directory activeDirectory(PackageActivationState state) => Directory(
     path.join(_packagesRoot.path, state.packageId, state.activeVersion),
   );
+
+  @override
+  Future<OfflinePackageManifest?> verifyActivePackage(String packageId) async {
+    final state = await readActivation(packageId);
+    if (state == null) return null;
+    final directory = activeDirectory(state);
+    final realPackages = await _packagesRoot.resolveSymbolicLinks();
+    if (await directory.resolveSymbolicLinks() !=
+        path.join(realPackages, packageId, state.activeVersion)) {
+      throw const PackageFormatException(
+        'Paket klasörü sembolik bağ içeremez.',
+      );
+    }
+    final manifest = await _readManifest(directory);
+    if (manifest.packageId != packageId ||
+        manifest.version != state.activeVersion) {
+      throw const PackageFormatException('Kurulu paket kimliği uyuşmuyor.');
+    }
+    await trustPolicy.ensureTrusted(manifest);
+    await verifyStagedPackage(manifest, directory, allowStoredManifest: true);
+    // A concurrent activation must not turn verification of v1 into proof of v2.
+    final after = await readActivation(packageId);
+    if (after?.activeVersion != state.activeVersion ||
+        after?.activatedAt != state.activatedAt) {
+      throw const PackageFormatException(
+        'Paket kontrol sırasında değişti. Yeniden kontrol et.',
+      );
+    }
+    return manifest;
+  }
 
   /// Rechecks trust and the requested file before use. No unlisted file is exposed.
   Future<File?> resolveActiveFile(

@@ -2,6 +2,9 @@ appId: ${APP_ID}
 name: Umre hazırlık ve yolculuk girişleri
 ---
 - launchApp
+- scrollUntilVisible:
+    element: "(?s)^Rehbere başla.*"
+    direction: UP
 - assertVisible: "Hac ve Umre Sesli Rehber"
 - scrollUntilVisible:
     element: "(?s)Umre.*18 başlık.*"
@@ -19,6 +22,9 @@ name: Umre hazırlık ve yolculuk girişleri
 - assertVisible: "(?s)İçerik hazırlanıyor.*"
 - takeScreenshot: umre-taslak-adim
 - launchApp
+- scrollUntilVisible:
+    element: "(?s)^Rehbere başla.*"
+    direction: UP
 - scrollUntilVisible:
     element: "(?s)Umre.*18 başlık.*"
     direction: DOWN

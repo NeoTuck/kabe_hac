@@ -100,11 +100,12 @@ class NativeEnvironmentRegressionTests(unittest.TestCase):
 
     def test_practice_relaunch_waits_for_restored_home_records(self):
         flow = commands('05-prova.yaml')
+        self.assertEqual(flow.count('launchApp'), 2)
         for index, command in enumerate(flow):
             if command == 'launchApp':
                 wait = flow[index + 1]['extendedWaitUntil']
-                self.assertIsNotNone(re.fullmatch(wait['visible'], 'Nasıl devam etmek istersin?'))
-                self.assertIsNone(re.fullmatch(wait['visible'], 'Nasıl devam etmek istersin? Kayıtlar yükleniyor.'))
+                self.assertIsNotNone(re.fullmatch(wait['visible'], 'Rehbere başla'))
+                self.assertIsNone(re.fullmatch(wait['visible'], 'Rehbere başla. Kayıtlar yükleniyor.'))
                 self.assertEqual(wait['timeout'], 30000)
 
 

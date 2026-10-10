@@ -35,6 +35,62 @@ void main() {
     expect(find.text('1 iletişim kaydı inceleme bekliyor.'), findsOneWidget);
   });
 
+  testWidgets('eski kritik numara gösterilir ama doğrudan arama kapanır', (
+    tester,
+  ) async {
+    var now = DateTime.utc(2026, 10, 11);
+    final contact = SafetyContact(
+      id: 'test-contact',
+      kind: ContactKind.emergency,
+      name: 'Teknik acil fixture',
+      region: 'Fixture',
+      phone: '000',
+      languages: const ['Türkçe'],
+      sourceTitle: 'Teknik kaynak',
+      sourceUri: Uri.parse('https://example.com/fixture'),
+      verifiedAt: now
+          .subtract(const Duration(days: 180))
+          .add(const Duration(seconds: 1)),
+      status: SafetyReviewStatus.sourceVerified,
+    );
+    final catalog = SafetyCatalog(
+      dataVersion: 'fixture',
+      contacts: [contact],
+      languageCards: const [],
+      fieldInformation: const [],
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SafetyScreen(catalog: catalog, clock: () => now),
+      ),
+    );
+    await tester.scrollUntilVisible(
+      find.text('Arama ekranını aç'),
+      100,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(
+      tester
+          .widget<OutlinedButton>(
+            find.widgetWithText(OutlinedButton, 'Arama ekranını aç'),
+          )
+          .onPressed,
+      isNotNull,
+    );
+    now = now.add(const Duration(seconds: 2));
+    await tester.pump(const Duration(seconds: 2));
+    expect(
+      tester
+          .widget<OutlinedButton>(
+            find.widgetWithText(OutlinedButton, 'Arama ekranını aç'),
+          )
+          .onPressed,
+      isNull,
+    );
+    expect(find.textContaining('doğrudan arama kapalı'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('saha bilgisi ekrandayken geçerlilik sınırında güncellenir', (
     tester,
   ) async {

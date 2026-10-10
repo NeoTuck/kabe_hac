@@ -18,6 +18,15 @@ class DelayedHomeStore extends MemoryGuideStore {
   Future<GuideSession?> readMostRecentSession() => pending.future;
 }
 
+class FailingHomeStore extends MemoryGuideStore {
+  bool fail = true;
+  @override
+  Future<GuideSession?> readMostRecentSession() async {
+    if (fail) throw StateError('technical read failure');
+    return super.readMostRecentSession();
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late Map<GuideType, GuideCatalog> catalogs;
@@ -45,6 +54,68 @@ void main() {
     expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
     expect(store.sessions.values.single.mode, GuideMode.learning);
     expect(store.sessions.values.single.type, GuideType.umrah);
+  });
+
+  testWidgets('Hac devamı profil, adım ve eski kişisel işaretleri korur', (
+    tester,
+  ) async {
+    final store = MemoryGuideStore();
+    final catalog = catalogs[GuideType.hajj]!;
+    final session = await store.startNewJourney(
+      type: GuideType.hajj,
+      profile: HajjProfile.kiran,
+      firstStepId: 'H02.1',
+      contentVersion: catalog.contentVersion,
+    );
+    await store.setStepMarked(session.id, 'H01.1', true);
+    final narration = FakeNarration();
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: catalogs,
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Yolculukta rehber ·'), findsOneWidget);
+    expect(
+      find.textContaining(catalog.stepById('H02.1')!.title),
+      findsOneWidget,
+    );
+    await tester.tap(find.textContaining('Kaldığım yerden devam'));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<GuideFlowScreen>(find.byType(GuideFlowScreen)).profile,
+      HajjProfile.kiran,
+    );
+    expect(store.sessions.length, 1);
+    expect(store.sessions[session.id]!.currentStepId, 'H02.1');
+    expect(await store.readMarkedStepIds(session.id), {'H01.1'});
+  });
+
+  testWidgets('kayıt okuma hatası yeni kullanıcı sayılmaz; kurtarma sunulur', (
+    tester,
+  ) async {
+    final store = FailingHomeStore();
+    final narration = FakeNarration();
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: catalogs,
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Umreyi öğrenmeye başla'), findsNothing);
+    await tester.scrollUntilVisible(find.text('Kayıtları yeniden oku'), 300);
+    store.fail = false;
+    await tester.tap(find.text('Kayıtları yeniden oku'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Umreyi öğrenmeye başla'), -300);
+    expect(find.text('Umreyi öğrenmeye başla'), findsOneWidget);
+    expect(store.sessions, isEmpty);
   });
 
   testWidgets('ana sayfa seçimi, ayrıntı ve son adıma dönüş', (tester) async {

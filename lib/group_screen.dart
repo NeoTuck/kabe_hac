@@ -227,7 +227,7 @@ class _GroupScreenState extends State<GroupScreen> {
               const FeatureStatusCard(
                 icon: Icons.groups_outlined,
                 title: 'Kafile hizmeti hazırlanıyor',
-                description: 'Davet, sohbet ve gezi programı bağlantı kurulunca açılacak. Umre ve Hac rehberini hesap açmadan kullanabilirsin.',
+                description: 'Bu sürümde Kafile hizmeti kapalı. Davet, sohbet, konum paylaşımı ve bildirimler henüz kullanılamaz. Umre/Hac rehberini ve kurulu haritaları hesap açmadan kullanabilirsin. Rehbere dönmek için alttaki Rehber sekmesini seç.',
               )
             else if (repository.userId == null) ...[
               const FeatureStatusCard(
@@ -345,7 +345,9 @@ class _GroupScreenState extends State<GroupScreen> {
               if (_groups == null && _error == null)
                 const Center(child: CircularProgressIndicator())
               else if (_groups?.isEmpty == true)
-                const Text('Henüz bir kafileye katılmadın.')
+                const Text(
+                  'Henüz bir kafileye katılmadın. Kafile sorumlundan davet kodu iste ve yukarıdaki Davetle katıl alanına yaz.',
+                )
               else
                 for (final group in _groups ?? <GroupRecord>[])
                   Padding(

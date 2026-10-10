@@ -7,6 +7,7 @@ import json
 import pathlib
 import sys
 from urllib.parse import urlparse
+from review_evidence import audit_review_bindings
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EVIDENCE = ('religious_expert_review', 'human_audio_rights', 'offline_map_license',
@@ -45,7 +46,7 @@ def audit_catalog(data):
         ('prayerRecords', ('arabic', 'transliteration', 'meaningTr', 'textVersion',
                           'sourceTitle', 'sourceUrl', 'sourceLocation', 'sourceAccessedAt',
                           'sourceUsageRights', 'reviewedBy', 'reviewedAt')),
-        ('audioRecords', ('asset', 'textId', 'textVersion', 'recordingOwner', 'rights', 'reviewedBy', 'reviewedAt')),
+        ('audioRecords', ('asset', 'assetSha256', 'textId', 'textVersion', 'recordingOwner', 'rights', 'reviewedBy', 'reviewedAt')),
     ):
         for record in data.get(record_type, []):
             missing = [key for key in fields if not isinstance(record.get(key), str)
@@ -53,7 +54,9 @@ def audit_catalog(data):
             if record.get('status') != 'approved' or missing:
                 blockers.append({'id': record.get('id'), 'type': record_type,
                                  'status': record.get('status'), 'missing': missing})
-            rights = str(record.get('sourceUsageRights', '')).lower()
+            if record_type == 'audioRecords' and record.get('status') == 'approved' and record.get('reviewOnly'):
+                blockers.append({'id': record.get('id'), 'type': 'review_only_audio'})
+            rights = str(record.get('sourceUsageRights', record.get('rights', ''))).lower()
             if record.get('status') == 'approved' and any(
                     marker in rights for marker in ('teyit edilmedi', 'bekliyor', 'bilinmiyor')):
                 blockers.append({'id': record.get('id'), 'type': 'source_rights_unverified'})
@@ -88,6 +91,48 @@ def audit_evidence(directory):
                 raise ValueError('Future review date')
         except (OSError, ValueError, KeyError, TypeError) as error:
             blockers.append({'id': key, 'type': 'external_evidence', 'reason': str(error)})
+    return blockers
+
+
+def audit_audio_integrity(root):
+    """A signed record digest cannot stand in for the bytes shipped in a build."""
+    blockers = []
+    declared_assets = set()
+    for name in ('umre', 'hac'):
+        data = json.loads((root / f'assets/content/{name}_inventory.v1.json').read_text())
+        for audio in data.get('audioRecords', []):
+            if isinstance(audio.get('asset'), str):
+                declared_assets.add(audio['asset'])
+            try:
+                asset = audio.get('asset')
+                if not isinstance(asset, str) or not asset.startswith('assets/audio/'):
+                    raise ValueError('Missing or unsafe audio asset')
+                relative = pathlib.PurePosixPath(asset)
+                if '..' in relative.parts:
+                    raise ValueError('Unsafe audio asset')
+                file = root / relative
+                file.resolve().relative_to((root / 'assets/audio').resolve())
+                if any(parent.is_symlink() for parent in (file, *file.parents)):
+                    raise ValueError('Linked audio asset')
+                if hashlib.sha256(file.read_bytes()).hexdigest() != audio.get('assetSha256'):
+                    raise ValueError('Audio bytes differ from reviewed digest')
+            except (OSError, ValueError, TypeError) as error:
+                blockers.append({'id': audio.get('id'), 'type': 'audio_asset_integrity',
+                                 'reason': str(error)})
+    bundled = set()
+    for line in (root / 'pubspec.yaml').read_text().splitlines():
+        value = line.strip().removeprefix('- ').strip()
+        if not value.startswith('assets/audio/'):
+            continue
+        asset_path = root / value
+        if value.endswith('/'):
+            bundled.update(p.relative_to(root).as_posix()
+                           for p in asset_path.rglob('*') if p.is_file())
+        elif asset_path.is_file():
+            bundled.add(value)
+    if bundled != declared_assets:
+        blockers.append({'type': 'bundled_audio_scope_mismatch',
+                         'bundled': len(bundled), 'catalog': len(declared_assets)})
     return blockers
 
 
@@ -223,6 +268,7 @@ def audit_mvp_scope(root, manifest_path, evidence_dir):
                 if any(marker in entry['rightsEvidence'].lower()
                        for marker in ('pending', 'bekliyor', 'bilinmiyor', 'teyit edilmedi')):
                     blockers.append({'id': entry['id'], 'type': 'map_rights_unverified'})
+        blockers.extend(audit_review_bindings(root, evidence_dir))
         blockers.extend(audit_evidence(evidence_dir))
     except (OSError, ValueError, TypeError, AttributeError, KeyError) as error:
         blockers.append({'type': 'scope_manifest_invalid', 'reason': str(error)})
@@ -233,6 +279,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--evidence-dir', type=pathlib.Path, default=ROOT / 'release-inputs')
     parser.add_argument('--output', type=pathlib.Path)
+    parser.add_argument('--content-only', action='store_true', help='Pre-build content gate; final artifact evidence is checked after signing')
     parser.add_argument('--mvp-scope', type=pathlib.Path,
                         help='Audit the versioned MVP scope; the default full audit is unchanged')
     args = parser.parse_args()
@@ -245,10 +292,13 @@ def main():
         for name in ('umre', 'hac'):
             data = json.loads((ROOT / f'assets/content/{name}_inventory.v1.json').read_text())
             blockers.extend(audit_catalog(data))
-        blockers.extend(audit_evidence(args.evidence_dir))
+        blockers.extend(audit_audio_integrity(ROOT))
+        blockers.extend(audit_review_bindings(ROOT, args.evidence_dir))
+        if not args.content_only:
+            blockers.extend(audit_evidence(args.evidence_dir))
     report = {'status': 'blocked' if blockers else 'inputs_checked',
               'note': 'Declared review fields and evidence hashes checked; independent human release acceptance still required.',
-              'audit': 'mvp_scope' if args.mvp_scope else 'full',
+              'audit': 'mvp_scope' if args.mvp_scope else ('content_only' if args.content_only else 'full'),
               'blockers': blockers}
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')

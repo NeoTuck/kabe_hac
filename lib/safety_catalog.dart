@@ -99,6 +99,14 @@ class SafetyContact {
   final DateTime verifiedAt;
   final SafetyReviewStatus status;
 
+  static const maximumContactAge = Duration(days: 180);
+  bool canDialAt(DateTime now) =>
+      (status == SafetyReviewStatus.approved ||
+          status == SafetyReviewStatus.sourceVerified) &&
+      phone != null &&
+      !verifiedAt.isAfter(now.toUtc()) &&
+      now.toUtc().difference(verifiedAt) <= maximumContactAge;
+
   factory SafetyContact.fromJson(Map<String, Object?> json) {
     final rawLanguages = json['languages'];
     if (rawLanguages is! List || rawLanguages.isEmpty) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'offline_package.dart';
 import 'package_catalog.dart';
+import 'package_failure.dart';
 
 String _packageTitle(String id) => switch (id) {
   'map-mecca' => 'Mekke çevrimdışı haritası',
@@ -16,11 +17,15 @@ class OfflinePackagesScreen extends StatefulWidget {
     required this.manager,
     this.provider,
     this.configurationError,
+    this.focusKind,
+    this.onOpen,
   });
 
   final OfflinePackageStore manager;
   final OfflinePackageProvider? provider;
   final String? configurationError;
+  final OfflinePackageKind? focusKind;
+  final Future<void> Function(OfflinePackageManifest)? onOpen;
 
   @override
   State<OfflinePackagesScreen> createState() => _OfflinePackagesScreenState();
@@ -32,6 +37,8 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
   String? _error;
   String? _catalogError;
   String? _busyPackageId;
+  final Map<String, OfflinePackageManifest> _verified = {};
+  final Map<String, String> _verificationErrors = {};
   bool _loading = false;
   bool _catalogLoading = false;
 
@@ -46,13 +53,31 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
     setState(() => _loading = true);
     try {
       final states = await widget.manager.listActivations();
+      final verified = <String, OfflinePackageManifest>{};
+      final errors = <String, String>{};
+      for (final state in states) {
+        try {
+          final manifest = await widget.manager.verifyActivePackage(
+            state.packageId,
+          );
+          if (manifest != null) verified[state.packageId] = manifest;
+        } catch (error) {
+          errors[state.packageId] = packageFailureMessage(error);
+        }
+      }
       if (!mounted) return;
       setState(() {
         _states = states;
+        _verified
+          ..clear()
+          ..addAll(verified);
+        _verificationErrors
+          ..clear()
+          ..addAll(errors);
         _error = null;
       });
-    } catch (_) {
-      if (mounted) setState(() => _error = 'Paket kayıtları okunamadı.');
+    } catch (error) {
+      if (mounted) setState(() => _error = packageFailureMessage(error));
       return;
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -69,10 +94,10 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
     try {
       final catalog = await provider.loadCatalog();
       if (mounted) setState(() => _catalog = catalog);
-    } catch (_) {
+    } catch (error) {
       if (mounted) {
         setState(() {
-          _catalogError = 'Paket kataloğu alınamadı veya güvenilir değil.';
+          _catalogError = packageFailureMessage(error);
         });
       }
     } finally {
@@ -106,8 +131,8 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
       if (confirmed != true || !mounted) return;
       await widget.manager.deletePackage(state.packageId);
       await _load(refreshCatalog: false);
-    } catch (_) {
-      if (mounted) setState(() => _error = 'Paket silinemedi.');
+    } catch (error) {
+      if (mounted) setState(() => _error = packageFailureMessage(error));
     } finally {
       if (mounted) setState(() => _busyPackageId = null);
     }
@@ -119,8 +144,8 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
       setState(() => _busyPackageId = state.packageId);
       await widget.manager.rollback(state.packageId);
       await _load(refreshCatalog: false);
-    } catch (_) {
-      if (mounted) setState(() => _error = 'Önceki paket sürümüne dönülemedi.');
+    } catch (error) {
+      if (mounted) setState(() => _error = packageFailureMessage(error));
     } finally {
       if (mounted) setState(() => _busyPackageId = null);
     }
@@ -137,19 +162,40 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
       await provider.downloadAndActivate(manifest);
       await _load(refreshCatalog: false);
       if (mounted) {
+        final verified =
+            _error == null &&
+            _verified[manifest.packageId]?.version == manifest.version;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${_packageTitle(manifest.packageId)} indirildi.'),
+            content: Text(
+              verified
+                  ? '${_packageTitle(manifest.packageId)} indirildi ve dosyaları doğrulandı. Açıp kontrol edebilirsin.'
+                  : '${_packageTitle(manifest.packageId)} indirme işlemi bitti; cihazdaki dosyalar henüz doğrulanmadı. Kurulu paket listesindeki durumu kontrol et.',
+            ),
           ),
         );
       }
-    } catch (_) {
+    } catch (error) {
       if (mounted) {
         setState(() {
-          _catalogError =
-              'Paket indirilemedi veya doğrulanamadı. Tekrar deneyebilirsin.';
+          _catalogError = packageFailureMessage(error);
         });
       }
+    } finally {
+      if (mounted) setState(() => _busyPackageId = null);
+    }
+  }
+
+  Future<void> _openPackage(String id) async {
+    if (_busyPackageId != null || _loading) return;
+    setState(() => _busyPackageId = id);
+    try {
+      final manifest = await widget.manager.verifyActivePackage(id);
+      if (manifest == null || !mounted) return;
+      await widget.onOpen!(manifest);
+      if (mounted) await _load(refreshCatalog: false);
+    } catch (error) {
+      if (mounted) setState(() => _error = packageFailureMessage(error));
     } finally {
       if (mounted) setState(() => _busyPackageId = null);
     }
@@ -175,7 +221,13 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
           Text(
             'Etkin sürüm: ${state.activeVersion}${state.previousVersion == null ? '' : '\nGeri dönüş: ${state.previousVersion}'}',
           ),
-          const Text('Çevrimdışı hazır · indirmeden yeniden açılabilir.'),
+          Text(
+            _verified.containsKey(state.packageId)
+                ? 'Cihazda kurulu · Dosyalar doğrulandı. Açılma ayrıca kontrol edilmelidir.'
+                : 'Kurulum kaydı var · Dosyalar henüz doğrulanmadı.',
+          ),
+          if (_verificationErrors[state.packageId] != null)
+            Text(_verificationErrors[state.packageId]!),
           const SizedBox(height: 8),
           if (_busyPackageId == state.packageId)
             const LinearProgressIndicator()
@@ -184,6 +236,15 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
               spacing: 8,
               runSpacing: 8,
               children: [
+                if (widget.onOpen != null &&
+                    _verified.containsKey(state.packageId))
+                  FilledButton.icon(
+                    onPressed: _busyPackageId != null || _loading
+                        ? null
+                        : () => _openPackage(state.packageId),
+                    icon: const Icon(Icons.open_in_new),
+                    label: const Text('Paketi aç'),
+                  ),
                 if (state.previousVersion != null)
                   OutlinedButton.icon(
                     onPressed: _busyPackageId != null || _loading
@@ -246,7 +307,9 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
                     : () => _download(manifest),
                 child: Text(
                   installed
-                      ? 'Doğrulandı'
+                      ? (_verified.containsKey(manifest.packageId)
+                            ? 'Dosyalar doğrulandı'
+                            : 'Cihazda kurulu')
                       : switch (manifest.packageId) {
                           'map-mecca' => 'Mekke haritasını indir',
                           'map-medina' => 'Medine haritasını indir',
@@ -264,6 +327,9 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
   @override
   Widget build(BuildContext context) {
     final states = _states;
+    final downloadable = _catalog
+        ?.where((m) => widget.focusKind == null || m.kind == widget.focusKind)
+        .toList();
     return Scaffold(
       appBar: AppBar(title: const Text('Çevrimdışı paketler')),
       body: SafeArea(
@@ -286,6 +352,15 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
                 _error!,
                 style: TextStyle(color: Theme.of(context).colorScheme.error),
               ),
+            ],
+            if (widget.focusKind != null) ...[
+              const SizedBox(height: 12),
+              Text(switch (widget.focusKind!) {
+                OfflinePackageKind.audio => 'Rehber ve izinli ses paketleri',
+                OfflinePackageKind.map => 'Harita paketleri',
+                OfflinePackageKind.travel => 'Yer kayıtları ve gezi paketleri',
+                OfflinePackageKind.language => 'Dil ve iletişim paketleri',
+              }),
             ],
             const SizedBox(height: 18),
             Text(
@@ -328,10 +403,13 @@ class _OfflinePackagesScreenState extends State<OfflinePackagesScreen> {
               ),
             ] else if (_catalog == null)
               const Center(child: CircularProgressIndicator())
-            else if (_catalog!.isEmpty)
-              const Text('Katalogda indirilebilir paket yok.')
+            else if (downloadable!.isEmpty)
+              const Text(
+                'Bu bölüm için indirilebilir paket henüz yok. Hazır olduğunda burada görünür; taslak sesler izinli yayın paketi sayılmaz.',
+              )
             else
-              for (final manifest in _catalog!) _downloadCard(manifest, states),
+              for (final manifest in downloadable)
+                _downloadCard(manifest, states),
             const SizedBox(height: 16),
             OutlinedButton.icon(
               onPressed: _busyPackageId != null || _loading || _catalogLoading
