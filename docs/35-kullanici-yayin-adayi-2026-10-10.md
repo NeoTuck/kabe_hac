@@ -22,4 +22,18 @@ Başlangıçta PR #1 açık/taslak `8cb9c79`, PR #2 açık/taslak `f39d107` idi.
 
 Normal üretim gate'i gerçek evidence dizini olmadan exit 2, açık teknik pilot exit 0 verdi. Full preflight **blocked/158**, içerik gate **blocked/145**, MVP kapsam **blocked/546**: taslak içerik, eksik kayıt, hak/gerçek servis/cihaz/imza girdileri bilerek engellenir. Bunlar geçen kullanıcı testinin yerine konmaz. Son fiziksel uçak modu, TalkBack/VoiceOver, ses kesintisi, gerçek FCM/APNs, Auth/RLS/moderasyon/silme ve dağıtım kabulü yapılmadı.
 
-Android yerel derleme sonucu ve son commit CI durumu aşağıya kaydedilir. Linux ortamında Xcode olmadığından yeni iOS derlemesi yerelde yapılmadı.
+Android yerel derleme sonucu ve son commit CI durumu aşağıda kaydedilmiştir. Linux ortamında Xcode olmadığından yeni iOS derlemesi yerelde yapılmadı.
+
+## Depo ve CI kaydı
+
+Uygulama kodu `a62806452a3474ca6f713c83bc8e1195e8444c93`, dosya ağacı `92d0399ee9fce0602974a9e394cb52df54bbe8f3`. Yerel ağacın 34 yeni/değişen blob'u ve altı değişmeden kopyalanmış çalışma dosyası GitHub nesneleriyle birebir eşleşti. Normal HTTPS Git gönderimi kimlik olmadığı için yapılamadı; yetkili GitHub bağlantısıyla commit oluşturulup `codex/mvp1-pilot` ref'i force kullanmadan ileri taşındı. PR #2 hedef dalına dahil olduğu için GitHub tarafından merged/closed gösteriliyor; PR #1 açık/taslak ve inceleme açıklaması güncel. `main` dalına birleştirme veya mağaza yayını yapılmadı. Yerel commit'ler yedek dalda korundu.
+
+Yeni [CI 38090825147](https://github.com/NeoTuck/kabe_hac/actions/runs/38090825147) ilk kontrolde **in_progress**, conclusion yok. Uzun native işler beklenmedi. Bu belgeye sonraki kanıt commit'i eklendiğinde aynı uygulama kodu için sonuç ayrıca incelenmelidir. Yeni koşu geçmeden önceki başarısız native UI sonucu kapatılmış sayılmaz.
+
+## Son yerel native kanıt
+
+Aynı uygulama koduyla Android debug APK derlemesi geçti (410,2 s): Flutter 3.47.6, JDK 21, Android SDK 36, NDK 28.2.13676358. İlk denemelerde Gradle proxy/distribution hazırlığı ve bir eklentinin ihtiyaç duyduğu Android 35 platformu eksikti; geçici SDK/cache düzeltildi ve gerçek derleme tekrarlandı. Bunlar uygulama assertion'ı atlama veya başarısız derlemeyi geçti sayma değildir. CMake 3.22.1 tamamlandı. Firebase Core'un gelecekteki built-in Kotlin geçiş uyarısı ve bağımlılıkların deprecation uyarıları var; derleme başarılı, lockfile/dependency sürümleri değiştirilmedi.
+
+APK **224.809.255 bayt**, SHA-256 `1b2564778817cf09a4fc09b60adae9ef057e1631ea63bc4e9889246f1fe1c561`. `aapt dump badging` compile/target **36**, minimum **28** doğruladı. `verify_production_assets.py` QA/teknik demo fixture'larının bu APK'da bulunmadığını doğruladı; araç adı üretim lisansı veya dinî kabul vermez. APK debug imzalı teknik inceleme eseridir; dağıtım anahtarı değildir. Yeni iOS derlemesi Linux'ta yapılmadı.
+
+55 katalog ses kimliğinin mevcut **54** dosyası yeniden SHA-256, tek AAC stream ve `ffmpeg -xerror -err_detect explode` tam decode kontrolünden geçti. `A-P-U02.2-AR-01` kayıt dosyası yoktur. Bu kontrol telaffuz, dinleme, insan kökeni veya kullanım hakkı onayı değildir; tüm taslak durumlar korunur. Yeni CI 38090825147 son kontrolde halen **in_progress**; QA/veritabanı işleri başarılı, native kabul sonucu yok. Son kanıt commit'i yalnız bu belge, AGENTS ve tek teslim listesini günceller; uygulama kodu a628064 ile aynıdır.
