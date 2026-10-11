@@ -129,8 +129,8 @@ class JustAudioNarrationService extends NarrationService {
       if (_disposed || id != _request) return;
       try {
         await action(id);
-      } catch (_) {
-        _error(id);
+      } catch (error, stack) {
+        _error(id, error, stack);
       }
     });
     _operation = run;
@@ -163,16 +163,23 @@ class JustAudioNarrationService extends NarrationService {
     }
   });
 
-  void _error(int id) {
-    if (id == _request) {
-      _publish(
-        NarrationState(
-          NarrationStatus.error,
-          asset: _state.asset,
-          message: 'Ses açılamadı. Dosyayı ve ses çıkışını kontrol edip yeniden dene.',
-        ),
+  void _error(int id, Object error, StackTrace stack) {
+    if (id != _request) return;
+    if (kDebugMode) {
+      debugPrint(
+        'NARRATION_NATIVE_ERROR request=$id asset=${_state.asset} '
+        '${error.runtimeType}: $error',
       );
+      debugPrint('NARRATION_NATIVE_STACK request=$id\n$stack');
     }
+    _publish(
+      NarrationState(
+        NarrationStatus.error,
+        asset: _state.asset,
+        message:
+            'Ses açılamadı. Dosyayı ve ses çıkışını kontrol edip yeniden dene.',
+      ),
+    );
   }
 
   @override
@@ -207,8 +214,8 @@ class JustAudioNarrationService extends NarrationService {
         }
         _publish(NarrationState(NarrationStatus.playing, asset: asset));
         _start(id);
-      } catch (_) {
-        _error(id);
+      } catch (error, stack) {
+        _error(id, error, stack);
       }
     });
     _operation = run;
@@ -216,7 +223,11 @@ class JustAudioNarrationService extends NarrationService {
   }
 
   void _start(int id) {
-    unawaited(_backend.play().catchError((Object _) => _error(id)));
+    unawaited(
+      _backend.play().catchError(
+        (Object error, StackTrace stack) => _error(id, error, stack),
+      ),
+    );
   }
 
   @override

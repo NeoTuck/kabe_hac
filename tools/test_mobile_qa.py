@@ -91,13 +91,23 @@ class NativeEnvironmentRegressionTests(unittest.TestCase):
         workflow = yaml.safe_load((ROOT / '.github/workflows/mvp-checks.yml').read_text())
         job = workflow['jobs']['android-ui']
         self.assertEqual(job['strategy']['matrix']['include'], [
-            {'api': 28, 'target': 'google_apis'},
-            {'api': 35, 'target': 'default'},
-            {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384},
+            {'api': 28, 'target': 'google_apis', 'page_size': 4096,
+             'qa_stage': 'full', 'ram_size': '2048M',
+             'artifact_name': 'android-ui-api-28'},
+            {'api': 35, 'target': 'default', 'page_size': 4096,
+             'qa_stage': 'full', 'ram_size': '2048M',
+             'artifact_name': 'android-ui-api-35'},
+            {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384,
+             'qa_stage': 'optimized-ui', 'ram_size': '4096M',
+             'artifact_name': 'android-ui-api-36-optimized-ui'},
+            {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384,
+             'qa_stage': 'debug-audio', 'ram_size': '4096M',
+             'artifact_name': 'android-ui-api-36-debug-audio'},
         ])
         runner = next(step for step in job['steps']
                       if step.get('uses') == 'reactivecircus/android-emulator-runner@v2')
         self.assertEqual(runner['with']['target'], '${{ matrix.target }}')
+        self.assertEqual(runner['with']['ram-size'], '${{ matrix.ram_size }}')
 
     def test_practice_relaunch_waits_for_restored_home_records(self):
         flow = commands('05-prova.yaml')

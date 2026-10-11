@@ -47,7 +47,7 @@ def inspect(bundle, jar, java, output):
               'production_assets_fixture_exclusion_checked': True,
               'signing_inputs': 'no_explicit_keystore',
               'store_signing_accepted': False, 'store_ready': False,
-              'note': 'Actual derived APK static check; runtime RELRO, final production signatures and store-generated split APKs require separate acceptance.'}
+              'note': 'Actual derived APK ELF LOAD/ZIP and static RELRO-end report; 16 KB runtime behavior, final production signatures and store-generated split APKs require separate acceptance.'}
     (output / 'bundle-audit.json').write_text(json.dumps(result, indent=2) + '\n')
     return result
 

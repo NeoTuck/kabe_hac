@@ -22,6 +22,17 @@ def elf(alignment=16384, address=0, kind=1, memory=120):
     return data
 
 
+def elf_with_relro(remainder):
+    data = bytearray(176)
+    data[:6] = b'\x7fELF\x02\x01'
+    struct.pack_into('<Q', data, 32, 64)
+    struct.pack_into('<HH', data, 54, 56, 2)
+    struct.pack_into('<IIQQQQQQ', data, 64, 1, 5, 0, 0, 0, 176, 176, 16384)
+    struct.pack_into('<IIQQQQQQ', data, 120, 0x6474E552, 4, 0, 0,
+                     0, 0, remainder, 1)
+    return data
+
+
 class AndroidBinaryTests(unittest.TestCase):
     def test_rejects_four_k_load_and_incongruent_load(self):
         for data in (elf(4096), elf(address=1), elf(memory=119), elf(kind=4), elf()[:100]):
@@ -45,6 +56,23 @@ class AndroidBinaryTests(unittest.TestCase):
             self.assertEqual(result['status'], 'static_load_zip_checked')
             self.assertEqual(result['libraries'][0]['zip_data_offset'], 16384)
             self.assertFalse(result['runtime_16kb_tested'])
+            self.assertFalse(result['store_ready'])
+
+    def test_relro_end_alignment_is_reported_separately_from_load_and_zip(self):
+        with tempfile.TemporaryDirectory() as directory:
+            apk = pathlib.Path(directory) / 'app.apk'
+            name = 'lib/arm64-v8a/libtest.so'
+            info = zipfile.ZipInfo(name)
+            padding = android.PAGE - 30 - len(name.encode())
+            info.extra = struct.pack('<HH', 0xCAFE, padding - 4) + bytes(padding - 4)
+            with zipfile.ZipFile(apk, 'w') as archive:
+                archive.writestr(info, elf_with_relro(4096))
+            result = android.audit(apk)
+            self.assertEqual(result['status'], 'static_load_zip_checked')
+            self.assertEqual(result['relro_status'], 'unaligned')
+            self.assertEqual(result['relro_blockers'], [
+                {'file': name, 'end_remainders': [4096]},
+            ])
             self.assertFalse(result['store_ready'])
 
     def test_duplicate_entries_fail_and_32bit_is_not_64bit_acceptance(self):

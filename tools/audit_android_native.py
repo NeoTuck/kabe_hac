@@ -39,7 +39,8 @@ def elf_segments(data):
 def audit(apk):
     apk = pathlib.Path(apk)
     report = {'file': apk.name, 'sha256': hashlib.sha256(apk.read_bytes()).hexdigest(),
-              'libraries': [], 'blockers': [], 'runtime_16kb_tested': False,
+              'libraries': [], 'blockers': [], 'relro_blockers': [],
+              'runtime_16kb_tested': False,
               'signing_verified': False, 'store_ready': False}
     with zipfile.ZipFile(apk) as archive, apk.open('rb') as raw:
         if len(archive.namelist()) != len(set(archive.namelist())):
@@ -68,13 +69,21 @@ def audit(apk):
                     (s['virtual_address'] + s['memory_bytes']) % PAGE
                     for s in item['segments'] if s['type'] == 0x6474E552]
                 item['relro_needs_runtime_review'] = any(item['relro_end_remainders'])
+                if item['relro_needs_runtime_review']:
+                    report['relro_blockers'].append({
+                        'file': entry.filename,
+                        'end_remainders': item['relro_end_remainders'],
+                    })
             except (ValueError, struct.error) as error:
                 report['blockers'].append({'file': entry.filename, 'reason': str(error)})
             report['libraries'].append(item)
     report['status'] = ('blocked' if report['blockers'] else
                         'static_load_zip_checked' if report['libraries'] else
                         'not_applicable_no_64bit_libraries')
-    report['note'] = 'Only ELF LOAD/ZIP checks; RELRO observations, runtime, AAB-derived APKs, signing and store review remain separate.'
+    report['relro_status'] = ('not_checked' if report['blockers'] else
+                              'unaligned' if report['relro_blockers'] else
+                              'aligned_or_absent')
+    report['note'] = 'ELF LOAD/ZIP and RELRO end alignment are separate; runtime, signing and store review still require acceptance.'
     return report
 
 
@@ -87,7 +96,9 @@ def main():
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(reports, indent=2) + '\n')
     print(json.dumps([{'file': r['file'], 'status': r['status'],
-                       'libraries': len(r['libraries']), 'blockers': len(r['blockers'])} for r in reports]))
+                       'relro_status': r['relro_status'],
+                       'libraries': len(r['libraries']), 'blockers': len(r['blockers']),
+                       'relro_blockers': len(r['relro_blockers'])} for r in reports]))
     return int(any(r['blockers'] for r in reports))
 
 

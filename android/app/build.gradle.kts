@@ -14,6 +14,22 @@ val hasProductionSigning = listOf("storeFile", "storePassword", "keyAlias", "key
     .all { !signingProperties.getProperty(it).isNullOrBlank() }
 val technicalPilot = System.getenv("KABE_TECHNICAL_PILOT") == "true"
 
+// Flutter plugins still request DataStore 1.1.7 and MapLibre OpenGL 13.5.0.
+// Resolve the app's compile/runtime graph to the reviewed native AAR versions
+// without changing the plugins' Dart package versions or their cached sources.
+configurations.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "androidx.datastore") {
+            useVersion("1.2.1")
+            because("Use the same DataStore release across its atomic artifact group for 16 KB native review")
+        }
+        if (requested.group == "org.maplibre.gl" && requested.name == "android-sdk-opengl") {
+            useVersion("13.5.3")
+            because("Use the reviewed OpenGL AAR for 16 KB native review")
+        }
+    }
+}
+
 val productionContentGate = tasks.register<Exec>("productionContentGate") {
     commandLine("sh", rootProject.file("../tools/production_build_gate.sh").absolutePath)
 }

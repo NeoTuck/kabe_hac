@@ -152,8 +152,8 @@ jobs:
           NODE_PATH: /tmp/kabe-pglite/node_modules
   android-ui:
     needs: [flutter, android-release-size]
-    # Keep API28/API35 regressions runnable when the independent optimized
-    # bundle job fails; the 16KB job still requires its actual artifact.
+    # Keep API28/API35 and 16KB debug audio independent of the optimized bundle
+    # result; the 16KB optimized UI matrix entry still requires its artifact.
     if: always() && needs.flutter.result == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
@@ -163,13 +163,31 @@ jobs:
         include:
           - api: 28
             target: google_apis
+            page_size: 4096
+            qa_stage: full
+            ram_size: 2048M
+            artifact_name: android-ui-api-28
           - api: 35
             target: default
+            page_size: 4096
+            qa_stage: full
+            ram_size: 2048M
+            artifact_name: android-ui-api-35
           - api: 36
             target: google_apis_ps16k
             page_size: 16384
+            qa_stage: optimized-ui
+            ram_size: 4096M
+            artifact_name: android-ui-api-36-optimized-ui
+          - api: 36
+            target: google_apis_ps16k
+            page_size: 16384
+            qa_stage: debug-audio
+            ram_size: 4096M
+            artifact_name: android-ui-api-36-debug-audio
     env:
-      EXPECTED_PAGE_SIZE: ${{ matrix.page_size || 4096 }}
+      EXPECTED_PAGE_SIZE: ${{ matrix.page_size }}
+      ANDROID_QA_STAGE: ${{ matrix.qa_stage }}
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -185,18 +203,22 @@ jobs:
           distribution: temurin
           java-version: '21'
       - uses: actions/download-artifact@v4
+        if: matrix.qa_stage != 'optimized-ui'
         with:
           name: android-debug-pilot
           path: build/app/outputs/flutter-apk
       - uses: actions/download-artifact@v4
-        if: matrix.page_size == 16384
+        if: matrix.qa_stage == 'optimized-ui'
         with:
           name: android-optimized-technical-pilot
           path: build/optimized-pilot
       - name: Select optimized 16KB runtime APK
-        if: matrix.page_size == 16384
-        run: cp build/optimized-pilot/app/outputs/flutter-apk/app-x86_64-release.apk build/app/outputs/flutter-apk/
+        if: matrix.qa_stage == 'optimized-ui'
+        run: |
+          mkdir -p build/app/outputs/flutter-apk
+          cp build/optimized-pilot/app/outputs/flutter-apk/app-x86_64-release.apk build/app/outputs/flutter-apk/
       - uses: actions/download-artifact@v4
+        if: matrix.qa_stage != 'optimized-ui'
         with:
           name: android-audio-qa-only
           path: build/audio-qa
@@ -216,6 +238,7 @@ jobs:
           arch: x86_64
           target: ${{ matrix.target }}
           profile: pixel_2
+          ram-size: ${{ matrix.ram_size }}
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: python tools/run_ci_android_qa.py
@@ -223,7 +246,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: android-ui-api-${{ matrix.api }}
+          name: ${{ matrix.artifact_name }}
           path: build/mobile-qa
           if-no-files-found: warn
   android-release-size:
@@ -247,7 +270,7 @@ jobs:
         env:
           KABE_TECHNICAL_PILOT: 'true'
       - run: python3 tools/verify_production_assets.py build/app/outputs/flutter-apk/app-*-release.apk
-      - name: Verify actual native ELF and APK 16KB alignment
+      - name: Verify ELF LOAD and APK ZIP 16KB alignment; report RELRO separately
         run: |
           python3 tools/audit_android_native.py build/app/outputs/flutter-apk/app-*-release.apk --output build/android-native-alignment.json
           for apk in build/app/outputs/flutter-apk/app-*-release.apk; do
