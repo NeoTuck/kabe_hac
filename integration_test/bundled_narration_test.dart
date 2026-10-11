@@ -106,6 +106,14 @@ void main() {
         ]);
         expect(service.state.asset, records.last.asset);
         expect(service.state.status, NarrationStatus.playing);
+        final pendingSeek = service.seek(const Duration(seconds: 20));
+        await tester.pump();
+        final pendingPause = service.pause();
+        final replacement = service.playAsset(records.first.asset!);
+        await Future.wait([pendingSeek, pendingPause, replacement]);
+        expect(service.state.asset, records.first.asset);
+        expect(service.state.status, NarrationStatus.playing);
+        expect(service.position, lessThan(const Duration(seconds: 1)));
         await service.stop();
       } finally {
         service.dispose();

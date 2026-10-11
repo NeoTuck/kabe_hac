@@ -41,6 +41,7 @@ class JustAudioNarrationService extends NarrationService {
   bool _listening = false;
   bool _disposed = false;
   int _request = 0;
+  int _interruptionEpoch = 0;
   double _speed = 1;
   Duration _position = Duration.zero;
   Duration? _duration;
@@ -76,7 +77,8 @@ class JustAudioNarrationService extends NarrationService {
     _listening = true;
     _subscriptions.add(
       _backend.interruptions.listen((_) {
-        if (_state.status == NarrationStatus.playing) unawaited(_interrupt());
+        ++_interruptionEpoch;
+        if (_state.asset != null) unawaited(_interrupt());
       }),
     );
     _subscriptions.add(
@@ -119,24 +121,47 @@ class JustAudioNarrationService extends NarrationService {
     );
   }
 
-  Future<void> _interrupt() async {
+  // Native commands share the load/stop queue: a delayed command for an old
+  // clip must finish before a replacement is loaded into the same player.
+  Future<void> _command(Future<void> Function(int id) action) {
     final id = _request;
-    try {
-      await _backend.pause();
-      if (id == _request && _state.status == NarrationStatus.playing) {
-        _publish(
-          NarrationState(
-            NarrationStatus.paused,
-            asset: _state.asset,
-            message:
-                'Ses kesinti nedeniyle duraklatıldı. Devam etmek için oynat.',
-          ),
-        );
+    final run = _operation.then((_) async {
+      if (_disposed || id != _request) return;
+      try {
+        await action(id);
+      } catch (_) {
+        _error(id);
       }
-    } catch (_) {
-      _error(id);
-    }
+    });
+    _operation = run;
+    return run;
   }
+
+  void _holdAfterInterruption() => _publish(
+    NarrationState(
+      NarrationStatus.paused,
+      asset: _state.asset,
+      message: 'Ses kesinti nedeniyle duraklatıldı. Devam etmek için oynat.',
+    ),
+  );
+
+  Future<void> _interrupt() => _command((id) async {
+    if (!const [
+      NarrationStatus.playing,
+      NarrationStatus.paused,
+    ].contains(_state.status)) {
+      return;
+    }
+    await _backend.pause();
+    if (!_disposed &&
+        id == _request &&
+        const [
+          NarrationStatus.playing,
+          NarrationStatus.paused,
+        ].contains(_state.status)) {
+      _holdAfterInterruption();
+    }
+  });
 
   void _error(int id) {
     if (id == _request) {
@@ -153,6 +178,7 @@ class JustAudioNarrationService extends NarrationService {
   @override
   Future<void> playAsset(String asset, {String? title}) {
     final id = ++_request;
+    final interruptionEpoch = _interruptionEpoch;
     _position = Duration.zero;
     _duration = null;
     _publish(NarrationState(NarrationStatus.loading, asset: asset));
@@ -162,6 +188,8 @@ class JustAudioNarrationService extends NarrationService {
         await initialize();
         if (_disposed || id != _request) return;
         await _backend.stop();
+        if (_disposed || id != _request) return;
+        _position = Duration.zero;
         final file = await resolvePackageAudio(asset, packages);
         if (_disposed || id != _request) return;
         await _backend
@@ -173,6 +201,10 @@ class JustAudioNarrationService extends NarrationService {
         }
         await _backend.setSpeed(_speed);
         if (_disposed || id != _request) return;
+        if (interruptionEpoch != _interruptionEpoch) {
+          _holdAfterInterruption();
+          return;
+        }
         _publish(NarrationState(NarrationStatus.playing, asset: asset));
         _start(id);
       } catch (_) {
@@ -188,60 +220,74 @@ class JustAudioNarrationService extends NarrationService {
   }
 
   @override
-  Future<void> pause() async {
+  Future<void> pause() => _command((id) async {
     if (_state.status != NarrationStatus.playing) return;
-    final id = _request;
-    try {
-      await _backend.pause();
-      if (id == _request && _state.status == NarrationStatus.playing) {
-        _publish(NarrationState(NarrationStatus.paused, asset: _state.asset));
-      }
-    } catch (_) {
-      _error(id);
+    await _backend.pause();
+    if (!_disposed &&
+        id == _request &&
+        _state.status == NarrationStatus.playing) {
+      _publish(NarrationState(NarrationStatus.paused, asset: _state.asset));
     }
-  }
+  });
 
   @override
-  Future<void> resume() async {
-    if (!const [
-      NarrationStatus.paused,
-      NarrationStatus.completed,
-    ].contains(_state.status)) {
-      return;
-    }
-    final id = _request;
-    try {
+  Future<void> resume() {
+    final interruptionEpoch = _interruptionEpoch;
+    return _command((id) async {
+      if (!const [
+            NarrationStatus.paused,
+            NarrationStatus.completed,
+          ].contains(_state.status) ||
+          interruptionEpoch != _interruptionEpoch) {
+        return;
+      }
       if (!await _backend.activate()) {
         throw StateError('Ses oturumu açılamadı.');
+      }
+      if (_disposed ||
+          id != _request ||
+          interruptionEpoch != _interruptionEpoch) {
+        return;
       }
       if (_state.status == NarrationStatus.completed) {
         await _backend.seek(Duration.zero);
       }
-      if (_disposed || id != _request) return;
+      if (_disposed ||
+          id != _request ||
+          interruptionEpoch != _interruptionEpoch) {
+        return;
+      }
       _publish(NarrationState(NarrationStatus.playing, asset: _state.asset));
       _start(id);
-    } catch (_) {
-      _error(id);
-    }
+    });
   }
 
   @override
-  Future<void> replay() async {
-    if (_state.asset == null || _state.status == NarrationStatus.loading) {
-      return;
-    }
-    final id = _request;
-    try {
+  Future<void> replay() {
+    final interruptionEpoch = _interruptionEpoch;
+    return _command((id) async {
+      if (_state.asset == null ||
+          _state.status == NarrationStatus.loading ||
+          interruptionEpoch != _interruptionEpoch) {
+        return;
+      }
       await _backend.seek(Duration.zero);
+      if (_disposed ||
+          id != _request ||
+          interruptionEpoch != _interruptionEpoch) {
+        return;
+      }
       if (!await _backend.activate()) {
         throw StateError('Ses oturumu açılamadı.');
       }
-      if (_disposed || id != _request) return;
+      if (_disposed ||
+          id != _request ||
+          interruptionEpoch != _interruptionEpoch) {
+        return;
+      }
       _publish(NarrationState(NarrationStatus.playing, asset: _state.asset));
       _start(id);
-    } catch (_) {
-      _error(id);
-    }
+    });
   }
 
   @override
@@ -258,7 +304,7 @@ class JustAudioNarrationService extends NarrationService {
   }
 
   @override
-  Future<void> seek(Duration value) async {
+  Future<void> seek(Duration value) => _command((id) async {
     final total = _duration;
     if (total == null ||
         _state.asset == null ||
@@ -268,26 +314,28 @@ class JustAudioNarrationService extends NarrationService {
     final bounded = Duration(
       milliseconds: value.inMilliseconds.clamp(0, total.inMilliseconds),
     );
-    final id = _request;
-    try {
-      await _backend.seek(bounded);
-      if (!_disposed && id == _request) {
-        _position = bounded;
-        notifyListeners();
-      }
-    } catch (_) {
-      _error(id);
+    await _backend.seek(bounded);
+    if (!_disposed && id == _request) {
+      _position = bounded;
+      notifyListeners();
     }
-  }
+  });
 
   @override
-  Future<void> setSpeed(double speed) async {
+  Future<void> setSpeed(double speed) {
     if (speed < 0.75 || speed > 1.5 || !speed.isFinite) {
-      throw ArgumentError.value(speed, 'speed');
+      return Future.error(ArgumentError.value(speed, 'speed'));
     }
-    if (_listening) await _backend.setSpeed(speed);
-    _speed = speed;
-    if (!_disposed) notifyListeners();
+    final run = _operation.then((_) async {
+      if (_disposed) return;
+      if (_listening) await _backend.setSpeed(speed);
+      if (_disposed) return;
+      _speed = speed;
+      notifyListeners();
+    });
+    // UI receives the failure; it must not poison subsequent player commands.
+    _operation = run.catchError((Object _) {});
+    return run;
   }
 
   @override

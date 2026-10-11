@@ -15,9 +15,9 @@ name: Rehberde sentetik taslak ses durumu
 - tapOn: "(?s)Öğrenme.*Başlıkları serbestçe incele.*"
 - assertVisible: "Umre · Öğrenme"
 - scrollUntilVisible:
-    element: "Kaldığım başlığa git"
+    element: "(?s).*Kullanım biçimi seçimi.*İçerik: Taslak.*"
     direction: DOWN
-- tapOn: "Kaldığım başlığa git"
+- tapOn: "(?s).*Kullanım biçimi seçimi.*İçerik: Taslak.*"
 - scrollUntilVisible:
     element: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
     direction: DOWN
@@ -49,3 +49,23 @@ name: Rehberde sentetik taslak ses durumu
 - tapOn: "Sesi durdur"
 - assertVisible: "Anlatımı dinle"
 - takeScreenshot: gercek-paketli-taslak-anlatim
+
+- tapOn: "Anlatımı dinle"
+- extendedWaitUntil:
+    visible: "Duraklat"
+    timeout: 15000
+- scrollUntilVisible:
+    element: "Sonraki başlık"
+    direction: DOWN
+- tapOn: "Sonraki başlık"
+- scrollUntilVisible:
+    element: "U01 · 2 / 18"
+    direction: UP
+- assertVisible: "U01 · 2 / 18"
+- assertVisible: "Hazırlık"
+- scrollUntilVisible:
+    element: "Anlatımı dinle"
+    direction: DOWN
+- assertVisible: "Anlatımı dinle"
+- assertNotVisible: "Sesi durdur"
+- takeScreenshot: adim-degisince-eski-anlatim-durur

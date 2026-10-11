@@ -14,6 +14,8 @@ class ControlledAudio extends NarrationBackend {
   final loaded = <String>[];
   Completer<void>? gate;
   Completer<void>? pauseGate;
+  Completer<void>? seekGate;
+  Completer<bool>? activationGate;
   bool active = true;
   bool failLoad = false;
   bool failSpeed = false;
@@ -39,7 +41,7 @@ class ControlledAudio extends NarrationBackend {
   }
 
   @override
-  Future<bool> activate() async => active;
+  Future<bool> activate() async => await activationGate?.future ?? active;
   @override
   Future<void> load(String reference, File? file, String title) async {
     loaded.add(reference);
@@ -69,6 +71,7 @@ class ControlledAudio extends NarrationBackend {
 
   @override
   Future<void> seek(Duration position) async {
+    await seekGate?.future;
     lastSeek = position;
   }
 
@@ -127,6 +130,77 @@ void main() {
     await pendingPause;
     expect(service.state.status, NarrationStatus.completed);
   });
+
+  test(
+    'an old pending seek finishes before the replacement clip loads',
+    () async {
+      await service.playAsset('one');
+      backend.seekGate = Completer<void>();
+      final seek = service.seek(const Duration(seconds: 40));
+      await tick();
+      final replacement = service.playAsset('two');
+      await tick();
+      expect(backend.loaded, ['one']);
+      backend.seekGate!.complete();
+      await Future.wait([seek, replacement]);
+      expect(backend.loaded, ['one', 'two']);
+      expect(service.state.asset, 'two');
+      expect(service.state.status, NarrationStatus.playing);
+      expect(service.position, Duration.zero);
+    },
+  );
+
+  test('an old pending pause cannot pause a newly loaded clip', () async {
+    await service.playAsset('one');
+    backend.pauseGate = Completer<void>();
+    final pause = service.pause();
+    await tick();
+    final replacement = service.playAsset('two');
+    await tick();
+    expect(backend.loaded, ['one']);
+    backend.pauseGate!.complete();
+    await Future.wait([pause, replacement]);
+    expect(service.state.asset, 'two');
+    expect(service.state.status, NarrationStatus.playing);
+  });
+
+  test(
+    'interruption cancels a pending resume until a new manual request',
+    () async {
+      await service.playAsset('one');
+      await service.pause();
+      backend.activationGate = Completer<bool>();
+      final resume = service.resume();
+      await tick();
+      backend.interrupted.add(null);
+      backend.activationGate!.complete(true);
+      await resume;
+      await tick();
+      expect(backend.plays, 1);
+      expect(service.state.status, NarrationStatus.paused);
+      expect(service.state.message, contains('kesinti'));
+      backend.activationGate = null;
+      await service.resume();
+      expect(backend.plays, 2);
+    },
+  );
+
+  test(
+    'interruption during loading never starts unsolicited playback',
+    () async {
+      backend.gate = Completer<void>();
+      final load = service.playAsset('one');
+      await tick();
+      backend.interrupted.add(null);
+      backend.gate!.complete();
+      await load;
+      await tick();
+      expect(backend.plays, 0);
+      expect(service.state.status, NarrationStatus.paused);
+      await service.resume();
+      expect(backend.plays, 1);
+    },
+  );
 
   test('speed stays lazy and is applied to first playback', () async {
     await service.setSpeed(1.25);

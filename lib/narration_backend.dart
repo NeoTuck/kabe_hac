@@ -46,7 +46,9 @@ class DeviceNarrationBackend extends NarrationBackend {
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
     _session = session;
-    _player = AudioPlayer();
+    // The service owns interruption/noisy handling and requires manual resume.
+    // just_audio's default transient-interruption handler auto-resumes on end.
+    _player = AudioPlayer(handleInterruptions: false);
     _interruption = session.interruptionEventStream.listen((event) {
       if (event.begin) _interruptions.add(null);
     });
