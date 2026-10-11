@@ -114,14 +114,26 @@ class _GroupScreenState extends State<GroupScreen> {
 
   Future<void> _action(Future<void> Function() action) async {
     if (_busy) return;
+    final user = widget.repository.userId;
     setState(() {
       _busy = true;
       _error = null;
     });
     try {
       await action();
-    } catch (_) {
-      if (mounted) {
+    } catch (error) {
+      if (!mounted || user != widget.repository.userId) return;
+      if (isServiceTermsError(error)) {
+        setState(() => _terms = null);
+        await _load();
+        if (mounted && user == widget.repository.userId) {
+          setState(
+            () => _error = _terms == null
+                ? 'Güncel koşullar alınamadı. Bağlantını kontrol edip Kafileleri yenile; işlemin gönderilmedi.'
+                : 'Kullanım koşulları değişti. Güncel sürümü okuyup kabul et, sonra işlemini yeniden dene.',
+          );
+        }
+      } else {
         setState(
           () => _error = 'İşlem tamamlanamadı. Kod, bağlantı veya erişim iznini kontrol et.',
         );
@@ -222,6 +234,7 @@ class _GroupScreenState extends State<GroupScreen> {
   @override
   Widget build(BuildContext context) {
     final repository = widget.repository;
+    final terms = _terms;
     return Scaffold(
       appBar: AppBar(title: const Text('Kafilem')),
       body: SafeArea(
@@ -303,7 +316,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 description: 'Kafile programını takip et, rehberine ulaş ve mesajlarını buradan yönet. Mesajların gönderilmesi internet gerektirir.',
               ),
               const SizedBox(height: 24),
-              if (_terms == null)
+              if (terms == null)
                 const Text(
                   'Güncel kullanım koşulları alınamadı. Bağlantını kontrol edip Kafileleri yenile. Kabul doğrulanmadan hizmet yazmaları kapalıdır.',
                 )
@@ -313,10 +326,10 @@ class _GroupScreenState extends State<GroupScreen> {
                   onPressed: () => showDialog<void>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: Text('Kullanım koşulları · ${_terms!.version}'),
+                      title: Text('Kullanım koşulları · ${terms.version}'),
                       content: SingleChildScrollView(
                         child: SelectableText(
-                          '${_terms!.body}\n\n${_terms!.documentUrl}',
+                          '${terms.body}\n\n${terms.documentUrl}',
                         ),
                       ),
                       actions: [

@@ -9,6 +9,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'group_sync.dart';
 import 'progress_store.dart';
 
+bool isServiceTermsError(Object error) =>
+    error is PostgrestException &&
+    error.code == '42501' &&
+    const {
+      'current service terms acceptance required',
+      'terms changed; read current version',
+    }.contains(error.message);
+
 bool validGroupId(String id) => RegExp(
   r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
 ).hasMatch(id);
@@ -658,7 +666,7 @@ class GroupOutboxSynchronizer {
         await store.markGroupMessageAttempt(
           clientId: message.clientId,
           status: MessageOutboxStatus.failed,
-          error: error is PostgrestException && error.message.contains('terms')
+          error: isServiceTermsError(error)
               ? 'Güncel kullanım koşullarını Kafilem ekranında okuyup kabul et; sonra mesajı yeniden gönder.'
               : 'Gönderilemedi; bağlantı ve grup erişimini kontrol et.',
         );
