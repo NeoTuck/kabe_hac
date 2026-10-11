@@ -105,3 +105,7 @@ hash'li kayıt: [QA JSON](qa/2026-10-11-yayin-arastirma-kaniti.json).
 
 Mağaza gönderimi, main merge veya gerçek canlı kabul yapılmadı. Araştırma ve test
 başarısı içerik/hak/operasyon kararının yerine geçmez.
+
+## 11 Ekim Kafile/AAB devam güncellemesi
+
+[docs/40](40-kafile-filtre-ve-aab-devam-2026-10-11.md) son teknik teslimdir: sürümlü sunucu preposting filtresi, kalıcı rejected outbox/SQLite10 ve anlaşılır kaldırma akışı, gerçek AAB-derived APK hizalama denetimi uygulandı. Son238Flutter/82Python/137pgTAP/45SQL/13Node,format/analyze geçti. Baseline2a358c4 Android35 ve iOS18.5 dokuz uygulama +54 anlatım +probe geçti; API28 getconf ve16KB adbd setup hataları ölçüm/UID readback korunarak düzeltildi. Son native/iki yeni gerçek PostgreSQL yarışı açık; eski eksik preposting/AAB ifadeleri tarihsel durumdur.

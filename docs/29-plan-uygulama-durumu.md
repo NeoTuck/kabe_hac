@@ -50,3 +50,7 @@ a569f18 CI Android 7/9 ve 5/9 başarısız; iki iOS cancelled. Yanlış katalog 
 ## 11 Ekim yayın araştırması ve son native kanıt
 
 [docs/39](39-yayin-arastirmasi-ve-paket-kontrolleri-2026-10-11.md) bu tarihli son durumdur. Baseline62f3a41 AndroidAPI28/API35 dokuz ekran ve54 gerçek paketli anlatımı geçti. İki iOS turu sekiz ekran/54 anlatım ile hız düğmesindeki tooltip birleşmesini gösterdi; düzeltme ve eski kodda kırmızı regresyon tamamlandı. Son234Flutter/75Python/format/analyze geçti. Yeni16KB/manifest/AAB CI kabulü açık; genel yayın, içerik/hak/canlı hizmet/cihaz/imza kabulü verilmedi. Önceki CI bekleme kayıtları tarihsel durumdur.
+
+## 11 Ekim Kafile/AAB devam güncellemesi
+
+[docs/40](40-kafile-filtre-ve-aab-devam-2026-10-11.md) son teknik teslimdir: sürümlü sunucu preposting filtresi, kalıcı rejected outbox/SQLite10 ve anlaşılır kaldırma akışı, gerçek AAB-derived APK hizalama denetimi uygulandı. Son238Flutter/82Python/137pgTAP/45SQL/13Node,format/analyze geçti. Baseline2a358c4 Android35 ve iOS18.5 dokuz uygulama +54 anlatım +probe geçti; API28 getconf ve16KB adbd setup hataları ölçüm/UID readback korunarak düzeltildi. Son native/iki yeni gerçek PostgreSQL yarışı açık; eski eksik preposting/AAB ifadeleri tarihsel durumdur.

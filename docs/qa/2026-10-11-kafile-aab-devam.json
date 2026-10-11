@@ -1,0 +1,1481 @@
+{
+  "date": "2026-10-11",
+  "baselineHead": "2a358c4dfb82050da50fd2d94c0b2395ad1a5885",
+  "baselineRun": 38130152986,
+  "baselineMerge": "20ff8162abd07e4c9b4b6abac198ec994a5b1cdd",
+  "physicalDeviceTested": false,
+  "liveServiceAccepted": false,
+  "storeReady": false,
+  "local": {
+    "flutter": 238,
+    "python": 82,
+    "pgTAP": 137,
+    "serverSQL": 45,
+    "node": 13,
+    "formatFiles": 92,
+    "formatChanged": 0,
+    "analyzeIssues": 0,
+    "newPostgreSQLRaceTestsExecuted": false,
+    "androidBuild": "blocked_kotlin_dsl_6.4.2_plugin_resolution",
+    "fullPreflight": 158,
+    "mvpPreflight": 546
+  },
+  "bundle": {
+    "bundle_sha256": "6a0e174eed727cc39a85559644f07da8800cf5396c148129c88311c233a2a4d3",
+    "bundletool_version": "1.18.3",
+    "bundletool_sha256": "a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29",
+    "bundle_config": {
+      "bundletool": {
+        "version": "1.18.3"
+      },
+      "optimizations": {
+        "splitsConfig": {},
+        "uncompressNativeLibraries": {
+          "enabled": true,
+          "alignment": "PAGE_ALIGNMENT_16K"
+        },
+        "storeArchive": {
+          "enabled": true
+        }
+      },
+      "compression": {
+        "uncompressedGlob": [
+          "**.3[gG]2",
+          "**.3[gG][pP]",
+          "**.3[gG][pP][pP]",
+          "**.3[gG][pP][pP]2",
+          "**.[aA][aA][cC]",
+          "**.[aA][mM][rR]",
+          "**.[aA][wW][bB]",
+          "**.[gG][iI][fF]",
+          "**.[iI][mM][yY]",
+          "**.[jJ][eE][tT]",
+          "**.[jJ][pP][eE][gG]",
+          "**.[jJ][pP][gG]",
+          "**.[mM]4[aA]",
+          "**.[mM]4[vV]",
+          "**.[mM][iI][dD]",
+          "**.[mM][iI][dD][iI]",
+          "**.[mM][kK][vV]",
+          "**.[mM][pP]2",
+          "**.[mM][pP]3",
+          "**.[mM][pP]4",
+          "**.[mM][pP][eE][gG]",
+          "**.[mM][pP][gG]",
+          "**.[oO][gG][gG]",
+          "**.[oO][pP][uU][sS]",
+          "**.[pP][nN][gG]",
+          "**.[rR][tT][tT][tT][lL]",
+          "**.[sS][mM][fF]",
+          "**.[tT][fF][lL][iI][tT][eE]",
+          "**.[wW][aA][vV]",
+          "**.[wW][eE][bB][mM]",
+          "**.[wW][eE][bB][pP]",
+          "**.[wW][mM][aA]",
+          "**.[wW][mM][vV]",
+          "**.[xX][mM][fF]"
+        ]
+      }
+    },
+    "derived_apk": {
+      "file": "universal.apk",
+      "sha256": "e1d162c0f01200d67124c2dff3553bb7866f8674e1486fb03e6910e169bffb88",
+      "libraries": [
+        {
+          "name": "lib/arm64-v8a/libapp.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 392,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 4,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 3202685,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 3211264,
+              "virtual_address": 3211264,
+              "memory_bytes": 5059088,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 8323072,
+              "virtual_address": 8323072,
+              "memory_bytes": 104,
+              "alignment": 65536
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 456,
+              "virtual_address": 456,
+              "memory_bytes": 32,
+              "alignment": 4
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 8323072,
+              "virtual_address": 8323072,
+              "memory_bytes": 96,
+              "alignment": 8
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 1
+            }
+          ],
+          "zip_data_offset": 10715136,
+          "relro_end_remainders": [],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/arm64-v8a/libdartjni.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 125968,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 125968,
+              "virtual_address": 142352,
+              "memory_bytes": 5104,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 127344,
+              "virtual_address": 160112,
+              "memory_bytes": 2424,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 126024,
+              "virtual_address": 142408,
+              "memory_bytes": 432,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 125968,
+              "virtual_address": 142352,
+              "memory_bytes": 5104,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 32808,
+              "virtual_address": 32808,
+              "memory_bytes": 2124,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 19054592,
+          "relro_end_remainders": [
+            0
+          ],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/arm64-v8a/libdatastore_shared_counter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 4544,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 4544,
+              "virtual_address": 20928,
+              "memory_bytes": 616,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 5160,
+              "virtual_address": 37928,
+              "memory_bytes": 1,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 4576,
+              "virtual_address": 20960,
+              "memory_bytes": 448,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 4544,
+              "virtual_address": 20928,
+              "memory_bytes": 3648,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 2728,
+              "virtual_address": 2728,
+              "memory_bytes": 140,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 19202048,
+          "relro_end_remainders": [
+            8192
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/arm64-v8a/libflutter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 11370224,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 11370224,
+              "virtual_address": 11435760,
+              "memory_bytes": 373008,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 11739624,
+              "virtual_address": 11870696,
+              "memory_bytes": 67576,
+              "alignment": 65536
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 11735008,
+              "virtual_address": 11800544,
+              "memory_bytes": 512,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 11370224,
+              "virtual_address": 11435760,
+              "memory_bytes": 373008,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 3494096,
+              "virtual_address": 3494096,
+              "memory_bytes": 359196,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 19218432,
+          "relro_end_remainders": [
+            12288
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/arm64-v8a/libmaplibre.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 10581344,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 10581344,
+              "virtual_address": 10597728,
+              "memory_bytes": 252576,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 10833704,
+              "virtual_address": 10866472,
+              "memory_bytes": 64864,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 10774312,
+              "virtual_address": 10790696,
+              "memory_bytes": 528,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 10581344,
+              "virtual_address": 10597728,
+              "memory_bytes": 252576,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 4034456,
+              "virtual_address": 4034456,
+              "memory_bytes": 234668,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 30982144,
+          "relro_end_remainders": [
+            4096
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/x86_64/libapp.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 392,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 4,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 3199709,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 3211264,
+              "virtual_address": 3211264,
+              "memory_bytes": 5307696,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 8519680,
+              "virtual_address": 8519680,
+              "memory_bytes": 104,
+              "alignment": 65536
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 456,
+              "virtual_address": 456,
+              "memory_bytes": 32,
+              "alignment": 4
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 8519680,
+              "virtual_address": 8519680,
+              "memory_bytes": 96,
+              "alignment": 8
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 1
+            }
+          ],
+          "zip_data_offset": 67665920,
+          "relro_end_remainders": [],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/x86_64/libdartjni.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 111360,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 111360,
+              "virtual_address": 127744,
+              "memory_bytes": 3328,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 112736,
+              "virtual_address": 145504,
+              "memory_bytes": 2420,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 111416,
+              "virtual_address": 127800,
+              "memory_bytes": 432,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 111360,
+              "virtual_address": 127744,
+              "memory_bytes": 3328,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 32808,
+              "virtual_address": 32808,
+              "memory_bytes": 2124,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 76201984,
+          "relro_end_remainders": [
+            0
+          ],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/x86_64/libdatastore_shared_counter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 3872,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 3872,
+              "virtual_address": 20256,
+              "memory_bytes": 552,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 3896,
+              "virtual_address": 20280,
+              "memory_bytes": 416,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 3872,
+              "virtual_address": 20256,
+              "memory_bytes": 4320,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 2476,
+              "virtual_address": 2476,
+              "memory_bytes": 124,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 152,
+              "alignment": 2
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 720,
+              "virtual_address": 720,
+              "memory_bytes": 36,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 76333056,
+          "relro_end_remainders": [
+            8192
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/x86_64/libflutter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 12676720,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 12676720,
+              "virtual_address": 12742256,
+              "memory_bytes": 364944,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 13038784,
+              "virtual_address": 13169856,
+              "memory_bytes": 73456,
+              "alignment": 65536
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 13034152,
+              "virtual_address": 13099688,
+              "memory_bytes": 512,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 12676720,
+              "virtual_address": 12742256,
+              "memory_bytes": 364944,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 3545920,
+              "virtual_address": 3545920,
+              "memory_bytes": 225796,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 76349440,
+          "relro_end_remainders": [
+            0
+          ],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/x86_64/libmaplibre.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 10942384,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 10942384,
+              "virtual_address": 10958768,
+              "memory_bytes": 256080,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 11194480,
+              "virtual_address": 11227248,
+              "memory_bytes": 64953,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 11135560,
+              "virtual_address": 11151944,
+              "memory_bytes": 528,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 10942384,
+              "virtual_address": 10958768,
+              "memory_bytes": 256080,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 4013512,
+              "virtual_address": 4013512,
+              "memory_bytes": 157316,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 89407488,
+          "relro_end_remainders": [
+            8192
+          ],
+          "relro_needs_runtime_review": true
+        }
+      ],
+      "blockers": [],
+      "runtime_16kb_tested": false,
+      "signing_verified": false,
+      "store_ready": false,
+      "status": "static_load_zip_checked",
+      "note": "Only ELF LOAD/ZIP checks; RELRO observations, runtime, AAB-derived APKs, signing and store review remain separate."
+    },
+    "production_assets_fixture_exclusion_checked": true,
+    "signing_inputs": "no_explicit_keystore",
+    "store_signing_accepted": false,
+    "store_ready": false,
+    "note": "Actual derived APK static check; runtime RELRO, final production signatures and store-generated split APKs require separate acceptance."
+  },
+  "bundleArtifact": {
+    "id": 11697949156,
+    "zipSha256": "986dfe4b2e4c10898a21275218a75aa3a252e13eab903a7a1c9f0e6c67386bea"
+  },
+  "native": [
+    {
+      "platform": "api35",
+      "artifactId": 11699725552,
+      "artifactZipSha256": "25420dd8bbb812080e32c1c7773dc92d76917dae36ebeec4e909efb987476cf7",
+      "applicationCasesPassed": 9,
+      "technicalProbeCasesPassed": 1,
+      "bundledNarrationsPassed": 54,
+      "nativeStageLogs": [
+        {
+          "name": "production-install",
+          "command": [
+            "adb",
+            "-s",
+            "emulator-5554",
+            "install",
+            "/home/runner/work/kabe_hac/kabe_hac/build/app/outputs/flutter-apk/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "application-ui",
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python",
+            "/home/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "android",
+            "--device",
+            "emulator-5554",
+            "--test-device",
+            "--flow",
+            "all",
+            "--expected-apk",
+            "/home/runner/work/kabe_hac/kabe_hac/build/app/outputs/flutter-apk/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "bundled-narration-native",
+          "command": [
+            "flutter",
+            "test",
+            "integration_test/bundled_narration_test.dart",
+            "-d",
+            "emulator-5554",
+            "--reporter",
+            "expanded"
+          ],
+          "device": "emulator-5554",
+          "production_assets": true,
+          "technical_probe": false,
+          "physical_device_tested": false,
+          "exit_code": 0
+        },
+        {
+          "name": "probe-install",
+          "command": [
+            "adb",
+            "-s",
+            "emulator-5554",
+            "install",
+            "-r",
+            "/home/runner/work/kabe_hac/kabe_hac/build/audio-qa/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "technical-audio-probe",
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python",
+            "/home/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "android",
+            "--device",
+            "emulator-5554",
+            "--test-device",
+            "--flow",
+            "audio",
+            "--expected-apk",
+            "/home/runner/work/kabe_hac/kabe_hac/build/audio-qa/app-debug.apk"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "sessions": [
+        {
+          "workspaceCommit": "20ff8162abd07e4c9b4b6abac198ec994a5b1cdd",
+          "status": "passed",
+          "installedHash": "43e63ac9ba3330c7a1e966697b40bb9e921876d2f6cdc927ff8785d36c2018b4",
+          "expectedHash": "43e63ac9ba3330c7a1e966697b40bb9e921876d2f6cdc927ff8785d36c2018b4",
+          "cases": 9
+        },
+        {
+          "workspaceCommit": "20ff8162abd07e4c9b4b6abac198ec994a5b1cdd",
+          "status": "passed",
+          "installedHash": "e72d5032f1b57b6469dbb0ebd1ba2796b55a3eb0e11b7fcb40d23fd7a4038515",
+          "expectedHash": "e72d5032f1b57b6469dbb0ebd1ba2796b55a3eb0e11b7fcb40d23fd7a4038515",
+          "cases": 1
+        }
+      ],
+      "bundledNarrationLogSha256": "271d84cd4b2ea6c32dbed2be551075b116e3b25c90ddcefda8d526e26202f4ee"
+    },
+    {
+      "platform": "ios18",
+      "artifactId": 11699241780,
+      "artifactZipSha256": "abb0d6ad2f4607d4dc4f1c09a170174eae443b9c1c7c2891a15bb40b6c547f25",
+      "applicationCasesPassed": 9,
+      "technicalProbeCasesPassed": 1,
+      "bundledNarrationsPassed": 54,
+      "nativeStageLogs": [
+        {
+          "name": "application-ui",
+          "command": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/Users/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "ios-simulator",
+            "--device",
+            "9FBCEA65-6338-4E04-807C-D54239F69308",
+            "--app-id",
+            "com.mustafasenoglu.hacUmreSesliRehber",
+            "--test-device",
+            "--flow",
+            "all"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "bundled-narration-native",
+          "command": [
+            "flutter",
+            "test",
+            "integration_test/bundled_narration_test.dart",
+            "-d",
+            "9FBCEA65-6338-4E04-807C-D54239F69308",
+            "--reporter",
+            "expanded"
+          ],
+          "device": "9FBCEA65-6338-4E04-807C-D54239F69308",
+          "production_assets": true,
+          "technical_probe": false,
+          "physical_iphone_tested": false,
+          "exit_code": 0
+        },
+        {
+          "name": "probe-install",
+          "command": [
+            "xcrun",
+            "simctl",
+            "install",
+            "9FBCEA65-6338-4E04-807C-D54239F69308",
+            "/Users/runner/work/kabe_hac/kabe_hac/build/audio-qa/Runner.app"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "technical-audio-probe",
+          "command": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/Users/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "ios-simulator",
+            "--device",
+            "9FBCEA65-6338-4E04-807C-D54239F69308",
+            "--app-id",
+            "com.mustafasenoglu.hacUmreSesliRehber",
+            "--test-device",
+            "--flow",
+            "audio"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "sessions": [
+        {
+          "workspaceCommit": "20ff8162abd07e4c9b4b6abac198ec994a5b1cdd",
+          "status": "passed",
+          "installedHash": null,
+          "expectedHash": null,
+          "cases": 1
+        },
+        {
+          "workspaceCommit": "20ff8162abd07e4c9b4b6abac198ec994a5b1cdd",
+          "status": "passed",
+          "installedHash": null,
+          "expectedHash": null,
+          "cases": 9
+        }
+      ],
+      "bundledNarrationLogSha256": "c89537171ce16e5ff935dc8b120786be257f78530e5e11c9f316da3bb4df0b87",
+      "packagedPrivacyManifestAudit": {
+        "bundle_id": "com.mustafasenoglu.hacUmreSesliRehber",
+        "version": "0.1.0",
+        "build": "1",
+        "sdk_name": "iphoneos18.5",
+        "manifests": [
+          {
+            "path": "Firebase_FirebaseCore.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "11e31f5f6b60e80ebd5901549fce5043f9af3e683f874022945000b405306c3f",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "CA92.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "Firebase_FirebaseCoreInternal.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "5b7fe979423dede3e08afc29a42f00f6086275dc548a84c29774235863eed3ef",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "1C8F.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "Firebase_FirebaseInstallations.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "cfbb3c4f76a66d53698bae91f7110c00f2148e6e6f13ad7d32592909bc010e51",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [
+                {
+                  "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeOtherDiagnosticData",
+                  "NSPrivacyCollectedDataTypeLinked": false,
+                  "NSPrivacyCollectedDataTypeTracking": false,
+                  "NSPrivacyCollectedDataTypePurposes": [
+                    "NSPrivacyCollectedDataTypePurposeAnalytics"
+                  ]
+                }
+              ],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "Firebase_FirebaseMessaging.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "98762096372ac27f5e888c7372d512f0d3f5cf3283c64006070f4cde1a72a071",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [
+                {
+                  "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeDeviceID",
+                  "NSPrivacyCollectedDataTypeLinked": false,
+                  "NSPrivacyCollectedDataTypeTracking": false,
+                  "NSPrivacyCollectedDataTypePurposes": [
+                    "NSPrivacyCollectedDataTypePurposeAppFunctionality"
+                  ]
+                },
+                {
+                  "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeOtherDataTypes",
+                  "NSPrivacyCollectedDataTypeLinked": false,
+                  "NSPrivacyCollectedDataTypeTracking": false,
+                  "NSPrivacyCollectedDataTypePurposes": [
+                    "NSPrivacyCollectedDataTypePurposeAnalytics"
+                  ]
+                },
+                {
+                  "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeOtherDiagnosticData",
+                  "NSPrivacyCollectedDataTypeLinked": false,
+                  "NSPrivacyCollectedDataTypeTracking": false,
+                  "NSPrivacyCollectedDataTypePurposes": [
+                    "NSPrivacyCollectedDataTypePurposeAppFunctionality"
+                  ]
+                }
+              ],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "Frameworks/Flutter.framework/PrivacyInfo.xcprivacy",
+            "sha256": "9f95d7e7862a4b56b66ed926bd6d622d2a6545a827d19847278b438d571d4212",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "0A2A.1",
+                    "C617.1"
+                  ]
+                },
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "35F9.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "Frameworks/MapLibre.framework/PrivacyInfo.xcprivacy",
+            "sha256": "18497e8537624746cce3326a2635241e8257035e9c8bb45c0fb90a8de57aed1e",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "C617.1"
+                  ]
+                },
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "35F9.1"
+                  ]
+                },
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "CA92.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "GoogleDataTransport_GoogleDataTransport.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "cfbb3c4f76a66d53698bae91f7110c00f2148e6e6f13ad7d32592909bc010e51",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [
+                {
+                  "NSPrivacyCollectedDataType": "NSPrivacyCollectedDataTypeOtherDiagnosticData",
+                  "NSPrivacyCollectedDataTypeLinked": false,
+                  "NSPrivacyCollectedDataTypeTracking": false,
+                  "NSPrivacyCollectedDataTypePurposes": [
+                    "NSPrivacyCollectedDataTypePurposeAnalytics"
+                  ]
+                }
+              ],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-AppDelegateSwizzler.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "1377eccedff8f8320f78040e9c9d3e17ecc0ea569594b56af0ef17be44197c7a",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-Environment.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "b08273d687379394792f71c94c1083616a04af8afaa396d8058980f444cfb3d4",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "C56D.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-Logger.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "1377eccedff8f8320f78040e9c9d3e17ecc0ea569594b56af0ef17be44197c7a",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-NSData.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "1377eccedff8f8320f78040e9c9d3e17ecc0ea569594b56af0ef17be44197c7a",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-Network.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "0ac00a0b7eff0079dce252e29ab41d71cf58c6c94fe4e44ea110cef5c62970e1",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "C617.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-Reachability.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "1377eccedff8f8320f78040e9c9d3e17ecc0ea569594b56af0ef17be44197c7a",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": []
+            }
+          },
+          {
+            "path": "GoogleUtilities_GoogleUtilities-UserDefaults.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "fac507c510aba7884e805fb5feff1a8a8d0c7f42c01d174f927a2bdfaa7130b4",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "1C8F.1",
+                    "C56D.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "Promises_FBLPromises.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "74b0cd72fc23c1ef302f22ee2753f61817cdc5af0ff7a7f2d0632b524fb8acea",
+            "declarations": {
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": []
+            }
+          },
+          {
+            "path": "app_links_app_links.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "df01bf8f311b7b350d01d55afe5059ead9ba2b0069c5421e69d9b405f7cabea2",
+            "declarations": {
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false
+            }
+          },
+          {
+            "path": "firebase_messaging_firebase_messaging.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "a0adcd321efe21cebe0f0f8538018335089bb56451c882a737a08df7234fc6bb",
+            "declarations": {
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "CA92.1"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "geolocator_apple_geolocator_apple.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "a7e73ec4e14dfe962be5b1649d41ffcb4d581846fcf8925c8736ed27ad267532",
+            "declarations": {
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false
+            }
+          },
+          {
+            "path": "nanopb_nanopb.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "729ba3cbd0f458c78cd61edf17350edafe0e34ca86e314ec64c8cb22ccd21b54",
+            "declarations": {
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false,
+              "NSPrivacyTrackingDomains": []
+            }
+          },
+          {
+            "path": "package_info_plus_package_info_plus.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+            "declarations": {
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false
+            }
+          },
+          {
+            "path": "shared_preferences_foundation_shared_preferences_foundation.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "056428b938bd57018a60019d15c3c1ee2fa727f23687598bbbd934848b180b1a",
+            "declarations": {
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyAccessedAPITypes": [
+                {
+                  "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                  "NSPrivacyAccessedAPITypeReasons": [
+                    "1C8F.1"
+                  ]
+                }
+              ],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false
+            }
+          },
+          {
+            "path": "sqflite_darwin_sqflite_darwin.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "47226a29608df206ad0a110e6afeb5a77ff575ac1df9c76bfdb2d6dfb3fafed1",
+            "declarations": {
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false
+            }
+          },
+          {
+            "path": "url_launcher_ios_url_launcher_ios.bundle/PrivacyInfo.xcprivacy",
+            "sha256": "6d2da0d8d930227d428c1d9363b0ad6e3a12e2c9b68c5ce297158a7412fc8c31",
+            "declarations": {
+              "NSPrivacyTrackingDomains": [],
+              "NSPrivacyAccessedAPITypes": [],
+              "NSPrivacyCollectedDataTypes": [],
+              "NSPrivacyTracking": false
+            }
+          }
+        ],
+        "blockers": [],
+        "sdk_coverage_accepted": false,
+        "app_privacy_declaration_accepted": false,
+        "sdk_signatures_verified": false,
+        "store_ready": false,
+        "app_manifest_present": false,
+        "status": "packaged_manifest_inventory_checked",
+        "note": "Structure/hash inventory only. Match every SDK and reason to actual APIs/data use; App Store declarations and SDK signatures require separate review."
+      }
+    }
+  ],
+  "setupFailures": {
+    "api28": "getconf missing exit127 before UI; new measured smaps fallback",
+    "api36": {
+      "pageSize": {
+        "command": [
+          "adb",
+          "-s",
+          "emulator-5554",
+          "shell",
+          "getconf",
+          "PAGE_SIZE"
+        ],
+        "expected": 16384,
+        "observed": 16384,
+        "passed": true,
+        "physical_device_tested": false
+      },
+      "rootFailure": "adbd transport closed; no UI acceptance; bounded verified-UID0 setup added"
+    }
+  },
+  "newNativeAcceptance": "pending_new_ci"
+}

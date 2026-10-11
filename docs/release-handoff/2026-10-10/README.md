@@ -59,3 +59,5 @@ Konsol adımları hesap ve nihai sürüm geldiğinde yeniden kontrol edilir. Bu 
 ## 11 Ekim yayın araştırması güncellemesi
 
 Güncel kod/CI, resmî mağaza gerekleri ve kalan teknik işler [docs/39](../../39-yayin-arastirmasi-ve-paket-kontrolleri-2026-10-11.md) içinde. Mağaza metni [metadata.tr-TR.json](../../store-draft/metadata.tr-TR.json) taslağıdır; null alanlar gerçek hesap/politika sahibi tarafından tamamlanır. İlk Umre dilimi tam kataloğun yayın kabulü değildir. Hesap silme web yolu uygulama kaldırıldığında da çalışmalı; yaş/ülke/DSA/veri formları ve signed binary/screenshots gerçek teslim gerektirir.
+
+11 Ekim devamı: [gerçek moderasyon politikası teslimi](MODERATION_POLICY.md) ve [docs/40](../../40-kafile-filtre-ve-aab-devam-2026-10-11.md) eklendi. Filtre ve AAB türev hattı teknik olarak hazır; gerçek kurallar/operasyon/hak/canlı servis/cihaz/imza kabulü üretilmedi.
