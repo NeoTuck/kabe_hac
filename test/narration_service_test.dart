@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/narration_backend.dart';
 import 'package:hac_umre_sesli_rehber/narration_service.dart';
+import 'package:just_audio/just_audio.dart' show PlayerInterruptedException;
 
 class ControlledAudio extends NarrationBackend {
   final interrupted = StreamController<void>.broadcast(sync: true);
@@ -18,6 +19,7 @@ class ControlledAudio extends NarrationBackend {
   Completer<bool>? activationGate;
   bool active = true;
   bool failLoad = false;
+  int abortedLoads = 0;
   bool failSpeed = false;
   bool failInitialize = false;
   Future<void>? nextPlay;
@@ -46,6 +48,10 @@ class ControlledAudio extends NarrationBackend {
   Future<void> load(String reference, File? file, String title) async {
     loaded.add(reference);
     await gate?.future;
+    if (abortedLoads > 0) {
+      abortedLoads--;
+      throw PlayerInterruptedException('Connection aborted');
+    }
     if (failLoad) throw StateError('decode failed');
     durationEvents.add(const Duration(seconds: 60));
   }
@@ -266,6 +272,33 @@ void main() {
     await service.playAsset('one');
     expect(service.state.status, NarrationStatus.playing);
     expect(backend.plays, 1);
+  });
+  test('a stale native Stop retries the current clip once', () async {
+    backend.abortedLoads = 1;
+    await service.playAsset('one');
+    expect(backend.loaded, ['one', 'one']);
+    expect(backend.plays, 1);
+    expect(service.state.status, NarrationStatus.playing);
+  });
+  test('a second native abort remains an error', () async {
+    backend.abortedLoads = 2;
+    await service.playAsset('one');
+    expect(backend.loaded, ['one', 'one']);
+    expect(backend.plays, 0);
+    expect(service.state.status, NarrationStatus.error);
+  });
+  test('stop cancels a pending native load retry', () async {
+    backend.abortedLoads = 1;
+    final loading = service.playAsset('one');
+    for (var i = 0; i < 100 && backend.stops < 2; i++) {
+      await tick();
+    }
+    expect(backend.stops, 2);
+    final stopped = service.stop();
+    await Future.wait([loading, stopped]);
+    expect(backend.loaded, ['one']);
+    expect(backend.plays, 0);
+    expect(service.state.status, NarrationStatus.idle);
   });
   test('audio focus rejection does not play', () async {
     backend.active = false;

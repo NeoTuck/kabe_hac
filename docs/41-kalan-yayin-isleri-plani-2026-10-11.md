@@ -75,3 +75,42 @@ olarak kapalıdır. Üretim moderasyon politikası, imza ve gerçek servis kabul
 artifact'ini, gerçek PostgreSQL yarış sonuçlarını, AAB türevi `.so` raporunu
 ve JUnit/session/kurulu APK hash'lerini incele. Bulgu varsa düzelt ve tekrar
 çalıştır; cihaz veya dış onay yoksa yayın kapılarını açık bırak.
+
+## 4. CI `38139991882` tanısı ve sonraki düzeltme
+
+`5c3ce35` için on CI işinin sekizi başarılı, ikisi başarısızdır. Flutter
+biçim/analiz/238 test, QA/86 Python, veritabanı (45 sunucu SQL, 13 Node,
+gerçek PostgreSQL yarışları), teknik AAB, Xcode16.4/iOS18.5 ve
+Xcode26.2/iOS26.2 işleri başarılı tamamlandı. iOS işlerinin artifact kabulü
+ayrı incelenir. AAB türevi universal APK'nin ZIP hizası geçti; arm64
+`libflutter.so` GNU_RELRO bitiş uyarısı sürer. AAB/Play veya gerçek üretim
+imzası kabulü verilmedi.
+
+Android API36/16 KB iki ayrı emülatör işi geçti. Optimize paket için gerçek
+`PAGE_SIZE=16384`, UID0 ve uyumluluk özellikleri okundu; 9/9 Maestro ekran
+akışı, JUnit/session ve kurulu APK hash'i eşleşti. Ayrı debug pakette 54/54
+gerçek paketli ses, duraklatma/seek/hız/devam ve teknik probe 1/1 geçti;
+session/kurulu APK hash'i eşleşti. Bu, 16 KB x86_64 emülatör runtime kanıtıdır;
+arm64 `libflutter.so` RELRO ve gerçek dağıtım imzasını kapatmaz.
+
+Android API28'de 54/54 ses ve probe geçti, ekran akışı 8/9 kaldı. Harita
+ekranında POI çizildi ama yol/bina katmanı hazır işareti gelmedi; cihaz
+günlüğünde MapLibre `std::bad_alloc` var. CI emülatör RAM'i 4 GB'tan
+2 GB'a düşürülmüştü. API28 ve API35 tam akış cihazları 4 GB'a döndürüldü;
+harita assertion'ı korunur.
+
+Android API35'te 9/9 ekran ve probe geçti; 54 ses turunun 45. kaydı
+`A-H02.1-TR-01` yüklenirken `PlayerInterruptedException: Connection aborted`
+verdi. Eşzamanlı logcat, SystemUI'nin bir önceki medya oturumuna `stop`
+gönderdiğini ve yeni ExoPlayer'ın yükleme sırasında kapandığını gösteriyor.
+Dosya bozulması olarak değerlendirilmedi. `playAsset`, yalnız bu tam native
+bağlantı kesilmesinde, aynı kullanıcı isteği hâlâ güncelse bir kez oynatıcıyı
+sıfırlayıp yeniden yükler; ikinci kesinti veya diğer hatalar görünür hata
+kalır. Eski istek ve kullanıcının durdurması yeniden oynatma başlatmaz.
+Bu davranış için üç yeni yarış/limit testi eklendi; yerel 241 Flutter testi,
+biçim ve analiz temiz geçti. Yeni native CI sonucu beklenir.
+
+Gerçek kararlar için hazır teslim kaydı
+`docs/release-handoff/2026-10-10/README.md`, karar satırları ve ilk Umre
+dilimidir. Bu dosyalar gerçek uzman imzası, ses hakkı, üretim saklama kararı,
+canlı proje erişimi, fiziksel cihaz veya mağaza imzası yerine geçmez.

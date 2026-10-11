@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:just_audio/just_audio.dart' show PlayerInterruptedException;
 
 import 'narration_backend.dart';
 import 'offline_package.dart';
@@ -182,6 +183,35 @@ class JustAudioNarrationService extends NarrationService {
     );
   }
 
+  Future<bool> _loadWithNativeRecovery(
+    int id,
+    String asset,
+    File? file,
+    String title,
+  ) async {
+    for (var attempt = 0; attempt < 2; attempt++) {
+      if (_disposed || id != _request) return false;
+      try {
+        await _backend
+            .load(asset, file, title)
+            .timeout(const Duration(seconds: 30));
+        return true;
+      } on PlayerInterruptedException catch (error) {
+        // Android's media controls can deliver a late Stop for the previous
+        // clip while the next source is loading. Recreate the native player
+        // once, only while this remains the user's current play request.
+        if (error.message != 'Connection aborted' || attempt != 0) rethrow;
+        if (_disposed || id != _request) return false;
+        if (kDebugMode) {
+          debugPrint('NARRATION_NATIVE_RECOVER request=$id asset=$asset');
+        }
+        await _backend.stop();
+        await Future<void>.delayed(const Duration(milliseconds: 200));
+      }
+    }
+    return false;
+  }
+
   @override
   Future<void> playAsset(String asset, {String? title}) {
     final id = ++_request;
@@ -199,9 +229,14 @@ class JustAudioNarrationService extends NarrationService {
         _position = Duration.zero;
         final file = await resolvePackageAudio(asset, packages);
         if (_disposed || id != _request) return;
-        await _backend
-            .load(asset, file, title ?? 'Sesli rehber')
-            .timeout(const Duration(seconds: 30));
+        if (!await _loadWithNativeRecovery(
+          id,
+          asset,
+          file,
+          title ?? 'Sesli rehber',
+        )) {
+          return;
+        }
         if (_disposed || id != _request) return;
         if (!await _backend.activate()) {
           throw StateError('Ses oturumu açılamadı.');
