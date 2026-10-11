@@ -36,6 +36,7 @@ class _GroupScreenState extends State<GroupScreen> {
   List<GroupRecord>? _groups;
   bool? _accountDeletionRequested;
   String? _lastUser;
+  ServiceTerms? _terms;
   @override
   void initState() {
     super.initState();
@@ -54,6 +55,7 @@ class _GroupScreenState extends State<GroupScreen> {
       _lastUser = widget.repository.userId;
       setState(() {
         _groups = null;
+        _terms = null;
         _accountDeletionRequested = null;
         _error = null;
         _emailSent = null;
@@ -87,12 +89,14 @@ class _GroupScreenState extends State<GroupScreen> {
     final uid = widget.repository.userId;
     if (uid == null) return;
     try {
+      final terms = await widget.repository.currentTerms();
       final groups = await widget.repository.groups();
       final deletionRequested = await widget.repository
           .accountDeletionRequested();
       if (mounted && uid == widget.repository.userId) {
         setState(() {
           _groups = groups;
+          _terms = terms;
           _accountDeletionRequested = deletionRequested;
           _error = null;
         });
@@ -101,6 +105,7 @@ class _GroupScreenState extends State<GroupScreen> {
       if (mounted && uid == widget.repository.userId) {
         setState(() {
           _groups = null;
+          _terms = null;
           _error = 'Kafileler alınamadı. Bağlantını kontrol edip tekrar dene.';
         });
       }
@@ -298,16 +303,57 @@ class _GroupScreenState extends State<GroupScreen> {
                 description: 'Kafile programını takip et, rehberine ulaş ve mesajlarını buradan yönet. Mesajların gönderilmesi internet gerektirir.',
               ),
               const SizedBox(height: 24),
+              if (_terms == null)
+                const Text(
+                  'Güncel kullanım koşulları alınamadı. Bağlantını kontrol edip Kafileleri yenile. Kabul doğrulanmadan hizmet yazmaları kapalıdır.',
+                )
+              else ...[
+                Text('Kullanım koşulları · ${_terms!.version}'),
+                TextButton(
+                  onPressed: () => showDialog<void>(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Kullanım koşulları · ${_terms!.version}'),
+                      content: SingleChildScrollView(
+                        child: SelectableText(
+                          '${_terms!.body}\n\n${_terms!.documentUrl}',
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Kapat'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: const Text('Koşulları oku'),
+                ),
+                if (_terms!.accepted)
+                  const Text('Bu sürüm için kabulün sunucuda kayıtlı.')
+                else
+                  FilledButton(
+                    onPressed: _busy
+                        ? null
+                        : () => _action(() async {
+                            final version = _terms!.version;
+                            await repository.acceptTerms(version);
+                            await _load();
+                          }),
+                    child: const Text('Okudum, bu sürümü kabul ediyorum'),
+                  ),
+              ],
+              const SizedBox(height: 12),
               TextField(
                 controller: _invite,
-                enabled: !_busy,
+                enabled: !_busy && _terms?.accepted == true,
                 decoration: const InputDecoration(
                   labelText: 'Kafile davet kodu',
                 ),
               ),
               const SizedBox(height: 12),
               FilledButton.icon(
-                onPressed: _busy
+                onPressed: _busy || _terms?.accepted != true
                     ? null
                     : () => _action(() async {
                         await repository.acceptInvitation(_invite.text.trim());
@@ -319,7 +365,7 @@ class _GroupScreenState extends State<GroupScreen> {
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
-                onPressed: _busy ? null : _create,
+                onPressed: _busy || _terms?.accepted != true ? null : _create,
                 icon: const Icon(Icons.add),
                 label: const Text('Kafile oluştur'),
               ),
@@ -327,7 +373,10 @@ class _GroupScreenState extends State<GroupScreen> {
               if (widget.push != null) ...[
                 SwitchListTile.adaptive(
                   value: widget.push!.enabled,
-                  onChanged: _busy || _accountDeletionRequested == true
+                  onChanged:
+                      _busy ||
+                          _accountDeletionRequested == true ||
+                          _terms?.accepted != true
                       ? null
                       : (enabled) => _action(() async {
                           if (enabled) {
@@ -1329,6 +1378,20 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                   _error!,
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
+              ),
+            if (_outbox.any(
+              (m) => m.lastError?.contains('koşullarını') == true,
+            ))
+              TextButton(
+                onPressed: () => Navigator.of(context).push<void>(
+                  MaterialPageRoute(
+                    builder: (_) => GroupScreen(
+                      repository: widget.repository,
+                      store: widget.store,
+                    ),
+                  ),
+                ),
+                child: const Text('Kafile koşullarını kontrol et'),
               ),
             if (snapshot == null && _error == null)
               const Center(child: CircularProgressIndicator())

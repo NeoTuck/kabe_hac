@@ -37,6 +37,37 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   bool _openingStep = false;
   bool _loading = false;
   bool _creatingJourney = false;
+  bool get _versionMismatch =>
+      _session != null &&
+      (_session!.contentVersion != widget.catalog.contentVersion ||
+          _session!.profile != widget.profile ||
+          _session!.mode != widget.mode ||
+          _session!.type != widget.catalog.type);
+  Future<void> _startCurrentVersion() async {
+    if (_creatingJourney || _openingStep || _loading) return;
+    _creatingJourney = true;
+    try {
+      final session = await widget.store.startNewSession(
+        type: widget.catalog.type,
+        mode: widget.mode,
+        profile: widget.profile,
+        firstStepId: _flowSteps.first.id,
+        contentVersion: widget.catalog.contentVersion,
+      );
+      if (!mounted) return;
+      setState(() => _session = session);
+      await _load();
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _error =
+              'Yeni sürüm kaydı açılamadı. Tekrar dene; eski kaydın korunur.',
+        );
+      }
+    } finally {
+      _creatingJourney = false;
+    }
+  }
 
   List<GuideStep> get _flowSteps => widget.catalog.stepsForProfile(
     widget.catalog.type == GuideType.hajj ? widget.profile : null,
@@ -81,7 +112,12 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
 
   Future<void> _openStep(GuideStep step) async {
     final session = _session;
-    if (session == null || _openingStep || _creatingJourney) return;
+    if (session == null ||
+        _openingStep ||
+        _creatingJourney ||
+        _versionMismatch) {
+      return;
+    }
     _openingStep = true;
     try {
       GuideStep? selected = step;
@@ -225,6 +261,16 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                       ),
                     ),
                   ),
+                  if (_versionMismatch) ...[
+                    const SizedBox(height: 12),
+                    const Text(
+                      'İçerik sürümü veya profil değişti. Eski ilerlemen korunur; bu kaydı yeni metinle değiştirmeyiz. Devam etmek için yeni sürümle ayrı kayıt aç.',
+                    ),
+                    FilledButton(
+                      onPressed: _startCurrentVersion,
+                      child: const Text('Yeni sürümle ayrı kayıt aç'),
+                    ),
+                  ],
                   if (current == null) ...[
                     const SizedBox(height: 12),
                     const Card.outlined(
@@ -238,7 +284,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                   ] else ...[
                     const SizedBox(height: 14),
                     FilledButton.icon(
-                      onPressed: () => _openStep(current),
+                      onPressed: _versionMismatch
+                          ? null
+                          : () => _openStep(current),
                       icon: const Icon(Icons.bookmark_rounded),
                       label: const Text('Kaldığım başlığa git'),
                     ),
@@ -302,7 +350,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                                 ? Icons.check_circle_rounded
                                 : Icons.chevron_right_rounded,
                           ),
-                          onTap: () => _openStep(step),
+                          onTap: _versionMismatch
+                              ? null
+                              : () => _openStep(step),
                         ),
                       ),
                   ],

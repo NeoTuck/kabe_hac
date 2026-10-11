@@ -2,8 +2,32 @@ import 'package:flutter/material.dart';
 
 import 'travel_catalog.dart';
 
+class MapPlaceFilter extends ChangeNotifier {
+  String query = '';
+  PoiCategory? category;
+  void update({required String query, required PoiCategory? category}) {
+    this.query = query;
+    this.category = category;
+    notifyListeners();
+  }
+
+  void clear() => update(query: '', category: null);
+  List<TravelPoi> apply(Iterable<TravelPoi> points) => searchTravelPoints(
+    points.where((point) => !point.isTestData),
+    query: query,
+    category: category,
+  );
+  // The native layer uses the exact same IDs as the list, including search.
+  List<Object> nativeFilter(Iterable<TravelPoi> points) => [
+    'in',
+    ['get', 'id'],
+    ['literal', apply(points).map((p) => p.id).toList()],
+  ];
+}
+
 class MapPlacePicker extends StatefulWidget {
-  const MapPlacePicker({super.key, required this.points});
+  const MapPlacePicker({super.key, required this.points, this.filter});
+  final MapPlaceFilter? filter;
   final List<TravelPoi> points;
 
   @override
@@ -11,22 +35,24 @@ class MapPlacePicker extends StatefulWidget {
 }
 
 class _MapPlacePickerState extends State<MapPlacePicker> {
-  final _search = TextEditingController();
-  PoiCategory? _category;
+  late final _filter = widget.filter ?? MapPlaceFilter();
+  late final _search = TextEditingController(text: _filter.query);
+  PoiCategory? get _category => _filter.category;
+  void _update() {
+    _filter.update(query: _search.text, category: _category);
+    setState(() {});
+  }
 
   @override
   void dispose() {
     _search.dispose();
+    if (widget.filter == null) _filter.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final values = searchTravelPoints(
-      widget.points.where((point) => !point.isTestData),
-      query: _search.text,
-      category: _category,
-    );
+    final values = _filter.apply(widget.points);
     final media = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
@@ -56,10 +82,13 @@ class _MapPlacePickerState extends State<MapPlacePicker> {
                             : IconButton(
                                 tooltip: 'Aramayı temizle',
                                 icon: const Icon(Icons.clear),
-                                onPressed: () => setState(_search.clear),
+                                onPressed: () {
+                                  _search.clear();
+                                  _update();
+                                },
                               ),
                       ),
-                      onChanged: (_) => setState(() {}),
+                      onChanged: (_) => _update(),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<PoiCategory>(
@@ -81,10 +110,17 @@ class _MapPlacePickerState extends State<MapPlacePicker> {
                             ),
                           ),
                       ],
-                      onChanged: (value) => setState(() => _category = value),
+                      onChanged: (value) {
+                        _filter.update(query: _search.text, category: value);
+                        setState(() {});
+                      },
                     ),
                     const SizedBox(height: 12),
                     Text('${values.length} yer · Çevrimdışı arama'),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('Filtreyi haritada göster'),
+                    ),
                     if (values.isEmpty)
                       const Padding(
                         padding: EdgeInsets.only(top: 16),

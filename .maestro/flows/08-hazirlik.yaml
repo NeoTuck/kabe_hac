@@ -1,0 +1,21 @@
+appId: ${APP_ID}
+name: İlk kullanımda gerçek cihaz paket durumu
+---
+- launchApp
+- tapOn: "(?s)Rehber.*"
+- scrollUntilVisible:
+    element: "Yolculuğa hazır mıyım?"
+    direction: DOWN
+- tapOn: "Yolculuğa hazır mıyım?"
+- assertVisible: "Yolculuğa hazır mıyım?"
+- scrollUntilVisible:
+    element: "Harita paketlerine git"
+    direction: DOWN
+- assertVisible: "(?s).*Yer kayıtları:.*cihazda.*"
+- scrollUntilVisible:
+    element: "Rehber ve ses paketlerine git"
+    direction: DOWN
+- assertVisible: "(?s).*izinli ses dosyası doğrulandı.*"
+- tapOn: "Rehber ve ses paketlerine git"
+- assertVisible: "Rehber ve izinli ses paketleri"
+- takeScreenshot: hazirlik-paket-durumu

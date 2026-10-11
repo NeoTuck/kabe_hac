@@ -26,3 +26,12 @@ name: Gerçek paket indirme ve yerel harita renderı
     timeout: 30000
 - assertVisible: "Harita hazır · Çevrimdışı"
 - takeScreenshot: gercek-mekke-haritasi
+
+- tapOn: "Haritada yer bul"
+- tapOn: "Yer türü"
+- tapOn: "Eczane"
+- tapOn: "Filtreyi haritada göster"
+- assertVisible: "(?s).*yer · Eczane.*"
+- tapOn: "Filtreleri temizle"
+- assertNotVisible: "Filtreleri temizle"
+- takeScreenshot: ortak-kategori-filtresi

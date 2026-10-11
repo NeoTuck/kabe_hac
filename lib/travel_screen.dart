@@ -204,7 +204,9 @@ class _TravelScreenState extends State<TravelScreen> {
       Text('Rotalar', style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 8),
       if (routes.isEmpty)
-        const Text('Doğrulanmış veya kişisel rota paketi henüz yok.'),
+        const Text(
+          'Doğrulanmış veya kişisel rota paketi henüz yok. Yer listesinden favorilerini kaydedebilirsin. Yürüme yolu ve giriş için güncel bilgiyi kafile sorumlundan doğrula.',
+        ),
     ];
     return Scaffold(
       appBar: AppBar(title: const Text('Gezi ve önemli yerler')),

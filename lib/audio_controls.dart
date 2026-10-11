@@ -63,6 +63,34 @@ class AudioControls extends StatelessWidget {
                       : 'Anlatımı dinle',
                 ),
               ),
+              const SizedBox(height: 8),
+              PopupMenuButton<double>(
+                tooltip: 'Anlatım hızı',
+                initialValue: narration.speed,
+                onSelected: (speed) async {
+                  try {
+                    await narration.setSpeed(speed);
+                  } catch (_) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Ses hızı değiştirilemedi. Yeniden dene.',
+                          ),
+                        ),
+                      );
+                    }
+                  }
+                },
+                itemBuilder: (_) => [
+                  for (final speed in [0.75, 1.0, 1.25, 1.5])
+                    PopupMenuItem(value: speed, child: Text('$speed×')),
+                ],
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text('Anlatım hızı · ${narration.speed}×'),
+                ),
+              ),
               if (total != null && total > Duration.zero) ...[
                 const SizedBox(height: 12),
                 Semantics(

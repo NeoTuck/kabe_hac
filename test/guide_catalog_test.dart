@@ -140,6 +140,10 @@ void main() {
     }
     (steps[1] as Map<String, dynamic>)['profileApplicability']['ifrad'] =
         'notApplicable';
+    (steps[2] as Map<String, dynamic>)['profileApplicability']['kiran'] =
+        'notApplicable';
+    (steps[3] as Map<String, dynamic>)['profileApplicability']['kiran'] =
+        'notApplicable';
     final approvedCatalog = GuideCatalog.fromJsonText(
       jsonEncode(approvedSource),
     );
@@ -147,6 +151,28 @@ void main() {
     expect(approvedCatalog.isPreview, isFalse);
     expect(approvedCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(34));
     expect(approvedCatalog.stepsForProfile(HajjProfile.temettu), hasLength(35));
+    expect(approvedCatalog.stepsForProfile(HajjProfile.kiran), hasLength(33));
+    for (final profile in HajjProfile.values) {
+      final flow = approvedCatalog.stepsForProfile(profile);
+      final expected = approvedCatalog.steps
+          .where(
+            (s) =>
+                s.profileApplicability[profile] ==
+                ProfileApplicability.applicable,
+          )
+          .toList();
+      expect(flow.map((s) => s.id), expected.map((s) => s.id));
+      for (var i = 0; i < flow.length; i++) {
+        expect(
+          approvedCatalog.nextStep(flow[i], profile: profile)?.id,
+          i == flow.length - 1 ? null : flow[i + 1].id,
+        );
+        expect(
+          approvedCatalog.previousStep(flow[i], profile: profile)?.id,
+          i == 0 ? null : flow[i - 1].id,
+        );
+      }
+    }
     expect(
       approvedCatalog.stepsForProfile(HajjProfile.ifrad).map((step) => step.id),
       isNot(contains('H01.2')),

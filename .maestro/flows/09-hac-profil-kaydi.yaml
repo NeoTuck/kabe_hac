@@ -1,0 +1,29 @@
+appId: ${APP_ID}
+name: Gerçek taslak Hac profil konumu korunur
+---
+- launchApp
+- tapOn: "(?s)Rehber.*"
+- scrollUntilVisible:
+    element: "(?s)^Rehbere başla.*"
+    direction: UP
+- scrollUntilVisible:
+    element: "(?s)Hac.*35 başlık.*"
+    direction: DOWN
+- tapOn: "(?s)Hac.*35 başlık.*"
+- assertVisible: "Hac · kullanım biçimi"
+- tapOn: "(?s)Yolculukta rehber.*Kişisel konumunu.*"
+- assertVisible: "Hac türü seç"
+- tapOn: "(?s)Kıran.*Uygulanabilirlik doğrulanmadı.*"
+- assertVisible: "Hac · Yolculukta rehber / Kıran"
+- scrollUntilVisible:
+    element: "Kaldığım başlığa git"
+    direction: DOWN
+- tapOn: "Kaldığım başlığa git"
+- assertVisible: "(?s)İçerik hazırlanıyor.*"
+- assertNotVisible: "Kişisel ilerleme olarak işaretle"
+- launchApp
+- scrollUntilVisible:
+    element: "(?s).*Kıran.*"
+    direction: UP
+- assertVisible: "(?s).*Kıran.*"
+- takeScreenshot: hac-kiran-kayit-devam

@@ -17,6 +17,7 @@ class NarrationState {
 
 abstract class NarrationService extends ChangeNotifier {
   NarrationState get state;
+  double get speed => 1;
   Duration get position => Duration.zero;
   Duration? get duration => null;
   Future<void> initialize();
@@ -46,6 +47,8 @@ class JustAudioNarrationService extends NarrationService {
   NarrationState _state = const NarrationState(NarrationStatus.idle);
   @override
   NarrationState get state => _state;
+  @override
+  double get speed => _speed;
   @override
   Duration get position => _position;
   @override
@@ -284,6 +287,7 @@ class JustAudioNarrationService extends NarrationService {
     }
     if (_listening) await _backend.setSpeed(speed);
     _speed = speed;
+    if (!_disposed) notifyListeners();
   }
 
   @override

@@ -674,6 +674,27 @@ class ProgressStore {
     });
   }
 
+  Future<GuideSession> startNewSession({
+    required GuideType type,
+    required GuideMode mode,
+    required HajjProfile? profile,
+    required String firstStepId,
+    required String contentVersion,
+  }) async {
+    _validateProfile(type, profile);
+    final database = await _database;
+    return database.transaction(
+      (transaction) => _insertSession(
+        transaction,
+        type: type,
+        mode: mode,
+        profile: profile,
+        firstStepId: firstStepId,
+        contentVersion: contentVersion,
+      ),
+    );
+  }
+
   Future<GuideSession> startNewJourney({
     required GuideType type,
     required HajjProfile? profile,

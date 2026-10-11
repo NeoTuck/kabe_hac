@@ -207,6 +207,27 @@ Map<String, Object?> _parseGeometry(List<int> bytes) {
   return Map<String, Object?>.from(decoded);
 }
 
+class _MapStyleInput {
+  const _MapStyleInput(this.compressed, this.points);
+  final List<int> compressed;
+  final List<TravelPoi> points;
+}
+
+Future<String> _decodeMapStyle(_MapStyleInput input) async {
+  final bytes = BytesBuilder(copy: false);
+  await for (final block in gzip.decoder.bind(Stream.value(input.compressed))) {
+    if (bytes.length + block.length > 24 * 1024 * 1024) {
+      throw const FormatException('Harita açılmış boyut sınırını aşıyor.');
+    }
+    bytes.add(block);
+  }
+  // Keep the large decoded graph in one worker; only the final style crosses
+  // the UI boundary. The existing geometry loader remains available to tools.
+  return jsonEncode(
+    localMapStyle(_parseGeometry(bytes.takeBytes()), input.points),
+  );
+}
+
 class LocalMapRepository {
   const LocalMapRepository(this.packages);
   final OfflinePackageManager packages;
@@ -235,6 +256,24 @@ class LocalMapRepository {
               found.where((other) => other.region == item.region).length == 1,
         )
         .toList();
+  }
+
+  Future<String> loadStyle(
+    LocalMapDescriptor map,
+    List<TravelPoi> points,
+  ) async {
+    final file = await packages.resolveActiveFile(
+      map.packageId,
+      map.featureFile,
+      kind: OfflinePackageKind.map,
+    );
+    if (file == null || await file.length() > 6 * 1024 * 1024) {
+      throw const FormatException('Harita paketi eksik veya çok büyük.');
+    }
+    return compute(
+      _decodeMapStyle,
+      _MapStyleInput(await file.readAsBytes(), points),
+    );
   }
 
   Future<Map<String, Object?>> load(LocalMapDescriptor map) async {

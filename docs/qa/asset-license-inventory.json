@@ -1833,6 +1833,13 @@
       "localEvidence": "found"
     },
     {
+      "name": "flutter_driver",
+      "version": "0.0.0",
+      "dependency": "transitive",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
       "name": "flutter_lints",
       "version": "6.0.0",
       "dependency": "direct dev",
@@ -1862,6 +1869,13 @@
     },
     {
       "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependency": "transitive",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
+    },
+    {
+      "name": "fuchsia_remote_debug_protocol",
       "version": "0.0.0",
       "dependency": "transitive",
       "source": "sdk",
@@ -2080,6 +2094,13 @@
         }
       ],
       "localEvidence": "found"
+    },
+    {
+      "name": "integration_test",
+      "version": "0.0.0",
+      "dependency": "direct dev",
+      "source": "sdk",
+      "localEvidence": "SDK or non-hosted; inspect build notices"
     },
     {
       "name": "intl",
@@ -2642,6 +2663,20 @@
       "localEvidence": "found"
     },
     {
+      "name": "process",
+      "version": "5.0.6",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/process/versions/5.0.6/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "5f018bbc25a55406d7a4e1d3229135439e315210b0050ca56dbb367a4934e85d"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
       "name": "pub_semver",
       "version": "2.2.1",
       "dependency": "transitive",
@@ -3013,6 +3048,20 @@
       "localEvidence": "found"
     },
     {
+      "name": "sync_http",
+      "version": "0.3.1",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/sync_http/versions/0.3.1/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "b9b748d4dd6f725387bf69e96df4e4ebff167ae83547954242a731504d037644"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
       "name": "synchronized",
       "version": "3.4.2",
       "dependency": "transitive",
@@ -3260,6 +3309,20 @@
         {
           "name": "LICENSE",
           "sha256": "a4b5d7d31626e90b77e8696f1c47643aa31f52e17c1907c1ab60b068110e6e10"
+        }
+      ],
+      "localEvidence": "found"
+    },
+    {
+      "name": "webdriver",
+      "version": "3.2.0",
+      "dependency": "transitive",
+      "source": "hosted",
+      "licenseUrl": "https://pub.dev/packages/webdriver/versions/3.2.0/license",
+      "licenseFiles": [
+        {
+          "name": "LICENSE",
+          "sha256": "74cb46b123c9fa918ea8e0a0f5be736a1cd661edf145ccc723dc7ce30324ebab"
         }
       ],
       "localEvidence": "found"

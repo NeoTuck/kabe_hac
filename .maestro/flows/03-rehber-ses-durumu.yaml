@@ -23,3 +23,29 @@ name: Rehberde sentetik taslak ses durumu
     direction: DOWN
 - assertVisible: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
 - takeScreenshot: rehber-sentetik-taslak-ses
+
+- scrollUntilVisible:
+    element: "Anlatımı dinle"
+    direction: DOWN
+- tapOn: "Anlatımı dinle"
+- extendedWaitUntil:
+    visible: "Duraklat"
+    timeout: 15000
+- tapOn: "Duraklat"
+- assertVisible: "Ses duraklatıldı"
+- tapOn: "Devam et"
+- assertVisible: "Duraklat"
+- scrollUntilVisible:
+    element: "10 sn ileri"
+    direction: DOWN
+- tapOn: "10 sn ileri"
+- tapOn: "10 sn geri"
+- tapOn: "Anlatım hızı · 1.0×"
+- tapOn: "1.25×"
+- assertVisible: "Anlatım hızı · 1.25×"
+- scrollUntilVisible:
+    element: "Sesi durdur"
+    direction: DOWN
+- tapOn: "Sesi durdur"
+- assertVisible: "Anlatımı dinle"
+- takeScreenshot: gercek-paketli-taslak-anlatim

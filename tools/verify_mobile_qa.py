@@ -6,10 +6,10 @@ import sys
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ALLOWED = {'launchApp', 'assertVisible', 'tapOn', 'scrollUntilVisible', 'takeScreenshot', 'extendedWaitUntil'}
+ALLOWED = {'launchApp', 'assertVisible', 'assertNotVisible', 'tapOn', 'scrollUntilVisible', 'takeScreenshot', 'extendedWaitUntil'}
 files = sorted((ROOT / '.maestro/flows').glob('*.yaml'))
-if len(files) != 7:
-    sys.exit('FAIL: expected seven pilot flows')
+if len(files) != 9 or {p.name[:2] for p in files} != {f'{i:02}' for i in range(1, 10)}:
+    sys.exit('FAIL: expected all nine numbered pilot flows')
 for path in files:
     documents = list(yaml.safe_load_all(path.read_text()))
     if len(documents) != 2:

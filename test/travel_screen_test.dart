@@ -113,7 +113,9 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text('Doğrulanmış veya kişisel rota paketi henüz yok.'),
+      find.text(
+        'Doğrulanmış veya kişisel rota paketi henüz yok. Yer listesinden favorilerini kaydedebilirsin. Yürüme yolu ve giriş için güncel bilgiyi kafile sorumlundan doğrula.',
+      ),
       findsOneWidget,
     );
     await tester.tap(find.text('Yalnız favoriler'));

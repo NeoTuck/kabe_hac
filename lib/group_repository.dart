@@ -91,9 +91,54 @@ class GroupSnapshot {
   final List<Map<String, dynamic>> routes;
 }
 
+class ServiceTerms {
+  const ServiceTerms({
+    required this.version,
+    required this.body,
+    required this.documentUrl,
+    required this.documentSha256,
+    this.acceptedAt,
+  });
+  final String version, body, documentSha256;
+  final Uri documentUrl;
+  final DateTime? acceptedAt;
+  bool get accepted => acceptedAt != null;
+  factory ServiceTerms.fromRow(Map<String, dynamic> row) {
+    final uri = Uri.tryParse(row['document_url'].toString());
+    final version = row['version'];
+    final body = row['body'];
+    final hash = row['document_sha256'];
+    final rawTime = row['accepted_at'];
+    final time = rawTime == null ? null : DateTime.tryParse(rawTime.toString());
+    if (version is! String ||
+        version.isEmpty ||
+        body is! String ||
+        body.isEmpty ||
+        uri == null ||
+        uri.scheme != 'https' ||
+        uri.host.isEmpty ||
+        uri.userInfo.isNotEmpty ||
+        hash is! String ||
+        !RegExp(r'^[a-f0-9]{64}$').hasMatch(hash) ||
+        (rawTime != null && time == null)) {
+      throw const FormatException('Kullanım koşulları doğrulanamadı.');
+    }
+    return ServiceTerms(
+      version: version,
+      body: body,
+      documentUrl: uri,
+      documentSha256: hash,
+      acceptedAt: time?.toUtc(),
+    );
+  }
+}
+
 abstract class GroupRepository extends ChangeNotifier {
   bool get configured;
   String? get userId;
+  Future<ServiceTerms?> currentTerms() async => null;
+  Future<void> acceptTerms(String displayedVersion) async =>
+      throw StateError('Kullanım koşulları hizmeti kullanılamıyor.');
   Future<void> requestCode(String email);
   Future<void> verifyCode(String email, String code);
   Future<void> signOut();
@@ -179,6 +224,30 @@ class SupabaseGroupRepository extends GroupRepository {
   @override
   String? get userId => client.auth.currentUser?.id;
   String _user() => userId ?? (throw StateError('Oturum gerekli.'));
+  @override
+  Future<ServiceTerms?> currentTerms() async {
+    final uid = _user();
+    final rows = await client.rpc('current_service_terms') as List;
+    if (uid != userId) throw GroupAccessError();
+    if (rows.isEmpty) return null;
+    if (rows.length != 1) throw const FormatException('Koşul sürümü belirsiz.');
+    return ServiceTerms.fromRow(Map<String, dynamic>.from(rows.single as Map));
+  }
+
+  @override
+  Future<void> acceptTerms(String displayedVersion) async {
+    final uid = _user();
+    final result = await client.rpc(
+      'accept_service_terms',
+      params: {'displayed_version': displayedVersion},
+    );
+    if (uid != userId) throw GroupAccessError();
+    if (result is! String || DateTime.tryParse(result) == null) {
+      throw const FormatException('Sunucu kabul kaydı doğrulanamadı.');
+    }
+    // Never cache acceptance across accounts, version changes or offline states.
+  }
+
   @override
   Future<bool> accountDeletionRequested() async {
     final uid = _user();
@@ -584,12 +653,14 @@ class GroupOutboxSynchronizer {
           clientId: message.clientId,
           status: MessageOutboxStatus.sent,
         );
-      } catch (_) {
+      } catch (error) {
         if (repository.userId != uid) return;
         await store.markGroupMessageAttempt(
           clientId: message.clientId,
           status: MessageOutboxStatus.failed,
-          error: 'Gönderilemedi; bağlantı ve grup erişimini kontrol et.',
+          error: error is PostgrestException && error.message.contains('terms')
+              ? 'Güncel kullanım koşullarını Kafilem ekranında okuyup kabul et; sonra mesajı yeniden gönder.'
+              : 'Gönderilemedi; bağlantı ve grup erişimini kontrol et.',
         );
       }
     }

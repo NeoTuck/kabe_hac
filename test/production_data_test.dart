@@ -46,6 +46,10 @@ void main() {
       expect(maps.length, 2);
       for (final map in maps) {
         final geometry = await repository.load(map);
+        expect(
+          await repository.loadStyle(map, const []),
+          jsonEncode(localMapStyle(geometry, const [])),
+        );
         final nearby = (geometry['features'] as List).where((feature) {
           final g = feature['geometry'];
           final coordinates = g['type'] == 'Polygon'

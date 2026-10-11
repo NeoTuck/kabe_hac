@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 
 import 'local_map_repository.dart';
@@ -10,8 +7,6 @@ import 'source_details.dart';
 import 'travel_catalog.dart';
 import 'travel_details.dart';
 import 'map_place_picker.dart';
-
-String _encodeStyle(Map<String, Object?> style) => jsonEncode(style);
 
 class OfflineCityMapScreen extends StatefulWidget {
   const OfflineCityMapScreen({
@@ -42,10 +37,47 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
   Size _mapSize = Size.zero;
   int _epoch = 0;
   MapLibreMapController? _controller;
+  final _filter = MapPlaceFilter();
+  bool _filterApplying = false;
+  bool _filterPending = false;
+  List<TravelPoi> get _points => widget.catalog.points
+      .where((p) => !p.isTestData && p.region == _selected?.region)
+      .toList();
+  Future<void> _applyFilter() async {
+    if (!mounted) return;
+    setState(() {});
+    _filterPending = true;
+    if (_filterApplying || !_styleLoaded || _controller == null) return;
+    _filterApplying = true;
+    final epoch = _epoch;
+    try {
+      while (_filterPending && mounted && _styleLoaded && _controller != null) {
+        _filterPending = false;
+        await _controller!.setFilter('places', _filter.nativeFilter(_points));
+      }
+    } catch (_) {
+      if (mounted && epoch == _epoch) {
+        setState(() => _error = 'Yer filtresi uygulanamadı. Yeniden dene.');
+      }
+    } finally {
+      _filterApplying = false;
+      if (mounted && epoch != _epoch && _styleLoaded && _filterPending) {
+        _applyFilter();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _filter.removeListener(_applyFilter);
+    _filter.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
+    _filter.addListener(_applyFilter);
     _load();
   }
 
@@ -87,14 +119,10 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       _styleLoaded = false;
     });
     try {
-      final geometry = await _repository.load(map);
       final points = widget.catalog.points
           .where((p) => p.region == map.region)
           .toList();
-      final style = await compute(
-        _encodeStyle,
-        localMapStyle(geometry, points),
-      );
+      final style = await _repository.loadStyle(map, points);
       if (mounted && epoch == _epoch) {
         setState(() {
           _style = style;
@@ -160,7 +188,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (_) => MapPlacePicker(points: points),
+      builder: (_) => MapPlacePicker(points: points, filter: _filter),
     );
     if (chosen == null || !mounted || map != _selected) return;
     try {
@@ -240,6 +268,30 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                   ],
                 ),
               ),
+            if (selected != null && !_loading)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
+                  children: [
+                    Text(
+                      '${_filter.apply(_points).length} yer${_filter.category == null ? '' : ' · ${_filter.category!.label}'}',
+                    ),
+                    if (_filter.query.isNotEmpty)
+                      Text('Arama: ${_filter.query}'),
+                    if (_filter.query.isNotEmpty || _filter.category != null)
+                      TextButton(
+                        onPressed: _filter.clear,
+                        child: const Text('Filtreleri temizle'),
+                      ),
+                    if (_filter.apply(_points).isEmpty)
+                      const Text(
+                        'Eşleşen yer yok. Filtreleri temizleyerek tüm yerleri göster.',
+                      ),
+                  ],
+                ),
+              ),
             Expanded(
               child: _loading
                   ? const Center(child: CircularProgressIndicator())
@@ -291,6 +343,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                           onStyleLoadedCallback: () {
                             if (mounted && selected == _selected) {
                               _styleLoaded = true;
+                              _applyFilter();
                               _confirmRendered();
                             }
                           },

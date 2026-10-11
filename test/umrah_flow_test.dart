@@ -88,9 +88,12 @@ void main() {
       findsOneWidget,
     );
     expect(store.sessions[session.id]!.currentStepId, 'OLD-STEP');
-    await tester.tap(find.text('Kullanım biçimi seçimi').first);
+    await tester.tap(find.text('Yeni sürümle ayrı kayıt aç'));
     await tester.pumpAndSettle();
-    expect(store.sessions[session.id]!.currentStepId, 'U01.1');
+    expect(store.sessions[session.id]!.currentStepId, 'OLD-STEP');
+    expect(store.sessions.values.last.id, isNot(session.id));
+    expect(store.sessions.values.last.currentStepId, 'U01.1');
+    expect(store.sessions.values.last.contentVersion, catalog.contentVersion);
   });
 
   testWidgets('U02.2 taslağı onaylı içerik gibi sunulmaz', (tester) async {
@@ -233,6 +236,11 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('نص اختبار'),
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('نص اختبار'), findsOneWidget);
       expect(find.text('Test okunuşu'), findsOneWidget);
       expect(find.text('Test anlamı'), findsOneWidget);

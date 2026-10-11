@@ -193,7 +193,9 @@ class _SafetyScreenState extends State<SafetyScreen>
             ),
             const SizedBox(height: 8),
             if (approvedCards.isEmpty)
-              const Text('İnsan incelemesinden geçmiş dil kartı henüz yok.')
+              const Text(
+                'İnsan incelemesinden geçmiş dil kartı henüz yok. Arapça çeviriler onaylanınca burada çevrimdışı açılacak; şimdilik kafile sorumlundan dil desteği iste.',
+              )
             else
               for (final card in approvedCards)
                 Card.outlined(
@@ -231,7 +233,7 @@ class _SafetyScreenState extends State<SafetyScreen>
             const SizedBox(height: 8),
             if (catalog.fieldInformation.isEmpty)
               const Text(
-                'Kaynaklı ve geçerlilik süreli saha bilgisi henüz yok.',
+                'Kaynaklı ve geçerlilik süreli saha bilgisi henüz yok. Çalışma saati, giriş veya kalabalık bilgisi için kafile sorumlusundan güncel teyit al.',
               )
             else
               for (final item in catalog.fieldInformation)

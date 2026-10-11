@@ -21,6 +21,28 @@ List<TravelPoi> points() {
 }
 
 void main() {
+  test(
+    'shared map filter keeps native IDs, list, clear and hidden fixtures equal',
+    () {
+      final filter = MapPlaceFilter();
+      final all = [
+        ...points(),
+        TravelCatalog.fromJsonText(jsonEncode(testCatalog())).points.first,
+      ];
+      filter.update(query: 'SIFA', category: PoiCategory.pharmacy);
+      expect(filter.apply(all).map((p) => p.nameTr), ['Şifa Eczanesi']);
+      expect(
+        (filter.nativeFilter(all).last as List).last,
+        filter.apply(all).map((p) => p.id).toList(),
+      );
+      filter.update(query: 'city', category: PoiCategory.hospital);
+      expect(filter.apply(all), isEmpty);
+      expect((filter.nativeFilter(all).last as List).last, isEmpty);
+      filter.clear();
+      expect(filter.apply(all), hasLength(2));
+      filter.dispose();
+    },
+  );
   testWidgets('map search combines Turkish search, category and clear', (
     tester,
   ) async {
