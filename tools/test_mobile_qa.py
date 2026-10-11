@@ -87,15 +87,15 @@ class ExtendedCoverageTests(unittest.TestCase):
 
 
 class NativeEnvironmentRegressionTests(unittest.TestCase):
-    def test_android_matrix_avoids_observed_api35_pixel_launcher_anr(self):
+    def test_android_matrix_keeps_stable_images_and_map_memory(self):
         workflow = yaml.safe_load((ROOT / '.github/workflows/mvp-checks.yml').read_text())
         job = workflow['jobs']['android-ui']
         self.assertEqual(job['strategy']['matrix']['include'], [
             {'api': 28, 'target': 'google_apis', 'page_size': 4096,
-             'qa_stage': 'full', 'ram_size': '2048M',
+             'qa_stage': 'full', 'ram_size': '4096M',
              'artifact_name': 'android-ui-api-28'},
             {'api': 35, 'target': 'default', 'page_size': 4096,
-             'qa_stage': 'full', 'ram_size': '2048M',
+             'qa_stage': 'full', 'ram_size': '4096M',
              'artifact_name': 'android-ui-api-35'},
             {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384,
              'qa_stage': 'optimized-ui', 'ram_size': '4096M',

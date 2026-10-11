@@ -82,7 +82,9 @@ ve JUnit/session/kurulu APK hash'lerini incele. Bulgu varsa düzelt ve tekrar
 biçim/analiz/238 test, QA/86 Python, veritabanı (45 sunucu SQL, 13 Node,
 gerçek PostgreSQL yarışları), teknik AAB, Xcode16.4/iOS18.5 ve
 Xcode26.2/iOS26.2 işleri başarılı tamamlandı. iOS işlerinin artifact kabulü
-ayrı incelenir. AAB türevi universal APK'nin ZIP hizası geçti; arm64
+ayrı incelenir: iş günlüğünde UI/ses/probe aşamaları sıfır çıkışla geçti,
+ancak bu turda JUnit/session arşivleri bağımsız indirilemedi ve iOS kurulu
+`.app` hash'i üretilmiyor. AAB türevi universal APK'nin ZIP hizası geçti; arm64
 `libflutter.so` GNU_RELRO bitiş uyarısı sürer. AAB/Play veya gerçek üretim
 imzası kabulü verilmedi.
 
@@ -109,6 +111,12 @@ sıfırlayıp yeniden yükler; ikinci kesinti veya diğer hatalar görünür hat
 kalır. Eski istek ve kullanıcının durdurması yeniden oynatma başlatmaz.
 Bu davranış için üç yeni yarış/limit testi eklendi; yerel 241 Flutter testi,
 biçim ve analiz temiz geçti. Yeni native CI sonucu beklenir.
+
+`b85809d` ilk CI'sında QA işi, emülatör RAM'ini eski 2 GB değeriyle birebir
+karşılaştıran test yüzünden düştü. Beklenti 4 GB'a güncellendi; harita testi
+ve yeni native ses sonucunu doğrulamak için sonraki CI gereklidir. Kanonik
+`/private/tmp` geçici diziniyle yerel 86 Python testi de geçti; macOS'un
+`/var` sembolik yolu altında iki dosya sınırı fixture'ı yalancı kırmızı olur.
 
 Gerçek kararlar için hazır teslim kaydı
 `docs/release-handoff/2026-10-10/README.md`, karar satırları ve ilk Umre
