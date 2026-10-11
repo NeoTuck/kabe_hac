@@ -60,6 +60,19 @@ def main():
             '--test-device', '--flow', 'all'], cwd=ROOT, timeout=900).returncode
         if result != 0:
             return result
+        # Production catalog/assets and the real device player, separate from probe.
+        with (evidence / 'bundled-narration-native.log').open('w') as log:
+            command = ['flutter', 'test', 'integration_test/bundled_narration_test.dart',
+                       '-d', device, '--reporter', 'expanded']
+            result = subprocess.run(command, cwd=ROOT, stdout=log,
+                                    stderr=subprocess.STDOUT, timeout=900).returncode
+        (evidence / 'bundled-narration-native.json').write_text(json.dumps({
+            'command': command, 'device': device, 'exit_code': result,
+            'production_assets': True, 'technical_probe': False,
+            'physical_iphone_tested': False,
+        }, indent=2) + '\n')
+        if result != 0:
+            return result
         audio_app = ROOT / 'build/audio-qa/Runner.app'
         subprocess.run(['xcrun', 'simctl', 'terminate', device, app_id], timeout=30)
         run('xcrun', 'simctl', 'install', device, str(audio_app), timeout=120)

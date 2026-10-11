@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
+import 'package:hac_umre_sesli_rehber/progress_store.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  sqfliteFfiInit();
 
   test('iki katalog tüm sabit alt kimlikleri sırayla içerir', () async {
     final catalogs = await const LocalContentRepository().load();
@@ -172,6 +176,66 @@ void main() {
           i == 0 ? null : flow[i - 1].id,
         );
       }
+    }
+    // Persist all three fixture flows, then reopen the real SQLite store.
+    final directory = await Directory.systemTemp.createTemp(
+      'profile-versions-',
+    );
+    final path = '${directory.path}/progress.db';
+    var store = ProgressStore(factory: databaseFactoryFfi, databasePath: path);
+    final oldIds = <HajjProfile, int>{};
+    final newIds = <HajjProfile, int>{};
+    try {
+      for (final profile in HajjProfile.values) {
+        final flow = approvedCatalog.stepsForProfile(profile);
+        final old = await store.startNewSession(
+          type: GuideType.hajj,
+          mode: GuideMode.journey,
+          profile: profile,
+          firstStepId: flow.first.id,
+          contentVersion: 'fixture-v1',
+        );
+        oldIds[profile] = old.id;
+        await store.setStepMarked(old.id, flow.first.id, true);
+        await store.saveCurrentStep(
+          old.id,
+          approvedCatalog.nextStep(flow.first, profile: profile)!.id,
+        );
+        await store.incrementCounter(
+          old.id,
+          'tawaf',
+          'fixture-${profile.name}',
+        );
+        final next = await store.startNewSession(
+          type: GuideType.hajj,
+          mode: GuideMode.journey,
+          profile: profile,
+          firstStepId: flow.first.id,
+          contentVersion: 'fixture-v2',
+        );
+        newIds[profile] = next.id;
+        expect(next.id, isNot(old.id));
+      }
+      await store.close();
+      store = ProgressStore(factory: databaseFactoryFfi, databasePath: path);
+      for (final profile in HajjProfile.values) {
+        final flow = approvedCatalog.stepsForProfile(profile);
+        final old = (await store.readSession(oldIds[profile]!))!;
+        expect(old.profile, profile);
+        expect(old.contentVersion, 'fixture-v1');
+        expect(old.currentStepId, flow[1].id);
+        expect(await store.readMarkedStepIds(old.id), {flow.first.id});
+        expect(await store.readCounterCount(old.id, 'tawaf'), 1);
+        final next = (await store.readSession(newIds[profile]!))!;
+        expect(next.profile, profile);
+        expect(next.contentVersion, 'fixture-v2');
+        expect(next.currentStepId, flow.first.id);
+        expect(await store.readMarkedStepIds(next.id), isEmpty);
+        expect(await store.readCounterCount(next.id, 'tawaf'), 0);
+      }
+    } finally {
+      await store.close();
+      await directory.delete(recursive: true);
     }
     expect(
       approvedCatalog.stepsForProfile(HajjProfile.ifrad).map((step) => step.id),

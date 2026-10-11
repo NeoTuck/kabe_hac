@@ -17,6 +17,13 @@ name: Gerçek paket indirme ve yerel harita renderı
     element: "Dosyalar doğrulandı"
     direction: DOWN
 - assertVisible: "Dosyalar doğrulandı"
+- scrollUntilVisible:
+    element: "Yer kayıtlarını indir"
+    direction: DOWN
+- tapOn: "Yer kayıtlarını indir"
+- extendedWaitUntil:
+    visible: "Mekke ve Medine yerleri indirildi ve dosyaları doğrulandı. Açıp kontrol edebilirsin."
+    timeout: 90000
 - launchApp
 - tapOn: "(?s)Yolculuk.*"
 - tapOn: "Çevrimdışı haritayı aç"
@@ -28,10 +35,10 @@ name: Gerçek paket indirme ve yerel harita renderı
 - takeScreenshot: gercek-mekke-haritasi
 
 - tapOn: "Haritada yer bul"
-- tapOn: "Yer türü"
+- tapOn: "(?s)Yer türü.*"
 - tapOn: "Eczane"
 - tapOn: "Filtreyi haritada göster"
-- assertVisible: "(?s).*yer · Eczane.*"
+- assertVisible: "(?s)[1-9][0-9]* yer · Eczane.*"
 - tapOn: "Filtreleri temizle"
 - assertNotVisible: "Filtreleri temizle"
 - takeScreenshot: ortak-kategori-filtresi
