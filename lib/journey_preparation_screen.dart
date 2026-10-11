@@ -42,6 +42,8 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
   Map<String, String> _maps = {};
   int _places = 0;
   int _readyAudio = 0;
+  int _availableAudio = 0;
+  int _pendingAudio = 0;
   int _requiredAudio = 0;
   String? _error;
   String? _audioError;
@@ -58,7 +60,7 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
     final maps = <String, String>{};
     String? error;
     String? audioError;
-    int places = 0, ready = 0;
+    int places = 0, ready = 0, available = 0, pending = 0;
     var catalogs = _catalogs;
     var audioIds = <String>{};
     final readMaps = <String>{};
@@ -99,18 +101,13 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
       ).load()).points.where((p) => !p.isTestData).length;
       for (final id in audioIds) {
         final audio = catalog.audioRecords[id];
-        if (audio == null ||
-            audio.status != ReviewStatus.approved ||
-            audio.reviewOnly ||
-            audio.asset == null ||
-            audio.assetSha256 == null) {
+        if (audio == null || audio.asset == null || audio.assetSha256 == null) {
           continue;
         }
         final textApproved =
             catalog.stepById(audio.textId ?? '')?.isApproved ??
             catalog.prayerRecords[audio.textId]?.isApproved ??
             false;
-        if (!textApproved) continue;
         try {
           final asset = audio.asset!;
           String digest;
@@ -129,7 +126,16 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
                 )
                 .toString();
           }
-          if (digest == audio.assetSha256) ready++;
+          if (digest == audio.assetSha256) {
+            available++;
+            if (audio.status == ReviewStatus.approved &&
+                !audio.reviewOnly &&
+                textApproved) {
+              ready++;
+            } else {
+              pending++;
+            }
+          }
         } catch (failure) {
           audioError = packageFailureMessage(failure);
         }
@@ -144,6 +150,8 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
       _mapDataReady = readMaps.containsAll({'map-mecca', 'map-medina'});
       _places = places;
       _readyAudio = ready;
+      _availableAudio = available;
+      _pendingAudio = pending;
       _requiredAudio = audioIds.length;
       _error = error;
       _audioError = audioError;
@@ -280,6 +288,15 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
                   ? null
                   : () => _packages(OfflinePackageKind.travel),
               child: const Text('Yer kayıtları paketine git'),
+            ),
+            _card(
+              'Cihazdaki sesler',
+              _checking
+                  ? 'Kontrol ediliyor…'
+                  : '$_availableAudio / $_requiredAudio ses dosyası cihazda ve özeti doğrulandı',
+              '$_pendingAudio taslak veya inceleme bekleyen kayıt. '
+                  '${_requiredAudio - _availableAudio} kayıt eksik veya doğrulanamadı. '
+                  'Taslak sesler öğrenme ve provada açık etiketle dinlenebilir; izinli yayın sesi sayılmaz.',
             ),
             _card(
               'İzinli sesler',

@@ -15,6 +15,10 @@ name: İlk kullanımda gerçek cihaz paket durumu
     direction: DOWN
 - assertVisible: "(?s).*Yer kayıtları:.*cihazda.*"
 - scrollUntilVisible:
+    element: "(?s).*19 / 20 ses dosyası cihazda.*"
+    direction: DOWN
+- assertVisible: "(?s).*19 / 20 ses dosyası cihazda.*"
+- scrollUntilVisible:
     element: "Rehber ve ses paketlerine git"
     direction: DOWN
 - assertVisible: "(?s).*izinli ses dosyası doğrulandı.*"

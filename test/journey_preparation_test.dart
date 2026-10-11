@@ -68,6 +68,22 @@ void main() {
         ),
         findsOneWidget,
       );
+      await tester.scrollUntilVisible(
+        find.textContaining('35 / 35 ses dosyası cihazda'),
+        200,
+      );
+      expect(
+        find.textContaining('35 / 35 ses dosyası cihazda'),
+        findsOneWidget,
+      );
+      await tester.scrollUntilVisible(
+        find.textContaining('35 taslak veya inceleme bekleyen kayıt'),
+        200,
+      );
+      expect(
+        find.textContaining('35 taslak veya inceleme bekleyen kayıt'),
+        findsOneWidget,
+      );
       await tester.scrollUntilVisible(find.textContaining('0 /'), 200);
       expect(find.textContaining('0 /'), findsOneWidget);
       await tester.scrollUntilVisible(
@@ -86,4 +102,44 @@ void main() {
       expect(provider.calls, 1);
     },
   );
+  testWidgets('Umre cihaz sesleri Arapça eksik kaydı ve izin durumunu ayırır', (
+    tester,
+  ) async {
+    final root = Directory.systemTemp.createTempSync('preparation_umrah_');
+    addTearDown(() => root.deleteSync(recursive: true));
+    final provider = NetworkMustNotBeCalled();
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: JourneyPreparationScreen(
+            catalogs: catalogs,
+            packages: OfflinePackageManager(root: root),
+            provider: provider,
+          ),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 150));
+    });
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.textContaining('19 / 20 ses dosyası cihazda'),
+      200,
+    );
+    expect(find.textContaining('19 / 20 ses dosyası cihazda'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.textContaining('19 taslak veya inceleme bekleyen kayıt'),
+      200,
+    );
+    expect(
+      find.textContaining('1 kayıt eksik veya doğrulanamadı'),
+      findsOneWidget,
+    );
+    await tester.scrollUntilVisible(
+      find.textContaining('0 / 20 izinli ses dosyası'),
+      200,
+    );
+    expect(find.textContaining('0 / 20 izinli ses dosyası'), findsOneWidget);
+    expect(provider.calls, 0);
+    expect(tester.takeException(), isNull);
+  });
 }

@@ -1,3 +1,5 @@
+import 'dart:ui' show SemanticsAction;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/audio_controls.dart';
@@ -15,6 +17,43 @@ class SpeedFailureNarration extends FakeNarration {
 }
 
 void main() {
+  testWidgets('speed has an independent accessible button and tap action', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    final audio = FakeNarration();
+    try {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: AudioControls(
+              narration: audio,
+              asset: 'demo',
+              title: 'Taslak anlatım',
+            ),
+          ),
+        ),
+      );
+      final node = tester.getSemantics(find.text('Anlatım hızı · 1.0×'));
+      expect(node.label, 'Anlatım hızı · 1.0×');
+      expect(node.getSemanticsData().flagsCollection.isButton, isTrue);
+      expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      tester.binding.rootPipelineOwner.visitChildren((owner) {
+        owner.semanticsOwner?.performAction(node.id, SemanticsAction.tap);
+      });
+      await tester.pumpAndSettle();
+      expect(find.text('1.25×'), findsOneWidget);
+      await tester.tap(find.text('1.25×'));
+      await tester.pumpAndSettle();
+      expect(audio.speed, 1.25);
+      expect(audio.state.status, NarrationStatus.idle);
+    } finally {
+      await tester.pumpWidget(const SizedBox.shrink());
+      audio.dispose();
+      semantics.dispose();
+    }
+  });
+
   testWidgets(
     'speed failure preserves preference and paused playback is not resumed',
     (tester) async {

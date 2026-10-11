@@ -162,3 +162,16 @@ class NativeFailureEvidenceTests(unittest.TestCase):
         profile = commands('09-hac-profil-kaydi.yaml')
         self.assertIn({'assertNotVisible': 'Kişisel ilerleme olarak işaretle'}, profile)
         self.assertIn({'assertVisible': '(?s).*Kıran.*'}, profile)
+
+
+class ShortNarrationResumeTests(unittest.TestCase):
+    def test_resume_restores_full_remaining_duration_without_extending_audio(self):
+        flow = commands('03-rehber-ses-durumu.yaml')
+        paused = flow.index({'assertVisible': 'Ses duraklatıldı'})
+        resumed = next(i for i, c in enumerate(flow) if isinstance(c, dict)
+                       and isinstance(c.get('tapOn'), dict) and c['tapOn'].get('text') == 'Devam et')
+        rewinds = [c for c in flow[paused:resumed] if isinstance(c, dict)
+                   and isinstance(c.get('tapOn'), dict) and c['tapOn'].get('text') == '10 sn geri']
+        self.assertEqual(len(rewinds), 2)
+        self.assertIn({'assertVisible': '(?s).*0:00 / [0-9]+:[0-9]{2}.*'}, flow[paused:resumed])
+        self.assertIn({'assertVisible': 'Duraklat'}, flow[resumed:])
