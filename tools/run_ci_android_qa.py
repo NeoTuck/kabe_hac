@@ -3,6 +3,7 @@
 import os
 import json
 import subprocess
+import re
 import pathlib
 import sys
 
@@ -15,7 +16,19 @@ def verify_page_size(device, expected, evidence):
     if expected not in (4096, 16384):
         raise ValueError('Unsupported expected page size')
     command = ['adb', '-s', device, 'shell', 'getconf', 'PAGE_SIZE']
-    actual = int(subprocess.check_output(command, text=True, timeout=30).strip())
+    try:
+        actual = int(subprocess.check_output(command, text=True, timeout=30).strip())
+    except subprocess.CalledProcessError as error:
+        if error.returncode != 127:
+            raise
+        # API28 does not include getconf. Read measured kernel page sizes;
+        # never substitute an expected constant or a device model assumption.
+        command = ['adb', '-s', device, 'shell', 'cat', '/proc/self/smaps']
+        output = subprocess.check_output(command, text=True, timeout=30)
+        sizes = {int(x) * 1024 for x in re.findall(r'^KernelPageSize:\s+(\d+)\s+kB$', output, re.M)}
+        if len(sizes) != 1:
+            raise RuntimeError('Could not establish a single measured kernel page size')
+        actual = sizes.pop()
     record = {'command': command, 'expected': expected, 'observed': actual,
               'passed': expected == actual, 'physical_device_tested': False}
     (evidence / 'page-size.json').write_text(json.dumps(record, indent=2) + '\n')
@@ -33,18 +46,9 @@ def main():
     apk = ROOT / ('build/app/outputs/flutter-apk/app-x86_64-release.apk'
                   if expected_page_size == 16384 else 'build/app/outputs/flutter-apk/app-debug.apk')
     if expected_page_size == 16384:
-        if stages.run('disposable-emulator-root', ['adb', '-s', device, 'root'], timeout=30):
+        if stages.run('configure-16kb-runtime', [sys.executable,
+                      ROOT / 'tools/prepare_16kb_emulator.py', device], timeout=120):
             return stages.exit_code
-        if stages.run('wait-rooted-emulator', ['adb', '-s', device, 'wait-for-device'], timeout=60):
-            return stages.exit_code
-        for prop, value in [('bionic.linker.16kb.app_compat.enabled', 'false'),
-                            ('pm.16kb.app_compat.disabled', 'true')]:
-            if stages.run('disable-' + prop, ['adb', '-s', device, 'shell', 'setprop', prop, value], timeout=30):
-                return stages.exit_code
-            observed = subprocess.check_output(
-                ['adb', '-s', device, 'shell', 'getprop', prop], text=True, timeout=30).strip()
-            if observed != value:
-                raise RuntimeError(f'16KB compatibility property {prop} was not applied')
     probe = ROOT / 'build/audio-qa/app-debug.apk'
     if stages.run('production-install', ['adb', '-s', device, 'install', apk], timeout=120):
         return stages.exit_code

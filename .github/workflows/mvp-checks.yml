@@ -260,6 +260,11 @@ jobs:
           python3 tools/verify_production_assets.py build/app/outputs/bundle/release/app-release.aab
         env:
           KABE_TECHNICAL_PILOT: 'true'
+      - name: Verify BundleConfig and actual AAB-derived APK
+        run: |
+          curl --fail --location --retry 3 https://github.com/google/bundletool/releases/download/1.18.3/bundletool-all-1.18.3.jar -o /tmp/kabe-bundletool.jar
+          python3 tools/audit_android_bundle.py --bundle build/app/outputs/bundle/release/app-release.aab --bundletool /tmp/kabe-bundletool.jar --output build/bundle-qa
+          "$ANDROID_HOME/build-tools/36.0.0/zipalign" -c -P 16 -v 4 build/bundle-qa/universal.apk
       - uses: actions/upload-artifact@v4
         with:
           name: android-optimized-technical-pilot
@@ -268,4 +273,6 @@ jobs:
             build/apk-size-report.json
             build/android-native-alignment.json
             build/app/outputs/bundle/release/app-release.aab
+            build/bundle-qa/bundle-audit.json
+            build/bundle-qa/universal.apk
           if-no-files-found: error

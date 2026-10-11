@@ -57,20 +57,20 @@ class NativeStageTests(unittest.TestCase):
             self.assertEqual(run_ci_android_qa.main(), 0)
             self.assertEqual(verify.call_args.args[1], 16384)
             calls = stages.run.call_args_list
-            self.assertEqual(calls[0].args[0], 'disposable-emulator-root')
-            self.assertIn('app-x86_64-release.apk', str(calls[4].args[1][-1]))
-            self.assertEqual(calls[5].args[0], 'application-ui')
+            self.assertEqual(calls[0].args[0], 'configure-16kb-runtime')
+            self.assertIn('app-x86_64-release.apk', str(calls[1].args[1][-1]))
+            self.assertEqual(calls[2].args[0], 'application-ui')
             self.assertIn('bundled-narration-native', [call.args[0] for call in calls])
 
-    def test_unapplied_16kb_compatibility_property_prevents_false_pass(self):
+    def test_failed_16kb_configuration_prevents_false_native_pass(self):
         with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true', 'EXPECTED_PAGE_SIZE': '16384'}), \
              patch.object(run_ci_android_qa, 'NativeStages') as factory, \
-             patch.object(run_ci_android_qa, 'verify_page_size'), \
-             patch.object(run_ci_android_qa.subprocess, 'check_output', return_value='true\n'):
-            factory.return_value.run.return_value = 0
-            with self.assertRaisesRegex(RuntimeError, 'was not applied'):
-                run_ci_android_qa.main()
-            self.assertNotIn('application-ui', [call.args[0] for call in factory.return_value.run.call_args_list])
+             patch.object(run_ci_android_qa, 'verify_page_size'):
+            factory.return_value.run.return_value = 1
+            factory.return_value.exit_code = 1
+            self.assertEqual(run_ci_android_qa.main(), 1)
+            self.assertEqual(factory.return_value.run.call_args.args[0], 'configure-16kb-runtime')
+            self.assertEqual(factory.return_value.run.call_count, 1)
 
     def test_ios_ui_failure_still_runs_production_audio_and_probe(self):
         import plistlib
