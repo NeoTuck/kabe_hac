@@ -2,6 +2,10 @@
 
 Durum: **inceleme adayı; mağaza veya dinî/hukuki kabul tamamlanmadı**. Paket bir imza isteği ve sürüm eşleme mekanizmasıdır; bir onay belgesi değildir.
 
+## 11 Ekim teknik güncellemesi
+
+Sürümlü koşul kabulü sunucu/UI hattı tamamlandı; **gerçek hukuki metin ve kullanıcı kabulü üretilmedi**. Operatör için [SERVICE_TERMS](../../../supabase/operations/SERVICE_TERMS.md); rota/saha/dil/Arapça kayıt için [DATA_DELIVERY](DATA_DELIVERY.md) ve [CSV](route-field-delivery.csv). Harita filtresi, eski sürüm ilerlemesi, hesap silme tamamlaması ve native ses regresyon kanıt/sınırları [docs/36](../../36-teknik-yayin-adayi-2026-10-11.md) içinde. Yerel test geçişi canlı kabulü açmaz. Başlangıç CI artık completed/success; eski bekleme kayıtları tarihsel.
+
 ## İncelenecek tam kapsam
 
 `inventory.json` iki kataloğun tam dosya özetini ve sürümünü içerir. `decisions.csv` 324 **boş** karar satırı içerir: 53 adımın dinî ve kaynak hakkı kararı, 35 Hac adımının Temettü/İfrad/Kıran kararları, bir duanın dinî/dil/kaynak hakkı kararı ve 55 ses kimliğinin dinleme/hak kararı. Mevcut 54 dosya sentetik taslaktır; Arapça telbiye kimliği vardır ama kayıt dosyası yoktur. Kimlik olması hazır ses anlamına gelmez.

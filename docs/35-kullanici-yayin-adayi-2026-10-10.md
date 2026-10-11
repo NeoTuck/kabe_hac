@@ -1,5 +1,7 @@
 # Kullanıcı yayın adayı — 10 Ekim 2026
 
+**11 Ekim güncellemesi:** Başlangıç `df3f3f9` CI [38091307573](https://github.com/NeoTuck/kabe_hac/actions/runs/38091307573) completed/success; sekiz iş sonucu kontrol edildi. Aşağıdaki “CI bekleniyor/in_progress” kayıtları 10 Ekim anına aittir. Yeni koşul kabulü, ortak harita filtresi, profil/sürüm ilerleme koruması ve ses/native regresyon uygulaması [docs/36](36-teknik-yayin-adayi-2026-10-11.md) içinde; eski CI yeni kod kabulü değildir.
+
 Durum: kod incelemeye hazırlanmıştır; dinî/hukuki kabul ve mağaza yayını tamamlanmamıştır. Tek dış girdi/izin/mağaza teslimi [yayın paketi](release-handoff/2026-10-10/README.md) içindedir.
 
 ## Kullanıcı davranışı
