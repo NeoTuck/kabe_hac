@@ -1,0 +1,72 @@
+# Sanal sunucu devri — 11 Ekim 2026
+
+## Alınacak kod ve son durum
+
+- Depo: `https://github.com/NeoTuck/kabe_hac`
+- Çalışma dalı: `codex/mvp1-pilot`; PR #1 açık/taslak.
+- Bu devirdeki son kod: `42e793a3ef4262e5a89de7e93375688f8453aacf`.
+- Son kabul koşusu: GitHub Actions `38142646346` (sonucu bu dosya
+  yazılırken açıktı). Önce bu koşunun tüm işlerini, ardından ilgili
+  artifact/JUnit/session ve paket özetlerini kontrol et.
+- Yerel biçim ve Flutter analiz temiz; 241 Flutter ve 86 Python testi geçti.
+  Python testleri macOS'ta kanonik `TMPDIR=/private/tmp` ile çalıştırıldı.
+
+## Tamamlanan teknik parçalar
+
+54 sentetik **taslak** ses kimlik/sürüm/hash kontrolüyle rehber ve provada
+çalıyor. Prova ve sayaç kayıtları rehber ilerlemesinden ayrı; çevrimdışı
+gerçek POI/şehir haritası, kafile mesaj/şikâyet/engel altyapısı, sürümlü
+koşul kabulü, hesap silme operatör yolu, paket güvenliği ve mağaza teknik
+denetimleri kodlandı. Son turda Android 16 KB için JNI ve bağımlılık hizaları,
+gerçek sayfa boyutu/uyumluluk ölçümü, ayrı optimize UI ve debug ses işleri,
+ELF LOAD/ZIP/RELRO raporu eklendi. Android API35'te eski medya oturumundan
+geç gelen `stop` yeni ses yüklemesini keserse, yalnız mevcut kullanıcı isteği
+için bir kez kontrollü toparlanma uygulanır. API28 harita testi için
+emülatörün 4 GB RAM'i geri getirildi.
+
+Önceki CI `38139991882`: 10 işin 8'i başarılı. Android API36/16 KB x86_64
+optimize UI 9/9, ayrı debug 54/54 paketli ses ve teknik probe geçti. API28
+harita akışı 2 GB emülatörde MapLibre `std::bad_alloc` nedeniyle 8/9 kaldı;
+ses 54/54 ve probe geçti. API35 UI 9/9 ve probe geçti; 45. seste SystemUI
+`stop` ile native bağlantı kesildi. İki iOS simülatör işi başarılıydı;
+arşivleri bağımsız indirilemedi. Bu iki Android bulgusunun kod/ortam
+düzeltmeleri son kodda; kabul için **yeni CI sonucu gerekir**.
+
+## Açık yayın kapıları
+
+`release_preflight` tam kapsam `blocked/158`, MVP kapsam `blocked/546`.
+53 adım/dua/Hac profili için gerçek uzman kararı, 54 taslak sesin hak ve
+işitsel/telaffuz kararı, eksik Arapça telbiye dosyası, gerçek hizmet URL'leri,
+yetkili Supabase/Firebase/APNs test projesi, moderasyon/silme sorumlusu ve
+saklama süreleri, saha/dil/rota insan incelemesi, fiziksel iPhone/Android
+kabulü, üretim imzaları ve mağaza beyanları yok. Teknik 16 KB x86_64 emülatör
+başarısına rağmen arm64 Flutter `libflutter.so` GNU_RELRO bitişi 16 KB'ye
+hizalı değil (12.288 bayt kalan); arm64 gerçek cihaz/Play kabulü açık.
+
+Karar ve belge teslimi için mevcut tek paket:
+`docs/release-handoff/2026-10-10/README.md`. İçinde tam envanter, 324 boş
+karar satırı, ilk Umre 19 satırlık inceleme dilimi, hak talebi, moderasyon,
+veri/rota ve hizmet koşulu işletim yönergeleri bulunur. Belgeler hazırlıktır;
+gerçek kişi/onay/izin/credential içermez. Bunları uydurup `approved` veya
+`LIVE_SERVICE_ACCEPTED` açma. Gerçek gizli belgeleri Git'e koyma.
+
+## Sunucudaki ajan için devam isteği
+
+> `NeoTuck/kabe_hac` deposunda `codex/mvp1-pilot` dalını koruyarak devam et.
+> Önce `git status --short --branch`, `AGENTS.md` ve
+> `docs/41-kalan-yayin-isleri-plani-2026-10-11.md` dosyalarını oku;
+> kullanıcı değişikliklerini silme. `42e793a` için PR #1 GitHub Actions
+> `38142646346` sonucunu kontrol et. Flutter/QA/veritabanı, Android
+> API28/API35/API36-16 KB, iki iOS ve AAB türevi denetimlerinde yalnız
+> `completed/success` başlığına dayanma: JUnit/session, cihaz sayfa boyutu,
+> ses 54/54, kurulu Android APK hash'i ve RELRO raporunu incele. Gerçek hata
+> varsa assertion gevşetmeden küçük düzeltme yap; biçim, analiz, Flutter
+> ve ilgili Python kontrollerini çalıştır; normal push ile PR #1'e gönder.
+> Sonucu `docs/41` ve `AGENTS.md` içinde commit/CI kimliğiyle güncelle.
+> Gerçek uzman/hak/servis/cihaz/imza girdisi yoksa ilgili yayın kapısını
+> kapalı tut ve hangi kişi ya da hesabın hangi belgeyi sağlaması gerektiğini
+> `docs/release-handoff/2026-10-10/README.md` üzerinden bildir.
+
+Bu devir sunucuda çalışmaya devam etmek içindir. Canlı migrasyon, moderasyon,
+hesap silme veya mağaza yayını için kendi başına yetki ya da gerçek veri
+oluşturmaz.
