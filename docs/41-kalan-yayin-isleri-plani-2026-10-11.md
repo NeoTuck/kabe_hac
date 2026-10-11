@@ -54,14 +54,22 @@ olarak kapalıdır. Üretim moderasyon politikası, imza ve gerçek servis kabul
   RELRO bitiş kalanı bulundu; uygulamanın son paketinde gerçek sonuç ve runtime
   kabulü olmadan 16 KB uyumu ilan edilmez. AAB türevi rapor, statik RELRO
   bulgusunu ELF LOAD/ZIP sonucundan ayrı gösterecek.
+- `jni` eklentisinin CMake'i yalnız maksimum sayfa boyutunu veriyordu. Proje
+  Gradle ayarı bu eklentinin native bağlantısına ortak sayfa boyutu 16 KB
+  bayrağını da ekliyor; pub cache veya üçüncü taraf kaynak değiştirilmedi.
+  Yeni debug APK'da `libdartjni.so` arm64/x86_64 RELRO bitişi hizalandı.
 - Yerel doğrulama: Dart biçim kontrolü (92 dosya, 0 değişiklik), Flutter analiz
   (0 sorun), 238 Flutter testi ve 86 Python testi başarılı. Android debug APK
-  yeni bağımlılıklarla derlendi (SHA-256 `583d0cd232e01691f420d48fec855ceaaa5fbe6577065fa8b7eb85b3eff45a1b`).
+  yeni bağımlılıklarla derlendi.
   Gradle çözümlemesinde DataStore core Android `1.2.1`, MapLibre OpenGL `13.5.3`
   seçildi. Debug APK'daki dokuz native kitaplığın LOAD/ZIP denetimi geçti;
-  `libdartjni.so` arm64 RELRO kalanı 12.288, `libflutter.so` arm64 4.096 ve
-  x86_64 12.288 bayt. Bu teknik/debug imzalı paket 16 KB runtime veya
-  mağaza kabulü değildir.
+  JNI düzeltmesi sonrası yalnız `libflutter.so` arm64/x86_64 RELRO uyarısı
+  kaldı. Optimize split APK'ler de derlendi: arm64 SHA-256
+  `cbbdac6c2ecca8a226f8bec65213b735103d3a95d4351879872633df1320a353`,
+  x86_64 SHA-256 `5cc4eb1825cf2f5d257deaacf6cff07368e3ce0f35492de6f20ac82b79fe6e2f`.
+  Her birinde beş native kitaplık için LOAD/ZIP denetimi temiz; x86_64 RELRO
+  bitişleri de temiz. Arm64 `libflutter.so` RELRO kalanı 12.288 bayt.
+  Bunlar teknik pilot paketlerdir; 16 KB runtime veya mağaza kabulü değildir.
 
 **Sonraki kanıt:** yeni commit'in CI işlerini, API28/35/36 ve iki iOS simulator
 artifact'ini, gerçek PostgreSQL yarış sonuçlarını, AAB türevi `.so` raporunu

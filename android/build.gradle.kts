@@ -16,6 +16,21 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 subprojects {
+    if (name == "jni") {
+        pluginManager.withPlugin("com.android.library") {
+            extensions.configure<com.android.build.gradle.LibraryExtension>("android") {
+                defaultConfig {
+                    externalNativeBuild {
+                        cmake {
+                            arguments += "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-z,common-page-size=16384"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+subprojects {
     project.evaluationDependsOn(":app")
 }
 
