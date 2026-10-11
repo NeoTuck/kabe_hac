@@ -1,0 +1,435 @@
+{
+  "date": "2026-10-11",
+  "baseline_head": "38b176a5c3f281826eae831cf3286380ba566970",
+  "run": 38125787320,
+  "merge_tree_equals_branch": "584a6c2ed22faa950397f257b984a3ef83f51272",
+  "reviewed_artifacts": [
+    {
+      "device": "Android API28",
+      "artifact_id": 11697718449,
+      "zip_sha256": "b27b084e993bdff91423c24557b7f6f26dd57e228c56c20ca4d307f7a001f69e",
+      "physical_device": false,
+      "merge_head": "346b5429261f8ddc94e297e411d265c58de2c944",
+      "installed_build_sha256": "70e261125e0912db01d7205da52fe365bf0851f137fa72510d3aa4d5da0c023a",
+      "expected_build_sha256": "70e261125e0912db01d7205da52fe365bf0851f137fa72510d3aa4d5da0c023a",
+      "application_ui": {
+        "total": 9,
+        "passed": 8,
+        "cases": [
+          {
+            "name": "Umre hazırlık ve yolculuk girişleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Ayarlara erişim",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Rehberde sentetik taslak ses durumu",
+            "status": "failed",
+            "error": "Assertion is false: \"Duraklat\" is visible"
+          },
+          {
+            "name": "Yapılandırılmamış teknik pilot hizmetleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "İsteğe bağlı Umre provası",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Lisans ve kaynak metinleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Gerçek paket indirme ve yerel harita renderı",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "İlk kullanımda gerçek cihaz paket durumu",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Gerçek taslak Hac profil konumu korunur",
+            "status": "passed",
+            "error": null
+          }
+        ]
+      },
+      "technical_probe": {
+        "status": "passed",
+        "separate_from_real_narrations": true
+      },
+      "production_narration": {
+        "exit_code": 0,
+        "audio_ids_passed": [
+          "A-U02.2-TR-01",
+          "A-P-U02.2-ANLAM-01",
+          "A-U01.1-TR-01",
+          "A-U01.2-TR-01",
+          "A-U02.1-TR-01",
+          "A-U02.3-TR-01",
+          "A-U03.1-TR-01",
+          "A-U04.1-TR-01",
+          "A-U05.1-TR-01",
+          "A-U06.1-TR-01",
+          "A-U06.2-TR-01",
+          "A-U06.3-TR-01",
+          "A-U07.1-TR-01",
+          "A-U07.2-TR-01",
+          "A-U08.1-TR-01",
+          "A-U09.1-TR-01",
+          "A-U09.2-TR-01",
+          "A-U10.1-TR-01",
+          "A-U10.2-TR-01",
+          "A-H01.1-TR-01",
+          "A-H01.2-TR-01",
+          "A-H01.3-TR-01",
+          "A-H02.1-TR-01",
+          "A-H02.2-TR-01",
+          "A-H02.3-TR-01",
+          "A-H02.4-TR-01",
+          "A-H02.5-TR-01",
+          "A-H03.1-TR-01",
+          "A-H03.2-TR-01",
+          "A-H03.3-TR-01",
+          "A-H04.1-TR-01",
+          "A-H04.2-TR-01",
+          "A-H04.3-TR-01",
+          "A-H04.4-TR-01",
+          "A-H05.1-TR-01",
+          "A-H05.2-TR-01",
+          "A-H05.3-TR-01",
+          "A-H06.1-TR-01",
+          "A-H06.2-TR-01",
+          "A-H06.3-TR-01",
+          "A-H06.4-TR-01",
+          "A-H07.1-TR-01",
+          "A-H07.2-TR-01",
+          "A-H07.3-TR-01",
+          "A-H08.1-TR-01",
+          "A-H08.2-TR-01",
+          "A-H08.3-TR-01",
+          "A-H08.4-TR-01",
+          "A-H09.1-TR-01",
+          "A-H09.2-TR-01",
+          "A-H09.3-TR-01",
+          "A-H10.1-TR-01",
+          "A-H10.2-TR-01",
+          "A-H10.3-TR-01"
+        ],
+        "count": 54,
+        "checks": [
+          "native load and advancing position",
+          "pause",
+          "seek",
+          "speed",
+          "resume",
+          "stop",
+          "rapid replacement",
+          "concurrent seek/pause/replacement"
+        ],
+        "speech_religion_rights_approved": false
+      }
+    },
+    {
+      "device": "Android API35",
+      "artifact_id": 11697298484,
+      "zip_sha256": "c9e82d50ecaabcfd3f7f52f05c76478c06cb3aa7a1d687d14a50c164a17c703a",
+      "physical_device": false,
+      "merge_head": "346b5429261f8ddc94e297e411d265c58de2c944",
+      "installed_build_sha256": "70e261125e0912db01d7205da52fe365bf0851f137fa72510d3aa4d5da0c023a",
+      "expected_build_sha256": "70e261125e0912db01d7205da52fe365bf0851f137fa72510d3aa4d5da0c023a",
+      "application_ui": {
+        "total": 9,
+        "passed": 6,
+        "cases": [
+          {
+            "name": "Umre hazırlık ve yolculuk girişleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Ayarlara erişim",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Rehberde sentetik taslak ses durumu",
+            "status": "failed",
+            "error": "Element not found: Text matching regex: Anlatım hızı · 1.0×"
+          },
+          {
+            "name": "Yapılandırılmamış teknik pilot hizmetleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "İsteğe bağlı Umre provası",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Lisans ve kaynak metinleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Gerçek paket indirme ve yerel harita renderı",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "İlk kullanımda gerçek cihaz paket durumu",
+            "status": "failed",
+            "error": "Unknown error"
+          },
+          {
+            "name": "Gerçek taslak Hac profil konumu korunur",
+            "status": "failed",
+            "error": "Unknown error"
+          }
+        ]
+      },
+      "technical_probe": {
+        "status": "passed",
+        "separate_from_real_narrations": true
+      },
+      "production_narration": {
+        "exit_code": 0,
+        "audio_ids_passed": [
+          "A-U02.2-TR-01",
+          "A-P-U02.2-ANLAM-01",
+          "A-U01.1-TR-01",
+          "A-U01.2-TR-01",
+          "A-U02.1-TR-01",
+          "A-U02.3-TR-01",
+          "A-U03.1-TR-01",
+          "A-U04.1-TR-01",
+          "A-U05.1-TR-01",
+          "A-U06.1-TR-01",
+          "A-U06.2-TR-01",
+          "A-U06.3-TR-01",
+          "A-U07.1-TR-01",
+          "A-U07.2-TR-01",
+          "A-U08.1-TR-01",
+          "A-U09.1-TR-01",
+          "A-U09.2-TR-01",
+          "A-U10.1-TR-01",
+          "A-U10.2-TR-01",
+          "A-H01.1-TR-01",
+          "A-H01.2-TR-01",
+          "A-H01.3-TR-01",
+          "A-H02.1-TR-01",
+          "A-H02.2-TR-01",
+          "A-H02.3-TR-01",
+          "A-H02.4-TR-01",
+          "A-H02.5-TR-01",
+          "A-H03.1-TR-01",
+          "A-H03.2-TR-01",
+          "A-H03.3-TR-01",
+          "A-H04.1-TR-01",
+          "A-H04.2-TR-01",
+          "A-H04.3-TR-01",
+          "A-H04.4-TR-01",
+          "A-H05.1-TR-01",
+          "A-H05.2-TR-01",
+          "A-H05.3-TR-01",
+          "A-H06.1-TR-01",
+          "A-H06.2-TR-01",
+          "A-H06.3-TR-01",
+          "A-H06.4-TR-01",
+          "A-H07.1-TR-01",
+          "A-H07.2-TR-01",
+          "A-H07.3-TR-01",
+          "A-H08.1-TR-01",
+          "A-H08.2-TR-01",
+          "A-H08.3-TR-01",
+          "A-H08.4-TR-01",
+          "A-H09.1-TR-01",
+          "A-H09.2-TR-01",
+          "A-H09.3-TR-01",
+          "A-H10.1-TR-01",
+          "A-H10.2-TR-01",
+          "A-H10.3-TR-01"
+        ],
+        "count": 54,
+        "checks": [
+          "native load and advancing position",
+          "pause",
+          "seek",
+          "speed",
+          "resume",
+          "stop",
+          "rapid replacement",
+          "concurrent seek/pause/replacement"
+        ],
+        "speech_religion_rights_approved": false
+      }
+    },
+    {
+      "device": "Xcode16.4 / iOS18.5 / iPhone16 simulator",
+      "artifact_id": 11696973894,
+      "zip_sha256": "6a90d9411100d67156d4195a649fd30baf42d2a9480dc8811d543a0ffe8e9936",
+      "physical_device": false,
+      "technical_probe": {
+        "status": "passed",
+        "separate_from_real_narrations": true
+      },
+      "merge_head": "346b5429261f8ddc94e297e411d265c58de2c944",
+      "installed_build_sha256": null,
+      "expected_build_sha256": null,
+      "application_ui": {
+        "total": 9,
+        "passed": 8,
+        "cases": [
+          {
+            "name": "Umre hazırlık ve yolculuk girişleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Ayarlara erişim",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Rehberde sentetik taslak ses durumu",
+            "status": "failed",
+            "error": "Element not found: Text matching regex: Anlatım hızı · 1.0×"
+          },
+          {
+            "name": "Yapılandırılmamış teknik pilot hizmetleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "İsteğe bağlı Umre provası",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Lisans ve kaynak metinleri",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Gerçek paket indirme ve yerel harita renderı",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "İlk kullanımda gerçek cihaz paket durumu",
+            "status": "passed",
+            "error": null
+          },
+          {
+            "name": "Gerçek taslak Hac profil konumu korunur",
+            "status": "passed",
+            "error": null
+          }
+        ]
+      },
+      "production_narration": {
+        "exit_code": 0,
+        "audio_ids_passed": [
+          "A-U02.2-TR-01",
+          "A-P-U02.2-ANLAM-01",
+          "A-U01.1-TR-01",
+          "A-U01.2-TR-01",
+          "A-U02.1-TR-01",
+          "A-U02.3-TR-01",
+          "A-U03.1-TR-01",
+          "A-U04.1-TR-01",
+          "A-U05.1-TR-01",
+          "A-U06.1-TR-01",
+          "A-U06.2-TR-01",
+          "A-U06.3-TR-01",
+          "A-U07.1-TR-01",
+          "A-U07.2-TR-01",
+          "A-U08.1-TR-01",
+          "A-U09.1-TR-01",
+          "A-U09.2-TR-01",
+          "A-U10.1-TR-01",
+          "A-U10.2-TR-01",
+          "A-H01.1-TR-01",
+          "A-H01.2-TR-01",
+          "A-H01.3-TR-01",
+          "A-H02.1-TR-01",
+          "A-H02.2-TR-01",
+          "A-H02.3-TR-01",
+          "A-H02.4-TR-01",
+          "A-H02.5-TR-01",
+          "A-H03.1-TR-01",
+          "A-H03.2-TR-01",
+          "A-H03.3-TR-01",
+          "A-H04.1-TR-01",
+          "A-H04.2-TR-01",
+          "A-H04.3-TR-01",
+          "A-H04.4-TR-01",
+          "A-H05.1-TR-01",
+          "A-H05.2-TR-01",
+          "A-H05.3-TR-01",
+          "A-H06.1-TR-01",
+          "A-H06.2-TR-01",
+          "A-H06.3-TR-01",
+          "A-H06.4-TR-01",
+          "A-H07.1-TR-01",
+          "A-H07.2-TR-01",
+          "A-H07.3-TR-01",
+          "A-H08.1-TR-01",
+          "A-H08.2-TR-01",
+          "A-H08.3-TR-01",
+          "A-H08.4-TR-01",
+          "A-H09.1-TR-01",
+          "A-H09.2-TR-01",
+          "A-H09.3-TR-01",
+          "A-H10.1-TR-01",
+          "A-H10.2-TR-01",
+          "A-H10.3-TR-01"
+        ],
+        "count": 54,
+        "checks": [
+          "native load and advancing position",
+          "pause",
+          "seek",
+          "speed",
+          "resume",
+          "stop",
+          "rapid replacement",
+          "concurrent seek/pause/replacement"
+        ],
+        "speech_religion_rights_approved": false
+      }
+    }
+  ],
+  "remaining_ios26_2": "in_progress_at_observation",
+  "new_local": {
+    "flutter_passed": 234,
+    "python_passed": 66,
+    "analyze_issues": 0,
+    "format_files": 92,
+    "format_changes": 0,
+    "native_yaml_policy": "passed",
+    "android_build": "blocked: Gradle Kotlin DSL6.4.2 network resolution, exit1",
+    "physical_iphone_access": false
+  },
+  "regression_before_failed": [
+    "speed label merged into card; no standalone accessible button",
+    "preparation hides actual draft files behind approved-only count"
+  ],
+  "fixes": [
+    "standalone speed button with semantic tap action",
+    "local hash verification shows physical draft files separately from permitted release recordings",
+    "paused rewind to zero before short-recording resume assertion"
+  ],
+  "new_native_acceptance": "pending corrected-head CI",
+  "live_service_accepted": false
+}

@@ -42,3 +42,7 @@ Geciken ses komutları sıralandı; yükleme/devam sırasında kesinti yeni kull
 ## 11 Ekim native kanıt düzeltmesi
 
 a569f18 CI Android 7/9 ve 5/9 başarısız; iki iOS cancelled. Yanlış katalog kaydırması, kısa sesin driver beklemesinde bitmesi/viewport ve geniş Rehber seçicisi somut artifact kanıtıyla düzeltildi. Bağımsız bütün paketli ses testi artık ekran testinde failure olunca atlanmaz, sonuçlar ayrı ve toplam failure korunur. Son Python 65/65; Flutter kodu önceki 232/232 doğrulama sonrası değişmedi. Son native kabul bekler; ayrıntı docs/37 ve yeni QA JSON. Eski in_progress gözlemleri tarihsel olup başarı iddiası değildir.
+
+## 11 Ekim cihaz hazırlığı ve native ses
+
+54 gerçek paketli anlatım API28/API35/iOS18.5 integration ve ayrı probe geçti; son ekran8/9,6/9,8/9, kalan hız erişilebilirliği ve kısa ses resume hataları düzeltildi. Harita/prep/profil kabul ayrıntısı docs/38; API35 iki flow ADB offline olduğundan kabul edilmez. Hazırlık gerçek cihaz taslak dosya sayısı ve izinli yayın sayısını ayırır. Yerel234Flutter/66Python,format/analyze temiz. SonHEAD native ve fiziksel cihaz kabulü açık; ilk Umre19boş inceleme satırı somut teslimde. Gerçek uzman/hak/canlı servis/onay kapıları değişmedi.

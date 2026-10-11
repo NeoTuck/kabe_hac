@@ -51,3 +51,7 @@ Resmî kaynaklar:
 - [Apple inceleme: 1.2 UGC, 5.1.1 gizlilik/silme](https://developer.apple.com/app-store/review/guidelines/)
 
 Konsol adımları hesap ve nihai sürüm geldiğinde yeniden kontrol edilir. Bu teslim paketi yasal görüş, uzman veya mağaza onayı değildir.
+
+## İlk sınırlı inceleme ve iPhone devri
+
+[İlk Umre inceleme dilimi](FIRST_UMRAH_SLICE.md): mevcut sürüme/özetlere bağlı 3 adım, telbiye metni ve 5 ses kimliği için 19 boş karar satırı. Onay veya yeni kullanıcı varlığı değildir. Aynı belgede gerçek iPhone kullanım turunun cihaz/build/kanıt teslimi yer alır.
