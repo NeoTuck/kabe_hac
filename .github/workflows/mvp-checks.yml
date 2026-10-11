@@ -200,13 +200,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          script: |
-            adb -s emulator-5554 install build/app/outputs/flutter-apk/app-debug.apk
-            python tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow all --expected-apk build/app/outputs/flutter-apk/app-debug.apk
-            set -o pipefail
-            flutter test integration_test/bundled_narration_test.dart -d emulator-5554 --reporter expanded 2>&1 | tee build/mobile-qa/bundled-narration-native.log
-            adb -s emulator-5554 install -r build/audio-qa/app-debug.apk
-            python tools/run_mobile_qa.py --platform android --device emulator-5554 --test-device --flow audio --expected-apk build/audio-qa/app-debug.apk
+          script: python tools/run_ci_android_qa.py
       - name: Preserve device evidence
         if: always()
         uses: actions/upload-artifact@v4

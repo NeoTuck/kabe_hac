@@ -7,6 +7,8 @@ import plistlib
 import subprocess
 import sys
 
+from native_qa_stages import NativeStages
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 APP = ROOT / 'build/ios/iphonesimulator/Runner.app'
 
@@ -55,30 +57,21 @@ def main():
         console_stream = (evidence / 'ios-console.log').open('w')
         console = subprocess.Popen(['xcrun', 'simctl', 'spawn', device, 'log', 'stream',
             '--level', 'info', '--predicate', 'process == \"Runner\"'], stdout=console_stream, stderr=subprocess.STDOUT)
-        result = subprocess.run([sys.executable, str(ROOT / 'tools/run_mobile_qa.py'),
-            '--platform', 'ios-simulator', '--device', device, '--app-id', app_id,
-            '--test-device', '--flow', 'all'], cwd=ROOT, timeout=900).returncode
-        if result != 0:
-            return result
-        # Production catalog/assets and the real device player, separate from probe.
-        with (evidence / 'bundled-narration-native.log').open('w') as log:
-            command = ['flutter', 'test', 'integration_test/bundled_narration_test.dart',
-                       '-d', device, '--reporter', 'expanded']
-            result = subprocess.run(command, cwd=ROOT, stdout=log,
-                                    stderr=subprocess.STDOUT, timeout=900).returncode
-        (evidence / 'bundled-narration-native.json').write_text(json.dumps({
-            'command': command, 'device': device, 'exit_code': result,
-            'production_assets': True, 'technical_probe': False,
-            'physical_iphone_tested': False,
-        }, indent=2) + '\n')
-        if result != 0:
-            return result
+        stages = NativeStages(ROOT, evidence)
+        common = [sys.executable, str(ROOT / 'tools/run_mobile_qa.py'),
+                  '--platform', 'ios-simulator', '--device', device,
+                  '--app-id', app_id, '--test-device']
+        stages.run('application-ui', [*common, '--flow', 'all'])
+        # Independent production assets check runs even when a UI assertion fails.
+        stages.run('bundled-narration-native', ['flutter', 'test',
+                   'integration_test/bundled_narration_test.dart', '-d', device,
+                   '--reporter', 'expanded'], device=device, production_assets=True,
+                   technical_probe=False, physical_iphone_tested=False)
         audio_app = ROOT / 'build/audio-qa/Runner.app'
         subprocess.run(['xcrun', 'simctl', 'terminate', device, app_id], timeout=30)
-        run('xcrun', 'simctl', 'install', device, str(audio_app), timeout=120)
-        return subprocess.run([sys.executable, str(ROOT / 'tools/run_mobile_qa.py'),
-            '--platform', 'ios-simulator', '--device', device, '--app-id', app_id,
-            '--test-device', '--flow', 'audio'], cwd=ROOT, timeout=900).returncode
+        if not stages.run('probe-install', ['xcrun', 'simctl', 'install', device, str(audio_app)], timeout=120):
+            stages.run('technical-audio-probe', [*common, '--flow', 'audio'])
+        return stages.exit_code
     finally:
         if console is not None:
             console.terminate()

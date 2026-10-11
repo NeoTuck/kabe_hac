@@ -2,7 +2,9 @@ appId: ${APP_ID}
 name: Gerçek taslak Hac profil konumu korunur
 ---
 - launchApp
-- tapOn: "(?s)Rehber.*"
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
 - scrollUntilVisible:
     element: "(?s)^Rehbere başla.*"
     direction: UP
@@ -22,6 +24,9 @@ name: Gerçek taslak Hac profil konumu korunur
 - assertVisible: "(?s)İçerik hazırlanıyor.*"
 - assertNotVisible: "Kişisel ilerleme olarak işaretle"
 - launchApp
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
 - scrollUntilVisible:
     element: "(?s).*Kıran.*"
     direction: UP

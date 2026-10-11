@@ -126,3 +126,39 @@ class StoreSdkCoverageTests(unittest.TestCase):
         self.assertIn('python3 tools/run_ci_ios_qa.py', builds)
         artifact = next(step for step in steps if step.get('uses') == 'actions/upload-artifact@v4')
         self.assertEqual(artifact['with']['name'], 'ios-simulator-ui-${{ matrix.xcode }}')
+
+
+class NativeFailureEvidenceTests(unittest.TestCase):
+    def test_real_place_package_follows_sorted_map_packages(self):
+        flow = commands('07-gercek-offline-harita.yaml')
+        scroll = next(c['scrollUntilVisible'] for c in flow
+                      if isinstance(c, dict) and
+                      c.get('scrollUntilVisible', {}).get('element') == 'Yer kayıtlarını indir')
+        self.assertEqual(scroll['direction'], 'DOWN')
+        self.assertIn({'assertVisible': '(?s)[1-9][0-9]* yer · Eczane.*'}, flow)
+
+    def test_audio_driver_does_not_wait_out_short_recording_before_pause(self):
+        flow = commands('03-rehber-ses-durumu.yaml')
+        for label in ('Anlatımı dinle', 'Duraklat', 'Devam et', '10 sn ileri', '10 sn geri'):
+            taps = [c['tapOn'] for c in flow if isinstance(c, dict) and 'tapOn' in c
+                    and (c['tapOn'] == label or isinstance(c['tapOn'], dict)
+                         and c['tapOn'].get('text') == label)]
+            self.assertTrue(taps)
+            for tap in taps:
+                self.assertIsInstance(tap, dict)
+                self.assertLessEqual(tap['waitToSettleTimeoutMs'], 500)
+        paused = flow.index({'assertVisible': 'Ses duraklatıldı'})
+        self.assertEqual(flow[paused - 1], {'scrollUntilVisible': {
+            'element': 'Ses duraklatıldı', 'direction': 'DOWN'}})
+
+    def test_preparation_and_profile_wait_for_home_without_tapping_guide_selector(self):
+        for name in ('08-hazirlik.yaml', '09-hac-profil-kaydi.yaml'):
+            flow = commands(name)
+            self.assertNotIn({'tapOn': '(?s)Rehber.*'}, flow)
+            for index, command in enumerate(flow):
+                if command == 'launchApp':
+                    self.assertEqual(flow[index + 1], {'extendedWaitUntil': {
+                        'visible': 'Rehbere başla', 'timeout': 30000}})
+        profile = commands('09-hac-profil-kaydi.yaml')
+        self.assertIn({'assertNotVisible': 'Kişisel ilerleme olarak işaretle'}, profile)
+        self.assertIn({'assertVisible': '(?s).*Kıran.*'}, profile)

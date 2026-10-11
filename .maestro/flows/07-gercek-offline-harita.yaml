@@ -2,6 +2,9 @@ appId: ${APP_ID}
 name: Gerçek paket indirme ve yerel harita renderı
 ---
 - launchApp
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
 - scrollUntilVisible:
     element: "(?s)Çevrimdışı paketleri yönet.*"
     direction: DOWN
@@ -19,12 +22,15 @@ name: Gerçek paket indirme ve yerel harita renderı
 - assertVisible: "Dosyalar doğrulandı"
 - scrollUntilVisible:
     element: "Yer kayıtlarını indir"
-    direction: UP
+    direction: DOWN
 - tapOn: "Yer kayıtlarını indir"
 - extendedWaitUntil:
     visible: "Mekke ve Medine yerleri indirildi ve dosyaları doğrulandı. Açıp kontrol edebilirsin."
     timeout: 90000
 - launchApp
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
 - tapOn: "(?s)Yolculuk.*"
 - tapOn: "Çevrimdışı haritayı aç"
 - assertVisible: "Çevrimdışı şehir haritası"

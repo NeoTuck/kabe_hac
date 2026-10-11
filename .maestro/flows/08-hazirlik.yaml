@@ -2,7 +2,9 @@ appId: ${APP_ID}
 name: İlk kullanımda gerçek cihaz paket durumu
 ---
 - launchApp
-- tapOn: "(?s)Rehber.*"
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
 - scrollUntilVisible:
     element: "Yolculuğa hazır mıyım?"
     direction: DOWN
