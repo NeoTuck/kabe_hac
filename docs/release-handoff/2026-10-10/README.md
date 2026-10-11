@@ -55,3 +55,7 @@ Konsol adımları hesap ve nihai sürüm geldiğinde yeniden kontrol edilir. Bu 
 ## İlk sınırlı inceleme ve iPhone devri
 
 [İlk Umre inceleme dilimi](FIRST_UMRAH_SLICE.md): mevcut sürüme/özetlere bağlı 3 adım, telbiye metni ve 5 ses kimliği için 19 boş karar satırı. Onay veya yeni kullanıcı varlığı değildir. Aynı belgede gerçek iPhone kullanım turunun cihaz/build/kanıt teslimi yer alır.
+
+## 11 Ekim yayın araştırması güncellemesi
+
+Güncel kod/CI, resmî mağaza gerekleri ve kalan teknik işler [docs/39](../../39-yayin-arastirmasi-ve-paket-kontrolleri-2026-10-11.md) içinde. Mağaza metni [metadata.tr-TR.json](../../store-draft/metadata.tr-TR.json) taslağıdır; null alanlar gerçek hesap/politika sahibi tarafından tamamlanır. İlk Umre dilimi tam kataloğun yayın kabulü değildir. Hesap silme web yolu uygulama kaldırıldığında da çalışmalı; yaş/ülke/DSA/veri formları ve signed binary/screenshots gerçek teslim gerektirir.

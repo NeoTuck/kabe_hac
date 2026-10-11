@@ -1,0 +1,20 @@
+{
+  "status": "draft_not_for_submission",
+  "language": "tr-TR",
+  "sourceVersion": "0.1.0+1",
+  "name": "Hac ve Umre Sesli Rehber",
+  "playShortDescription": "Umre ve Hac başlıkları, kişisel takip, prova ve çevrimdışı yer arama.",
+  "appleSubtitle": "Takip, prova ve yer arama",
+  "description": "Umre ve Hac başlıklarını öğrenme ve yolculuk biçiminde inceleyin. Kişisel ilerleme, sayaçlar ve ayrı prova oturumu cihazda tutulur. Mekke ve Medine için isteğe bağlı OSM çevrimdışı paketlerini indirin; kategori ve Türkçe/yerel ad aramasıyla yerleri bulun. Yolculuk hazırlığında kurulu harita, yer ve ses dosyalarını kontrol edin.\n\nBu sürüm teknik önizlemedir. 53 adım taslak, 54 paketli ses sentetik taslaktır; uzman, telaffuz ve kullanım hakkı incelemesi tamamlanmamıştır. Arapça telbiye kaydı eksiktir. Harita canlı yol tarifi, güvenli güzergâh, açık giriş veya kalabalık bilgisi sağlamaz. Kafile varsayılan derlemede kapalıdır. Genel kullanıcı yayını için onaylı içerik, dağıtılabilir ses, gerçek servis kabulü ve imzalı son paket gerekir.",
+  "privacyPolicyUrl": null,
+  "supportUrl": null,
+  "accountDeletionWebUrl": null,
+  "termsUrl": null,
+  "ownerApproval": null,
+  "ageRatingAnswers": null,
+  "countries": null,
+  "applePrivacyAnswers": null,
+  "playDataSafetyAnswers": null,
+  "finalScreenshots": [],
+  "signedArtifactSha256": null
+}

@@ -46,3 +46,7 @@ a569f18 CI Android 7/9 ve 5/9 başarısız; iki iOS cancelled. Yanlış katalog 
 ## 11 Ekim cihaz hazırlığı ve native ses
 
 54 gerçek paketli anlatım API28/API35/iOS18.5 integration ve ayrı probe geçti; son ekran8/9,6/9,8/9, kalan hız erişilebilirliği ve kısa ses resume hataları düzeltildi. Harita/prep/profil kabul ayrıntısı docs/38; API35 iki flow ADB offline olduğundan kabul edilmez. Hazırlık gerçek cihaz taslak dosya sayısı ve izinli yayın sayısını ayırır. Yerel234Flutter/66Python,format/analyze temiz. SonHEAD native ve fiziksel cihaz kabulü açık; ilk Umre19boş inceleme satırı somut teslimde. Gerçek uzman/hak/canlı servis/onay kapıları değişmedi.
+
+## 11 Ekim yayın araştırması ve son native kanıt
+
+[docs/39](39-yayin-arastirmasi-ve-paket-kontrolleri-2026-10-11.md) bu tarihli son durumdur. Baseline62f3a41 AndroidAPI28/API35 dokuz ekran ve54 gerçek paketli anlatımı geçti. İki iOS turu sekiz ekran/54 anlatım ile hız düğmesindeki tooltip birleşmesini gösterdi; düzeltme ve eski kodda kırmızı regresyon tamamlandı. Son234Flutter/75Python/format/analyze geçti. Yeni16KB/manifest/AAB CI kabulü açık; genel yayın, içerik/hak/canlı hizmet/cihaz/imza kabulü verilmedi. Önceki CI bekleme kayıtları tarihsel durumdur.

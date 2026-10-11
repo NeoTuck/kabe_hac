@@ -6,7 +6,7 @@ Bu metin ve görseller **teknik önizleme taslağıdır**, mağazaya gönderilme
 
 **Ad:** Hac ve Umre Sesli Rehber
 
-**Kısa açıklama:** Umre ve Hac başlıkları, kişisel takip, prova ve isteğe bağlı çevrimdışı şehir haritası.
+**Kısa açıklama:** Umre ve Hac başlıkları, kişisel takip, prova ve çevrimdışı yer arama.
 
 **Açıklama taslağı:**
 
