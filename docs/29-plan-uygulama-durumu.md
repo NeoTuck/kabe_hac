@@ -34,3 +34,7 @@ Kullanıcının ek test çalıştırmama tercihiyle tüm Flutter/SQL paketi ve c
 ## 11 Ekim uygulama güncellemesi
 
 Güncel teknik davranış, yerel test ve çalıştırılmayan kabul [docs/36](36-teknik-yayin-adayi-2026-10-11.md) içinde. Koşul URL kontrolüne ek gerçek sürümlü kullanıcı kabulü sunucuda tamamlandı; harita kategori filtresi native POI'ye bağlandı, eski sürüm ilerlemesi ayrı kayıtla korundu, Auth silme tamamlaması güvenilir RPC'ye alındı. Gerçek paketli bütün seslerin native testi CI'ya eklendi. Mevcut hazırlık, indirme/iptal/bozulma/geri dönüş, favori, outbox/şikâyet/engel/konum/prova kapsamı korundu. 224 Flutter, 57 Python, 115 pgTAP, 45 sunucu SQL ve 13 Node geçti; analyze/format temiz. Bu tablonun önceki CI bekleme ve teknik özellik yokluğu ifadeleri tarihsel durumdur. Yeni native/gerçek hizmet, içerik/hak ve fiziksel cihaz kabulü açık; taslak ve yayın kapıları gevşetilmedi.
+
+## 11 Ekim ses ve koşul yenileme devamı
+
+Geciken ses komutları sıralandı; yükleme/devam sırasında kesinti yeni kullanıcı isteği bekler, native varsayılan auto-resume kapatıldı. Sunucu eski koşulu reddedince güncel sürüm/yeniden kabul akışı daveti kaybetmeden açılır; offline yenileme eski kabulü geri getirmez. Yerel 232 Flutter / 57 Python, format/analyze temiz. Native step-change ve bütün paketli dosya değiştirme regresyonları güçlendirildi; yeni native sonuç ayrı doğrulanmalıdır. Kanıt ve sınırlar [docs/37](37-ses-kesinti-ve-kosul-yenileme-2026-10-11.md).

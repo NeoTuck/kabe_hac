@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-11",
+  "baseline_head": "a569f18262f40886f46e670627e0f1f863336f5f",
+  "tested_app_tree": "b65b8032608a27740d7a39cb28d05816eda91765",
+  "runtime": "Flutter 3.47.6 / Dart 3.13.5, Linux host",
+  "local": {
+    "flutter": {
+      "passed": 232,
+      "command": "flutter test --no-pub --reporter expanded",
+      "output_tail": [
+        "00:17 +230: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: eski demo kaydı ana ekranda giriş oluşturmaz",
+        "00:18 +231: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: ana ekran kayıt yükleme durumu erişilebilir ve sınırlıdır",
+        "00:18 +232: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: (tearDownAll)",
+        "00:18 +232: All tests passed!"
+      ]
+    },
+    "python": {
+      "passed": 57,
+      "command": "python -m unittest discover -s tools -p 'test_*.py'"
+    },
+    "analyze": "Analyzing kabe_hac...                                           \nNo issues found! (ran in 1.0s)",
+    "format": {
+      "files": 92,
+      "changes": 0
+    },
+    "native_yaml": {
+      "flows": 9,
+      "static_validation": "passed",
+      "device_execution": false
+    },
+    "android_build": {
+      "exit_code": 1,
+      "result": "Gradle Kotlin DSL 6.4.2 plugin resolution blocked by environment network",
+      "new_apk_accepted": false
+    }
+  },
+  "reproduced_before_fixes": [
+    "old pending seek allows replacement to load too early",
+    "old pending pause allows replacement to load too early",
+    "interruption during pending resume starts unsolicited playback",
+    "interruption during loading starts unsolicited playback"
+  ],
+  "baseline_ci": {
+    "run": 38124114268,
+    "head": "a569f18262f40886f46e670627e0f1f863336f5f",
+    "flutter": "success",
+    "android_release_size": "success",
+    "database": "success",
+    "qa_foundation": "success",
+    "ios_build_steps": "success before native QA",
+    "android_ios_native": "in_progress_at_observation"
+  },
+  "new_native_results": "pending subsequent CI; not inferred from fake backend or previous head",
+  "physical_device_tested": false,
+  "live_service_accepted": false,
+  "religious_or_audio_rights_approved": false
+}
