@@ -4,12 +4,15 @@
 
 - Depo: `https://github.com/NeoTuck/kabe_hac`
 - Çalışma dalı: `codex/mvp1-pilot`; PR #1 açık/taslak.
-- Bu devirdeki son kod: `42e793a3ef4262e5a89de7e93375688f8453aacf`.
-- Son kabul koşusu: GitHub Actions `38142646346` (sonucu bu dosya
-  yazılırken açıktı). Önce bu koşunun tüm işlerini, ardından ilgili
+- Bu devirdeki son gönderilmiş kod: `4acd08a`; ilk iOS26 kurulum süresi
+  düzeltmesi yerelde hazırlanmıştır ve sonraki commit/CI ile doğrulanmalıdır.
+- Son kabul koşusu: GitHub Actions `38142992091` (iOS16.4 işi başarılı,
+  iOS26.2 ilk kurulum zaman aşımı nedeniyle başarısız). Önce tüm işlerini,
+  ardından ilgili
   artifact/JUnit/session ve paket özetlerini kontrol et.
 - Yerel biçim ve Flutter analiz temiz; 241 Flutter ve 86 Python testi geçti.
   Python testleri macOS'ta kanonik `TMPDIR=/private/tmp` ile çalıştırıldı.
+  iOS kurulum aracı değişikliğinden sonra da aynı kontroller tekrar geçti.
 
 ## Tamamlanan teknik parçalar
 
@@ -31,6 +34,17 @@ ses 54/54 ve probe geçti. API35 UI 9/9 ve probe geçti; 45. seste SystemUI
 `stop` ile native bağlantı kesildi. İki iOS simülatör işi başarılıydı;
 arşivleri bağımsız indirilemedi. Bu iki Android bulgusunun kod/ortam
 düzeltmeleri son kodda; kabul için **yeni CI sonucu gerekir**.
+
+Sonraki CI `38142992091`: Android API28/API35, iki API36/16 KB işi,
+Flutter/QA/veritabanı/AAB başarılıdır. API35'te 9/9 uygulama akışı, 54/54
+ses ve probe; 16 KB optimize pakette 9/9 akış, ayrı debug pakette 54/54
+ses ve probe geçti. İndirilen Android 35/16 KB JUnit ve oturumlarında
+cihaz testi/kurulu APK hash'i doğrulandı; iki 16 KB emülatöründe ölçülen
+sayfa boyutu 16384'tür. iOS26.2'de derlemeler geçti fakat ilk simülatör
+uygulama kurulumu 120 saniyede zaman aşımına uğradı; native akış çalışmadı.
+İlk kurulum sınırını 300 saniyeye çıkaran ve hata kanıtı yazan değişiklik
+sonraki CI'da kabul edilmelidir. iOS16.4 işi başarılıdır; artifact denetimi
+ayrı sürüyor.
 
 ## Açık yayın kapıları
 
@@ -55,8 +69,9 @@ gerçek kişi/onay/izin/credential içermez. Bunları uydurup `approved` veya
 > `NeoTuck/kabe_hac` deposunda `codex/mvp1-pilot` dalını koruyarak devam et.
 > Önce `git status --short --branch`, `AGENTS.md` ve
 > `docs/41-kalan-yayin-isleri-plani-2026-10-11.md` dosyalarını oku;
-> kullanıcı değişikliklerini silme. `42e793a` için PR #1 GitHub Actions
-> `38142646346` sonucunu kontrol et. Flutter/QA/veritabanı, Android
+> kullanıcı değişikliklerini silme. `4acd08a` için PR #1 GitHub Actions
+> `38142992091` sonucunu, özellikle iOS16.4 artifact'ini kontrol et. Sonraki
+> iOS26 ilk kurulum zaman aşımı düzeltmesinin CI sonucunu da izle. Flutter/QA/veritabanı, Android
 > API28/API35/API36-16 KB, iki iOS ve AAB türevi denetimlerinde yalnız
 > `completed/success` başlığına dayanma: JUnit/session, cihaz sayfa boyutu,
 > ses 54/54, kurulu Android APK hash'i ve RELRO raporunu incele. Gerçek hata

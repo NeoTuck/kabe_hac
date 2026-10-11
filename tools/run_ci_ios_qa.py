@@ -6,6 +6,7 @@ import pathlib
 import plistlib
 import subprocess
 import sys
+import time
 
 from native_qa_stages import NativeStages
 
@@ -53,7 +54,19 @@ def main():
     try:
         run('xcrun', 'simctl', 'boot', device)
         run('xcrun', 'simctl', 'bootstatus', device, '-b', timeout=180)
-        run('xcrun', 'simctl', 'install', device, str(APP), timeout=120)
+        # A fresh iOS 26 simulator can report boot completion before its app
+        # installation service is ready. Keep this pre-test setup bounded and
+        # record a timeout distinctly from a failed UI or audio assertion.
+        install_started = time.monotonic()
+        try:
+            run('xcrun', 'simctl', 'install', device, str(APP), timeout=300)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+            (evidence / 'ci-install-error.json').write_text(json.dumps({
+                'phase': 'simctl install', 'device': device,
+                'elapsed_seconds': round(time.monotonic() - install_started, 2),
+                'error_type': type(error).__name__,
+            }, indent=2) + '\n')
+            raise
         console_stream = (evidence / 'ios-console.log').open('w')
         console = subprocess.Popen(['xcrun', 'simctl', 'spawn', device, 'log', 'stream',
             '--level', 'info', '--predicate', 'process == \"Runner\"'], stdout=console_stream, stderr=subprocess.STDOUT)

@@ -122,3 +122,29 @@ Gerçek kararlar için hazır teslim kaydı
 `docs/release-handoff/2026-10-10/README.md`, karar satırları ve ilk Umre
 dilimidir. Bu dosyalar gerçek uzman imzası, ses hakkı, üretim saklama kararı,
 canlı proje erişimi, fiziksel cihaz veya mağaza imzası yerine geçmez.
+
+## 5. Sonraki native koşu ve iOS kurulum tanısı
+
+`4acd08a` / CI `38142992091` koşusunda Flutter, QA, veritabanı, teknik AAB,
+Android API28/API35 ve iki ayrı API36/16 KB işi başarılıdır. API35 arşivinde
+9/9 uygulama akışı, paketli 54 ses ve teknik probe 1/1; optimize 16 KB
+x86_64 arşivinde 9/9 UI; ayrı 16 KB debug arşivinde paketli 54 ses ve
+probe 1/1 geçti. Bu Android arşivlerinde JUnit başarısızlık sayısı sıfır,
+oturum `device_tests_run=true`, sürücü hazır ve kurulu APK hash'i beklenen
+hash ile eşleşiyor. Her iki 16 KB cihazı `PAGE_SIZE=16384` ölçtü. API28
+arşivinde de 9/9 UI, 54/54 paketli ses ve probe 1/1 geçti; JUnit sıfır hata,
+oturum ve kurulu APK hash'i doğrulandı. Emülatör 4 GB RAM ile çalıştı.
+
+Xcode26.2/iOS26.2 işinde no-codesign debug, unsigned release ve simülatör
+derlemeleri geçti; native akış başlamadan ilk `simctl install` 120 saniyede
+zaman aşımına uğradı. Bu sonuç UI veya ses assertion başarısızlığı değildir,
+ancak iOS26 native kabulü de değildir. İlk kurulum sınırı 300 saniyeye
+çıkarıldı ve hata türü/süresi artifact'e yazılıyor; assertion'lar ve gerçek
+hata için kırmızı çıkış korunuyor. Yeni CI sonucunda yeniden doğrulanmalı.
+Xcode16.4/iOS18.5 işi `completed/success` oldu; JUnit/session arşivi ayrı
+indiriliyor ve bağımsız kabul için incelenmeli. İş günlüğünde uygulama UI,
+paketli anlatım, probe kurulumu ve teknik ses probe aşamalarının her biri
+sıfır çıkış koduyla tamamlandı. Son yerel tekrar: 92 Dart dosyasında biçim
+değişikliği yok, `flutter analyze` sıfır sorun, 241 Flutter ve 86 Python
+testi başarılı. Bu tekrar iOS26 native kurulum sonucunun yerini tutmaz.
+Arm64 Flutter `libflutter.so` RELRO uyarısı ve gerçek yayın kapıları açıktır.
