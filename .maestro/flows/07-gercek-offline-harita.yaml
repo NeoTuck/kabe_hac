@@ -19,7 +19,7 @@ name: Gerçek paket indirme ve yerel harita renderı
 - assertVisible: "Dosyalar doğrulandı"
 - scrollUntilVisible:
     element: "Yer kayıtlarını indir"
-    direction: DOWN
+    direction: UP
 - tapOn: "Yer kayıtlarını indir"
 - extendedWaitUntil:
     visible: "Mekke ve Medine yerleri indirildi ve dosyaları doğrulandı. Açıp kontrol edebilirsin."
