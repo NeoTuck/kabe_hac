@@ -87,28 +87,6 @@ class ExtendedCoverageTests(unittest.TestCase):
 
 
 class NativeEnvironmentRegressionTests(unittest.TestCase):
-    def test_android_matrix_keeps_stable_images_and_map_memory(self):
-        workflow = yaml.safe_load((ROOT / '.github/workflows/mvp-checks.yml').read_text())
-        job = workflow['jobs']['android-ui']
-        self.assertEqual(job['strategy']['matrix']['include'], [
-            {'api': 28, 'target': 'google_apis', 'page_size': 4096,
-             'qa_stage': 'full', 'ram_size': '4096M',
-             'artifact_name': 'android-ui-api-28'},
-            {'api': 35, 'target': 'default', 'page_size': 4096,
-             'qa_stage': 'full', 'ram_size': '4096M',
-             'artifact_name': 'android-ui-api-35'},
-            {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384,
-             'qa_stage': 'optimized-ui', 'ram_size': '4096M',
-             'artifact_name': 'android-ui-api-36-optimized-ui'},
-            {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384,
-             'qa_stage': 'debug-audio', 'ram_size': '4096M',
-             'artifact_name': 'android-ui-api-36-debug-audio'},
-        ])
-        runner = next(step for step in job['steps']
-                      if step.get('uses') == 'reactivecircus/android-emulator-runner@v2')
-        self.assertEqual(runner['with']['target'], '${{ matrix.target }}')
-        self.assertEqual(runner['with']['ram-size'], '${{ matrix.ram_size }}')
-
     def test_practice_relaunch_waits_for_restored_home_records(self):
         flow = commands('05-prova.yaml')
         self.assertEqual(flow.count('launchApp'), 2)
@@ -118,25 +96,6 @@ class NativeEnvironmentRegressionTests(unittest.TestCase):
                 self.assertIsNotNone(re.fullmatch(wait['visible'], 'Rehbere başla'))
                 self.assertIsNone(re.fullmatch(wait['visible'], 'Rehbere başla. Kayıtlar yükleniyor.'))
                 self.assertEqual(wait['timeout'], 30000)
-
-
-class StoreSdkCoverageTests(unittest.TestCase):
-    def test_ios_keeps_older_runtime_and_adds_store_eligible_sdk(self):
-        workflow = yaml.safe_load((ROOT / '.github/workflows/mvp-checks.yml').read_text())
-        job = workflow['jobs']['ios']
-        self.assertEqual(job['strategy']['matrix']['xcode'], ['16.4', '26.2'])
-        steps = job['steps']
-        selector = next(step for step in steps
-                        if step.get('uses') == 'maxim-lobanov/setup-xcode@v1')
-        self.assertEqual(selector['with']['xcode-version'], '${{ matrix.xcode }}')
-        builds = [step.get('run') for step in steps]
-        self.assertIn('flutter build ios --debug --no-codesign', builds)
-        self.assertIn('flutter build ios --simulator --debug', builds)
-        release = next(step for step in steps if step.get('run') == 'flutter build ios --release --no-codesign')
-        self.assertEqual(release['if'], "matrix.xcode == '26.2'")
-        self.assertIn('python3 tools/run_ci_ios_qa.py', builds)
-        artifact = next(step for step in steps if step.get('uses') == 'actions/upload-artifact@v4')
-        self.assertEqual(artifact['with']['name'], 'ios-simulator-ui-${{ matrix.xcode }}')
 
 
 class NativeFailureEvidenceTests(unittest.TestCase):

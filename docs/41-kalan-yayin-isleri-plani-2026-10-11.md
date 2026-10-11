@@ -4,6 +4,12 @@ Başlangıç: `b54f37a`, PR #1 taslak. Son CI `38132103096` 7/9 işte başarıl�
 Bu plan güçlü MVP kapsamını ve mevcut yayın kapılarını korur. Kod tamamlanması,
 uzman/hak kararı veya mağaza kabulü yerine geçmez.
 
+**11 Ekim kapsam değişikliği:** Kullanıcı uzun yayın/native testlerinin
+otomatik akıştan çıkarılmasını istedi. Aşağıdaki CI/native tekrar maddeleri
+tarihsel plandır; yeni akış yalnız kaynak/QA, Flutter analiz-birim testi ve
+veritabanı kontrollerini çalıştırır. Native araçlar depoda kalır, ancak
+kullanıcı açıkça yeniden istemedikçe başlatılmaz. Yayın kapıları açık kalır.
+
 ## 1. Bu turda yapılacak teknik işler
 
 1. Android API35 paketli ses testinde `A-H08.3-TR-01` sırasında oluşan hatayı

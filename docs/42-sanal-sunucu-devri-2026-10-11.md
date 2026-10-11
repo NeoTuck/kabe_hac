@@ -4,12 +4,11 @@
 
 - Depo: `https://github.com/NeoTuck/kabe_hac`
 - Çalışma dalı: `codex/mvp1-pilot`; PR #1 açık/taslak.
-- Bu devirdeki son gönderilmiş kod: `4acd08a`; ilk iOS26 kurulum süresi
-  düzeltmesi yerelde hazırlanmıştır ve sonraki commit/CI ile doğrulanmalıdır.
-- Son kabul koşusu: GitHub Actions `38142992091` (iOS16.4 işi başarılı,
-  iOS26.2 ilk kurulum zaman aşımı nedeniyle başarısız). Önce tüm işlerini,
-  ardından ilgili
-  artifact/JUnit/session ve paket özetlerini kontrol et.
+- Son gönderilmiş uygulama kodu `9547ecb` üzerindedir. iOS26 ilk kurulum
+  süresi düzeltmesi bu commit'tedir; yeni native sonucu kullanıcı isteğiyle
+  takip edilmiyor.
+- Son bağımsız incelenen koşu GitHub Actions `38142992091`: iOS16.4 ve
+  Android işleri başarılı, iOS26.2 ilk kurulum zaman aşımıyla başarısız.
 - Yerel biçim ve Flutter analiz temiz; 241 Flutter ve 86 Python testi geçti.
   Python testleri macOS'ta kanonik `TMPDIR=/private/tmp` ile çalıştırıldı.
   iOS kurulum aracı değişikliğinden sonra da aynı kontroller tekrar geçti.
@@ -43,8 +42,17 @@ cihaz testi/kurulu APK hash'i doğrulandı; iki 16 KB emülatöründe ölçülen
 sayfa boyutu 16384'tür. iOS26.2'de derlemeler geçti fakat ilk simülatör
 uygulama kurulumu 120 saniyede zaman aşımına uğradı; native akış çalışmadı.
 İlk kurulum sınırını 300 saniyeye çıkaran ve hata kanıtı yazan değişiklik
-sonraki CI'da kabul edilmelidir. iOS16.4 işi başarılıdır; artifact denetimi
-ayrı sürüyor.
+sonraki gerçek cihaz kabulü gerektirir. iOS16.4 artifact'inde 9/9 UI,
+54/54 ses, probe 1/1 ve sıfır JUnit hatası bağımsız incelendi; kurulu iOS
+`.app` hash'i bu arşivde bulunmuyor.
+
+**Güncel kullanıcı tercihi:** Uzun yayın/native işleri otomatik GitHub
+akışından çıkarıldı. `mvp-checks.yml` artık iOS simülatör, Android emülatör,
+release APK/AAB veya teknik ses probe üretmez; kısa QA, Flutter
+analiz/birim testi ve veritabanı kontrolleri kalır. Araçlar gerektiğinde
+elle çalıştırılabilecek biçimde depoda saklanır. Bu değişiklik için yeni
+yerel veya native test istenmedi. Önceki cihaz kanıtları tarihseldir;
+yayın kapıları kapanmış sayılmaz.
 
 ## Açık yayın kapıları
 
@@ -69,15 +77,12 @@ gerçek kişi/onay/izin/credential içermez. Bunları uydurup `approved` veya
 > `NeoTuck/kabe_hac` deposunda `codex/mvp1-pilot` dalını koruyarak devam et.
 > Önce `git status --short --branch`, `AGENTS.md` ve
 > `docs/41-kalan-yayin-isleri-plani-2026-10-11.md` dosyalarını oku;
-> kullanıcı değişikliklerini silme. `4acd08a` için PR #1 GitHub Actions
-> `38142992091` sonucunu, özellikle iOS16.4 artifact'ini kontrol et. Sonraki
-> iOS26 ilk kurulum zaman aşımı düzeltmesinin CI sonucunu da izle. Flutter/QA/veritabanı, Android
-> API28/API35/API36-16 KB, iki iOS ve AAB türevi denetimlerinde yalnız
-> `completed/success` başlığına dayanma: JUnit/session, cihaz sayfa boyutu,
-> ses 54/54, kurulu Android APK hash'i ve RELRO raporunu incele. Gerçek hata
-> varsa assertion gevşetmeden küçük düzeltme yap; biçim, analiz, Flutter
-> ve ilgili Python kontrollerini çalıştır; normal push ile PR #1'e gönder.
-> Sonucu `docs/41` ve `AGENTS.md` içinde commit/CI kimliğiyle güncelle.
+> kullanıcı değişikliklerini silme. Uzun yayın/native testleri kullanıcı
+> istemedikçe başlatma veya CI sonucunu izleme. Önce koddan incelenebilen
+> bağımsız işleri tamamla; değişiklikleri normal push ile PR #1'e gönder.
+> Native/mağaza testleri daha sonra açıkça istenirse mevcut araçlarla yeniden
+> çalıştır ve sonucu artifact/JUnit/session ile doğrula. O zamana kadar
+> bunları geçmiş kanıt veya yayın kabulü olarak gösterme.
 > Gerçek uzman/hak/servis/cihaz/imza girdisi yoksa ilgili yayın kapısını
 > kapalı tut ve hangi kişi ya da hesabın hangi belgeyi sağlaması gerektiğini
 > `docs/release-handoff/2026-10-10/README.md` üzerinden bildir.
