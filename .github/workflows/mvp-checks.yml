@@ -96,6 +96,8 @@ jobs:
       - name: Unsigned release compilation with current store SDK
         if: matrix.xcode == '26.2'
         run: flutter build ios --release --no-codesign
+      - name: Inventory packaged SDK privacy manifests
+        run: python3 tools/audit_ios_privacy.py build/ios/iphoneos/Runner.app --output build/mobile-qa/ios-privacy-manifests.json
       - run: flutter build ios --simulator --debug
       - run: python3 tools/build_audio_probe.py --platform ios-simulator
       - uses: actions/setup-java@v4
@@ -149,9 +151,12 @@ jobs:
         env:
           NODE_PATH: /tmp/kabe-pglite/node_modules
   android-ui:
-    needs: flutter
+    needs: [flutter, android-release-size]
+    # Keep API28/API35 regressions runnable when the independent optimized
+    # bundle job fails; the 16KB job still requires its actual artifact.
+    if: always() && needs.flutter.result == 'success'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -160,6 +165,11 @@ jobs:
             target: google_apis
           - api: 35
             target: default
+          - api: 36
+            target: google_apis_ps16k
+            page_size: 16384
+    env:
+      EXPECTED_PAGE_SIZE: ${{ matrix.page_size || 4096 }}
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -178,6 +188,14 @@ jobs:
         with:
           name: android-debug-pilot
           path: build/app/outputs/flutter-apk
+      - uses: actions/download-artifact@v4
+        if: matrix.page_size == 16384
+        with:
+          name: android-optimized-technical-pilot
+          path: build/optimized-pilot
+      - name: Select optimized 16KB runtime APK
+        if: matrix.page_size == 16384
+        run: cp build/optimized-pilot/app/outputs/flutter-apk/app-x86_64-release.apk build/app/outputs/flutter-apk/
       - uses: actions/download-artifact@v4
         with:
           name: android-audio-qa-only
@@ -229,11 +247,25 @@ jobs:
         env:
           KABE_TECHNICAL_PILOT: 'true'
       - run: python3 tools/verify_production_assets.py build/app/outputs/flutter-apk/app-*-release.apk
+      - name: Verify actual native ELF and APK 16KB alignment
+        run: |
+          python3 tools/audit_android_native.py build/app/outputs/flutter-apk/app-*-release.apk --output build/android-native-alignment.json
+          for apk in build/app/outputs/flutter-apk/app-*-release.apk; do
+            "$ANDROID_HOME/build-tools/36.0.0/zipalign" -c -P 16 -v 4 "$apk"
+          done
       - run: python3 tools/report_apk_sizes.py
+      - name: Compile technical App Bundle without granting publication
+        run: |
+          flutter build appbundle --release
+          python3 tools/verify_production_assets.py build/app/outputs/bundle/release/app-release.aab
+        env:
+          KABE_TECHNICAL_PILOT: 'true'
       - uses: actions/upload-artifact@v4
         with:
           name: android-optimized-technical-pilot
           path: |
             build/app/outputs/flutter-apk/app-*-release.apk
             build/apk-size-report.json
+            build/android-native-alignment.json
+            build/app/outputs/bundle/release/app-release.aab
           if-no-files-found: error

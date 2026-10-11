@@ -30,7 +30,7 @@ class NativeStageTests(unittest.TestCase):
             self.assertEqual(runner.exit_code, 1)
 
     def test_android_ui_failure_still_runs_production_audio_and_probe(self):
-        with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true'}), patch.object(run_ci_android_qa, 'NativeStages') as factory:
+        with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true'}), patch.object(run_ci_android_qa, 'NativeStages') as factory, patch.object(run_ci_android_qa, 'verify_page_size'):
             stages = factory.return_value
             stages.run.side_effect = [0, 2, 0, 0, 0]
             stages.exit_code = 1
@@ -39,12 +39,38 @@ class NativeStageTests(unittest.TestCase):
             self.assertEqual(names, ['production-install', 'application-ui', 'bundled-narration-native', 'probe-install', 'technical-audio-probe'])
 
     def test_failed_install_does_not_claim_device_tests_executed(self):
-        with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true'}), patch.object(run_ci_android_qa, 'NativeStages') as factory:
+        with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true'}), patch.object(run_ci_android_qa, 'NativeStages') as factory, patch.object(run_ci_android_qa, 'verify_page_size'):
             stages = factory.return_value
             stages.run.return_value = 1
             stages.exit_code = 1
             self.assertEqual(run_ci_android_qa.main(), 1)
             self.assertEqual(stages.run.call_count, 1)
+
+    def test_16kb_uses_optimized_apk_and_disables_compatibility_before_ui(self):
+        with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true', 'EXPECTED_PAGE_SIZE': '16384'}), \
+             patch.object(run_ci_android_qa, 'NativeStages') as factory, \
+             patch.object(run_ci_android_qa, 'verify_page_size') as verify, \
+             patch.object(run_ci_android_qa.subprocess, 'check_output', side_effect=['false\n', 'true\n']):
+            stages = factory.return_value
+            stages.run.return_value = 0
+            stages.exit_code = 0
+            self.assertEqual(run_ci_android_qa.main(), 0)
+            self.assertEqual(verify.call_args.args[1], 16384)
+            calls = stages.run.call_args_list
+            self.assertEqual(calls[0].args[0], 'disposable-emulator-root')
+            self.assertIn('app-x86_64-release.apk', str(calls[4].args[1][-1]))
+            self.assertEqual(calls[5].args[0], 'application-ui')
+            self.assertIn('bundled-narration-native', [call.args[0] for call in calls])
+
+    def test_unapplied_16kb_compatibility_property_prevents_false_pass(self):
+        with patch.dict('os.environ', {'GITHUB_ACTIONS': 'true', 'EXPECTED_PAGE_SIZE': '16384'}), \
+             patch.object(run_ci_android_qa, 'NativeStages') as factory, \
+             patch.object(run_ci_android_qa, 'verify_page_size'), \
+             patch.object(run_ci_android_qa.subprocess, 'check_output', return_value='true\n'):
+            factory.return_value.run.return_value = 0
+            with self.assertRaisesRegex(RuntimeError, 'was not applied'):
+                run_ci_android_qa.main()
+            self.assertNotIn('application-ui', [call.args[0] for call in factory.return_value.run.call_args_list])
 
     def test_ios_ui_failure_still_runs_production_audio_and_probe(self):
         import plistlib

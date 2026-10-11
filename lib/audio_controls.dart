@@ -68,7 +68,10 @@ class AudioControls extends StatelessWidget {
                 container: true,
                 button: true,
                 child: PopupMenuButton<double>(
-                  tooltip: 'Anlatım hızı',
+                  // The visible label already includes the current speed. iOS
+                  // appends tooltip text to accessibilityText; repeating it
+                  // produces a second announcement and hides the exact label.
+                  tooltip: '',
                   initialValue: narration.speed,
                   onSelected: (speed) async {
                     try {

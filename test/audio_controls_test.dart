@@ -36,6 +36,7 @@ void main() {
       );
       final node = tester.getSemantics(find.text('Anlatım hızı · 1.0×'));
       expect(node.label, 'Anlatım hızı · 1.0×');
+      expect(node.getSemanticsData().tooltip, isEmpty);
       expect(node.getSemanticsData().flagsCollection.isButton, isTrue);
       expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
       tester.binding.rootPipelineOwner.visitChildren((owner) {

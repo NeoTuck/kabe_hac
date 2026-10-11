@@ -93,6 +93,7 @@ class NativeEnvironmentRegressionTests(unittest.TestCase):
         self.assertEqual(job['strategy']['matrix']['include'], [
             {'api': 28, 'target': 'google_apis'},
             {'api': 35, 'target': 'default'},
+            {'api': 36, 'target': 'google_apis_ps16k', 'page_size': 16384},
         ])
         runner = next(step for step in job['steps']
                       if step.get('uses') == 'reactivecircus/android-emulator-runner@v2')
