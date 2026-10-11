@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-11",
+  "code_head_tested": "a569f18262f40886f46e670627e0f1f863336f5f",
+  "run": 38124114268,
+  "merge_head": "2e3faca2a5852dcf0cba99163d32cd81656608c7",
+  "merge_and_branch_tree": "0446fb7624112020df1e02fba4e0f4e2a7d4e6a1",
+  "expected_and_installed_apk_sha256": "0a4c48db267ec174245c1cb54e3fdee64d3035f1dc393da64e3c53493f3fcecc",
+  "artifacts": [
+    {
+      "api": 28,
+      "id": 11696229870,
+      "sha256": "dabc8a4a7d18238fe45a494f292c73b2abe8308c8a8c144bb7818d467eea7ee7",
+      "passed": 7,
+      "total": 9,
+      "failed_flows": [
+        "03",
+        "07"
+      ]
+    },
+    {
+      "api": 35,
+      "id": 11696344623,
+      "sha256": "5c3fc99581c512d27404beb21a69d20aa95d30ff6b1e4d6d77fb991cee238259",
+      "passed": 5,
+      "total": 9,
+      "failed_flows": [
+        "03",
+        "07",
+        "08",
+        "09"
+      ]
+    }
+  ],
+  "reviewed_evidence": [
+    "artifact_digest",
+    "JUnit",
+    "commands_timing",
+    "failed_screen_hierarchy",
+    "installed_apk_hash",
+    "merge_tree"
+  ],
+  "ios": "cancelled_by_subsequent_push",
+  "all_bundled_narration_integration": "not_executed_due_to_early_ui_failure",
+  "technical_probe": "not_executed_due_to_early_ui_failure",
+  "physical_device_tested": false,
+  "fixes": [
+    "DOWN follows packageId-sorted runtime catalog",
+    "200ms media settle and explicit paused-status viewport",
+    "bounded restored-home wait; remove broad Rehber tap",
+    "independent Android/iOS UI, real narration and probe stages with aggregate failures"
+  ],
+  "before_failed_configuration_regressions": 3,
+  "local_python_passed": 65,
+  "unchanged_flutter_last_passed": 232,
+  "new_native_acceptance": "requires subsequent corrected-head CI; not inferred from configuration tests",
+  "live_service_accepted": false
+}

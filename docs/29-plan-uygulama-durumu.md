@@ -38,3 +38,7 @@ Güncel teknik davranış, yerel test ve çalıştırılmayan kabul [docs/36](36
 ## 11 Ekim ses ve koşul yenileme devamı
 
 Geciken ses komutları sıralandı; yükleme/devam sırasında kesinti yeni kullanıcı isteği bekler, native varsayılan auto-resume kapatıldı. Sunucu eski koşulu reddedince güncel sürüm/yeniden kabul akışı daveti kaybetmeden açılır; offline yenileme eski kabulü geri getirmez. Yerel 232 Flutter / 57 Python, format/analyze temiz. Native step-change ve bütün paketli dosya değiştirme regresyonları güçlendirildi; yeni native sonuç ayrı doğrulanmalıdır. Kanıt ve sınırlar [docs/37](37-ses-kesinti-ve-kosul-yenileme-2026-10-11.md).
+
+## 11 Ekim native kanıt düzeltmesi
+
+a569f18 CI Android 7/9 ve 5/9 başarısız; iki iOS cancelled. Yanlış katalog kaydırması, kısa sesin driver beklemesinde bitmesi/viewport ve geniş Rehber seçicisi somut artifact kanıtıyla düzeltildi. Bağımsız bütün paketli ses testi artık ekran testinde failure olunca atlanmaz, sonuçlar ayrı ve toplam failure korunur. Son Python 65/65; Flutter kodu önceki 232/232 doğrulama sonrası değişmedi. Son native kabul bekler; ayrıntı docs/37 ve yeni QA JSON. Eski in_progress gözlemleri tarihsel olup başarı iddiası değildir.

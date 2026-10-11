@@ -48,7 +48,13 @@
     "database": "success",
     "qa_foundation": "success",
     "ios_build_steps": "success before native QA",
-    "android_ios_native": "in_progress_at_observation"
+    "android_ios_native": "in_progress_at_observation",
+    "subsequent_observation": {
+      "android_api28": "failed_7_of_9",
+      "android_api35": "failed_5_of_9",
+      "ios": "cancelled_by_subsequent_push",
+      "details": "2026-10-11-native-bulgu-duzeltme.json"
+    }
   },
   "new_native_results": "pending subsequent CI; not inferred from fake backend or previous head",
   "physical_device_tested": false,
