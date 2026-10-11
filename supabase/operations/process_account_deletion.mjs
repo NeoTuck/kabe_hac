@@ -32,19 +32,18 @@ async function api(path, options = {}, allowed = [200]) {
     redirect: 'error',
   });
   if (!allowed.includes(response.status)) {
-    const body = (await response.text()).slice(0, 600);
-    throw new Error(`${path.split('?')[0]} returned HTTP ${response.status}: ${body}`);
+    throw new Error(`${path.split('?')[0]} returned HTTP ${response.status}`);
   }
   return response;
 }
 async function complete() {
-  const updated = await api(`/rest/v1/account_deletion_operations?request_id=eq.${requestId}&status=eq.processing`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', Prefer: 'return=representation' },
-    body: JSON.stringify({ status: 'deleted', user_id: null, completed_at: new Date().toISOString() }),
+  const response = await api('/rest/v1/rpc/finalize_account_deletion', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ target_request: requestId }),
   });
-  if ((await updated.json()).length !== 1) throw new Error('Operation completion was not recorded.');
+  if (await response.json() !== true) throw new Error('Deletion completion was not confirmed.');
 }
+
 try {
   if (mode === '--reconcile') {
     // A durable job proves that this exact request was prepared by the server.

@@ -1,5 +1,5 @@
 begin;
-select plan(12);
+select plan(17);
 
 insert into auth.users (id, aud, role, email, encrypted_password) values
   ('80000000-0000-0000-0000-000000000001', 'authenticated', 'authenticated', 'reporter@example.test', ''),
@@ -24,6 +24,12 @@ insert into public.message_reports (id, message_id, group_id, reporter_id, reaso
 insert into public.account_deletion_requests (id, user_id) values
   ('80000000-0000-0000-0000-000000000008',
    '80000000-0000-0000-0000-000000000001');
+
+-- Isolated accepted fixture; never seed this text into a live service.
+insert into public.service_terms(version,body,document_url,document_sha256,current)
+values('fixture-v1','TEST ONLY terms','https://example.test/terms',repeat('a',64),true);
+insert into public.service_terms_acceptances(user_id,terms_version)
+select id,'fixture-v1' from auth.users;
 
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
@@ -67,6 +73,7 @@ select set_config('request.jwt.claim.role', 'service_role', true);
 select is((public.prepare_account_deletion(
   '80000000-0000-0000-0000-000000000009')->>'ready')::boolean,
   true, 'Unencumbered account can be prepared');
+select throws_ok($$ select public.finalize_account_deletion('80000000-0000-0000-0000-000000000009') $$,null,'Auth user still exists; completion refused','Preparation never proves Auth deletion');
 reset role;
 select is((select status from public.account_deletion_operations where request_id =
   '80000000-0000-0000-0000-000000000009'),
@@ -78,5 +85,13 @@ select is((select count(*) from public.account_deletion_requests where id =
   '80000000-0000-0000-0000-000000000009'),
   0::bigint, 'Auth deletion cascades the original request');
 
+set local role service_role;
+select set_config('request.jwt.claim.role', 'service_role', true);
+select lives_ok($$ select public.finalize_account_deletion((select request_id from public.account_deletion_operations where status='processing' limit 1)) $$,'Deleted Auth account can be finalized');
+select lives_ok($$ select public.finalize_account_deletion((select request_id from public.account_deletion_operations where status='deleted' limit 1)) $$,'Completion repeat is idempotent');
+select ok((select completed_at is not null from public.account_deletion_operations where status='deleted' limit 1),'Completion has server time');
+set local role authenticated;
+select throws_ok($$ select public.finalize_account_deletion('00000000-0000-0000-0000-000000000001') $$,'42501',null,'Client cannot claim account deletion completed');
+reset role;
 select * from finish();
 rollback;

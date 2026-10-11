@@ -37,6 +37,7 @@ async function main() {
     await observer.query(readFileSync(path.join(__dirname,'bootstrap.sql'),'utf8'));
     for (const f of readdirSync(path.join(root,'migrations')).filter(f => f.endsWith('.sql')).sort()) await observer.query(readFileSync(path.join(root,'migrations',f),'utf8'));
     await observer.query('insert into auth.users(id) values ($1),($2)', [user,admin]);
+    await observer.query("-- Isolated accepted fixture; never seed this text into a live service.\ninsert into public.service_terms(version,body,document_url,document_sha256,current)\nvalues('fixture-v1','TEST ONLY terms','https://example.test/terms',repeat('a',64),true);\ninsert into public.service_terms_acceptances(user_id,terms_version)\nselect id,'fixture-v1' from auth.users;\n");
     await observer.query('insert into public.groups(id,name,created_by) values ($1,\'concurrency fixture\',$2)', [group,admin]);
     await observer.query('insert into public.group_members(group_id,user_id,role) values ($1,$2,\'member\'),($1,$3,\'group_admin\')', [group,user,admin]);
     const aPid = (await a.query('select pg_backend_pid() as pid')).rows[0].pid;

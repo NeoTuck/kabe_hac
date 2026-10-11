@@ -32,6 +32,12 @@ insert into public.message_reports
 update public.message_reports set created_at = '2026-10-09 10:00:00+00'
   where id = '90000000-0000-0000-0000-000000000006';
 
+-- Isolated accepted fixture; never seed this text into a live service.
+insert into public.service_terms(version,body,document_url,document_sha256,current)
+values('fixture-v1','TEST ONLY terms','https://example.test/terms',repeat('a',64),true);
+insert into public.service_terms_acceptances(user_id,terms_version)
+select id,'fixture-v1' from auth.users;
+
 set local role authenticated;
 select set_config('request.jwt.claim.role', 'authenticated', true);
 select set_config('request.jwt.claim.sub', '90000000-0000-0000-0000-000000000001', true);

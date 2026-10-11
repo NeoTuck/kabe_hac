@@ -30,6 +30,7 @@ async function main() {
       await query('insert into public.group_members(group_id,user_id,role) values ($1,$2,$3)', [gid(g),uid(u),r]);
       await query('insert into public.device_push_tokens(user_id,platform,token) values ($1,\'android\',$2)', [uid(u), `fixture-${u}`]);
     }
+    await pg.exec("-- Isolated accepted fixture; never seed this text into a live service.\ninsert into public.service_terms(version,body,document_url,document_sha256,current)\nvalues('fixture-v1','TEST ONLY terms','https://example.test/terms',repeat('a',64),true);\ninsert into public.service_terms_acceptances(user_id,terms_version)\nselect id,'fixture-v1' from auth.users;\n");
     await role(3);
     await denied('select * from public.claim_push_deliveries(5)', [], 'client cannot claim jobs');
     await denied('select public.cleanup_expired_locations(100)', [], 'client cannot clean location');

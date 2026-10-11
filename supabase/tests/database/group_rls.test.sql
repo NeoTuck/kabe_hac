@@ -37,6 +37,12 @@ insert into public.location_updates (share_id, user_id, latitude, longitude, acc
 values ('40000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003',
  21.4, 39.8, 5, now() - interval '1 minute');
 
+-- Isolated accepted fixture; never seed this text into a live service.
+insert into public.service_terms(version,body,document_url,document_sha256,current)
+values('fixture-v1','TEST ONLY terms','https://example.test/terms',repeat('a',64),true);
+insert into public.service_terms_acceptances(user_id,terms_version)
+select id,'fixture-v1' from auth.users;
+
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000001', true);
 
