@@ -5,15 +5,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/group_repository.dart';
 import 'package:hac_umre_sesli_rehber/group_screen.dart';
 import 'package:hac_umre_sesli_rehber/group_sync.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'test_fakes.dart';
 
 class QueuedStore extends MemoryGuideStore {
   MessageOutboxStatus status = MessageOutboxStatus.pending;
+  String? lastError;
+  bool removed = false;
   @override
   Future<List<GroupOutboxMessage>> readGroupOutbox({
     MessageOutboxStatus? status,
-  }) async => status != null && status != this.status
+  }) async => removed || (status != null && status != this.status)
       ? []
       : [
           GroupOutboxMessage(
@@ -22,6 +25,7 @@ class QueuedStore extends MemoryGuideStore {
             ownerUserId: 'user-a',
             body: 'Bekleyen mesaj',
             status: this.status,
+            lastError: lastError,
             attemptCount: 0,
             createdAt: DateTime.utc(2026),
             updatedAt: DateTime.utc(2026),
@@ -34,12 +38,22 @@ class QueuedStore extends MemoryGuideStore {
     String? error,
   }) async {
     this.status = status;
+    lastError = error;
+  }
+
+  @override
+  Future<void> discardRejectedGroupMessage({
+    required String clientId,
+    required String ownerUserId,
+  }) async {
+    removed = true;
   }
 }
 
 class RefreshRepository extends UnconfiguredGroupRepository {
   String? uid = 'user-a';
   bool failSend = false;
+  bool rejectSend = false;
   final delivered = <Map<String, dynamic>>[];
   final oldGroups = Completer<List<GroupRecord>>();
   Completer<GroupSnapshot>? pendingSnapshot;
@@ -59,6 +73,12 @@ class RefreshRepository extends UnconfiguredGroupRepository {
   @override
   Future<void> send(GroupOutboxMessage message) async {
     if (failSend) throw StateError('offline');
+    if (rejectSend) {
+      throw const PostgrestException(
+        message: 'message content rejected',
+        code: '42501',
+      );
+    }
     delivered.add({
       'body': message.body,
       'sender_id': message.ownerUserId,
@@ -130,6 +150,37 @@ void main() {
           .first,
     );
     expect(status, findsOneWidget);
+    expect(repo.delivered, isEmpty);
+    await tester.pumpWidget(const SizedBox.shrink());
+    repo.dispose();
+  });
+  testWidgets('rejected message has explanation and account local removal', (
+    tester,
+  ) async {
+    final repo = RefreshRepository()..rejectSend = true;
+    final store = QueuedStore();
+    await openDetail(tester, repo, store);
+    await tester.pumpAndSettle();
+    expect(store.status, MessageOutboxStatus.rejected);
+    final remove = find.text('Yerel mesajı kaldır');
+    await tester.scrollUntilVisible(
+      remove,
+      250,
+      scrollable: find
+          .descendant(
+            of: find.byType(ListView),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+    expect(find.textContaining('Metni değiştirip'), findsOneWidget);
+    expect(find.textContaining('tekrar gönderilmeyecek'), findsOneWidget);
+    await tester.drag(find.byType(ListView), const Offset(0, -150));
+    await tester.pumpAndSettle();
+    await tester.tap(remove);
+    await tester.pumpAndSettle();
+    expect(store.removed, isTrue);
+    expect(find.text('Bekleyen mesaj'), findsNothing);
     expect(repo.delivered, isEmpty);
     await tester.pumpWidget(const SizedBox.shrink());
     repo.dispose();

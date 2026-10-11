@@ -1,4 +1,4 @@
-enum MessageOutboxStatus { pending, sent, failed }
+enum MessageOutboxStatus { pending, sent, failed, rejected }
 
 class GroupOutboxMessage {
   const GroupOutboxMessage({

@@ -17,6 +17,16 @@ bool isServiceTermsError(Object error) =>
       'terms changed; read current version',
     }.contains(error.message);
 
+bool isContentRejectedError(Object error) =>
+    error is PostgrestException &&
+    error.code == '42501' &&
+    error.message == 'message content rejected';
+
+bool isContentPolicyUnavailableError(Object error) =>
+    error is PostgrestException &&
+    error.code == '42501' &&
+    error.message == 'content moderation unavailable';
+
 bool validGroupId(String id) => RegExp(
   r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
 ).hasMatch(id);
@@ -650,7 +660,8 @@ class GroupOutboxSynchronizer {
     for (final message in await store.readGroupOutbox()) {
       if (message.ownerUserId != uid ||
           message.groupId != groupId ||
-          message.status == MessageOutboxStatus.sent) {
+          message.status == MessageOutboxStatus.sent ||
+          message.status == MessageOutboxStatus.rejected) {
         continue;
       }
       if (repository.userId != uid) return;
@@ -665,10 +676,16 @@ class GroupOutboxSynchronizer {
         if (repository.userId != uid) return;
         await store.markGroupMessageAttempt(
           clientId: message.clientId,
-          status: MessageOutboxStatus.failed,
-          error: isServiceTermsError(error)
+          status: isContentRejectedError(error)
+              ? MessageOutboxStatus.rejected
+              : MessageOutboxStatus.failed,
+          error: isContentRejectedError(error)
+              ? 'Mesaj kullanım koşullarına uymadığı için gönderilmedi. Metni değiştirip yeni mesaj yaz; bu kayıt tekrar gönderilmez.'
+              : isContentPolicyUnavailableError(error)
+              ? 'Sohbet şu anda kullanılamıyor. Daha sonra yeniden dene veya destekle iletişime geç.'
+              : isServiceTermsError(error)
               ? 'Güncel kullanım koşullarını Kafilem ekranında okuyup kabul et; sonra mesajı yeniden gönder.'
-              : 'Gönderilemedi; bağlantı ve grup erişimini kontrol et.',
+              : 'Bağlantı ve grup erişimini kontrol et.',
         );
       }
     }

@@ -1708,10 +1708,45 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                       children: [
                         Text(m.body),
                         Text(
-                          m.status == MessageOutboxStatus.failed
+                          m.status == MessageOutboxStatus.rejected
+                              ? 'Gönderilmedi · bu mesaj tekrar gönderilmeyecek'
+                              : m.status == MessageOutboxStatus.failed
                               ? 'Gönderilemedi · yeniden denemek için yenile'
                               : 'Gönderim bekliyor · henüz teslim edilmedi',
                         ),
+                        if (m.lastError != null) Text(m.lastError!),
+                        if (m.status == MessageOutboxStatus.rejected)
+                          TextButton(
+                            onPressed: () async {
+                              final owner = _owner;
+                              if (owner == null ||
+                                  widget.repository.userId != owner) {
+                                return;
+                              }
+                              try {
+                                await widget.store.discardRejectedGroupMessage(
+                                  clientId: m.clientId,
+                                  ownerUserId: owner,
+                                );
+                                if (mounted &&
+                                    widget.repository.userId == owner) {
+                                  setState(
+                                    () => _outbox.removeWhere(
+                                      (row) => row.clientId == m.clientId,
+                                    ),
+                                  );
+                                }
+                              } catch (_) {
+                                if (mounted &&
+                                    widget.repository.userId == owner) {
+                                  setState(
+                                    () => _error = 'Yerel mesaj kaldırılamadı. Yeniden dene.',
+                                  );
+                                }
+                              }
+                            },
+                            child: const Text('Yerel mesajı kaldır'),
+                          ),
                       ],
                     ),
                   ),

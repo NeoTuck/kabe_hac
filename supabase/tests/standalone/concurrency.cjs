@@ -102,6 +102,32 @@ async function main() {
     await b.query('begin'); const claimB = (await b.query('select * from public.claim_push_deliveries(1)')).rows[0];
     assert.notEqual(claimA.id,claimB.id); await a.query('commit'); await b.query('commit');
     ok('two workers claim different jobs with SKIP LOCKED');
+    await observer.query(`insert into public.content_moderation_policies
+      (version,terms_version,denied_phrases,policy_document_url,policy_document_sha256,current)
+      values('qa-policy-v1','fixture-v1',array['QA-OLD-BLOCKED'],'https://example.test/policy',repeat('a',64),true)`);
+    await a.query('begin');
+    await a.query("update public.content_moderation_policies set current=false where current");
+    await a.query(`insert into public.content_moderation_policies
+      (version,terms_version,denied_phrases,policy_document_url,policy_document_sha256,current)
+      values('qa-policy-v2','fixture-v1',array['QA-NEW-BLOCKED'],'https://example.test/policy/v2',repeat('b',64),true)`);
+    await beginMember();
+    const post = b.query(`insert into public.messages(group_id,sender_id,client_id,body)
+      values($1,$2,gen_random_uuid(),'QA-NEW-BLOCKED')`,[group,user]).then(() => null,e => e);
+    await blocked(bPid); await a.query('commit');
+    assert.equal((await post)?.code,'42501'); await b.query('rollback');
+    await beginMember();
+    await assert.rejects(b.query(`insert into public.messages(group_id,sender_id,client_id,body)
+      values($1,$2,gen_random_uuid(),'QA-NEW-BLOCKED')`,[group,user]), e => e.code==='42501' && e.message==='message content rejected');
+    await b.query('rollback');
+    ok('policy publication first: waiting write cannot use stale rules; retry uses new rules');
+    await beginMember();
+    await b.query(`insert into public.messages(group_id,sender_id,client_id,body)
+      values($1,$2,gen_random_uuid(),'qa-before-publication')`,[group,user]);
+    await a.query('begin');
+    const publishAfterPost = a.query('update public.content_moderation_policies set current=false where current');
+    await blocked(aPid); await b.query('commit'); await publishAfterPost; await a.query('commit');
+    assert.equal((await observer.query("select moderation_policy_version from public.messages where body='qa-before-publication'")).rows[0].moderation_policy_version,'qa-policy-v2');
+    ok('posting first: policy publication waits and committed message retains checked version');
     console.log(`PASS ${checks} PostgreSQL concurrency checks`);
   } finally {
     await Promise.all(clients.map(async c => { await c.query('rollback').catch(() => {}); await c.end().catch(() => {}); }));

@@ -35,6 +35,9 @@ update public.message_reports set created_at = '2026-10-09 10:00:00+00'
 -- Isolated accepted fixture; never seed this text into a live service.
 insert into public.service_terms(version,body,document_url,document_sha256,current)
 values('fixture-v1','TEST ONLY terms','https://example.test/terms',repeat('a',64),true);
+-- TEST-ONLY literal rule; no production policy/approval.
+insert into public.content_moderation_policies(version,terms_version,denied_phrases,policy_document_url,policy_document_sha256,current) values('fixture-policy-v1','fixture-v1',array['QA-BLOCKED-TEXT'],'https://example.test/policy',repeat('c',64),true);
+
 insert into public.service_terms_acceptances(user_id,terms_version)
 select id,'fixture-v1' from auth.users;
 

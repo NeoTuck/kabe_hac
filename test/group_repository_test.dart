@@ -6,10 +6,12 @@ import 'package:hac_umre_sesli_rehber/group_repository.dart';
 import 'package:hac_umre_sesli_rehber/group_sync.dart';
 import 'package:hac_umre_sesli_rehber/progress_store.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SendingRepository extends UnconfiguredGroupRepository {
   String? uid = 'user-a';
   bool fail = false;
+  Object? sendError;
   Completer<void>? gate;
   final sent = <String>[];
   @override
@@ -20,6 +22,7 @@ class SendingRepository extends UnconfiguredGroupRepository {
   Future<void> send(GroupOutboxMessage message) async {
     sent.add(message.clientId);
     await gate?.future;
+    if (sendError != null) throw sendError!;
     if (fail) throw StateError('server denied');
   }
 }
@@ -156,6 +159,118 @@ void main() {
     expect(
       (await store.readGroupOutbox()).single.status,
       MessageOutboxStatus.sent,
+    );
+  });
+  test(
+    'content rejection persists after reopen and never auto retries',
+    () async {
+      await enqueue('rejected', 'user-a');
+      repository.sendError = const PostgrestException(
+        message: 'message content rejected',
+        code: '42501',
+      );
+      await GroupOutboxSynchronizer(store, repository).sync('group-a');
+      var row = (await store.readGroupOutbox()).single;
+      expect(row.status, MessageOutboxStatus.rejected);
+      expect(row.lastError, contains('Metni değiştirip'));
+      await store.close();
+      store = ProgressStore(
+        factory: databaseFactoryFfi,
+        databasePath: '${directory.path}/app.db',
+      );
+      repository.sendError = null;
+      await GroupOutboxSynchronizer(store, repository).sync('group-a');
+      row = (await store.readGroupOutbox()).single;
+      expect(repository.sent, ['rejected']);
+      expect(row.attemptCount, 1);
+      expect(row.status, MessageOutboxStatus.rejected);
+      await expectLater(
+        store.discardRejectedGroupMessage(
+          clientId: row.clientId,
+          ownerUserId: 'user-b',
+        ),
+        throwsStateError,
+      );
+      expect(await store.readGroupOutbox(), hasLength(1));
+      await store.discardRejectedGroupMessage(
+        clientId: row.clientId,
+        ownerUserId: 'user-a',
+      );
+      await store.discardRejectedGroupMessage(
+        clientId: row.clientId,
+        ownerUserId: 'user-a',
+      );
+      expect(await store.readGroupOutbox(), isEmpty);
+    },
+  );
+  test('policy outage remains retryable and explains the next step', () async {
+    await enqueue('outage', 'user-a');
+    repository.sendError = const PostgrestException(
+      message: 'content moderation unavailable',
+      code: '42501',
+    );
+    final sync = GroupOutboxSynchronizer(store, repository);
+    await sync.sync('group-a');
+    final row = (await store.readGroupOutbox()).single;
+    expect(row.status, MessageOutboxStatus.failed);
+    expect(row.lastError, contains('destekle'));
+    repository.sendError = null;
+    await sync.sync('group-a');
+    expect(
+      (await store.readGroupOutbox()).single.status,
+      MessageOutboxStatus.sent,
+    );
+  });
+  test('v9 migration retains bound pending failed and sent rows', () async {
+    final db = await databaseFactoryFfi.openDatabase(
+      '${directory.path}/app.db',
+      options: OpenDatabaseOptions(
+        version: 9,
+        onCreate: (db, _) async {
+          await db.execute(
+            "CREATE TABLE message_outbox (client_id TEXT PRIMARY KEY,group_id TEXT NOT NULL,recipient_id TEXT,body TEXT NOT NULL,status TEXT CHECK(status IN ('pending','failed','sent')),attempt_count INTEGER NOT NULL,last_error TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL,owner_user_id TEXT)",
+          );
+          for (final status in ['pending', 'failed', 'sent']) {
+            await db.insert('message_outbox', {
+              'client_id': status,
+              'group_id': 'group-a',
+              'recipient_id': 'guide',
+              'body': 'preserved $status',
+              'status': status,
+              'attempt_count': 3,
+              'last_error': 'previous reason',
+              'created_at': 1,
+              'updated_at': 2,
+              'owner_user_id': 'user-a',
+            });
+          }
+        },
+      ),
+    );
+    await db.close();
+    final rows = await store.readGroupOutbox();
+    expect(rows.map((r) => r.status).toSet(), {
+      MessageOutboxStatus.pending,
+      MessageOutboxStatus.failed,
+      MessageOutboxStatus.sent,
+    });
+    for (final row in rows) {
+      expect(row.body, 'preserved ${row.clientId}');
+      expect(row.ownerUserId, 'user-a');
+      expect(row.recipientId, 'guide');
+      expect(row.attemptCount, 3);
+      expect(row.lastError, 'previous reason');
+    }
+    await store.markGroupMessageAttempt(
+      clientId: 'failed',
+      status: MessageOutboxStatus.rejected,
+      error: 'rejected',
+    );
+    expect(
+      (await store.readGroupOutbox())
+          .singleWhere((r) => r.clientId == 'failed')
+          .status,
+      MessageOutboxStatus.rejected,
     );
   });
   test('concurrent refresh shares one send attempt', () async {

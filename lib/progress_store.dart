@@ -98,7 +98,7 @@ class ProgressStore {
     return dbFactory.openDatabase(
       dbPath,
       options: OpenDatabaseOptions(
-        version: 9,
+        version: 10,
         onConfigure: (database) async {
           await database.execute('PRAGMA foreign_keys = ON');
         },
@@ -125,6 +125,7 @@ class ProgressStore {
           if (oldVersion < 7) await _createGroupSyncTables(database);
           if (oldVersion < 8) await _upgradeOutboxOwner(database);
           if (oldVersion < 9) await _createPracticeTables(database);
+          if (oldVersion < 10) await _upgradeOutboxRejections(database);
         },
       ),
     );
@@ -133,6 +134,29 @@ class ProgressStore {
   Future<void> _upgradeOutboxOwner(Database database) => database.execute(
     'ALTER TABLE message_outbox ADD COLUMN owner_user_id TEXT',
   );
+
+  Future<void> _upgradeOutboxRejections(Database database) async {
+    await database.execute(
+      'ALTER TABLE message_outbox RENAME TO message_outbox_v9',
+    );
+    await database.execute('''
+      CREATE TABLE message_outbox (
+        client_id TEXT PRIMARY KEY, group_id TEXT NOT NULL, recipient_id TEXT,
+        body TEXT NOT NULL CHECK (length(body) BETWEEN 1 AND 4000),
+        status TEXT NOT NULL CHECK (status IN ('pending','sent','failed','rejected')),
+        attempt_count INTEGER NOT NULL DEFAULT 0 CHECK (attempt_count >= 0),
+        last_error TEXT, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL,
+        owner_user_id TEXT
+      )
+    ''');
+    await database.execute('''
+      INSERT INTO message_outbox
+        (client_id,group_id,recipient_id,body,status,attempt_count,last_error,created_at,updated_at,owner_user_id)
+      SELECT client_id,group_id,recipient_id,body,status,attempt_count,last_error,created_at,updated_at,owner_user_id
+      FROM message_outbox_v9
+    ''');
+    await database.execute('DROP TABLE message_outbox_v9');
+  }
 
   Future<void> clearAccountOutbox(String userId) async {
     final database = await _database;
@@ -278,7 +302,7 @@ class ProgressStore {
         group_id TEXT NOT NULL,
         recipient_id TEXT,
         body TEXT NOT NULL CHECK (length(body) BETWEEN 1 AND 4000),
-        status TEXT NOT NULL CHECK (status IN ('pending', 'sent', 'failed')),
+        status TEXT NOT NULL CHECK (status IN ('pending', 'sent', 'failed', 'rejected')),
         attempt_count INTEGER NOT NULL DEFAULT 0 CHECK (attempt_count >= 0),
         last_error TEXT,
         created_at INTEGER NOT NULL,
@@ -532,7 +556,9 @@ class ProgressStore {
       ''',
       [
         status.name,
-        status == MessageOutboxStatus.failed && safeError?.isNotEmpty == true
+        (status == MessageOutboxStatus.failed ||
+                    status == MessageOutboxStatus.rejected) &&
+                safeError?.isNotEmpty == true
             ? safeError
             : null,
         DateTime.now().millisecondsSinceEpoch,
@@ -540,6 +566,29 @@ class ProgressStore {
       ],
     );
     if (updated != 1) throw StateError('Gönderilecek mesaj bulunamadı.');
+  }
+
+  Future<void> discardRejectedGroupMessage({
+    required String clientId,
+    required String ownerUserId,
+  }) async {
+    final database = await _database;
+    await database.transaction((transaction) async {
+      final deleted = await transaction.delete(
+        'message_outbox',
+        where: 'client_id = ? AND owner_user_id = ? AND status = ?',
+        whereArgs: [clientId, ownerUserId, MessageOutboxStatus.rejected.name],
+      );
+      if (deleted == 0 &&
+          (await transaction.query(
+            'message_outbox',
+            columns: ['client_id'],
+            where: 'client_id = ?',
+            whereArgs: [clientId],
+          )).isNotEmpty) {
+        throw StateError('Reddedilen mesaj bu hesaba ait değil.');
+      }
+    });
   }
 
   LocalLocationShare _locationShareFromRow(Map<String, Object?> row) {

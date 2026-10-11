@@ -18,6 +18,23 @@ void main() {
         options: OpenDatabaseOptions(
           version: 8,
           onCreate: (db, _) async {
+            // Real v8 already has the account-bound v7/v8 outbox. Include it
+            // so the v10 upgrade exercises preservation across both changes.
+            await db.execute('''CREATE TABLE message_outbox (
+              client_id TEXT PRIMARY KEY,group_id TEXT NOT NULL,recipient_id TEXT,
+              body TEXT NOT NULL,status TEXT CHECK(status IN ('pending','sent','failed')),
+              attempt_count INTEGER NOT NULL,last_error TEXT,created_at INTEGER NOT NULL,
+              updated_at INTEGER NOT NULL,owner_user_id TEXT)''');
+            await db.insert('message_outbox', {
+              'client_id': 'old-queued',
+              'group_id': 'group-a',
+              'body': 'preserved message',
+              'status': 'pending',
+              'attempt_count': 0,
+              'created_at': 1,
+              'updated_at': 2,
+              'owner_user_id': 'user-a',
+            });
             await db.execute('''CREATE TABLE guide_sessions (
             id INTEGER PRIMARY KEY AUTOINCREMENT, guide_type TEXT NOT NULL,
             mode TEXT NOT NULL, profile TEXT NOT NULL DEFAULT '',
@@ -45,6 +62,8 @@ void main() {
         await directory.delete(recursive: true);
       });
       expect((await store.readSession(1))?.currentStepId, 'U06.2');
+      expect((await store.readGroupOutbox()).single.body, 'preserved message');
+      expect((await store.readGroupOutbox()).single.ownerUserId, 'user-a');
       final practice = await store.startPracticeSession(
         type: GuideType.umrah,
         profile: null,

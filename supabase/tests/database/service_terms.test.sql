@@ -8,6 +8,9 @@ select throws_ok($$ select public.create_personal_group('Test only') $$,'42501',
 select throws_ok($$ select public.accept_service_terms('client-invented') $$,'42501','terms changed; read current version','client cannot invent version');
 reset role;
 insert into public.service_terms(version,body,document_url,document_sha256,current) values('fixture-v1','TEST ONLY','https://example.test/terms',repeat('a',64),true);
+-- TEST-ONLY literal rule; no production policy/approval.
+insert into public.content_moderation_policies(version,terms_version,denied_phrases,policy_document_url,policy_document_sha256,current) values('fixture-policy-v1','fixture-v1',array['QA-BLOCKED-TEXT'],'https://example.test/policy',repeat('c',64),true);
+
 set local role authenticated;
 select is((select version from public.current_service_terms()),'fixture-v1','server chooses current version');
 select ok((select accepted_at is null from public.current_service_terms()),'initially not accepted');
@@ -27,6 +30,8 @@ select throws_ok($$ update public.service_terms set body='changed' where version
 insert into public.device_push_tokens(user_id,platform,token) values('00000000-0000-0000-0000-000000000001','android','TEST_ONLY_TOKEN');
 update public.service_terms set current=false;
 insert into public.service_terms(version,body,document_url,document_sha256,current) values('fixture-v2','TEST ONLY NEW','https://example.test/terms/v2',repeat('b',64),true);
+update public.content_moderation_policies set current=false;
+insert into public.content_moderation_policies(version,terms_version,denied_phrases,policy_document_url,policy_document_sha256,current) values('fixture-policy-v2','fixture-v2',array['QA-BLOCKED-TEXT'],'https://example.test/policy/v2',repeat('d',64),true);
 set local role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',true);
 select ok((select accepted_at is null from public.current_service_terms()),'old acceptance not applied to new version');
