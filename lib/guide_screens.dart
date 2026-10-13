@@ -434,6 +434,9 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                     Text(
                       step.isApproved
                           ? 'Şimdi ne yapacağım?'
+                          : !isHajj &&
+                                (step.summary != null || step.details != null)
+                          ? 'Taslak özet — dinî inceleme bekliyor'
                           : 'İçerik hazırlanıyor',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
@@ -441,6 +444,9 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                     Text(
                       step.isApproved
                           ? step.summary!
+                          : !isHajj &&
+                                (step.summary != null || step.details != null)
+                          ? '${[step.summary, step.details].whereType<String>().where((s) => s.isNotEmpty).join('\n')}\nBu taslak onaylı içerik değildir; ibadet hükmü veya kişisel fetva olarak kullanma.'
                           : isHajj
                           ? 'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı.'
                           : 'Bu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı. Hazırlama kaydı onaylı içerik değildir.',
@@ -463,24 +469,6 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                 audio: widget.catalog.audioRecords[audioId]!,
                 narration: widget.narration,
                 textApproved: step.isApproved,
-              ),
-            if (!step.isApproved &&
-                step.summary != null &&
-                step.details != null)
-              ExpansionTile(
-                title: const Text('Sesin taslak metni'),
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text(
-                      'Uzman incelemesi bekliyor; ibadet hükmü veya kişisel fetva olarak kullanma.',
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text('${step.summary!}\n${step.details!}'),
-                  ),
-                ],
               ),
             if (step.counterKey != null) ...[
               const SizedBox(height: 18),
