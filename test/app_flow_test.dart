@@ -148,6 +148,10 @@ void main() {
     expect(find.byType(GuideStepScreen), findsOneWidget);
     expect(find.text('U01 · 1 / 18'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Sonraki başlık'), 250);
+    await tester.ensureVisible(
+      find.widgetWithText(FilledButton, 'Sonraki başlık'),
+    );
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Sonraki başlık'));
     await tester.pumpAndSettle();
     expect(find.text('U01 · 2 / 18'), findsOneWidget);

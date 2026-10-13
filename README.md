@@ -12,6 +12,11 @@ Türkçe Flutter uygulaması. **Tek güncel geliştirme dalı `codex/mvp1-pilot`
 
 Ana sayfa kurulu harita ve yer paketlerinin doğrulama durumunu gösterir. Gezi sekmesi eksik paket için doğrudan indirme yoluna götürür. Dosya doğrulaması haritanın cihazda açılıp görsel olarak kabul edildiği anlamına gelmez.
 
+Umre ve Hac taslak açıklamalarının kaynakları ve metin sürümleri görülebilir;
+Hac profil uygunluğu ayrıca inceleme bekler. Açık harita ve gezi ekranları paket
+yönetiminden dönüşte yer kayıtlarını yeniler. Güncel geliştirme ve tüm ürünün
+kabul planı: [tam paket uygulaması](docs/44-tam-paket-uygulama-plani-2026-10-13.md).
+
 ## Yerelde çalıştırma
 
 Flutter 3.47.6 / Dart 3.13.5 ile çalışılır. Flutter `PATH` içinde değilse bu Mac'te `/Users/mustafasenoglu/.local/share/flutter-3.47.6/bin/flutter` kullanın.

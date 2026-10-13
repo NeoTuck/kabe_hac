@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
+import 'package:hac_umre_sesli_rehber/local_map_repository.dart';
 import 'package:hac_umre_sesli_rehber/offline_package.dart';
 import 'package:hac_umre_sesli_rehber/offline_city_map_screen.dart';
 import 'package:hac_umre_sesli_rehber/package_screen.dart';
@@ -71,14 +72,196 @@ class ChangingTravelRepository extends LocalTravelRepository {
   ChangingTravelRepository() : super(packages: EmptyPackageManager());
   TravelCatalog current = LocalTravelRepository.empty;
   int loads = 0;
+  bool failing = false;
   @override
   Future<TravelCatalog> load() async {
     loads++;
+    if (failing) throw const FormatException('Test catalog read failure');
     return current;
   }
 }
 
+class CapturingMapRepository extends LocalMapRepository {
+  CapturingMapRepository(super.packages);
+  List<String> receivedIds = [];
+  int styleLoads = 0;
+
+  @override
+  Future<List<LocalMapDescriptor>> list() async => [
+    LocalMapDescriptor(
+      packageId: 'map-mecca',
+      region: TravelRegion.mecca,
+      version: '1.0.0',
+      attribution: 'Test fixture',
+      sourceUri: Uri.parse('https://example.com/source'),
+      licenseUri: Uri.parse('https://example.com/license'),
+      snapshotAt: DateTime.utc(2026, 10, 13),
+      featureFile: 'test.geojson.gz',
+      west: 39,
+      south: 21,
+      east: 40,
+      north: 22,
+    ),
+  ];
+
+  @override
+  Future<String> loadStyle(
+    LocalMapDescriptor map,
+    List<TravelPoi> points,
+  ) async {
+    styleLoads++;
+    receivedIds = points.map((point) => point.id).toList();
+    // Exercise recovery without claiming to render a native map in a widget test.
+    throw const FormatException('Test renderer unavailable');
+  }
+}
+
 void main() {
+  testWidgets('açık harita paket dönüşünde yer ekleme ve silmeyi okur', (
+    tester,
+  ) async {
+    final packages = EmptyPackageManager();
+    final travel = ChangingTravelRepository();
+    final maps = CapturingMapRepository(packages);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: OfflineCityMapScreen(
+          packages: packages,
+          catalog: LocalTravelRepository.empty,
+          travelRepository: travel,
+          mapRepository: maps,
+          onManageMaps: () async {},
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(maps.receivedIds, isEmpty);
+    for (final installed in [true, false]) {
+      travel.current = installed ? fixture() : LocalTravelRepository.empty;
+      await tester.tap(find.text('Harita paketlerini yönet'));
+      await tester.pumpAndSettle();
+      expect(maps.receivedIds, installed ? ['TEST-POI-1'] : isEmpty);
+    }
+    expect(travel.loads, 2);
+    expect(maps.styleLoads, 3);
+  });
+
+  testWidgets('paketten açılan bağımsız gezi listesi de yenilenir', (
+    tester,
+  ) async {
+    final travel = ChangingTravelRepository();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: TravelScreen(
+          store: MemoryGuideStore(),
+          catalog: LocalTravelRepository.empty,
+          packages: EmptyPackageManager(),
+          travelRepository: travel,
+          onManagePackages: (_) async {
+            travel.current = fixture();
+          },
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Yer kayıtlarını indir'),
+      180,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.text('Yer kayıtlarını indir'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Yer kayıtlarını indir'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Teknik buluşma noktası'),
+      180,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Teknik buluşma noktası'), findsOneWidget);
+    expect(travel.loads, 1);
+  });
+
+  testWidgets(
+    'harita yer okuma hatasından sonra güncel kataloğu yeniden dener',
+    (tester) async {
+      final packages = EmptyPackageManager();
+      final travel = ChangingTravelRepository()..failing = true;
+      final maps = CapturingMapRepository(packages);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: OfflineCityMapScreen(
+            packages: packages,
+            catalog: LocalTravelRepository.empty,
+            travelRepository: travel,
+            mapRepository: maps,
+            onManageMaps: () async {},
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Harita paketlerini yönet'));
+      await tester.pumpAndSettle();
+      expect(find.text('Harita paketleri okunamadı.'), findsOneWidget);
+      travel
+        ..failing = false
+        ..current = fixture();
+      await tester.tap(find.text('Yeniden dene'));
+      await tester.pumpAndSettle();
+      expect(travel.loads, 2);
+      expect(maps.receivedIds, ['TEST-POI-1']);
+    },
+  );
+  testWidgets(
+    'gezi paket hatası favori hatası değildir ve yeniden denenebilir',
+    (tester) async {
+      final travel = ChangingTravelRepository()..current = fixture();
+      var failing = true;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: TravelScreen(
+            store: MemoryGuideStore(),
+            catalog: fixture(),
+            packages: EmptyPackageManager(),
+            travelRepository: travel,
+            onManagePackages: (_) async {
+              if (failing) {
+                throw const FormatException('Test management failure');
+              }
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Harita paketlerini yönet'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('Favorileri yeniden dene'), findsNothing);
+      await tester.scrollUntilVisible(
+        find.text('Yer paketlerini yeniden kontrol et'),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.ensureVisible(
+        find.widgetWithText(
+          OutlinedButton,
+          'Yer paketlerini yeniden kontrol et',
+        ),
+      );
+      await tester.pumpAndSettle();
+      failing = false;
+      await tester.tap(find.text('Yer paketlerini yeniden kontrol et'));
+      await tester.pumpAndSettle();
+      expect(find.text('Yer paketlerini yeniden kontrol et'), findsNothing);
+      await tester.scrollUntilVisible(
+        find.text('Teknik buluşma noktası'),
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('Teknik buluşma noktası'), findsOneWidget);
+    },
+  );
+
   testWidgets('boş harita ekranı indirme yolunu açar', (tester) async {
     final store = MemoryGuideStore();
     final narration = FakeNarration();

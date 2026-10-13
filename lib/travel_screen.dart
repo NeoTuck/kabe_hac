@@ -6,6 +6,7 @@ import 'travel_details.dart';
 import 'source_details.dart';
 import 'offline_package.dart';
 import 'offline_city_map_screen.dart';
+import 'travel_repository.dart';
 
 class TravelScreen extends StatefulWidget {
   const TravelScreen({
@@ -14,12 +15,14 @@ class TravelScreen extends StatefulWidget {
     required this.catalog,
     this.packages,
     this.onManagePackages,
+    this.travelRepository,
   });
 
   final ProgressStore store;
   final TravelCatalog catalog;
   final OfflinePackageManager? packages;
   final Future<void> Function(OfflinePackageKind kind)? onManagePackages;
+  final LocalTravelRepository? travelRepository;
 
   @override
   State<TravelScreen> createState() => _TravelScreenState();
@@ -33,6 +36,49 @@ class _TravelScreenState extends State<TravelScreen> {
   String? _error;
   bool _loading = true;
   final _savingFavorites = <String>{};
+  late TravelCatalog _catalog = widget.catalog;
+  bool _managingPackages = false;
+  String? _packageError;
+
+  @override
+  void didUpdateWidget(covariant TravelScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.catalog != widget.catalog) _catalog = widget.catalog;
+  }
+
+  Future<void> _managePackages(OfflinePackageKind kind) async {
+    if (_managingPackages || widget.onManagePackages == null) return;
+    setState(() => _managingPackages = true);
+    try {
+      await widget.onManagePackages!(kind);
+      // The home route can replace this tab after reloading its own catalog.
+      // Let that rebuild finish before doing another read for a standalone view.
+      await WidgetsBinding.instance.endOfFrame;
+      if (!mounted) return;
+      final repository =
+          widget.travelRepository ??
+          (widget.packages == null
+              ? null
+              : LocalTravelRepository(packages: widget.packages!));
+      final catalog = await repository?.load() ?? _catalog;
+      if (mounted) {
+        setState(() {
+          _catalog = catalog;
+          _packageError = null;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _catalog = LocalTravelRepository.empty;
+          _packageError =
+              'Yer kayıtları yenilenemedi. Paketleri yeniden kontrol et.';
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _managingPackages = false);
+    }
+  }
 
   @override
   void initState() {
@@ -87,16 +133,16 @@ class _TravelScreenState extends State<TravelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final visiblePoints = widget.catalog.points
+    final visiblePoints = _catalog.points
         .where((point) => !point.isTestData)
         .toList();
     final visiblePointIds = visiblePoints.map((point) => point.id).toSet();
-    final points = widget.catalog
+    final points = _catalog
         .searchPoints(query: _searchController.text, category: _category)
         .where((point) => !point.isTestData)
         .where((p) => !_favoritesOnly || _favorites.contains(p.id))
         .toList();
-    final routes = widget.catalog.routes
+    final routes = _catalog.routes
         .where(
           (route) =>
               !route.isTestData &&
@@ -124,10 +170,11 @@ class _TravelScreenState extends State<TravelScreen> {
             MaterialPageRoute(
               builder: (_) => OfflineCityMapScreen(
                 packages: widget.packages!,
-                catalog: widget.catalog,
+                catalog: _catalog,
+                travelRepository: widget.travelRepository,
                 onManageMaps: widget.onManagePackages == null
                     ? null
-                    : () => widget.onManagePackages!(OfflinePackageKind.map),
+                    : () => _managePackages(OfflinePackageKind.map),
               ),
             ),
           ),
@@ -137,7 +184,9 @@ class _TravelScreenState extends State<TravelScreen> {
           OutlinedButton.icon(
             icon: const Icon(Icons.download_rounded),
             label: const Text('Harita paketlerini yönet'),
-            onPressed: () => widget.onManagePackages!(OfflinePackageKind.map),
+            onPressed: _managingPackages
+                ? null
+                : () => _managePackages(OfflinePackageKind.map),
           ),
         ],
       ],
@@ -204,6 +253,17 @@ class _TravelScreenState extends State<TravelScreen> {
           icon: const Icon(Icons.refresh),
           label: const Text('Favorileri yeniden dene'),
         ),
+      if (_packageError != null) ...[
+        const SizedBox(height: 12),
+        Text(_packageError!),
+        OutlinedButton.icon(
+          onPressed: _managingPackages
+              ? null
+              : () => _managePackages(OfflinePackageKind.travel),
+          icon: const Icon(Icons.refresh),
+          label: const Text('Yer paketlerini yeniden kontrol et'),
+        ),
+      ],
       const SizedBox(height: 20),
       Text('Yer kayıtları', style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 8),
@@ -217,8 +277,9 @@ class _TravelScreenState extends State<TravelScreen> {
               OutlinedButton.icon(
                 icon: const Icon(Icons.download_rounded),
                 label: const Text('Yer kayıtlarını indir'),
-                onPressed: () =>
-                    widget.onManagePackages!(OfflinePackageKind.travel),
+                onPressed: _managingPackages
+                    ? null
+                    : () => _managePackages(OfflinePackageKind.travel),
               ),
             ],
           ],
@@ -287,10 +348,8 @@ class _TravelScreenState extends State<TravelScreen> {
                 title: Text(route.title),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
-                    builder: (_) => TravelRouteScreen(
-                      route: route,
-                      catalog: widget.catalog,
-                    ),
+                    builder: (_) =>
+                        TravelRouteScreen(route: route, catalog: _catalog),
                   ),
                 ),
                 subtitle: Text(

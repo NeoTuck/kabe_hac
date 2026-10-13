@@ -20,6 +20,90 @@ void main() {
     );
   });
 
+  for (final profile in HajjProfile.values) {
+    testWidgets(
+      'Hac taslağı ve kaynak görünür, ${profile.name} onayı korunur',
+      (tester) async {
+        final store = MemoryGuideStore();
+        final narration = FakeNarration();
+        final catalog = catalogs[GuideType.hajj]!;
+        final step = catalog.steps.first;
+        final session = await store.openOrCreateSession(
+          type: GuideType.hajj,
+          mode: GuideMode.learning,
+          profile: profile,
+          firstStepId: step.id,
+          contentVersion: catalog.contentVersion,
+        );
+        await tester.pumpWidget(
+          MaterialApp(
+            home: GuideStepScreen(
+              store: store,
+              catalog: catalog,
+              narration: narration,
+              session: session,
+              step: step,
+              initiallyMarked: false,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          find.text('Taslak özet — dinî inceleme bekliyor'),
+          findsOneWidget,
+        );
+        expect(find.textContaining(step.summary!), findsOneWidget);
+        expect(find.textContaining(step.details!), findsOneWidget);
+        await tester.scrollUntilVisible(
+          find.textContaining('kişisel Hac planı değildir'),
+          180,
+        );
+        expect(find.textContaining(profile.label), findsWidgets);
+        expect(find.text('Kişisel ilerleme olarak işaretle'), findsNothing);
+        await tester.scrollUntilVisible(find.text(step.sourceUrl!), 180);
+        expect(find.text(step.sourceUrl!), findsOneWidget);
+        expect(find.text('Metin sürümü: ${step.textVersion}'), findsOneWidget);
+        expect(
+          find.text('Kaynak bulunması uzman onayı anlamına gelmez.'),
+          findsOneWidget,
+        );
+        expect(await store.readMarkedStepIds(session.id), isEmpty);
+      },
+    );
+  }
+
+  testWidgets('Umre taslağında kaynak bağlantısı ve sürüm görülebilir', (
+    tester,
+  ) async {
+    final store = MemoryGuideStore();
+    final catalog = catalogs[GuideType.umrah]!;
+    final step = catalog.steps.first;
+    final session = await store.openOrCreateSession(
+      type: GuideType.umrah,
+      mode: GuideMode.learning,
+      profile: null,
+      firstStepId: step.id,
+      contentVersion: catalog.contentVersion,
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: GuideStepScreen(
+          store: store,
+          catalog: catalog,
+          narration: FakeNarration(),
+          session: session,
+          step: step,
+          initiallyMarked: false,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text(step.sourceUrl!), 180);
+    expect(find.text(step.sourceUrl!), findsOneWidget);
+    expect(find.text('Metin sürümü: ${step.textVersion}'), findsOneWidget);
+    expect(find.text('Şimdi ne yapacağım?'), findsNothing);
+  });
+
   testWidgets('işaretleme elle yapılır, ses bitişi kaydı değiştirmez', (
     tester,
   ) async {

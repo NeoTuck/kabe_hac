@@ -188,11 +188,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 packages: widget.packages!,
                 catalog: travel,
                 initialPackageId: manifest.packageId,
+                travelRepository: widget.travelRepository,
+                onManageMaps: () =>
+                    _manageTravelPackages(OfflinePackageKind.map),
               )
             : TravelScreen(
                 store: widget.store,
                 packages: widget.packages,
                 catalog: travel,
+                travelRepository: widget.travelRepository,
+                onManagePackages: _manageTravelPackages,
               ),
       );
     } else if (manifest.kind == OfflinePackageKind.audio) {
@@ -255,6 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
         key: ValueKey(_catalogRevision),
         store: widget.store,
         packages: widget.packages,
+        travelRepository: widget.travelRepository,
         onManagePackages: widget.packages == null
             ? null
             : _manageTravelPackages,

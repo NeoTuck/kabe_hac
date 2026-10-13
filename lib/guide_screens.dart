@@ -484,8 +484,7 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                     Text(
                       step.isApproved
                           ? 'Şimdi ne yapacağım?'
-                          : !isHajj &&
-                                (step.summary != null || step.details != null)
+                          : (step.summary != null || step.details != null)
                           ? 'Taslak özet — dinî inceleme bekliyor'
                           : 'İçerik hazırlanıyor',
                       style: Theme.of(context).textTheme.titleLarge,
@@ -494,14 +493,19 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                     Text(
                       step.isApproved
                           ? step.summary!
-                          : !isHajj &&
-                                (step.summary != null || step.details != null)
+                          : (step.summary != null || step.details != null)
                           ? '${[step.summary, step.details].whereType<String>().where((s) => s.isNotEmpty).join('\n')}\nBu taslak onaylı içerik değildir; ibadet hükmü veya kişisel fetva olarak kullanma.'
                           : isHajj
                           ? 'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı.'
                           : 'Bu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı. Hazırlama kaydı onaylı içerik değildir.',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
+                    if (isHajj && !canMark) ...[
+                      const SizedBox(height: 12),
+                      Text(
+                        'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı. Adım sırası onay bekliyor; bu açıklama kişisel Hac planı değildir.',
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -564,10 +568,16 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
               Text(step.transliteration!),
             if (step.isApproved && step.meaningTr != null)
               Text(step.meaningTr!),
-            if (step.isApproved && step.sourceTitle != null) ...[
+            if (step.sourceTitle != null) ...[
               const SizedBox(height: 18),
               Text('Kaynak: ${step.sourceTitle} · ${step.sourceLocation}'),
               if (step.sourceUrl != null) SelectableText(step.sourceUrl!),
+              if (step.sourceAccessedAt != null)
+                Text('Kaynağa erişim: ${step.sourceAccessedAt}'),
+              if (step.textVersion != null)
+                Text('Metin sürümü: ${step.textVersion}'),
+              if (!step.isApproved)
+                const Text('Kaynak bulunması uzman onayı anlamına gelmez.'),
             ],
             for (final prayerId in step.prayerIds)
               _PrayerCard(

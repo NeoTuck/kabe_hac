@@ -5,6 +5,7 @@ import 'local_map_repository.dart';
 import 'offline_package.dart';
 import 'source_details.dart';
 import 'travel_catalog.dart';
+import 'travel_repository.dart';
 import 'travel_details.dart';
 import 'map_place_picker.dart';
 
@@ -15,18 +16,23 @@ class OfflineCityMapScreen extends StatefulWidget {
     required this.catalog,
     this.initialPackageId,
     this.onManageMaps,
+    this.travelRepository,
+    this.mapRepository,
   });
   final OfflinePackageManager packages;
   final TravelCatalog catalog;
   final String? initialPackageId;
   final Future<void> Function()? onManageMaps;
+  final LocalTravelRepository? travelRepository;
+  final LocalMapRepository? mapRepository;
 
   @override
   State<OfflineCityMapScreen> createState() => _OfflineCityMapScreenState();
 }
 
 class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
-  late final _repository = LocalMapRepository(widget.packages);
+  late final _repository =
+      widget.mapRepository ?? LocalMapRepository(widget.packages);
   List<LocalMapDescriptor> _maps = [];
   LocalMapDescriptor? _selected;
   String? _style;
@@ -40,9 +46,12 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
   int _epoch = 0;
   MapLibreMapController? _controller;
   final _filter = MapPlaceFilter();
+  late TravelCatalog _catalog = widget.catalog;
+  bool _managingMaps = false;
+  bool _placesNeedReload = false;
   bool _filterApplying = false;
   bool _filterPending = false;
-  List<TravelPoi> get _points => widget.catalog.points
+  List<TravelPoi> get _points => _catalog.points
       .where((p) => !p.isTestData && p.region == _selected?.region)
       .toList();
   Future<void> _applyFilter() async {
@@ -83,7 +92,9 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
     _load();
   }
 
-  Future<void> _load() async {
+  Future<void> _load({bool reloadPlaces = false}) async {
+    if (reloadPlaces) _placesNeedReload = true;
+    final previousPackageId = _selected?.packageId;
     final epoch = ++_epoch;
     setState(() {
       _loading = true;
@@ -96,6 +107,16 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       _controller = null;
     });
     try {
+      if (_placesNeedReload) {
+        _catalog = LocalTravelRepository.empty;
+        final catalog =
+            await (widget.travelRepository ??
+                    LocalTravelRepository(packages: widget.packages))
+                .load();
+        if (!mounted || epoch != _epoch) return;
+        _catalog = catalog;
+        _placesNeedReload = false;
+      }
       final maps = await _repository.list();
       if (!mounted || epoch != _epoch) return;
       setState(() {
@@ -105,7 +126,11 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       if (maps.isNotEmpty) {
         await _select(
           maps
-                  .where((map) => map.packageId == widget.initialPackageId)
+                  .where(
+                    (map) =>
+                        map.packageId ==
+                        (previousPackageId ?? widget.initialPackageId),
+                  )
                   .firstOrNull ??
               maps.first,
         );
@@ -117,6 +142,21 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
           _loading = false;
         });
       }
+    }
+  }
+
+  Future<void> _manageMaps() async {
+    if (_managingMaps || widget.onManageMaps == null) return;
+    setState(() => _managingMaps = true);
+    try {
+      await widget.onManageMaps!();
+      if (mounted) await _load(reloadPlaces: true);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _error = 'Paket yönetimi açılamadı. Yeniden dene.');
+      }
+    } finally {
+      if (mounted) setState(() => _managingMaps = false);
     }
   }
 
@@ -132,7 +172,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
       _styleLoaded = false;
     });
     try {
-      final points = widget.catalog.points
+      final points = _catalog.points
           .where((p) => p.region == map.region)
           .toList();
       final style = await _repository.loadStyle(map, points);
@@ -194,7 +234,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
   Future<void> _places() async {
     final map = _selected;
     if (map == null) return;
-    final points = widget.catalog.points
+    final points = _catalog.points
         .where((p) => !p.isTestData && p.region == map.region)
         .toList();
     final chosen = await showModalBottomSheet<TravelPoi>(
@@ -326,10 +366,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                             if (widget.onManageMaps != null) ...[
                               const SizedBox(height: 8),
                               TextButton.icon(
-                                onPressed: () async {
-                                  await widget.onManageMaps!();
-                                  if (mounted) await _load();
-                                },
+                                onPressed: _managingMaps ? null : _manageMaps,
                                 icon: const Icon(Icons.download_rounded),
                                 label: const Text('Harita paketlerini yönet'),
                               ),
@@ -352,10 +389,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                             if (widget.onManageMaps != null) ...[
                               const SizedBox(height: 16),
                               FilledButton.icon(
-                                onPressed: () async {
-                                  await widget.onManageMaps!();
-                                  if (mounted) await _load();
-                                },
+                                onPressed: _managingMaps ? null : _manageMaps,
                                 icon: const Icon(Icons.download_rounded),
                                 label: const Text('Harita paketlerini yönet'),
                               ),

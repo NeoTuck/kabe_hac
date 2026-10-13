@@ -21,7 +21,7 @@ name: Gerçek taslak Hac profil konumu korunur
     element: "Kaldığım başlığa git"
     direction: DOWN
 - tapOn: "Kaldığım başlığa git"
-- assertVisible: "(?s)İçerik hazırlanıyor.*"
+- assertVisible: "(?s)Taslak özet — dinî inceleme bekliyor.*"
 - assertNotVisible: "Kişisel ilerleme olarak işaretle"
 - launchApp
 - extendedWaitUntil:
