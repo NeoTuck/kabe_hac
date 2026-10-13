@@ -21,8 +21,8 @@ class MobileConfigurationTests(unittest.TestCase):
     def test_guide_pending_heading_matches_native_merged_card(self):
         flow = commands('01-umre-girisleri.yaml')
         selector = next(c['assertVisible'] for c in flow if isinstance(c, dict)
-                        and 'assertVisible' in c and 'İçerik hazırlanıyor' in c['assertVisible'])
-        self.assertIsNotNone(re.fullmatch(selector, 'İçerik hazırlanıyor\nBu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı.'))
+                        and 'assertVisible' in c and 'Taslak özet' in c['assertVisible'])
+        self.assertIsNotNone(re.fullmatch(selector, 'Taslak özet — dinî inceleme bekliyor\nÖzet ve ayrıntı taslaktır. Bu taslak onaylı içerik değildir.'))
         self.assertIsNone(re.fullmatch(selector, 'İçerik onaylandı'))
 
     def test_group_pending_heading_matches_native_merged_card(self):

@@ -54,6 +54,10 @@ void main() {
       find.text('Kişisel ilerleme olarak işaretle'),
       250,
     );
+    // Taslak özet kartı uzadığı için düğme ekran alt çizgisinde kalabiliyor;
+    // dokunulabilir konuma getirmek için listeyi biraz daha kaydır.
+    await tester.drag(find.byType(ListView), const Offset(0, -200));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Kişisel ilerleme olarak işaretle'));
     await tester.pumpAndSettle();
     expect(await store.readMarkedStepIds(session.id), {'U01.1'});
