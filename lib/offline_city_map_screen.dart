@@ -14,10 +14,12 @@ class OfflineCityMapScreen extends StatefulWidget {
     required this.packages,
     required this.catalog,
     this.initialPackageId,
+    this.onManageMaps,
   });
   final OfflinePackageManager packages;
   final TravelCatalog catalog;
   final String? initialPackageId;
+  final Future<void> Function()? onManageMaps;
 
   @override
   State<OfflineCityMapScreen> createState() => _OfflineCityMapScreenState();
@@ -82,9 +84,20 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
   }
 
   Future<void> _load() async {
+    final epoch = ++_epoch;
+    setState(() {
+      _loading = true;
+      _error = null;
+      _maps = [];
+      _selected = null;
+      _style = null;
+      _styleReady = false;
+      _styleLoaded = false;
+      _controller = null;
+    });
     try {
       final maps = await _repository.list();
-      if (!mounted) return;
+      if (!mounted || epoch != _epoch) return;
       setState(() {
         _maps = maps;
         _loading = false;
@@ -98,7 +111,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
         );
       }
     } catch (_) {
-      if (mounted) {
+      if (mounted && epoch == _epoch) {
         setState(() {
           _error = 'Harita paketleri okunamadı.';
           _loading = false;
@@ -310,16 +323,44 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                                   : _select(selected),
                               child: const Text('Yeniden dene'),
                             ),
+                            if (widget.onManageMaps != null) ...[
+                              const SizedBox(height: 8),
+                              TextButton.icon(
+                                onPressed: () async {
+                                  await widget.onManageMaps!();
+                                  if (mounted) await _load();
+                                },
+                                icon: const Icon(Icons.download_rounded),
+                                label: const Text('Harita paketlerini yönet'),
+                              ),
+                            ],
                           ],
                         ),
                       ),
                     )
                   : _style == null || selected == null
-                  ? const Center(
+                  ? Center(
                       child: Padding(
-                        padding: EdgeInsets.all(24),
-                        child: Text(
-                          'Paketler ekranından Mekke veya Medine haritasını indir. İndirdikten sonra bu ekran internet bağlantısı olmadan açılır.',
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Bu cihazda şehir haritası kurulu değil. Mekke veya Medine haritasını indirip burada çevrimdışı açabilirsin.',
+                              textAlign: TextAlign.center,
+                            ),
+                            if (widget.onManageMaps != null) ...[
+                              const SizedBox(height: 16),
+                              FilledButton.icon(
+                                onPressed: () async {
+                                  await widget.onManageMaps!();
+                                  if (mounted) await _load();
+                                },
+                                icon: const Icon(Icons.download_rounded),
+                                label: const Text('Harita paketlerini yönet'),
+                              ),
+                            ],
+                          ],
                         ),
                       ),
                     )

@@ -106,7 +106,7 @@ class LicensesAndSourcesScreen extends StatelessWidget {
             onPressed: () => showLicensePage(
               context: context,
               applicationName: 'Hac ve Umre Sesli Rehber',
-              applicationVersion: '0.1.0 · MVP 1 pilot',
+              applicationVersion: '0.1.0+1',
             ),
             icon: const Icon(Icons.article_outlined),
             label: const Text('Açık kaynak paket lisansları'),

@@ -66,10 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
   late Map<GuideType, GuideCatalog> _catalogs;
   TravelCatalog? _travelCatalog;
   int _refreshEpoch = 0;
+  int _offlineEpoch = 0;
   int _catalogRevision = 0;
   GuideSession? _latest;
   String? _error;
   bool _loadingRecords = true;
+  Map<String, String>? _offlineStatuses;
+  String? _offlineError;
   int _selectedTab = 0;
   final Set<int> _openedTabs = {0};
 
@@ -79,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _catalogs = widget.catalogs;
     _travelCatalog = widget.travelCatalog;
     _refresh();
+    _checkOffline();
   }
 
   @override
@@ -121,11 +125,54 @@ class _HomeScreenState extends State<HomeScreen> {
     await Navigator.of(context)
         .push<void>(MaterialPageRoute(builder: (_) => screen));
     if (mounted) {
-      await _refresh(
-        reloadContent:
-            screen is OfflinePackagesScreen ||
-            screen is JourneyPreparationScreen,
-      );
+      final reloadContent =
+          screen is OfflinePackagesScreen || screen is JourneyPreparationScreen;
+      await _refresh(reloadContent: reloadContent);
+      if (reloadContent && mounted) await _checkOffline();
+    }
+  }
+
+  Future<void> _checkOffline() async {
+    final packages = widget.packages;
+    if (packages == null || !mounted) return;
+    final epoch = ++_offlineEpoch;
+    setState(() {
+      _offlineStatuses = null;
+      _offlineError = null;
+    });
+    try {
+      final installed = (await packages.listActivations())
+          .map((state) => state.packageId)
+          .toSet();
+      final statuses = <String, String>{};
+      for (final entry in const {
+        'map-mecca': OfflinePackageKind.map,
+        'map-medina': OfflinePackageKind.map,
+        'travel-pilgrim-snapshot': OfflinePackageKind.travel,
+      }.entries) {
+        if (!installed.contains(entry.key)) {
+          statuses[entry.key] = 'Kurulu değil';
+          continue;
+        }
+        try {
+          final manifest = await packages.verifyActivePackage(entry.key);
+          statuses[entry.key] =
+              manifest?.packageId == entry.key && manifest?.kind == entry.value
+              ? 'Dosyalar doğrulandı · açıp kontrol et'
+              : 'Dosyalar doğrulanamadı';
+        } catch (_) {
+          statuses[entry.key] = 'Dosyalar doğrulanamadı';
+        }
+      }
+      if (mounted && epoch == _offlineEpoch) {
+        setState(() => _offlineStatuses = statuses);
+      }
+    } catch (_) {
+      if (mounted && epoch == _offlineEpoch) {
+        setState(
+          () => _offlineError = 'Paket durumu okunamadı. Yeniden kontrol et.',
+        );
+      }
     }
   }
 
@@ -155,6 +202,16 @@ class _HomeScreenState extends State<HomeScreen> {
       await _open(SafetyScreen(catalog: widget.safetyCatalog!));
     }
   }
+
+  Future<void> _manageTravelPackages(OfflinePackageKind kind) => _open(
+    OfflinePackagesScreen(
+      manager: widget.packages!,
+      provider: widget.packageProvider,
+      configurationError: widget.packageConfigurationError,
+      focusKind: kind,
+      onOpen: _openInstalledPackage,
+    ),
+  );
 
   void _choose(GuideType type) {
     _open(
@@ -198,6 +255,9 @@ class _HomeScreenState extends State<HomeScreen> {
         key: ValueKey(_catalogRevision),
         store: widget.store,
         packages: widget.packages,
+        onManagePackages: widget.packages == null
+            ? null
+            : _manageTravelPackages,
         catalog:
             _travelCatalog ??
             const TravelCatalog(
@@ -348,6 +408,40 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       icon: const Icon(Icons.offline_pin_outlined),
                       label: const Text('Yolculuğa hazır mıyım?'),
+                    ),
+                    const SizedBox(height: 12),
+                    Card.outlined(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Çevrimdışı durum',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 6),
+                            const Text('Rehber başlıkları cihazda açılır.'),
+                            if (_offlineError != null) ...[
+                              Text(_offlineError!),
+                              TextButton.icon(
+                                onPressed: _checkOffline,
+                                icon: const Icon(Icons.refresh),
+                                label: const Text('Yeniden kontrol et'),
+                              ),
+                            ] else if (_offlineStatuses == null)
+                              const Text(
+                                'Harita ve yer paketleri kontrol ediliyor…',
+                              )
+                            else
+                              Text(
+                                'Mekke haritası: ${_offlineStatuses!['map-mecca']}\n'
+                                'Medine haritası: ${_offlineStatuses!['map-medina']}\n'
+                                'Yer kayıtları: ${_offlineStatuses!['travel-pilgrim-snapshot']}',
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                   const SizedBox(height: 28),

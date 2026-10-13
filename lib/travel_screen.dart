@@ -13,11 +13,13 @@ class TravelScreen extends StatefulWidget {
     required this.store,
     required this.catalog,
     this.packages,
+    this.onManagePackages,
   });
 
   final ProgressStore store;
   final TravelCatalog catalog;
   final OfflinePackageManager? packages;
+  final Future<void> Function(OfflinePackageKind kind)? onManagePackages;
 
   @override
   State<TravelScreen> createState() => _TravelScreenState();
@@ -109,7 +111,7 @@ class _TravelScreenState extends State<TravelScreen> {
         child: Padding(
           padding: EdgeInsets.all(18),
           child: Text(
-            'Şehir haritalarını Paketler ekranından seçerek indirebilirsin. Yer adları ve kategoriler OSM kaynak kaydıdır; Türkçe ve saha incelemesi tamamlanmadı. İndirilen harita çevrimdışı açılır; güncel açık/kapalı durumunu ayrıca doğrula.',
+            'Aşağıdan Mekke ve Medine haritalarını indirebilirsin. Yer adları ve kategoriler OSM kaynak kaydıdır; Türkçe ve saha incelemesi tamamlanmadı. İndirilen harita çevrimdışı açılır; güncel açık/kapalı durumunu ayrıca doğrula.',
           ),
         ),
       ),
@@ -123,10 +125,21 @@ class _TravelScreenState extends State<TravelScreen> {
               builder: (_) => OfflineCityMapScreen(
                 packages: widget.packages!,
                 catalog: widget.catalog,
+                onManageMaps: widget.onManagePackages == null
+                    ? null
+                    : () => widget.onManagePackages!(OfflinePackageKind.map),
               ),
             ),
           ),
         ),
+        if (widget.onManagePackages != null) ...[
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            icon: const Icon(Icons.download_rounded),
+            label: const Text('Harita paketlerini yönet'),
+            onPressed: () => widget.onManagePackages!(OfflinePackageKind.map),
+          ),
+        ],
       ],
       const SizedBox(height: 12),
       TextField(
@@ -195,7 +208,21 @@ class _TravelScreenState extends State<TravelScreen> {
       Text('Yer kayıtları', style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 8),
       if (visiblePoints.isEmpty)
-        const Text('Doğrulanmış yer bilgisi henüz yüklenmedi.')
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Bu cihazda kullanılabilir yer kaydı yok.'),
+            if (widget.onManagePackages != null) ...[
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.download_rounded),
+                label: const Text('Yer kayıtlarını indir'),
+                onPressed: () =>
+                    widget.onManagePackages!(OfflinePackageKind.travel),
+              ),
+            ],
+          ],
+        )
       else if (points.isEmpty)
         const Text('Arama ölçütlerine uyan yer yok.'),
     ];

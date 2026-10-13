@@ -109,7 +109,7 @@ void main() {
     expect(find.text('Teknik buluşma noktası'), findsNothing);
     expect(find.text('Teknik rota'), findsNothing);
     expect(
-      find.text('Doğrulanmış yer bilgisi henüz yüklenmedi.'),
+      find.text('Bu cihazda kullanılabilir yer kaydı yok.'),
       findsOneWidget,
     );
     expect(
