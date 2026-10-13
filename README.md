@@ -1,26 +1,30 @@
 # Hac ve Umre Sesli Rehber
 
-Flutter ile geliştirilen Türkçe hac ve umre sesli rehber uygulaması. Ana sayfa, öğrenme/yolculuk biçimleri, 18 Umre ve 35 Hac başlığı, Hac profilleri, ayrıntı ekranları ve SQLite tabanlı kaldığın yerden devam akışı vardır. Teknik örnek kart Arapça yazı yönünü ve yerel sesi gösterir. Dinî açıklamalar ve Hac profil kuralları henüz onaylı yayın içeriği değildir.
+Türkçe Flutter uygulaması. **Tek güncel geliştirme dalı `codex/mvp1-pilot`**, teslim noktası [taslak PR #1](https://github.com/NeoTuck/kabe_hac/pull/1). Eski `codex/full-version-20261009` dalı tarihsel olarak korunur; özgün Umre taslak özet değişikliği güncel dala taşınmıştır. `main` henüz birleştirilmedi.
 
-## Çalıştırma
+## Uygulamada neler var?
 
-Flutter 3.47.6 ve Dart 3.13.5 ile doğrulandı:
+- İlk açılışta doğrudan Umre öğrenme, ayrı yolculuk kaydı ve kaldığı başlığa dönüş; 18 Umre ve 35 Hac başlığı. Hac türü seçilir, fakat uzman onaysız profil uygulanabilirliği önizleme olarak kalır.
+- Kaynak ve metin sürümü kayıtlı Türkçe **taslak** açıklamalar, manuel tavaf/sa‘y/cemarat sayaçları ve gerçek rehber ilerlemesinden ayrı eğitim provası.
+- Rehber ve provaya bağlı 54 çevrimdışı **sentetik taslak** ses. Dosya özeti ve metin sürümü kontrol edilir. Arapça telbiye için kayıt yoktur. Dinî ve dil incelemesi ile sesin dağıtım hakkı beklenir.
+- İsteğe bağlı Mekke/Medine çevrimdışı haritaları ve OSM kaynaklı yer paketi. Harita, yer listesi ve favoriler paket indirildiğinde açılır; indirme/iptal, doğrulama, bozulma, silme ve geri dönüş yolları vardır. Yer adları ve saha bilgileri insan incelemesi bekler; canlı yönlendirme verilmez.
+- Ayarlar, kaynak/lisans, yerel veri yönetimi ve Kafile arayüzü. Gerçek hizmet kabulü ve bağlantıları sağlanmadıkça Kafile kapalıdır.
+
+Ana sayfa kurulu harita ve yer paketlerinin doğrulama durumunu gösterir. Gezi sekmesi eksik paket için doğrudan indirme yoluna götürür. Dosya doğrulaması haritanın cihazda açılıp görsel olarak kabul edildiği anlamına gelmez.
+
+## Yerelde çalıştırma
+
+Flutter 3.47.6 / Dart 3.13.5 ile çalışılır. Flutter `PATH` içinde değilse bu Mac'te `/Users/mustafasenoglu/.local/share/flutter-3.47.6/bin/flutter` kullanın.
 
 ```sh
 flutter pub get
 flutter analyze
 flutter test
-flutter build apk --debug
+flutter run
 ```
 
-Önceki sürümün Android debug APK ve Android 35 emülatör kanıtı vardır. Yeni MVP 1 değişiklikleri bu Linux ortamında Android SDK eksikliği nedeniyle APK olarak doğrulanamadı. Alt sınır Android 9'dur (API 28). iOS derlemesi için tam Xcode ve CocoaPods gerekir; gerçek Android/iPhone cihaz testi henüz yapılmadı.
+Android alt sınırı API 28, iOS alt sınırı 15.0'dır. Kısa CI kaynak/QA, Flutter analiz/birim testi ve veritabanını çalıştırır. Uzun native/yayın işleri kullanıcının isteğiyle otomatik akışta değildir; önceki cihaz sonuçları son kodun veya fiziksel telefonun kabulü sayılmaz. `assets/audio/teknik_demo.m4a` yalnız ayrı teknik QA içindir ve kullanıcı APK'sına paketlenmez.
 
-## İçerik sınırı
+## Yayın durumu
 
-`assets/content/umre_inventory.v1.json` ve `assets/content/hac_inventory.v1.json` sürümlü yerel kataloglardır. Sabit kimlikler `U01.1` ve `H01.1` biçimindedir. JSON doğrulayıcı kimlikleri, grup sayılarını, kaynak ve inceleme alanlarını, ses haklarını ve metin–ses sürüm eşleşmesini denetler. Taslaklar uygulamada açıkça işaretlenir.
-
-`assets/audio/teknik_demo.m4a` sistem sesiyle üretilmiş teknik örnektir; nihai insan seslendirmesi değildir. Dinî metin, dua ve sesler yalnız kaynak, uzman incelemesi ve kullanım hakkı kaydıyla yayınlanabilir. Mimari için [ana yapı belgesine](docs/02-ana-yapi.md), içerik hattı ve mobil doğrulama için [son doğrulama belgesine](docs/03-icerik-ve-mobil-dogrulama.md) bakın.
-
-## MVP 1 teknik pilot
-
-Yeni ortak UI, açık/koyu tema, Noto Türkçe/Arapça fontları, gelişmiş ses kontrolleri ve yapılandırmaya bağlı Supabase kafile adaptörü eklendi. Rehber hesap açmadan çalışır. Gerçek dinî içerik/insan sesleri ve servis/cihaz kabulü eksik olduğu için mağazaya hazır tam rehber değildir. Güncel uygulama, test ve eksik listesi: [MVP 1 teslim raporu](docs/06-mvp1-pilot.md).
+Bu kod **teknik pilot** düzeyindedir. Gerçek dinî/dil uzmanı kararı, 54 sesin hak ve dinleme onayı, eksik Arapça telbiye kaydı, canlı test projesi ve veri sorumluluğu, fiziksel cihaz kabulü, üretim imzası ve mağaza beyanları gerekir. `LIVE_SERVICE_ACCEPTED` bu kanıtlar olmadan açılmaz. Güncel kod/kanıt: [birleşik çalışma kaydı](docs/43-birlesik-gunluk-kullanim-2026-10-13.md); gerçek karar teslimi: [release handoff](docs/release-handoff/2026-10-10/README.md).

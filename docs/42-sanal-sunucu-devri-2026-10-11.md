@@ -1,5 +1,7 @@
 # Sanal sunucu devri — 11 Ekim 2026
 
+> 13 Ekim güncellemesi: Tek güncel geliştirme dalı `codex/mvp1-pilot`; eski dalın Umre taslak özet değişikliği ve gezi/çevrimdışı kullanım düzeltmeleri bu dala taşındı. Bu belgenin aşağıdaki commit ve CI kayıtları tarihsel kanıttır. Güncel iş ağacı, yerel testler ve açık kapılar için [docs/43](43-birlesik-gunluk-kullanim-2026-10-13.md) kullanın.
+
 ## Alınacak kod ve son durum
 
 - Depo: `https://github.com/NeoTuck/kabe_hac`
