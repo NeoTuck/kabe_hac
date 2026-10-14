@@ -80,6 +80,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   }
 
   Future<void> _load() async {
+    if (_flowSteps.isEmpty) return;
     if (_loading) return;
     _loading = true;
     try {
@@ -209,6 +210,22 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   Widget build(BuildContext context) {
     final session = _session;
     final flowSteps = _flowSteps;
+    if (flowSteps.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text(widget.catalog.type.label)),
+        body: const SafeArea(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'Onaylı rehber içeriği henüz bulunmuyor. İçerik ve ses kayıtları inceleme tamamlandığında sunulacak. Önceki kişisel kayıtların cihazda korunur.',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     final current = session == null
         ? null
         : flowSteps
@@ -252,9 +269,14 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                       padding: const EdgeInsets.all(18),
                       child: Text(
                         isHajj && !profileVerified
-                            ? 'Hac türlerinin hangi başlıklardan geçeceği henüz onaylanmadı. Bu liste 35 başlığın önizlemesidir; kişisel işaretleme kapalıdır.'
+                            ? 'Hac türlerinin hangi başlıklardan geçeceği henüz onaylanmadı. Bu liste ${flowSteps.length} başlığın önizlemesidir; kişisel işaretleme kapalıdır.'
                             : isHajj
                             ? '${widget.profile!.label} için onaylı profil akışı gösteriliyor. İşaretler yalnız kişisel kayıttır.'
+                            : !widget.catalog.isComplete &&
+                                  widget.catalog.steps.every(
+                                    (step) => step.isApproved,
+                                  )
+                            ? 'Onaylı Umre başlıklarının ilk bölümü gösteriliyor. Rehber henüz tam değil; işaretler yalnız kişisel kayıttır.'
                             : widget.catalog.isPreview
                             ? 'Bu başlıkların bir bölümü içerik taslağıdır. Onaylanan metin ve sesler kendi kartında açılır. İşaretler yalnız kişisel kayıttır.'
                             : 'Onaylı Umre başlıkları gösteriliyor. İşaretler yalnız kişisel kayıttır.',
@@ -460,7 +482,7 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
           padding: const EdgeInsets.all(24),
           children: [
             Text(
-              '${step.groupId} · ${step.order} / ${widget.catalog.steps.length}',
+              '${step.groupId} · ${widget.catalog.stepsForProfile(widget.session.profile).indexOf(step) + 1} / ${widget.catalog.stepsForProfile(widget.session.profile).length}',
               style: Theme.of(context).textTheme.labelLarge,
             ),
             const SizedBox(height: 12),

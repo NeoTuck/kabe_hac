@@ -112,8 +112,11 @@ def audit_audio_integrity(root):
                     raise ValueError('Unsafe audio asset')
                 file = root / relative
                 file.resolve().relative_to((root / 'assets/audio').resolve())
-                if any(parent.is_symlink() for parent in (file, *file.parents)):
-                    raise ValueError('Linked audio asset')
+                current = root
+                for part in relative.parts:
+                    current = current / part
+                    if current.is_symlink():
+                        raise ValueError('Linked audio asset')
                 if hashlib.sha256(file.read_bytes()).hexdigest() != audio.get('assetSha256'):
                     raise ValueError('Audio bytes differ from reviewed digest')
             except (OSError, ValueError, TypeError) as error:

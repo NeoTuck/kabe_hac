@@ -4,18 +4,17 @@ Türkçe Flutter uygulaması. **Tek güncel geliştirme dalı `codex/mvp1-pilot`
 
 ## Uygulamada neler var?
 
-- İlk açılışta doğrudan Umre öğrenme, ayrı yolculuk kaydı ve kaldığı başlığa dönüş; 18 Umre ve 35 Hac başlığı. Hac türü seçilir, fakat uzman onaysız profil uygulanabilirliği önizleme olarak kalır.
-- Kaynak ve metin sürümü kayıtlı Türkçe **taslak** açıklamalar, manuel tavaf/sa‘y/cemarat sayaçları ve gerçek rehber ilerlemesinden ayrı eğitim provası.
-- Rehber ve provaya bağlı 54 çevrimdışı **sentetik taslak** ses. Dosya özeti ve metin sürümü kontrol edilir. Arapça telbiye için kayıt yoktur. Dinî ve dil incelemesi ile sesin dağıtım hakkı beklenir.
+- Umre/Hac rehber altyapısı, ayrı kişisel yolculuk kayıtları ve isteğe bağlı prova. **Uygulama paketinde onaylı rehber içeriği veya anlatım sesi henüz yoktur.** Rehber ve prova, içerik sağlanana kadar boş durum gösterir. Eski kişisel kayıtlar silinmez.
+- Kaynaklı 53 metin ve 54 sentetik ses yalnız depodaki inceleme dosyalarıdır; Flutter kullanıcı paketine alınmaz. Gelecek onaylı içerik, güvenilir çevrimdışı paketle kademeli açılabilir. Tamamlanmamış paket yolculuk hazırlığı sayılmaz.
 - İsteğe bağlı Mekke/Medine çevrimdışı haritaları ve OSM kaynaklı yer paketi. Harita, yer listesi ve favoriler paket indirildiğinde açılır; indirme/iptal, doğrulama, bozulma, silme ve geri dönüş yolları vardır. Yer adları ve saha bilgileri insan incelemesi bekler; canlı yönlendirme verilmez.
 - Ayarlar, kaynak/lisans, yerel veri yönetimi ve Kafile arayüzü. Gerçek hizmet kabulü ve bağlantıları sağlanmadıkça Kafile kapalıdır.
 
 Ana sayfa kurulu harita ve yer paketlerinin doğrulama durumunu gösterir. Gezi sekmesi eksik paket için doğrudan indirme yoluna götürür. Dosya doğrulaması haritanın cihazda açılıp görsel olarak kabul edildiği anlamına gelmez.
 
-Umre ve Hac taslak açıklamalarının kaynakları ve metin sürümleri görülebilir;
-Hac profil uygunluğu ayrıca inceleme bekler. Açık harita ve gezi ekranları paket
-yönetiminden dönüşte yer kayıtlarını yeniler. Güncel geliştirme ve tüm ürünün
-kabul planı: [tam paket uygulaması](docs/44-tam-paket-uygulama-plani-2026-10-13.md).
+Açık harita ve gezi ekranları paket yönetiminden dönüşte yer kayıtlarını yeniler.
+Önceki taslak içerikli uygulama durumu [13 Ekim planında](docs/44-tam-paket-uygulama-plani-2026-10-13.md)
+tarihsel olarak kayıtlıdır; güncel kullanıcı paketi için
+[14 Ekim içerik sınırına](docs/44-demo-icerik-cikarma-2026-10-14.md) bakın.
 
 ## Yerelde çalıştırma
 
@@ -28,8 +27,8 @@ flutter test
 flutter run
 ```
 
-Android alt sınırı API 28, iOS alt sınırı 15.0'dır. Kısa CI kaynak/QA, Flutter analiz/birim testi ve veritabanını çalıştırır. Uzun native/yayın işleri kullanıcının isteğiyle otomatik akışta değildir; önceki cihaz sonuçları son kodun veya fiziksel telefonun kabulü sayılmaz. `assets/audio/teknik_demo.m4a` yalnız ayrı teknik QA içindir ve kullanıcı APK'sına paketlenmez.
+Android alt sınırı API 28, iOS alt sınırı 15.0'dır. Kısa CI kaynak/QA, Flutter analiz/birim testi ve veritabanını çalıştırır. Uzun native/yayın işleri kullanıcının isteğiyle otomatik akışta değildir; önceki cihaz sonuçları son kodun veya fiziksel telefonun kabulü sayılmaz. Teknik QA sesleri ve taslak katalog/ses dosyaları kullanıcı paketine alınmaz.
 
 ## Yayın durumu
 
-Bu kod **teknik pilot** düzeyindedir. Gerçek dinî/dil uzmanı kararı, 54 sesin hak ve dinleme onayı, eksik Arapça telbiye kaydı, canlı test projesi ve veri sorumluluğu, fiziksel cihaz kabulü, üretim imzası ve mağaza beyanları gerekir. `LIVE_SERVICE_ACCEPTED` bu kanıtlar olmadan açılmaz. Güncel kod/kanıt: [birleşik çalışma kaydı](docs/43-birlesik-gunluk-kullanim-2026-10-13.md); gerçek karar teslimi: [release handoff](docs/release-handoff/2026-10-10/README.md).
+Bu kod **teknik pilot** düzeyindedir. Gerçek dinî/dil uzmanı kararı, ses hakkı ve dinleme onayı, canlı test projesi ve veri sorumluluğu, fiziksel cihaz kabulü, üretim imzası ve mağaza beyanları gerekir. `LIVE_SERVICE_ACCEPTED` bu kanıtlar olmadan açılmaz. Güncel içerik sınırı: [demo içerik çıkarma kaydı](docs/44-demo-icerik-cikarma-2026-10-14.md); gerçek karar teslimi: [release handoff](docs/release-handoff/2026-10-10/README.md).

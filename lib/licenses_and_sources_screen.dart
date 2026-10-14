@@ -68,11 +68,9 @@ class LicensesAndSourcesScreen extends StatelessWidget {
           Text('Rehber içeriği', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 8),
           const Text(
-            'Umre ve Hac açıklamaları kaynaklara dayanılarak bu proje için '
-            'özgün taslak olarak yazıldı. Dinî uzman incelemesi ve yayın '
-            'hakları tamamlanmadığı için taslak metinler ve telbiye kullanıcı '
-            'rehberinde gösterilmez. Her onaylı kaydın kaynak ayrıntısı '
-            'ilgili adımda gösterilir.',
+            'İnceleme bekleyen Umre ve Hac taslakları uygulama paketine '
+            'eklenmez. Onaylı rehber içeriği sağlandığında her kaydın '
+            'kaynak ayrıntısı ilgili adımda gösterilir.',
           ),
           const SizedBox(height: 20),
           Text(

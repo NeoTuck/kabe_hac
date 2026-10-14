@@ -1,3 +1,5 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -5,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
@@ -16,7 +17,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late Map<GuideType, GuideCatalog> catalogs;
   setUpAll(() async {
-    catalogs = await const LocalContentRepository().load();
+    catalogs = await loadDraftCatalogs();
     await (FontLoader(
       'MaterialIcons',
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();

@@ -492,6 +492,16 @@ class GuideCatalog {
     required this.prayerRecords,
   });
 
+  /// No religious text is shipped until a reviewed catalog is available.
+  factory GuideCatalog.unavailable(GuideType type) => GuideCatalog._(
+    schemaVersion: 1,
+    contentVersion: 'unavailable-2026-10-14',
+    type: type,
+    steps: const [],
+    audioRecords: const {},
+    prayerRecords: const {},
+  );
+
   static const expectedGroups = <GuideType, Map<String, int>>{
     GuideType.umrah: {
       'U01': 2,
@@ -533,8 +543,12 @@ class GuideCatalog {
     return null;
   }
 
+  bool get isComplete =>
+      steps.length == expectedGroups[type]!.values.reduce((a, b) => a + b);
+
   bool isProfileFlowVerified(HajjProfile profile) =>
       type == GuideType.hajj &&
+      isComplete &&
       steps.every(
         (step) =>
             step.isApproved &&
@@ -569,17 +583,19 @@ class GuideCatalog {
     return index > 0 ? flow[index - 1] : null;
   }
 
-  bool get isPreview => steps.any(
-    (step) =>
-        !step.isApproved ||
-        (type == GuideType.hajj &&
-            step.profileApplicability.values.contains(
-              ProfileApplicability.unverified,
-            )) ||
-        step.prayerIds.any((id) => !prayerRecords[id]!.isApproved),
-  );
+  bool get isPreview =>
+      !isComplete ||
+      steps.any(
+        (step) =>
+            !step.isApproved ||
+            (type == GuideType.hajj &&
+                step.profileApplicability.values.contains(
+                  ProfileApplicability.unverified,
+                )) ||
+            step.prayerIds.any((id) => !prayerRecords[id]!.isApproved),
+      );
 
-  factory GuideCatalog.fromJsonText(String text) {
+  factory GuideCatalog.fromJsonText(String text, {bool allowPartial = false}) {
     final decoded = _object(jsonDecode(text), 'Katalog');
     if (decoded['schemaVersion'] != 1) {
       throw const FormatException('Desteklenmeyen içerik şeması.');
@@ -617,8 +633,10 @@ class GuideCatalog {
         for (var number = 1; number <= group.value; number++)
           '${group.key}.$number',
     ];
-    if (steps.length != expectedIds.length ||
-        steps.map((s) => s.id).toSet().length != expectedIds.length) {
+    if ((!allowPartial && steps.length != expectedIds.length) ||
+        (allowPartial && steps.isEmpty) ||
+        steps.map((s) => s.id).toSet().length != steps.length ||
+        steps.any((step) => !expectedIds.contains(step.id))) {
       throw FormatException('${type.label} kimlik sayısı yanlış.');
     }
     final stepIds = steps.map((step) => step.id).toSet();
@@ -629,8 +647,8 @@ class GuideCatalog {
     }
     for (var index = 0; index < steps.length; index++) {
       final step = steps[index];
-      if (step.order != index + 1 ||
-          step.id != expectedIds[index] ||
+      if (step.order != expectedIds.indexOf(step.id) + 1 ||
+          (!allowPartial && step.order != index + 1) ||
           step.groupId != step.id.split('.').first) {
         throw FormatException('Geçersiz adım sırası/kimliği: ${step.id}');
       }
@@ -703,10 +721,11 @@ class GuideCatalog {
         for (final step in steps)
           if (step.counterKey != null) step.counterKey!: step.id,
       };
-      if (counters.length != 2 ||
-          counters['tawaf'] != 'U06.2' ||
-          counters['say'] != 'U09.2' ||
-          steps.where((s) => s.counterKey != null).length != 2) {
+      if ((!allowPartial && counters.length != 2) ||
+          (counters.containsKey('tawaf') && counters['tawaf'] != 'U06.2') ||
+          (counters.containsKey('say') && counters['say'] != 'U09.2') ||
+          steps.where((s) => s.counterKey != null).length != counters.length ||
+          counters.keys.any((key) => key != 'tawaf' && key != 'say')) {
         throw const FormatException('Umre sayaç bağlantıları geçersiz.');
       }
     } else {
@@ -714,9 +733,10 @@ class GuideCatalog {
         for (final step in steps)
           if (step.counterKey != null) step.id: step.counterKey,
       };
-      if (counters.length != 2 ||
-          counters['H06.3'] != 'jamarat' ||
-          counters['H09.2'] != 'jamarat') {
+      if ((!allowPartial && counters.length != 2) ||
+          (counters.containsKey('H06.3') && counters['H06.3'] != 'jamarat') ||
+          (counters.containsKey('H09.2') && counters['H09.2'] != 'jamarat') ||
+          counters.keys.any((key) => key != 'H06.3' && key != 'H09.2')) {
         throw const FormatException('Hac sayaç bağlantıları geçersiz.');
       }
     }

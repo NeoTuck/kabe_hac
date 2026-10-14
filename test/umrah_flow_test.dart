@@ -1,9 +1,9 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/guide_screens.dart';
 
@@ -14,10 +14,8 @@ void main() {
   late Map<GuideType, GuideCatalog> catalogs;
   late String umrahJson;
   setUpAll(() async {
-    catalogs = await const LocalContentRepository().load();
-    umrahJson = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    catalogs = await loadDraftCatalogs();
+    umrahJson = await readDraftCatalogText(GuideType.umrah);
   });
 
   for (final profile in HajjProfile.values) {

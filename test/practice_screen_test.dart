@@ -1,6 +1,7 @@
+import 'draft_catalog_fixture.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/practice_screen.dart';
 import 'package:hac_umre_sesli_rehber/progress_store.dart';
@@ -88,7 +89,7 @@ class MemoryPracticeStore extends MemoryGuideStore {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late Map<GuideType, GuideCatalog> catalogs;
-  setUpAll(() async => catalogs = await const LocalContentRepository().load());
+  setUpAll(() async => catalogs = await loadDraftCatalogs());
 
   testWidgets(
     'prova isteğe bağlı açılır, taslağı saklar ve gerçek ilerlemeyi değiştirmez',

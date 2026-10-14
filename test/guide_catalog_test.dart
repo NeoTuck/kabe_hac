@@ -1,7 +1,8 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
@@ -12,8 +13,18 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   sqfliteFfiInit();
 
-  test('iki katalog tüm sabit alt kimlikleri sırayla içerir', () async {
+  test('kullanıcı uygulaması taslak katalog yüklemez', () async {
     final catalogs = await const LocalContentRepository().load();
+    for (final catalog in catalogs.values) {
+      expect(catalog.steps, isEmpty);
+      expect(catalog.audioRecords, isEmpty);
+      expect(catalog.prayerRecords, isEmpty);
+      expect(catalog.isPreview, isTrue);
+    }
+  });
+
+  test('iki katalog tüm sabit alt kimlikleri sırayla içerir', () async {
+    final catalogs = await loadDraftCatalogs();
     for (final entry in GuideCatalog.expectedGroups.entries) {
       final catalog = catalogs[entry.key]!;
       final ids = [
@@ -31,9 +42,7 @@ void main() {
   });
 
   test('sürüm, zorunlu alan, kimlik ve bağlantı hataları reddedilir', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.umrah);
     Map<String, dynamic> source() => jsonDecode(text) as Map<String, dynamic>;
 
     final badVersion = source()..['schemaVersion'] = 99;
@@ -76,9 +85,7 @@ void main() {
   });
 
   test('isteğe bağlı alanlar boş kalabilir, onay kanıtsız verilemez', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.umrah);
     final source = jsonDecode(text) as Map<String, dynamic>;
     final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
     expect(catalog.steps.first.audioId, isNull);
@@ -93,9 +100,7 @@ void main() {
   });
 
   test('hac profil matrisi eksikse katalog reddedilir', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/hac_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.hajj);
     final source = jsonDecode(text) as Map<String, dynamic>;
     (source['steps'] as List)[0]['profileApplicability'].remove('kiran');
     expect(
@@ -105,9 +110,7 @@ void main() {
   });
 
   test('hac profili yalnız tamamen onaylı matriste akışı filtreler', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/hac_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.hajj);
     final draftSource = jsonDecode(text) as Map<String, dynamic>;
     final draftCatalog = GuideCatalog.fromJsonText(jsonEncode(draftSource));
     expect(draftCatalog.isProfileFlowVerified(HajjProfile.ifrad), isFalse);
@@ -253,9 +256,7 @@ void main() {
   });
 
   test('metin ile ses sürümü uyuşmazlığı reddedilir', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.umrah);
     final source = jsonDecode(text) as Map<String, dynamic>;
     (source['audioRecords'] as List).first['textVersion'] = 'yanlis-surum';
     expect(
@@ -267,9 +268,7 @@ void main() {
   test(
     'incelemeye gönderilen metin kaynak ve geçerli bağlantı ister',
     () async {
-      final text = await rootBundle.loadString(
-        'assets/content/umre_inventory.v1.json',
-      );
+      final text = await readDraftCatalogText(GuideType.umrah);
       Map<String, dynamic> source() => jsonDecode(text) as Map<String, dynamic>;
 
       final missingSource = source();
@@ -297,8 +296,7 @@ void main() {
   );
 
   test('U02.2 taslak metin ve eksik duayla güvenle yüklenir', () async {
-    final catalog = (await const LocalContentRepository()
-        .load())[GuideType.umrah]!;
+    final catalog = (await loadDraftCatalogs())[GuideType.umrah]!;
     final step = catalog.stepById('U02.2')!;
     expect(step.status, ReviewStatus.draft);
     expect(step.textVersion, 'U02.2-draft-2026-10-09-v1');
@@ -326,7 +324,7 @@ void main() {
   });
 
   test('53 kaynaklı taslak açıklama dört editöryal alanı içerir', () async {
-    final catalogs = await const LocalContentRepository().load();
+    final catalogs = await loadDraftCatalogs();
     final steps = catalogs.values.expand((catalog) => catalog.steps).toList();
     expect(steps, hasLength(53));
     for (final step in steps) {

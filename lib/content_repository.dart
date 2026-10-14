@@ -1,15 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
-
 import 'guide_catalog.dart';
 import 'offline_package.dart';
 
 class LocalContentRepository {
-  const LocalContentRepository({this.packages, this.bundle});
+  const LocalContentRepository({this.packages});
 
   final OfflinePackageManager? packages;
-  final AssetBundle? bundle;
 
   static const catalogPaths = {
     GuideType.umrah: 'assets/content/umre_inventory.v1.json',
@@ -19,19 +16,13 @@ class LocalContentRepository {
   Future<Map<GuideType, GuideCatalog>> load({
     Map<GuideType, GuideCatalog>? bundledCatalogs,
   }) async {
-    final catalogs = <GuideType, GuideCatalog>{...?bundledCatalogs};
-    for (final entry in catalogPaths.entries) {
-      if (catalogs.containsKey(entry.key)) continue;
-      final text = await (bundle ?? rootBundle).loadString(entry.value);
-      final catalog = GuideCatalog.fromJsonText(text);
-      if (catalog.type != entry.key) {
-        throw FormatException('${entry.value} türü yanlış.');
-      }
-      catalogs[entry.key] = catalog;
-    }
+    final catalogs = <GuideType, GuideCatalog>{
+      for (final type in GuideType.values)
+        type: bundledCatalogs?[type] ?? GuideCatalog.unavailable(type),
+    };
     final manager = packages;
     if (manager == null) return Map.unmodifiable(catalogs);
-    // A rejected or ambiguous override leaves the bundled guide available.
+    // A rejected or ambiguous override leaves the honest unavailable state.
     final overrides = <GuideType, List<GuideCatalog>>{};
     try {
       for (final state in await manager.listActivations()) {
@@ -45,21 +36,34 @@ class LocalContentRepository {
             if (file == null) continue;
             if (await file.length() > 8 * 1024 * 1024) continue;
             final text = await file.readAsString();
-            final catalog = GuideCatalog.fromJsonText(text);
+            final catalog = GuideCatalog.fromJsonText(text, allowPartial: true);
             final base = catalogs[entry.key]!;
             if (catalog.type != entry.key ||
-                catalog.steps
-                    .map((step) => step.id)
-                    .toSet()
-                    .difference(base.steps.map((step) => step.id).toSet())
-                    .isNotEmpty ||
-                base.steps
-                    .map((step) => step.id)
-                    .toSet()
-                    .difference(catalog.steps.map((step) => step.id).toSet())
-                    .isNotEmpty) {
+                (base.steps.isNotEmpty &&
+                    (catalog.steps
+                            .map((step) => step.id)
+                            .toSet()
+                            .difference(
+                              base.steps.map((step) => step.id).toSet(),
+                            )
+                            .isNotEmpty ||
+                        base.steps
+                            .map((step) => step.id)
+                            .toSet()
+                            .difference(
+                              catalog.steps.map((step) => step.id).toSet(),
+                            )
+                            .isNotEmpty)) ||
+                catalog.steps.any((step) => !step.isApproved) ||
+                catalog.prayerRecords.values.any(
+                  (prayer) => !prayer.isApproved,
+                ) ||
+                catalog.audioRecords.values.any(
+                  (audio) =>
+                      audio.status != ReviewStatus.approved || audio.reviewOnly,
+                )) {
               throw const FormatException(
-                'Paket sabit rehber kimliklerini değiştiremez.',
+                'Paket yalnız onaylı rehber içerebilir.',
               );
             }
             // Package catalogs use package-local paths, never device or network URLs.
@@ -68,16 +72,6 @@ class LocalContentRepository {
             for (final audio in json['audioRecords'] as List) {
               final asset = audio['asset'];
               if (asset == null) continue;
-              final bundled = base.audioRecords[audio['id']];
-              if (asset == bundled?.asset &&
-                  bundled?.isSyntheticDraftPreview == true &&
-                  audio['assetSha256'] == bundled?.assetSha256 &&
-                  audio['origin'] == 'synthetic' &&
-                  audio['reviewOnly'] == true &&
-                  audio['status'] == 'draft') {
-                // The immutable review asset is already in the signed app.
-                continue;
-              }
               if (asset is! String ||
                   !asset.startsWith('audio/') ||
                   await manager.resolveActiveFile(
@@ -94,7 +88,12 @@ class LocalContentRepository {
             }
             overrides
                 .putIfAbsent(entry.key, () => [])
-                .add(GuideCatalog.fromJsonText(jsonEncode(json)));
+                .add(
+                  GuideCatalog.fromJsonText(
+                    jsonEncode(json),
+                    allowPartial: true,
+                  ),
+                );
           } catch (_) {
             // Fail closed; do not discard bundled content or SQLite progress.
           }

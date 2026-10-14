@@ -62,7 +62,7 @@ def asset_entry(path):
         entry.update({'kind': 'religious_content_draft',
                       'owner': 'project original summaries',
                       'license': 'source reuse and expert review pending',
-                      'releaseStatus': 'draft_guarded'})
+                      'releaseStatus': 'excluded_from_user_build'})
     elif '/AppIcon.appiconset/' in rel or '/mipmap-' in rel:
         entry.update({'kind': 'app_icon', 'owner': 'project generated geometry',
                       'license': 'original project asset',
@@ -86,7 +86,7 @@ def asset_entry(path):
             'rightsStatus': 'training_corpus_consent_and_output_distribution_unverified',
             'listeningReview': 'pending',
             'religiousContentReview': 'pending',
-            'releaseStatus': 'draft_guarded',
+            'releaseStatus': 'excluded_from_user_build',
         })
     elif rel == 'assets/audio/teknik_demo.m4a':
         entry.update({'kind': 'technical_audio', 'license': 'QA fixture only',
@@ -140,7 +140,7 @@ def main():
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     report = {
-        'scope': 'checked-in user assets including 54 guarded synthetic draft audio files, excluded QA audio, pubspec.lock Dart packages',
+        'scope': 'checked-in assets; religious draft catalogs and 54 synthetic audio files excluded from user build; pubspec.lock Dart packages',
         'limits': 'Audio model license is an author declaration; training corpus consent, output distribution rights, listening and religious review remain unverified. Native Gradle/Apple transitive packages and future downloaded packs require separate review.',
         'assets': collect_assets(),
         'dartPackages': collect_packages(),

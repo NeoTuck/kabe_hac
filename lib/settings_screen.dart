@@ -91,9 +91,7 @@ class SettingsScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Sentetik taslak sesler rehberde dinlenebilir. Onaylı anlatım kayıtları henüz eklenmedi.',
-            ),
+            const Text('Onaylı anlatım kayıtları henüz eklenmedi.'),
             const SizedBox(height: 24),
             OutlinedButton.icon(
               onPressed: () => Navigator.of(context).push<void>(

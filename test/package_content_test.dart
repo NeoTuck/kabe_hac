@@ -1,8 +1,9 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
@@ -18,7 +19,7 @@ void main() {
   setUp(() async {
     root = await Directory.systemTemp.createTemp('package_content_');
     source = jsonDecode(
-      await rootBundle.loadString('assets/content/umre_inventory.v1.json'),
+      await readDraftCatalogText(GuideType.umrah),
     ) as Map<String, dynamic>;
     trusted.clear();
   });
@@ -29,39 +30,44 @@ void main() {
     String packageId = 'umre-content-tr',
     String? audioPath,
     String kind = 'audio',
-    bool preserveBundledDraft = false,
+    bool useDraft = false,
+    bool partial = false,
   }) async {
     source['contentVersion'] = version;
-    if (!preserveBundledDraft) {
-      for (final audio in source['audioRecords'] as List) {
-        // This fixture tests package-local files; bundled draft assets stay in
-        // the application and must not be interpreted as package paths.
-        audio.remove('asset');
-        audio.remove('assetSha256');
-        audio.remove('origin');
-        audio.remove('reviewOnly');
+    if (!useDraft) {
+      // Explicit test fixture: production has no bundled religious catalog.
+      source['audioRecords'] = [];
+      source['prayerRecords'] = [];
+      for (final step in source['steps'] as List) {
+        step['status'] = 'approved';
+        step['reviewedBy'] = 'TEST FIXTURE';
+        step['reviewedAt'] = '2026-10-14';
+        step.remove('audioId');
+        step['audioIds'] = [];
+        step['prayerIds'] = [];
+      }
+      if (partial) {
+        source['steps'] = (source['steps'] as List).take(3).toList();
       }
     }
     if (audioPath != null) {
-      // Technical fixture remains draft: no invented religious approval.
+      // Fake rights and review fields exist only inside this test package.
       source['audioRecords'] = [
-        ...(source['audioRecords'] as List).where(
-          (audio) => audio['id'] != 'test-audio',
-        ),
         {
           'id': 'test-audio',
-          'status': 'draft',
+          'status': 'approved',
           'kind': 'turkishNarration',
           'textId': 'U01.1',
           'textVersion': '1.0.0',
           'asset': audioPath,
+          'recordingOwner': 'TEST FIXTURE',
+          'rights': 'TEST FIXTURE',
+          'reviewedBy': 'TEST FIXTURE',
+          'reviewedAt': '2026-10-14',
         },
       ];
       source['steps'][0]['textVersion'] = '1.0.0';
       source['steps'][0]['audioId'] = 'test-audio';
-      for (final audio in source['audioRecords'] as List) {
-        if (audio['textId'] == 'U01.1') audio['textVersion'] = '1.0.0';
-      }
     }
     final files = <String, List<int>>{
       'content/umre_inventory.v1.json': utf8.encode(jsonEncode(source)),
@@ -102,17 +108,24 @@ void main() {
     await manager.activate(manifest, directory);
   }
 
+  test('eski taslak paket yeniden kullanılamaz', () async {
+    await install(useDraft: true);
+    final catalog = (await LocalContentRepository(packages: manager)
+        .load())[GuideType.umrah]!;
+    expect(catalog.steps, isEmpty);
+    expect(catalog.audioRecords, isEmpty);
+  });
+
   test(
-    'paket aynı güvenilir gömülü taslak sesleri yeniden kullanabilir',
+    'yalnız onaylı ilk içerik dilimi açılır ve tam hazır sayılmaz',
     () async {
-      await install(preserveBundledDraft: true);
+      await install(partial: true);
       final catalog = (await LocalContentRepository(packages: manager)
           .load())[GuideType.umrah]!;
-      expect(catalog.contentVersion, '1.0.0');
-      expect(
-        catalog.audioRecords['A-U01.1-TR-01']?.asset,
-        'assets/audio/draft-v2/A-U01.1-TR-01.m4a',
-      );
+      expect(catalog.steps.map((step) => step.id), ['U01.1', 'U01.2', 'U02.1']);
+      expect(catalog.isComplete, isFalse);
+      expect(catalog.isPreview, isTrue);
+      expect(catalog.audioRecords, isEmpty);
     },
   );
 
@@ -239,7 +252,7 @@ void main() {
         catalogs[GuideType.umrah]!.contentVersion,
         isNot(anyOf('1.0.1', '1.1.0')),
       );
-      expect(catalogs[GuideType.hajj]!.steps.length, 35);
+      expect(catalogs[GuideType.hajj]!.steps, isEmpty);
     },
   );
   test('manifest dışı dosya ve ses sembolik bağı kullanılamaz', () async {

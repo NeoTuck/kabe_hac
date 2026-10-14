@@ -349,18 +349,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 12),
                   const Text('Hazırlık ve yolculuk kayıtların ayrı tutulur.'),
-                  if (_catalogs[GuideType.umrah]!.isPreview) ...[
+                  if (_catalogs.values.every((c) => c.steps.isEmpty)) ...[
                     const SizedBox(height: 16),
                     const Card.filled(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Text(
-                          'Umre içeriği henüz incelemede. Taslak sesler onaylı anlatım değildir.',
+                          'Onaylı Umre ve Hac rehberi henüz bulunmuyor. İnceleme tamamlanana kadar rehber adımları ve sesler gösterilmez.',
                         ),
                       ),
                     ),
                   ],
-                  if (latest != null) ...[
+                  if (latest != null &&
+                      _catalogs[latest.type]!.steps.isNotEmpty) ...[
                     const SizedBox(height: 26),
                     FilledButton.icon(
                       onPressed: () => _resume(latest),
@@ -379,7 +380,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Rehber sürümü değişti. Eski kaydın korunur; devam ekranındaki sürüm uyarısını kontrol et.',
                       ),
                   ],
-                  if (!_loadingRecords && latest == null && _error == null) ...[
+                  if (!_loadingRecords &&
+                      latest == null &&
+                      _error == null &&
+                      _catalogs[GuideType.umrah]!.steps.isNotEmpty) ...[
                     const SizedBox(height: 24),
                     FilledButton.icon(
                       onPressed: () => _open(
@@ -427,7 +431,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             const SizedBox(height: 6),
-                            const Text('Rehber başlıkları cihazda açılır.'),
+                            Text(
+                              _catalogs.values.any((c) => c.steps.isNotEmpty)
+                                  ? 'Onaylı rehber içeriği cihazda açılır.'
+                                  : 'Onaylı rehber içeriği henüz cihazda yok.',
+                            ),
                             if (_offlineError != null) ...[
                               Text(_offlineError!),
                               TextButton.icon(
@@ -456,42 +464,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 12),
-                  _ChoiceCard(
-                    icon: Icons.menu_book_rounded,
-                    title: 'Umre',
-                    subtitle: _catalogs[GuideType.umrah]!.isPreview
-                        ? '18 başlık · içerik incelemede'
-                        : '18 başlık · içerik onaylı',
-                    onTap: () => _choose(GuideType.umrah),
-                  ),
-                  const SizedBox(height: 12),
-                  _ChoiceCard(
-                    icon: Icons.map_outlined,
-                    title: 'Hac',
-                    subtitle: _catalogs[GuideType.hajj]!.isPreview
-                        ? '35 başlık · profil kuralları önizlemede'
-                        : '35 başlık · içerik ve profiller onaylı',
-                    onTap: () => _choose(GuideType.hajj),
-                  ),
-                  const SizedBox(height: 32),
-                  _ChoiceCard(
-                    icon: Icons.play_circle_outline_rounded,
-                    title: 'Simülasyonu dene',
-                    subtitle: 'İsteğe bağlı eğitim provası · gerçek ibadetin yerine geçmez',
-                    onTap: () => _open(
-                      PracticeScreen(
-                        store: widget.store,
-                        catalogs: _catalogs,
-                        bundledCatalogs: widget.bundledCatalogs,
-                        narration: widget.narration,
-                        contentRepository: widget.contentRepository,
-                        packages: widget.packages,
-                        packageProvider: widget.packageProvider,
-                        packageConfigurationError:
-                            widget.packageConfigurationError,
+                  if (_catalogs[GuideType.umrah]!.steps.isNotEmpty)
+                    _ChoiceCard(
+                      icon: Icons.menu_book_rounded,
+                      title: 'Umre',
+                      subtitle: _catalogs[GuideType.umrah]!.isPreview
+                          ? 'İçerik kısmen incelemede'
+                          : '${_catalogs[GuideType.umrah]!.steps.length} onaylı başlık',
+                      onTap: () => _choose(GuideType.umrah),
+                    ),
+                  if (_catalogs[GuideType.hajj]!.steps.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _ChoiceCard(
+                      icon: Icons.map_outlined,
+                      title: 'Hac',
+                      subtitle: _catalogs[GuideType.hajj]!.isPreview
+                          ? 'Profil kuralları incelemede'
+                          : '${_catalogs[GuideType.hajj]!.steps.length} onaylı başlık',
+                      onTap: () => _choose(GuideType.hajj),
+                    ),
+                  ],
+                  if (_catalogs.values.any((c) => c.steps.isNotEmpty)) ...[
+                    const SizedBox(height: 32),
+                    _ChoiceCard(
+                      icon: Icons.play_circle_outline_rounded,
+                      title: 'Simülasyonu dene',
+                      subtitle: 'İsteğe bağlı eğitim provası · gerçek ibadetin yerine geçmez',
+                      onTap: () => _open(
+                        PracticeScreen(
+                          store: widget.store,
+                          catalogs: _catalogs,
+                          bundledCatalogs: widget.bundledCatalogs,
+                          narration: widget.narration,
+                          contentRepository: widget.contentRepository,
+                          packages: widget.packages,
+                          packageProvider: widget.packageProvider,
+                          packageConfigurationError:
+                              widget.packageConfigurationError,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                   const SizedBox(height: 28),
                   if (_travelCatalog != null) ...[
                     Text('Gezi', style: Theme.of(context).textTheme.titleLarge),

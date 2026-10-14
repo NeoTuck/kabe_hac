@@ -42,8 +42,6 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
   Map<String, String> _maps = {};
   int _places = 0;
   int _readyAudio = 0;
-  int _availableAudio = 0;
-  int _pendingAudio = 0;
   int _requiredAudio = 0;
   String? _error;
   String? _audioError;
@@ -60,12 +58,13 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
     final maps = <String, String>{};
     String? error;
     String? audioError;
-    int places = 0, ready = 0, available = 0, pending = 0;
+    int places = 0, ready = 0;
     var catalogs = _catalogs;
     var audioIds = <String>{};
     final readMaps = <String>{};
     try {
-      catalogs = await LocalContentRepository(packages: widget.packages).load();
+      catalogs = await LocalContentRepository(packages: widget.packages)
+          .load(bundledCatalogs: widget.catalogs);
       final catalog = catalogs[_type]!;
       audioIds = {
         for (final step in catalog.steps) ...step.linkedAudioIds,
@@ -127,13 +126,10 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
                 .toString();
           }
           if (digest == audio.assetSha256) {
-            available++;
             if (audio.status == ReviewStatus.approved &&
                 !audio.reviewOnly &&
                 textApproved) {
               ready++;
-            } else {
-              pending++;
             }
           }
         } catch (failure) {
@@ -150,8 +146,6 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
       _mapDataReady = readMaps.containsAll({'map-mecca', 'map-medina'});
       _places = places;
       _readyAudio = ready;
-      _availableAudio = available;
-      _pendingAudio = pending;
       _requiredAudio = audioIds.length;
       _error = error;
       _audioError = audioError;
@@ -212,6 +206,7 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
     final filesReady =
         _error == null &&
         _audioError == null &&
+        catalog.isComplete &&
         !catalog.isPreview &&
         _mapDataReady &&
         _places > 0 &&
@@ -269,8 +264,12 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
             if (_error != null) Text(_error!),
             _card(
               'Rehber',
-              '${catalog.steps.length} adım cihazda · sürüm ${catalog.contentVersion}',
-              catalog.isPreview
+              catalog.steps.isEmpty
+                  ? 'Onaylı adım bulunmuyor'
+                  : '${catalog.steps.length} adım cihazda · sürüm ${catalog.contentVersion}',
+              catalog.steps.isEmpty
+                  ? 'İnceleme tamamlanmış rehber paketi sağlandığında burada görünür.'
+                  : catalog.isPreview
                   ? 'Başlıklar çevrimdışı açılır. İçerik incelemede; onaylı ibadet rehberi henüz hazır değil.'
                   : 'Rehber kataloğu okundu. Kaldığın yerden devam ederek açılmayı kontrol et.',
             ),
@@ -290,20 +289,11 @@ class _JourneyPreparationScreenState extends State<JourneyPreparationScreen> {
               child: const Text('Yer kayıtları paketine git'),
             ),
             _card(
-              'Cihazdaki sesler',
-              _checking
-                  ? 'Kontrol ediliyor…'
-                  : '$_availableAudio / $_requiredAudio ses dosyası cihazda ve özeti doğrulandı',
-              '$_pendingAudio taslak veya inceleme bekleyen kayıt. '
-                  '${_requiredAudio - _availableAudio} kayıt eksik veya doğrulanamadı. '
-                  'Taslak sesler öğrenme ve provada açık etiketle dinlenebilir; izinli yayın sesi sayılmaz.',
-            ),
-            _card(
               'İzinli sesler',
               _checking
                   ? 'Kontrol ediliyor…'
                   : '$_readyAudio / $_requiredAudio izinli ses dosyası doğrulandı',
-              _audioError ?? 'Taslak kayıtlar bu sayıya dahil değildir. Arapça telbiye dahil eksik kayıtlar gerçek inceleme ve dağıtım izni bekler. Dosya kontrolü, cihazda dinleme kabulü değildir.',
+              _audioError ?? 'İzinli ses dosyası bulunmuyorsa anlatım açılmaz. Dosya kontrolü, cihazda dinleme kabulü değildir.',
               action: 'Rehber ve ses paketlerine git',
               onTap: () => _packages(OfflinePackageKind.audio),
             ),

@@ -1,8 +1,9 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/guide_screens.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
@@ -31,7 +32,41 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late Map<GuideType, GuideCatalog> catalogs;
   setUpAll(() async {
-    catalogs = await const LocalContentRepository().load();
+    catalogs = await loadDraftCatalogs();
+  });
+
+  testWidgets('kullanıcı açılışında taslak rehber ve prova görünmez', (
+    tester,
+  ) async {
+    final store = MemoryGuideStore();
+    final narration = FakeNarration();
+    await store.openOrCreateSession(
+      type: GuideType.umrah,
+      mode: GuideMode.learning,
+      profile: null,
+      firstStepId: 'U01.1',
+      contentVersion: 'old-draft',
+    );
+    await tester.pumpWidget(
+      SesliRehberApp(
+        store: store,
+        catalogs: {
+          for (final type in GuideType.values)
+            type: GuideCatalog.unavailable(type),
+        },
+        narration: narration,
+        settings: ReaderSettings(store, narration),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      find.textContaining('Onaylı Umre ve Hac rehberi henüz bulunmuyor'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Kaldığım yerden devam'), findsNothing);
+    expect(find.text('Umreyi öğrenmeye başla'), findsNothing);
+    expect(find.text('Simülasyonu dene'), findsNothing);
+    expect(store.sessions, hasLength(1));
   });
 
   testWidgets('ilk açılışta Umre öğrenmeye doğrudan başlanır', (tester) async {
@@ -130,10 +165,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(
-      find.textContaining('Umre içeriği henüz incelemede'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('Umre içeriği henüz incelemede'), findsNothing);
     expect(find.text('Rehber seç'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Umre'), 200);
     await tester.ensureVisible(find.text('Umre'));

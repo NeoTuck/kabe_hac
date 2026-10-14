@@ -1,5 +1,5 @@
 {
-  "scope": "checked-in user assets including 54 guarded synthetic draft audio files, excluded QA audio, pubspec.lock Dart packages",
+  "scope": "checked-in assets; religious draft catalogs and 54 synthetic audio files excluded from user build; pubspec.lock Dart packages",
   "limits": "Audio model license is an author declaration; training corpus consent, output distribution rights, listening and religious review remain unverified. Native Gradle/Apple transitive packages and future downloaded packs require separate review.",
   "assets": [
     {
@@ -69,7 +69,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H01.2-TR-01.m4a",
@@ -88,7 +88,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H01.3-TR-01.m4a",
@@ -107,7 +107,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H02.1-TR-01.m4a",
@@ -126,7 +126,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H02.2-TR-01.m4a",
@@ -145,7 +145,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H02.3-TR-01.m4a",
@@ -164,7 +164,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H02.4-TR-01.m4a",
@@ -183,7 +183,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H02.5-TR-01.m4a",
@@ -202,7 +202,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H03.1-TR-01.m4a",
@@ -221,7 +221,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H03.2-TR-01.m4a",
@@ -240,7 +240,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H03.3-TR-01.m4a",
@@ -259,7 +259,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H04.1-TR-01.m4a",
@@ -278,7 +278,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H04.2-TR-01.m4a",
@@ -297,7 +297,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H04.3-TR-01.m4a",
@@ -316,7 +316,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H04.4-TR-01.m4a",
@@ -335,7 +335,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H05.1-TR-01.m4a",
@@ -354,7 +354,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H05.2-TR-01.m4a",
@@ -373,7 +373,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H05.3-TR-01.m4a",
@@ -392,7 +392,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H06.1-TR-01.m4a",
@@ -411,7 +411,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H06.2-TR-01.m4a",
@@ -430,7 +430,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H06.3-TR-01.m4a",
@@ -449,7 +449,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H06.4-TR-01.m4a",
@@ -468,7 +468,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H07.1-TR-01.m4a",
@@ -487,7 +487,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H07.2-TR-01.m4a",
@@ -506,7 +506,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H07.3-TR-01.m4a",
@@ -525,7 +525,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H08.1-TR-01.m4a",
@@ -544,7 +544,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H08.2-TR-01.m4a",
@@ -563,7 +563,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H08.3-TR-01.m4a",
@@ -582,7 +582,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H08.4-TR-01.m4a",
@@ -601,7 +601,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H09.1-TR-01.m4a",
@@ -620,7 +620,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H09.2-TR-01.m4a",
@@ -639,7 +639,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H09.3-TR-01.m4a",
@@ -658,7 +658,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H10.1-TR-01.m4a",
@@ -677,7 +677,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H10.2-TR-01.m4a",
@@ -696,7 +696,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-H10.3-TR-01.m4a",
@@ -715,7 +715,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-P-U02.2-ANLAM-01.m4a",
@@ -734,7 +734,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U01.1-TR-01.m4a",
@@ -753,7 +753,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U01.2-TR-01.m4a",
@@ -772,7 +772,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U02.1-TR-01.m4a",
@@ -791,7 +791,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U02.2-TR-01.m4a",
@@ -810,7 +810,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U02.3-TR-01.m4a",
@@ -829,7 +829,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U03.1-TR-01.m4a",
@@ -848,7 +848,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U04.1-TR-01.m4a",
@@ -867,7 +867,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U05.1-TR-01.m4a",
@@ -886,7 +886,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U06.1-TR-01.m4a",
@@ -905,7 +905,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U06.2-TR-01.m4a",
@@ -924,7 +924,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U06.3-TR-01.m4a",
@@ -943,7 +943,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U07.1-TR-01.m4a",
@@ -962,7 +962,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U07.2-TR-01.m4a",
@@ -981,7 +981,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U08.1-TR-01.m4a",
@@ -1000,7 +1000,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U09.1-TR-01.m4a",
@@ -1019,7 +1019,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U09.2-TR-01.m4a",
@@ -1038,7 +1038,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U10.1-TR-01.m4a",
@@ -1057,7 +1057,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/draft-v2/A-U10.2-TR-01.m4a",
@@ -1076,7 +1076,7 @@
       "rightsStatus": "training_corpus_consent_and_output_distribution_unverified",
       "listeningReview": "pending",
       "religiousContentReview": "pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/audio/teknik_demo.m4a",
@@ -1093,7 +1093,7 @@
       "kind": "religious_content_draft",
       "owner": "project original summaries",
       "license": "source reuse and expert review pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/content/package_defaults.v1.json",
@@ -1121,7 +1121,7 @@
       "kind": "religious_content_draft",
       "owner": "project original summaries",
       "license": "source reuse and expert review pending",
-      "releaseStatus": "draft_guarded"
+      "releaseStatus": "excluded_from_user_build"
     },
     {
       "path": "assets/fonts/NotoNaskhArabic-OFL.txt",

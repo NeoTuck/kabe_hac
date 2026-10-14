@@ -58,8 +58,11 @@ def audit_review_bindings(root, evidence_dir):
                             raise ValueError('Unsafe document path')
                         document = evidence_dir / relative
                         document.resolve().relative_to(evidence_dir.resolve())
-                        if any(parent.is_symlink() for parent in (document, *document.parents)):
-                            raise ValueError('Linked document')
+                        current = evidence_dir
+                        for part in relative.parts:
+                            current = current / part
+                            if current.is_symlink():
+                                raise ValueError('Linked document')
                         if hashlib.sha256(document.read_bytes()).hexdigest() != receipt['documentSha256']:
                             raise ValueError('Document hash mismatch')
                     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:

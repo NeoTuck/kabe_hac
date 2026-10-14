@@ -1,8 +1,9 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
@@ -265,9 +266,7 @@ void main() {
   testWidgets('boş harita ekranı indirme yolunu açar', (tester) async {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
-    final catalogs = (await tester.runAsync(
-      () => const LocalContentRepository().load(),
-    ))!;
+    final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
         store: store,
@@ -304,9 +303,7 @@ void main() {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     final packages = StatusPackageManager();
-    final catalogs = (await tester.runAsync(
-      () => const LocalContentRepository().load(),
-    ))!;
+    final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
         store: store,
@@ -343,9 +340,7 @@ void main() {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     final travel = ChangingTravelRepository();
-    final catalogs = (await tester.runAsync(
-      () => const LocalContentRepository().load(),
-    ))!;
+    final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
         store: store,
@@ -411,9 +406,7 @@ void main() {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     final travel = ChangingTravelRepository();
-    final catalogs = (await tester.runAsync(
-      () => const LocalContentRepository().load(),
-    ))!;
+    final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
         store: store,
@@ -479,9 +472,7 @@ void main() {
   testWidgets('paket ekranından dönüş rehberi yeniden başlatmadan yeniler', (
     tester,
   ) async {
-    final catalogs = (await tester.runAsync(
-      () => const LocalContentRepository().load(),
-    ))!;
+    final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     final repository = ChangingContentRepository(catalogs);
     final store = MemoryGuideStore();
     final narration = FakeNarration();
@@ -507,9 +498,7 @@ void main() {
     await tester.tap(find.text('Çevrimdışı paketleri yönet'));
     await tester.pumpAndSettle();
     final source = jsonDecode(
-      (await tester.runAsync(
-        () => rootBundle.loadString('assets/content/umre_inventory.v1.json'),
-      ))!,
+      (await tester.runAsync(() => readDraftCatalogText(GuideType.umrah)))!,
     ) as Map<String, dynamic>;
     source['steps'][0]['title'] = 'Test paket başlığı';
     repository.current = {

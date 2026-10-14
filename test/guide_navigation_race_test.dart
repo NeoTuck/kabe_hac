@@ -1,8 +1,9 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/guide_screens.dart';
 
@@ -31,7 +32,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late GuideCatalog catalog;
   setUpAll(() async {
-    catalog = (await const LocalContentRepository().load())[GuideType.umrah]!;
+    catalog = (await loadDraftCatalogs())[GuideType.umrah]!;
   });
   Future<void> open(
     WidgetTester tester,
