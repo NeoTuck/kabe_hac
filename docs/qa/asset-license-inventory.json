@@ -4,53 +4,53 @@
   "assets": [
     {
       "path": "android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
-      "sha256": "bc57fe981bb53cd26aecfb17ddfb3d3ba4d3eccb43e223a3453f5553f6a7e5c5",
-      "bytes": 2572,
+      "sha256": "e2a72946ddd38a3d40c16298c84f6c14673bb05132924c148d5ba6b9b9a3787a",
+      "bytes": 11682,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
-      "sha256": "1e9ad30522a2fd0da544c5c1aa82d5bafdeb6a25ba0c44d43e8e9de9bd5cbda9",
-      "bytes": 1685,
+      "sha256": "94ab8fffe99d8314fce610ffb36ba7d24b279e0d7be0ef5204fbf2f6f6891331",
+      "bytes": 5873,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
-      "sha256": "ddbddb570597dea233a4c7cf2b554b8d9d9593d1b7b00a60ff18f968b606698c",
-      "bytes": 3501,
+      "sha256": "2e4354092cf2ffb60a29bc60ca6e2a14e34f8898b8c49248c752fd54e806d4ba",
+      "bytes": 19137,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
-      "sha256": "d94516552afce233899c59f420009a331b298509c7dc4eb21576002c4043b404",
-      "bytes": 5219,
+      "sha256": "c35565f4a370f1c120c1d10e5ffebb97aac4e93c97a8858fdbde4c2d88855334",
+      "bytes": 38524,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
-      "sha256": "003d554f6722a8e6e84608d523d28cdbfbcfe40845f7d195267563fe501b8c02",
-      "bytes": 6846,
+      "sha256": "ae14d3cc3fa1c40f32b28852c828762d6223da301ac72c4e0d96df286c3d58b5",
+      "bytes": 63511,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "assets/audio/draft-v2/A-H01.1-TR-01.m4a",
@@ -1087,6 +1087,16 @@
       "releaseStatus": "excluded_from_user_build"
     },
     {
+      "path": "assets/branding/app_icon_source.jpg",
+      "sha256": "72ab3fbbda40f8a7be27b58bfab255fc5a786ea68641e7d77aeff11230a0789f",
+      "bytes": 133856,
+      "kind": "app_icon_source",
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "user-provided image, 2026-10-15",
+      "releaseStatus": "bundled_rights_review_pending"
+    },
+    {
       "path": "assets/content/hac_inventory.v1.json",
       "sha256": "76f102c3137785ffda9ca4c43e6b7eee55976a047f16c396dccf9b64127668df",
       "bytes": 52955,
@@ -1174,153 +1184,153 @@
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
-      "sha256": "614f9fc07ec1a8c86f01b30964e173336ad48905ed0f5b8f69713700167b2e12",
-      "bytes": 31506,
+      "sha256": "ee2bf91670f2c8999e4bde13f0a350c1188a52a6832a71b6a4c013c09d043b8d",
+      "bytes": 1048004,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
-      "sha256": "b94ebefbc4fb8227dea5ed0d78c030d249f3be73062833437727cf8030ecaf95",
-      "bytes": 651,
+      "sha256": "e11364e9fd54e199054588e8fce524ee3cbdb54f6e1ad3103b472180559609f6",
+      "bytes": 1507,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
-      "sha256": "f55508e7e53fa7e238772159417a49765e2fbaad9623d55db471265472eea96e",
-      "bytes": 1341,
+      "sha256": "196ca2fd22201bc70e9315ad91641dd338e7dfe9a99263a961fd143363f3c948",
+      "bytes": 4328,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
-      "sha256": "77edd9a29e7890a09fa6cc7d3f5a0fdadeba3bee4741abea115ccf05d19cc470",
-      "bytes": 2062,
+      "sha256": "503333c9b40d572ec3d7158334864eeb61ff5032bc857f867b75a66660615fe0",
+      "bytes": 8532,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
-      "sha256": "b627c665abff870884bc29a69ee6419120ab6490f7b03c55fcecc0a89bd3716f",
-      "bytes": 1010,
+      "sha256": "db5a0ff4c54d6083131b0070788bb203a27ddea88da6e5a27a6c81cc2fc46851",
+      "bytes": 2590,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
-      "sha256": "e6c3248e1127c385a77dce0dd76ac97f3c4a7f8473aa0d7cf91e31de04decb5d",
-      "bytes": 2031,
+      "sha256": "cc3bed8038a5a66c19f04368ff2a26d2188ec2910a29d64fd87646b54c008584",
+      "bytes": 8090,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
-      "sha256": "753f575c80be00681f568efae11d3b64ebc73230c7b0c96ff3a55744e837c646",
-      "bytes": 3086,
+      "sha256": "c06c7320b37930a40eaa0913772b2154d492a765342c4205755f0de5817f0a18",
+      "bytes": 16193,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
-      "sha256": "f55508e7e53fa7e238772159417a49765e2fbaad9623d55db471265472eea96e",
-      "bytes": 1341,
+      "sha256": "196ca2fd22201bc70e9315ad91641dd338e7dfe9a99263a961fd143363f3c948",
+      "bytes": 4328,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
-      "sha256": "17371196d8cd6d92b068a539d23ea10f35be309389f6235d3c3825daf1636aa8",
-      "bytes": 2862,
+      "sha256": "e28b4f2b3cb2961a6012818262c95af07bb1d445bbf09279032c92e93b302eaf",
+      "bytes": 13969,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
-      "sha256": "8ec7df105141f33f836f6e335615a04707f6dc3f8d04201a32353fedec90a979",
-      "bytes": 4319,
+      "sha256": "d13fbef8d991e985ecc441e48d73bd68561fc0156b1d913218b4bc73dc3a6a9c",
+      "bytes": 28115,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
-      "sha256": "8ec7df105141f33f836f6e335615a04707f6dc3f8d04201a32353fedec90a979",
-      "bytes": 4319,
+      "sha256": "d13fbef8d991e985ecc441e48d73bd68561fc0156b1d913218b4bc73dc3a6a9c",
+      "bytes": 28115,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
-      "sha256": "1035ee2cef6ff484ffc852bf639ac31ee5ec64b9e62df28dff17431c8cb3b9a1",
-      "bytes": 6472,
+      "sha256": "3589e64346b0addbd3350d2d6b462b81cf1bdbff7fb528ea18e92bc45cd20a5b",
+      "bytes": 56743,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
-      "sha256": "617e34832989d7e9f60d4d263b48f594555c6e87ff0287c14299990e196df6ff",
-      "bytes": 2708,
+      "sha256": "024d020a787000f25d8fec0d7dda0cd02c2cb6c90db7aa23062fb534ff7ea8a2",
+      "bytes": 12830,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
-      "sha256": "55ea65b08d0f5019403b2f150ff6471ad360c5459118284b7fb19acfb20f488f",
-      "bytes": 5473,
+      "sha256": "a14b7d973f140b98c9a8d345616e35ec58116fb9c5b60971cb0c4dbe5c8add61",
+      "bytes": 42379,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
-      "sha256": "5b1fcdb6a3ca00307d2f786911fafee090b0ce1d4c57ad54418dee0fc4eb69ad",
-      "bytes": 5854,
+      "sha256": "f870de2c9fd9d0f31acab9f6240a62df8a02142284e81ca0c94ceb5d0f61ddfd",
+      "bytes": 49910,
       "kind": "app_icon",
-      "owner": "project generated geometry",
-      "license": "original project asset",
-      "source": "tools/build_app_icons.py",
-      "releaseStatus": "bundled"
+      "owner": "user supplied; creator not documented",
+      "license": "distribution rights not documented",
+      "source": "assets/branding/app_icon_source.jpg via tools/build_app_icons.py",
+      "releaseStatus": "bundled_rights_review_pending"
     },
     {
       "path": "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",

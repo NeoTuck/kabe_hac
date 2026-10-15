@@ -46,6 +46,12 @@ def asset_entry(path):
     elif rel.startswith('assets/fonts/'):
         entry.update({'kind': 'font_license', 'license': 'OFL-1.1',
                       'releaseStatus': 'bundled'})
+    elif rel == 'assets/branding/app_icon_source.jpg':
+        entry.update({'kind': 'app_icon_source',
+                      'owner': 'user supplied; creator not documented',
+                      'license': 'distribution rights not documented',
+                      'source': 'user-provided image, 2026-10-15',
+                      'releaseStatus': 'bundled_rights_review_pending'})
     elif rel == 'assets/licenses/ODbL-1.0.txt':
         entry.update({'kind': 'data_license', 'license': 'ODbL-1.0',
                       'source': 'https://opendatacommons.org/licenses/odbl/1-0/', 'releaseStatus': 'bundled'})
@@ -64,10 +70,11 @@ def asset_entry(path):
                       'license': 'source reuse and expert review pending',
                       'releaseStatus': 'excluded_from_user_build'})
     elif '/AppIcon.appiconset/' in rel or '/mipmap-' in rel:
-        entry.update({'kind': 'app_icon', 'owner': 'project generated geometry',
-                      'license': 'original project asset',
-                      'source': 'tools/build_app_icons.py',
-                      'releaseStatus': 'bundled'})
+        entry.update({'kind': 'app_icon',
+                      'owner': 'user supplied; creator not documented',
+                      'license': 'distribution rights not documented',
+                      'source': 'assets/branding/app_icon_source.jpg via tools/build_app_icons.py',
+                      'releaseStatus': 'bundled_rights_review_pending'})
     elif rel.startswith(REVIEW_AUDIO_DIR) and path.suffix == '.m4a':
         entry.update({
             'kind': 'synthetic_turkish_review_audio',
@@ -99,6 +106,7 @@ def asset_entry(path):
 
 def collect_assets():
     paths = list((ROOT / 'assets/fonts').glob('*'))
+    paths += list((ROOT / 'assets/branding').glob('*'))
     paths += list((ROOT / 'assets/content').glob('*.json'))
     paths += list((ROOT / 'assets/licenses').glob('*.txt'))
     paths += list((ROOT / 'android/app/src/main/res').glob('mipmap-*/ic_launcher.png'))
