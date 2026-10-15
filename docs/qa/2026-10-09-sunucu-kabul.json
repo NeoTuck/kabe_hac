@@ -1,0 +1,214 @@
+{
+  "source_sha": "a4dee8d35f0b764373da3bdc4d313babc031cf67",
+  "source_tree": "b6d355ca00e255dbeb512df8623e3f7848538f25",
+  "pr_test_sha": "9c360482281e55fcd87e348ba85264ba604ea24c",
+  "base_fetched_sha": "10963fe05931e8dc8f48afc0106da5abc380f04d",
+  "ci": {
+    "run_id": 37899499075,
+    "attempt": 2,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/NeoTuck/kabe_hac/actions/runs/37899499075",
+    "jobs": [
+      {
+        "id": 113723682667,
+        "name": "ios",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 113723683958,
+        "name": "database",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 113723684253,
+        "name": "flutter",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 113723684814,
+        "name": "android-release-size",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 113723684865,
+        "name": "android-ui (28)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 113723685561,
+        "name": "android-ui (35)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 113723734178,
+        "name": "qa-foundation",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "automatic_checks": {
+    "flutter": 180,
+    "python": 30,
+    "pgtap_fixture": 39,
+    "server_sql_fixture": 45,
+    "real_postgresql_concurrency": 7,
+    "node_handler": 13,
+    "format": "71 files clean",
+    "analysis": "clean",
+    "deno": "2.5.6 check passed",
+    "live_supabase": false
+  },
+  "optimized_apks": [
+    {
+      "name": "app-arm64-v8a-release.apk",
+      "bytes": 36262857,
+      "sha256": "affa8e3a56f3fe285ca1494f836d1de820dc6533c97debd98b58584b24e8099f",
+      "signer": "C=US,O=Android,CN=Android Debug",
+      "certificate_sha256": "69ef4d2fddc1e86f0846ca64c6b6124023e839cad736102e7cf903a761021b50",
+      "apk_v2_signature_and_content_digest_verified": true,
+      "production_signing": false
+    },
+    {
+      "name": "app-armeabi-v7a-release.apk",
+      "bytes": 31007791,
+      "sha256": "5ee8b090e910c042da97ce703d5bb6478703bf45427eef40c0a7e7d02cd7f598",
+      "signer": "C=US,O=Android,CN=Android Debug",
+      "certificate_sha256": "69ef4d2fddc1e86f0846ca64c6b6124023e839cad736102e7cf903a761021b50",
+      "apk_v2_signature_and_content_digest_verified": true,
+      "production_signing": false
+    },
+    {
+      "name": "app-x86_64-release.apk",
+      "bytes": 38163750,
+      "sha256": "989c9b06ea9149ed03d425882810fc2898a369b6be4653adaa71ed526ad36b80",
+      "signer": "C=US,O=Android,CN=Android Debug",
+      "certificate_sha256": "69ef4d2fddc1e86f0846ca64c6b6124023e839cad736102e7cf903a761021b50",
+      "apk_v2_signature_and_content_digest_verified": true,
+      "production_signing": false
+    }
+  ],
+  "debug_apk": {
+    "name": "app-debug.apk",
+    "bytes": 216958400,
+    "sha256": "fe1aae158fba89392ed694c7053abf98d1a17361cd6cf9966f9530024a349e41"
+  },
+  "artifact_ids": {
+    "optimized": 11602071572,
+    "debug": 11601034745,
+    "audio_qa_only": 11602151789,
+    "ui_preview": 11600904834,
+    "android_28": 11602052148,
+    "android_35": 11602177716,
+    "ios_attempt_1_blocked": 11601857715,
+    "ios_attempt_2_passed": 11602993704
+  },
+  "native": {
+    "scope": "Debug selected entry/pending/service-unconfigured/practice flows and separate audio-probe state/position checks; not entire production product",
+    "physical_devices_accepted": false,
+    "auditory_quality_accepted": false,
+    "optimized_artifact_smoke_accepted": false,
+    "release_performance_accepted": false,
+    "android_api_28": {
+      "result": "passed",
+      "profile": "Pixel 2",
+      "architecture": "x86_64",
+      "target": "google_apis",
+      "build": "debug",
+      "app_cases": 5,
+      "audio_cases": 1,
+      "artifact": 11602052148,
+      "archive_independently_verified": true,
+      "installed_hash_equal": true
+    },
+    "android_api_35": {
+      "result": "passed",
+      "profile": "Pixel 2",
+      "architecture": "x86_64",
+      "target": "google_apis",
+      "build": "debug",
+      "app_cases": 5,
+      "audio_cases": 1,
+      "artifact": 11602177716,
+      "archive_independently_verified": true,
+      "installed_hash_equal": true
+    },
+    "ios_simulator": {
+      "result": "passed",
+      "device": "iPhone 16",
+      "runtime": "18.5",
+      "sdk": "18.5",
+      "build": "debug simulator; no-codesign",
+      "app_cases": 5,
+      "audio_cases": 1,
+      "artifact": 11602993704,
+      "archive_independently_verified": true,
+      "physical_iphone_tested": false
+    }
+  },
+  "live_services": {
+    "supabase_auth_rls_realtime_outbox": "pending: configured verified test project and two accounts/two groups unavailable",
+    "firebase_fcm_apns": "pending: selected test devices/server credentials unavailable",
+    "gps": "pending: physical test device permission/revocation/expiry acceptance unavailable",
+    "production_migration_applied": false,
+    "schedules_activated": false,
+    "push_sent": false
+  },
+  "release": {
+    "status": "blocked",
+    "blocker_count": 155,
+    "approved_steps": 0,
+    "draft_umrah_steps": 18,
+    "draft_hajj_steps": 35,
+    "human_audio_accepted": false,
+    "real_map_route_data_accepted": false,
+    "signed_aab": "not created: production key unavailable",
+    "signed_ios_archive_testflight": "not created: Apple signing/account unavailable",
+    "ios_simulator_bundle_size_hash": "not measured: CI does not upload generated app bundle",
+    "retention_policy": "pending product decision; configurable server override; existing pilot +1 day is not approved production policy"
+  },
+  "previous_failures": [
+    {
+      "run": 37895450458,
+      "scope": "PostgreSQL fixture before tests",
+      "cause": "postgres could not traverse checkout",
+      "resolution": "copy disposable fixture to postgres-readable temporary directory"
+    },
+    {
+      "run": 37895564259,
+      "scope": "real PostgreSQL concurrency assertion",
+      "cause": "transaction-start RLS time differed from wall-clock measurement",
+      "resolution": "wall-clock RLS contract and consent opening membership lock; assertions preserved"
+    },
+    {
+      "run": 37896363030,
+      "attempts": [
+        1,
+        2
+      ],
+      "scope": "Android API35 preflight; device_tests_run=false",
+      "cause": "installed APK ADB read failed; old runner omitted command/error detail",
+      "resolution": "preserve diagnostics and one bounded shell transfer fallback, exact installed APK hash still mandatory",
+      "qualification": "Final API35 used adb-sync successfully, not fallback. Previous transfer root cause not proven."
+    },
+    {
+      "run": 37899499075,
+      "attempt": 1,
+      "scope": "iOS driver preparation before UI; device_tests_run=false",
+      "cause": "Maestro XCTest startup timeout at 180 seconds",
+      "resolution": "Only the diagnosed environment job retried once; attempt 2 passed 5 app + 1 audio JUnit, independently extracted. No UI assertion retry."
+    }
+  ],
+  "distribution_decisions": {
+    "technical_debug_test": "Scoped review/test on dedicated test devices or fresh test profile; selected debug smoke passed. CI debug certificates vary across runs; do not uninstall an existing user app to bypass signing mismatch.",
+    "optimized_technical_apks": "Build/hash/signature verified; final optimized artifact device smoke and performance pending.",
+    "real_user_release": "Blocked by 155 input/evidence records; owners and next steps in docs/20; no store submission."
+  }
+}

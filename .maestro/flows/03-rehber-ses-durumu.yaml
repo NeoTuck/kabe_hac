@@ -1,0 +1,112 @@
+appId: ${APP_ID}
+name: Rehberde sentetik taslak ses durumu
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
+- scrollUntilVisible:
+    element: "(?s)^Rehbere başla.*"
+    direction: UP
+- scrollUntilVisible:
+    element: "(?s)Umre.*18 başlık.*"
+    direction: DOWN
+- tapOn:
+    text: "(?s)Umre.*18 başlık.*"
+    retryTapIfNoChange: true
+- assertVisible: "Umre · kullanım biçimi"
+- tapOn: "(?s)Öğrenme.*Başlıkları serbestçe incele.*"
+- assertVisible: "Umre · Öğrenme"
+- scrollUntilVisible:
+    element: "(?s).*Kullanım biçimi seçimi.*İçerik: Taslak.*"
+    direction: DOWN
+- tapOn: "(?s).*Kullanım biçimi seçimi.*İçerik: Taslak.*"
+- scrollUntilVisible:
+    element: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
+    direction: DOWN
+- assertVisible: "Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı."
+- takeScreenshot: rehber-sentetik-taslak-ses
+
+- scrollUntilVisible:
+    element: "Anlatımı dinle"
+    direction: DOWN
+- tapOn:
+    text: "Anlatımı dinle"
+    waitToSettleTimeoutMs: 200
+- extendedWaitUntil:
+    visible: "Duraklat"
+    timeout: 15000
+- tapOn:
+    text: "Duraklat"
+    waitToSettleTimeoutMs: 200
+- scrollUntilVisible:
+    element: "Ses duraklatıldı"
+    direction: DOWN
+- assertVisible: "Ses duraklatıldı"
+- scrollUntilVisible:
+    element: "10 sn geri"
+    direction: DOWN
+- tapOn:
+    text: "10 sn geri"
+    waitToSettleTimeoutMs: 200
+- tapOn:
+    text: "10 sn geri"
+    waitToSettleTimeoutMs: 200
+- assertVisible: "(?s).*0:00 / [0-9]+:[0-9]{2}.*"
+- scrollUntilVisible:
+    element: "Devam et"
+    direction: UP
+- tapOn:
+    text: "Devam et"
+    waitToSettleTimeoutMs: 200
+- assertVisible: "Duraklat"
+- scrollUntilVisible:
+    element: "10 sn ileri"
+    direction: DOWN
+    waitToSettleTimeoutMs: 200
+- tapOn:
+    text: "10 sn ileri"
+    waitToSettleTimeoutMs: 200
+- tapOn:
+    text: "10 sn geri"
+    waitToSettleTimeoutMs: 200
+- tapOn:
+    text: "Anlatım hızı · 1.0×"
+    waitToSettleTimeoutMs: 200
+- tapOn:
+    text: "1.25×"
+    waitToSettleTimeoutMs: 200
+- assertVisible: "Anlatım hızı · 1.25×"
+- scrollUntilVisible:
+    element: "Sesi durdur"
+    direction: DOWN
+- tapOn:
+    text: "Sesi durdur"
+    waitToSettleTimeoutMs: 200
+- assertVisible: "Anlatımı dinle"
+- takeScreenshot: gercek-paketli-taslak-anlatim
+
+- tapOn:
+    text: "Anlatımı dinle"
+    waitToSettleTimeoutMs: 200
+- extendedWaitUntil:
+    visible: "Duraklat"
+    timeout: 15000
+- scrollUntilVisible:
+    element: "Sonraki başlık"
+    direction: DOWN
+    waitToSettleTimeoutMs: 200
+- tapOn:
+    text: "Sonraki başlık"
+    waitToSettleTimeoutMs: 200
+- scrollUntilVisible:
+    element: "U01 · 2 / 18"
+    direction: UP
+- assertVisible: "U01 · 2 / 18"
+- assertVisible: "Hazırlık"
+- scrollUntilVisible:
+    element: "Anlatımı dinle"
+    direction: DOWN
+- assertVisible: "Anlatımı dinle"
+- assertNotVisible: "Sesi durdur"
+- takeScreenshot: adim-degisince-eski-anlatim-durur

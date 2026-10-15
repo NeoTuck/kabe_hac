@@ -34,6 +34,40 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   GuideSession? _session;
   Set<String> _markedIds = {};
   String? _error;
+  bool _openingStep = false;
+  bool _loading = false;
+  bool _creatingJourney = false;
+  bool get _versionMismatch =>
+      _session != null &&
+      (_session!.contentVersion != widget.catalog.contentVersion ||
+          _session!.profile != widget.profile ||
+          _session!.mode != widget.mode ||
+          _session!.type != widget.catalog.type);
+  Future<void> _startCurrentVersion() async {
+    if (_creatingJourney || _openingStep || _loading) return;
+    _creatingJourney = true;
+    try {
+      final session = await widget.store.startNewSession(
+        type: widget.catalog.type,
+        mode: widget.mode,
+        profile: widget.profile,
+        firstStepId: _flowSteps.first.id,
+        contentVersion: widget.catalog.contentVersion,
+      );
+      if (!mounted) return;
+      setState(() => _session = session);
+      await _load();
+    } catch (_) {
+      if (mounted) {
+        setState(
+          () => _error =
+              'Yeni sürüm kaydı açılamadı. Tekrar dene; eski kaydın korunur.',
+        );
+      }
+    } finally {
+      _creatingJourney = false;
+    }
+  }
 
   List<GuideStep> get _flowSteps => widget.catalog.stepsForProfile(
     widget.catalog.type == GuideType.hajj ? widget.profile : null,
@@ -46,6 +80,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   }
 
   Future<void> _load() async {
+    if (_flowSteps.isEmpty) return;
+    if (_loading) return;
+    _loading = true;
     try {
       final known = _session ?? widget.existingSession;
       final session = known == null
@@ -69,12 +106,20 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
       }
     } catch (_) {
       if (mounted) setState(() => _error = 'Kayıt açılmadı. Tekrar dene.');
+    } finally {
+      _loading = false;
     }
   }
 
   Future<void> _openStep(GuideStep step) async {
     final session = _session;
-    if (session == null) return;
+    if (session == null ||
+        _openingStep ||
+        _creatingJourney ||
+        _versionMismatch) {
+      return;
+    }
+    _openingStep = true;
     try {
       GuideStep? selected = step;
       while (selected != null && mounted) {
@@ -104,6 +149,37 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
           const SnackBar(content: Text('Başlık açılamadı. Tekrar dene.')),
         );
       }
+    } finally {
+      _openingStep = false;
+    }
+  }
+
+  Future<void> _confirmNewJourney() async {
+    if (_creatingJourney || _openingStep || _loading) return;
+    _creatingJourney = true;
+    try {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Yeni yolculuk başlat?'),
+          content: const Text(
+            'Yeni bir kişisel takip kaydı açılır. Önceki yolculuğun ve işaretlerin korunur.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Başlat'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed == true && mounted) await _newJourney();
+    } finally {
+      _creatingJourney = false;
     }
   }
 
@@ -134,6 +210,22 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   Widget build(BuildContext context) {
     final session = _session;
     final flowSteps = _flowSteps;
+    if (flowSteps.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text(widget.catalog.type.label)),
+        body: const SafeArea(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'Onaylı rehber içeriği henüz bulunmuyor. İçerik ve ses kayıtları inceleme tamamlandığında sunulacak. Önceki kişisel kayıtların cihazda korunur.',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     final current = session == null
         ? null
         : flowSteps
@@ -150,7 +242,23 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
       ),
       body: SafeArea(
         child: _error != null
-            ? Center(child: Text(_error!))
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(_error!),
+                      const SizedBox(height: 16),
+                      FilledButton.icon(
+                        onPressed: _load,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Tekrar dene'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             : session == null
             ? const Center(child: CircularProgressIndicator())
             : ListView(
@@ -161,13 +269,30 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                       padding: const EdgeInsets.all(18),
                       child: Text(
                         isHajj && !profileVerified
-                            ? 'Hac türlerinin hangi başlıklardan geçeceği henüz onaylanmadı. Bu liste 35 başlığın önizlemesidir; kişisel işaretleme kapalıdır.'
+                            ? 'Hac türlerinin hangi başlıklardan geçeceği henüz onaylanmadı. Bu liste ${flowSteps.length} başlığın önizlemesidir; kişisel işaretleme kapalıdır.'
                             : isHajj
                             ? '${widget.profile!.label} için onaylı profil akışı gösteriliyor. İşaretler yalnız kişisel kayıttır.'
-                            : 'Bu başlıklar içerik taslağıdır. Kaynaklı açıklama ve insan sesi inceleme sonrası açılacak. İşaretler yalnız kişisel kayıttır.',
+                            : !widget.catalog.isComplete &&
+                                  widget.catalog.steps.every(
+                                    (step) => step.isApproved,
+                                  )
+                            ? 'Onaylı Umre başlıklarının ilk bölümü gösteriliyor. Rehber henüz tam değil; işaretler yalnız kişisel kayıttır.'
+                            : widget.catalog.isPreview
+                            ? 'Bu başlıkların bir bölümü içerik taslağıdır. Onaylanan metin ve sesler kendi kartında açılır. İşaretler yalnız kişisel kayıttır.'
+                            : 'Onaylı Umre başlıkları gösteriliyor. İşaretler yalnız kişisel kayıttır.',
                       ),
                     ),
                   ),
+                  if (_versionMismatch) ...[
+                    const SizedBox(height: 12),
+                    const Text(
+                      'İçerik sürümü veya profil değişti. Eski ilerlemen korunur; bu kaydı yeni metinle değiştirmeyiz. Devam etmek için yeni sürümle ayrı kayıt aç.',
+                    ),
+                    FilledButton(
+                      onPressed: _startCurrentVersion,
+                      child: const Text('Yeni sürümle ayrı kayıt aç'),
+                    ),
+                  ],
                   if (current == null) ...[
                     const SizedBox(height: 12),
                     const Card.outlined(
@@ -181,7 +306,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                   ] else ...[
                     const SizedBox(height: 14),
                     FilledButton.icon(
-                      onPressed: () => _openStep(current),
+                      onPressed: _versionMismatch
+                          ? null
+                          : () => _openStep(current),
                       icon: const Icon(Icons.bookmark_rounded),
                       label: const Text('Kaldığım başlığa git'),
                     ),
@@ -189,7 +316,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                   if (widget.mode == GuideMode.journey) ...[
                     const SizedBox(height: 8),
                     OutlinedButton.icon(
-                      onPressed: _newJourney,
+                      onPressed: _confirmNewJourney,
                       icon: const Icon(Icons.add_rounded),
                       label: const Text('Yeni yolculuk kaydı aç'),
                     ),
@@ -201,6 +328,17 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                         : 'Adımlar · ${_markedIds.length}/${flowSteps.length} işaretli',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
+                  const SizedBox(height: 12),
+                  if (!isHajj || profileVerified)
+                    Semantics(
+                      label:
+                          '${_markedIds.length} / ${flowSteps.length} kişisel işaret',
+                      child: LinearProgressIndicator(
+                        value: _markedIds.length / flowSteps.length,
+                        minHeight: 8,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                   const SizedBox(height: 10),
                   for (final group
                       in GuideCatalog
@@ -234,7 +372,9 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                                 ? Icons.check_circle_rounded
                                 : Icons.chevron_right_rounded,
                           ),
-                          onTap: () => _openStep(step),
+                          onTap: _versionMismatch
+                              ? null
+                              : () => _openStep(step),
                         ),
                       ),
                   ],
@@ -270,15 +410,19 @@ class GuideStepScreen extends StatefulWidget {
 class _GuideStepScreenState extends State<GuideStepScreen> {
   late bool _marked = widget.initiallyMarked;
   bool _busy = false;
+  bool _navigating = false;
 
   @override
   void dispose() {
-    unawaited(widget.narration.stop());
+    final narration = widget.narration;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(narration.stop());
+    });
     super.dispose();
   }
 
   Future<void> _toggleMarked() async {
-    if (_busy) return;
+    if (_busy || _navigating) return;
     setState(() => _busy = true);
     try {
       await widget.store.setStepMarked(
@@ -299,8 +443,20 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
   }
 
   Future<void> _select(GuideStep step) async {
-    await widget.narration.stop();
-    if (mounted) Navigator.of(context).pop(step);
+    if (_navigating || _busy) return;
+    setState(() => _navigating = true);
+    try {
+      await widget.narration.stop();
+      if (mounted) Navigator.of(context).pop(step);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Başlık değiştirilemedi. Tekrar dene.')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _navigating = false);
+    }
   }
 
   @override
@@ -326,7 +482,7 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
           padding: const EdgeInsets.all(24),
           children: [
             Text(
-              '${step.groupId} · ${step.order} / ${widget.catalog.steps.length}',
+              '${step.groupId} · ${widget.catalog.stepsForProfile(widget.session.profile).indexOf(step) + 1} / ${widget.catalog.stepsForProfile(widget.session.profile).length}',
               style: Theme.of(context).textTheme.labelLarge,
             ),
             const SizedBox(height: 12),
@@ -344,54 +500,44 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
             Card.filled(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text(
-                  step.isApproved
-                      ? step.summary!
-                      : isHajj
-                      ? 'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı.'
-                      : 'Bu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı. Hazırlama kaydı onaylı içerik değildir.',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      step.isApproved
+                          ? 'Şimdi ne yapacağım?'
+                          : (step.summary != null || step.details != null)
+                          ? 'Taslak özet — dinî inceleme bekliyor'
+                          : 'İçerik hazırlanıyor',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      step.isApproved
+                          ? step.summary!
+                          : (step.summary != null || step.details != null)
+                          ? '${[step.summary, step.details].whereType<String>().where((s) => s.isNotEmpty).join('\n')}\nBu taslak onaylı içerik değildir; ibadet hükmü veya kişisel fetva olarak kullanma.'
+                          : isHajj
+                          ? 'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı.'
+                          : 'Bu başlığın kaynaklı açıklaması ve dinî incelemesi henüz tamamlanmadı. Hazırlama kaydı onaylı içerik değildir.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    if (isHajj && !canMark) ...[
+                      const SizedBox(height: 12),
+                      Text(
+                        'Bu başlık envanter önizlemesidir. ${widget.session.profile?.label} türündeki uygulanabilirliği ve açıklaması henüz doğrulanmadı. Adım sırası onay bekliyor; bu açıklama kişisel Hac planı değildir.',
+                      ),
+                    ],
+                  ],
                 ),
               ),
             ),
-            if (step.isApproved && step.details != null)
-              ExpansionTile(
-                title: const Text('Ayrıntı'),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(step.details!),
-                  ),
-                ],
-              ),
-            if (step.isApproved && step.arabic != null) ...[
-              const SizedBox(height: 20),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Text(
-                  step.arabic!,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(fontSize: 26, height: 1.6),
-                ),
-              ),
-            ],
-            if (step.isApproved && step.transliteration != null)
-              Text(step.transliteration!),
-            if (step.isApproved && step.meaningTr != null)
-              Text(step.meaningTr!),
-            if (step.isApproved && step.sourceTitle != null) ...[
-              const SizedBox(height: 18),
-              Text('Kaynak: ${step.sourceTitle} · ${step.sourceLocation}'),
-              if (step.sourceUrl != null) SelectableText(step.sourceUrl!),
-            ],
-            for (final prayerId in step.prayerIds)
-              _PrayerCard(
-                prayer: widget.catalog.prayerRecords[prayerId]!,
-                narration: widget.narration,
-                audioRecords: widget.catalog.audioRecords,
-                parentApproved: step.isApproved,
-              ),
             const SizedBox(height: 20),
+            Text(
+              'Sesli anlatım',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
             if (step.linkedAudioIds.isEmpty)
               const Text('Bu başlık için onaylı ses kaydı henüz yok.'),
             for (final audioId in step.linkedAudioIds)
@@ -425,10 +571,57 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
                 ),
               ),
             ],
+            if (step.isApproved && step.arabic != null) ...[
+              const SizedBox(height: 20),
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Text(
+                  step.arabic!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    fontFamily: 'NotoNaskhArabic',
+                    fontSize: 26,
+                    height: 1.6,
+                  ),
+                ),
+              ),
+            ],
+            if (step.isApproved && step.transliteration != null)
+              Text(step.transliteration!),
+            if (step.isApproved && step.meaningTr != null)
+              Text(step.meaningTr!),
+            if (step.sourceTitle != null) ...[
+              const SizedBox(height: 18),
+              Text('Kaynak: ${step.sourceTitle} · ${step.sourceLocation}'),
+              if (step.sourceUrl != null) SelectableText(step.sourceUrl!),
+              if (step.sourceAccessedAt != null)
+                Text('Kaynağa erişim: ${step.sourceAccessedAt}'),
+              if (step.textVersion != null)
+                Text('Metin sürümü: ${step.textVersion}'),
+              if (!step.isApproved)
+                const Text('Kaynak bulunması uzman onayı anlamına gelmez.'),
+            ],
+            for (final prayerId in step.prayerIds)
+              _PrayerCard(
+                prayer: widget.catalog.prayerRecords[prayerId]!,
+                narration: widget.narration,
+                audioRecords: widget.catalog.audioRecords,
+                parentApproved: step.isApproved,
+              ),
+            if (step.isApproved && step.details != null)
+              ExpansionTile(
+                title: const Text('Ayrıntı'),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(step.details!),
+                  ),
+                ],
+              ),
             if (canMark) ...[
               const SizedBox(height: 18),
               OutlinedButton.icon(
-                onPressed: _busy ? null : _toggleMarked,
+                onPressed: _busy || _navigating ? null : _toggleMarked,
                 icon: Icon(
                   _marked
                       ? Icons.check_circle_rounded
@@ -444,14 +637,16 @@ class _GuideStepScreenState extends State<GuideStepScreen> {
             const SizedBox(height: 20),
             if (previous != null)
               OutlinedButton.icon(
-                onPressed: () => _select(previous),
+                onPressed: _busy || _navigating
+                    ? null
+                    : () => _select(previous),
                 icon: const Icon(Icons.arrow_back_rounded),
                 label: const Text('Önceki başlık'),
               ),
             if (next != null) ...[
               const SizedBox(height: 8),
               FilledButton.icon(
-                onPressed: () => _select(next),
+                onPressed: _busy || _navigating ? null : () => _select(next),
                 icon: const Icon(Icons.arrow_forward_rounded),
                 label: const Text('Sonraki başlık'),
               ),
@@ -493,7 +688,12 @@ class _PrayerCard extends StatelessWidget {
             const Text(
               'Bu dua hazırlama kaydıdır; dinî incelemesi tamamlanmadı.',
             ),
-          if (prayer.arabic == null &&
+          if (!prayer.isApproved || !parentApproved) ...[
+            const SizedBox(height: 8),
+            const Text(
+              'Arapça metin, okunuş ve yazılı Türkçe anlam uzman incelemesi tamamlanınca gösterilir. Aşağıdaki Türkçe anlam sesi sentetik taslaktır.',
+            ),
+          ] else if (prayer.arabic == null &&
               prayer.transliteration == null &&
               prayer.meaningTr == null) ...[
             const SizedBox(height: 8),
@@ -501,7 +701,7 @@ class _PrayerCard extends StatelessWidget {
               'Arapça metin, okunuş ve Türkçe anlam henüz sağlanmadı.',
             ),
           ],
-          if (prayer.arabic != null)
+          if (prayer.isApproved && parentApproved && prayer.arabic != null)
             Semantics(
               label: 'Arapça dua metni',
               child: Directionality(
@@ -509,19 +709,29 @@ class _PrayerCard extends StatelessWidget {
                 child: Text(
                   prayer.arabic!,
                   textAlign: TextAlign.start,
-                  style: const TextStyle(fontSize: 26, height: 1.6),
+                  style: const TextStyle(
+                    fontFamily: 'NotoNaskhArabic',
+                    fontSize: 26,
+                    height: 1.6,
+                  ),
                 ),
               ),
             ),
-          if (prayer.transliteration != null) Text(prayer.transliteration!),
-          if (prayer.meaningTr != null) Text(prayer.meaningTr!),
-          if (prayer.sourceTitle != null) ...[
+          if (prayer.isApproved &&
+              parentApproved &&
+              prayer.transliteration != null)
+            Text(prayer.transliteration!),
+          if (prayer.isApproved && parentApproved && prayer.meaningTr != null)
+            Text(prayer.meaningTr!),
+          if (prayer.isApproved &&
+              parentApproved &&
+              prayer.sourceTitle != null) ...[
             const SizedBox(height: 8),
             Text('Kaynak: ${prayer.sourceTitle} · ${prayer.sourceLocation}'),
             if (prayer.sourceUrl != null) SelectableText(prayer.sourceUrl!),
           ] else ...[
             const SizedBox(height: 8),
-            const Text('Kaynak bilgisi henüz sağlanmadı.'),
+            const Text('Kaynak bilgisi inceleme tamamlanınca gösterilir.'),
           ],
           const SizedBox(height: 12),
           for (final audioId in prayer.linkedAudioIds)
@@ -549,17 +759,31 @@ class _LinkedAudio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playable =
+    final approvedPlayable =
         textApproved &&
         audio.status == ReviewStatus.approved &&
         audio.asset != null;
+    final draftPlayable = audio.isSyntheticDraftPreview;
+    final playable = approvedPlayable || draftPlayable;
+    final title = draftPlayable
+        ? '${audio.kind.label} · sentetik taslak'
+        : audio.kind.label;
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: playable
-          ? AudioControls(
-              narration: narration,
-              asset: audio.asset!,
-              title: audio.kind.label,
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (draftPlayable)
+                  const Text(
+                    'Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı.',
+                  ),
+                AudioControls(
+                  narration: narration,
+                  asset: audio.asset!,
+                  title: title,
+                ),
+              ],
             )
           : Semantics(
               label: '${audio.kind.label} ses durumu: ${audio.status.label}',

@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "scope": "Source research and actual data derivation, not general release acceptance",
+  "sources": [
+    {
+      "id": "D01",
+      "kind": "religious-content",
+      "url": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "reference-only",
+      "limits": "Original explanations need dated expert review; do not bulk republish the book."
+    },
+    {
+      "id": "D02",
+      "kind": "religious-content",
+      "url": "https://hacumreegitim.hac.gov.tr/dualar",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "reference-only",
+      "limits": "Prayer and meaning require review; site access is not a reuse grant."
+    },
+    {
+      "id": "A01",
+      "kind": "synthetic-narration",
+      "url": "https://docs.cloud.google.com/text-to-speech/docs/basics",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "provider-terms",
+      "limits": "Output may be used in applications under Google terms; no account configured here."
+    },
+    {
+      "id": "A02",
+      "kind": "human-audio",
+      "url": "https://hacumreegitim.hac.gov.tr/uploads/materials/mat_69c24151a04fa.mp3",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "permission-pending",
+      "limits": "Diyanet site reserves rights; exclude from distributed assets."
+    },
+    {
+      "id": "A03",
+      "kind": "human-audio",
+      "url": "https://hacumreegitim.hac.gov.tr/uploads/materials/mat_69c2410eab693.mp3",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "permission-pending",
+      "limits": "Accessible recording is not an offline redistribution grant."
+    },
+    {
+      "id": "A04",
+      "kind": "local-tts-engine",
+      "url": "https://github.com/canberk7/ema-lightning/blob/main/LICENSE",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "Apache-2.0",
+      "limits": "EMA Lightning 1.0.4 is used only on the preparation machine; engine code is not bundled with the app."
+    },
+    {
+      "id": "A05",
+      "kind": "local-tts-weights",
+      "url": "https://huggingface.co/canberkkkkkk/ema-lightning/blob/7a6ba1ad216bb2f1da9863f80ac8770a6a807632/README.md",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "Apache-2.0-author-declaration; training-corpus-chain-unverified",
+      "limits": "The card explicitly includes commercial use of weights and code but describes an internal single-speaker corpus without a separate corpus license/consent chain. Draft listening copies remain outside app and Git until this, text and pronunciation are reviewed."
+    },
+    {
+      "id": "A06",
+      "kind": "tts-text-normalizer",
+      "url": "https://github.com/erdemtuna/normalizer-tr/blob/main/LICENSE",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "Apache-2.0",
+      "limits": "normalizer-tr 0.4.0 runs only during preparation; special religious terms still need listening review."
+    },
+    {
+      "id": "M01",
+      "kind": "map-poi-data",
+      "url": "https://download.geofabrik.de/asia/gcc-states.html",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "ODbL-1.0",
+      "limits": "Extracted region databases published under ODbL, attribution and full license in every package."
+    },
+    {
+      "id": "M02",
+      "kind": "optional-map-provider",
+      "url": "https://docs.protomaps.com/basemaps/downloads",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "ODbL-produced-work",
+      "limits": "Not deployed. Current native packages use locally extracted GeoJSON from Geofabrik."
+    },
+    {
+      "id": "G01",
+      "kind": "contact-facts",
+      "url": "https://cidde-bk.mfa.gov.tr/Mission/Contact",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "official-fact-source",
+      "limits": "AI checked official published facts, not human review or successful phone call."
+    },
+    {
+      "id": "G02",
+      "kind": "contact-facts",
+      "url": "https://www.moh.gov.sa/en/937/pages/default.aspx",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "official-fact-source",
+      "limits": "937 is health consultation, not labelled ambulance."
+    },
+    {
+      "id": "G03",
+      "kind": "contact-facts",
+      "url": "https://www.spa.gov.sa/en/N2672382",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "official-fact-source",
+      "limits": "911 coverage Makkah/Madinah verified in official indexed publication."
+    },
+    {
+      "id": "G04",
+      "kind": "transport",
+      "url": "https://sar.hhr.sa/timetable",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "link-only",
+      "limits": "Schedules and fares are not cached as live state."
+    },
+    {
+      "id": "G05",
+      "kind": "visit-permits",
+      "url": "https://www.nusuk.sa/",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "link-only",
+      "limits": "No permission or reservation implied by our route/guide."
+    },
+    {
+      "id": "R01",
+      "kind": "rejected-audio",
+      "url": "https://duas.com/dua/371/the-talbiyah-chant-of-hajj-and-umrah",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "unavailable",
+      "limits": "Dua Audio contains a coming-soon image, not an audio file."
+    },
+    {
+      "id": "R02",
+      "kind": "rejected-tts-model",
+      "url": "https://huggingface.co/rhasspy/piper-voices/blob/main/tr/tr_TR/dfki/medium/MODEL_CARD",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "CC-BY-NC-SA-4.0",
+      "limits": "Not selected for commercial distribution."
+    },
+    {
+      "id": "R03",
+      "kind": "rejected-tts-model",
+      "url": "https://huggingface.co/facebook/mms-tts-tur",
+      "checkedAt": "2026-10-09",
+      "rightsStatus": "CC-BY-NC-4.0",
+      "limits": "Non-commercial model license excludes the requested commercial/offline distribution path."
+    }
+  ],
+  "localDraftTts": {
+    "engine": "ema-lightning==1.0.4",
+    "normalizer": "normalizer-tr==0.4.0",
+    "modelRevision": "7a6ba1ad216bb2f1da9863f80ac8770a6a807632",
+    "modelSha256": {
+      "config.json": "27546c470dd4e86d9ab8172fd1c85c45a4bffdf52d9ccb3f511c4b0c3ae38241",
+      "ema.pt": "95aec03dafbe0e1d69bca774ab597c779464729a14bc99bfcb52480090c7dfe6",
+      "decoder.pt": "9595819b173f411340f63d11332695121a97f8bf1f6d8b6fef0b21cf99c7ad67",
+      "README.md": "d079e6aef3524a61873cc14cbd8eaed206d3dcc465b35a8d629d141e53905d80"
+    },
+    "distributionStatus": "review-only-outside-app-and-git"
+  },
+  "diyanetRecordings": [
+    {
+      "url": "https://hacumreegitim.hac.gov.tr/uploads/materials/mat_69c24151a04fa.mp3",
+      "sha256": "e5982f873627078043e53855104f1cd0c6acbb17b6ac8ad530cc57ec71597fcf",
+      "sizeBytes": 305572,
+      "durationSeconds": 19.069388,
+      "distributionPermission": "missing"
+    },
+    {
+      "url": "https://hacumreegitim.hac.gov.tr/uploads/materials/mat_69c2410eab693.mp3",
+      "sha256": "2a68c2763af2a0d5013cb294105e84c2ff5da962c908fdf9cdc1ceebe5b5a062",
+      "sizeBytes": 349040,
+      "durationSeconds": 21.786122,
+      "distributionPermission": "missing"
+    }
+  ],
+  "osmDerivation": {
+    "sourceSha256": "37ddf4a1c62bf695297173744a9ff7524ae51cd4c421a75cfa5de110b80166eb",
+    "snapshotAt": "2026-10-08T20:21:06Z",
+    "points": 2928,
+    "mapFeatures": {
+      "mecca": 40971,
+      "medina": 30291
+    },
+    "phoneAndOpeningHours": "Not imported as verified facts",
+    "religiousBoundaries": "Not defined by dataset bounds"
+  }
+}

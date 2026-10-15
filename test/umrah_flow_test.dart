@@ -1,9 +1,9 @@
+import 'draft_catalog_fixture.dart';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/guide_screens.dart';
 
@@ -14,10 +14,92 @@ void main() {
   late Map<GuideType, GuideCatalog> catalogs;
   late String umrahJson;
   setUpAll(() async {
-    catalogs = await const LocalContentRepository().load();
-    umrahJson = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
+    catalogs = await loadDraftCatalogs();
+    umrahJson = await readDraftCatalogText(GuideType.umrah);
+  });
+
+  for (final profile in HajjProfile.values) {
+    testWidgets(
+      'Hac taslağı ve kaynak görünür, ${profile.name} onayı korunur',
+      (tester) async {
+        final store = MemoryGuideStore();
+        final narration = FakeNarration();
+        final catalog = catalogs[GuideType.hajj]!;
+        final step = catalog.steps.first;
+        final session = await store.openOrCreateSession(
+          type: GuideType.hajj,
+          mode: GuideMode.learning,
+          profile: profile,
+          firstStepId: step.id,
+          contentVersion: catalog.contentVersion,
+        );
+        await tester.pumpWidget(
+          MaterialApp(
+            home: GuideStepScreen(
+              store: store,
+              catalog: catalog,
+              narration: narration,
+              session: session,
+              step: step,
+              initiallyMarked: false,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          find.text('Taslak özet — dinî inceleme bekliyor'),
+          findsOneWidget,
+        );
+        expect(find.textContaining(step.summary!), findsOneWidget);
+        expect(find.textContaining(step.details!), findsOneWidget);
+        await tester.scrollUntilVisible(
+          find.textContaining('kişisel Hac planı değildir'),
+          180,
+        );
+        expect(find.textContaining(profile.label), findsWidgets);
+        expect(find.text('Kişisel ilerleme olarak işaretle'), findsNothing);
+        await tester.scrollUntilVisible(find.text(step.sourceUrl!), 180);
+        expect(find.text(step.sourceUrl!), findsOneWidget);
+        expect(find.text('Metin sürümü: ${step.textVersion}'), findsOneWidget);
+        expect(
+          find.text('Kaynak bulunması uzman onayı anlamına gelmez.'),
+          findsOneWidget,
+        );
+        expect(await store.readMarkedStepIds(session.id), isEmpty);
+      },
     );
+  }
+
+  testWidgets('Umre taslağında kaynak bağlantısı ve sürüm görülebilir', (
+    tester,
+  ) async {
+    final store = MemoryGuideStore();
+    final catalog = catalogs[GuideType.umrah]!;
+    final step = catalog.steps.first;
+    final session = await store.openOrCreateSession(
+      type: GuideType.umrah,
+      mode: GuideMode.learning,
+      profile: null,
+      firstStepId: step.id,
+      contentVersion: catalog.contentVersion,
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: GuideStepScreen(
+          store: store,
+          catalog: catalog,
+          narration: FakeNarration(),
+          session: session,
+          step: step,
+          initiallyMarked: false,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text(step.sourceUrl!), 180);
+    expect(find.text(step.sourceUrl!), findsOneWidget);
+    expect(find.text('Metin sürümü: ${step.textVersion}'), findsOneWidget);
+    expect(find.text('Şimdi ne yapacağım?'), findsNothing);
   });
 
   testWidgets('işaretleme elle yapılır, ses bitişi kaydı değiştirmez', (
@@ -50,7 +132,14 @@ void main() {
     narration.finish();
     await tester.pump();
     expect(await store.readMarkedStepIds(session.id), isEmpty);
-    await tester.ensureVisible(find.text('Kişisel ilerleme olarak işaretle'));
+    await tester.scrollUntilVisible(
+      find.text('Kişisel ilerleme olarak işaretle'),
+      250,
+    );
+    // Taslak özet kartı uzadığı için düğme ekran alt çizgisinde kalabiliyor;
+    // dokunulabilir konuma getirmek için listeyi biraz daha kaydır.
+    await tester.drag(find.byType(ListView), const Offset(0, -200));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Kişisel ilerleme olarak işaretle'));
     await tester.pumpAndSettle();
     expect(await store.readMarkedStepIds(session.id), {'U01.1'});
@@ -85,9 +174,12 @@ void main() {
       findsOneWidget,
     );
     expect(store.sessions[session.id]!.currentStepId, 'OLD-STEP');
-    await tester.tap(find.text('Kullanım biçimi seçimi').first);
+    await tester.tap(find.text('Yeni sürümle ayrı kayıt aç'));
     await tester.pumpAndSettle();
-    expect(store.sessions[session.id]!.currentStepId, 'U01.1');
+    expect(store.sessions[session.id]!.currentStepId, 'OLD-STEP');
+    expect(store.sessions.values.last.id, isNot(session.id));
+    expect(store.sessions.values.last.currentStepId, 'U01.1');
+    expect(store.sessions.values.last.contentVersion, catalog.contentVersion);
   });
 
   testWidgets('U02.2 taslağı onaylı içerik gibi sunulmaz', (tester) async {
@@ -116,20 +208,61 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('İçerik durumu: Taslak'), findsWidgets);
     expect(find.textContaining('onaylı içerik değildir'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.textContaining('Aşağıdaki Türkçe anlam sesi sentetik taslaktır.'),
+      300,
+    );
     expect(
-      find.text('Arapça metin, okunuş ve Türkçe anlam henüz sağlanmadı.'),
+      find.textContaining('Aşağıdaki Türkçe anlam sesi sentetik taslaktır.'),
       findsOneWidget,
     );
-    expect(find.text('Kaynak bilgisi henüz sağlanmadı.'), findsOneWidget);
+    expect(
+      find.text('Kaynak bilgisi inceleme tamamlanınca gösterilir.'),
+      findsOneWidget,
+    );
     await tester.scrollUntilVisible(
-      find.textContaining('Türkçe anlatım: Taslak'),
+      find.text('Türkçe anlatım · sentetik taslak'),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(
-      find.text('Türkçe anlatım: Taslak. Ses dosyası henüz sağlanmadı.'),
-      findsOneWidget,
+    expect(find.textContaining('kullanım hakkı incelemesi'), findsWidgets);
+    expect(find.text('Anlatımı dinle'), findsNWidgets(2));
+  });
+
+  testWidgets('taslak dua metni onay gelmeden gösterilmez', (tester) async {
+    final catalog = catalogs[GuideType.umrah]!;
+    final prayer = catalog.prayerRecords['P-U02.2-01']!;
+    final store = MemoryGuideStore();
+    final narration = FakeNarration();
+    final session = await store.openOrCreateSession(
+      type: GuideType.umrah,
+      mode: GuideMode.learning,
+      profile: null,
+      firstStepId: 'U02.2',
+      contentVersion: catalog.contentVersion,
     );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: GuideStepScreen(
+          store: store,
+          catalog: catalog,
+          narration: narration,
+          session: session,
+          step: catalog.stepById('U02.2')!,
+          initiallyMarked: false,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.textContaining('Bu dua hazırlama kaydıdır'),
+      300,
+    );
+    expect(find.textContaining('Bu dua hazırlama kaydıdır'), findsOneWidget);
+    expect(find.text(prayer.arabic!), findsNothing);
+    expect(find.text(prayer.transliteration!), findsNothing);
+    expect(find.text(prayer.meaningTr!), findsNothing);
+    expect(find.textContaining(prayer.sourceUrl!), findsNothing);
   });
 
   testWidgets(
@@ -164,6 +297,8 @@ void main() {
         'reviewedBy': 'Test inceleyicisi',
         'reviewedAt': '2026-10-05',
       });
+      // The synthetic review files remain draft even in this approved-text fixture.
+      // A future approved recording requires a separate rights and review record.
       final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
       final store = MemoryGuideStore();
       final narration = FakeNarration();
@@ -187,17 +322,22 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('نص اختبار'),
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.text('نص اختبار'), findsOneWidget);
       expect(find.text('Test okunuşu'), findsOneWidget);
       expect(find.text('Test anlamı'), findsOneWidget);
       expect(find.text('Kaynak: Dua test kaynağı · Sayfa 10'), findsOneWidget);
       await tester.scrollUntilVisible(
-        find.textContaining('Türkçe anlam: Taslak'),
+        find.text('Türkçe anlam · sentetik taslak'),
         300,
         scrollable: find.byType(Scrollable).first,
       );
       expect(find.textContaining('Arapça okuma: Taslak'), findsOneWidget);
-      expect(find.textContaining('Türkçe anlam: Taslak'), findsOneWidget);
+      expect(find.textContaining('Türkçe anlam: Taslak'), findsNothing);
       final rtl = tester.widget<Directionality>(
         find
             .ancestor(

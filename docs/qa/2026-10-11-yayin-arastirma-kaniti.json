@@ -1,0 +1,1256 @@
+{
+  "date": "2026-10-11",
+  "baselineHead": "62f3a41fa6ef504cf3ec66d9987989a49a7cdbaa",
+  "workflowRun": 38127815107,
+  "testedMerge": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+  "mergeTreeMatchesHead": true,
+  "physicalDeviceTested": false,
+  "storeReady": false,
+  "local": {
+    "flutterTests": 234,
+    "pythonTests": 75,
+    "formattedFiles": 92,
+    "formatChanges": 0,
+    "analyzeIssues": 0,
+    "bundledAudioVerified": 54,
+    "audioMissing": [
+      "A-P-U02.2-AR-01"
+    ],
+    "fullPreflight": {
+      "status": "blocked",
+      "inputBlockerCount": 158
+    },
+    "mvpPreflight": {
+      "status": "blocked",
+      "inputBlockerCount": 546
+    },
+    "androidBuild": "blocked_gradle_kotlin_dsl_6.4.2_resolution"
+  },
+  "native": [
+    {
+      "platform": "api28",
+      "artifactId": 11698831790,
+      "artifactZipSha256": "653e940de80a93da060ae26b64fa7bf0e140f5e82da263dc09159714cbfc6188",
+      "totalUiAndProbeCases": 10,
+      "sessions": [
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "passed",
+          "reportedCases": 9,
+          "installedHash": "b7a6995039813864a9fd23e1ea6cbca11141e86133f588e41e10fa6aceb60836",
+          "expectedHash": "b7a6995039813864a9fd23e1ea6cbca11141e86133f588e41e10fa6aceb60836"
+        },
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "passed",
+          "reportedCases": 1,
+          "installedHash": "3aae6a1639fd9980e02b26012d23f39d260c4427668d272ef883dae4b04349a3",
+          "expectedHash": "3aae6a1639fd9980e02b26012d23f39d260c4427668d272ef883dae4b04349a3"
+        }
+      ],
+      "failures": [],
+      "bundledNarrationFilesPassed": 54,
+      "bundledNarrationLogSha256": "b5c5cd1a2a02185757cb65cb2b654d1c5586227768f1f422933ebf844068c42b",
+      "stages": [
+        {
+          "name": "production-install",
+          "command": [
+            "adb",
+            "-s",
+            "emulator-5554",
+            "install",
+            "/home/runner/work/kabe_hac/kabe_hac/build/app/outputs/flutter-apk/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "application-ui",
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python",
+            "/home/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "android",
+            "--device",
+            "emulator-5554",
+            "--test-device",
+            "--flow",
+            "all",
+            "--expected-apk",
+            "/home/runner/work/kabe_hac/kabe_hac/build/app/outputs/flutter-apk/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "bundled-narration-native",
+          "command": [
+            "flutter",
+            "test",
+            "integration_test/bundled_narration_test.dart",
+            "-d",
+            "emulator-5554",
+            "--reporter",
+            "expanded"
+          ],
+          "device": "emulator-5554",
+          "production_assets": true,
+          "technical_probe": false,
+          "physical_device_tested": false,
+          "exit_code": 0
+        },
+        {
+          "name": "probe-install",
+          "command": [
+            "adb",
+            "-s",
+            "emulator-5554",
+            "install",
+            "-r",
+            "/home/runner/work/kabe_hac/kabe_hac/build/audio-qa/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "technical-audio-probe",
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python",
+            "/home/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "android",
+            "--device",
+            "emulator-5554",
+            "--test-device",
+            "--flow",
+            "audio",
+            "--expected-apk",
+            "/home/runner/work/kabe_hac/kabe_hac/build/audio-qa/app-debug.apk"
+          ],
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "platform": "api35",
+      "artifactId": 11699140618,
+      "artifactZipSha256": "5e64d2941ffdac0917ecacea004abda023f19fdb93928480ddbaf056e350b31a",
+      "totalUiAndProbeCases": 10,
+      "sessions": [
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "passed",
+          "reportedCases": 1,
+          "installedHash": "3aae6a1639fd9980e02b26012d23f39d260c4427668d272ef883dae4b04349a3",
+          "expectedHash": "3aae6a1639fd9980e02b26012d23f39d260c4427668d272ef883dae4b04349a3"
+        },
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "passed",
+          "reportedCases": 9,
+          "installedHash": "b7a6995039813864a9fd23e1ea6cbca11141e86133f588e41e10fa6aceb60836",
+          "expectedHash": "b7a6995039813864a9fd23e1ea6cbca11141e86133f588e41e10fa6aceb60836"
+        }
+      ],
+      "failures": [],
+      "bundledNarrationFilesPassed": 54,
+      "bundledNarrationLogSha256": "65b64c9b9462994441d5cb4d706a8f9d3e03ab15182bde3e7dfb55e0414b6831",
+      "stages": [
+        {
+          "name": "production-install",
+          "command": [
+            "adb",
+            "-s",
+            "emulator-5554",
+            "install",
+            "/home/runner/work/kabe_hac/kabe_hac/build/app/outputs/flutter-apk/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "application-ui",
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python",
+            "/home/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "android",
+            "--device",
+            "emulator-5554",
+            "--test-device",
+            "--flow",
+            "all",
+            "--expected-apk",
+            "/home/runner/work/kabe_hac/kabe_hac/build/app/outputs/flutter-apk/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "bundled-narration-native",
+          "command": [
+            "flutter",
+            "test",
+            "integration_test/bundled_narration_test.dart",
+            "-d",
+            "emulator-5554",
+            "--reporter",
+            "expanded"
+          ],
+          "device": "emulator-5554",
+          "production_assets": true,
+          "technical_probe": false,
+          "physical_device_tested": false,
+          "exit_code": 0
+        },
+        {
+          "name": "probe-install",
+          "command": [
+            "adb",
+            "-s",
+            "emulator-5554",
+            "install",
+            "-r",
+            "/home/runner/work/kabe_hac/kabe_hac/build/audio-qa/app-debug.apk"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "technical-audio-probe",
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.15/x64/bin/python",
+            "/home/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "android",
+            "--device",
+            "emulator-5554",
+            "--test-device",
+            "--flow",
+            "audio",
+            "--expected-apk",
+            "/home/runner/work/kabe_hac/kabe_hac/build/audio-qa/app-debug.apk"
+          ],
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "platform": "ios26",
+      "artifactId": 11698247910,
+      "artifactZipSha256": "7cd688e91c4cf942991b9ad77381d4d78021ecc581b8efa44ce1d9bf70597352",
+      "totalUiAndProbeCases": 10,
+      "sessions": [
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "passed",
+          "reportedCases": 1,
+          "installedHash": null,
+          "expectedHash": null
+        },
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "failed",
+          "reportedCases": null,
+          "installedHash": null,
+          "expectedHash": null
+        }
+      ],
+      "failures": [
+        {
+          "case": "Rehberde sentetik taslak ses durumu",
+          "reason": "Element not found: Text matching regex: Anlatım hızı · 1.0×"
+        }
+      ],
+      "bundledNarrationFilesPassed": 54,
+      "bundledNarrationLogSha256": "39477e17fd07841e162c3f3180e3875ae502896e9446077728a894db1118bc0d",
+      "stages": [
+        {
+          "name": "application-ui",
+          "command": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/Users/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "ios-simulator",
+            "--device",
+            "82BF7D9E-E066-4820-B67F-309327030E00",
+            "--app-id",
+            "com.mustafasenoglu.hacUmreSesliRehber",
+            "--test-device",
+            "--flow",
+            "all"
+          ],
+          "exit_code": 2
+        },
+        {
+          "name": "bundled-narration-native",
+          "command": [
+            "flutter",
+            "test",
+            "integration_test/bundled_narration_test.dart",
+            "-d",
+            "82BF7D9E-E066-4820-B67F-309327030E00",
+            "--reporter",
+            "expanded"
+          ],
+          "device": "82BF7D9E-E066-4820-B67F-309327030E00",
+          "production_assets": true,
+          "technical_probe": false,
+          "physical_iphone_tested": false,
+          "exit_code": 0
+        },
+        {
+          "name": "probe-install",
+          "command": [
+            "xcrun",
+            "simctl",
+            "install",
+            "82BF7D9E-E066-4820-B67F-309327030E00",
+            "/Users/runner/work/kabe_hac/kabe_hac/build/audio-qa/Runner.app"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "technical-audio-probe",
+          "command": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/Users/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "ios-simulator",
+            "--device",
+            "82BF7D9E-E066-4820-B67F-309327030E00",
+            "--app-id",
+            "com.mustafasenoglu.hacUmreSesliRehber",
+            "--test-device",
+            "--flow",
+            "audio"
+          ],
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "platform": "ios18",
+      "artifactId": 11698058546,
+      "artifactZipSha256": "46150dc3514d6745393c81083e48ada0fdca00cb1a5ff96e3c1b2ee6a4aee24f",
+      "totalUiAndProbeCases": 10,
+      "sessions": [
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "failed",
+          "reportedCases": null,
+          "installedHash": null,
+          "expectedHash": null
+        },
+        {
+          "workspaceCommit": "ab5f7920dcc80ecb80ea4c6c27b708885688d005",
+          "status": "passed",
+          "reportedCases": 1,
+          "installedHash": null,
+          "expectedHash": null
+        }
+      ],
+      "failures": [
+        {
+          "case": "Rehberde sentetik taslak ses durumu",
+          "reason": "Element not found: Text matching regex: Anlatım hızı · 1.0×"
+        }
+      ],
+      "bundledNarrationFilesPassed": 54,
+      "bundledNarrationLogSha256": "b7e48999f9f90c535a26748fe15a3d99b360d849b53ff9133933cd78795e9846",
+      "stages": [
+        {
+          "name": "application-ui",
+          "command": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/Users/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "ios-simulator",
+            "--device",
+            "336B064A-CC0F-44C0-BF36-25E4A437E128",
+            "--app-id",
+            "com.mustafasenoglu.hacUmreSesliRehber",
+            "--test-device",
+            "--flow",
+            "all"
+          ],
+          "exit_code": 2
+        },
+        {
+          "name": "bundled-narration-native",
+          "command": [
+            "flutter",
+            "test",
+            "integration_test/bundled_narration_test.dart",
+            "-d",
+            "336B064A-CC0F-44C0-BF36-25E4A437E128",
+            "--reporter",
+            "expanded"
+          ],
+          "device": "336B064A-CC0F-44C0-BF36-25E4A437E128",
+          "production_assets": true,
+          "technical_probe": false,
+          "physical_iphone_tested": false,
+          "exit_code": 0
+        },
+        {
+          "name": "probe-install",
+          "command": [
+            "xcrun",
+            "simctl",
+            "install",
+            "336B064A-CC0F-44C0-BF36-25E4A437E128",
+            "/Users/runner/work/kabe_hac/kabe_hac/build/audio-qa/Runner.app"
+          ],
+          "exit_code": 0
+        },
+        {
+          "name": "technical-audio-probe",
+          "command": [
+            "/opt/homebrew/opt/python@3.14/bin/python3.14",
+            "/Users/runner/work/kabe_hac/kabe_hac/tools/run_mobile_qa.py",
+            "--platform",
+            "ios-simulator",
+            "--device",
+            "336B064A-CC0F-44C0-BF36-25E4A437E128",
+            "--app-id",
+            "com.mustafasenoglu.hacUmreSesliRehber",
+            "--test-device",
+            "--flow",
+            "audio"
+          ],
+          "exit_code": 0
+        }
+      ]
+    }
+  ],
+  "androidStatic": [
+    {
+      "file": "app-arm64-v8a-release.apk",
+      "sha256": "4fdfb2d002ca848b80feb6960c19cc39795a0a56d65719aa3f494bbee82fb4a8",
+      "libraries": [
+        {
+          "name": "lib/arm64-v8a/libapp.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 392,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 4,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 3202685,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 3211264,
+              "virtual_address": 3211264,
+              "memory_bytes": 5059104,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 8323072,
+              "virtual_address": 8323072,
+              "memory_bytes": 104,
+              "alignment": 65536
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 456,
+              "virtual_address": 456,
+              "memory_bytes": 32,
+              "alignment": 4
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 8323072,
+              "virtual_address": 8323072,
+              "memory_bytes": 96,
+              "alignment": 8
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 1
+            }
+          ],
+          "zip_data_offset": 3112960,
+          "relro_end_remainders": [],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/arm64-v8a/libdartjni.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 125968,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 125968,
+              "virtual_address": 142352,
+              "memory_bytes": 5104,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 127344,
+              "virtual_address": 160112,
+              "memory_bytes": 2424,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 126024,
+              "virtual_address": 142408,
+              "memory_bytes": 432,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 125968,
+              "virtual_address": 142352,
+              "memory_bytes": 5104,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 32808,
+              "virtual_address": 32808,
+              "memory_bytes": 2124,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 11452416,
+          "relro_end_remainders": [
+            0
+          ],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/arm64-v8a/libdatastore_shared_counter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 4544,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 4544,
+              "virtual_address": 20928,
+              "memory_bytes": 616,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 5160,
+              "virtual_address": 37928,
+              "memory_bytes": 1,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 4576,
+              "virtual_address": 20960,
+              "memory_bytes": 448,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 4544,
+              "virtual_address": 20928,
+              "memory_bytes": 3648,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 2728,
+              "virtual_address": 2728,
+              "memory_bytes": 140,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 11599872,
+          "relro_end_remainders": [
+            8192
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/arm64-v8a/libflutter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 11370224,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 11370224,
+              "virtual_address": 11435760,
+              "memory_bytes": 373008,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 11739624,
+              "virtual_address": 11870696,
+              "memory_bytes": 67576,
+              "alignment": 65536
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 11735008,
+              "virtual_address": 11800544,
+              "memory_bytes": 512,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 11370224,
+              "virtual_address": 11435760,
+              "memory_bytes": 373008,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 3494096,
+              "virtual_address": 3494096,
+              "memory_bytes": 359196,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 11616256,
+          "relro_end_remainders": [
+            12288
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/arm64-v8a/libmaplibre.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 10581344,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 10581344,
+              "virtual_address": 10597728,
+              "memory_bytes": 252576,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 10833704,
+              "virtual_address": 10866472,
+              "memory_bytes": 64864,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 10774312,
+              "virtual_address": 10790696,
+              "memory_bytes": 528,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 10581344,
+              "virtual_address": 10597728,
+              "memory_bytes": 252576,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 4034456,
+              "virtual_address": 4034456,
+              "memory_bytes": 234668,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 23379968,
+          "relro_end_remainders": [
+            4096
+          ],
+          "relro_needs_runtime_review": true
+        }
+      ],
+      "blockers": [],
+      "runtime_16kb_tested": false,
+      "signing_verified": false,
+      "store_ready": false,
+      "status": "static_load_zip_checked",
+      "note": "Only ELF LOAD/ZIP checks; RELRO observations, runtime, AAB-derived APKs, signing and store review remain separate."
+    },
+    {
+      "file": "app-x86_64-release.apk",
+      "sha256": "c80cef5c59f3744bd76c86544f2ce58d18fe083e40c48ae85df13a415f732d7c",
+      "libraries": [
+        {
+          "name": "lib/x86_64/libapp.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 392,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 4,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 3199709,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 3211264,
+              "virtual_address": 3211264,
+              "memory_bytes": 5307696,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 8519680,
+              "virtual_address": 8519680,
+              "memory_bytes": 104,
+              "alignment": 65536
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 456,
+              "virtual_address": 456,
+              "memory_bytes": 32,
+              "alignment": 4
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 8519680,
+              "virtual_address": 8519680,
+              "memory_bytes": 96,
+              "alignment": 8
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 1
+            }
+          ],
+          "zip_data_offset": 3112960,
+          "relro_end_remainders": [],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/x86_64/libdartjni.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 111360,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 111360,
+              "virtual_address": 127744,
+              "memory_bytes": 3328,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 112736,
+              "virtual_address": 145504,
+              "memory_bytes": 2420,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 111416,
+              "virtual_address": 127800,
+              "memory_bytes": 432,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 111360,
+              "virtual_address": 127744,
+              "memory_bytes": 3328,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 32808,
+              "virtual_address": 32808,
+              "memory_bytes": 2124,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 11649024,
+          "relro_end_remainders": [
+            0
+          ],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/x86_64/libdatastore_shared_counter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 3872,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 3872,
+              "virtual_address": 20256,
+              "memory_bytes": 552,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 3896,
+              "virtual_address": 20280,
+              "memory_bytes": 416,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 3872,
+              "virtual_address": 20256,
+              "memory_bytes": 4320,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 2476,
+              "virtual_address": 2476,
+              "memory_bytes": 124,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 152,
+              "alignment": 2
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 720,
+              "virtual_address": 720,
+              "memory_bytes": 36,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 11780096,
+          "relro_end_remainders": [
+            8192
+          ],
+          "relro_needs_runtime_review": true
+        },
+        {
+          "name": "lib/x86_64/libflutter.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 12676720,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 12676720,
+              "virtual_address": 12742256,
+              "memory_bytes": 364944,
+              "alignment": 65536
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 13038784,
+              "virtual_address": 13169856,
+              "memory_bytes": 73456,
+              "alignment": 65536
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 13034152,
+              "virtual_address": 13099688,
+              "memory_bytes": 512,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 12676720,
+              "virtual_address": 12742256,
+              "memory_bytes": 364944,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 3545920,
+              "virtual_address": 3545920,
+              "memory_bytes": 225796,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 11796480,
+          "relro_end_remainders": [
+            0
+          ],
+          "relro_needs_runtime_review": false
+        },
+        {
+          "name": "lib/x86_64/libmaplibre.so",
+          "compressed": false,
+          "segments": [
+            {
+              "type": 6,
+              "flags": 4,
+              "offset": 64,
+              "virtual_address": 64,
+              "memory_bytes": 504,
+              "alignment": 8
+            },
+            {
+              "type": 1,
+              "flags": 5,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 10942384,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 10942384,
+              "virtual_address": 10958768,
+              "memory_bytes": 256080,
+              "alignment": 16384
+            },
+            {
+              "type": 1,
+              "flags": 6,
+              "offset": 11194480,
+              "virtual_address": 11227248,
+              "memory_bytes": 64953,
+              "alignment": 16384
+            },
+            {
+              "type": 2,
+              "flags": 6,
+              "offset": 11135560,
+              "virtual_address": 11151944,
+              "memory_bytes": 528,
+              "alignment": 8
+            },
+            {
+              "type": 1685382482,
+              "flags": 4,
+              "offset": 10942384,
+              "virtual_address": 10958768,
+              "memory_bytes": 256080,
+              "alignment": 1
+            },
+            {
+              "type": 1685382480,
+              "flags": 4,
+              "offset": 4013512,
+              "virtual_address": 4013512,
+              "memory_bytes": 157316,
+              "alignment": 4
+            },
+            {
+              "type": 1685382481,
+              "flags": 6,
+              "offset": 0,
+              "virtual_address": 0,
+              "memory_bytes": 0,
+              "alignment": 0
+            },
+            {
+              "type": 4,
+              "flags": 4,
+              "offset": 568,
+              "virtual_address": 568,
+              "memory_bytes": 188,
+              "alignment": 4
+            }
+          ],
+          "zip_data_offset": 24854528,
+          "relro_end_remainders": [
+            8192
+          ],
+          "relro_needs_runtime_review": true
+        }
+      ],
+      "blockers": [],
+      "runtime_16kb_tested": false,
+      "signing_verified": false,
+      "store_ready": false,
+      "status": "static_load_zip_checked",
+      "note": "Only ELF LOAD/ZIP checks; RELRO observations, runtime, AAB-derived APKs, signing and store review remain separate."
+    },
+    {
+      "file": "app-armeabi-v7a-release.apk",
+      "sha256": "1640debde7491e1d9aa621254092db52cef1fcd79bc8672ba004d87dc09532cf",
+      "libraries": [],
+      "blockers": [],
+      "runtime_16kb_tested": false,
+      "signing_verified": false,
+      "store_ready": false,
+      "status": "not_applicable_no_64bit_libraries",
+      "note": "Only ELF LOAD/ZIP checks; RELRO observations, runtime, AAB-derived APKs, signing and store review remain separate."
+    }
+  ],
+  "sourcePrivacyManifestsStructurallyChecked": 12,
+  "packagedIosPrivacyAuditExecutedLocally": false,
+  "sourceReceiptCheck": "blocked_missing_ignored_review_index",
+  "newChecksNativeAcceptance": "pending_new_ci"
+}

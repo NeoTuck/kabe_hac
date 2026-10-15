@@ -1,0 +1,106 @@
+{
+  "source_sha": "2fbaaf5e091858fae36b4c810b930d6a51c130ca",
+  "source_tree": "e48fe17da6086de684505bcea18f10bd73062a8b",
+  "pr_test_sha": "4139051b604f4df6a46712f12a5813bb06bbdf14",
+  "ci": {
+    "run_id": 37856131455,
+    "attempt": 3,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/NeoTuck/kabe_hac/actions/runs/37856131455",
+    "jobs": [
+      {
+        "id": 113593522755,
+        "name": "android-ui (35)",
+        "conclusion": "success"
+      },
+      {
+        "id": 113593522936,
+        "name": "ios",
+        "conclusion": "success"
+      },
+      {
+        "id": 113593523012,
+        "name": "android-release-size",
+        "conclusion": "success"
+      },
+      {
+        "id": 113593523667,
+        "name": "database",
+        "conclusion": "success"
+      },
+      {
+        "id": 113593523829,
+        "name": "android-ui (28)",
+        "conclusion": "success"
+      },
+      {
+        "id": 113593551922,
+        "name": "flutter",
+        "conclusion": "success"
+      },
+      {
+        "id": 113593567186,
+        "name": "qa-foundation",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "automatic_checks": {
+    "flutter": 180,
+    "python": 23,
+    "sql_fixture": 39,
+    "format": "clean",
+    "analysis": "clean",
+    "live_supabase": false
+  },
+  "native": {
+    "android_api_28": {
+      "app_cases": 5,
+      "audio_cases": 1,
+      "artifact": 11585467638
+    },
+    "android_api_35": {
+      "app_cases": 5,
+      "audio_cases": 1,
+      "artifact": 11585972310
+    },
+    "ios_simulator": {
+      "runtime": "18.5",
+      "device": "iPhone 16",
+      "app_cases": 5,
+      "audio_cases": 1,
+      "artifact": 11585280946
+    },
+    "scope": "Debug selected entry/pending/service-unconfigured/practice flows and separate audio-probe state/position checks; not entire production product",
+    "auditory_quality_accepted": false,
+    "physical_devices_accepted": false,
+    "latest_archives_independently_extracted": false
+  },
+  "optimized_arm64": {
+    "bytes": 36262857,
+    "sha256": "76f96dc41b7207f7cb3868444e96d269ff5f8451f834c4fd9d1cfe73f11573ea",
+    "artifact": 11584067681,
+    "signing": "technical pilot debug key",
+    "native_release_performance_accepted": false
+  },
+  "release": {
+    "status": "blocked",
+    "blocker_count": 155,
+    "approved_steps": 0,
+    "total_steps": 53,
+    "expert_review": false,
+    "human_audio_rights": false,
+    "map_license_and_field_data": false,
+    "live_backend_and_push_location": false,
+    "physical_acceptance": false,
+    "production_signing": false,
+    "ready_for_real_pilgrimage_users": false
+  },
+  "notes": [
+    "NDK corrupt download required Flutter job retry; API35 ADB failure before UI (device_tests_run=false) required that environment job retry.",
+    "iOS practice exact selector failed on merged native accessibility label; selector corrected without removing assertion; latest native suite passed.",
+    "Earlier cf7617b Android JUnit/session/hash/screens were independently inspected; latest CI logs plus runner JUnit/hash gates were verified.",
+    "Android CI emulator uses -noaudio; player position/state assertions do not establish human hearing or narration correctness."
+  ]
+}

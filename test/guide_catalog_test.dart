@@ -1,15 +1,30 @@
-import 'dart:convert';
+import 'draft_catalog_fixture.dart';
 
-import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/content_repository.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
+import 'package:hac_umre_sesli_rehber/progress_store.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  sqfliteFfiInit();
+
+  test('kullanıcı uygulaması taslak katalog yüklemez', () async {
+    final catalogs = await const LocalContentRepository().load();
+    for (final catalog in catalogs.values) {
+      expect(catalog.steps, isEmpty);
+      expect(catalog.audioRecords, isEmpty);
+      expect(catalog.prayerRecords, isEmpty);
+      expect(catalog.isPreview, isTrue);
+    }
+  });
 
   test('iki katalog tüm sabit alt kimlikleri sırayla içerir', () async {
-    final catalogs = await const LocalContentRepository().load();
+    final catalogs = await loadDraftCatalogs();
     for (final entry in GuideCatalog.expectedGroups.entries) {
       final catalog = catalogs[entry.key]!;
       final ids = [
@@ -27,9 +42,7 @@ void main() {
   });
 
   test('sürüm, zorunlu alan, kimlik ve bağlantı hataları reddedilir', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.umrah);
     Map<String, dynamic> source() => jsonDecode(text) as Map<String, dynamic>;
 
     final badVersion = source()..['schemaVersion'] = 99;
@@ -72,13 +85,12 @@ void main() {
   });
 
   test('isteğe bağlı alanlar boş kalabilir, onay kanıtsız verilemez', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.umrah);
     final source = jsonDecode(text) as Map<String, dynamic>;
     final catalog = GuideCatalog.fromJsonText(jsonEncode(source));
     expect(catalog.steps.first.audioId, isNull);
-    expect(catalog.steps.first.summary, isNull);
+    expect(catalog.steps.first.summary, isNotEmpty);
+    expect(catalog.steps.first.sourceAccessedAt, '2026-10-09');
     expect(catalog.steps.first.prayerIds, isEmpty);
     (source['steps'] as List)[0]['status'] = 'approved';
     expect(
@@ -88,9 +100,7 @@ void main() {
   });
 
   test('hac profil matrisi eksikse katalog reddedilir', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/hac_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.hajj);
     final source = jsonDecode(text) as Map<String, dynamic>;
     (source['steps'] as List)[0]['profileApplicability'].remove('kiran');
     expect(
@@ -100,12 +110,11 @@ void main() {
   });
 
   test('hac profili yalnız tamamen onaylı matriste akışı filtreler', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/hac_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.hajj);
     final draftSource = jsonDecode(text) as Map<String, dynamic>;
     final draftCatalog = GuideCatalog.fromJsonText(jsonEncode(draftSource));
     expect(draftCatalog.isProfileFlowVerified(HajjProfile.ifrad), isFalse);
+    expect(draftCatalog.isPreview, isTrue);
     expect(draftCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(35));
     expect(draftCatalog.stepById('H06.3')?.counterKey, 'jamarat');
     expect(draftCatalog.stepById('H09.2')?.counterKey, 'jamarat');
@@ -132,14 +141,105 @@ void main() {
         applicability[profile.name] = 'applicable';
       }
     }
+    for (final value in approvedSource['audioRecords'] as List<dynamic>) {
+      final audio = value as Map<String, dynamic>;
+      audio['textVersion'] = '${audio['textId']}-test-v1';
+    }
     (steps[1] as Map<String, dynamic>)['profileApplicability']['ifrad'] =
+        'notApplicable';
+    (steps[2] as Map<String, dynamic>)['profileApplicability']['kiran'] =
+        'notApplicable';
+    (steps[3] as Map<String, dynamic>)['profileApplicability']['kiran'] =
         'notApplicable';
     final approvedCatalog = GuideCatalog.fromJsonText(
       jsonEncode(approvedSource),
     );
     expect(approvedCatalog.isProfileFlowVerified(HajjProfile.ifrad), isTrue);
+    expect(approvedCatalog.isPreview, isFalse);
     expect(approvedCatalog.stepsForProfile(HajjProfile.ifrad), hasLength(34));
     expect(approvedCatalog.stepsForProfile(HajjProfile.temettu), hasLength(35));
+    expect(approvedCatalog.stepsForProfile(HajjProfile.kiran), hasLength(33));
+    for (final profile in HajjProfile.values) {
+      final flow = approvedCatalog.stepsForProfile(profile);
+      final expected = approvedCatalog.steps
+          .where(
+            (s) =>
+                s.profileApplicability[profile] ==
+                ProfileApplicability.applicable,
+          )
+          .toList();
+      expect(flow.map((s) => s.id), expected.map((s) => s.id));
+      for (var i = 0; i < flow.length; i++) {
+        expect(
+          approvedCatalog.nextStep(flow[i], profile: profile)?.id,
+          i == flow.length - 1 ? null : flow[i + 1].id,
+        );
+        expect(
+          approvedCatalog.previousStep(flow[i], profile: profile)?.id,
+          i == 0 ? null : flow[i - 1].id,
+        );
+      }
+    }
+    // Persist all three fixture flows, then reopen the real SQLite store.
+    final directory = await Directory.systemTemp.createTemp(
+      'profile-versions-',
+    );
+    final path = '${directory.path}/progress.db';
+    var store = ProgressStore(factory: databaseFactoryFfi, databasePath: path);
+    final oldIds = <HajjProfile, int>{};
+    final newIds = <HajjProfile, int>{};
+    try {
+      for (final profile in HajjProfile.values) {
+        final flow = approvedCatalog.stepsForProfile(profile);
+        final old = await store.startNewSession(
+          type: GuideType.hajj,
+          mode: GuideMode.journey,
+          profile: profile,
+          firstStepId: flow.first.id,
+          contentVersion: 'fixture-v1',
+        );
+        oldIds[profile] = old.id;
+        await store.setStepMarked(old.id, flow.first.id, true);
+        await store.saveCurrentStep(
+          old.id,
+          approvedCatalog.nextStep(flow.first, profile: profile)!.id,
+        );
+        await store.incrementCounter(
+          old.id,
+          'tawaf',
+          'fixture-${profile.name}',
+        );
+        final next = await store.startNewSession(
+          type: GuideType.hajj,
+          mode: GuideMode.journey,
+          profile: profile,
+          firstStepId: flow.first.id,
+          contentVersion: 'fixture-v2',
+        );
+        newIds[profile] = next.id;
+        expect(next.id, isNot(old.id));
+      }
+      await store.close();
+      store = ProgressStore(factory: databaseFactoryFfi, databasePath: path);
+      for (final profile in HajjProfile.values) {
+        final flow = approvedCatalog.stepsForProfile(profile);
+        final old = (await store.readSession(oldIds[profile]!))!;
+        expect(old.profile, profile);
+        expect(old.contentVersion, 'fixture-v1');
+        expect(old.currentStepId, flow[1].id);
+        expect(await store.readMarkedStepIds(old.id), {flow.first.id});
+        expect(await store.readCounterCount(old.id, 'tawaf'), 1);
+        final next = (await store.readSession(newIds[profile]!))!;
+        expect(next.profile, profile);
+        expect(next.contentVersion, 'fixture-v2');
+        expect(next.currentStepId, flow.first.id);
+        expect(await store.readMarkedStepIds(next.id), isEmpty);
+        expect(await store.readCounterCount(next.id, 'tawaf'), 0);
+      }
+    } finally {
+      await store.close();
+      await directory.delete(recursive: true);
+    }
     expect(
       approvedCatalog.stepsForProfile(HajjProfile.ifrad).map((step) => step.id),
       isNot(contains('H01.2')),
@@ -156,9 +256,7 @@ void main() {
   });
 
   test('metin ile ses sürümü uyuşmazlığı reddedilir', () async {
-    final text = await rootBundle.loadString(
-      'assets/content/umre_inventory.v1.json',
-    );
+    final text = await readDraftCatalogText(GuideType.umrah);
     final source = jsonDecode(text) as Map<String, dynamic>;
     (source['audioRecords'] as List).first['textVersion'] = 'yanlis-surum';
     expect(
@@ -170,13 +268,12 @@ void main() {
   test(
     'incelemeye gönderilen metin kaynak ve geçerli bağlantı ister',
     () async {
-      final text = await rootBundle.loadString(
-        'assets/content/umre_inventory.v1.json',
-      );
+      final text = await readDraftCatalogText(GuideType.umrah);
       Map<String, dynamic> source() => jsonDecode(text) as Map<String, dynamic>;
 
       final missingSource = source();
       (missingSource['steps'] as List)[3]['status'] = 'pendingReview';
+      (missingSource['steps'] as List)[3].remove('sourceUrl');
       expect(
         () => GuideCatalog.fromJsonText(jsonEncode(missingSource)),
         throwsFormatException,
@@ -198,16 +295,48 @@ void main() {
     },
   );
 
-  test('U02.2 hazırlama kaydı eksik metin ve sesle güvenle yüklenir', () async {
-    final catalog = (await const LocalContentRepository()
-        .load())[GuideType.umrah]!;
+  test('U02.2 taslak metin ve eksik duayla güvenle yüklenir', () async {
+    final catalog = (await loadDraftCatalogs())[GuideType.umrah]!;
     final step = catalog.stepById('U02.2')!;
     expect(step.status, ReviewStatus.draft);
-    expect(step.textVersion, 'U02.2-text-v1');
-    expect(step.summary, isNull);
+    expect(step.textVersion, 'U02.2-draft-2026-10-09-v1');
+    expect(step.summary, isNotEmpty);
     expect(step.prayerIds, ['P-U02.2-01']);
     expect(step.linkedAudioIds, ['A-U02.2-TR-01']);
-    expect(catalog.audioRecords['A-U02.2-TR-01']?.asset, isNull);
-    expect(catalog.prayerRecords['P-U02.2-01']?.arabic, isNull);
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.asset,
+      'assets/audio/draft-v2/A-U02.2-TR-01.m4a',
+    );
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.isSyntheticDraftPreview,
+      isTrue,
+    );
+    final prayer = catalog.prayerRecords['P-U02.2-01']!;
+    expect(prayer.status, ReviewStatus.draft);
+    expect(prayer.arabic, startsWith('لَبَّيْكَ'));
+    expect(prayer.meaningTr, isNotEmpty);
+    expect(prayer.sourceAccessedAt, '2026-10-09');
+    expect(prayer.reviewedBy, isNull);
+    expect(
+      catalog.audioRecords['A-P-U02.2-AR-01']?.textVersion,
+      prayer.textVersion,
+    );
+  });
+
+  test('53 kaynaklı taslak açıklama dört editöryal alanı içerir', () async {
+    final catalogs = await loadDraftCatalogs();
+    final steps = catalogs.values.expand((catalog) => catalog.steps).toList();
+    expect(steps, hasLength(53));
+    for (final step in steps) {
+      expect(step.status, ReviewStatus.draft);
+      expect(step.summary, isNotEmpty);
+      expect(step.details, contains('Hazırlık:'));
+      expect(step.details, contains('Yapılacak işlem:'));
+      expect(step.details, contains('Dikkat:'));
+      expect(step.details, contains('Sonraki aşama:'));
+      expect(step.sourceUrl, startsWith('https://'));
+      expect(step.sourceAccessedAt, '2026-10-09');
+      expect(step.reviewedBy, isNull);
+    }
   });
 }

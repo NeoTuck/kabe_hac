@@ -1,0 +1,12 @@
+appId: ${APP_ID}
+name: Ayarlara erişim
+---
+- launchApp
+- tapOn: "(?s)Ayarlar.*"
+- assertVisible: "Yazı ve ses ayarları"
+- assertVisible: "Görünüm"
+- scrollUntilVisible:
+    element: "Türkçe anlatım hızı"
+    direction: DOWN
+- assertVisible: "Türkçe anlatım hızı"
+- takeScreenshot: ayarlar

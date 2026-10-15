@@ -14,7 +14,11 @@ class InterruptingFetcher extends PackageFileFetcher {
   int calls = 0;
 
   @override
-  Future<PackageFetchResult> fetch(Uri uri, File destination) async {
+  Future<PackageFetchResult> fetch(
+    Uri uri,
+    File destination, {
+    int? expectedBytes,
+  }) async {
     calls++;
     await destination.parent.create(recursive: true);
     final existing = await destination.exists()

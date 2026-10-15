@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "official-contacts-2026-10-09-v1",
+  "contacts": [
+    {
+      "id": "SA-EMERGENCY-911",
+      "kind": "emergency",
+      "name": "Birleşik acil yardım",
+      "region": "Mekke / Medine",
+      "phone": "911",
+      "languages": [
+        "Arapça"
+      ],
+      "sourceTitle": "Saudi Press Agency — 911 bölge kapsamı",
+      "sourceUrl": "https://www.spa.gov.sa/en/N2672382",
+      "verifiedAt": "2026-10-09T11:00:00Z",
+      "status": "sourceVerified"
+    },
+    {
+      "id": "TR-JEDDAH-EMERGENCY",
+      "kind": "consulate",
+      "name": "Cidde Başkonsolosluğu — mesai dışı acil",
+      "region": "Cidde / Mekke / Medine",
+      "phone": "+966532079651",
+      "languages": [
+        "Türkçe"
+      ],
+      "sourceTitle": "T.C. Dışişleri Bakanlığı — iletişim sayfası",
+      "sourceUrl": "https://cidde-bk.mfa.gov.tr/Mission/Contact",
+      "verifiedAt": "2026-10-09T11:00:00Z",
+      "status": "sourceVerified"
+    },
+    {
+      "id": "TR-JEDDAH-OFFICE",
+      "kind": "consulate",
+      "name": "Cidde Başkonsolosluğu",
+      "region": "Cidde",
+      "phone": "+966126601607",
+      "languages": [
+        "Türkçe"
+      ],
+      "sourceTitle": "T.C. Dışişleri Bakanlığı — iletişim sayfası",
+      "sourceUrl": "https://cidde-bk.mfa.gov.tr/Mission/Contact",
+      "verifiedAt": "2026-10-09T11:00:00Z",
+      "status": "sourceVerified"
+    },
+    {
+      "id": "TR-CONSULAR-CENTER",
+      "kind": "consulate",
+      "name": "Konsolosluk Çağrı Merkezi",
+      "region": "Türkiye / yurt dışı",
+      "phone": "+903122922929",
+      "languages": [
+        "Türkçe"
+      ],
+      "sourceTitle": "T.C. Dışişleri Bakanlığı — iletişim sayfası",
+      "sourceUrl": "https://cidde-bk.mfa.gov.tr/Mission/Contact",
+      "verifiedAt": "2026-10-09T11:00:00Z",
+      "status": "sourceVerified"
+    },
+    {
+      "id": "TR-MAKKAH-RELIGIOUS",
+      "kind": "company",
+      "name": "Mekke Din Hizmetleri Ataşeliği",
+      "region": "Mekke",
+      "phone": "+966125668273",
+      "languages": [
+        "Türkçe"
+      ],
+      "sourceTitle": "T.C. Dışişleri Bakanlığı — iletişim sayfası",
+      "sourceUrl": "https://cidde-bk.mfa.gov.tr/Mission/Contact",
+      "verifiedAt": "2026-10-09T11:00:00Z",
+      "status": "sourceVerified"
+    },
+    {
+      "id": "SA-HEALTH-937",
+      "kind": "health",
+      "name": "Sağlık danışma — ambulans hattı değildir",
+      "region": "Suudi Arabistan",
+      "phone": "937",
+      "languages": [
+        "Arapça"
+      ],
+      "sourceTitle": "Suudi Arabistan Sağlık Bakanlığı — 937 hizmeti",
+      "sourceUrl": "https://www.moh.gov.sa/en/937/pages/default.aspx",
+      "verifiedAt": "2026-10-09T11:00:00Z",
+      "status": "sourceVerified"
+    }
+  ],
+  "languageCards": [],
+  "fieldInformation": []
+}

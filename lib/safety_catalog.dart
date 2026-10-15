@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-enum SafetyReviewStatus { draft, pendingReview, approved }
+enum SafetyReviewStatus { draft, pendingReview, approved, sourceVerified }
 
 enum ContactKind { groupLeader, company, consulate, police, emergency, health }
 
@@ -99,6 +99,14 @@ class SafetyContact {
   final DateTime verifiedAt;
   final SafetyReviewStatus status;
 
+  static const maximumContactAge = Duration(days: 180);
+  bool canDialAt(DateTime now) =>
+      (status == SafetyReviewStatus.approved ||
+          status == SafetyReviewStatus.sourceVerified) &&
+      phone != null &&
+      !verifiedAt.isAfter(now.toUtc()) &&
+      now.toUtc().difference(verifiedAt) <= maximumContactAge;
+
   factory SafetyContact.fromJson(Map<String, Object?> json) {
     final rawLanguages = json['languages'];
     if (rawLanguages is! List || rawLanguages.isEmpty) {
@@ -117,9 +125,26 @@ class SafetyContact {
       'inceleme durumu',
     );
     final phone = _optionalString(json, 'phone');
-    if (status == SafetyReviewStatus.approved && phone == null) {
+    if ((status == SafetyReviewStatus.approved ||
+            status == SafetyReviewStatus.sourceVerified) &&
+        phone == null) {
       throw const SafetyCatalogFormatException(
         'Onaylı iletişim kaydı doğrulanmış numara ister.',
+      );
+    }
+    final sourceUri = _httpsUri(json, 'sourceUrl');
+    final verifiedAt = _utcDateTime(json, 'verifiedAt');
+    if (status == SafetyReviewStatus.sourceVerified &&
+        (!const {
+              'cidde-bk.mfa.gov.tr',
+              'www.moh.gov.sa',
+              'www.spa.gov.sa',
+              'my.gov.sa',
+            }.contains(sourceUri.host) ||
+            !RegExp(r'^\+?[0-9]{3,15}$').hasMatch(phone!) ||
+            verifiedAt.isAfter(DateTime.now().toUtc()))) {
+      throw const SafetyCatalogFormatException(
+        'Kaynak kontrolü resmî bağlantı, numara ve geçmiş kontrol tarihi ister.',
       );
     }
     return SafetyContact(
@@ -134,8 +159,8 @@ class SafetyContact {
       phone: phone,
       languages: List.unmodifiable(languages),
       sourceTitle: _requiredString(json, 'sourceTitle'),
-      sourceUri: _httpsUri(json, 'sourceUrl'),
-      verifiedAt: _utcDateTime(json, 'verifiedAt'),
+      sourceUri: sourceUri,
+      verifiedAt: verifiedAt,
       status: status,
     );
   }
@@ -176,6 +201,11 @@ class LanguageCard {
       _requiredString(json, 'status'),
       'inceleme durumu',
     );
+    if (status == SafetyReviewStatus.sourceVerified) {
+      throw const SafetyCatalogFormatException(
+        'Kaynak kontrolü dil kartının insan incelemesi yerine geçmez.',
+      );
+    }
     final sourceTitle = _optionalString(json, 'sourceTitle');
     final sourceUrl = _optionalString(json, 'sourceUrl');
     final reviewedBy = _optionalString(json, 'reviewedBy');
@@ -248,9 +278,11 @@ class FieldInformation {
   final DateTime observedAt;
   final DateTime validUntil;
 
-  bool isFreshAt(DateTime now) => !now.toUtc().isAfter(validUntil);
+  bool isFreshAt(DateTime now) =>
+      !now.toUtc().isBefore(observedAt) && now.toUtc().isBefore(validUntil);
 
   String displayStateAt(DateTime now) {
+    if (now.toUtc().isBefore(observedAt)) return 'Henüz geçerli olmayan bilgi';
     if (!isFreshAt(now)) return 'Süresi dolmuş bilgi';
     return switch (state) {
       FieldInformationState.planned => 'Planlanmış bilgi',

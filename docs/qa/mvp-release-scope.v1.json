@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "releaseTarget": "android_ios",
+  "note": "Current visible/bundled scope only. All religious content and synthetic audio are draft; this manifest does not grant release approval.",
+  "catalogSha256": {
+    "umre": "3a688578489cb2ebd46c1d3bbb9393a8a43cb33e93179c44171a3d8d5b259629",
+    "hac": "76f102c3137785ffda9ca4c43e6b7eee55976a047f16c396dccf9b64127668df"
+  },
+  "visibleSteps": [
+    {
+      "id": "U01.1",
+      "textVersion": "U01.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U01.2",
+      "textVersion": "U01.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U02.1",
+      "textVersion": "U02.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U02.2",
+      "textVersion": "U02.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U02.3",
+      "textVersion": "U02.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U03.1",
+      "textVersion": "U03.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U04.1",
+      "textVersion": "U04.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U05.1",
+      "textVersion": "U05.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U06.1",
+      "textVersion": "U06.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U06.2",
+      "textVersion": "U06.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U06.3",
+      "textVersion": "U06.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U07.1",
+      "textVersion": "U07.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U07.2",
+      "textVersion": "U07.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U08.1",
+      "textVersion": "U08.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U09.1",
+      "textVersion": "U09.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U09.2",
+      "textVersion": "U09.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U10.1",
+      "textVersion": "U10.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "U10.2",
+      "textVersion": "U10.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H01.1",
+      "textVersion": "H01.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H01.2",
+      "textVersion": "H01.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H01.3",
+      "textVersion": "H01.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H02.1",
+      "textVersion": "H02.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H02.2",
+      "textVersion": "H02.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H02.3",
+      "textVersion": "H02.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H02.4",
+      "textVersion": "H02.4-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H02.5",
+      "textVersion": "H02.5-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H03.1",
+      "textVersion": "H03.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H03.2",
+      "textVersion": "H03.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H03.3",
+      "textVersion": "H03.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H04.1",
+      "textVersion": "H04.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H04.2",
+      "textVersion": "H04.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H04.3",
+      "textVersion": "H04.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H04.4",
+      "textVersion": "H04.4-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H05.1",
+      "textVersion": "H05.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H05.2",
+      "textVersion": "H05.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H05.3",
+      "textVersion": "H05.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H06.1",
+      "textVersion": "H06.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H06.2",
+      "textVersion": "H06.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H06.3",
+      "textVersion": "H06.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H06.4",
+      "textVersion": "H06.4-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H07.1",
+      "textVersion": "H07.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H07.2",
+      "textVersion": "H07.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H07.3",
+      "textVersion": "H07.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H08.1",
+      "textVersion": "H08.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H08.2",
+      "textVersion": "H08.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H08.3",
+      "textVersion": "H08.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H08.4",
+      "textVersion": "H08.4-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H09.1",
+      "textVersion": "H09.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H09.2",
+      "textVersion": "H09.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H09.3",
+      "textVersion": "H09.3-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H10.1",
+      "textVersion": "H10.1-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H10.2",
+      "textVersion": "H10.2-draft-2026-10-09-v1"
+    },
+    {
+      "id": "H10.3",
+      "textVersion": "H10.3-draft-2026-10-09-v1"
+    }
+  ],
+  "visiblePrayers": [
+    {
+      "id": "P-U02.2-01",
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1"
+    }
+  ],
+  "audioRecords": [
+    {
+      "id": "A-U02.2-TR-01",
+      "textVersion": "U02.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.2-TR-01.m4a",
+      "sha256": "ad1ddb479a596fa7621eefb7937d96853270906a231fb620d39ecafb8eca3274"
+    },
+    {
+      "id": "A-P-U02.2-AR-01",
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
+      "asset": "",
+      "sha256": ""
+    },
+    {
+      "id": "A-P-U02.2-ANLAM-01",
+      "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-P-U02.2-ANLAM-01.m4a",
+      "sha256": "bc2a011632216ee2f40c12c60e1187aed90828c28cbf4b4c76c0838068ae0f43"
+    },
+    {
+      "id": "A-U01.1-TR-01",
+      "textVersion": "U01.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U01.1-TR-01.m4a",
+      "sha256": "6e4a226582ea0e7e70ef87a6c124b3c49f17bb2e29489f637466fc9f427c1511"
+    },
+    {
+      "id": "A-U01.2-TR-01",
+      "textVersion": "U01.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U01.2-TR-01.m4a",
+      "sha256": "d40d5c3d952a60533f7e64eb94a6dc7e1c1624bd45a7f63cdd3940808a2bdc70"
+    },
+    {
+      "id": "A-U02.1-TR-01",
+      "textVersion": "U02.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.1-TR-01.m4a",
+      "sha256": "ec60c378037eeb39a4d049a038f5cdcb3693b215addc9f59f4bee785911ddd5b"
+    },
+    {
+      "id": "A-U02.3-TR-01",
+      "textVersion": "U02.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U02.3-TR-01.m4a",
+      "sha256": "d3a8d407c814a9783f2d47c82aecef8f3f2ff110f659e9aeb16d6507ba362f9d"
+    },
+    {
+      "id": "A-U03.1-TR-01",
+      "textVersion": "U03.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U03.1-TR-01.m4a",
+      "sha256": "db232b6fc52357505bee1e0a1616af3d99ff38b620800882c14829ce83274eea"
+    },
+    {
+      "id": "A-U04.1-TR-01",
+      "textVersion": "U04.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U04.1-TR-01.m4a",
+      "sha256": "7eda691cef7bf831ddc972db26fba074010b663c81f8952462f4c4a6559aeb46"
+    },
+    {
+      "id": "A-U05.1-TR-01",
+      "textVersion": "U05.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U05.1-TR-01.m4a",
+      "sha256": "3d1b9111f88b43c11ea082553877346f1851f5f7e6a6fb625dae758d6d954802"
+    },
+    {
+      "id": "A-U06.1-TR-01",
+      "textVersion": "U06.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.1-TR-01.m4a",
+      "sha256": "854252a0d73c2a2054814050dacd759c3d985722ebdddaf0b431e1214f20a751"
+    },
+    {
+      "id": "A-U06.2-TR-01",
+      "textVersion": "U06.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.2-TR-01.m4a",
+      "sha256": "5fa42ef7c07a156c625742f6059fb9d9eaa3e9720380c5baacf5dc46e6e46a08"
+    },
+    {
+      "id": "A-U06.3-TR-01",
+      "textVersion": "U06.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U06.3-TR-01.m4a",
+      "sha256": "22bbb8ceb2367e1dcc4d0597d58949081a0e0ad3885b42482ddc89fe841bff3d"
+    },
+    {
+      "id": "A-U07.1-TR-01",
+      "textVersion": "U07.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U07.1-TR-01.m4a",
+      "sha256": "ab7de65a1dd3f3c77def05bb61568ae770fa88b79caf2491879bae4fe9da18b3"
+    },
+    {
+      "id": "A-U07.2-TR-01",
+      "textVersion": "U07.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U07.2-TR-01.m4a",
+      "sha256": "60a7fd9f99d0e828f224a30507cf17fba844be72fe54132378b32292faae293c"
+    },
+    {
+      "id": "A-U08.1-TR-01",
+      "textVersion": "U08.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U08.1-TR-01.m4a",
+      "sha256": "8452e490a293134241cba563374bdda7af82f157692f5dd1075b1c92b195fb3c"
+    },
+    {
+      "id": "A-U09.1-TR-01",
+      "textVersion": "U09.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U09.1-TR-01.m4a",
+      "sha256": "825f38e5ddba18600b8f5eb3e122b71567c043ef0042ce10157993215aca6f0d"
+    },
+    {
+      "id": "A-U09.2-TR-01",
+      "textVersion": "U09.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U09.2-TR-01.m4a",
+      "sha256": "d6c9983690c7c23720f42feae312744349ddbda00baa2a03f293e35ce57edd80"
+    },
+    {
+      "id": "A-U10.1-TR-01",
+      "textVersion": "U10.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U10.1-TR-01.m4a",
+      "sha256": "24c9434050cf6f6a644008abd8ac70139645e2c99dd156f541ea17d233f8732b"
+    },
+    {
+      "id": "A-U10.2-TR-01",
+      "textVersion": "U10.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-U10.2-TR-01.m4a",
+      "sha256": "95242ac627691db094cd765ffc59d0beba71a9a1ded16908cf8f385b5ae71623"
+    },
+    {
+      "id": "A-H01.1-TR-01",
+      "textVersion": "H01.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H01.1-TR-01.m4a",
+      "sha256": "c52f797b2fe6715b3126ad00824cd961db4f08eb139864ab94ff32ca5bdab366"
+    },
+    {
+      "id": "A-H01.2-TR-01",
+      "textVersion": "H01.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H01.2-TR-01.m4a",
+      "sha256": "7894615f61bf43415bd795aa368b1536e3fa07d3e6ec10b78e22390c101751f6"
+    },
+    {
+      "id": "A-H01.3-TR-01",
+      "textVersion": "H01.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H01.3-TR-01.m4a",
+      "sha256": "df590f1bd2b1a0647c4098e947b3136d595fa8d27e66478ce7d7473743ba302d"
+    },
+    {
+      "id": "A-H02.1-TR-01",
+      "textVersion": "H02.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H02.1-TR-01.m4a",
+      "sha256": "ea5cc4ec50d0b66ca09a09b8f2d42b3567b559e6807e893ccba13020b03f017a"
+    },
+    {
+      "id": "A-H02.2-TR-01",
+      "textVersion": "H02.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H02.2-TR-01.m4a",
+      "sha256": "4817548a5bf56848daa5dac14ff4e8ae8c90b37122e36e2877a771a08b05c4de"
+    },
+    {
+      "id": "A-H02.3-TR-01",
+      "textVersion": "H02.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H02.3-TR-01.m4a",
+      "sha256": "93c814cdcb9d68d23d67edd908eaf66b28a19c8201c3bc19f3d09f32def513ad"
+    },
+    {
+      "id": "A-H02.4-TR-01",
+      "textVersion": "H02.4-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H02.4-TR-01.m4a",
+      "sha256": "245bc8862d44261257f0afa2b68b1526c28f5f27a0a457181e4baa1d36dc793c"
+    },
+    {
+      "id": "A-H02.5-TR-01",
+      "textVersion": "H02.5-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H02.5-TR-01.m4a",
+      "sha256": "7db358016d4ad745e96655bd48abc8cddf1725dc5b90043137a7c83b9dc47a17"
+    },
+    {
+      "id": "A-H03.1-TR-01",
+      "textVersion": "H03.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H03.1-TR-01.m4a",
+      "sha256": "66152583b89011d3256f6e2701d64f60d786807fa8cf5844bb95ba15fd9726ac"
+    },
+    {
+      "id": "A-H03.2-TR-01",
+      "textVersion": "H03.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H03.2-TR-01.m4a",
+      "sha256": "becd610bc1897c98e54b6629c3f8150f19b9e9ab690556375755c1f318ce1104"
+    },
+    {
+      "id": "A-H03.3-TR-01",
+      "textVersion": "H03.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H03.3-TR-01.m4a",
+      "sha256": "0263078fcb62a3b54ff3d7c7a83fc41162e57f1ac769216ae27e73a711831b58"
+    },
+    {
+      "id": "A-H04.1-TR-01",
+      "textVersion": "H04.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H04.1-TR-01.m4a",
+      "sha256": "823d64548d8416fe9e245aef165d92fa5386d81af47e7fafff0141246f181649"
+    },
+    {
+      "id": "A-H04.2-TR-01",
+      "textVersion": "H04.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H04.2-TR-01.m4a",
+      "sha256": "8fc7908d3ffb1f662acbb804eeb4bb2770c55e41a862f4b06996ec9ac63a0246"
+    },
+    {
+      "id": "A-H04.3-TR-01",
+      "textVersion": "H04.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H04.3-TR-01.m4a",
+      "sha256": "2edca825ce8ddf1ee15cbb6003614f4e5354ddf013195bfa698128b375156f90"
+    },
+    {
+      "id": "A-H04.4-TR-01",
+      "textVersion": "H04.4-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H04.4-TR-01.m4a",
+      "sha256": "6d5ca11b3bafbc24c3489175c926f875d77e22f1ac4b5d8b7fc930bd0b33b0bc"
+    },
+    {
+      "id": "A-H05.1-TR-01",
+      "textVersion": "H05.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H05.1-TR-01.m4a",
+      "sha256": "0a0e1f2a0c22a3e98b9956bb7df2e3c36f040969a41561e08ece98076dd45299"
+    },
+    {
+      "id": "A-H05.2-TR-01",
+      "textVersion": "H05.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H05.2-TR-01.m4a",
+      "sha256": "dfc592225a6ba9ea002ab0d88bce8229f467459fb94a74b23cf8635099883a70"
+    },
+    {
+      "id": "A-H05.3-TR-01",
+      "textVersion": "H05.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H05.3-TR-01.m4a",
+      "sha256": "b7ea64f9c84f59309b151e1cb9f3dfcc933e1a373f96cd98ebc5926940646334"
+    },
+    {
+      "id": "A-H06.1-TR-01",
+      "textVersion": "H06.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H06.1-TR-01.m4a",
+      "sha256": "0cff4de7df29653b4ff797f6e041ce2b3a918af0795f1ebab028d95c3c130636"
+    },
+    {
+      "id": "A-H06.2-TR-01",
+      "textVersion": "H06.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H06.2-TR-01.m4a",
+      "sha256": "66b569b009ef61e739a2e134051af2c97e766dc2ec9607131b7366a8774a17ad"
+    },
+    {
+      "id": "A-H06.3-TR-01",
+      "textVersion": "H06.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H06.3-TR-01.m4a",
+      "sha256": "3000939205e31ccbf44e44f727163206b498235c5d2a20e8720cab52c7ae0cb4"
+    },
+    {
+      "id": "A-H06.4-TR-01",
+      "textVersion": "H06.4-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H06.4-TR-01.m4a",
+      "sha256": "d12dcbb60f812bdbf2c7cb1c1f2f6ba0d300a1456f215e283e0634eff45bf04c"
+    },
+    {
+      "id": "A-H07.1-TR-01",
+      "textVersion": "H07.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H07.1-TR-01.m4a",
+      "sha256": "f47d1eb0f3ea4d3371464473ee8e04f61752c215c815df19db7e482ebf847e6c"
+    },
+    {
+      "id": "A-H07.2-TR-01",
+      "textVersion": "H07.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H07.2-TR-01.m4a",
+      "sha256": "72f318fb098ddaeb57739be76b88046fc6af4586c0d33867be49a2e3560f1022"
+    },
+    {
+      "id": "A-H07.3-TR-01",
+      "textVersion": "H07.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H07.3-TR-01.m4a",
+      "sha256": "e87b9bca247128e7bb0123771748483f2e7fa1892405786793b794187853a91d"
+    },
+    {
+      "id": "A-H08.1-TR-01",
+      "textVersion": "H08.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H08.1-TR-01.m4a",
+      "sha256": "7354d246c0338fcca3e09eaaafc36273979b0aaaffc5a952be263da6ea1f7894"
+    },
+    {
+      "id": "A-H08.2-TR-01",
+      "textVersion": "H08.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H08.2-TR-01.m4a",
+      "sha256": "16432ba404aa64d42aa3e5a48f889fa8160776707594e956dac45e5ef919c9ac"
+    },
+    {
+      "id": "A-H08.3-TR-01",
+      "textVersion": "H08.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H08.3-TR-01.m4a",
+      "sha256": "8b0153273771e53eee314c9ff9b084c433f608b46539fa393a2c86f7b857470f"
+    },
+    {
+      "id": "A-H08.4-TR-01",
+      "textVersion": "H08.4-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H08.4-TR-01.m4a",
+      "sha256": "8e4c22d6a9b6044e1713121d8bdb731c2c24eae979a7923f3c0468230091e95b"
+    },
+    {
+      "id": "A-H09.1-TR-01",
+      "textVersion": "H09.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H09.1-TR-01.m4a",
+      "sha256": "34ca958a6810adf007e776dca7042f8b9fddc2fe84d7d9ead5cb078a54804bff"
+    },
+    {
+      "id": "A-H09.2-TR-01",
+      "textVersion": "H09.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H09.2-TR-01.m4a",
+      "sha256": "c4604f4fa2c9cff969026e9be9c2de0af63474b5ac121b0a048817d20ff8a871"
+    },
+    {
+      "id": "A-H09.3-TR-01",
+      "textVersion": "H09.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H09.3-TR-01.m4a",
+      "sha256": "c06e8b667ba38df5f1f1574c00bd4d95705f2f8b30048aef6d1c756c92e41842"
+    },
+    {
+      "id": "A-H10.1-TR-01",
+      "textVersion": "H10.1-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H10.1-TR-01.m4a",
+      "sha256": "7fadde6f56375c37d585d8b6f1251096f1442792015f3c22fdc340d761eedf9f"
+    },
+    {
+      "id": "A-H10.2-TR-01",
+      "textVersion": "H10.2-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H10.2-TR-01.m4a",
+      "sha256": "7848955b0cb4f4d1a7e49771a0791d874d7a71d4a3c39874a1f145083ceddf38"
+    },
+    {
+      "id": "A-H10.3-TR-01",
+      "textVersion": "H10.3-draft-2026-10-09-v1",
+      "asset": "assets/audio/draft-v2/A-H10.3-TR-01.m4a",
+      "sha256": "90d3ae931d4e5088b5580a12d5be4a81091a730c8b4f559eb76907f7dc6faf01"
+    }
+  ],
+  "packageCatalogSha256": "ce354c6383ae678462e8945abc206332019a8a94f8fea1131da633afb2e70095",
+  "mapPackages": [
+    {
+      "id": "travel-pilgrim-snapshot",
+      "version": "1.0.0",
+      "rightsEvidence": "pending independent review"
+    },
+    {
+      "id": "map-mecca",
+      "version": "1.0.0",
+      "rightsEvidence": "pending independent review"
+    },
+    {
+      "id": "map-medina",
+      "version": "1.0.0",
+      "rightsEvidence": "pending independent review"
+    }
+  ],
+  "liveService": {
+    "enabled": false,
+    "privacyUrl": "",
+    "supportUrl": "",
+    "accountDeletionUrl": "",
+    "termsOfUseUrl": ""
+  }
+}

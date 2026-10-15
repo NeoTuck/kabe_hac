@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-11",
+  "runtime": "Linux host, Flutter 3.47.6, Dart 3.13.5",
+  "app_commit": "16fb3fae39a0fee1d2c4931bf90b442cb0d22f41",
+  "note": "Follow-up adds profile persistence assertions and native runner configuration; no changed production runtime since app commit. Counts are tests/assertions, not release approvals.",
+  "checks": [
+    {
+      "name": "Flutter",
+      "execution": "local",
+      "status": "passed",
+      "assertions_or_tests": 224,
+      "command": "flutter test --no-pub --reporter expanded",
+      "output_tail": [
+        "00:19 +221: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: Hac türü doğrulanmamış önizleme açar",
+        "00:19 +222: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: eski demo kaydı ana ekranda giriş oluşturmaz",
+        "00:20 +223: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: ana ekran kayıt yükleme durumu erişilebilir ve sınırlıdır",
+        "00:20 +224: /workspace/scratch/13adb9698511/kabe_hac/test/app_flow_test.dart: (tearDownAll)",
+        "00:20 +224: All tests passed!"
+      ]
+    },
+    {
+      "name": "Python",
+      "execution": "local",
+      "status": "passed",
+      "assertions_or_tests": 57,
+      "command": "python -m unittest discover -s tools -p 'test_*.py'",
+      "output_tail": [
+        ".........................................................",
+        "----------------------------------------------------------------------",
+        "Ran 57 tests in 1.298s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "name": "pgTAP/PGlite",
+      "execution": "local",
+      "status": "passed",
+      "assertions_or_tests": 115,
+      "command": "node supabase/tests/standalone/run.cjs",
+      "output_tail": [
+        "ok 23 - revoked membership still hides message history",
+        "ok 24 - membership change does not erase consent history",
+        "ok 25 - deletion request available",
+        "ok 26 - pending deletion cannot renew service consent",
+        "ok 27 - version history retained until account deletion"
+      ]
+    },
+    {
+      "name": "Server SQL/PGlite",
+      "execution": "local",
+      "status": "passed",
+      "assertions_or_tests": 45,
+      "command": "node supabase/tests/standalone/server.cjs",
+      "output_tail": [
+        "ok 42 - cleanup honors one-row bound on multi-row share",
+        "ok 43 - remaining expired coordinate waits for next bounded batch",
+        "ok 44 - next cleanup drains remaining expired coordinate",
+        "ok 45 - provider wait beyond retry window terminates without premature retry",
+        "PASS 45 disposable server SQL checks; live service and concurrency acceptance pending."
+      ]
+    },
+    {
+      "name": "Node push",
+      "execution": "local",
+      "status": "passed",
+      "assertions_or_tests": 13,
+      "command": "node --test supabase/functions/group-push/core.test.mjs",
+      "output_tail": [
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 173.319423"
+      ]
+    }
+  ],
+  "format": {
+    "files": 92,
+    "changed": 0
+  },
+  "flutter_analyze": "Analyzing kabe_hac...                                           \nNo issues found! (ran in 1.2s)",
+  "native_yaml": {
+    "flows": 9,
+    "status": "static_validation_passed",
+    "device_execution": false
+  },
+  "map_measurements": [
+    {
+      "measurement": "host_vm_map",
+      "package": "map-mecca",
+      "pipeline_ms": 641.135,
+      "style_bytes": 9385805,
+      "rss_before": 137986048,
+      "rss_after": 215257088,
+      "native_first_render_measured": false
+    },
+    {
+      "measurement": "host_vm_map",
+      "package": "map-medina",
+      "pipeline_ms": 464.87,
+      "style_bytes": 6637563,
+      "rss_before": 215257088,
+      "rss_after": 203067392,
+      "native_first_render_measured": false
+    }
+  ],
+  "android_build": {
+    "status": "blocked",
+    "reason": "Gradle Kotlin DSL 6.4.2 plugin resolution failed; Java dependency downloads encountered network unreachable. No new APK accepted."
+  },
+  "ios_local_build": "not_run_no_Xcode",
+  "physical_device_acceptance": false,
+  "live_service_acceptance": false,
+  "preflight": {
+    "full": {
+      "status": "blocked",
+      "count": 158
+    },
+    "content": {
+      "status": "blocked",
+      "count": 145
+    },
+    "mvp": {
+      "status": "blocked",
+      "count": 546
+    }
+  },
+  "ci_observation": {
+    "run": 38123721033,
+    "head": "9436eaf9c3670200759b610ee64407a9ea237137",
+    "database": "success",
+    "qa_foundation": "success",
+    "postgres_concurrent_cancellation_queue_leases": "success",
+    "deno_check": "success",
+    "other_jobs": "in_progress_at_observation"
+  },
+  "reproduce": "Set CI=true for Flutter; install real SQLite shared library. PGlite requires @electric-sql/pglite and PGTAP_SQL; see workflow. Native requires an explicitly selected disposable emulator/simulator."
+}

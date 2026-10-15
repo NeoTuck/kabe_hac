@@ -1,0 +1,311 @@
+{
+  "headAtAudit": "fe32ebb438d861c4867f7e784c31f32c0e8e6689",
+  "preflightCount": 155,
+  "note": "Eksik girdi ve kabul kanıtı; uygulama hata sayısı değil. Fiziksel iki kabul bu görevin dışındadır.",
+  "categoryCounts": {
+    "kodla çözülebilir": 0,
+    "araştırma/veriyle çözülebilir": 2,
+    "gerçek kişi/hesap onayı gerekir": 153
+  },
+  "groups": [
+    {
+      "key": "audioRecords",
+      "count": 3,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "assets/content/umre_inventory.v1.json",
+      "acceptance": "Metin sürümü, gerçek kayıt, insan/sağlayıcı hakkı ve işitsel kabul eşleşir.",
+      "ids": [
+        "A-U02.2-TR-01",
+        "A-P-U02.2-AR-01",
+        "A-P-U02.2-ANLAM-01"
+      ]
+    },
+    {
+      "key": "hajj_profile_review",
+      "count": 35,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "assets/content/hac_inventory.v1.json",
+      "acceptance": "Uzman üç profil uygulanabilirliğini her Hac adımında karara bağlar.",
+      "ids": [
+        "H01.1",
+        "H01.2",
+        "H01.3",
+        "H02.1",
+        "H02.2",
+        "H02.3",
+        "H02.4",
+        "H02.5",
+        "H03.1",
+        "H03.2",
+        "H03.3",
+        "H04.1",
+        "H04.2",
+        "H04.3",
+        "H04.4",
+        "H05.1",
+        "H05.2",
+        "H05.3",
+        "H06.1",
+        "H06.2",
+        "H06.3",
+        "H06.4",
+        "H07.1",
+        "H07.2",
+        "H07.3",
+        "H08.1",
+        "H08.2",
+        "H08.3",
+        "H08.4",
+        "H09.1",
+        "H09.2",
+        "H09.3",
+        "H10.1",
+        "H10.2",
+        "H10.3"
+      ]
+    },
+    {
+      "key": "human_audio_rights",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "docs/content-review/2026-10-09-kayit-metni-calisma.csv",
+      "acceptance": "Kayıt sahibi ve dağıtım izni ile doğrulanmış sesler.",
+      "ids": [
+        "human_audio_rights"
+      ]
+    },
+    {
+      "key": "ios_distribution_signing",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "ios/",
+      "acceptance": "Apple dağıtım hesabı/imzası ve archive/TestFlight kabulü.",
+      "ids": [
+        "ios_distribution_signing"
+      ]
+    },
+    {
+      "key": "live_supabase_acceptance",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "supabase/",
+      "acceptance": "Ayrı gerçek test projesi, iki hesap/iki kafile ve Auth/RLS/Realtime kabulü.",
+      "ids": [
+        "live_supabase_acceptance"
+      ]
+    },
+    {
+      "key": "missing_step_narration",
+      "count": 52,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "assets/content/*_inventory.v1.json",
+      "acceptance": "Onaylı metne bağlı izinli anlatım dosyası ve hak belgesi eklenir.",
+      "ids": [
+        "U01.1",
+        "U01.2",
+        "U02.1",
+        "U02.3",
+        "U03.1",
+        "U04.1",
+        "U05.1",
+        "U06.1",
+        "U06.2",
+        "U06.3",
+        "U07.1",
+        "U07.2",
+        "U08.1",
+        "U09.1",
+        "U09.2",
+        "U10.1",
+        "U10.2",
+        "H01.1",
+        "H01.2",
+        "H01.3",
+        "H02.1",
+        "H02.2",
+        "H02.3",
+        "H02.4",
+        "H02.5",
+        "H03.1",
+        "H03.2",
+        "H03.3",
+        "H04.1",
+        "H04.2",
+        "H04.3",
+        "H04.4",
+        "H05.1",
+        "H05.2",
+        "H05.3",
+        "H06.1",
+        "H06.2",
+        "H06.3",
+        "H06.4",
+        "H07.1",
+        "H07.2",
+        "H07.3",
+        "H08.1",
+        "H08.2",
+        "H08.3",
+        "H08.4",
+        "H09.1",
+        "H09.2",
+        "H09.3",
+        "H10.1",
+        "H10.2",
+        "H10.3"
+      ]
+    },
+    {
+      "key": "offline_map_license",
+      "count": 1,
+      "category": "araştırma/veriyle çözülebilir",
+      "file": "lib/offline_map_adapter.dart",
+      "acceptance": "İzinli veri/tile kaynağı, görünür atıf ve gerçek offline paket.",
+      "ids": [
+        "offline_map_license"
+      ]
+    },
+    {
+      "key": "physical_android_acceptance",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "docs/qa/MOBIL_TEST.md",
+      "acceptance": "Fiziksel Android matrisi; bu görevin dışında.",
+      "ids": [
+        "physical_android_acceptance"
+      ]
+    },
+    {
+      "key": "physical_iphone_acceptance",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "docs/qa/MOBIL_TEST.md",
+      "acceptance": "Fiziksel iPhone matrisi; bu görevin dışında.",
+      "ids": [
+        "physical_iphone_acceptance"
+      ]
+    },
+    {
+      "key": "prayerRecords",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "assets/content/umre_inventory.v1.json",
+      "acceptance": "Arapça, anlam, okunuş, kaynak ve hak uzman/dil incelemesinden geçer.",
+      "ids": [
+        "P-U02.2-01"
+      ]
+    },
+    {
+      "key": "privacy_store_declarations",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "docs/16-gizlilik-ve-magaza-beyan-taslagi.md",
+      "acceptance": "Veri sorumlusu/saklama/destek/URL kararı ve gerçek mağaza beyanı.",
+      "ids": [
+        "privacy_store_declarations"
+      ]
+    },
+    {
+      "key": "push_location_acceptance",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "supabase/functions/",
+      "acceptance": "Test cihaz allowlist, gerçek APNs/FCM ve GPS/iptal/saklama kabulü.",
+      "ids": [
+        "push_location_acceptance"
+      ]
+    },
+    {
+      "key": "religious_expert_review",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "docs/content-review/",
+      "acceptance": "Gerçek uzman imzalı 53 adım/dua/profil incelemesi.",
+      "ids": [
+        "religious_expert_review"
+      ]
+    },
+    {
+      "key": "signed_android_artifact",
+      "count": 1,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "android/",
+      "acceptance": "Önceki uygulamayla uyumlu gerçek upload key ve imzalı AAB.",
+      "ids": [
+        "signed_android_artifact"
+      ]
+    },
+    {
+      "key": "steps",
+      "count": 53,
+      "category": "gerçek kişi/hesap onayı gerekir",
+      "file": "assets/content/*_inventory.v1.json",
+      "acceptance": "Dinî uzman 53 metni ve kaynakları inceleyip gerçek tarihli karar verir.",
+      "ids": [
+        "U01.1",
+        "U01.2",
+        "U02.1",
+        "U02.2",
+        "U02.3",
+        "U03.1",
+        "U04.1",
+        "U05.1",
+        "U06.1",
+        "U06.2",
+        "U06.3",
+        "U07.1",
+        "U07.2",
+        "U08.1",
+        "U09.1",
+        "U09.2",
+        "U10.1",
+        "U10.2",
+        "H01.1",
+        "H01.2",
+        "H01.3",
+        "H02.1",
+        "H02.2",
+        "H02.3",
+        "H02.4",
+        "H02.5",
+        "H03.1",
+        "H03.2",
+        "H03.3",
+        "H04.1",
+        "H04.2",
+        "H04.3",
+        "H04.4",
+        "H05.1",
+        "H05.2",
+        "H05.3",
+        "H06.1",
+        "H06.2",
+        "H06.3",
+        "H06.4",
+        "H07.1",
+        "H07.2",
+        "H07.3",
+        "H08.1",
+        "H08.2",
+        "H08.3",
+        "H08.4",
+        "H09.1",
+        "H09.2",
+        "H09.3",
+        "H10.1",
+        "H10.2",
+        "H10.3"
+      ]
+    },
+    {
+      "key": "verified_travel_safety_language_data",
+      "count": 1,
+      "category": "araştırma/veriyle çözülebilir",
+      "file": "docs/content-review/dil-kartlari-taslak.csv",
+      "acceptance": "Kaynaklı koordinat/rota/iletişim/dil ve saha/dil incelemesi.",
+      "ids": [
+        "verified_travel_safety_language_data"
+      ]
+    }
+  ]
+}

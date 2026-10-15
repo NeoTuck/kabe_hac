@@ -4,6 +4,12 @@
 # working directory name when running `supabase init`.
 project_id = "kabe_hac"
 
+# These endpoints use a dedicated server job secret, never a mobile/user JWT.
+[functions.group-push]
+verify_jwt = false
+[functions.location-cleanup]
+verify_jwt = false
+
 [api]
 enabled = true
 # Port to use for the API URL.

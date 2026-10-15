@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "catalogUrl": "https://raw.githubusercontent.com/NeoTuck/kabe_hac/codex/mvp1-pilot/offline_packages/osm-2026-10-08/catalog.v1.json",
+  "allowedHosts": [
+    "raw.githubusercontent.com"
+  ],
+  "trustedManifestDigests": [
+    "40e9f69ac11c0510f4099ebf2fee72dc30044225097af392bde091a3d1be19bd",
+    "522500682939a64cc9b6daba05045165478416f565043ccc073588d4704d5f3b",
+    "6cb8d46c2a072cf594268383a6c70e1f7cf311e9511d49c2c35b26156a260a46"
+  ]
+}

@@ -38,6 +38,27 @@ class MemoryGuideStore extends ProgressStore {
   }
 
   @override
+  Future<GuideSession> startNewSession({
+    required GuideType type,
+    required GuideMode mode,
+    required HajjProfile? profile,
+    required String firstStepId,
+    required String contentVersion,
+  }) async {
+    final session = GuideSession(
+      id: nextId++,
+      mode: mode,
+      currentStepId: firstStepId,
+      contentVersion: contentVersion,
+      type: type,
+      profile: profile,
+      updatedAt: nextId,
+    );
+    sessions[session.id] = session;
+    return session;
+  }
+
+  @override
   Future<GuideSession> startNewJourney({
     required GuideType type,
     required HajjProfile? profile,
@@ -113,6 +134,7 @@ class MemoryGuideStore extends ProgressStore {
 class FakeNarration extends NarrationService {
   NarrationState current = const NarrationState(NarrationStatus.idle);
   int stopCount = 0;
+  @override
   double speed = 1;
 
   @override
@@ -157,5 +179,6 @@ class FakeNarration extends NarrationService {
   @override
   Future<void> setSpeed(double value) async {
     speed = value;
+    notifyListeners();
   }
 }

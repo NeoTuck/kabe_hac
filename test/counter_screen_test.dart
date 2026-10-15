@@ -31,6 +31,15 @@ class MemoryCounterStore extends ProgressStore {
   ) async => count = 0;
 }
 
+class RecoveringJamaratStore extends MemoryCounterStore {
+  bool fail = true;
+  @override
+  Future<List<JamaratCounterContext>> readJamaratCounters(int sessionId) async {
+    if (fail) throw StateError('temporary read failure');
+    return [];
+  }
+}
+
 void main() {
   testWidgets('sayaç artar, geri alınır ve sıfırlama onay ister', (
     tester,
@@ -90,5 +99,53 @@ void main() {
     await tester.tap(find.text('+1 ekle'));
     await tester.pumpAndSettle();
     expect(find.text('1 / 7'), findsOneWidget);
+  });
+  testWidgets(
+    'rapid reset callbacks open one confirmation and cancel preserves count',
+    (tester) async {
+      final store = MemoryCounterStore()..count = 3;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CounterScreen(store: store, sessionId: 1, counterKey: 'tawaf'),
+        ),
+      );
+      await tester.pumpAndSettle();
+      // Invoke the same callback twice before a rebuild. A second screen tap
+      // would hit the first dialog's modal barrier instead of the reset action.
+      final reset = tester.widget<TextButton>(
+        find.widgetWithText(TextButton, 'Sayacı sıfırla'),
+      );
+      reset.onPressed!();
+      reset.onPressed!();
+      await tester.pumpAndSettle();
+      expect(find.byType(AlertDialog), findsOneWidget);
+      await tester.tap(find.text('Vazgeç'));
+      await tester.pumpAndSettle();
+      expect(find.text('3 / 7'), findsOneWidget);
+      await tester.tap(find.text('+1 ekle'));
+      await tester.pumpAndSettle();
+      expect(find.text('4 / 7'), findsOneWidget);
+    },
+  );
+
+  testWidgets('cemarat read failure stops spinner and can recover', (
+    tester,
+  ) async {
+    final store = RecoveringJamaratStore();
+    await tester.pumpWidget(
+      MaterialApp(home: JamaratCounterHubScreen(store: store, sessionId: 1)),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('Sayaçları yeniden dene'), findsOneWidget);
+    store.fail = false;
+    await tester.tap(find.text('Sayaçları yeniden dene'));
+    await tester.pumpAndSettle();
+    expect(find.text('Henüz gün/hedef sayacı eklenmedi.'), findsOneWidget);
+    await tester.tap(find.text('Yeni gün/hedef sayacı'));
+    await tester.pumpAndSettle();
+    expect(find.byType(AlertDialog), findsOneWidget);
+    await tester.tap(find.text('Vazgeç'));
+    await tester.pumpAndSettle();
   });
 }

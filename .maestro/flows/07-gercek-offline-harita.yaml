@@ -1,0 +1,50 @@
+appId: ${APP_ID}
+name: Gerçek paket indirme ve yerel harita renderı
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
+- scrollUntilVisible:
+    element: "(?s)Çevrimdışı paketleri yönet.*"
+    direction: DOWN
+- tapOn: "(?s)Çevrimdışı paketleri yönet.*"
+- scrollUntilVisible:
+    element: "Mekke haritasını indir"
+    direction: DOWN
+- tapOn: "Mekke haritasını indir"
+- extendedWaitUntil:
+    visible: "Mekke çevrimdışı haritası indirildi ve dosyaları doğrulandı. Açıp kontrol edebilirsin."
+    timeout: 90000
+- scrollUntilVisible:
+    element: "Dosyalar doğrulandı"
+    direction: DOWN
+- assertVisible: "Dosyalar doğrulandı"
+- scrollUntilVisible:
+    element: "Yer kayıtlarını indir"
+    direction: DOWN
+- tapOn: "Yer kayıtlarını indir"
+- extendedWaitUntil:
+    visible: "Mekke ve Medine yerleri indirildi ve dosyaları doğrulandı. Açıp kontrol edebilirsin."
+    timeout: 90000
+- launchApp
+- extendedWaitUntil:
+    visible: "Rehbere başla"
+    timeout: 30000
+- tapOn: "(?s)Yolculuk.*"
+- tapOn: "Çevrimdışı haritayı aç"
+- assertVisible: "Çevrimdışı şehir haritası"
+- extendedWaitUntil:
+    visible: "Harita hazır · Çevrimdışı"
+    timeout: 30000
+- assertVisible: "Harita hazır · Çevrimdışı"
+- takeScreenshot: gercek-mekke-haritasi
+
+- tapOn: "Haritada yer bul"
+- tapOn: "(?s)Yer türü.*"
+- tapOn: "Eczane"
+- tapOn: "Filtreyi haritada göster"
+- assertVisible: "(?s)[1-9][0-9]* yer · Eczane.*"
+- tapOn: "Filtreleri temizle"
+- assertNotVisible: "Filtreleri temizle"
+- takeScreenshot: ortak-kategori-filtresi

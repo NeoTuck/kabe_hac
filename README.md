@@ -1,22 +1,34 @@
 # Hac ve Umre Sesli Rehber
 
-Flutter ile geliştirilen Türkçe hac ve umre sesli rehber uygulaması. Ana sayfa, öğrenme/yolculuk biçimleri, 18 Umre ve 35 Hac başlığı, Hac profilleri, ayrıntı ekranları ve SQLite tabanlı kaldığın yerden devam akışı vardır. Teknik örnek kart Arapça yazı yönünü ve yerel sesi gösterir. Dinî açıklamalar ve Hac profil kuralları henüz onaylı yayın içeriği değildir.
+Türkçe Flutter uygulaması. **Tek güncel geliştirme dalı `codex/mvp1-pilot`**, teslim noktası [taslak PR #1](https://github.com/NeoTuck/kabe_hac/pull/1). Eski `codex/full-version-20261009` dalı tarihsel olarak korunur; özgün Umre taslak özet değişikliği güncel dala taşınmıştır. `main` henüz birleştirilmedi.
 
-## Çalıştırma
+## Uygulamada neler var?
 
-Flutter 3.47.6 ve Dart 3.13.5 ile doğrulandı:
+- Umre/Hac rehber altyapısı, ayrı kişisel yolculuk kayıtları ve isteğe bağlı prova. **Uygulama paketinde onaylı rehber içeriği veya anlatım sesi henüz yoktur.** Rehber ve prova, içerik sağlanana kadar boş durum gösterir. Eski kişisel kayıtlar silinmez.
+- Kaynaklı 53 metin ve 54 sentetik ses yalnız depodaki inceleme dosyalarıdır; Flutter kullanıcı paketine alınmaz. Gelecek onaylı içerik, güvenilir çevrimdışı paketle kademeli açılabilir. Tamamlanmamış paket yolculuk hazırlığı sayılmaz.
+- İsteğe bağlı Mekke/Medine çevrimdışı haritaları ve OSM kaynaklı yer paketi. Harita, yer listesi ve favoriler paket indirildiğinde açılır; indirme/iptal, doğrulama, bozulma, silme ve geri dönüş yolları vardır. Yer adları ve saha bilgileri insan incelemesi bekler; canlı yönlendirme verilmez.
+- Ayarlar, kaynak/lisans, yerel veri yönetimi ve Kafile arayüzü. Gerçek hizmet kabulü ve bağlantıları sağlanmadıkça Kafile kapalıdır.
+
+Ana sayfa kurulu harita ve yer paketlerinin doğrulama durumunu gösterir. Gezi sekmesi eksik paket için doğrudan indirme yoluna götürür. Dosya doğrulaması haritanın cihazda açılıp görsel olarak kabul edildiği anlamına gelmez.
+
+Açık harita ve gezi ekranları paket yönetiminden dönüşte yer kayıtlarını yeniler.
+Önceki taslak içerikli uygulama durumu [13 Ekim planında](docs/44-tam-paket-uygulama-plani-2026-10-13.md)
+tarihsel olarak kayıtlıdır; güncel kullanıcı paketi için
+[14 Ekim içerik sınırına](docs/44-demo-icerik-cikarma-2026-10-14.md) bakın.
+
+## Yerelde çalıştırma
+
+Flutter 3.47.6 / Dart 3.13.5 ile çalışılır. Flutter `PATH` içinde değilse bu Mac'te `/Users/mustafasenoglu/.local/share/flutter-3.47.6/bin/flutter` kullanın.
 
 ```sh
 flutter pub get
 flutter analyze
 flutter test
-flutter build apk --debug
+flutter run
 ```
 
-Android debug APK derlemesi ve Android 35 emülatör akışı doğrulandı. Alt sınır Android 9'dur (API 28). iOS derlemesi için tam Xcode ve CocoaPods gerekir; gerçek Android/iPhone cihaz testi henüz yapılmadı.
+Android alt sınırı API 28, iOS alt sınırı 15.0'dır. Kısa CI kaynak/QA, Flutter analiz/birim testi ve veritabanını çalıştırır. Uzun native/yayın işleri kullanıcının isteğiyle otomatik akışta değildir; önceki cihaz sonuçları son kodun veya fiziksel telefonun kabulü sayılmaz. Teknik QA sesleri ve taslak katalog/ses dosyaları kullanıcı paketine alınmaz.
 
-## İçerik sınırı
+## Yayın durumu
 
-`assets/content/umre_inventory.v1.json` ve `assets/content/hac_inventory.v1.json` sürümlü yerel kataloglardır. Sabit kimlikler `U01.1` ve `H01.1` biçimindedir. JSON doğrulayıcı kimlikleri, grup sayılarını, kaynak ve inceleme alanlarını, ses haklarını ve metin–ses sürüm eşleşmesini denetler. Taslaklar uygulamada açıkça işaretlenir.
-
-`assets/audio/teknik_demo.m4a` sistem sesiyle üretilmiş teknik örnektir; nihai insan seslendirmesi değildir. Dinî metin, dua ve sesler yalnız kaynak, uzman incelemesi ve kullanım hakkı kaydıyla yayınlanabilir. Mimari için [ana yapı belgesine](docs/02-ana-yapi.md), içerik hattı ve mobil doğrulama için [son doğrulama belgesine](docs/03-icerik-ve-mobil-dogrulama.md) bakın.
+Bu kod **teknik pilot** düzeyindedir. Gerçek dinî/dil uzmanı kararı, ses hakkı ve dinleme onayı, canlı test projesi ve veri sorumluluğu, fiziksel cihaz kabulü, üretim imzası ve mağaza beyanları gerekir. `LIVE_SERVICE_ACCEPTED` bu kanıtlar olmadan açılmaz. Güncel içerik sınırı: [demo içerik çıkarma kaydı](docs/44-demo-icerik-cikarma-2026-10-14.md); gerçek karar teslimi: [release handoff](docs/release-handoff/2026-10-10/README.md).
