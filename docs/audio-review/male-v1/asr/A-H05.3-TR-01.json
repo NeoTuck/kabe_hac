@@ -1,0 +1,327 @@
+{
+  "audioId": "A-H05.3-TR-01",
+  "audioSha256": "90d3541f08656fcbb90f240d0d2126742a20f52e0ed6028087580c1033bc4c31",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Mina ve cemaat aşaması için hazırlık yapılır. Hazırlık, kafile rota ve güvenlik talimatlarını al. Yapılacak işlem, taş hazırlığı ve sonraki hareketi rehberlikle öğren. Dikkat, kalabalıkta güvenliği sayım hızının önüne koy. Sonraki aşama, aktif gün ve hedefe geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.02,
+      "text": " Mina ve cemaat aşaması için hazırlık yapılır.",
+      "avgLogprob": -0.13933141216635703,
+      "noSpeechProb": 0.12969575822353363,
+      "words": [
+        {
+          "word": " Mina",
+          "start": 0.0,
+          "end": 1.08,
+          "probability": 0.6487573385238647
+        },
+        {
+          "word": " ve",
+          "start": 1.08,
+          "end": 1.44,
+          "probability": 0.9774038791656494
+        },
+        {
+          "word": " cemaat",
+          "start": 1.44,
+          "end": 2.04,
+          "probability": 0.5977705518404642
+        },
+        {
+          "word": " aşaması",
+          "start": 2.04,
+          "end": 2.48,
+          "probability": 0.9704369505246481
+        },
+        {
+          "word": " için",
+          "start": 2.48,
+          "end": 2.74,
+          "probability": 0.9993686079978943
+        },
+        {
+          "word": " hazırlık",
+          "start": 2.74,
+          "end": 3.44,
+          "probability": 0.9677823483943939
+        },
+        {
+          "word": " yapılır.",
+          "start": 3.44,
+          "end": 4.02,
+          "probability": 0.9929428398609161
+        }
+      ]
+    },
+    {
+      "start": 4.3,
+      "end": 8.4,
+      "text": " Hazırlık, kafile rota ve güvenlik talimatlarını al.",
+      "avgLogprob": -0.13933141216635703,
+      "noSpeechProb": 0.12969575822353363,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.3,
+          "end": 4.9,
+          "probability": 0.9863991340001425
+        },
+        {
+          "word": " kafile",
+          "start": 5.34,
+          "end": 5.88,
+          "probability": 0.7781278789043427
+        },
+        {
+          "word": " rota",
+          "start": 5.88,
+          "end": 6.16,
+          "probability": 0.9567191302776337
+        },
+        {
+          "word": " ve",
+          "start": 6.16,
+          "end": 6.78,
+          "probability": 0.9870131611824036
+        },
+        {
+          "word": " güvenlik",
+          "start": 6.78,
+          "end": 7.34,
+          "probability": 0.9918105403582255
+        },
+        {
+          "word": " talimatlarını",
+          "start": 7.34,
+          "end": 8.2,
+          "probability": 0.9799581170082092
+        },
+        {
+          "word": " al.",
+          "start": 8.2,
+          "end": 8.4,
+          "probability": 0.9880962371826172
+        }
+      ]
+    },
+    {
+      "start": 8.82,
+      "end": 13.78,
+      "text": " Yapılacak işlem, taş hazırlığı ve sonraki hareketi rehberlikle öğren.",
+      "avgLogprob": -0.13933141216635703,
+      "noSpeechProb": 0.12969575822353363,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 8.82,
+          "end": 9.36,
+          "probability": 0.9862939318021139
+        },
+        {
+          "word": " işlem,",
+          "start": 9.36,
+          "end": 9.78,
+          "probability": 0.9899176955223083
+        },
+        {
+          "word": " taş",
+          "start": 10.28,
+          "end": 10.46,
+          "probability": 0.9052643179893494
+        },
+        {
+          "word": " hazırlığı",
+          "start": 10.46,
+          "end": 11.16,
+          "probability": 0.9964023232460022
+        },
+        {
+          "word": " ve",
+          "start": 11.16,
+          "end": 11.56,
+          "probability": 0.9861537218093872
+        },
+        {
+          "word": " sonraki",
+          "start": 11.56,
+          "end": 12.14,
+          "probability": 0.9860540926456451
+        },
+        {
+          "word": " hareketi",
+          "start": 12.14,
+          "end": 12.72,
+          "probability": 0.9836429357528687
+        },
+        {
+          "word": " rehberlikle",
+          "start": 12.72,
+          "end": 13.44,
+          "probability": 0.9490029811859131
+        },
+        {
+          "word": " öğren.",
+          "start": 13.44,
+          "end": 13.78,
+          "probability": 0.9327373504638672
+        }
+      ]
+    },
+    {
+      "start": 15.04,
+      "end": 18.8,
+      "text": " Dikkat, kalabalıkta güvenliği sayım hızının önüne koy.",
+      "avgLogprob": -0.13933141216635703,
+      "noSpeechProb": 0.12969575822353363,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.04,
+          "end": 15.82,
+          "probability": 0.9823858141899109
+        },
+        {
+          "word": " kalabalıkta",
+          "start": 16.22,
+          "end": 16.8,
+          "probability": 0.9848719596862793
+        },
+        {
+          "word": " güvenliği",
+          "start": 16.8,
+          "end": 17.36,
+          "probability": 0.9816133975982666
+        },
+        {
+          "word": " sayım",
+          "start": 17.36,
+          "end": 17.72,
+          "probability": 0.9083756804466248
+        },
+        {
+          "word": " hızının",
+          "start": 17.72,
+          "end": 18.16,
+          "probability": 0.9837307135264078
+        },
+        {
+          "word": " önüne",
+          "start": 18.16,
+          "end": 18.56,
+          "probability": 0.9989467263221741
+        },
+        {
+          "word": " koy.",
+          "start": 18.56,
+          "end": 18.8,
+          "probability": 0.9991832375526428
+        }
+      ]
+    },
+    {
+      "start": 19.26,
+      "end": 22.32,
+      "text": " Sonraki aşama, aktif gün ve hedefe geç.",
+      "avgLogprob": -0.13933141216635703,
+      "noSpeechProb": 0.12969575822353363,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.26,
+          "end": 19.76,
+          "probability": 0.966519296169281
+        },
+        {
+          "word": " aşama,",
+          "start": 19.76,
+          "end": 20.14,
+          "probability": 0.9935993850231171
+        },
+        {
+          "word": " aktif",
+          "start": 20.58,
+          "end": 21.0,
+          "probability": 0.9500485956668854
+        },
+        {
+          "word": " gün",
+          "start": 21.0,
+          "end": 21.22,
+          "probability": 0.9960839748382568
+        },
+        {
+          "word": " ve",
+          "start": 21.22,
+          "end": 21.68,
+          "probability": 0.989707350730896
+        },
+        {
+          "word": " hedefe",
+          "start": 21.68,
+          "end": 22.1,
+          "probability": 0.984144945939382
+        },
+        {
+          "word": " geç.",
+          "start": 22.1,
+          "end": 22.32,
+          "probability": 0.9995717406272888
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "mina ve cemarat aşaması için hazırlık yapılır hazırlık kafile rota ve güvenlik talimatlarını al yapılacak işlem taş hazırlığı ve sonraki hareketi rehberlikle öğren dikkat kalabalıkta güvenliği sayım hızının önüne koy sonraki aşama aktif gün ve hedefe geç",
+    "normalizedASR": "mina ve cemaat aşaması için hazırlık yapılır hazırlık kafile rota ve güvenlik talimatlarını al yapılacak işlem taş hazırlığı ve sonraki hareketi rehberlikle öğren dikkat kalabalıkta güvenliği sayım hızının önüne koy sonraki aşama aktif gün ve hedefe geç",
+    "wer": 0.02702702702702703,
+    "cer": 0.003937007874015748,
+    "hits": 36,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "cemarat",
+        "asr": "cemaat",
+        "referenceWordStart": 2
+      }
+    ],
+    "religiousTermCounts": {
+      "mina": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.625241994857788,
+  "humanApproval": false
+}

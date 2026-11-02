@@ -1,0 +1,339 @@
+{
+  "audioId": "A-U09.2-TR-01",
+  "audioSha256": "4c1038d7da529231b95e41d2aa1dcf925942143a87612b4639c81616e551397c",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Sahi 7 tek yönlü geçişten oluşur ve merve de biter. Hazırlık, kaldığın yönü ve sayıyı gözden geçir. Yapılacak işlem, her tamamlanan geçişte sayacı kendin artır. Dikkat, eksik geçişin dini sonucu sayaçtan belirlenmez. Sonraki aşama tahallül bilgisine geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.1,
+      "text": " Sahi 7 tek yönlü geçişten oluşur ve merve de biter.",
+      "avgLogprob": -0.15318132027983666,
+      "noSpeechProb": 0.08966238796710968,
+      "words": [
+        {
+          "word": " Sahi",
+          "start": 0.0,
+          "end": 1.12,
+          "probability": 0.612332209944725
+        },
+        {
+          "word": " 7",
+          "start": 1.12,
+          "end": 1.32,
+          "probability": 0.6460192203521729
+        },
+        {
+          "word": " tek",
+          "start": 1.32,
+          "end": 1.62,
+          "probability": 0.9210208058357239
+        },
+        {
+          "word": " yönlü",
+          "start": 1.62,
+          "end": 1.98,
+          "probability": 0.9302298426628113
+        },
+        {
+          "word": " geçişten",
+          "start": 1.98,
+          "end": 2.42,
+          "probability": 0.9887166221936544
+        },
+        {
+          "word": " oluşur",
+          "start": 2.42,
+          "end": 2.92,
+          "probability": 0.9964339435100555
+        },
+        {
+          "word": " ve",
+          "start": 2.92,
+          "end": 3.12,
+          "probability": 0.988003134727478
+        },
+        {
+          "word": " merve",
+          "start": 3.12,
+          "end": 3.48,
+          "probability": 0.6231150925159454
+        },
+        {
+          "word": " de",
+          "start": 3.48,
+          "end": 3.66,
+          "probability": 0.598361074924469
+        },
+        {
+          "word": " biter.",
+          "start": 3.66,
+          "end": 4.1,
+          "probability": 0.9970353245735168
+        }
+      ]
+    },
+    {
+      "start": 4.46,
+      "end": 7.7,
+      "text": " Hazırlık, kaldığın yönü ve sayıyı gözden geçir.",
+      "avgLogprob": -0.15318132027983666,
+      "noSpeechProb": 0.08966238796710968,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.46,
+          "end": 5.12,
+          "probability": 0.9829840262730917
+        },
+        {
+          "word": " kaldığın",
+          "start": 5.5,
+          "end": 6.04,
+          "probability": 0.9709536731243134
+        },
+        {
+          "word": " yönü",
+          "start": 6.04,
+          "end": 6.38,
+          "probability": 0.991966187953949
+        },
+        {
+          "word": " ve",
+          "start": 6.38,
+          "end": 6.5,
+          "probability": 0.9949387311935425
+        },
+        {
+          "word": " sayıyı",
+          "start": 6.5,
+          "end": 6.88,
+          "probability": 0.8497425317764282
+        },
+        {
+          "word": " gözden",
+          "start": 6.88,
+          "end": 7.3,
+          "probability": 0.9852828979492188
+        },
+        {
+          "word": " geçir.",
+          "start": 7.3,
+          "end": 7.7,
+          "probability": 0.9973481595516205
+        }
+      ]
+    },
+    {
+      "start": 8.16,
+      "end": 12.42,
+      "text": " Yapılacak işlem, her tamamlanan geçişte sayacı kendin artır.",
+      "avgLogprob": -0.15318132027983666,
+      "noSpeechProb": 0.08966238796710968,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 8.16,
+          "end": 8.68,
+          "probability": 0.9876638452212015
+        },
+        {
+          "word": " işlem,",
+          "start": 8.68,
+          "end": 9.06,
+          "probability": 0.9921259880065918
+        },
+        {
+          "word": " her",
+          "start": 9.56,
+          "end": 9.74,
+          "probability": 0.9482207298278809
+        },
+        {
+          "word": " tamamlanan",
+          "start": 9.74,
+          "end": 10.36,
+          "probability": 0.9926387270291647
+        },
+        {
+          "word": " geçişte",
+          "start": 10.36,
+          "end": 10.94,
+          "probability": 0.9815763433774313
+        },
+        {
+          "word": " sayacı",
+          "start": 10.94,
+          "end": 11.46,
+          "probability": 0.9083867371082306
+        },
+        {
+          "word": " kendin",
+          "start": 11.46,
+          "end": 11.96,
+          "probability": 0.8119650781154633
+        },
+        {
+          "word": " artır.",
+          "start": 11.96,
+          "end": 12.42,
+          "probability": 0.9950121343135834
+        }
+      ]
+    },
+    {
+      "start": 13.54,
+      "end": 17.74,
+      "text": " Dikkat, eksik geçişin dini sonucu sayaçtan belirlenmez.",
+      "avgLogprob": -0.15318132027983666,
+      "noSpeechProb": 0.08966238796710968,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 13.54,
+          "end": 14.42,
+          "probability": 0.9870871702829996
+        },
+        {
+          "word": " eksik",
+          "start": 14.84,
+          "end": 15.24,
+          "probability": 0.9565128982067108
+        },
+        {
+          "word": " geçişin",
+          "start": 15.24,
+          "end": 15.7,
+          "probability": 0.9976901809374491
+        },
+        {
+          "word": " dini",
+          "start": 15.7,
+          "end": 15.98,
+          "probability": 0.9679466485977173
+        },
+        {
+          "word": " sonucu",
+          "start": 15.98,
+          "end": 16.44,
+          "probability": 0.9947931170463562
+        },
+        {
+          "word": " sayaçtan",
+          "start": 16.44,
+          "end": 17.0,
+          "probability": 0.9050037115812302
+        },
+        {
+          "word": " belirlenmez.",
+          "start": 17.0,
+          "end": 17.74,
+          "probability": 0.8640782684087753
+        }
+      ]
+    },
+    {
+      "start": 18.18,
+      "end": 20.66,
+      "text": " Sonraki aşama tahallül bilgisine geç.",
+      "avgLogprob": -0.15318132027983666,
+      "noSpeechProb": 0.08966238796710968,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 18.18,
+          "end": 18.78,
+          "probability": 0.8506319224834442
+        },
+        {
+          "word": " aşama",
+          "start": 18.78,
+          "end": 19.14,
+          "probability": 0.9847246706485748
+        },
+        {
+          "word": " tahallül",
+          "start": 19.14,
+          "end": 19.92,
+          "probability": 0.79221111536026
+        },
+        {
+          "word": " bilgisine",
+          "start": 19.92,
+          "end": 20.42,
+          "probability": 0.9883993268013
+        },
+        {
+          "word": " geç.",
+          "start": 20.42,
+          "end": 20.66,
+          "probability": 0.9996229410171509
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "say yedi tek yönlü geçişten oluşur ve mervede biter hazırlık kaldığın yönü ve sayıyı gözden geçir yapılacak işlem her tamamlanan geçişte sayacı kendin artır dikkat eksik geçişin dini sonucu sayaçtan belirlenmez sonraki aşama tahallül bilgisine geç",
+    "normalizedASR": "sahi 7 tek yönlü geçişten oluşur ve merve de biter hazırlık kaldığın yönü ve sayıyı gözden geçir yapılacak işlem her tamamlanan geçişte sayacı kendin artır dikkat eksik geçişin dini sonucu sayaçtan belirlenmez sonraki aşama tahallül bilgisine geç",
+    "wer": 0.1111111111111111,
+    "cer": 0.02834008097165992,
+    "hits": 33,
+    "substitutions": 3,
+    "deletions": 0,
+    "insertions": 1,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "say yedi",
+        "asr": "sahi 7",
+        "referenceWordStart": 0
+      },
+      {
+        "type": "insert",
+        "reference": "",
+        "asr": "merve",
+        "referenceWordStart": 7
+      },
+      {
+        "type": "substitute",
+        "reference": "mervede",
+        "asr": "de",
+        "referenceWordStart": 7
+      }
+    ],
+    "religiousTermCounts": {
+      "merve": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.966604232788086,
+  "humanApproval": false
+}

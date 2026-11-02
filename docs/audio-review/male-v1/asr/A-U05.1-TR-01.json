@@ -1,0 +1,388 @@
+{
+  "audioId": "A-U05.1-TR-01",
+  "audioSha256": "f4fb10b9af21b6d41a89244edffc38fdf5ac17c6d7707318c7ffe20318c80c9c",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Tavaf haiceri esvet hizasından başlar ve KB sol tarafta kalır. Hazırlık, kalabalık ve erişilebilir, güzergah koşullarını gözet. Yapılacak işlem, başlangıç hizasını ve dönüş yönünü öğren. Dikkat, sayaç konum ölçmez veya ibadet geçerliliği vermez. Sonraki aşama, ilk şaftın nasıl sayıldığını incele.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.36,
+      "text": " Tavaf haiceri esvet hizasından başlar ve KB sol tarafta kalır.",
+      "avgLogprob": -0.2045665319825782,
+      "noSpeechProb": 0.14750593900680542,
+      "words": [
+        {
+          "word": " Tavaf",
+          "start": 0.0,
+          "end": 0.96,
+          "probability": 0.7859095732371012
+        },
+        {
+          "word": " haiceri",
+          "start": 0.96,
+          "end": 1.42,
+          "probability": 0.5900050004323324
+        },
+        {
+          "word": " esvet",
+          "start": 1.42,
+          "end": 1.96,
+          "probability": 0.7248659431934357
+        },
+        {
+          "word": " hizasından",
+          "start": 1.96,
+          "end": 2.66,
+          "probability": 0.9468941986560822
+        },
+        {
+          "word": " başlar",
+          "start": 2.66,
+          "end": 3.28,
+          "probability": 0.9961991310119629
+        },
+        {
+          "word": " ve",
+          "start": 3.28,
+          "end": 3.76,
+          "probability": 0.9430198073387146
+        },
+        {
+          "word": " KB",
+          "start": 3.76,
+          "end": 4.16,
+          "probability": 0.7157593965530396
+        },
+        {
+          "word": " sol",
+          "start": 4.16,
+          "end": 4.44,
+          "probability": 0.8897852301597595
+        },
+        {
+          "word": " tarafta",
+          "start": 4.44,
+          "end": 4.92,
+          "probability": 0.9934002757072449
+        },
+        {
+          "word": " kalır.",
+          "start": 4.92,
+          "end": 5.36,
+          "probability": 0.9988754689693451
+        }
+      ]
+    },
+    {
+      "start": 5.82,
+      "end": 10.32,
+      "text": " Hazırlık, kalabalık ve erişilebilir, güzergah koşullarını gözet.",
+      "avgLogprob": -0.2045665319825782,
+      "noSpeechProb": 0.14750593900680542,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.82,
+          "end": 6.48,
+          "probability": 0.9748357137044271
+        },
+        {
+          "word": " kalabalık",
+          "start": 6.86,
+          "end": 7.48,
+          "probability": 0.9914000779390335
+        },
+        {
+          "word": " ve",
+          "start": 7.48,
+          "end": 7.72,
+          "probability": 0.9926238059997559
+        },
+        {
+          "word": " erişilebilir,",
+          "start": 7.72,
+          "end": 8.48,
+          "probability": 0.9809258580207825
+        },
+        {
+          "word": " güzergah",
+          "start": 8.72,
+          "end": 9.26,
+          "probability": 0.8521352857351303
+        },
+        {
+          "word": " koşullarını",
+          "start": 9.26,
+          "end": 9.9,
+          "probability": 0.9872984439134598
+        },
+        {
+          "word": " gözet.",
+          "start": 9.9,
+          "end": 10.32,
+          "probability": 0.9907108843326569
+        }
+      ]
+    },
+    {
+      "start": 11.7,
+      "end": 16.06,
+      "text": " Yapılacak işlem, başlangıç hizasını ve dönüş yönünü öğren.",
+      "avgLogprob": -0.2045665319825782,
+      "noSpeechProb": 0.14750593900680542,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 11.7,
+          "end": 12.3,
+          "probability": 0.9869204163551331
+        },
+        {
+          "word": " işlem,",
+          "start": 12.3,
+          "end": 12.78,
+          "probability": 0.987117737531662
+        },
+        {
+          "word": " başlangıç",
+          "start": 13.28,
+          "end": 13.9,
+          "probability": 0.9854130893945694
+        },
+        {
+          "word": " hizasını",
+          "start": 13.9,
+          "end": 14.5,
+          "probability": 0.9812736809253693
+        },
+        {
+          "word": " ve",
+          "start": 14.5,
+          "end": 15.04,
+          "probability": 0.9880414009094238
+        },
+        {
+          "word": " dönüş",
+          "start": 15.04,
+          "end": 15.48,
+          "probability": 0.9868707060813904
+        },
+        {
+          "word": " yönünü",
+          "start": 15.48,
+          "end": 15.82,
+          "probability": 0.9898412227630615
+        },
+        {
+          "word": " öğren.",
+          "start": 15.82,
+          "end": 16.06,
+          "probability": 0.9820107817649841
+        }
+      ]
+    },
+    {
+      "start": 16.64,
+      "end": 21.16,
+      "text": " Dikkat, sayaç konum ölçmez veya ibadet geçerliliği vermez.",
+      "avgLogprob": -0.2045665319825782,
+      "noSpeechProb": 0.14750593900680542,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.64,
+          "end": 17.08,
+          "probability": 0.9839342832565308
+        },
+        {
+          "word": " sayaç",
+          "start": 17.58,
+          "end": 18.06,
+          "probability": 0.9339017868041992
+        },
+        {
+          "word": " konum",
+          "start": 18.06,
+          "end": 18.42,
+          "probability": 0.9732623994350433
+        },
+        {
+          "word": " ölçmez",
+          "start": 18.42,
+          "end": 18.9,
+          "probability": 0.998070498307546
+        },
+        {
+          "word": " veya",
+          "start": 18.9,
+          "end": 19.22,
+          "probability": 0.9800978899002075
+        },
+        {
+          "word": " ibadet",
+          "start": 19.22,
+          "end": 20.0,
+          "probability": 0.9884499708811442
+        },
+        {
+          "word": " geçerliliği",
+          "start": 20.0,
+          "end": 20.7,
+          "probability": 0.9829414248466491
+        },
+        {
+          "word": " vermez.",
+          "start": 20.7,
+          "end": 21.16,
+          "probability": 0.9937394857406616
+        }
+      ]
+    },
+    {
+      "start": 21.64,
+      "end": 25.42,
+      "text": " Sonraki aşama, ilk şaftın nasıl sayıldığını incele.",
+      "avgLogprob": -0.2045665319825782,
+      "noSpeechProb": 0.14750593900680542,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 21.64,
+          "end": 22.28,
+          "probability": 0.9007746875286102
+        },
+        {
+          "word": " aşama,",
+          "start": 22.28,
+          "end": 22.7,
+          "probability": 0.992471843957901
+        },
+        {
+          "word": " ilk",
+          "start": 23.24,
+          "end": 23.4,
+          "probability": 0.9025883078575134
+        },
+        {
+          "word": " şaftın",
+          "start": 23.4,
+          "end": 23.94,
+          "probability": 0.9300103634595871
+        },
+        {
+          "word": " nasıl",
+          "start": 23.94,
+          "end": 24.34,
+          "probability": 0.8622133135795593
+        },
+        {
+          "word": " sayıldığını",
+          "start": 24.34,
+          "end": 25.0,
+          "probability": 0.9918502370516459
+        },
+        {
+          "word": " incele.",
+          "start": 25.0,
+          "end": 25.42,
+          "probability": 0.8733224868774414
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "tavaf hacer i esved hizasından başlar ve kabe sol tarafta kalır hazırlık kalabalık ve erişilebilir güzergah koşullarını gözet yapılacak işlem başlangıç hizasını ve dönüş yönünü öğren dikkat sayaç konum ölçmez veya ibadet geçerliliği vermez sonraki aşama ilk şavtın nasıl sayıldığını incele",
+    "normalizedASR": "tavaf haiceri esvet hizasından başlar ve kb sol tarafta kalır hazırlık kalabalık ve erişilebilir güzergah koşullarını gözet yapılacak işlem başlangıç hizasını ve dönüş yönünü öğren dikkat sayaç konum ölçmez veya ibadet geçerliliği vermez sonraki aşama ilk şaftın nasıl sayıldığını incele",
+    "wer": 0.12195121951219512,
+    "cer": 0.020761245674740483,
+    "hits": 36,
+    "substitutions": 4,
+    "deletions": 1,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "hacer i",
+        "asr": "haiceri esvet",
+        "referenceWordStart": 1
+      },
+      {
+        "type": "delete",
+        "reference": "esved",
+        "asr": "",
+        "referenceWordStart": 3
+      },
+      {
+        "type": "substitute",
+        "reference": "kabe",
+        "asr": "kb",
+        "referenceWordStart": 7
+      },
+      {
+        "type": "substitute",
+        "reference": "şavtın",
+        "asr": "şaftın",
+        "referenceWordStart": 37
+      }
+    ],
+    "religiousTermCounts": {
+      "şavt": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "hacer": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "esved": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "tavaf": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "kâbe": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "kabe": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.429269313812256,
+  "humanApproval": false
+}

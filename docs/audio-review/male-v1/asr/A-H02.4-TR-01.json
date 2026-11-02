@@ -1,0 +1,395 @@
+{
+  "audioId": "A-H02.4-TR-01",
+  "audioSha256": "3a131fe16a1bd08676a12027888005d4b366c776c57fe01bb993b4ce736470a5",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Hac öncesi tavaf ve sayı ilişkisi profile göre farklılaşabilir. Hazırlık, ifrat, temette veya krank haydını kontrol et. Yapılacak işlem. Kendine uygulanacak ön aşamayı rehberle belirle. Dikkat, uzman onayı olmayan profil filtresi otomatik uygulanmaz. Sonraki aşama. Hak başlangıcına geçişi incele.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.96,
+      "text": " Hac öncesi tavaf ve sayı ilişkisi profile göre farklılaşabilir.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Hac",
+          "start": 0.0,
+          "end": 1.02,
+          "probability": 0.5835708528757095
+        },
+        {
+          "word": " öncesi",
+          "start": 1.02,
+          "end": 1.44,
+          "probability": 0.9839861790339152
+        },
+        {
+          "word": " tavaf",
+          "start": 1.44,
+          "end": 1.86,
+          "probability": 0.692598432302475
+        },
+        {
+          "word": " ve",
+          "start": 1.86,
+          "end": 2.18,
+          "probability": 0.983311653137207
+        },
+        {
+          "word": " sayı",
+          "start": 2.18,
+          "end": 2.58,
+          "probability": 0.5169406235218048
+        },
+        {
+          "word": " ilişkisi",
+          "start": 2.58,
+          "end": 3.1,
+          "probability": 0.9970079511404037
+        },
+        {
+          "word": " profile",
+          "start": 3.1,
+          "end": 3.56,
+          "probability": 0.9108662605285645
+        },
+        {
+          "word": " göre",
+          "start": 3.56,
+          "end": 3.78,
+          "probability": 0.9955118298530579
+        },
+        {
+          "word": " farklılaşabilir.",
+          "start": 3.78,
+          "end": 4.96,
+          "probability": 0.8824169834454855
+        }
+      ]
+    },
+    {
+      "start": 5.42,
+      "end": 9.54,
+      "text": " Hazırlık, ifrat, temette veya krank haydını kontrol et.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.42,
+          "end": 6.02,
+          "probability": 0.9852603673934937
+        },
+        {
+          "word": " ifrat,",
+          "start": 6.34,
+          "end": 6.76,
+          "probability": 0.7554626762866974
+        },
+        {
+          "word": " temette",
+          "start": 7.32,
+          "end": 7.68,
+          "probability": 0.5843620002269745
+        },
+        {
+          "word": " veya",
+          "start": 7.68,
+          "end": 8.02,
+          "probability": 0.9873857498168945
+        },
+        {
+          "word": " krank",
+          "start": 8.02,
+          "end": 8.46,
+          "probability": 0.7579384744167328
+        },
+        {
+          "word": " haydını",
+          "start": 8.46,
+          "end": 8.84,
+          "probability": 0.7595263421535492
+        },
+        {
+          "word": " kontrol",
+          "start": 8.84,
+          "end": 9.26,
+          "probability": 0.9898800849914551
+        },
+        {
+          "word": " et.",
+          "start": 9.26,
+          "end": 9.54,
+          "probability": 0.9909085631370544
+        }
+      ]
+    },
+    {
+      "start": 10.660000000000002,
+      "end": 12.02,
+      "text": " Yapılacak işlem.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.660000000000002,
+          "end": 11.58,
+          "probability": 0.9877527356147766
+        },
+        {
+          "word": " işlem.",
+          "start": 11.58,
+          "end": 12.02,
+          "probability": 0.9791823625564575
+        }
+      ]
+    },
+    {
+      "start": 12.56,
+      "end": 15.32,
+      "text": " Kendine uygulanacak ön aşamayı rehberle belirle.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Kendine",
+          "start": 12.56,
+          "end": 12.9,
+          "probability": 0.9822201728820801
+        },
+        {
+          "word": " uygulanacak",
+          "start": 12.9,
+          "end": 13.64,
+          "probability": 0.9881123453378677
+        },
+        {
+          "word": " ön",
+          "start": 13.64,
+          "end": 13.9,
+          "probability": 0.8299806118011475
+        },
+        {
+          "word": " aşamayı",
+          "start": 13.9,
+          "end": 14.36,
+          "probability": 0.9902159969011942
+        },
+        {
+          "word": " rehberle",
+          "start": 14.36,
+          "end": 14.88,
+          "probability": 0.9851184884707133
+        },
+        {
+          "word": " belirle.",
+          "start": 14.88,
+          "end": 15.32,
+          "probability": 0.9869221250216166
+        }
+      ]
+    },
+    {
+      "start": 15.86,
+      "end": 20.72,
+      "text": " Dikkat, uzman onayı olmayan profil filtresi otomatik uygulanmaz.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.86,
+          "end": 16.3,
+          "probability": 0.9835463960965475
+        },
+        {
+          "word": " uzman",
+          "start": 16.82,
+          "end": 17.16,
+          "probability": 0.9878672063350677
+        },
+        {
+          "word": " onayı",
+          "start": 17.16,
+          "end": 17.52,
+          "probability": 0.8289436101913452
+        },
+        {
+          "word": " olmayan",
+          "start": 17.52,
+          "end": 18.06,
+          "probability": 0.9987035393714905
+        },
+        {
+          "word": " profil",
+          "start": 18.06,
+          "end": 18.5,
+          "probability": 0.9777364432811737
+        },
+        {
+          "word": " filtresi",
+          "start": 18.5,
+          "end": 19.24,
+          "probability": 0.9538193345069885
+        },
+        {
+          "word": " otomatik",
+          "start": 19.24,
+          "end": 20.06,
+          "probability": 0.9749342401822408
+        },
+        {
+          "word": " uygulanmaz.",
+          "start": 20.06,
+          "end": 20.72,
+          "probability": 0.9965987354516983
+        }
+      ]
+    },
+    {
+      "start": 21.2,
+      "end": 22.2,
+      "text": " Sonraki aşama.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 21.2,
+          "end": 21.78,
+          "probability": 0.8070831298828125
+        },
+        {
+          "word": " aşama.",
+          "start": 21.78,
+          "end": 22.2,
+          "probability": 0.9938667714595795
+        }
+      ]
+    },
+    {
+      "start": 22.76,
+      "end": 25.08,
+      "text": " Hak başlangıcına geçişi incele.",
+      "avgLogprob": -0.18543543384856537,
+      "noSpeechProb": 0.23393850028514862,
+      "words": [
+        {
+          "word": " Hak",
+          "start": 22.76,
+          "end": 23.08,
+          "probability": 0.40793943405151367
+        },
+        {
+          "word": " başlangıcına",
+          "start": 23.08,
+          "end": 23.96,
+          "probability": 0.961452305316925
+        },
+        {
+          "word": " geçişi",
+          "start": 23.96,
+          "end": 24.66,
+          "probability": 0.979491114616394
+        },
+        {
+          "word": " incele.",
+          "start": 24.66,
+          "end": 25.08,
+          "probability": 0.8668151497840881
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "hac öncesi tavaf ve say ilişkisi profile göre farklılaşabilir hazırlık ifrad temettü veya kıran kaydını kontrol et yapılacak işlem kendine uygulanacak ön aşamayı rehberle belirle dikkat uzman onayı olmayan profil filtresi otomatik uygulanmaz sonraki aşama hac başlangıcına geçişi incele",
+    "normalizedASR": "hac öncesi tavaf ve sayı ilişkisi profile göre farklılaşabilir hazırlık ifrat temette veya krank haydını kontrol et yapılacak işlem kendine uygulanacak ön aşamayı rehberle belirle dikkat uzman onayı olmayan profil filtresi otomatik uygulanmaz sonraki aşama hak başlangıcına geçişi incele",
+    "wer": 0.15384615384615385,
+    "cer": 0.024475524475524476,
+    "hits": 33,
+    "substitutions": 6,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "say",
+        "asr": "sayı",
+        "referenceWordStart": 4
+      },
+      {
+        "type": "substitute",
+        "reference": "ifrad temettü",
+        "asr": "ifrat temette",
+        "referenceWordStart": 10
+      },
+      {
+        "type": "substitute",
+        "reference": "kıran kaydını",
+        "asr": "krank haydını",
+        "referenceWordStart": 13
+      },
+      {
+        "type": "substitute",
+        "reference": "hac",
+        "asr": "hak",
+        "referenceWordStart": 35
+      }
+    ],
+    "religiousTermCounts": {
+      "hac": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 1,
+        "matchesCount": false
+      },
+      "tavaf": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "temettü": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "ifrad": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "kıran": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.307161569595337,
+  "humanApproval": false
+}

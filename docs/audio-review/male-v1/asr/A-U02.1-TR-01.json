@@ -1,0 +1,383 @@
+{
+  "audioId": "A-U02.1-TR-01",
+  "audioSha256": "d7d1fb5b6c71a12195e7c77c968d95f33954841ac874effdba3119e1618532bd",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "İhram ve Mikat, umrenin başlangıcını anlamak için birlikte ele alınır. Hazırlık, güzergahındaki Mikat bilgisini kafile, rehberinden öğren. Yapılacak işlem, İhram'ın niyetle ilgili ibadet hali olduğunu incele. Dikkat, Mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz. Sonraki aşama, niyet ve telbiye başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.48,
+      "text": " İhram ve Mikat, umrenin başlangıcını anlamak için birlikte ele alınır.",
+      "avgLogprob": -0.22625342596357115,
+      "noSpeechProb": 0.17986483871936798,
+      "words": [
+        {
+          "word": " İhram",
+          "start": 0.0,
+          "end": 1.26,
+          "probability": 0.8950532277425131
+        },
+        {
+          "word": " ve",
+          "start": 1.26,
+          "end": 1.44,
+          "probability": 0.9832426309585571
+        },
+        {
+          "word": " Mikat,",
+          "start": 1.44,
+          "end": 1.9,
+          "probability": 0.5097799301147461
+        },
+        {
+          "word": " umrenin",
+          "start": 2.22,
+          "end": 2.72,
+          "probability": 0.7941247622172037
+        },
+        {
+          "word": " başlangıcını",
+          "start": 2.72,
+          "end": 3.42,
+          "probability": 0.9755457401275635
+        },
+        {
+          "word": " anlamak",
+          "start": 3.42,
+          "end": 3.86,
+          "probability": 0.9910913705825806
+        },
+        {
+          "word": " için",
+          "start": 3.86,
+          "end": 4.14,
+          "probability": 0.9996298551559448
+        },
+        {
+          "word": " birlikte",
+          "start": 4.14,
+          "end": 4.56,
+          "probability": 0.7435103058815002
+        },
+        {
+          "word": " ele",
+          "start": 4.56,
+          "end": 4.98,
+          "probability": 0.9703888297080994
+        },
+        {
+          "word": " alınır.",
+          "start": 4.98,
+          "end": 5.48,
+          "probability": 0.9944284756978353
+        }
+      ]
+    },
+    {
+      "start": 5.96,
+      "end": 10.68,
+      "text": " Hazırlık, güzergahındaki Mikat bilgisini kafile, rehberinden öğren.",
+      "avgLogprob": -0.22625342596357115,
+      "noSpeechProb": 0.17986483871936798,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.96,
+          "end": 6.8,
+          "probability": 0.9750635425249735
+        },
+        {
+          "word": " güzergahındaki",
+          "start": 7.24,
+          "end": 7.94,
+          "probability": 0.8478025317192077
+        },
+        {
+          "word": " Mikat",
+          "start": 7.94,
+          "end": 8.42,
+          "probability": 0.9753379225730896
+        },
+        {
+          "word": " bilgisini",
+          "start": 8.42,
+          "end": 8.96,
+          "probability": 0.9755262732505798
+        },
+        {
+          "word": " kafile,",
+          "start": 8.96,
+          "end": 9.58,
+          "probability": 0.7633668184280396
+        },
+        {
+          "word": " rehberinden",
+          "start": 9.82,
+          "end": 10.4,
+          "probability": 0.9368550976117452
+        },
+        {
+          "word": " öğren.",
+          "start": 10.4,
+          "end": 10.68,
+          "probability": 0.9400800466537476
+        }
+      ]
+    },
+    {
+      "start": 12.12,
+      "end": 17.2,
+      "text": " Yapılacak işlem, İhram'ın niyetle ilgili ibadet hali olduğunu incele.",
+      "avgLogprob": -0.22625342596357115,
+      "noSpeechProb": 0.17986483871936798,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 12.12,
+          "end": 12.86,
+          "probability": 0.9797481894493103
+        },
+        {
+          "word": " işlem,",
+          "start": 12.86,
+          "end": 13.28,
+          "probability": 0.9841092824935913
+        },
+        {
+          "word": " İhram",
+          "start": 13.78,
+          "end": 14.16,
+          "probability": 0.9824708302815756
+        },
+        {
+          "word": "'ın",
+          "start": 14.16,
+          "end": 14.32,
+          "probability": 0.8921952247619629
+        },
+        {
+          "word": " niyetle",
+          "start": 14.32,
+          "end": 14.82,
+          "probability": 0.9720166921615601
+        },
+        {
+          "word": " ilgili",
+          "start": 14.82,
+          "end": 15.16,
+          "probability": 0.9961125254631042
+        },
+        {
+          "word": " ibadet",
+          "start": 15.16,
+          "end": 15.96,
+          "probability": 0.9747570157051086
+        },
+        {
+          "word": " hali",
+          "start": 15.96,
+          "end": 16.32,
+          "probability": 0.8957239389419556
+        },
+        {
+          "word": " olduğunu",
+          "start": 16.32,
+          "end": 16.68,
+          "probability": 0.9960000514984131
+        },
+        {
+          "word": " incele.",
+          "start": 16.68,
+          "end": 17.2,
+          "probability": 0.8344975511233012
+        }
+      ]
+    },
+    {
+      "start": 17.62,
+      "end": 23.06,
+      "text": " Dikkat, Mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz.",
+      "avgLogprob": -0.22625342596357115,
+      "noSpeechProb": 0.17986483871936798,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 17.62,
+          "end": 18.06,
+          "probability": 0.9841371575991312
+        },
+        {
+          "word": " Mikat",
+          "start": 18.52,
+          "end": 18.98,
+          "probability": 0.9911669194698334
+        },
+        {
+          "word": " ve",
+          "start": 18.98,
+          "end": 19.12,
+          "probability": 0.9942635893821716
+        },
+        {
+          "word": " özel",
+          "start": 19.12,
+          "end": 19.42,
+          "probability": 0.9876646995544434
+        },
+        {
+          "word": " durum",
+          "start": 19.42,
+          "end": 19.7,
+          "probability": 0.9934990406036377
+        },
+        {
+          "word": " hükümlerinde",
+          "start": 19.7,
+          "end": 20.54,
+          "probability": 0.9894102692604065
+        },
+        {
+          "word": " kişisel",
+          "start": 20.54,
+          "end": 21.02,
+          "probability": 0.9804393351078033
+        },
+        {
+          "word": " fetva",
+          "start": 21.02,
+          "end": 21.5,
+          "probability": 0.9618653059005737
+        },
+        {
+          "word": " bu",
+          "start": 21.5,
+          "end": 21.96,
+          "probability": 0.7734516859054565
+        },
+        {
+          "word": " karttan",
+          "start": 21.96,
+          "end": 22.42,
+          "probability": 0.9060244262218475
+        },
+        {
+          "word": " çıkarılmaz.",
+          "start": 22.42,
+          "end": 23.06,
+          "probability": 0.991668164730072
+        }
+      ]
+    },
+    {
+      "start": 24.42,
+      "end": 27.38,
+      "text": " Sonraki aşama, niyet ve telbiye başlığına geç.",
+      "avgLogprob": -0.3855743959546089,
+      "noSpeechProb": 0.32176387310028076,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 24.42,
+          "end": 25.14,
+          "probability": 0.5757380202412605
+        },
+        {
+          "word": " aşama,",
+          "start": 25.14,
+          "end": 25.52,
+          "probability": 0.9840316772460938
+        },
+        {
+          "word": " niyet",
+          "start": 25.86,
+          "end": 26.16,
+          "probability": 0.8225981593132019
+        },
+        {
+          "word": " ve",
+          "start": 26.16,
+          "end": 26.32,
+          "probability": 0.9968926906585693
+        },
+        {
+          "word": " telbiye",
+          "start": 26.32,
+          "end": 26.74,
+          "probability": 0.7604453861713409
+        },
+        {
+          "word": " başlığına",
+          "start": 26.74,
+          "end": 27.2,
+          "probability": 0.9773711115121841
+        },
+        {
+          "word": " geç.",
+          "start": 27.2,
+          "end": 27.38,
+          "probability": 0.9985440969467163
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "ihram ve mikat umrenin başlangıcını anlamak için birlikte ele alınır hazırlık güzergahındaki mikat bilgisini kafile rehberinden öğren yapılacak işlem ihramın niyetle ilgili ibadet hali olduğunu incele dikkat mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz sonraki aşama niyet ve telbiye başlığına geç",
+    "normalizedASR": "ihram ve mikat umrenin başlangıcını anlamak için birlikte ele alınır hazırlık güzergahındaki mikat bilgisini kafile rehberinden öğren yapılacak işlem ihramın niyetle ilgili ibadet hali olduğunu incele dikkat mikat ve özel durum hükümlerinde kişisel fetva bu karttan çıkarılmaz sonraki aşama niyet ve telbiye başlığına geç",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 44,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "telbiye": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "ihram": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      },
+      "mikat": {
+        "expectedOccurrences": 3,
+        "asrOccurrences": 3,
+        "matchesCount": true
+      },
+      "umre": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 5.289484739303589,
+  "humanApproval": false
+}

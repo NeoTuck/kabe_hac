@@ -1,0 +1,32 @@
+[
+  {
+    "audioId": "A-H01.1-TR-01",
+    "file": "m4a/A-H01.1-TR-01.m4a",
+    "observedBytes": 44,
+    "receiptBytes": 344913,
+    "observedSha256": "6d9cbac6e7a9532d18e7aa461b3d1cd59ccc6b444646f5e7d1bf8b85169edd69",
+    "expectedSha256": "e4d4c226da69f93601407213e30a72efba885ecc5ca3d07d8a8d4172de882771",
+    "status": "FAILED: changed after generation",
+    "cause": "not determined"
+  },
+  {
+    "audioId": "A-U01.2-TR-01",
+    "file": "wav/A-U01.2-TR-01.wav",
+    "observedBytes": 262144,
+    "receiptBytes": 3534294,
+    "observedSha256": "6e6782ca5a5f009f9c0dcc70ef581d44ea65d6f3d55db73ad9b6130726a6bef3",
+    "expectedSha256": "0892f426e3d2ec8e0f00cea7f06d31d1424817c9d8dd07860d98aa2c2b40b43f",
+    "status": "FAILED: changed after generation",
+    "cause": "not determined"
+  },
+  {
+    "audioId": "A-H10.3-TR-01",
+    "file": "wav/A-H10.3-TR-01.wav",
+    "observedBytes": 2359296,
+    "receiptBytes": 3082710,
+    "observedSha256": "f11276cfe8ab8244c67235edcab85c96f0a45ecaad42aaf648def3383f3c3acc",
+    "expectedSha256": "53e92c4d9417c8d334576f982ca5fcc1845024f4b23e048f6c58f8dee27bfbf8",
+    "status": "FAILED: changed after generation",
+    "cause": "not determined"
+  }
+]

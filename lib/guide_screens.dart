@@ -774,6 +774,8 @@ class _LinkedAudio extends StatelessWidget {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                if (audio.syntheticVoiceDisclosure != null)
+                  Text(audio.syntheticVoiceDisclosure!),
                 if (draftPlayable)
                   const Text(
                     'Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı.',

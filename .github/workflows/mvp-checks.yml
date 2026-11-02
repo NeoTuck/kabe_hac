@@ -24,6 +24,8 @@ jobs:
       - run: python tools/verify_mobile_qa.py
       - run: python -m unittest discover -s tools -p 'test_*.py' -v
       - run: python tools/content_audit.py
+      - run: python tools/prepare_male_review_audio.py --check
+      - run: python tools/build_asset_license_inventory.py --check
       - run: python -m py_compile tools/run_mobile_qa.py tools/verify_mobile_qa.py tools/content_audit.py tools/build_offline_manifest.py tools/release_preflight.py
   flutter:
     runs-on: ubuntu-24.04

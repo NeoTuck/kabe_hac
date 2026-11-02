@@ -1,0 +1,357 @@
+{
+  "audioId": "A-H09.2-TR-01",
+  "audioSha256": "2a6b2898c68c7d0077b8f3933da56e4e55dd2b8a9b6e92ace7df0dcb3a221632",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Günün Cemre sırası ve her hedefin sayımı ayrı tutulur. Hazırlık, kafile ve yetkili rehberden sırayı teyit et, yapılacak işlem, her hedefte gerçekleşen atışları manüel işaretle. Dikkat, sayaç dini kabul, isabet veya sahâ güvenliği ölçümü değildir. Sonraki aşama, devam veya ayrılma dalına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.18,
+      "text": " Günün Cemre sırası ve her hedefin sayımı ayrı tutulur.",
+      "avgLogprob": -0.22529258981215217,
+      "noSpeechProb": 0.07127824425697327,
+      "words": [
+        {
+          "word": " Günün",
+          "start": 0.0,
+          "end": 0.8,
+          "probability": 0.730463907122612
+        },
+        {
+          "word": " Cemre",
+          "start": 0.8,
+          "end": 1.26,
+          "probability": 0.8073011040687561
+        },
+        {
+          "word": " sırası",
+          "start": 1.26,
+          "end": 1.74,
+          "probability": 0.9737705290317535
+        },
+        {
+          "word": " ve",
+          "start": 1.74,
+          "end": 2.12,
+          "probability": 0.9734621047973633
+        },
+        {
+          "word": " her",
+          "start": 2.12,
+          "end": 2.4,
+          "probability": 0.990584135055542
+        },
+        {
+          "word": " hedefin",
+          "start": 2.4,
+          "end": 2.78,
+          "probability": 0.9722814162572225
+        },
+        {
+          "word": " sayımı",
+          "start": 2.78,
+          "end": 3.32,
+          "probability": 0.9906725883483887
+        },
+        {
+          "word": " ayrı",
+          "start": 3.32,
+          "end": 3.7,
+          "probability": 0.996543675661087
+        },
+        {
+          "word": " tutulur.",
+          "start": 3.7,
+          "end": 4.18,
+          "probability": 0.9981413880983988
+        }
+      ]
+    },
+    {
+      "start": 4.62,
+      "end": 9.78,
+      "text": " Hazırlık, kafile ve yetkili rehberden sırayı teyit et, yapılacak işlem,",
+      "avgLogprob": -0.22529258981215217,
+      "noSpeechProb": 0.07127824425697327,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.62,
+          "end": 5.2,
+          "probability": 0.9785139958063761
+        },
+        {
+          "word": " kafile",
+          "start": 5.54,
+          "end": 6.08,
+          "probability": 0.781348317861557
+        },
+        {
+          "word": " ve",
+          "start": 6.08,
+          "end": 6.34,
+          "probability": 0.9976492524147034
+        },
+        {
+          "word": " yetkili",
+          "start": 6.34,
+          "end": 6.78,
+          "probability": 0.9739027619361877
+        },
+        {
+          "word": " rehberden",
+          "start": 6.78,
+          "end": 7.4,
+          "probability": 0.9778351783752441
+        },
+        {
+          "word": " sırayı",
+          "start": 7.4,
+          "end": 7.92,
+          "probability": 0.9586106141408285
+        },
+        {
+          "word": " teyit",
+          "start": 7.92,
+          "end": 8.2,
+          "probability": 0.8235611319541931
+        },
+        {
+          "word": " et,",
+          "start": 8.2,
+          "end": 8.36,
+          "probability": 0.9902752637863159
+        },
+        {
+          "word": " yapılacak",
+          "start": 8.78,
+          "end": 9.36,
+          "probability": 0.9624533355236053
+        },
+        {
+          "word": " işlem,",
+          "start": 9.36,
+          "end": 9.78,
+          "probability": 0.9937235414981842
+        }
+      ]
+    },
+    {
+      "start": 10.26,
+      "end": 13.9,
+      "text": " her hedefte gerçekleşen atışları manüel işaretle.",
+      "avgLogprob": -0.22529258981215217,
+      "noSpeechProb": 0.07127824425697327,
+      "words": [
+        {
+          "word": " her",
+          "start": 10.26,
+          "end": 10.46,
+          "probability": 0.9922360777854919
+        },
+        {
+          "word": " hedefte",
+          "start": 10.46,
+          "end": 10.96,
+          "probability": 0.9419706066449484
+        },
+        {
+          "word": " gerçekleşen",
+          "start": 10.96,
+          "end": 11.86,
+          "probability": 0.9984356363614401
+        },
+        {
+          "word": " atışları",
+          "start": 11.86,
+          "end": 12.52,
+          "probability": 0.9390920996665955
+        },
+        {
+          "word": " manüel",
+          "start": 12.52,
+          "end": 13.1,
+          "probability": 0.6710783541202545
+        },
+        {
+          "word": " işaretle.",
+          "start": 13.1,
+          "end": 13.9,
+          "probability": 0.9711243311564127
+        }
+      ]
+    },
+    {
+      "start": 14.88,
+      "end": 20.06,
+      "text": " Dikkat, sayaç dini kabul, isabet veya sahâ güvenliği ölçümü değildir.",
+      "avgLogprob": -0.22529258981215217,
+      "noSpeechProb": 0.07127824425697327,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 14.88,
+          "end": 15.5,
+          "probability": 0.9849188725153605
+        },
+        {
+          "word": " sayaç",
+          "start": 16.0,
+          "end": 16.42,
+          "probability": 0.9026901523272196
+        },
+        {
+          "word": " dini",
+          "start": 16.42,
+          "end": 16.68,
+          "probability": 0.9471010565757751
+        },
+        {
+          "word": " kabul,",
+          "start": 16.68,
+          "end": 16.96,
+          "probability": 0.9558932781219482
+        },
+        {
+          "word": " isabet",
+          "start": 17.44,
+          "end": 17.82,
+          "probability": 0.958320289850235
+        },
+        {
+          "word": " veya",
+          "start": 17.82,
+          "end": 18.2,
+          "probability": 0.9565811157226562
+        },
+        {
+          "word": " sahâ",
+          "start": 18.2,
+          "end": 18.6,
+          "probability": 0.6136406362056732
+        },
+        {
+          "word": " güvenliği",
+          "start": 18.6,
+          "end": 19.12,
+          "probability": 0.9919177442789078
+        },
+        {
+          "word": " ölçümü",
+          "start": 19.12,
+          "end": 19.54,
+          "probability": 0.9933488567670187
+        },
+        {
+          "word": " değildir.",
+          "start": 19.54,
+          "end": 20.06,
+          "probability": 0.9988104701042175
+        }
+      ]
+    },
+    {
+      "start": 20.52,
+      "end": 23.64,
+      "text": " Sonraki aşama, devam veya ayrılma dalına geç.",
+      "avgLogprob": -0.22529258981215217,
+      "noSpeechProb": 0.07127824425697327,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.52,
+          "end": 21.06,
+          "probability": 0.9078705310821533
+        },
+        {
+          "word": " aşama,",
+          "start": 21.06,
+          "end": 21.42,
+          "probability": 0.9879604578018188
+        },
+        {
+          "word": " devam",
+          "start": 21.8,
+          "end": 22.14,
+          "probability": 0.9212403297424316
+        },
+        {
+          "word": " veya",
+          "start": 22.14,
+          "end": 22.46,
+          "probability": 0.9926716089248657
+        },
+        {
+          "word": " ayrılma",
+          "start": 22.46,
+          "end": 23.16,
+          "probability": 0.9974821209907532
+        },
+        {
+          "word": " dalına",
+          "start": 23.16,
+          "end": 23.48,
+          "probability": 0.9938502907752991
+        },
+        {
+          "word": " geç.",
+          "start": 23.48,
+          "end": 23.64,
+          "probability": 0.9996148347854614
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "günün cemre sırası ve her hedefin sayımı ayrı tutulur hazırlık kafile ve yetkili rehberden sırayı teyit et yapılacak işlem her hedefte gerçekleşen atışları manuel işaretle dikkat sayaç dini kabul isabet veya saha güvenliği ölçümü değildir sonraki aşama devam veya ayrılma dalına geç",
+    "normalizedASR": "günün cemre sırası ve her hedefin sayımı ayrı tutulur hazırlık kafile ve yetkili rehberden sırayı teyit et yapılacak işlem her hedefte gerçekleşen atışları manüel işaretle dikkat sayaç dini kabul isabet veya saha güvenliği ölçümü değildir sonraki aşama devam veya ayrılma dalına geç",
+    "wer": 0.023809523809523808,
+    "cer": 0.0035460992907801418,
+    "hits": 41,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "manuel",
+        "asr": "manüel",
+        "referenceWordStart": 23
+      }
+    ],
+    "religiousTermCounts": {
+      "cemre": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.020160436630249,
+  "humanApproval": false
+}

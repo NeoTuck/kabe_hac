@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Bind the reviewed inventory to bundled, explicitly draft synthetic audio.
+"""Historical importer for the earlier female draft synthetic audio.
 
 The receipt and current text must agree before any bundled catalog is changed.
-Use --check in CI to detect later edits to either the catalog or audio files.
+The female importer is historical; restoring it requires an explicit flag.
 """
 
 import argparse
@@ -113,7 +113,10 @@ def prepare() -> tuple[list[dict], list[tuple[Path, Path]]]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--restore-historical-female", action="store_true")
     args = parser.parse_args()
+    if not args.check and not args.restore_historical_female:
+        parser.error('historical female import requires --restore-historical-female')
     catalogs, copies = prepare()
     for (source, destination) in copies:
         if args.check:

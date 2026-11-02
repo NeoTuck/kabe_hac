@@ -1,0 +1,314 @@
+{
+  "audioId": "A-H04.4-TR-01",
+  "audioSha256": "a40211bc086ecb8ac405d1b52afd149f747fa3cc2caaa073cdc4656424e010cf",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Arafat sonrasında sıradaki geçiş Muzdelayfe yönündedir. Hazırlık, ulaşım ve kalabalık koşullarını kontrol et. Yapılacak işlem, kafile, hareket planına uy. Dikkat, uygulama canlı ulaşım veya sahasınırı sağlamaz. Sonraki aşama, gece varışı başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.5,
+      "text": " Arafat sonrasında sıradaki geçiş Muzdelayfe yönündedir.",
+      "avgLogprob": -0.1861544902463561,
+      "noSpeechProb": 0.23030760884284973,
+      "words": [
+        {
+          "word": " Arafat",
+          "start": 0.0,
+          "end": 1.3,
+          "probability": 0.6510899513959885
+        },
+        {
+          "word": " sonrasında",
+          "start": 1.3,
+          "end": 1.96,
+          "probability": 0.9848080078760783
+        },
+        {
+          "word": " sıradaki",
+          "start": 1.96,
+          "end": 2.5,
+          "probability": 0.9684818089008331
+        },
+        {
+          "word": " geçiş",
+          "start": 2.5,
+          "end": 3.0,
+          "probability": 0.994854599237442
+        },
+        {
+          "word": " Muzdelayfe",
+          "start": 3.0,
+          "end": 3.8,
+          "probability": 0.6139971151947975
+        },
+        {
+          "word": " yönündedir.",
+          "start": 3.8,
+          "end": 4.5,
+          "probability": 0.9782792031764984
+        }
+      ]
+    },
+    {
+      "start": 5.14,
+      "end": 9.04,
+      "text": " Hazırlık, ulaşım ve kalabalık koşullarını kontrol et.",
+      "avgLogprob": -0.1861544902463561,
+      "noSpeechProb": 0.23030760884284973,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.14,
+          "end": 5.76,
+          "probability": 0.9800462126731873
+        },
+        {
+          "word": " ulaşım",
+          "start": 6.06,
+          "end": 6.66,
+          "probability": 0.8033807774384817
+        },
+        {
+          "word": " ve",
+          "start": 6.66,
+          "end": 6.96,
+          "probability": 0.9952168464660645
+        },
+        {
+          "word": " kalabalık",
+          "start": 6.96,
+          "end": 7.54,
+          "probability": 0.9924762099981308
+        },
+        {
+          "word": " koşullarını",
+          "start": 7.54,
+          "end": 8.26,
+          "probability": 0.9930741786956787
+        },
+        {
+          "word": " kontrol",
+          "start": 8.26,
+          "end": 8.78,
+          "probability": 0.989913821220398
+        },
+        {
+          "word": " et.",
+          "start": 8.78,
+          "end": 9.04,
+          "probability": 0.9838284254074097
+        }
+      ]
+    },
+    {
+      "start": 9.58,
+      "end": 12.84,
+      "text": " Yapılacak işlem, kafile, hareket planına uy.",
+      "avgLogprob": -0.1861544902463561,
+      "noSpeechProb": 0.23030760884284973,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.58,
+          "end": 10.1,
+          "probability": 0.9877633253733317
+        },
+        {
+          "word": " işlem,",
+          "start": 10.1,
+          "end": 10.5,
+          "probability": 0.9748829007148743
+        },
+        {
+          "word": " kafile,",
+          "start": 10.98,
+          "end": 11.46,
+          "probability": 0.7868998944759369
+        },
+        {
+          "word": " hareket",
+          "start": 11.64,
+          "end": 12.0,
+          "probability": 0.9916762709617615
+        },
+        {
+          "word": " planına",
+          "start": 12.0,
+          "end": 12.52,
+          "probability": 0.8965062499046326
+        },
+        {
+          "word": " uy.",
+          "start": 12.52,
+          "end": 12.84,
+          "probability": 0.8021730780601501
+        }
+      ]
+    },
+    {
+      "start": 13.9,
+      "end": 18.4,
+      "text": " Dikkat, uygulama canlı ulaşım veya sahasınırı sağlamaz.",
+      "avgLogprob": -0.1861544902463561,
+      "noSpeechProb": 0.23030760884284973,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 13.9,
+          "end": 14.84,
+          "probability": 0.9807483951250712
+        },
+        {
+          "word": " uygulama",
+          "start": 15.3,
+          "end": 15.74,
+          "probability": 0.993807464838028
+        },
+        {
+          "word": " canlı",
+          "start": 15.74,
+          "end": 16.12,
+          "probability": 0.9851466715335846
+        },
+        {
+          "word": " ulaşım",
+          "start": 16.12,
+          "end": 16.58,
+          "probability": 0.9992090861002604
+        },
+        {
+          "word": " veya",
+          "start": 16.58,
+          "end": 16.96,
+          "probability": 0.9773329496383667
+        },
+        {
+          "word": " sahasınırı",
+          "start": 16.96,
+          "end": 17.76,
+          "probability": 0.8198963880538941
+        },
+        {
+          "word": " sağlamaz.",
+          "start": 17.76,
+          "end": 18.4,
+          "probability": 0.9636481404304504
+        }
+      ]
+    },
+    {
+      "start": 18.8,
+      "end": 21.56,
+      "text": " Sonraki aşama, gece varışı başlığına geç.",
+      "avgLogprob": -0.1861544902463561,
+      "noSpeechProb": 0.23030760884284973,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 18.8,
+          "end": 19.38,
+          "probability": 0.9163804948329926
+        },
+        {
+          "word": " aşama,",
+          "start": 19.38,
+          "end": 19.76,
+          "probability": 0.9909752905368805
+        },
+        {
+          "word": " gece",
+          "start": 20.24,
+          "end": 20.42,
+          "probability": 0.8586024641990662
+        },
+        {
+          "word": " varışı",
+          "start": 20.42,
+          "end": 20.9,
+          "probability": 0.9860747655232748
+        },
+        {
+          "word": " başlığına",
+          "start": 20.9,
+          "end": 21.38,
+          "probability": 0.9817760586738586
+        },
+        {
+          "word": " geç.",
+          "start": 21.38,
+          "end": 21.56,
+          "probability": 0.9993190765380859
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "arafat sonrasında sıradaki geçiş muzdelife yönündedir hazırlık ulaşım ve kalabalık koşullarını kontrol et yapılacak işlem kafile hareket planına uy dikkat uygulama canlı ulaşım veya saha sınırı sağlamaz sonraki aşama gece varışı başlığına geç",
+    "normalizedASR": "arafat sonrasında sıradaki geçiş muzdelayfe yönündedir hazırlık ulaşım ve kalabalık koşullarını kontrol et yapılacak işlem kafile hareket planına uy dikkat uygulama canlı ulaşım veya sahasınırı sağlamaz sonraki aşama gece varışı başlığına geç",
+    "wer": 0.09090909090909091,
+    "cer": 0.012396694214876033,
+    "hits": 30,
+    "substitutions": 2,
+    "deletions": 1,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "muzdelife",
+        "asr": "muzdelayfe",
+        "referenceWordStart": 4
+      },
+      {
+        "type": "substitute",
+        "reference": "saha",
+        "asr": "sahasınırı",
+        "referenceWordStart": 24
+      },
+      {
+        "type": "delete",
+        "reference": "sınırı",
+        "asr": "",
+        "referenceWordStart": 25
+      }
+    ],
+    "religiousTermCounts": {
+      "arafat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "muzdelife": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.289880037307739,
+  "humanApproval": false
+}

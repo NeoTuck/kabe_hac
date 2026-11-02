@@ -1,0 +1,327 @@
+{
+  "audioId": "A-U10.1-TR-01",
+  "audioSha256": "252ecd07c9acf8f780267c7d4b512d61a4a525e7506e580ef592587474b4d2c4",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Saiden sonra ihramdan çıkış aşamasının koşulları öğrenilir. Hazırlık, kendi ibadet ve sağlık durumunu rehberle doğrula. Yapılacak işlem, saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir. Dikkat, özel durumlar için uygulama hüküm vermez. Sonraki aşama, yolculuk özetine geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.84,
+      "text": " Saiden sonra ihramdan çıkış aşamasının koşulları öğrenilir.",
+      "avgLogprob": -0.13709223762802455,
+      "noSpeechProb": 0.25831925868988037,
+      "words": [
+        {
+          "word": " Saiden",
+          "start": 0.0,
+          "end": 1.28,
+          "probability": 0.6876177489757538
+        },
+        {
+          "word": " sonra",
+          "start": 1.28,
+          "end": 1.74,
+          "probability": 0.9942346215248108
+        },
+        {
+          "word": " ihramdan",
+          "start": 1.74,
+          "end": 2.44,
+          "probability": 0.6868520279725393
+        },
+        {
+          "word": " çıkış",
+          "start": 2.44,
+          "end": 2.86,
+          "probability": 0.9971723556518555
+        },
+        {
+          "word": " aşamasının",
+          "start": 2.86,
+          "end": 3.5,
+          "probability": 0.9825417399406433
+        },
+        {
+          "word": " koşulları",
+          "start": 3.5,
+          "end": 4.14,
+          "probability": 0.9828740557034811
+        },
+        {
+          "word": " öğrenilir.",
+          "start": 4.14,
+          "end": 4.84,
+          "probability": 0.9969738125801086
+        }
+      ]
+    },
+    {
+      "start": 5.14,
+      "end": 9.34,
+      "text": " Hazırlık, kendi ibadet ve sağlık durumunu rehberle doğrula.",
+      "avgLogprob": -0.13709223762802455,
+      "noSpeechProb": 0.25831925868988037,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.14,
+          "end": 5.68,
+          "probability": 0.9505979816118876
+        },
+        {
+          "word": " kendi",
+          "start": 6.04,
+          "end": 6.3,
+          "probability": 0.9699777364730835
+        },
+        {
+          "word": " ibadet",
+          "start": 6.3,
+          "end": 6.96,
+          "probability": 0.993686298529307
+        },
+        {
+          "word": " ve",
+          "start": 6.96,
+          "end": 7.36,
+          "probability": 0.9903280138969421
+        },
+        {
+          "word": " sağlık",
+          "start": 7.36,
+          "end": 7.9,
+          "probability": 0.9909485379854838
+        },
+        {
+          "word": " durumunu",
+          "start": 7.9,
+          "end": 8.34,
+          "probability": 0.993692010641098
+        },
+        {
+          "word": " rehberle",
+          "start": 8.34,
+          "end": 8.86,
+          "probability": 0.9886066317558289
+        },
+        {
+          "word": " doğrula.",
+          "start": 8.86,
+          "end": 9.34,
+          "probability": 0.8396807710329691
+        }
+      ]
+    },
+    {
+      "start": 10.94,
+      "end": 17.28,
+      "text": " Yapılacak işlem, saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir.",
+      "avgLogprob": -0.13709223762802455,
+      "noSpeechProb": 0.25831925868988037,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.94,
+          "end": 11.52,
+          "probability": 0.9829376935958862
+        },
+        {
+          "word": " işlem,",
+          "start": 11.52,
+          "end": 12.0,
+          "probability": 0.9802249670028687
+        },
+        {
+          "word": " saç",
+          "start": 12.52,
+          "end": 12.72,
+          "probability": 0.9033435583114624
+        },
+        {
+          "word": " kesme",
+          "start": 12.72,
+          "end": 13.3,
+          "probability": 0.9870581328868866
+        },
+        {
+          "word": " veya",
+          "start": 13.3,
+          "end": 13.74,
+          "probability": 0.9601544141769409
+        },
+        {
+          "word": " kısaltma",
+          "start": 13.74,
+          "end": 14.4,
+          "probability": 0.9622032940387726
+        },
+        {
+          "word": " uygulamasını",
+          "start": 14.4,
+          "end": 15.08,
+          "probability": 0.9955431938171386
+        },
+        {
+          "word": " yetkili",
+          "start": 15.08,
+          "end": 15.58,
+          "probability": 0.9904441436131796
+        },
+        {
+          "word": " yönlendirmeyle",
+          "start": 15.58,
+          "end": 16.5,
+          "probability": 0.9682778517405192
+        },
+        {
+          "word": " değerlendir.",
+          "start": 16.5,
+          "end": 17.28,
+          "probability": 0.9981238394975662
+        }
+      ]
+    },
+    {
+      "start": 17.72,
+      "end": 21.54,
+      "text": " Dikkat, özel durumlar için uygulama hüküm vermez.",
+      "avgLogprob": -0.13709223762802455,
+      "noSpeechProb": 0.25831925868988037,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 17.72,
+          "end": 18.24,
+          "probability": 0.9804071585337321
+        },
+        {
+          "word": " özel",
+          "start": 18.74,
+          "end": 19.04,
+          "probability": 0.9562037289142609
+        },
+        {
+          "word": " durumlar",
+          "start": 19.04,
+          "end": 19.52,
+          "probability": 0.9972946345806122
+        },
+        {
+          "word": " için",
+          "start": 19.52,
+          "end": 19.76,
+          "probability": 0.9996262788772583
+        },
+        {
+          "word": " uygulama",
+          "start": 19.76,
+          "end": 20.48,
+          "probability": 0.9970688074827194
+        },
+        {
+          "word": " hüküm",
+          "start": 20.48,
+          "end": 21.0,
+          "probability": 0.9819808403650919
+        },
+        {
+          "word": " vermez.",
+          "start": 21.0,
+          "end": 21.54,
+          "probability": 0.9886124134063721
+        }
+      ]
+    },
+    {
+      "start": 22.0,
+      "end": 24.86,
+      "text": " Sonraki aşama, yolculuk özetine geç.",
+      "avgLogprob": -0.13709223762802455,
+      "noSpeechProb": 0.25831925868988037,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 22.0,
+          "end": 22.58,
+          "probability": 0.916010856628418
+        },
+        {
+          "word": " aşama,",
+          "start": 22.58,
+          "end": 23.02,
+          "probability": 0.993656724691391
+        },
+        {
+          "word": " yolculuk",
+          "start": 23.5,
+          "end": 24.1,
+          "probability": 0.9899800618489584
+        },
+        {
+          "word": " özetine",
+          "start": 24.1,
+          "end": 24.66,
+          "probability": 0.8781912326812744
+        },
+        {
+          "word": " geç.",
+          "start": 24.66,
+          "end": 24.86,
+          "probability": 0.9994737505912781
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "sayden sonra ihramdan çıkış aşamasının koşulları öğrenilir hazırlık kendi ibadet ve sağlık durumunu rehberle doğrula yapılacak işlem saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir dikkat özel durumlar için uygulama hüküm vermez sonraki aşama yolculuk özetine geç",
+    "normalizedASR": "saiden sonra ihramdan çıkış aşamasının koşulları öğrenilir hazırlık kendi ibadet ve sağlık durumunu rehberle doğrula yapılacak işlem saç kesme veya kısaltma uygulamasını yetkili yönlendirmeyle değerlendir dikkat özel durumlar için uygulama hüküm vermez sonraki aşama yolculuk özetine geç",
+    "wer": 0.02702702702702703,
+    "cer": 0.003484320557491289,
+    "hits": 36,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "sayden",
+        "asr": "saiden",
+        "referenceWordStart": 0
+      }
+    ],
+    "religiousTermCounts": {
+      "ihram": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.217090606689453,
+  "humanApproval": false
+}

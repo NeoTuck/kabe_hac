@@ -1,0 +1,17 @@
+{
+  "records": 54,
+  "wav": 54,
+  "m4a": 54,
+  "totalDurationSeconds": 1321.8439455782313,
+  "loudnessRangeLUFS": [
+    -20.3,
+    -20.01
+  ],
+  "technicalPassed": 54,
+  "asrCompleted": 54,
+  "asrAttentionCount": 22,
+  "weightedWER": 0.04728720756595321,
+  "humanListeningApproved": 0,
+  "humanListeningPending": 54,
+  "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559"
+}

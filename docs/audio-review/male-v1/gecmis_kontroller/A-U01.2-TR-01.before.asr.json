@@ -1,0 +1,98 @@
+{
+  "audioId": "A-U01.2-TR-01",
+  "audioSha256": "0892f426e3d2ec8e0f00cea7f06d31d1424817c9d8dd07860d98aa2c2b40b43f",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "YOLCULUK VE İBA",
+  "segments": [
+    {
+      "start": 1.02,
+      "end": 1.92,
+      "text": " YOLCULUK VE İBA",
+      "avgLogprob": -0.5265207107250507,
+      "noSpeechProb": 0.7580885291099548,
+      "words": [
+        {
+          "word": " YOLCULUK",
+          "start": 1.02,
+          "end": 1.5,
+          "probability": 0.6663613617420197
+        },
+        {
+          "word": " VE",
+          "start": 1.5,
+          "end": 1.68,
+          "probability": 0.8031400144100189
+        },
+        {
+          "word": " İBA",
+          "start": 1.68,
+          "end": 1.92,
+          "probability": 0.7416612207889557
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "yolculuk ve ibadet hazırlığını önceden gözden geçir hazırlık sağlık seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula yapılacak işlem rehberin içerik ve çevrimdışı paket durumunu kontrol et dikkat eksik veya eski saha bilgisini kesin bilgi sayma sonraki aşama mikat ve ihram konusuna geç",
+    "normalizedASR": "yolculuk ve iba",
+    "wer": 0.9534883720930233,
+    "cer": 0.9503311258278145,
+    "hits": 2,
+    "substitutions": 1,
+    "deletions": 40,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "ibadet",
+        "asr": "iba",
+        "referenceWordStart": 2
+      },
+      {
+        "type": "delete",
+        "reference": "hazırlığını önceden gözden geçir hazırlık sağlık seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula yapılacak işlem rehberin içerik ve çevrimdışı paket durumunu kontrol et dikkat eksik veya eski saha bilgisini kesin bilgi sayma sonraki aşama mikat ve ihram konusuna geç",
+        "asr": "",
+        "referenceWordStart": 3
+      }
+    ],
+    "religiousTermCounts": {
+      "ihram": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "mikat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": false
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 1.7503447532653809,
+  "humanApproval": false
+}

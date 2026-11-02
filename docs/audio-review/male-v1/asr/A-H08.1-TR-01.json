@@ -1,0 +1,367 @@
+{
+  "audioId": "A-H08.1-TR-01",
+  "audioSha256": "8c40fd5ffb5ce0577881b0a505045cab38069939b62efe0d9895786caa507bf4",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Ziyaret tavafı haca kışının temel aşamalarındandır. Hazırlık. Uygun zaman ve tavaf başlangıcını yetkili rehberle teyit et. Yapılacak işlem. Şaftları kendin takip et. Dikkat, sayaç veya GPS'i dini geçerlilik kararı vermez. Sonraki aşama, tavaf sonrası başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.2,
+      "text": " Ziyaret tavafı haca kışının temel aşamalarındandır.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Ziyaret",
+          "start": 0.0,
+          "end": 1.3,
+          "probability": 0.9632347623507181
+        },
+        {
+          "word": " tavafı",
+          "start": 1.3,
+          "end": 1.92,
+          "probability": 0.8532515565554301
+        },
+        {
+          "word": " haca",
+          "start": 1.92,
+          "end": 2.32,
+          "probability": 0.38912418484687805
+        },
+        {
+          "word": " kışının",
+          "start": 2.32,
+          "end": 2.78,
+          "probability": 0.9783766667048136
+        },
+        {
+          "word": " temel",
+          "start": 2.78,
+          "end": 3.22,
+          "probability": 0.9955707788467407
+        },
+        {
+          "word": " aşamalarındandır.",
+          "start": 3.22,
+          "end": 4.2,
+          "probability": 0.9808106422424316
+        }
+      ]
+    },
+    {
+      "start": 4.62,
+      "end": 5.14,
+      "text": " Hazırlık.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Hazırlık.",
+          "start": 4.62,
+          "end": 5.14,
+          "probability": 0.982016384601593
+        }
+      ]
+    },
+    {
+      "start": 5.6,
+      "end": 9.36,
+      "text": " Uygun zaman ve tavaf başlangıcını yetkili rehberle teyit et.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Uygun",
+          "start": 5.6,
+          "end": 5.94,
+          "probability": 0.9419350028038025
+        },
+        {
+          "word": " zaman",
+          "start": 5.94,
+          "end": 6.2,
+          "probability": 0.995433509349823
+        },
+        {
+          "word": " ve",
+          "start": 6.2,
+          "end": 6.52,
+          "probability": 0.9971278309822083
+        },
+        {
+          "word": " tavaf",
+          "start": 6.52,
+          "end": 6.86,
+          "probability": 0.9232610166072845
+        },
+        {
+          "word": " başlangıcını",
+          "start": 6.86,
+          "end": 7.68,
+          "probability": 0.9896854758262634
+        },
+        {
+          "word": " yetkili",
+          "start": 7.68,
+          "end": 8.26,
+          "probability": 0.9805722633997599
+        },
+        {
+          "word": " rehberle",
+          "start": 8.26,
+          "end": 8.84,
+          "probability": 0.9751120011011759
+        },
+        {
+          "word": " teyit",
+          "start": 8.84,
+          "end": 9.18,
+          "probability": 0.8373570442199707
+        },
+        {
+          "word": " et.",
+          "start": 9.18,
+          "end": 9.36,
+          "probability": 0.9855123162269592
+        }
+      ]
+    },
+    {
+      "start": 9.82,
+      "end": 10.76,
+      "text": " Yapılacak işlem.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.82,
+          "end": 10.36,
+          "probability": 0.9863142371177673
+        },
+        {
+          "word": " işlem.",
+          "start": 10.36,
+          "end": 10.76,
+          "probability": 0.9863466918468475
+        }
+      ]
+    },
+    {
+      "start": 11.18,
+      "end": 13.08,
+      "text": " Şaftları kendin takip et.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Şaftları",
+          "start": 11.18,
+          "end": 11.82,
+          "probability": 0.9456412941217422
+        },
+        {
+          "word": " kendin",
+          "start": 11.82,
+          "end": 12.36,
+          "probability": 0.9507360756397247
+        },
+        {
+          "word": " takip",
+          "start": 12.36,
+          "end": 12.84,
+          "probability": 0.998746782541275
+        },
+        {
+          "word": " et.",
+          "start": 12.84,
+          "end": 13.08,
+          "probability": 0.9921839833259583
+        }
+      ]
+    },
+    {
+      "start": 14.200000000000003,
+      "end": 18.9,
+      "text": " Dikkat, sayaç veya GPS'i dini geçerlilik kararı vermez.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 14.200000000000003,
+          "end": 15.12,
+          "probability": 0.984737237294515
+        },
+        {
+          "word": " sayaç",
+          "start": 15.58,
+          "end": 16.08,
+          "probability": 0.9095979928970337
+        },
+        {
+          "word": " veya",
+          "start": 16.08,
+          "end": 16.32,
+          "probability": 0.9835565090179443
+        },
+        {
+          "word": " GPS",
+          "start": 16.32,
+          "end": 16.82,
+          "probability": 0.6540111303329468
+        },
+        {
+          "word": "'i",
+          "start": 16.82,
+          "end": 17.16,
+          "probability": 0.8230668902397156
+        },
+        {
+          "word": " dini",
+          "start": 17.16,
+          "end": 17.46,
+          "probability": 0.9042387902736664
+        },
+        {
+          "word": " geçerlilik",
+          "start": 17.46,
+          "end": 18.0,
+          "probability": 0.9749862998723984
+        },
+        {
+          "word": " kararı",
+          "start": 18.0,
+          "end": 18.44,
+          "probability": 0.9834489226341248
+        },
+        {
+          "word": " vermez.",
+          "start": 18.44,
+          "end": 18.9,
+          "probability": 0.9901356101036072
+        }
+      ]
+    },
+    {
+      "start": 19.38,
+      "end": 22.26,
+      "text": " Sonraki aşama, tavaf sonrası başlığına geç.",
+      "avgLogprob": -0.1497780460378398,
+      "noSpeechProb": 0.21304914355278015,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.38,
+          "end": 19.98,
+          "probability": 0.9041469395160675
+        },
+        {
+          "word": " aşama,",
+          "start": 19.98,
+          "end": 20.38,
+          "probability": 0.9928924739360809
+        },
+        {
+          "word": " tavaf",
+          "start": 20.82,
+          "end": 21.16,
+          "probability": 0.9173705577850342
+        },
+        {
+          "word": " sonrası",
+          "start": 21.16,
+          "end": 21.58,
+          "probability": 0.9960216085116068
+        },
+        {
+          "word": " başlığına",
+          "start": 21.58,
+          "end": 22.08,
+          "probability": 0.9856178015470505
+        },
+        {
+          "word": " geç.",
+          "start": 22.08,
+          "end": 22.26,
+          "probability": 0.9993749260902405
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "ziyaret tavafı hac akışının temel aşamalarındandır hazırlık uygun zaman ve tavaf başlangıcını yetkili rehberle teyit et yapılacak işlem şavtları kendin takip et dikkat sayaç veya gps dini geçerlilik kararı vermez sonraki aşama tavaf sonrası başlığına geç",
+    "normalizedASR": "ziyaret tavafı haca kışının temel aşamalarındandır hazırlık uygun zaman ve tavaf başlangıcını yetkili rehberle teyit et yapılacak işlem şaftları kendin takip et dikkat sayaç veya gpsi dini geçerlilik kararı vermez sonraki aşama tavaf sonrası başlığına geç",
+    "wer": 0.1111111111111111,
+    "cer": 0.015748031496062992,
+    "hits": 32,
+    "substitutions": 4,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "hac akışının",
+        "asr": "haca kışının",
+        "referenceWordStart": 2
+      },
+      {
+        "type": "substitute",
+        "reference": "şavtları",
+        "asr": "şaftları",
+        "referenceWordStart": 18
+      },
+      {
+        "type": "substitute",
+        "reference": "gps",
+        "asr": "gpsi",
+        "referenceWordStart": 25
+      }
+    ],
+    "religiousTermCounts": {
+      "şavt": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "hac": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "tavaf": {
+        "expectedOccurrences": 3,
+        "asrOccurrences": 3,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.125938892364502,
+  "humanApproval": false
+}

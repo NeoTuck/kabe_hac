@@ -1,0 +1,379 @@
+{
+  "audioId": "A-U02.2-TR-01",
+  "audioSha256": "70cbc50db8b7734be2b24cc6bc62558295c3dd04a5d69c15d011766d81a27097",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır. Hazırlık, ihram ve mikat bilgisini yetkili rehberinle teyit et. Yapılacak işlem, niyet ve telbiyenin kendi durumundaki uygulanışını öğren. Dikkat, buradaki taslak, Arapça telafuz veya onaylı duas sunmaz. Sonraki aşama, ihramla ilgili kısıtlamaları gözden geçir.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.78,
+      "text": " Niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır.",
+      "avgLogprob": -0.1699969962360413,
+      "noSpeechProb": 0.2993260622024536,
+      "words": [
+        {
+          "word": " Niyet",
+          "start": 0.0,
+          "end": 0.98,
+          "probability": 0.8122544586658478
+        },
+        {
+          "word": " ve",
+          "start": 0.98,
+          "end": 1.18,
+          "probability": 0.9894634485244751
+        },
+        {
+          "word": " telbiye",
+          "start": 1.18,
+          "end": 1.62,
+          "probability": 0.691254993279775
+        },
+        {
+          "word": " hakkında",
+          "start": 1.62,
+          "end": 2.14,
+          "probability": 0.9987539350986481
+        },
+        {
+          "word": " mezhepler",
+          "start": 2.14,
+          "end": 2.96,
+          "probability": 0.8169466455777487
+        },
+        {
+          "word": " arası",
+          "start": 2.96,
+          "end": 3.46,
+          "probability": 0.9811642467975616
+        },
+        {
+          "word": " hüküm",
+          "start": 3.46,
+          "end": 3.92,
+          "probability": 0.9519330859184265
+        },
+        {
+          "word": " farkları",
+          "start": 3.92,
+          "end": 4.46,
+          "probability": 0.9897514879703522
+        },
+        {
+          "word": " vardır.",
+          "start": 4.46,
+          "end": 4.78,
+          "probability": 0.9987840056419373
+        }
+      ]
+    },
+    {
+      "start": 5.32,
+      "end": 9.82,
+      "text": " Hazırlık, ihram ve mikat bilgisini yetkili rehberinle teyit et.",
+      "avgLogprob": -0.1699969962360413,
+      "noSpeechProb": 0.2993260622024536,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.32,
+          "end": 5.92,
+          "probability": 0.9856484532356262
+        },
+        {
+          "word": " ihram",
+          "start": 6.3,
+          "end": 6.7,
+          "probability": 0.6484433859586716
+        },
+        {
+          "word": " ve",
+          "start": 6.7,
+          "end": 6.94,
+          "probability": 0.9975805282592773
+        },
+        {
+          "word": " mikat",
+          "start": 6.94,
+          "end": 7.34,
+          "probability": 0.7378110885620117
+        },
+        {
+          "word": " bilgisini",
+          "start": 7.34,
+          "end": 7.94,
+          "probability": 0.9674773216247559
+        },
+        {
+          "word": " yetkili",
+          "start": 7.94,
+          "end": 8.44,
+          "probability": 0.9810913801193237
+        },
+        {
+          "word": " rehberinle",
+          "start": 8.44,
+          "end": 9.34,
+          "probability": 0.7737070918083191
+        },
+        {
+          "word": " teyit",
+          "start": 9.34,
+          "end": 9.66,
+          "probability": 0.7803740501403809
+        },
+        {
+          "word": " et.",
+          "start": 9.66,
+          "end": 9.82,
+          "probability": 0.9141057133674622
+        }
+      ]
+    },
+    {
+      "start": 11.22,
+      "end": 16.18,
+      "text": " Yapılacak işlem, niyet ve telbiyenin kendi durumundaki uygulanışını öğren.",
+      "avgLogprob": -0.1699969962360413,
+      "noSpeechProb": 0.2993260622024536,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 11.22,
+          "end": 12.04,
+          "probability": 0.9886934359868368
+        },
+        {
+          "word": " işlem,",
+          "start": 12.04,
+          "end": 12.44,
+          "probability": 0.9873584806919098
+        },
+        {
+          "word": " niyet",
+          "start": 12.96,
+          "end": 13.36,
+          "probability": 0.6620504558086395
+        },
+        {
+          "word": " ve",
+          "start": 13.36,
+          "end": 13.54,
+          "probability": 0.9989101886749268
+        },
+        {
+          "word": " telbiyenin",
+          "start": 13.54,
+          "end": 14.18,
+          "probability": 0.7824377864599228
+        },
+        {
+          "word": " kendi",
+          "start": 14.18,
+          "end": 14.48,
+          "probability": 0.9982329607009888
+        },
+        {
+          "word": " durumundaki",
+          "start": 14.48,
+          "end": 15.18,
+          "probability": 0.9907984932263693
+        },
+        {
+          "word": " uygulanışını",
+          "start": 15.18,
+          "end": 15.96,
+          "probability": 0.9859521865844727
+        },
+        {
+          "word": " öğren.",
+          "start": 15.96,
+          "end": 16.18,
+          "probability": 0.9888856410980225
+        }
+      ]
+    },
+    {
+      "start": 16.72,
+      "end": 21.98,
+      "text": " Dikkat, buradaki taslak, Arapça telafuz veya onaylı duas sunmaz.",
+      "avgLogprob": -0.1699969962360413,
+      "noSpeechProb": 0.2993260622024536,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.72,
+          "end": 17.22,
+          "probability": 0.9797206521034241
+        },
+        {
+          "word": " buradaki",
+          "start": 17.72,
+          "end": 18.06,
+          "probability": 0.9821396768093109
+        },
+        {
+          "word": " taslak,",
+          "start": 18.06,
+          "end": 18.64,
+          "probability": 0.9827998876571655
+        },
+        {
+          "word": " Arapça",
+          "start": 19.16,
+          "end": 19.52,
+          "probability": 0.9179749488830566
+        },
+        {
+          "word": " telafuz",
+          "start": 19.52,
+          "end": 20.12,
+          "probability": 0.7298312783241272
+        },
+        {
+          "word": " veya",
+          "start": 20.12,
+          "end": 20.42,
+          "probability": 0.9720354676246643
+        },
+        {
+          "word": " onaylı",
+          "start": 20.42,
+          "end": 21.28,
+          "probability": 0.9704779585202535
+        },
+        {
+          "word": " duas",
+          "start": 21.28,
+          "end": 21.58,
+          "probability": 0.630803257226944
+        },
+        {
+          "word": " sunmaz.",
+          "start": 21.58,
+          "end": 21.98,
+          "probability": 0.9786218702793121
+        }
+      ]
+    },
+    {
+      "start": 23.32,
+      "end": 27.68,
+      "text": " Sonraki aşama, ihramla ilgili kısıtlamaları gözden geçir.",
+      "avgLogprob": -0.1699969962360413,
+      "noSpeechProb": 0.2993260622024536,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 23.32,
+          "end": 24.32,
+          "probability": 0.7284404436747233
+        },
+        {
+          "word": " aşama,",
+          "start": 24.32,
+          "end": 24.7,
+          "probability": 0.9537244737148285
+        },
+        {
+          "word": " ihramla",
+          "start": 25.26,
+          "end": 25.68,
+          "probability": 0.8921226461728414
+        },
+        {
+          "word": " ilgili",
+          "start": 25.68,
+          "end": 25.9,
+          "probability": 0.99381422996521
+        },
+        {
+          "word": " kısıtlamaları",
+          "start": 25.9,
+          "end": 26.8,
+          "probability": 0.9844309210777282
+        },
+        {
+          "word": " gözden",
+          "start": 26.8,
+          "end": 27.24,
+          "probability": 0.9833438098430634
+        },
+        {
+          "word": " geçir.",
+          "start": 27.24,
+          "end": 27.68,
+          "probability": 0.9979852139949799
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır hazırlık ihram ve mikat bilgisini yetkili rehberinle teyit et yapılacak işlem niyet ve telbiyenin kendi durumundaki uygulanışını öğren dikkat buradaki taslak arapça telaffuz veya onaylı dua sunmaz sonraki aşama ihramla ilgili kısıtlamaları gözden geçir",
+    "normalizedASR": "niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır hazırlık ihram ve mikat bilgisini yetkili rehberinle teyit et yapılacak işlem niyet ve telbiyenin kendi durumundaki uygulanışını öğren dikkat buradaki taslak arapça telafuz veya onaylı duas sunmaz sonraki aşama ihramla ilgili kısıtlamaları gözden geçir",
+    "wer": 0.046511627906976744,
+    "cer": 0.006329113924050633,
+    "hits": 41,
+    "substitutions": 2,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "telaffuz",
+        "asr": "telafuz",
+        "referenceWordStart": 31
+      },
+      {
+        "type": "substitute",
+        "reference": "dua",
+        "asr": "duas",
+        "referenceWordStart": 34
+      }
+    ],
+    "religiousTermCounts": {
+      "telbiye": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      },
+      "ihram": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      },
+      "mikat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.552474737167358,
+  "humanApproval": false
+}

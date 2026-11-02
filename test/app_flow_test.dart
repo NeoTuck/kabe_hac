@@ -179,7 +179,11 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(GuideStepScreen), findsOneWidget);
     expect(find.text('U01 · 1 / 18'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Sonraki başlık'), 250);
+    await tester.scrollUntilVisible(
+      find.text('Sonraki başlık'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.ensureVisible(
       find.widgetWithText(FilledButton, 'Sonraki başlık'),
     );

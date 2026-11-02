@@ -124,16 +124,13 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
         _loading = false;
       });
       if (maps.isNotEmpty) {
-        await _select(
-          maps
-                  .where(
-                    (map) =>
-                        map.packageId ==
-                        (previousPackageId ?? widget.initialPackageId),
-                  )
-                  .firstOrNull ??
-              maps.first,
-        );
+        final requestedId = previousPackageId ?? widget.initialPackageId;
+        final requested = maps
+            .where((map) => map.packageId == requestedId)
+            .firstOrNull;
+        if (requested != null || maps.length == 1) {
+          await _select(requested ?? maps.first);
+        }
       }
     } catch (_) {
       if (mounted && epoch == _epoch) {
@@ -297,6 +294,7 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                       child: DropdownButton<LocalMapDescriptor>(
                         isExpanded: true,
                         value: selected,
+                        hint: const Text('Şehir seç'),
                         items: [
                           for (final map in _maps)
                             DropdownMenuItem(
@@ -382,8 +380,10 @@ class _OfflineCityMapScreenState extends State<OfflineCityMapScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              'Bu cihazda şehir haritası kurulu değil. Mekke veya Medine haritasını indirip burada çevrimdışı açabilirsin.',
+                            Text(
+                              _maps.isEmpty
+                                  ? 'Bu cihazda şehir haritası kurulu değil. Mekke veya Medine haritasını indirip burada çevrimdışı açabilirsin.'
+                                  : 'Görüntülemek istediğin şehri yukarıdan seç.',
                               textAlign: TextAlign.center,
                             ),
                             if (widget.onManageMaps != null) ...[

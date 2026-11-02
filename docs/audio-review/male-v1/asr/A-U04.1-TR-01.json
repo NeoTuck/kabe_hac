@@ -1,0 +1,344 @@
+{
+  "audioId": "A-U04.1-TR-01",
+  "audioSha256": "6fc2b9ce264ee74e00b5bb1bd92c17ff80da421624035fdb4135c0b55fdc1e67",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "İlk görüş, ibadet akışına hazırlık için bir duraktır. Hazırlık, bulunduğun yerde güvenli biçimde durup yönünü belirle. Yapılacak işlem, kişisel dua etmek istersen güvenilir metni rehberinle seç. Dikkat, bu kart belirli bir duayı zorunlu ilan etmez. Sonraki aşama, tavafın başlangıç noktasını öğren.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.52,
+      "text": " İlk görüş, ibadet akışına hazırlık için bir duraktır.",
+      "avgLogprob": -0.12068802651403279,
+      "noSpeechProb": 0.21383826434612274,
+      "words": [
+        {
+          "word": " İlk",
+          "start": 0.0,
+          "end": 1.04,
+          "probability": 0.9082595407962799
+        },
+        {
+          "word": " görüş,",
+          "start": 1.04,
+          "end": 1.34,
+          "probability": 0.9120165705680847
+        },
+        {
+          "word": " ibadet",
+          "start": 1.86,
+          "end": 2.44,
+          "probability": 0.9817725419998169
+        },
+        {
+          "word": " akışına",
+          "start": 2.44,
+          "end": 2.9,
+          "probability": 0.9944290121396383
+        },
+        {
+          "word": " hazırlık",
+          "start": 2.9,
+          "end": 3.46,
+          "probability": 0.9899692237377167
+        },
+        {
+          "word": " için",
+          "start": 3.46,
+          "end": 3.7,
+          "probability": 0.9976539015769958
+        },
+        {
+          "word": " bir",
+          "start": 3.7,
+          "end": 3.94,
+          "probability": 0.9949081540107727
+        },
+        {
+          "word": " duraktır.",
+          "start": 3.94,
+          "end": 4.52,
+          "probability": 0.9807690978050232
+        }
+      ]
+    },
+    {
+      "start": 4.92,
+      "end": 9.28,
+      "text": " Hazırlık, bulunduğun yerde güvenli biçimde durup yönünü belirle.",
+      "avgLogprob": -0.12068802651403279,
+      "noSpeechProb": 0.21383826434612274,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.92,
+          "end": 5.5,
+          "probability": 0.97404678662618
+        },
+        {
+          "word": " bulunduğun",
+          "start": 5.94,
+          "end": 6.5,
+          "probability": 0.9955196231603622
+        },
+        {
+          "word": " yerde",
+          "start": 6.5,
+          "end": 6.8,
+          "probability": 0.9925881028175354
+        },
+        {
+          "word": " güvenli",
+          "start": 6.8,
+          "end": 7.64,
+          "probability": 0.9367056290308634
+        },
+        {
+          "word": " biçimde",
+          "start": 7.64,
+          "end": 8.12,
+          "probability": 0.9859712272882462
+        },
+        {
+          "word": " durup",
+          "start": 8.12,
+          "end": 8.46,
+          "probability": 0.9926412999629974
+        },
+        {
+          "word": " yönünü",
+          "start": 8.46,
+          "end": 8.82,
+          "probability": 0.9845915734767914
+        },
+        {
+          "word": " belirle.",
+          "start": 8.82,
+          "end": 9.28,
+          "probability": 0.9906105796496073
+        }
+      ]
+    },
+    {
+      "start": 10.440000000000001,
+      "end": 16.24,
+      "text": " Yapılacak işlem, kişisel dua etmek istersen güvenilir metni rehberinle seç.",
+      "avgLogprob": -0.12068802651403279,
+      "noSpeechProb": 0.21383826434612274,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.440000000000001,
+          "end": 11.4,
+          "probability": 0.9766974647839864
+        },
+        {
+          "word": " işlem,",
+          "start": 11.4,
+          "end": 11.82,
+          "probability": 0.9913951456546783
+        },
+        {
+          "word": " kişisel",
+          "start": 12.3,
+          "end": 12.68,
+          "probability": 0.9885028600692749
+        },
+        {
+          "word": " dua",
+          "start": 12.68,
+          "end": 12.88,
+          "probability": 0.9692531824111938
+        },
+        {
+          "word": " etmek",
+          "start": 12.88,
+          "end": 13.16,
+          "probability": 0.9985334873199463
+        },
+        {
+          "word": " istersen",
+          "start": 13.16,
+          "end": 13.94,
+          "probability": 0.9854812026023865
+        },
+        {
+          "word": " güvenilir",
+          "start": 13.94,
+          "end": 14.9,
+          "probability": 0.874817356467247
+        },
+        {
+          "word": " metni",
+          "start": 14.9,
+          "end": 15.38,
+          "probability": 0.9268656075000763
+        },
+        {
+          "word": " rehberinle",
+          "start": 15.38,
+          "end": 16.0,
+          "probability": 0.8999442458152771
+        },
+        {
+          "word": " seç.",
+          "start": 16.0,
+          "end": 16.24,
+          "probability": 0.9807048439979553
+        }
+      ]
+    },
+    {
+      "start": 16.72,
+      "end": 20.48,
+      "text": " Dikkat, bu kart belirli bir duayı zorunlu ilan etmez.",
+      "avgLogprob": -0.12068802651403279,
+      "noSpeechProb": 0.21383826434612274,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.72,
+          "end": 17.2,
+          "probability": 0.9830199877421061
+        },
+        {
+          "word": " bu",
+          "start": 17.84,
+          "end": 17.96,
+          "probability": 0.985248327255249
+        },
+        {
+          "word": " kart",
+          "start": 17.96,
+          "end": 18.26,
+          "probability": 0.9347832202911377
+        },
+        {
+          "word": " belirli",
+          "start": 18.26,
+          "end": 18.76,
+          "probability": 0.9712314605712891
+        },
+        {
+          "word": " bir",
+          "start": 18.76,
+          "end": 18.9,
+          "probability": 0.9941468238830566
+        },
+        {
+          "word": " duayı",
+          "start": 18.9,
+          "end": 19.34,
+          "probability": 0.8897638022899628
+        },
+        {
+          "word": " zorunlu",
+          "start": 19.34,
+          "end": 19.84,
+          "probability": 0.9647700786590576
+        },
+        {
+          "word": " ilan",
+          "start": 19.84,
+          "end": 20.1,
+          "probability": 0.9489415287971497
+        },
+        {
+          "word": " etmez.",
+          "start": 20.1,
+          "end": 20.48,
+          "probability": 0.9956878423690796
+        }
+      ]
+    },
+    {
+      "start": 21.06,
+      "end": 24.7,
+      "text": " Sonraki aşama, tavafın başlangıç noktasını öğren.",
+      "avgLogprob": -0.12068802651403279,
+      "noSpeechProb": 0.21383826434612274,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 21.06,
+          "end": 21.72,
+          "probability": 0.9226569533348083
+        },
+        {
+          "word": " aşama,",
+          "start": 21.72,
+          "end": 22.22,
+          "probability": 0.9928187131881714
+        },
+        {
+          "word": " tavafın",
+          "start": 22.66,
+          "end": 23.1,
+          "probability": 0.7584298551082611
+        },
+        {
+          "word": " başlangıç",
+          "start": 23.1,
+          "end": 23.78,
+          "probability": 0.9914158880710602
+        },
+        {
+          "word": " noktasını",
+          "start": 23.78,
+          "end": 24.44,
+          "probability": 0.9946689456701279
+        },
+        {
+          "word": " öğren.",
+          "start": 24.44,
+          "end": 24.7,
+          "probability": 0.9656153917312622
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "ilk görüş ibadet akışına hazırlık için bir duraktır hazırlık bulunduğun yerde güvenli biçimde durup yönünü belirle yapılacak işlem kişisel dua etmek istersen güvenilir metni rehberinle seç dikkat bu kart belirli bir duayı zorunlu ilan etmez sonraki aşama tavafın başlangıç noktasını öğren",
+    "normalizedASR": "ilk görüş ibadet akışına hazırlık için bir duraktır hazırlık bulunduğun yerde güvenli biçimde durup yönünü belirle yapılacak işlem kişisel dua etmek istersen güvenilir metni rehberinle seç dikkat bu kart belirli bir duayı zorunlu ilan etmez sonraki aşama tavafın başlangıç noktasını öğren",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 41,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "tavaf": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.003511428833008,
+  "humanApproval": false
+}

@@ -35,6 +35,8 @@ import 'service_readiness.dart';
 import 'travel_catalog.dart';
 import 'travel_repository.dart';
 
+const audioReviewBuild = bool.fromEnvironment('KABE_AUDIO_REVIEW_BUILD');
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Prefer texture composition after native Virtual Display accessibility failure.
@@ -87,7 +89,14 @@ Future<Widget> _loadApplication() async {
     allocatedSettings = settings;
     // Device audio is initialized on first play; the guide remains available if it fails.
     final contentRepository = LocalContentRepository(packages: packages);
-    final bundledCatalogs = await const LocalContentRepository().load();
+    final bundledCatalogs = audioReviewBuild
+        ? <GuideType, GuideCatalog>{
+            for (final entry in LocalContentRepository.catalogPaths.entries)
+              entry.key: GuideCatalog.fromJsonText(
+                await rootBundle.loadString(entry.value),
+              ),
+          }
+        : await const LocalContentRepository().load();
     final catalogsFuture = contentRepository.load(
       bundledCatalogs: bundledCatalogs,
     );

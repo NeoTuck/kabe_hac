@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "inventory-2026-10-09-draft2-audio",
+  "contentVersion": "inventory-2026-10-26-male-review-v1",
   "guideType": "hajj",
   "audioRecords": [
     {
@@ -9,10 +9,11 @@
       "kind": "turkishNarration",
       "textId": "H01.1",
       "textVersion": "H01.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H01.1-TR-01.m4a",
-      "assetSha256": "c52f797b2fe6715b3126ad00824cd961db4f08eb139864ab94ff32ca5bdab366",
+      "asset": "assets/audio/review-male-v1/A-H01.1-TR-01.m4a",
+      "assetSha256": "e4d4c226da69f93601407213e30a72efba885ecc5ca3d07d8a8d4172de882771",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H01.2-TR-01",
@@ -20,10 +21,11 @@
       "kind": "turkishNarration",
       "textId": "H01.2",
       "textVersion": "H01.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H01.2-TR-01.m4a",
-      "assetSha256": "7894615f61bf43415bd795aa368b1536e3fa07d3e6ec10b78e22390c101751f6",
+      "asset": "assets/audio/review-male-v1/A-H01.2-TR-01.m4a",
+      "assetSha256": "12069eb91efa33034d833c6a5cde5c7aaa731a4522f74417f1bb09f031ec8015",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H01.3-TR-01",
@@ -31,10 +33,11 @@
       "kind": "turkishNarration",
       "textId": "H01.3",
       "textVersion": "H01.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H01.3-TR-01.m4a",
-      "assetSha256": "df590f1bd2b1a0647c4098e947b3136d595fa8d27e66478ce7d7473743ba302d",
+      "asset": "assets/audio/review-male-v1/A-H01.3-TR-01.m4a",
+      "assetSha256": "71d5ec83ac97ad59950e9ebbe326ad18a342847b343f5a872d482002ad97fed4",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H02.1-TR-01",
@@ -42,10 +45,11 @@
       "kind": "turkishNarration",
       "textId": "H02.1",
       "textVersion": "H02.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H02.1-TR-01.m4a",
-      "assetSha256": "ea5cc4ec50d0b66ca09a09b8f2d42b3567b559e6807e893ccba13020b03f017a",
+      "asset": "assets/audio/review-male-v1/A-H02.1-TR-01.m4a",
+      "assetSha256": "a61c94a0f96e4e5b881331bf2851eb34e7a44bdcfc73a60e8343607fbe9b5d1c",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H02.2-TR-01",
@@ -53,10 +57,11 @@
       "kind": "turkishNarration",
       "textId": "H02.2",
       "textVersion": "H02.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H02.2-TR-01.m4a",
-      "assetSha256": "4817548a5bf56848daa5dac14ff4e8ae8c90b37122e36e2877a771a08b05c4de",
+      "asset": "assets/audio/review-male-v1/A-H02.2-TR-01.m4a",
+      "assetSha256": "ca0810b31b55802496f693502247c3c6e63f4aff1bd7fcf219010fb28daba56c",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H02.3-TR-01",
@@ -64,10 +69,11 @@
       "kind": "turkishNarration",
       "textId": "H02.3",
       "textVersion": "H02.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H02.3-TR-01.m4a",
-      "assetSha256": "93c814cdcb9d68d23d67edd908eaf66b28a19c8201c3bc19f3d09f32def513ad",
+      "asset": "assets/audio/review-male-v1/A-H02.3-TR-01.m4a",
+      "assetSha256": "5863161c709f316b15164dca693cdd58e32ddd4282bfe3dc628c80037ae300f9",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H02.4-TR-01",
@@ -75,10 +81,11 @@
       "kind": "turkishNarration",
       "textId": "H02.4",
       "textVersion": "H02.4-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H02.4-TR-01.m4a",
-      "assetSha256": "245bc8862d44261257f0afa2b68b1526c28f5f27a0a457181e4baa1d36dc793c",
+      "asset": "assets/audio/review-male-v1/A-H02.4-TR-01.m4a",
+      "assetSha256": "83549e20229cbc225fde5a77ad7b8aaec977a323b8916f6e24fd80abca088b85",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H02.5-TR-01",
@@ -86,10 +93,11 @@
       "kind": "turkishNarration",
       "textId": "H02.5",
       "textVersion": "H02.5-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H02.5-TR-01.m4a",
-      "assetSha256": "7db358016d4ad745e96655bd48abc8cddf1725dc5b90043137a7c83b9dc47a17",
+      "asset": "assets/audio/review-male-v1/A-H02.5-TR-01.m4a",
+      "assetSha256": "a652e773da5ba0af5579ba87aa59483745c4dafea1fd9769a962fb94a48d93ea",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H03.1-TR-01",
@@ -97,10 +105,11 @@
       "kind": "turkishNarration",
       "textId": "H03.1",
       "textVersion": "H03.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H03.1-TR-01.m4a",
-      "assetSha256": "66152583b89011d3256f6e2701d64f60d786807fa8cf5844bb95ba15fd9726ac",
+      "asset": "assets/audio/review-male-v1/A-H03.1-TR-01.m4a",
+      "assetSha256": "24713bda7173b290126bb414fd59b5b27f1b022a356c38286729c43bfa19e584",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H03.2-TR-01",
@@ -108,10 +117,11 @@
       "kind": "turkishNarration",
       "textId": "H03.2",
       "textVersion": "H03.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H03.2-TR-01.m4a",
-      "assetSha256": "becd610bc1897c98e54b6629c3f8150f19b9e9ab690556375755c1f318ce1104",
+      "asset": "assets/audio/review-male-v1/A-H03.2-TR-01.m4a",
+      "assetSha256": "9c88714a3b32259df23cf59abd7ecaeeaca82cf1097fa38baefaecc625e5a577",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H03.3-TR-01",
@@ -119,10 +129,11 @@
       "kind": "turkishNarration",
       "textId": "H03.3",
       "textVersion": "H03.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H03.3-TR-01.m4a",
-      "assetSha256": "0263078fcb62a3b54ff3d7c7a83fc41162e57f1ac769216ae27e73a711831b58",
+      "asset": "assets/audio/review-male-v1/A-H03.3-TR-01.m4a",
+      "assetSha256": "b0b8d69d3059c790d0824453da6f4a7f82e03d76afdf7bfd9609d8c03fba948d",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H04.1-TR-01",
@@ -130,10 +141,11 @@
       "kind": "turkishNarration",
       "textId": "H04.1",
       "textVersion": "H04.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H04.1-TR-01.m4a",
-      "assetSha256": "823d64548d8416fe9e245aef165d92fa5386d81af47e7fafff0141246f181649",
+      "asset": "assets/audio/review-male-v1/A-H04.1-TR-01.m4a",
+      "assetSha256": "d9269dacefb3af294f0308333474e7cfdeffea021158dd49e3be0af39ba73098",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H04.2-TR-01",
@@ -141,10 +153,11 @@
       "kind": "turkishNarration",
       "textId": "H04.2",
       "textVersion": "H04.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H04.2-TR-01.m4a",
-      "assetSha256": "8fc7908d3ffb1f662acbb804eeb4bb2770c55e41a862f4b06996ec9ac63a0246",
+      "asset": "assets/audio/review-male-v1/A-H04.2-TR-01.m4a",
+      "assetSha256": "bca7cd7bd8449e7fadf6f340b9d54fe17fb24dc6b2df354f63fcc4c12775cf29",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H04.3-TR-01",
@@ -152,10 +165,11 @@
       "kind": "turkishNarration",
       "textId": "H04.3",
       "textVersion": "H04.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H04.3-TR-01.m4a",
-      "assetSha256": "2edca825ce8ddf1ee15cbb6003614f4e5354ddf013195bfa698128b375156f90",
+      "asset": "assets/audio/review-male-v1/A-H04.3-TR-01.m4a",
+      "assetSha256": "66b2976fce32458929559e183b38bef1a9dd0108ee3342fcc835db9634820dd6",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H04.4-TR-01",
@@ -163,10 +177,11 @@
       "kind": "turkishNarration",
       "textId": "H04.4",
       "textVersion": "H04.4-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H04.4-TR-01.m4a",
-      "assetSha256": "6d5ca11b3bafbc24c3489175c926f875d77e22f1ac4b5d8b7fc930bd0b33b0bc",
+      "asset": "assets/audio/review-male-v1/A-H04.4-TR-01.m4a",
+      "assetSha256": "60201571390272bf71b84410e3bd7d1cec83c3b777963a6647473d6dcb8dfc56",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H05.1-TR-01",
@@ -174,10 +189,11 @@
       "kind": "turkishNarration",
       "textId": "H05.1",
       "textVersion": "H05.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H05.1-TR-01.m4a",
-      "assetSha256": "0a0e1f2a0c22a3e98b9956bb7df2e3c36f040969a41561e08ece98076dd45299",
+      "asset": "assets/audio/review-male-v1/A-H05.1-TR-01.m4a",
+      "assetSha256": "54bf267638146c0a3ac79894140582ab7597b6f17855038ac71258aebfab1cc8",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H05.2-TR-01",
@@ -185,10 +201,11 @@
       "kind": "turkishNarration",
       "textId": "H05.2",
       "textVersion": "H05.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H05.2-TR-01.m4a",
-      "assetSha256": "dfc592225a6ba9ea002ab0d88bce8229f467459fb94a74b23cf8635099883a70",
+      "asset": "assets/audio/review-male-v1/A-H05.2-TR-01.m4a",
+      "assetSha256": "d994146155c9bf50b3f130420e88044972708072046b6d2286de0fa46ace5878",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H05.3-TR-01",
@@ -196,10 +213,11 @@
       "kind": "turkishNarration",
       "textId": "H05.3",
       "textVersion": "H05.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H05.3-TR-01.m4a",
-      "assetSha256": "b7ea64f9c84f59309b151e1cb9f3dfcc933e1a373f96cd98ebc5926940646334",
+      "asset": "assets/audio/review-male-v1/A-H05.3-TR-01.m4a",
+      "assetSha256": "78695cf1c3e11365d5691a1955cc0c6dbecbbf48a1efdefb038cd1eb60d9c61a",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H06.1-TR-01",
@@ -207,10 +225,11 @@
       "kind": "turkishNarration",
       "textId": "H06.1",
       "textVersion": "H06.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H06.1-TR-01.m4a",
-      "assetSha256": "0cff4de7df29653b4ff797f6e041ce2b3a918af0795f1ebab028d95c3c130636",
+      "asset": "assets/audio/review-male-v1/A-H06.1-TR-01.m4a",
+      "assetSha256": "506d54dbcdeea86dfd812e0afb4af547ded4cead43daa0b6bf0dab3fad57413d",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H06.2-TR-01",
@@ -218,10 +237,11 @@
       "kind": "turkishNarration",
       "textId": "H06.2",
       "textVersion": "H06.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H06.2-TR-01.m4a",
-      "assetSha256": "66b569b009ef61e739a2e134051af2c97e766dc2ec9607131b7366a8774a17ad",
+      "asset": "assets/audio/review-male-v1/A-H06.2-TR-01.m4a",
+      "assetSha256": "fb4319ce31a98bea730331646ec2bd3f4836047525409af662e507c116085f74",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H06.3-TR-01",
@@ -229,10 +249,11 @@
       "kind": "turkishNarration",
       "textId": "H06.3",
       "textVersion": "H06.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H06.3-TR-01.m4a",
-      "assetSha256": "3000939205e31ccbf44e44f727163206b498235c5d2a20e8720cab52c7ae0cb4",
+      "asset": "assets/audio/review-male-v1/A-H06.3-TR-01.m4a",
+      "assetSha256": "45db2d5559f9318fe64dbd1adea0004796bac835d8abf556ed431624dfea80da",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H06.4-TR-01",
@@ -240,10 +261,11 @@
       "kind": "turkishNarration",
       "textId": "H06.4",
       "textVersion": "H06.4-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H06.4-TR-01.m4a",
-      "assetSha256": "d12dcbb60f812bdbf2c7cb1c1f2f6ba0d300a1456f215e283e0634eff45bf04c",
+      "asset": "assets/audio/review-male-v1/A-H06.4-TR-01.m4a",
+      "assetSha256": "6133cce5240ca7c8e8c9fcbacaec8e76a896d1e686d967ec0f381ba01b8d2442",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H07.1-TR-01",
@@ -251,10 +273,11 @@
       "kind": "turkishNarration",
       "textId": "H07.1",
       "textVersion": "H07.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H07.1-TR-01.m4a",
-      "assetSha256": "f47d1eb0f3ea4d3371464473ee8e04f61752c215c815df19db7e482ebf847e6c",
+      "asset": "assets/audio/review-male-v1/A-H07.1-TR-01.m4a",
+      "assetSha256": "ea94a62c8051e9cb00ce2a1405833101697155f3991dd3e666cc48b3bc9327bf",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H07.2-TR-01",
@@ -262,10 +285,11 @@
       "kind": "turkishNarration",
       "textId": "H07.2",
       "textVersion": "H07.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H07.2-TR-01.m4a",
-      "assetSha256": "72f318fb098ddaeb57739be76b88046fc6af4586c0d33867be49a2e3560f1022",
+      "asset": "assets/audio/review-male-v1/A-H07.2-TR-01.m4a",
+      "assetSha256": "0c15cfb28eb07ec00c82b260e06ceeffe0ad1f0ddd2af63689bf9ba8f1361237",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H07.3-TR-01",
@@ -273,10 +297,11 @@
       "kind": "turkishNarration",
       "textId": "H07.3",
       "textVersion": "H07.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H07.3-TR-01.m4a",
-      "assetSha256": "e87b9bca247128e7bb0123771748483f2e7fa1892405786793b794187853a91d",
+      "asset": "assets/audio/review-male-v1/A-H07.3-TR-01.m4a",
+      "assetSha256": "b78c8b3d8041ce52a9e9b1cc736e9bb69c5971f946681a5e311349390dc4755f",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H08.1-TR-01",
@@ -284,10 +309,11 @@
       "kind": "turkishNarration",
       "textId": "H08.1",
       "textVersion": "H08.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H08.1-TR-01.m4a",
-      "assetSha256": "7354d246c0338fcca3e09eaaafc36273979b0aaaffc5a952be263da6ea1f7894",
+      "asset": "assets/audio/review-male-v1/A-H08.1-TR-01.m4a",
+      "assetSha256": "1f655c003e2817fdca4564e1f9d7f355086131bc62558ba28715bc2516d1a23e",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H08.2-TR-01",
@@ -295,10 +321,11 @@
       "kind": "turkishNarration",
       "textId": "H08.2",
       "textVersion": "H08.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H08.2-TR-01.m4a",
-      "assetSha256": "16432ba404aa64d42aa3e5a48f889fa8160776707594e956dac45e5ef919c9ac",
+      "asset": "assets/audio/review-male-v1/A-H08.2-TR-01.m4a",
+      "assetSha256": "69fe5fc6d7fa9ae389e05111cad08badaf19a835ee5d729dd642ff702c720ba5",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H08.3-TR-01",
@@ -306,10 +333,11 @@
       "kind": "turkishNarration",
       "textId": "H08.3",
       "textVersion": "H08.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H08.3-TR-01.m4a",
-      "assetSha256": "8b0153273771e53eee314c9ff9b084c433f608b46539fa393a2c86f7b857470f",
+      "asset": "assets/audio/review-male-v1/A-H08.3-TR-01.m4a",
+      "assetSha256": "857fbce2c3a35d7939da27a9adccbedcd66bff79476c64aad76752def0957da5",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H08.4-TR-01",
@@ -317,10 +345,11 @@
       "kind": "turkishNarration",
       "textId": "H08.4",
       "textVersion": "H08.4-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H08.4-TR-01.m4a",
-      "assetSha256": "8e4c22d6a9b6044e1713121d8bdb731c2c24eae979a7923f3c0468230091e95b",
+      "asset": "assets/audio/review-male-v1/A-H08.4-TR-01.m4a",
+      "assetSha256": "c93b6a7c865926b6e30d7185934eb0e6fd022c26f3007a149b367dc5ea005daa",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H09.1-TR-01",
@@ -328,10 +357,11 @@
       "kind": "turkishNarration",
       "textId": "H09.1",
       "textVersion": "H09.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H09.1-TR-01.m4a",
-      "assetSha256": "34ca958a6810adf007e776dca7042f8b9fddc2fe84d7d9ead5cb078a54804bff",
+      "asset": "assets/audio/review-male-v1/A-H09.1-TR-01.m4a",
+      "assetSha256": "fb355020c84cbb2303bf57c5194d4f790dd8b892f5850e4aa986ef1b29eabb86",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H09.2-TR-01",
@@ -339,10 +369,11 @@
       "kind": "turkishNarration",
       "textId": "H09.2",
       "textVersion": "H09.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H09.2-TR-01.m4a",
-      "assetSha256": "c4604f4fa2c9cff969026e9be9c2de0af63474b5ac121b0a048817d20ff8a871",
+      "asset": "assets/audio/review-male-v1/A-H09.2-TR-01.m4a",
+      "assetSha256": "2eae621652b03afaab9a6d46af5882e1edcaa4ec9ebfdf72e6d4bdb736f9b368",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H09.3-TR-01",
@@ -350,10 +381,11 @@
       "kind": "turkishNarration",
       "textId": "H09.3",
       "textVersion": "H09.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H09.3-TR-01.m4a",
-      "assetSha256": "c06e8b667ba38df5f1f1574c00bd4d95705f2f8b30048aef6d1c756c92e41842",
+      "asset": "assets/audio/review-male-v1/A-H09.3-TR-01.m4a",
+      "assetSha256": "d4dd81700fcbaaa29dc7070f99886f448646e855f8c43d6b89ddba5beaa5b38b",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H10.1-TR-01",
@@ -361,10 +393,11 @@
       "kind": "turkishNarration",
       "textId": "H10.1",
       "textVersion": "H10.1-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H10.1-TR-01.m4a",
-      "assetSha256": "7fadde6f56375c37d585d8b6f1251096f1442792015f3c22fdc340d761eedf9f",
+      "asset": "assets/audio/review-male-v1/A-H10.1-TR-01.m4a",
+      "assetSha256": "0bbe07d07382d87b37c32db8ffcedd95a5ea70ce3ce687dce93d05f05dd2f727",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H10.2-TR-01",
@@ -372,10 +405,11 @@
       "kind": "turkishNarration",
       "textId": "H10.2",
       "textVersion": "H10.2-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H10.2-TR-01.m4a",
-      "assetSha256": "7848955b0cb4f4d1a7e49771a0791d874d7a71d4a3c39874a1f145083ceddf38",
+      "asset": "assets/audio/review-male-v1/A-H10.2-TR-01.m4a",
+      "assetSha256": "6c3c7741a9d6e70a31ee2cdf659ba1d4eb4da13867ecd79826239f531d1100d8",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     },
     {
       "id": "A-H10.3-TR-01",
@@ -383,10 +417,11 @@
       "kind": "turkishNarration",
       "textId": "H10.3",
       "textVersion": "H10.3-draft-2026-10-09-v1",
-      "asset": "assets/audio/draft-v2/A-H10.3-TR-01.m4a",
-      "assetSha256": "90d3ae931d4e5088b5580a12d5be4a81091a730c8b4f559eb76907f7dc6faf01",
+      "asset": "assets/audio/review-male-v1/A-H10.3-TR-01.m4a",
+      "assetSha256": "063d9b52223ec851f9d86b97551e6aca4064750fe10c9c1be9b7f137f54e3920",
       "origin": "synthetic",
-      "reviewOnly": true
+      "reviewOnly": true,
+      "voiceStyle": "M1"
     }
   ],
   "prayerRecords": [],

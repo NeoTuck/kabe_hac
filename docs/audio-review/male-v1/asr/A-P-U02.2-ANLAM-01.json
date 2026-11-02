@@ -1,0 +1,165 @@
+{
+  "audioId": "A-P-U02.2-ANLAM-01",
+  "audioSha256": "fcc008b3771afe4eb7775584ea8f4bc5762c0e9056c9ebe2986680f81d09de41",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Buyur Allah'ım, çağrına geldim. Senin ortağın yoktur. Övgü, nimet ve mülksana aittir. Ortağın yoktur.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 7.62,
+      "text": " Buyur Allah'ım, çağrına geldim. Senin ortağın yoktur. Övgü, nimet ve mülksana aittir. Ortağın yoktur.",
+      "avgLogprob": -0.20956504344940186,
+      "noSpeechProb": 0.18302199244499207,
+      "words": [
+        {
+          "word": " Buyur",
+          "start": 0.0,
+          "end": 0.86,
+          "probability": 0.7861244380474091
+        },
+        {
+          "word": " Allah",
+          "start": 0.86,
+          "end": 1.1,
+          "probability": 0.9028543829917908
+        },
+        {
+          "word": "'ım,",
+          "start": 1.1,
+          "end": 1.38,
+          "probability": 0.9036903083324432
+        },
+        {
+          "word": " çağrına",
+          "start": 1.68,
+          "end": 2.04,
+          "probability": 0.8820413947105408
+        },
+        {
+          "word": " geldim.",
+          "start": 2.04,
+          "end": 2.48,
+          "probability": 0.9923004806041718
+        },
+        {
+          "word": " Senin",
+          "start": 2.88,
+          "end": 3.04,
+          "probability": 0.9561572074890137
+        },
+        {
+          "word": " ortağın",
+          "start": 3.04,
+          "end": 3.56,
+          "probability": 0.982232466340065
+        },
+        {
+          "word": " yoktur.",
+          "start": 3.56,
+          "end": 3.94,
+          "probability": 0.9968386590480804
+        },
+        {
+          "word": " Övgü,",
+          "start": 4.4,
+          "end": 4.86,
+          "probability": 0.9267783313989639
+        },
+        {
+          "word": " nimet",
+          "start": 4.98,
+          "end": 5.34,
+          "probability": 0.9753953814506531
+        },
+        {
+          "word": " ve",
+          "start": 5.34,
+          "end": 5.48,
+          "probability": 0.9964220523834229
+        },
+        {
+          "word": " mülksana",
+          "start": 5.48,
+          "end": 5.9,
+          "probability": 0.7997745424509048
+        },
+        {
+          "word": " aittir.",
+          "start": 5.9,
+          "end": 6.38,
+          "probability": 0.8937642574310303
+        },
+        {
+          "word": " Ortağın",
+          "start": 6.78,
+          "end": 7.22,
+          "probability": 0.9866738170385361
+        },
+        {
+          "word": " yoktur.",
+          "start": 7.22,
+          "end": 7.62,
+          "probability": 0.998488038778305
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "buyur allahım çağrına geldim senin ortağın yoktur övgü nimet ve mülk sana aittir ortağın yoktur",
+    "normalizedASR": "buyur allahım çağrına geldim senin ortağın yoktur övgü nimet ve mülksana aittir ortağın yoktur",
+    "wer": 0.13333333333333333,
+    "cer": 0.010526315789473684,
+    "hits": 13,
+    "substitutions": 1,
+    "deletions": 1,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "mülk",
+        "asr": "mülksana",
+        "referenceWordStart": 10
+      },
+      {
+        "type": "delete",
+        "reference": "sana",
+        "asr": "",
+        "referenceWordStart": 11
+      }
+    ],
+    "religiousTermCounts": {
+      "allah": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 2.366698980331421,
+  "humanApproval": false
+}

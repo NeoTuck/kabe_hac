@@ -29,6 +29,17 @@ class ProductionAssetsTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'Unreviewed content packaged'):
                 audit(apk)
 
+    def test_male_review_audio_is_rejected_from_user_apk(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            apk = pathlib.Path(tmp) / 'app.apk'
+            with zipfile.ZipFile(apk, 'w') as out:
+                out.writestr(
+                    'assets/flutter_assets/assets/audio/review-male-v1/A-U01.1-TR-01.m4a',
+                    b'review',
+                )
+            with self.assertRaisesRegex(RuntimeError, 'Unreviewed content packaged'):
+                audit(apk)
+
     def test_probe_fixture_is_rejected_from_user_apk(self):
         with tempfile.TemporaryDirectory() as tmp:
             apk = pathlib.Path(tmp) / 'app.apk'
@@ -43,5 +54,6 @@ class ProductionAssetsTests(unittest.TestCase):
         pubspec = (root / 'pubspec.yaml').read_text()
         self.assertNotIn('assets/audio/teknik_demo.m4a', pubspec)
         self.assertNotIn('- assets/audio/draft-v2/', pubspec)
+        self.assertNotIn('- assets/audio/review-male-v1/', pubspec)
         self.assertNotIn('- assets/content/umre_inventory.v1.json', pubspec)
         self.assertNotIn('- assets/content/hac_inventory.v1.json', pubspec)

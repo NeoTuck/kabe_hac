@@ -1,0 +1,369 @@
+{
+  "audioId": "A-H01.3-TR-01",
+  "audioSha256": "063542641086c00a6945d83a379a36475e56a16e8f55a240c35570d5a3976996",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Çevrim dışı içerik ve kişisel takip ayrı işlevlerdir. Hazırlık, paketin kaynağını, sürümünü ve indirme durumunu kontrol et. Yapılacak işlem, istersen paketi etkinleştir. Normal rehber için zorunlu değildir. Dikkat, taslak veya eksik paket onaylı dini içerik sayılmaz. Sonraki aşama, hazırlık ve mikat başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.24,
+      "text": " Çevrim dışı içerik ve kişisel takip ayrı işlevlerdir.",
+      "avgLogprob": -0.122830161035566,
+      "noSpeechProb": 0.16473978757858276,
+      "words": [
+        {
+          "word": " Çevrim",
+          "start": 0.0,
+          "end": 0.98,
+          "probability": 0.8878528475761414
+        },
+        {
+          "word": " dışı",
+          "start": 0.98,
+          "end": 1.26,
+          "probability": 0.9650036692619324
+        },
+        {
+          "word": " içerik",
+          "start": 1.26,
+          "end": 1.74,
+          "probability": 0.9958552122116089
+        },
+        {
+          "word": " ve",
+          "start": 1.74,
+          "end": 2.16,
+          "probability": 0.9763706922531128
+        },
+        {
+          "word": " kişisel",
+          "start": 2.16,
+          "end": 2.6,
+          "probability": 0.965103954076767
+        },
+        {
+          "word": " takip",
+          "start": 2.6,
+          "end": 3.22,
+          "probability": 0.9962090849876404
+        },
+        {
+          "word": " ayrı",
+          "start": 3.22,
+          "end": 3.56,
+          "probability": 0.9912679493427277
+        },
+        {
+          "word": " işlevlerdir.",
+          "start": 3.56,
+          "end": 4.24,
+          "probability": 0.9804330319166183
+        }
+      ]
+    },
+    {
+      "start": 4.68,
+      "end": 9.76,
+      "text": " Hazırlık, paketin kaynağını, sürümünü ve indirme durumunu kontrol et.",
+      "avgLogprob": -0.122830161035566,
+      "noSpeechProb": 0.16473978757858276,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.68,
+          "end": 5.26,
+          "probability": 0.9739298224449158
+        },
+        {
+          "word": " paketin",
+          "start": 5.62,
+          "end": 6.04,
+          "probability": 0.9891647100448608
+        },
+        {
+          "word": " kaynağını,",
+          "start": 6.04,
+          "end": 6.76,
+          "probability": 0.9706827849149704
+        },
+        {
+          "word": " sürümünü",
+          "start": 7.22,
+          "end": 7.68,
+          "probability": 0.947542409102122
+        },
+        {
+          "word": " ve",
+          "start": 7.68,
+          "end": 8.06,
+          "probability": 0.9940521121025085
+        },
+        {
+          "word": " indirme",
+          "start": 8.06,
+          "end": 8.58,
+          "probability": 0.9856359561284384
+        },
+        {
+          "word": " durumunu",
+          "start": 8.58,
+          "end": 9.06,
+          "probability": 0.9754952490329742
+        },
+        {
+          "word": " kontrol",
+          "start": 9.06,
+          "end": 9.52,
+          "probability": 0.9905274510383606
+        },
+        {
+          "word": " et.",
+          "start": 9.52,
+          "end": 9.76,
+          "probability": 0.9813321828842163
+        }
+      ]
+    },
+    {
+      "start": 10.860000000000001,
+      "end": 16.72,
+      "text": " Yapılacak işlem, istersen paketi etkinleştir. Normal rehber için zorunlu değildir.",
+      "avgLogprob": -0.122830161035566,
+      "noSpeechProb": 0.16473978757858276,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.860000000000001,
+          "end": 11.76,
+          "probability": 0.9915535648663839
+        },
+        {
+          "word": " işlem,",
+          "start": 11.76,
+          "end": 12.14,
+          "probability": 0.9933555722236633
+        },
+        {
+          "word": " istersen",
+          "start": 12.74,
+          "end": 13.28,
+          "probability": 0.9909083048502604
+        },
+        {
+          "word": " paketi",
+          "start": 13.28,
+          "end": 13.68,
+          "probability": 0.9891100525856018
+        },
+        {
+          "word": " etkinleştir.",
+          "start": 13.68,
+          "end": 14.38,
+          "probability": 0.9850914627313614
+        },
+        {
+          "word": " Normal",
+          "start": 14.82,
+          "end": 15.14,
+          "probability": 0.9894129633903503
+        },
+        {
+          "word": " rehber",
+          "start": 15.14,
+          "end": 15.52,
+          "probability": 0.9798108637332916
+        },
+        {
+          "word": " için",
+          "start": 15.52,
+          "end": 15.8,
+          "probability": 0.9996765851974487
+        },
+        {
+          "word": " zorunlu",
+          "start": 15.8,
+          "end": 16.26,
+          "probability": 0.9784761468569437
+        },
+        {
+          "word": " değildir.",
+          "start": 16.26,
+          "end": 16.72,
+          "probability": 0.9987764060497284
+        }
+      ]
+    },
+    {
+      "start": 17.34,
+      "end": 21.68,
+      "text": " Dikkat, taslak veya eksik paket onaylı dini içerik sayılmaz.",
+      "avgLogprob": -0.122830161035566,
+      "noSpeechProb": 0.16473978757858276,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 17.34,
+          "end": 17.86,
+          "probability": 0.9870002468427023
+        },
+        {
+          "word": " taslak",
+          "start": 18.34,
+          "end": 18.8,
+          "probability": 0.9865256547927856
+        },
+        {
+          "word": " veya",
+          "start": 18.8,
+          "end": 19.24,
+          "probability": 0.9271323084831238
+        },
+        {
+          "word": " eksik",
+          "start": 19.24,
+          "end": 19.68,
+          "probability": 0.994462788105011
+        },
+        {
+          "word": " paket",
+          "start": 19.68,
+          "end": 20.1,
+          "probability": 0.9964474737644196
+        },
+        {
+          "word": " onaylı",
+          "start": 20.1,
+          "end": 20.54,
+          "probability": 0.9648374716440836
+        },
+        {
+          "word": " dini",
+          "start": 20.54,
+          "end": 20.84,
+          "probability": 0.8444802761077881
+        },
+        {
+          "word": " içerik",
+          "start": 20.84,
+          "end": 21.22,
+          "probability": 0.9755083322525024
+        },
+        {
+          "word": " sayılmaz.",
+          "start": 21.22,
+          "end": 21.68,
+          "probability": 0.9931291739145914
+        }
+      ]
+    },
+    {
+      "start": 22.98,
+      "end": 26.0,
+      "text": " Sonraki aşama, hazırlık ve mikat başlığına geç.",
+      "avgLogprob": -0.122830161035566,
+      "noSpeechProb": 0.16473978757858276,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 22.98,
+          "end": 23.88,
+          "probability": 0.8249948620796204
+        },
+        {
+          "word": " aşama,",
+          "start": 23.88,
+          "end": 24.2,
+          "probability": 0.9855884313583374
+        },
+        {
+          "word": " hazırlık",
+          "start": 24.54,
+          "end": 24.94,
+          "probability": 0.9678055644035339
+        },
+        {
+          "word": " ve",
+          "start": 24.94,
+          "end": 25.08,
+          "probability": 0.9986000657081604
+        },
+        {
+          "word": " mikat",
+          "start": 25.08,
+          "end": 25.34,
+          "probability": 0.9396712481975555
+        },
+        {
+          "word": " başlığına",
+          "start": 25.34,
+          "end": 25.86,
+          "probability": 0.9090886563062668
+        },
+        {
+          "word": " geç.",
+          "start": 25.86,
+          "end": 26.0,
+          "probability": 0.9993777275085449
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "çevrimdışı içerik ve kişisel takip ayrı işlevlerdir hazırlık paketin kaynağını sürümünü ve indirme durumunu kontrol et yapılacak işlem istersen paketi etkinleştir normal rehber için zorunlu değildir dikkat taslak veya eksik paket onaylı dini içerik sayılmaz sonraki aşama hazırlık ve mikat başlığına geç",
+    "normalizedASR": "çevrim dışı içerik ve kişisel takip ayrı işlevlerdir hazırlık paketin kaynağını sürümünü ve indirme durumunu kontrol et yapılacak işlem istersen paketi etkinleştir normal rehber için zorunlu değildir dikkat taslak veya eksik paket onaylı dini içerik sayılmaz sonraki aşama hazırlık ve mikat başlığına geç",
+    "wer": 0.047619047619047616,
+    "cer": 0.0033003300330033004,
+    "hits": 41,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 1,
+    "edits": [
+      {
+        "type": "insert",
+        "reference": "",
+        "asr": "çevrim",
+        "referenceWordStart": 0
+      },
+      {
+        "type": "substitute",
+        "reference": "çevrimdışı",
+        "asr": "dışı",
+        "referenceWordStart": 0
+      }
+    ],
+    "religiousTermCounts": {
+      "mikat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.046537399291992,
+  "humanApproval": false
+}

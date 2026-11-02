@@ -1,0 +1,341 @@
+{
+  "audioId": "A-H05.1-TR-01",
+  "audioSha256": "3f47d9abf6574d112b8f0c97145c6a8f069619d5b9ec8da05c1fda0a6bf54722",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Müzdelifiyeye gece varış organizasyon planıyla izlenir. Hazırlık. Güncel konaklama ve buluşma bilgisini edin. Yapılacak işlem. Kafile görevlilerinin güvenlik yönlendirmelerini izle. Dikkat. Telefon konumu dini geçerlilik kararı değildir. Sonraki aşama namaz ve vakfe başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.84,
+      "text": " Müzdelifiyeye gece varış organizasyon planıyla izlenir.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Müzdelifiyeye",
+          "start": 0.0,
+          "end": 1.8,
+          "probability": 0.5679527396957079
+        },
+        {
+          "word": " gece",
+          "start": 1.8,
+          "end": 2.12,
+          "probability": 0.2932952642440796
+        },
+        {
+          "word": " varış",
+          "start": 2.12,
+          "end": 2.54,
+          "probability": 0.949666440486908
+        },
+        {
+          "word": " organizasyon",
+          "start": 2.54,
+          "end": 3.44,
+          "probability": 0.9514989654223124
+        },
+        {
+          "word": " planıyla",
+          "start": 3.44,
+          "end": 4.04,
+          "probability": 0.9387374222278595
+        },
+        {
+          "word": " izlenir.",
+          "start": 4.04,
+          "end": 4.84,
+          "probability": 0.965356449286143
+        }
+      ]
+    },
+    {
+      "start": 5.18,
+      "end": 5.74,
+      "text": " Hazırlık.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Hazırlık.",
+          "start": 5.18,
+          "end": 5.74,
+          "probability": 0.9906721711158752
+        }
+      ]
+    },
+    {
+      "start": 6.28,
+      "end": 9.26,
+      "text": " Güncel konaklama ve buluşma bilgisini edin.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Güncel",
+          "start": 6.28,
+          "end": 6.68,
+          "probability": 0.8425795435905457
+        },
+        {
+          "word": " konaklama",
+          "start": 6.68,
+          "end": 7.32,
+          "probability": 0.9917174180348715
+        },
+        {
+          "word": " ve",
+          "start": 7.32,
+          "end": 7.76,
+          "probability": 0.9965962767601013
+        },
+        {
+          "word": " buluşma",
+          "start": 7.76,
+          "end": 8.36,
+          "probability": 0.9974071780840555
+        },
+        {
+          "word": " bilgisini",
+          "start": 8.36,
+          "end": 8.88,
+          "probability": 0.9079672892888387
+        },
+        {
+          "word": " edin.",
+          "start": 8.88,
+          "end": 9.26,
+          "probability": 0.9886991083621979
+        }
+      ]
+    },
+    {
+      "start": 9.64,
+      "end": 10.58,
+      "text": " Yapılacak işlem.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.64,
+          "end": 10.16,
+          "probability": 0.9870333472887675
+        },
+        {
+          "word": " işlem.",
+          "start": 10.16,
+          "end": 10.58,
+          "probability": 0.9791814386844635
+        }
+      ]
+    },
+    {
+      "start": 11.04,
+      "end": 14.62,
+      "text": " Kafile görevlilerinin güvenlik yönlendirmelerini izle.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Kafile",
+          "start": 11.04,
+          "end": 11.5,
+          "probability": 0.884535014629364
+        },
+        {
+          "word": " görevlilerinin",
+          "start": 11.5,
+          "end": 12.36,
+          "probability": 0.9834930300712585
+        },
+        {
+          "word": " güvenlik",
+          "start": 12.36,
+          "end": 13.14,
+          "probability": 0.9884352286656698
+        },
+        {
+          "word": " yönlendirmelerini",
+          "start": 13.14,
+          "end": 14.2,
+          "probability": 0.9851758678754171
+        },
+        {
+          "word": " izle.",
+          "start": 14.2,
+          "end": 14.62,
+          "probability": 0.9871111810207367
+        }
+      ]
+    },
+    {
+      "start": 15.66,
+      "end": 16.6,
+      "text": " Dikkat.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Dikkat.",
+          "start": 15.66,
+          "end": 16.6,
+          "probability": 0.9772892991701762
+        }
+      ]
+    },
+    {
+      "start": 17.06,
+      "end": 19.92,
+      "text": " Telefon konumu dini geçerlilik kararı değildir.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Telefon",
+          "start": 17.06,
+          "end": 17.44,
+          "probability": 0.9890127182006836
+        },
+        {
+          "word": " konumu",
+          "start": 17.44,
+          "end": 17.84,
+          "probability": 0.9855789840221405
+        },
+        {
+          "word": " dini",
+          "start": 17.84,
+          "end": 18.26,
+          "probability": 0.8639864921569824
+        },
+        {
+          "word": " geçerlilik",
+          "start": 18.26,
+          "end": 18.86,
+          "probability": 0.9732839316129684
+        },
+        {
+          "word": " kararı",
+          "start": 18.86,
+          "end": 19.38,
+          "probability": 0.9963109195232391
+        },
+        {
+          "word": " değildir.",
+          "start": 19.38,
+          "end": 19.92,
+          "probability": 0.9987061619758606
+        }
+      ]
+    },
+    {
+      "start": 20.38,
+      "end": 23.38,
+      "text": " Sonraki aşama namaz ve vakfe başlığına geç.",
+      "avgLogprob": -0.16052184998989105,
+      "noSpeechProb": 0.2215484231710434,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.38,
+          "end": 20.88,
+          "probability": 0.8574790954589844
+        },
+        {
+          "word": " aşama",
+          "start": 20.88,
+          "end": 21.24,
+          "probability": 0.9904713034629822
+        },
+        {
+          "word": " namaz",
+          "start": 21.24,
+          "end": 22.08,
+          "probability": 0.8239559233188629
+        },
+        {
+          "word": " ve",
+          "start": 22.08,
+          "end": 22.24,
+          "probability": 0.9962900876998901
+        },
+        {
+          "word": " vakfe",
+          "start": 22.24,
+          "end": 22.62,
+          "probability": 0.8145599067211151
+        },
+        {
+          "word": " başlığına",
+          "start": 22.62,
+          "end": 23.2,
+          "probability": 0.9875694066286087
+        },
+        {
+          "word": " geç.",
+          "start": 23.2,
+          "end": 23.38,
+          "probability": 0.9991557598114014
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "muzdelifeye gece varış organizasyon planıyla izlenir hazırlık güncel konaklama ve buluşma bilgisini edin yapılacak işlem kafile görevlilerinin güvenlik yönlendirmelerini izle dikkat telefon konumu dini geçerlilik kararı değildir sonraki aşama namaz ve vakfe başlığına geç",
+    "normalizedASR": "müzdelifiyeye gece varış organizasyon planıyla izlenir hazırlık güncel konaklama ve buluşma bilgisini edin yapılacak işlem kafile görevlilerinin güvenlik yönlendirmelerini izle dikkat telefon konumu dini geçerlilik kararı değildir sonraki aşama namaz ve vakfe başlığına geç",
+    "wer": 0.029411764705882353,
+    "cer": 0.01107011070110701,
+    "hits": 33,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "muzdelifeye",
+        "asr": "müzdelifiyeye",
+        "referenceWordStart": 0
+      }
+    ],
+    "religiousTermCounts": {
+      "vakfe": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "muzdelife": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.293729305267334,
+  "humanApproval": false
+}

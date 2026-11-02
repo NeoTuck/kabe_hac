@@ -1,0 +1,9 @@
+[
+  {
+    "file": "wav/A-H10.3-TR-01.wav",
+    "observedBytes": 2359296,
+    "expectedBytes": 3082710,
+    "observedSha256": "f11276cfe8ab8244c67235edcab85c96f0a45ecaad42aaf648def3383f3c3acc",
+    "expectedSha256": "53e92c4d9417c8d334576f982ca5fcc1845024f4b23e048f6c58f8dee27bfbf8"
+  }
+]

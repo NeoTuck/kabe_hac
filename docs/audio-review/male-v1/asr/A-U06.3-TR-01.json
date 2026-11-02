@@ -1,0 +1,344 @@
+{
+  "audioId": "A-U06.3-TR-01",
+  "audioSha256": "824f4826980a4a3411cd1e4fa63f35d3144bb6a6ec6d8a58fadee2342f85141f",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir. Hazırlık, sayımı ve bulunduğun yeri kontrol et. Yapılacak işlem, tavaf namazı konusunu öğrenmek için devam et. Dikkat, eksik şaft veya özel durum hükmünü uygulama belirlemez. Sonraki aşama, tavaf namazı başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.94,
+      "text": " Tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir.",
+      "avgLogprob": -0.11357135063893087,
+      "noSpeechProb": 0.11788340657949448,
+      "words": [
+        {
+          "word": " Tavaf",
+          "start": 0.0,
+          "end": 1.02,
+          "probability": 0.7977556387583414
+        },
+        {
+          "word": " bitince",
+          "start": 1.02,
+          "end": 1.7,
+          "probability": 0.7820931673049927
+        },
+        {
+          "word": " sonraki",
+          "start": 1.7,
+          "end": 2.22,
+          "probability": 0.9596277475357056
+        },
+        {
+          "word": " ibadet",
+          "start": 2.22,
+          "end": 2.76,
+          "probability": 0.991286059220632
+        },
+        {
+          "word": " adımlarını",
+          "start": 2.76,
+          "end": 3.3,
+          "probability": 0.9509739875793457
+        },
+        {
+          "word": " sırayla",
+          "start": 3.3,
+          "end": 3.9,
+          "probability": 0.9755082329114279
+        },
+        {
+          "word": " gözden",
+          "start": 3.9,
+          "end": 4.46,
+          "probability": 0.953667163848877
+        },
+        {
+          "word": " geçir.",
+          "start": 4.46,
+          "end": 4.94,
+          "probability": 0.9988210201263428
+        }
+      ]
+    },
+    {
+      "start": 5.54,
+      "end": 8.88,
+      "text": " Hazırlık, sayımı ve bulunduğun yeri kontrol et.",
+      "avgLogprob": -0.11357135063893087,
+      "noSpeechProb": 0.11788340657949448,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.54,
+          "end": 6.1,
+          "probability": 0.9847716291745504
+        },
+        {
+          "word": " sayımı",
+          "start": 6.58,
+          "end": 7.08,
+          "probability": 0.9393720626831055
+        },
+        {
+          "word": " ve",
+          "start": 7.08,
+          "end": 7.24,
+          "probability": 0.9935032725334167
+        },
+        {
+          "word": " bulunduğun",
+          "start": 7.24,
+          "end": 7.88,
+          "probability": 0.9963193386793137
+        },
+        {
+          "word": " yeri",
+          "start": 7.88,
+          "end": 8.14,
+          "probability": 0.9844477772712708
+        },
+        {
+          "word": " kontrol",
+          "start": 8.14,
+          "end": 8.62,
+          "probability": 0.9668377041816711
+        },
+        {
+          "word": " et.",
+          "start": 8.62,
+          "end": 8.88,
+          "probability": 0.9965219497680664
+        }
+      ]
+    },
+    {
+      "start": 9.4,
+      "end": 13.84,
+      "text": " Yapılacak işlem, tavaf namazı konusunu öğrenmek için devam et.",
+      "avgLogprob": -0.11357135063893087,
+      "noSpeechProb": 0.11788340657949448,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.4,
+          "end": 9.92,
+          "probability": 0.9847731788953146
+        },
+        {
+          "word": " işlem,",
+          "start": 9.92,
+          "end": 10.32,
+          "probability": 0.9903028011322021
+        },
+        {
+          "word": " tavaf",
+          "start": 10.8,
+          "end": 11.1,
+          "probability": 0.7668397724628448
+        },
+        {
+          "word": " namazı",
+          "start": 11.1,
+          "end": 11.48,
+          "probability": 0.9784911473592123
+        },
+        {
+          "word": " konusunu",
+          "start": 11.48,
+          "end": 11.98,
+          "probability": 0.9822758038838705
+        },
+        {
+          "word": " öğrenmek",
+          "start": 11.98,
+          "end": 12.48,
+          "probability": 0.9957580268383026
+        },
+        {
+          "word": " için",
+          "start": 12.48,
+          "end": 12.82,
+          "probability": 0.999285876750946
+        },
+        {
+          "word": " devam",
+          "start": 12.82,
+          "end": 13.42,
+          "probability": 0.4955746531486511
+        },
+        {
+          "word": " et.",
+          "start": 13.42,
+          "end": 13.84,
+          "probability": 0.9887154698371887
+        }
+      ]
+    },
+    {
+      "start": 14.88,
+      "end": 19.8,
+      "text": " Dikkat, eksik şaft veya özel durum hükmünü uygulama belirlemez.",
+      "avgLogprob": -0.11357135063893087,
+      "noSpeechProb": 0.11788340657949448,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 14.88,
+          "end": 15.84,
+          "probability": 0.9794866641362509
+        },
+        {
+          "word": " eksik",
+          "start": 16.24,
+          "end": 16.56,
+          "probability": 0.9773425459861755
+        },
+        {
+          "word": " şaft",
+          "start": 16.56,
+          "end": 16.92,
+          "probability": 0.9311982989311218
+        },
+        {
+          "word": " veya",
+          "start": 16.92,
+          "end": 17.18,
+          "probability": 0.9730599522590637
+        },
+        {
+          "word": " özel",
+          "start": 17.18,
+          "end": 17.74,
+          "probability": 0.9828683733940125
+        },
+        {
+          "word": " durum",
+          "start": 17.74,
+          "end": 17.98,
+          "probability": 0.9919866323471069
+        },
+        {
+          "word": " hükmünü",
+          "start": 17.98,
+          "end": 18.6,
+          "probability": 0.9751060605049133
+        },
+        {
+          "word": " uygulama",
+          "start": 18.6,
+          "end": 19.08,
+          "probability": 0.9949696063995361
+        },
+        {
+          "word": " belirlemez.",
+          "start": 19.08,
+          "end": 19.8,
+          "probability": 0.9742703437805176
+        }
+      ]
+    },
+    {
+      "start": 20.3,
+      "end": 23.14,
+      "text": " Sonraki aşama, tavaf namazı başlığına geç.",
+      "avgLogprob": -0.11357135063893087,
+      "noSpeechProb": 0.11788340657949448,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.3,
+          "end": 20.9,
+          "probability": 0.9044414162635803
+        },
+        {
+          "word": " aşama,",
+          "start": 20.9,
+          "end": 21.24,
+          "probability": 0.9769757986068726
+        },
+        {
+          "word": " tavaf",
+          "start": 21.7,
+          "end": 22.08,
+          "probability": 0.8820843398571014
+        },
+        {
+          "word": " namazı",
+          "start": 22.08,
+          "end": 22.46,
+          "probability": 0.9957971374193827
+        },
+        {
+          "word": " başlığına",
+          "start": 22.46,
+          "end": 22.98,
+          "probability": 0.9810488373041153
+        },
+        {
+          "word": " geç.",
+          "start": 22.98,
+          "end": 23.14,
+          "probability": 0.9992671608924866
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir hazırlık sayımı ve bulunduğun yeri kontrol et yapılacak işlem tavaf namazı konusunu öğrenmek için devam et dikkat eksik şavt veya özel durum hükmünü uygulama belirlemez sonraki aşama tavaf namazı başlığına geç",
+    "normalizedASR": "tavaf bitince sonraki ibadet adımlarını sırayla gözden geçir hazırlık sayımı ve bulunduğun yeri kontrol et yapılacak işlem tavaf namazı konusunu öğrenmek için devam et dikkat eksik şaft veya özel durum hükmünü uygulama belirlemez sonraki aşama tavaf namazı başlığına geç",
+    "wer": 0.02564102564102564,
+    "cer": 0.003703703703703704,
+    "hits": 38,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "şavt",
+        "asr": "şaft",
+        "referenceWordStart": 26
+      }
+    ],
+    "religiousTermCounts": {
+      "şavt": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "tavaf": {
+        "expectedOccurrences": 3,
+        "asrOccurrences": 3,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.818812131881714,
+  "humanApproval": false
+}

@@ -1,0 +1,317 @@
+{
+  "audioId": "A-H04.1-TR-01",
+  "audioSha256": "c75be5c0c01e4f3b2e21f8f80a00561f8c8bca2a4ac017b1021584620332fd3d",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Arafat vakfesinin yer ve zaman bağlamı yetkili rehberlikle doğrulanır. Hazırlık, kafile programını ve bölge sınırını öğren, yapılacak işlem, güvenlik konumlanma talimatlarını izle. Dikkat, CPSS noktası vakfenin geçerliliğini belirlemez. Sonraki aşama namaz ve vakfe başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.5,
+      "text": " Arafat vakfesinin yer ve zaman bağlamı yetkili rehberlikle doğrulanır.",
+      "avgLogprob": -0.23092217144565047,
+      "noSpeechProb": 0.18320436775684357,
+      "words": [
+        {
+          "word": " Arafat",
+          "start": 0.0,
+          "end": 1.14,
+          "probability": 0.7300718625386556
+        },
+        {
+          "word": " vakfesinin",
+          "start": 1.14,
+          "end": 1.8,
+          "probability": 0.8579951077699661
+        },
+        {
+          "word": " yer",
+          "start": 1.8,
+          "end": 2.42,
+          "probability": 0.6348124742507935
+        },
+        {
+          "word": " ve",
+          "start": 2.42,
+          "end": 2.72,
+          "probability": 0.9754290580749512
+        },
+        {
+          "word": " zaman",
+          "start": 2.72,
+          "end": 3.0,
+          "probability": 0.9970001578330994
+        },
+        {
+          "word": " bağlamı",
+          "start": 3.0,
+          "end": 3.62,
+          "probability": 0.919289251168569
+        },
+        {
+          "word": " yetkili",
+          "start": 3.62,
+          "end": 4.04,
+          "probability": 0.9821600715319315
+        },
+        {
+          "word": " rehberlikle",
+          "start": 4.04,
+          "end": 4.78,
+          "probability": 0.9838091433048248
+        },
+        {
+          "word": " doğrulanır.",
+          "start": 4.78,
+          "end": 5.5,
+          "probability": 0.9518342316150665
+        }
+      ]
+    },
+    {
+      "start": 6.1,
+      "end": 14.56,
+      "text": " Hazırlık, kafile programını ve bölge sınırını öğren, yapılacak işlem, güvenlik konumlanma talimatlarını izle.",
+      "avgLogprob": -0.23092217144565047,
+      "noSpeechProb": 0.18320436775684357,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 6.1,
+          "end": 6.76,
+          "probability": 0.9849353233973185
+        },
+        {
+          "word": " kafile",
+          "start": 7.1,
+          "end": 7.58,
+          "probability": 0.8267001807689667
+        },
+        {
+          "word": " programını",
+          "start": 7.58,
+          "end": 8.26,
+          "probability": 0.9914362132549286
+        },
+        {
+          "word": " ve",
+          "start": 8.26,
+          "end": 8.72,
+          "probability": 0.9954654574394226
+        },
+        {
+          "word": " bölge",
+          "start": 8.72,
+          "end": 9.16,
+          "probability": 0.9953219294548035
+        },
+        {
+          "word": " sınırını",
+          "start": 9.16,
+          "end": 9.7,
+          "probability": 0.9936010390520096
+        },
+        {
+          "word": " öğren,",
+          "start": 9.7,
+          "end": 9.96,
+          "probability": 0.9759545922279358
+        },
+        {
+          "word": " yapılacak",
+          "start": 10.56,
+          "end": 11.1,
+          "probability": 0.9758837223052979
+        },
+        {
+          "word": " işlem,",
+          "start": 11.1,
+          "end": 11.58,
+          "probability": 0.9959851205348969
+        },
+        {
+          "word": " güvenlik",
+          "start": 12.14,
+          "end": 12.6,
+          "probability": 0.8666588068008423
+        },
+        {
+          "word": " konumlanma",
+          "start": 12.6,
+          "end": 13.3,
+          "probability": 0.9864097535610199
+        },
+        {
+          "word": " talimatlarını",
+          "start": 13.3,
+          "end": 14.2,
+          "probability": 0.9927561283111572
+        },
+        {
+          "word": " izle.",
+          "start": 14.2,
+          "end": 14.56,
+          "probability": 0.9687126576900482
+        }
+      ]
+    },
+    {
+      "start": 15.66,
+      "end": 20.38,
+      "text": " Dikkat, CPSS noktası vakfenin geçerliliğini belirlemez.",
+      "avgLogprob": -0.23092217144565047,
+      "noSpeechProb": 0.18320436775684357,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.66,
+          "end": 16.6,
+          "probability": 0.9776288270950317
+        },
+        {
+          "word": " CPSS",
+          "start": 17.16,
+          "end": 17.86,
+          "probability": 0.709048812588056
+        },
+        {
+          "word": " noktası",
+          "start": 17.86,
+          "end": 18.36,
+          "probability": 0.9812271992365519
+        },
+        {
+          "word": " vakfenin",
+          "start": 18.36,
+          "end": 18.9,
+          "probability": 0.8494753241539001
+        },
+        {
+          "word": " geçerliliğini",
+          "start": 18.9,
+          "end": 19.66,
+          "probability": 0.9736295819282532
+        },
+        {
+          "word": " belirlemez.",
+          "start": 19.66,
+          "end": 20.38,
+          "probability": 0.9652465581893921
+        }
+      ]
+    },
+    {
+      "start": 20.86,
+      "end": 24.04,
+      "text": " Sonraki aşama namaz ve vakfe başlığına geç.",
+      "avgLogprob": -0.23092217144565047,
+      "noSpeechProb": 0.18320436775684357,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.86,
+          "end": 21.4,
+          "probability": 0.9550068080425262
+        },
+        {
+          "word": " aşama",
+          "start": 21.4,
+          "end": 21.74,
+          "probability": 0.9888081252574921
+        },
+        {
+          "word": " namaz",
+          "start": 21.74,
+          "end": 22.72,
+          "probability": 0.5965752154588699
+        },
+        {
+          "word": " ve",
+          "start": 22.72,
+          "end": 22.94,
+          "probability": 0.9913197159767151
+        },
+        {
+          "word": " vakfe",
+          "start": 22.94,
+          "end": 23.32,
+          "probability": 0.8834100365638733
+        },
+        {
+          "word": " başlığına",
+          "start": 23.32,
+          "end": 23.88,
+          "probability": 0.988245815038681
+        },
+        {
+          "word": " geç.",
+          "start": 23.88,
+          "end": 24.04,
+          "probability": 0.9993522763252258
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "arafat vakfesinin yer ve zaman bağlamı yetkili rehberlikle doğrulanır hazırlık kafile programını ve bölge sınırını öğren yapılacak işlem güvenli konumlanma talimatlarını izle dikkat gps noktası vakfenin geçerliliğini belirlemez sonraki aşama namaz ve vakfe başlığına geç",
+    "normalizedASR": "arafat vakfesinin yer ve zaman bağlamı yetkili rehberlikle doğrulanır hazırlık kafile programını ve bölge sınırını öğren yapılacak işlem güvenlik konumlanma talimatlarını izle dikkat cpss noktası vakfenin geçerliliğini belirlemez sonraki aşama namaz ve vakfe başlığına geç",
+    "wer": 0.05714285714285714,
+    "cer": 0.011111111111111112,
+    "hits": 33,
+    "substitutions": 2,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "güvenli",
+        "asr": "güvenlik",
+        "referenceWordStart": 18
+      },
+      {
+        "type": "substitute",
+        "reference": "gps",
+        "asr": "cpss",
+        "referenceWordStart": 23
+      }
+    ],
+    "religiousTermCounts": {
+      "arafat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "vakfe": {
+        "expectedOccurrences": 3,
+        "asrOccurrences": 3,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.740126132965088,
+  "humanApproval": false
+}

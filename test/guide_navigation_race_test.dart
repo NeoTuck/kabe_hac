@@ -73,7 +73,11 @@ void main() {
     );
     await tester.tap(find.text('Aç'));
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Sonraki başlık'), 250);
+    await tester.scrollUntilVisible(
+      find.text('Sonraki başlık'),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.pumpAndSettle();
   }
 

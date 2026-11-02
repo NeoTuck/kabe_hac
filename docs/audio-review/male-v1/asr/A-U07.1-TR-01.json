@@ -1,0 +1,331 @@
+{
+  "audioId": "A-U07.1-TR-01",
+  "audioSha256": "f291ce39737a53275357c1afa00f39c1b9d697579d0132e655349b8e527a0712",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Tavaftan sonra kılınan namazın yerini ve koşullarını öğren. Hazırlık, kalabalığı ve uygun namaz alanını dikkate al. Yapılacak işlem, uygun uygulamayı yetkili rehberle teyit et. Dikkat, belirli bir noktaya ulaşmak için insanları zorlamaya çalışma. Sonraki aşama, zemzem başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.24,
+      "text": " Tavaftan sonra kılınan namazın yerini ve koşullarını öğren.",
+      "avgLogprob": -0.13868227401482208,
+      "noSpeechProb": 0.19804596900939941,
+      "words": [
+        {
+          "word": " Tavaftan",
+          "start": 0.0,
+          "end": 1.28,
+          "probability": 0.8440390825271606
+        },
+        {
+          "word": " sonra",
+          "start": 1.28,
+          "end": 1.6,
+          "probability": 0.9959177374839783
+        },
+        {
+          "word": " kılınan",
+          "start": 1.6,
+          "end": 2.32,
+          "probability": 0.9227132648229599
+        },
+        {
+          "word": " namazın",
+          "start": 2.32,
+          "end": 2.84,
+          "probability": 0.9805712302525839
+        },
+        {
+          "word": " yerini",
+          "start": 2.84,
+          "end": 3.22,
+          "probability": 0.9979617297649384
+        },
+        {
+          "word": " ve",
+          "start": 3.22,
+          "end": 3.36,
+          "probability": 0.9951057434082031
+        },
+        {
+          "word": " koşullarını",
+          "start": 3.36,
+          "end": 3.96,
+          "probability": 0.9838289171457291
+        },
+        {
+          "word": " öğren.",
+          "start": 3.96,
+          "end": 4.24,
+          "probability": 0.9636399149894714
+        }
+      ]
+    },
+    {
+      "start": 5.16,
+      "end": 9.4,
+      "text": " Hazırlık, kalabalığı ve uygun namaz alanını dikkate al.",
+      "avgLogprob": -0.13868227401482208,
+      "noSpeechProb": 0.19804596900939941,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.16,
+          "end": 5.82,
+          "probability": 0.9641644557317098
+        },
+        {
+          "word": " kalabalığı",
+          "start": 6.2,
+          "end": 6.86,
+          "probability": 0.9738052040338516
+        },
+        {
+          "word": " ve",
+          "start": 6.86,
+          "end": 7.06,
+          "probability": 0.9976569414138794
+        },
+        {
+          "word": " uygun",
+          "start": 7.06,
+          "end": 7.62,
+          "probability": 0.975818544626236
+        },
+        {
+          "word": " namaz",
+          "start": 7.62,
+          "end": 8.12,
+          "probability": 0.981084942817688
+        },
+        {
+          "word": " alanını",
+          "start": 8.12,
+          "end": 8.6,
+          "probability": 0.8983922600746155
+        },
+        {
+          "word": " dikkate",
+          "start": 8.6,
+          "end": 9.1,
+          "probability": 0.9782807528972626
+        },
+        {
+          "word": " al.",
+          "start": 9.1,
+          "end": 9.4,
+          "probability": 0.9850919842720032
+        }
+      ]
+    },
+    {
+      "start": 9.8,
+      "end": 14.46,
+      "text": " Yapılacak işlem, uygun uygulamayı yetkili rehberle teyit et.",
+      "avgLogprob": -0.13868227401482208,
+      "noSpeechProb": 0.19804596900939941,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.8,
+          "end": 10.34,
+          "probability": 0.9832579096158346
+        },
+        {
+          "word": " işlem,",
+          "start": 10.34,
+          "end": 10.8,
+          "probability": 0.9938868284225464
+        },
+        {
+          "word": " uygun",
+          "start": 11.26,
+          "end": 11.64,
+          "probability": 0.9949896037578583
+        },
+        {
+          "word": " uygulamayı",
+          "start": 11.64,
+          "end": 12.32,
+          "probability": 0.9949213266372681
+        },
+        {
+          "word": " yetkili",
+          "start": 12.32,
+          "end": 13.26,
+          "probability": 0.9678302605946859
+        },
+        {
+          "word": " rehberle",
+          "start": 13.26,
+          "end": 13.88,
+          "probability": 0.9781298637390137
+        },
+        {
+          "word": " teyit",
+          "start": 13.88,
+          "end": 14.26,
+          "probability": 0.877302885055542
+        },
+        {
+          "word": " et.",
+          "start": 14.26,
+          "end": 14.46,
+          "probability": 0.9890196919441223
+        }
+      ]
+    },
+    {
+      "start": 15.36,
+      "end": 20.52,
+      "text": " Dikkat, belirli bir noktaya ulaşmak için insanları zorlamaya çalışma.",
+      "avgLogprob": -0.13868227401482208,
+      "noSpeechProb": 0.19804596900939941,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.36,
+          "end": 16.34,
+          "probability": 0.969632625579834
+        },
+        {
+          "word": " belirli",
+          "start": 16.86,
+          "end": 17.24,
+          "probability": 0.989937980969747
+        },
+        {
+          "word": " bir",
+          "start": 17.24,
+          "end": 17.3,
+          "probability": 0.995269238948822
+        },
+        {
+          "word": " noktaya",
+          "start": 17.3,
+          "end": 17.72,
+          "probability": 0.9836628039677938
+        },
+        {
+          "word": " ulaşmak",
+          "start": 17.72,
+          "end": 18.22,
+          "probability": 0.9982332189877828
+        },
+        {
+          "word": " için",
+          "start": 18.22,
+          "end": 18.5,
+          "probability": 0.9995225667953491
+        },
+        {
+          "word": " insanları",
+          "start": 18.5,
+          "end": 19.38,
+          "probability": 0.9914392828941345
+        },
+        {
+          "word": " zorlamaya",
+          "start": 19.38,
+          "end": 19.92,
+          "probability": 0.9948373635609945
+        },
+        {
+          "word": " çalışma.",
+          "start": 19.92,
+          "end": 20.52,
+          "probability": 0.9991290867328644
+        }
+      ]
+    },
+    {
+      "start": 20.92,
+      "end": 23.68,
+      "text": " Sonraki aşama, zemzem başlığına geç.",
+      "avgLogprob": -0.13868227401482208,
+      "noSpeechProb": 0.19804596900939941,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.92,
+          "end": 21.48,
+          "probability": 0.8875013291835785
+        },
+        {
+          "word": " aşama,",
+          "start": 21.48,
+          "end": 21.84,
+          "probability": 0.9885639846324921
+        },
+        {
+          "word": " zemzem",
+          "start": 22.48,
+          "end": 22.84,
+          "probability": 0.8134607474009196
+        },
+        {
+          "word": " başlığına",
+          "start": 22.84,
+          "end": 23.48,
+          "probability": 0.993318721652031
+        },
+        {
+          "word": " geç.",
+          "start": 23.48,
+          "end": 23.68,
+          "probability": 0.9992049336433411
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "tavaftan sonra kılınan namazın yerini ve koşullarını öğren hazırlık kalabalığı ve uygun namaz alanını dikkate al yapılacak işlem uygun uygulamayı yetkili rehberle teyit et dikkat belirli bir noktaya ulaşmak için insanları zorlamaya çalışma sonraki aşama zemzem başlığına geç",
+    "normalizedASR": "tavaftan sonra kılınan namazın yerini ve koşullarını öğren hazırlık kalabalığı ve uygun namaz alanını dikkate al yapılacak işlem uygun uygulamayı yetkili rehberle teyit et dikkat belirli bir noktaya ulaşmak için insanları zorlamaya çalışma sonraki aşama zemzem başlığına geç",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 38,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "tavaf": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "zemzem": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.1763341426849365,
+  "humanApproval": false
+}

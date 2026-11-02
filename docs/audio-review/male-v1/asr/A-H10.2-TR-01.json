@@ -1,0 +1,290 @@
+{
+  "audioId": "A-H10.2-TR-01",
+  "audioSha256": "e47db054eb79defc69480cbd68c58ebbebc1b283db1eb6498015e84876f4d067",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Veda tavafı Mekke'den ayrılma aşamasıyla ilişkilidir. Hazırlık, ayrılış ve tavaf zamanını kafileyle planla. Yapılacak işlem, kendine uygulanıyorsa, işlemi rehberlikle yerine getir. Dikkat, sayaç ibadetin dini kabulünü belirlemez. Sonraki aşama, son özete geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.88,
+      "text": " Veda tavafı Mekke'den ayrılma aşamasıyla ilişkilidir.",
+      "avgLogprob": -0.13639363302634314,
+      "noSpeechProb": 0.0845838263630867,
+      "words": [
+        {
+          "word": " Veda",
+          "start": 0.0,
+          "end": 1.16,
+          "probability": 0.7473421990871429
+        },
+        {
+          "word": " tavafı",
+          "start": 1.16,
+          "end": 1.72,
+          "probability": 0.8613274494806925
+        },
+        {
+          "word": " Mekke'den",
+          "start": 1.72,
+          "end": 2.4,
+          "probability": 0.8848393797874451
+        },
+        {
+          "word": " ayrılma",
+          "start": 2.4,
+          "end": 3.16,
+          "probability": 0.9698005716005961
+        },
+        {
+          "word": " aşamasıyla",
+          "start": 3.16,
+          "end": 3.92,
+          "probability": 0.8640993237495422
+        },
+        {
+          "word": " ilişkilidir.",
+          "start": 3.92,
+          "end": 4.88,
+          "probability": 0.9706454575061798
+        }
+      ]
+    },
+    {
+      "start": 5.28,
+      "end": 9.14,
+      "text": " Hazırlık, ayrılış ve tavaf zamanını kafileyle planla.",
+      "avgLogprob": -0.13639363302634314,
+      "noSpeechProb": 0.0845838263630867,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.28,
+          "end": 5.9,
+          "probability": 0.976816713809967
+        },
+        {
+          "word": " ayrılış",
+          "start": 6.24,
+          "end": 6.76,
+          "probability": 0.9740116000175476
+        },
+        {
+          "word": " ve",
+          "start": 6.76,
+          "end": 6.9,
+          "probability": 0.9974218606948853
+        },
+        {
+          "word": " tavaf",
+          "start": 6.9,
+          "end": 7.3,
+          "probability": 0.9310899674892426
+        },
+        {
+          "word": " zamanını",
+          "start": 7.3,
+          "end": 7.86,
+          "probability": 0.99071004986763
+        },
+        {
+          "word": " kafileyle",
+          "start": 7.86,
+          "end": 8.54,
+          "probability": 0.8706639607747396
+        },
+        {
+          "word": " planla.",
+          "start": 8.54,
+          "end": 9.14,
+          "probability": 0.9892977178096771
+        }
+      ]
+    },
+    {
+      "start": 9.58,
+      "end": 14.1,
+      "text": " Yapılacak işlem, kendine uygulanıyorsa, işlemi rehberlikle yerine getir.",
+      "avgLogprob": -0.13639363302634314,
+      "noSpeechProb": 0.0845838263630867,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.58,
+          "end": 10.06,
+          "probability": 0.9877006808916727
+        },
+        {
+          "word": " işlem,",
+          "start": 10.06,
+          "end": 10.48,
+          "probability": 0.9923191666603088
+        },
+        {
+          "word": " kendine",
+          "start": 10.92,
+          "end": 11.28,
+          "probability": 0.9856961965560913
+        },
+        {
+          "word": " uygulanıyorsa,",
+          "start": 11.28,
+          "end": 12.12,
+          "probability": 0.9864501357078552
+        },
+        {
+          "word": " işlemi",
+          "start": 12.48,
+          "end": 12.84,
+          "probability": 0.9546305537223816
+        },
+        {
+          "word": " rehberlikle",
+          "start": 12.84,
+          "end": 13.52,
+          "probability": 0.9551655352115631
+        },
+        {
+          "word": " yerine",
+          "start": 13.52,
+          "end": 13.86,
+          "probability": 0.9990093410015106
+        },
+        {
+          "word": " getir.",
+          "start": 13.86,
+          "end": 14.1,
+          "probability": 0.9949212670326233
+        }
+      ]
+    },
+    {
+      "start": 15.38,
+      "end": 19.06,
+      "text": " Dikkat, sayaç ibadetin dini kabulünü belirlemez.",
+      "avgLogprob": -0.13639363302634314,
+      "noSpeechProb": 0.0845838263630867,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.38,
+          "end": 16.3,
+          "probability": 0.9784466624259949
+        },
+        {
+          "word": " sayaç",
+          "start": 16.8,
+          "end": 17.12,
+          "probability": 0.899346927801768
+        },
+        {
+          "word": " ibadetin",
+          "start": 17.12,
+          "end": 17.6,
+          "probability": 0.9756674965222677
+        },
+        {
+          "word": " dini",
+          "start": 17.6,
+          "end": 17.94,
+          "probability": 0.9387723505496979
+        },
+        {
+          "word": " kabulünü",
+          "start": 17.94,
+          "end": 18.38,
+          "probability": 0.7364905774593353
+        },
+        {
+          "word": " belirlemez.",
+          "start": 18.38,
+          "end": 19.06,
+          "probability": 0.9724530279636383
+        }
+      ]
+    },
+    {
+      "start": 19.42,
+      "end": 21.5,
+      "text": " Sonraki aşama, son özete geç.",
+      "avgLogprob": -0.13639363302634314,
+      "noSpeechProb": 0.0845838263630867,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.42,
+          "end": 19.94,
+          "probability": 0.8569530248641968
+        },
+        {
+          "word": " aşama,",
+          "start": 19.94,
+          "end": 20.28,
+          "probability": 0.9903403520584106
+        },
+        {
+          "word": " son",
+          "start": 20.7,
+          "end": 20.96,
+          "probability": 0.9733418822288513
+        },
+        {
+          "word": " özete",
+          "start": 20.96,
+          "end": 21.3,
+          "probability": 0.9128065407276154
+        },
+        {
+          "word": " geç.",
+          "start": 21.3,
+          "end": 21.5,
+          "probability": 0.9989131689071655
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "veda tavafı mekkeden ayrılma aşamasıyla ilişkilidir hazırlık ayrılış ve tavaf zamanını kafileyle planla yapılacak işlem kendine uygulanıyorsa işlemi rehberlikle yerine getir dikkat sayaç ibadetin dini kabulünü belirlemez sonraki aşama son özete geç",
+    "normalizedASR": "veda tavafı mekkeden ayrılma aşamasıyla ilişkilidir hazırlık ayrılış ve tavaf zamanını kafileyle planla yapılacak işlem kendine uygulanıyorsa işlemi rehberlikle yerine getir dikkat sayaç ibadetin dini kabulünü belirlemez sonraki aşama son özete geç",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 32,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "tavaf": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.556342601776123,
+  "humanApproval": false
+}

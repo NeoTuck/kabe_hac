@@ -1,0 +1,338 @@
+{
+  "audioId": "A-H06.4-TR-01",
+  "audioSha256": "60af7a5be69f5fca130e5a9b5d0b1daad65ac8dd0424a2602c383e374ed73a66",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Sonraki cemre hedefi ancak günün doğrulanmış sırasıyla seçilir. Hazırlık, kafile planında sıradaki hedefi kontrol et. Yapılacak işlem gerekirse yeni hedef için ayrı manuel sayaça aç. Dikkat, bir hedefin sayısı başka hedefe otomatik taşınmaz. Sonraki aşama, kurban bağlamına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.32,
+      "text": " Sonraki cemre hedefi ancak günün doğrulanmış sırasıyla seçilir.",
+      "avgLogprob": -0.16917537053426107,
+      "noSpeechProb": 0.2337695211172104,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 0.0,
+          "end": 1.3,
+          "probability": 0.801535040140152
+        },
+        {
+          "word": " cemre",
+          "start": 1.3,
+          "end": 1.66,
+          "probability": 0.7175654967625936
+        },
+        {
+          "word": " hedefi",
+          "start": 1.66,
+          "end": 2.08,
+          "probability": 0.9757910370826721
+        },
+        {
+          "word": " ancak",
+          "start": 2.08,
+          "end": 2.84,
+          "probability": 0.9324530959129333
+        },
+        {
+          "word": " günün",
+          "start": 2.84,
+          "end": 3.24,
+          "probability": 0.9802668392658234
+        },
+        {
+          "word": " doğrulanmış",
+          "start": 3.24,
+          "end": 4.06,
+          "probability": 0.9432377964258194
+        },
+        {
+          "word": " sırasıyla",
+          "start": 4.06,
+          "end": 4.68,
+          "probability": 0.9852311213811239
+        },
+        {
+          "word": " seçilir.",
+          "start": 4.68,
+          "end": 5.32,
+          "probability": 0.9973663886388143
+        }
+      ]
+    },
+    {
+      "start": 5.68,
+      "end": 9.52,
+      "text": " Hazırlık, kafile planında sıradaki hedefi kontrol et.",
+      "avgLogprob": -0.16917537053426107,
+      "noSpeechProb": 0.2337695211172104,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.68,
+          "end": 6.24,
+          "probability": 0.9833270112673441
+        },
+        {
+          "word": " kafile",
+          "start": 6.52,
+          "end": 6.96,
+          "probability": 0.7776835560798645
+        },
+        {
+          "word": " planında",
+          "start": 6.96,
+          "end": 7.52,
+          "probability": 0.9902061223983765
+        },
+        {
+          "word": " sıradaki",
+          "start": 7.52,
+          "end": 8.22,
+          "probability": 0.9356358647346497
+        },
+        {
+          "word": " hedefi",
+          "start": 8.22,
+          "end": 8.76,
+          "probability": 0.9778659343719482
+        },
+        {
+          "word": " kontrol",
+          "start": 8.76,
+          "end": 9.28,
+          "probability": 0.973362922668457
+        },
+        {
+          "word": " et.",
+          "start": 9.28,
+          "end": 9.52,
+          "probability": 0.9901936650276184
+        }
+      ]
+    },
+    {
+      "start": 10.68,
+      "end": 15.64,
+      "text": " Yapılacak işlem gerekirse yeni hedef için ayrı manuel sayaça aç.",
+      "avgLogprob": -0.16917537053426107,
+      "noSpeechProb": 0.2337695211172104,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.68,
+          "end": 11.64,
+          "probability": 0.9903022845586141
+        },
+        {
+          "word": " işlem",
+          "start": 11.64,
+          "end": 12.06,
+          "probability": 0.993529349565506
+        },
+        {
+          "word": " gerekirse",
+          "start": 12.06,
+          "end": 13.16,
+          "probability": 0.7978044152259827
+        },
+        {
+          "word": " yeni",
+          "start": 13.16,
+          "end": 13.44,
+          "probability": 0.9783721566200256
+        },
+        {
+          "word": " hedef",
+          "start": 13.44,
+          "end": 13.82,
+          "probability": 0.8002196053663889
+        },
+        {
+          "word": " için",
+          "start": 13.82,
+          "end": 14.04,
+          "probability": 0.9984180927276611
+        },
+        {
+          "word": " ayrı",
+          "start": 14.04,
+          "end": 14.48,
+          "probability": 0.9914595186710358
+        },
+        {
+          "word": " manuel",
+          "start": 14.48,
+          "end": 14.9,
+          "probability": 0.7464731633663177
+        },
+        {
+          "word": " sayaça",
+          "start": 14.9,
+          "end": 15.4,
+          "probability": 0.7029963930447897
+        },
+        {
+          "word": " aç.",
+          "start": 15.4,
+          "end": 15.64,
+          "probability": 0.9914924502372742
+        }
+      ]
+    },
+    {
+      "start": 16.06,
+      "end": 19.8,
+      "text": " Dikkat, bir hedefin sayısı başka hedefe otomatik taşınmaz.",
+      "avgLogprob": -0.16917537053426107,
+      "noSpeechProb": 0.2337695211172104,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.06,
+          "end": 16.62,
+          "probability": 0.9815102418263754
+        },
+        {
+          "word": " bir",
+          "start": 17.1,
+          "end": 17.18,
+          "probability": 0.9186438322067261
+        },
+        {
+          "word": " hedefin",
+          "start": 17.18,
+          "end": 17.58,
+          "probability": 0.9847801725069681
+        },
+        {
+          "word": " sayısı",
+          "start": 17.58,
+          "end": 18.0,
+          "probability": 0.9951471090316772
+        },
+        {
+          "word": " başka",
+          "start": 18.0,
+          "end": 18.24,
+          "probability": 0.9985041618347168
+        },
+        {
+          "word": " hedefe",
+          "start": 18.24,
+          "end": 18.74,
+          "probability": 0.9880348245302836
+        },
+        {
+          "word": " otomatik",
+          "start": 18.74,
+          "end": 19.26,
+          "probability": 0.9909567832946777
+        },
+        {
+          "word": " taşınmaz.",
+          "start": 19.26,
+          "end": 19.8,
+          "probability": 0.9956207076708475
+        }
+      ]
+    },
+    {
+      "start": 20.28,
+      "end": 23.02,
+      "text": " Sonraki aşama, kurban bağlamına geç.",
+      "avgLogprob": -0.16917537053426107,
+      "noSpeechProb": 0.2337695211172104,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.28,
+          "end": 20.84,
+          "probability": 0.8998951315879822
+        },
+        {
+          "word": " aşama,",
+          "start": 20.84,
+          "end": 21.22,
+          "probability": 0.9874943494796753
+        },
+        {
+          "word": " kurban",
+          "start": 21.86,
+          "end": 22.24,
+          "probability": 0.8651278614997864
+        },
+        {
+          "word": " bağlamına",
+          "start": 22.24,
+          "end": 22.82,
+          "probability": 0.9495731194814047
+        },
+        {
+          "word": " geç.",
+          "start": 22.82,
+          "end": 23.02,
+          "probability": 0.9993391633033752
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "sonraki cemre hedefi ancak günün doğrulanmış sırasıyla seçilir hazırlık kafile planında sıradaki hedefi kontrol et yapılacak işlem gerekirse yeni hedef için ayrı manuel sayaç aç dikkat bir hedefin sayısı başka hedefe otomatik taşınmaz sonraki aşama kurban bağlamına geç",
+    "normalizedASR": "sonraki cemre hedefi ancak günün doğrulanmış sırasıyla seçilir hazırlık kafile planında sıradaki hedefi kontrol et yapılacak işlem gerekirse yeni hedef için ayrı manuel sayaça aç dikkat bir hedefin sayısı başka hedefe otomatik taşınmaz sonraki aşama kurban bağlamına geç",
+    "wer": 0.02631578947368421,
+    "cer": 0.0037174721189591076,
+    "hits": 37,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "sayaç",
+        "asr": "sayaça",
+        "referenceWordStart": 23
+      }
+    ],
+    "religiousTermCounts": {
+      "cemre": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "kurban": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.7370615005493164,
+  "humanApproval": false
+}

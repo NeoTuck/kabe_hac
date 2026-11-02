@@ -1,0 +1,320 @@
+{
+  "audioId": "A-H09.3-TR-01",
+  "audioSha256": "aca8633c79e3fa6791c86d502cb1bc89a54e30ec7600106bd67ad4e961dbd9b2",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Mina'da devam veya ayrılma kararı gün ve şartlara bağlıdır. Hazırlık, program ve kişisel durumu yetkili rehberle gözden geçir. Yapılacak işlem, uygun sonraki hareketi kafilenle belirle. Dikkat, taslak akış otomatik ayrılma hükmü vermez. Sonraki aşama, veda uygulanabilirliğine geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.9,
+      "text": " Mina'da devam veya ayrılma kararı gün ve şartlara bağlıdır.",
+      "avgLogprob": -0.1281781716755143,
+      "noSpeechProb": 0.31298860907554626,
+      "words": [
+        {
+          "word": " Mina'da",
+          "start": 0.0,
+          "end": 1.48,
+          "probability": 0.7383353511492411
+        },
+        {
+          "word": " devam",
+          "start": 1.48,
+          "end": 1.96,
+          "probability": 0.2752695083618164
+        },
+        {
+          "word": " veya",
+          "start": 1.96,
+          "end": 2.26,
+          "probability": 0.987522304058075
+        },
+        {
+          "word": " ayrılma",
+          "start": 2.26,
+          "end": 2.82,
+          "probability": 0.9989136854807535
+        },
+        {
+          "word": " kararı",
+          "start": 2.82,
+          "end": 3.22,
+          "probability": 0.9972956776618958
+        },
+        {
+          "word": " gün",
+          "start": 3.22,
+          "end": 3.42,
+          "probability": 0.9952111840248108
+        },
+        {
+          "word": " ve",
+          "start": 3.42,
+          "end": 3.78,
+          "probability": 0.9915716648101807
+        },
+        {
+          "word": " şartlara",
+          "start": 3.78,
+          "end": 4.32,
+          "probability": 0.9958042105038961
+        },
+        {
+          "word": " bağlıdır.",
+          "start": 4.32,
+          "end": 4.9,
+          "probability": 0.9764532446861267
+        }
+      ]
+    },
+    {
+      "start": 5.3,
+      "end": 9.88,
+      "text": " Hazırlık, program ve kişisel durumu yetkili rehberle gözden geçir.",
+      "avgLogprob": -0.1281781716755143,
+      "noSpeechProb": 0.31298860907554626,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.3,
+          "end": 5.88,
+          "probability": 0.988596777121226
+        },
+        {
+          "word": " program",
+          "start": 6.22,
+          "end": 6.58,
+          "probability": 0.9125707149505615
+        },
+        {
+          "word": " ve",
+          "start": 6.58,
+          "end": 6.84,
+          "probability": 0.9937695860862732
+        },
+        {
+          "word": " kişisel",
+          "start": 6.84,
+          "end": 7.22,
+          "probability": 0.9929889440536499
+        },
+        {
+          "word": " durumu",
+          "start": 7.22,
+          "end": 7.62,
+          "probability": 0.993280827999115
+        },
+        {
+          "word": " yetkili",
+          "start": 7.62,
+          "end": 8.36,
+          "probability": 0.9221230546633402
+        },
+        {
+          "word": " rehberle",
+          "start": 8.36,
+          "end": 8.94,
+          "probability": 0.9834890365600586
+        },
+        {
+          "word": " gözden",
+          "start": 8.94,
+          "end": 9.46,
+          "probability": 0.9920280277729034
+        },
+        {
+          "word": " geçir.",
+          "start": 9.46,
+          "end": 9.88,
+          "probability": 0.9987202882766724
+        }
+      ]
+    },
+    {
+      "start": 11.22,
+      "end": 15.44,
+      "text": " Yapılacak işlem, uygun sonraki hareketi kafilenle belirle.",
+      "avgLogprob": -0.1281781716755143,
+      "noSpeechProb": 0.31298860907554626,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 11.22,
+          "end": 11.86,
+          "probability": 0.9870244065920512
+        },
+        {
+          "word": " işlem,",
+          "start": 11.86,
+          "end": 12.32,
+          "probability": 0.9914515316486359
+        },
+        {
+          "word": " uygun",
+          "start": 12.7,
+          "end": 13.08,
+          "probability": 0.9758337140083313
+        },
+        {
+          "word": " sonraki",
+          "start": 13.08,
+          "end": 13.68,
+          "probability": 0.9624326229095459
+        },
+        {
+          "word": " hareketi",
+          "start": 13.68,
+          "end": 14.36,
+          "probability": 0.9374560515085856
+        },
+        {
+          "word": " kafilenle",
+          "start": 14.36,
+          "end": 14.98,
+          "probability": 0.8417258659998575
+        },
+        {
+          "word": " belirle.",
+          "start": 14.98,
+          "end": 15.44,
+          "probability": 0.9839518467585245
+        }
+      ]
+    },
+    {
+      "start": 15.9,
+      "end": 19.7,
+      "text": " Dikkat, taslak akış otomatik ayrılma hükmü vermez.",
+      "avgLogprob": -0.1281781716755143,
+      "noSpeechProb": 0.31298860907554626,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.9,
+          "end": 16.46,
+          "probability": 0.9805280963579813
+        },
+        {
+          "word": " taslak",
+          "start": 16.94,
+          "end": 17.42,
+          "probability": 0.9543035328388214
+        },
+        {
+          "word": " akış",
+          "start": 17.42,
+          "end": 17.8,
+          "probability": 0.7389329522848129
+        },
+        {
+          "word": " otomatik",
+          "start": 17.8,
+          "end": 18.32,
+          "probability": 0.9885810812314352
+        },
+        {
+          "word": " ayrılma",
+          "start": 18.32,
+          "end": 18.82,
+          "probability": 0.9991300702095032
+        },
+        {
+          "word": " hükmü",
+          "start": 18.82,
+          "end": 19.22,
+          "probability": 0.9940532296895981
+        },
+        {
+          "word": " vermez.",
+          "start": 19.22,
+          "end": 19.7,
+          "probability": 0.9926630854606628
+        }
+      ]
+    },
+    {
+      "start": 20.18,
+      "end": 23.5,
+      "text": " Sonraki aşama, veda uygulanabilirliğine geç.",
+      "avgLogprob": -0.1281781716755143,
+      "noSpeechProb": 0.31298860907554626,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.18,
+          "end": 20.84,
+          "probability": 0.9597432315349579
+        },
+        {
+          "word": " aşama,",
+          "start": 20.84,
+          "end": 21.22,
+          "probability": 0.9925646781921387
+        },
+        {
+          "word": " veda",
+          "start": 21.74,
+          "end": 22.16,
+          "probability": 0.779578298330307
+        },
+        {
+          "word": " uygulanabilirliğine",
+          "start": 22.16,
+          "end": 23.3,
+          "probability": 0.8929945400782994
+        },
+        {
+          "word": " geç.",
+          "start": 23.3,
+          "end": 23.5,
+          "probability": 0.999206006526947
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "minada devam veya ayrılma kararı gün ve şartlara bağlıdır hazırlık program ve kişisel durumu yetkili rehberle gözden geçir yapılacak işlem uygun sonraki hareketi kafilenle belirle dikkat taslak akış otomatik ayrılma hükmü vermez sonraki aşama veda uygulanabilirliğine geç",
+    "normalizedASR": "minada devam veya ayrılma kararı gün ve şartlara bağlıdır hazırlık program ve kişisel durumu yetkili rehberle gözden geçir yapılacak işlem uygun sonraki hareketi kafilenle belirle dikkat taslak akış otomatik ayrılma hükmü vermez sonraki aşama veda uygulanabilirliğine geç",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 37,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "mina": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.6611030101776123,
+  "humanApproval": false
+}

@@ -1,0 +1,332 @@
+{
+  "audioId": "A-H03.2-TR-01",
+  "audioSha256": "81820b67c2117032597d57b7dcd8652b356ba2f6ad376596997033a5aa80776e",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Mina'daki ilk durak organizasyon planına göre ere alınır. Hazırlık, kafile programında bu durağın olup olmadığını doğrula. Yapılacak işlem, varsa konaklama ve hareket talimatlarına uy. Dikkat, bu başlık herkes için otomatik zorunlu gösterilmez. Sonraki aşama. Arafata geçişi incele.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.84,
+      "text": " Mina'daki ilk durak organizasyon planına göre ere alınır.",
+      "avgLogprob": -0.16159060685073628,
+      "noSpeechProb": 0.3282855749130249,
+      "words": [
+        {
+          "word": " Mina'daki",
+          "start": 0.0,
+          "end": 1.46,
+          "probability": 0.7552574972311655
+        },
+        {
+          "word": " ilk",
+          "start": 1.46,
+          "end": 1.84,
+          "probability": 0.8065347075462341
+        },
+        {
+          "word": " durak",
+          "start": 1.84,
+          "end": 2.22,
+          "probability": 0.949249267578125
+        },
+        {
+          "word": " organizasyon",
+          "start": 2.22,
+          "end": 3.18,
+          "probability": 0.9533009131749471
+        },
+        {
+          "word": " planına",
+          "start": 3.18,
+          "end": 3.6,
+          "probability": 0.9852194786071777
+        },
+        {
+          "word": " göre",
+          "start": 3.6,
+          "end": 3.8,
+          "probability": 0.9987490177154541
+        },
+        {
+          "word": " ere",
+          "start": 3.8,
+          "end": 4.12,
+          "probability": 0.3122767508029938
+        },
+        {
+          "word": " alınır.",
+          "start": 4.12,
+          "end": 4.84,
+          "probability": 0.9791415333747864
+        }
+      ]
+    },
+    {
+      "start": 5.2,
+      "end": 9.66,
+      "text": " Hazırlık, kafile programında bu durağın olup olmadığını doğrula.",
+      "avgLogprob": -0.16159060685073628,
+      "noSpeechProb": 0.3282855749130249,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.2,
+          "end": 5.78,
+          "probability": 0.9880176981290182
+        },
+        {
+          "word": " kafile",
+          "start": 6.16,
+          "end": 6.6,
+          "probability": 0.8001513779163361
+        },
+        {
+          "word": " programında",
+          "start": 6.6,
+          "end": 7.34,
+          "probability": 0.9919098615646362
+        },
+        {
+          "word": " bu",
+          "start": 7.34,
+          "end": 7.82,
+          "probability": 0.9334239363670349
+        },
+        {
+          "word": " durağın",
+          "start": 7.82,
+          "end": 8.24,
+          "probability": 0.9809843500455221
+        },
+        {
+          "word": " olup",
+          "start": 8.24,
+          "end": 8.6,
+          "probability": 0.9965375363826752
+        },
+        {
+          "word": " olmadığını",
+          "start": 8.6,
+          "end": 9.2,
+          "probability": 0.9989156524340311
+        },
+        {
+          "word": " doğrula.",
+          "start": 9.2,
+          "end": 9.66,
+          "probability": 0.8709186514218649
+        }
+      ]
+    },
+    {
+      "start": 10.72,
+      "end": 15.84,
+      "text": " Yapılacak işlem, varsa konaklama ve hareket talimatlarına uy.",
+      "avgLogprob": -0.16159060685073628,
+      "noSpeechProb": 0.3282855749130249,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.72,
+          "end": 11.64,
+          "probability": 0.9870968659718832
+        },
+        {
+          "word": " işlem,",
+          "start": 11.64,
+          "end": 12.08,
+          "probability": 0.9914370179176331
+        },
+        {
+          "word": " varsa",
+          "start": 12.46,
+          "end": 13.0,
+          "probability": 0.9594290852546692
+        },
+        {
+          "word": " konaklama",
+          "start": 13.0,
+          "end": 13.9,
+          "probability": 0.9612110257148743
+        },
+        {
+          "word": " ve",
+          "start": 13.9,
+          "end": 14.34,
+          "probability": 0.9986023306846619
+        },
+        {
+          "word": " hareket",
+          "start": 14.34,
+          "end": 14.82,
+          "probability": 0.9934215843677521
+        },
+        {
+          "word": " talimatlarına",
+          "start": 14.82,
+          "end": 15.64,
+          "probability": 0.9965644329786301
+        },
+        {
+          "word": " uy.",
+          "start": 15.64,
+          "end": 15.84,
+          "probability": 0.6288268566131592
+        }
+      ]
+    },
+    {
+      "start": 16.24,
+      "end": 20.4,
+      "text": " Dikkat, bu başlık herkes için otomatik zorunlu gösterilmez.",
+      "avgLogprob": -0.16159060685073628,
+      "noSpeechProb": 0.3282855749130249,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.24,
+          "end": 16.7,
+          "probability": 0.9859526753425598
+        },
+        {
+          "word": " bu",
+          "start": 17.22,
+          "end": 17.36,
+          "probability": 0.9904137253761292
+        },
+        {
+          "word": " başlık",
+          "start": 17.36,
+          "end": 17.96,
+          "probability": 0.9472486078739166
+        },
+        {
+          "word": " herkes",
+          "start": 17.96,
+          "end": 18.26,
+          "probability": 0.9617459774017334
+        },
+        {
+          "word": " için",
+          "start": 18.26,
+          "end": 18.72,
+          "probability": 0.9773882031440735
+        },
+        {
+          "word": " otomatik",
+          "start": 18.72,
+          "end": 19.34,
+          "probability": 0.9948979616165161
+        },
+        {
+          "word": " zorunlu",
+          "start": 19.34,
+          "end": 19.7,
+          "probability": 0.9908521970113119
+        },
+        {
+          "word": " gösterilmez.",
+          "start": 19.7,
+          "end": 20.4,
+          "probability": 0.9856794675191244
+        }
+      ]
+    },
+    {
+      "start": 21.04,
+      "end": 24.32,
+      "text": " Sonraki aşama. Arafata geçişi incele.",
+      "avgLogprob": -0.16159060685073628,
+      "noSpeechProb": 0.3282855749130249,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 21.04,
+          "end": 21.68,
+          "probability": 0.9295469224452972
+        },
+        {
+          "word": " aşama.",
+          "start": 21.68,
+          "end": 22.0,
+          "probability": 0.9846558272838593
+        },
+        {
+          "word": " Arafata",
+          "start": 22.72,
+          "end": 23.18,
+          "probability": 0.8317976395289103
+        },
+        {
+          "word": " geçişi",
+          "start": 23.18,
+          "end": 23.72,
+          "probability": 0.9852804144223531
+        },
+        {
+          "word": " incele.",
+          "start": 23.72,
+          "end": 24.32,
+          "probability": 0.8431270122528076
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "minadaki ilk durak organizasyon planına göre ele alınır hazırlık kafile programında bu durağın olup olmadığını doğrula yapılacak işlem varsa konaklama ve hareket talimatlarına uy dikkat bu başlık herkes için otomatik zorunlu gösterilmez sonraki aşama arafata geçişi incele",
+    "normalizedASR": "minadaki ilk durak organizasyon planına göre ere alınır hazırlık kafile programında bu durağın olup olmadığını doğrula yapılacak işlem varsa konaklama ve hareket talimatlarına uy dikkat bu başlık herkes için otomatik zorunlu gösterilmez sonraki aşama arafata geçişi incele",
+    "wer": 0.02702702702702703,
+    "cer": 0.003676470588235294,
+    "hits": 36,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "ele",
+        "asr": "ere",
+        "referenceWordStart": 6
+      }
+    ],
+    "religiousTermCounts": {
+      "arafat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "mina": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.8822832107543945,
+  "humanApproval": false
+}

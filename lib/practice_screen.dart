@@ -942,6 +942,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
           const Text('Bu başlık için onaylı ses henüz yok.')
         else
           for (final record in records) ...[
+            if (record.syntheticVoiceDisclosure != null)
+              Text(record.syntheticVoiceDisclosure!),
             if (record.isSyntheticDraftPreview)
               const Text(
                 'Sentetik taslak kayıt. Dinî, dil ve kullanım hakkı incelemesi tamamlanmadı.',

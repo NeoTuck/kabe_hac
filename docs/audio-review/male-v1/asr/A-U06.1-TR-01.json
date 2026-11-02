@@ -1,0 +1,350 @@
+{
+  "audioId": "A-U06.1-TR-01",
+  "audioSha256": "d5f7f04216971feeb67359a0e6f7ae4d82c188b28361351894c55db6ac4b9def",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Başlangı çizasına geri gelen tam dönüş bir şaftır. Hazırlık, tavafa başlamadan sayın mantığını gözden geçir. Yapılacak işlem, bir tam dönüşün bitişini kendin takip et. Dikkat, tereddütte uygulamanın sayısından dini hüküm çıkarma. Sonraki aşama, 7 şaft takibine geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.7,
+      "text": " Başlangı çizasına geri gelen tam dönüş bir şaftır.",
+      "avgLogprob": -0.1467977323784278,
+      "noSpeechProb": 0.13267892599105835,
+      "words": [
+        {
+          "word": " Başlangı",
+          "start": 0.0,
+          "end": 1.34,
+          "probability": 0.9663742780685425
+        },
+        {
+          "word": " çizasına",
+          "start": 1.34,
+          "end": 1.96,
+          "probability": 0.811252494653066
+        },
+        {
+          "word": " geri",
+          "start": 1.96,
+          "end": 2.68,
+          "probability": 0.8138179779052734
+        },
+        {
+          "word": " gelen",
+          "start": 2.68,
+          "end": 2.94,
+          "probability": 0.9928435683250427
+        },
+        {
+          "word": " tam",
+          "start": 2.94,
+          "end": 3.32,
+          "probability": 0.7458344101905823
+        },
+        {
+          "word": " dönüş",
+          "start": 3.32,
+          "end": 3.8,
+          "probability": 0.9966372549533844
+        },
+        {
+          "word": " bir",
+          "start": 3.8,
+          "end": 4.08,
+          "probability": 0.8604049682617188
+        },
+        {
+          "word": " şaftır.",
+          "start": 4.08,
+          "end": 4.7,
+          "probability": 0.9206471145153046
+        }
+      ]
+    },
+    {
+      "start": 5.04,
+      "end": 8.82,
+      "text": " Hazırlık, tavafa başlamadan sayın mantığını gözden geçir.",
+      "avgLogprob": -0.1467977323784278,
+      "noSpeechProb": 0.13267892599105835,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.04,
+          "end": 5.64,
+          "probability": 0.9751634200414022
+        },
+        {
+          "word": " tavafa",
+          "start": 6.06,
+          "end": 6.4,
+          "probability": 0.5556235015392303
+        },
+        {
+          "word": " başlamadan",
+          "start": 6.4,
+          "end": 7.02,
+          "probability": 0.9990837971369425
+        },
+        {
+          "word": " sayın",
+          "start": 7.02,
+          "end": 7.42,
+          "probability": 0.8196443617343903
+        },
+        {
+          "word": " mantığını",
+          "start": 7.42,
+          "end": 7.9,
+          "probability": 0.9866864681243896
+        },
+        {
+          "word": " gözden",
+          "start": 7.9,
+          "end": 8.36,
+          "probability": 0.9898966550827026
+        },
+        {
+          "word": " geçir.",
+          "start": 8.36,
+          "end": 8.82,
+          "probability": 0.9980729222297668
+        }
+      ]
+    },
+    {
+      "start": 9.28,
+      "end": 13.44,
+      "text": " Yapılacak işlem, bir tam dönüşün bitişini kendin takip et.",
+      "avgLogprob": -0.1467977323784278,
+      "noSpeechProb": 0.13267892599105835,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.28,
+          "end": 9.82,
+          "probability": 0.9882713556289673
+        },
+        {
+          "word": " işlem,",
+          "start": 9.82,
+          "end": 10.28,
+          "probability": 0.9881985187530518
+        },
+        {
+          "word": " bir",
+          "start": 10.74,
+          "end": 10.84,
+          "probability": 0.9012500047683716
+        },
+        {
+          "word": " tam",
+          "start": 10.84,
+          "end": 11.14,
+          "probability": 0.993330180644989
+        },
+        {
+          "word": " dönüşün",
+          "start": 11.14,
+          "end": 11.66,
+          "probability": 0.9960930744806925
+        },
+        {
+          "word": " bitişini",
+          "start": 11.66,
+          "end": 12.2,
+          "probability": 0.9807527860005697
+        },
+        {
+          "word": " kendin",
+          "start": 12.2,
+          "end": 12.76,
+          "probability": 0.9826808869838715
+        },
+        {
+          "word": " takip",
+          "start": 12.76,
+          "end": 13.24,
+          "probability": 0.9980568289756775
+        },
+        {
+          "word": " et.",
+          "start": 13.24,
+          "end": 13.44,
+          "probability": 0.9833586812019348
+        }
+      ]
+    },
+    {
+      "start": 14.68,
+      "end": 18.9,
+      "text": " Dikkat, tereddütte uygulamanın sayısından dini hüküm çıkarma.",
+      "avgLogprob": -0.1467977323784278,
+      "noSpeechProb": 0.13267892599105835,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 14.68,
+          "end": 15.64,
+          "probability": 0.9783636530240377
+        },
+        {
+          "word": " tereddütte",
+          "start": 16.12,
+          "end": 16.68,
+          "probability": 0.7721038162708282
+        },
+        {
+          "word": " uygulamanın",
+          "start": 16.68,
+          "end": 17.32,
+          "probability": 0.9936633229255676
+        },
+        {
+          "word": " sayısından",
+          "start": 17.32,
+          "end": 17.86,
+          "probability": 0.9954532980918884
+        },
+        {
+          "word": " dini",
+          "start": 17.86,
+          "end": 18.2,
+          "probability": 0.9700604975223541
+        },
+        {
+          "word": " hüküm",
+          "start": 18.2,
+          "end": 18.42,
+          "probability": 0.9809039831161499
+        },
+        {
+          "word": " çıkarma.",
+          "start": 18.42,
+          "end": 18.9,
+          "probability": 0.9561806619167328
+        }
+      ]
+    },
+    {
+      "start": 19.42,
+      "end": 22.44,
+      "text": " Sonraki aşama, 7 şaft takibine geç.",
+      "avgLogprob": -0.1467977323784278,
+      "noSpeechProb": 0.13267892599105835,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.42,
+          "end": 20.2,
+          "probability": 0.9213675260543823
+        },
+        {
+          "word": " aşama,",
+          "start": 20.2,
+          "end": 20.58,
+          "probability": 0.9890280365943909
+        },
+        {
+          "word": " 7",
+          "start": 21.08,
+          "end": 21.28,
+          "probability": 0.702425479888916
+        },
+        {
+          "word": " şaft",
+          "start": 21.28,
+          "end": 21.66,
+          "probability": 0.9772825638453165
+        },
+        {
+          "word": " takibine",
+          "start": 21.66,
+          "end": 22.24,
+          "probability": 0.9361526767412821
+        },
+        {
+          "word": " geç.",
+          "start": 22.24,
+          "end": 22.44,
+          "probability": 0.9995463490486145
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "başlangıç hizasına geri gelen tam dönüş bir şavttır hazırlık tavafa başlamadan sayım mantığını gözden geçir yapılacak işlem bir tam dönüşün bitişini kendin takip et dikkat tereddütte uygulamanın sayısından dini hüküm çıkarma sonraki aşama yedi şavt takibine geç",
+    "normalizedASR": "başlangı çizasına geri gelen tam dönüş bir şaftır hazırlık tavafa başlamadan sayın mantığını gözden geçir yapılacak işlem bir tam dönüşün bitişini kendin takip et dikkat tereddütte uygulamanın sayısından dini hüküm çıkarma sonraki aşama 7 şaft takibine geç",
+    "wer": 0.16216216216216217,
+    "cer": 0.038314176245210725,
+    "hits": 31,
+    "substitutions": 6,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "başlangıç hizasına",
+        "asr": "başlangı çizasına",
+        "referenceWordStart": 0
+      },
+      {
+        "type": "substitute",
+        "reference": "şavttır",
+        "asr": "şaftır",
+        "referenceWordStart": 7
+      },
+      {
+        "type": "substitute",
+        "reference": "sayım",
+        "asr": "sayın",
+        "referenceWordStart": 11
+      },
+      {
+        "type": "substitute",
+        "reference": "yedi şavt",
+        "asr": "7 şaft",
+        "referenceWordStart": 33
+      }
+    ],
+    "religiousTermCounts": {
+      "şavt": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "tavaf": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": false
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.7463064193725586,
+  "humanApproval": false
+}

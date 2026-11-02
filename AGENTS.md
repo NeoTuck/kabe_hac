@@ -1,5 +1,13 @@
 # AGENTS.md
 
+**2 Kasım erkek sesli inceleme APK'si:** Kullanıcının 54 erkek sesi APK'de dinleme isteği için normal yayın varlıklarını değiştirmeyen ayrı inceleme derlemesi üretildi: `build/review/Kabe_Hac_Ses_Inceleme.apk`, 112.662.476 bayt, SHA-256 `ce42a91c6707e52fc1d01f4a90305c5d9f0833e3f385430e46f323be52407925`. `KABE_AUDIO_REVIEW_BUILD=true` taslak katalogları yalnız inceleme sürümünde yükler; geçici build kopyası 54 M4A dosyasını paketler. İki katalog ve 54 ses APK içinde hash ile doğrulandı; Android v2/debug imzası ve ayrı `.review` uygulama kimliği doğrulandı. Flutter analiz 0 sorun, 257/257 test geçti. Normal `pubspec.yaml`, taslak/erkek ses dışlama kapısı ve `approved` alanları değişmedi. Fiziksel cihaz sesi ve son kullanıcı finali için gerçek uzman, insan dinleme/dağıtım kararları ve üretim imzası hâlâ açık. Ayrıntı `docs/47-erkek-sesli-apk-hazirligi-2026-11-02.md`.
+
+**2 Kasım kullanıcı geri bildirimi dilimi:** Boş rehberde metin/ses inceleme durumu netleştirildi, yardım numaraları ile yer/favori listesi ana ekrandan doğrudan açılır; yinelenen harita bağlantısı kaldırıldı. İki şehir haritası kuruluysa genel giriş önce şehir seçtirir, Mekke'yi otomatik açmaz. Erkek sesler ve taslak metinler kullanıcı paketine eklenmedi. Flutter analiz/test kanıtı ve sınırlar `docs/46-kullanici-geri-bildirimi-2026-11-02.md` içindedir. **Sıradaki bağımlı iş:** gerçek metin/ses inceleme ve dağıtım kararlarıyla ilk onaylı Umre paketini hazırlamak; görsel cihaz kabulünü ayrıca yapmak.
+
+**26 Ekim masaüstü teknik APK:** Flutter 3.47.6 ile analiz temiz, ikinci tam koşu 255/255 Flutter testi geçti (ilk koşudaki geçici tek hata tekrarlanmadı). Android teknik release APK üretildi, debug sertifikasıyla imzası ve taslak içerik dışlama denetimi doğrulandı. `/Users/mustafasenoglu/Desktop/Kabe_Hac_2026-10-26_Teknik_Deneme.apk` SHA-256 `3a854f1bace704ff6876a9ec669eecd6856e07dc7408e0bb1cef62a90ea3feaa`. APK'de onaysız erkek ses veya taslak rehber bulunmaz; fiziksel cihaz veya son kullanıcı yayın kabulü değildir. Ayrıntı `docs/45-erkek-ses-inceleme-adayi-2026-10-26.md`.
+
+**26 Ekim erkek ses inceleme adayı:** Kullanıcının sağladığı 54 Supertonic 3 M1 sentetik erkek M4A kaydı, eski kadın kayıtlarının yerine gelecekteki onaylı paket adayı olarak taslak katalog kimlik/sürüm/hash alanlarına bağlandı. Dosyalar `assets/audio/review-male-v1/`, makbuz/lisans/kalite kanıtı `docs/audio-review/male-v1/` içindedir; eski kaynak korunur. 54/54 teknik bağ eşleşti; insan dinleme onayı 0/54 ve ASR dikkat listesi 22 kayıttır. Kullanıcı Flutter varlıklarına veya APK'ye eklenmedi, `approved` yazılmadı; normal rehber boş kalır. Ayrıntı `docs/45-erkek-ses-inceleme-adayi-2026-10-26.md`. **Sıradaki bağımlı iş:** gerçek metin ve erkek ses inceleme/hak kararlarını sürüm/hash bazında al, ilk Umre dilimini onaylı pakete bağla, native/cihaz kabulünü yinele.
+
 **15 Ekim kullanıcı logosu:** Kullanıcının gönderdiği Kâbe görseli `assets/branding/app_icon_source.jpg` olarak saklandı; `tools/build_app_icons.py` ile Android ve iOS uygulama ikon boyutlarına üretildi. Kaynak ve türevlerin özeti `docs/qa/asset-license-inventory.json` içinde tutulur. Görselin üreticisi ve dağıtım hakkı belgelenmedi; yayın hakkı kapısı açık. Bu iş mevcut içerik, native cihaz ve imza kabulünü değiştirmez. Ayrıntı `docs/43-uygulama-ikonu-2026-10-15.md` içindedir.
 **14 Ekim demo içerik çıkarma:** Kullanıcı isteğiyle 53 uzman onaysız rehber metni ve 54 sentetik ses Flutter kullanıcı varlıklarından çıkarıldı. Kaynak dosyalar yalnız inceleme/test kanıtı olarak depoda kalır. Varsayılan Umre/Hac kataloğu boş ve dürüsttür; eski kişisel kayıt silinmez, taslak rehber/prova girişi açılmaz. Eski kurulu taslak içerik paketleri reddedilir; güven/hash ile kurulan yalnız onaylı, kısmi ilk içerik dilimi desteklenir ve tam hazırlık sayılmaz. Paket denetimi taslak metin ve sesi reddeder. Uzak `147d94d` değişikliği üzerine yeniden tabanlanmış kodda yerel analiz 0 sorun, 255 Flutter ve 86 Python testi geçti; Flutter varlık paketinde rehber JSON veya ses dosyası yok. Güncel sınır ve doğrulama `docs/44-demo-icerik-cikarma-2026-10-14.md` içindedir. **Sıradaki bağımlı iş:** gerçek uzman/hak kararlarıyla ilk onaylı Umre metin/ses paketini hazırlayıp son kullanıcı/native kabulünü yeniden yapmak. Hiçbir uzman, hak, cihaz veya mağaza kabulü üretilmedi.
 
@@ -190,7 +198,9 @@ Yalnız plan bırakma. Erişilebilen bağımsız işi tamamla. Dinî içerik, uz
 
 ## 3. Sıradaki tek iş
 
-Kullanıcı logosu Android/iOS ikon varlıklarına bağlandı. Sıradaki yayın işi için logo dağıtım hakkını belgele; aşağıdaki native ve dış kabul kapıları açık kalır.
+Ses inceleme APK'si üretildi; `docs/47` içindeki hash ve teknik imza kanıtı tamamlandı. Sıradaki iş fiziksel Android cihazda 54 sesin gerçek oynatılmasını ve arayüzü dinleyerek incelemek; bunu son kullanıcı finali olarak adlandırma. Final için aşağıdaki gerçek metin/ses onay ve üretim imzası kapısı sürer.
+
+Erkek sentetik sesler taslak inceleme adayı olarak bağlandı; onaylı kullanıcı sürümünde henüz etkin değildir. Önce gerçek metin uzman/kaynak hakkı ve erkek ses dinleme/dağıtım kararlarını kimlik, sürüm ve SHA-256 ile al. İlk Umre dilimini onaylı çevrimdışı pakete bağla, görünür sentetik ses açıklamasını ve son APK/native/cihaz denetimini tamamla. Logo dağıtım hakkı da açık kalır. Ayrıntı `docs/45-erkek-ses-inceleme-adayi-2026-10-26.md`.
 
 **Güncel öncelik (14 Ekim):** Kullanıcı paketinde taslak dinî metin ve sentetik ses yoktur. Depodaki inceleme dosyalarını otomatik yeniden paketleme. İlk Umre dilimini yalnız gerçek uzman kararı ve ses hak kanıtı geldikten sonra onaylı, güvenilir çevrimdışı paketle bağla; paket kimliği/sürümü/özetini ve cihaz akışını doğrula. Uzun native/CI veya fiziksel cihaz turunu kullanıcı açıkça istemedikçe başlatma. `docs/44-demo-icerik-cikarma-2026-10-14.md` günceldir; aşağıdaki önceki içerik/ses açıklamaları tarihsel durumdur.
 
@@ -226,12 +236,12 @@ Teknik pilot APK debug imzalıdır; üretim Android derlemesi gerçek key.proper
 | --- | --- | --- | --- |
 | P0 | Kod, veri, araç ve kapsam incelemesi | Tamamlandı | Gap listesi, bağımlılıklar ve kişi-gün tahmini `docs/04` içinde. |
 | P1 | Umre/Hac veri akışı ve üç sayaç | Teknik temel tamamlandı; veri bekliyor | 18/35 onaylı içerik ve Hac matrisi gelmeden ürün kabulü verilmez. |
-| P2 | Ses ve çevrimdışı paketler | Teknik katman hazır; sağlayıcı/cihaz bekliyor | Gerçek güvenilir paket, arka plan/kesinti ve iki platform cihaz kanıtı. |
+| P2 | Ses ve çevrimdışı paketler | Erkek ses inceleme APK'si üretildi; cihaz ve onay bekliyor | Gerçek güvenilir paket, arka plan/kesinti ve iki platform cihaz kanıtı. |
 | P3 | Harita, POI ve rotalar | Adaptör ve modeller hazır; sağlayıcı bekliyor | İzinli bölgede gerçek uçak modu harita, durak, arama ve yeniden açma. |
 | P4 | Güvenli gezi, dil, saha, adım | Veri modelleri hazır; içerik/sensör bekliyor | Kaynaklı yerel içerik, insan incelemesi ve cihaz sensör kanıtı. |
 | P5 | Grup backend'i ve senkronizasyon | SQL/outbox taslağı; servis bekliyor | İki hesap ve iki grup ile RLS izolasyonu, Auth/Realtime ve offline senkronizasyon. |
 | P6 | Konum ve push | Foreground GPS/FCM istemci kodu; canlı servis ve cihaz kabulü bekliyor | Rıza/iptal/son konum, saklama/silme otomasyonu ve gerçek APNs/FCM teslim sınırları. |
-| P7 | Bütünleşik mobil test ve yayın hazırlığı | Teknik otomasyon genişletildi; gerçek cihaz/yayın bekliyor | Gerçek cihaz matrisi, erişilebilirlik, güvenlik, mağaza ve final durum matrisi. |
+| P7 | Bütünleşik mobil test ve yayın hazırlığı | Boş ana ekran/şehir seçimi widget testleri geçti; gerçek cihaz/yayın bekliyor | Gerçek cihaz matrisi, erişilebilirlik, güvenlik, mağaza ve final durum matrisi. |
 
 3D bu planın kapsamı değildir. Bir paketi yalnız kabul ölçütü kanıtlandığında tamamlandı yaz.
 

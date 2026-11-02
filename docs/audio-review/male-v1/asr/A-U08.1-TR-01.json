@@ -1,0 +1,374 @@
+{
+  "audioId": "A-U08.1-TR-01",
+  "audioSha256": "ba91b596ec0f4e557439e034927c6c247d5f534a46f6bd59dcf21836124f95bf",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Sahi, safa ve merve arasında tek yönlü geçişlerle sayılır. Hazırlık, başlangıç yönünü ve yürüyüş düzenini öğren. Yapılacak işlem, ilk geçişe safa yönünden başlanacağını rehberinle teyit et. Dikkat, fiziksel koşullar ve özel hükümler için kişisel destek al. Sonraki aşama, ilk gidiş ve dönüş sayımına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.0,
+      "text": " Sahi, safa ve merve arasında tek yönlü geçişlerle sayılır.",
+      "avgLogprob": -0.15100938181917206,
+      "noSpeechProb": 0.15081900358200073,
+      "words": [
+        {
+          "word": " Sahi,",
+          "start": 0.0,
+          "end": 1.28,
+          "probability": 0.5500604808330536
+        },
+        {
+          "word": " safa",
+          "start": 1.44,
+          "end": 1.78,
+          "probability": 0.7978100478649139
+        },
+        {
+          "word": " ve",
+          "start": 1.78,
+          "end": 1.96,
+          "probability": 0.9940614104270935
+        },
+        {
+          "word": " merve",
+          "start": 1.96,
+          "end": 2.28,
+          "probability": 0.6750618517398834
+        },
+        {
+          "word": " arasında",
+          "start": 2.28,
+          "end": 2.84,
+          "probability": 0.9974368214607239
+        },
+        {
+          "word": " tek",
+          "start": 2.84,
+          "end": 3.44,
+          "probability": 0.9223044514656067
+        },
+        {
+          "word": " yönlü",
+          "start": 3.44,
+          "end": 3.82,
+          "probability": 0.9341293275356293
+        },
+        {
+          "word": " geçişlerle",
+          "start": 3.82,
+          "end": 4.5,
+          "probability": 0.9944835156202316
+        },
+        {
+          "word": " sayılır.",
+          "start": 4.5,
+          "end": 5.0,
+          "probability": 0.9912056922912598
+        }
+      ]
+    },
+    {
+      "start": 5.22,
+      "end": 8.46,
+      "text": " Hazırlık, başlangıç yönünü ve yürüyüş düzenini öğren.",
+      "avgLogprob": -0.15100938181917206,
+      "noSpeechProb": 0.15081900358200073,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 5.22,
+          "end": 5.74,
+          "probability": 0.9867371916770935
+        },
+        {
+          "word": " başlangıç",
+          "start": 6.04,
+          "end": 6.68,
+          "probability": 0.960768312215805
+        },
+        {
+          "word": " yönünü",
+          "start": 6.68,
+          "end": 7.04,
+          "probability": 0.9928174912929535
+        },
+        {
+          "word": " ve",
+          "start": 7.04,
+          "end": 7.34,
+          "probability": 0.994616687297821
+        },
+        {
+          "word": " yürüyüş",
+          "start": 7.34,
+          "end": 7.78,
+          "probability": 0.9799448847770691
+        },
+        {
+          "word": " düzenini",
+          "start": 7.78,
+          "end": 8.24,
+          "probability": 0.9857252637545267
+        },
+        {
+          "word": " öğren.",
+          "start": 8.24,
+          "end": 8.46,
+          "probability": 0.9336081147193909
+        }
+      ]
+    },
+    {
+      "start": 9.86,
+      "end": 15.12,
+      "text": " Yapılacak işlem, ilk geçişe safa yönünden başlanacağını rehberinle teyit et.",
+      "avgLogprob": -0.15100938181917206,
+      "noSpeechProb": 0.15081900358200073,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.86,
+          "end": 10.7,
+          "probability": 0.9888008634249369
+        },
+        {
+          "word": " işlem,",
+          "start": 10.7,
+          "end": 11.12,
+          "probability": 0.9813536405563354
+        },
+        {
+          "word": " ilk",
+          "start": 11.66,
+          "end": 11.82,
+          "probability": 0.8922828435897827
+        },
+        {
+          "word": " geçişe",
+          "start": 11.82,
+          "end": 12.44,
+          "probability": 0.9953483740488688
+        },
+        {
+          "word": " safa",
+          "start": 12.44,
+          "end": 12.84,
+          "probability": 0.9589275121688843
+        },
+        {
+          "word": " yönünden",
+          "start": 12.84,
+          "end": 13.26,
+          "probability": 0.9939787089824677
+        },
+        {
+          "word": " başlanacağını",
+          "start": 13.26,
+          "end": 14.04,
+          "probability": 0.9901857227087021
+        },
+        {
+          "word": " rehberinle",
+          "start": 14.04,
+          "end": 14.66,
+          "probability": 0.9029195010662079
+        },
+        {
+          "word": " teyit",
+          "start": 14.66,
+          "end": 14.98,
+          "probability": 0.8332832852999369
+        },
+        {
+          "word": " et.",
+          "start": 14.98,
+          "end": 15.12,
+          "probability": 0.8851580023765564
+        }
+      ]
+    },
+    {
+      "start": 15.62,
+      "end": 20.96,
+      "text": " Dikkat, fiziksel koşullar ve özel hükümler için kişisel destek al.",
+      "avgLogprob": -0.15100938181917206,
+      "noSpeechProb": 0.15081900358200073,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.62,
+          "end": 16.2,
+          "probability": 0.9824238816897074
+        },
+        {
+          "word": " fiziksel",
+          "start": 16.84,
+          "end": 17.34,
+          "probability": 0.9881302316983541
+        },
+        {
+          "word": " koşullar",
+          "start": 17.34,
+          "end": 18.02,
+          "probability": 0.9869399269421896
+        },
+        {
+          "word": " ve",
+          "start": 18.02,
+          "end": 18.32,
+          "probability": 0.9961448907852173
+        },
+        {
+          "word": " özel",
+          "start": 18.32,
+          "end": 18.68,
+          "probability": 0.9983006715774536
+        },
+        {
+          "word": " hükümler",
+          "start": 18.68,
+          "end": 19.24,
+          "probability": 0.9955555945634842
+        },
+        {
+          "word": " için",
+          "start": 19.24,
+          "end": 19.54,
+          "probability": 0.9997995495796204
+        },
+        {
+          "word": " kişisel",
+          "start": 19.54,
+          "end": 20.18,
+          "probability": 0.6774872839450836
+        },
+        {
+          "word": " destek",
+          "start": 20.18,
+          "end": 20.72,
+          "probability": 0.9214597046375275
+        },
+        {
+          "word": " al.",
+          "start": 20.72,
+          "end": 20.96,
+          "probability": 0.5542538166046143
+        }
+      ]
+    },
+    {
+      "start": 21.9,
+      "end": 25.04,
+      "text": " Sonraki aşama, ilk gidiş ve dönüş sayımına geç.",
+      "avgLogprob": -0.15100938181917206,
+      "noSpeechProb": 0.15081900358200073,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 21.9,
+          "end": 22.74,
+          "probability": 0.8605400621891022
+        },
+        {
+          "word": " aşama,",
+          "start": 22.74,
+          "end": 23.1,
+          "probability": 0.9936041235923767
+        },
+        {
+          "word": " ilk",
+          "start": 23.52,
+          "end": 23.66,
+          "probability": 0.9547383189201355
+        },
+        {
+          "word": " gidiş",
+          "start": 23.66,
+          "end": 23.98,
+          "probability": 0.9888250231742859
+        },
+        {
+          "word": " ve",
+          "start": 23.98,
+          "end": 24.14,
+          "probability": 0.9971628785133362
+        },
+        {
+          "word": " dönüş",
+          "start": 24.14,
+          "end": 24.48,
+          "probability": 0.9966272413730621
+        },
+        {
+          "word": " sayımına",
+          "start": 24.48,
+          "end": 24.88,
+          "probability": 0.993464469909668
+        },
+        {
+          "word": " geç.",
+          "start": 24.88,
+          "end": 25.04,
+          "probability": 0.9992812275886536
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "say safa ve merve arasında tek yönlü geçişlerle sayılır hazırlık başlangıç yönünü ve yürüyüş düzenini öğren yapılacak işlem ilk geçişe safa yönünden başlanacağını rehberinle teyit et dikkat fiziksel koşullar ve özel hükümler için kişisel destek al sonraki aşama ilk gidiş ve dönüş sayımına geç",
+    "normalizedASR": "sahi safa ve merve arasında tek yönlü geçişlerle sayılır hazırlık başlangıç yönünü ve yürüyüş düzenini öğren yapılacak işlem ilk geçişe safa yönünden başlanacağını rehberinle teyit et dikkat fiziksel koşullar ve özel hükümler için kişisel destek al sonraki aşama ilk gidiş ve dönüş sayımına geç",
+    "wer": 0.022727272727272728,
+    "cer": 0.006825938566552901,
+    "hits": 43,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "say",
+        "asr": "sahi",
+        "referenceWordStart": 0
+      }
+    ],
+    "religiousTermCounts": {
+      "safa": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      },
+      "merve": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.118829965591431,
+  "humanApproval": false
+}

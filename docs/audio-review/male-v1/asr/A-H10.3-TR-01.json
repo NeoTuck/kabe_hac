@@ -1,0 +1,308 @@
+{
+  "audioId": "A-H10.3-TR-01",
+  "audioSha256": "53e92c4d9417c8d334576f982ca5fcc1845024f4b23e048f6c58f8dee27bfbf8",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Özet yalnız kişisel takip kaydını gösterir. Hazırlık. Açık kalan başlıkları ve kafile programını kontrol et. Yapılacak işlem, gerekiyorsa önceki adıma veya yetkili rehbere dön. Dikkat, tamamlandı işareti hac kabul belgesi değildir. Sonraki aşama, kayıtları sakla.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.32,
+      "text": " Özet yalnız kişisel takip kaydını gösterir. Hazırlık.",
+      "avgLogprob": -0.17038216426347694,
+      "noSpeechProb": 0.25826385617256165,
+      "words": [
+        {
+          "word": " Özet",
+          "start": 0.0,
+          "end": 0.96,
+          "probability": 0.7951366305351257
+        },
+        {
+          "word": " yalnız",
+          "start": 0.96,
+          "end": 1.36,
+          "probability": 0.8478277623653412
+        },
+        {
+          "word": " kişisel",
+          "start": 1.36,
+          "end": 1.84,
+          "probability": 0.9689018428325653
+        },
+        {
+          "word": " takip",
+          "start": 1.84,
+          "end": 2.38,
+          "probability": 0.9954883456230164
+        },
+        {
+          "word": " kaydını",
+          "start": 2.38,
+          "end": 2.82,
+          "probability": 0.9869542121887207
+        },
+        {
+          "word": " gösterir.",
+          "start": 2.82,
+          "end": 3.5,
+          "probability": 0.9979840815067291
+        },
+        {
+          "word": " Hazırlık.",
+          "start": 3.78,
+          "end": 4.32,
+          "probability": 0.9770646492640177
+        }
+      ]
+    },
+    {
+      "start": 5.12,
+      "end": 8.54,
+      "text": " Açık kalan başlıkları ve kafile programını kontrol et.",
+      "avgLogprob": -0.17038216426347694,
+      "noSpeechProb": 0.25826385617256165,
+      "words": [
+        {
+          "word": " Açık",
+          "start": 5.12,
+          "end": 5.46,
+          "probability": 0.991320788860321
+        },
+        {
+          "word": " kalan",
+          "start": 5.46,
+          "end": 5.74,
+          "probability": 0.9448629915714264
+        },
+        {
+          "word": " başlıkları",
+          "start": 5.74,
+          "end": 6.34,
+          "probability": 0.9938153823216757
+        },
+        {
+          "word": " ve",
+          "start": 6.34,
+          "end": 6.62,
+          "probability": 0.9933538436889648
+        },
+        {
+          "word": " kafile",
+          "start": 6.62,
+          "end": 7.14,
+          "probability": 0.8434024751186371
+        },
+        {
+          "word": " programını",
+          "start": 7.14,
+          "end": 7.74,
+          "probability": 0.9935680329799652
+        },
+        {
+          "word": " kontrol",
+          "start": 7.74,
+          "end": 8.3,
+          "probability": 0.980966329574585
+        },
+        {
+          "word": " et.",
+          "start": 8.3,
+          "end": 8.54,
+          "probability": 0.9935187697410583
+        }
+      ]
+    },
+    {
+      "start": 9.28,
+      "end": 14.42,
+      "text": " Yapılacak işlem, gerekiyorsa önceki adıma veya yetkili rehbere dön.",
+      "avgLogprob": -0.17038216426347694,
+      "noSpeechProb": 0.25826385617256165,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.28,
+          "end": 9.88,
+          "probability": 0.9890311161677042
+        },
+        {
+          "word": " işlem,",
+          "start": 9.88,
+          "end": 10.3,
+          "probability": 0.9941882193088531
+        },
+        {
+          "word": " gerekiyorsa",
+          "start": 10.58,
+          "end": 11.28,
+          "probability": 0.7902296781539917
+        },
+        {
+          "word": " önceki",
+          "start": 11.28,
+          "end": 12.06,
+          "probability": 0.8608377277851105
+        },
+        {
+          "word": " adıma",
+          "start": 12.06,
+          "end": 12.4,
+          "probability": 0.9655486345291138
+        },
+        {
+          "word": " veya",
+          "start": 12.4,
+          "end": 12.94,
+          "probability": 0.9730120301246643
+        },
+        {
+          "word": " yetkili",
+          "start": 12.94,
+          "end": 13.7,
+          "probability": 0.9869247674942017
+        },
+        {
+          "word": " rehbere",
+          "start": 13.7,
+          "end": 14.14,
+          "probability": 0.8615415692329407
+        },
+        {
+          "word": " dön.",
+          "start": 14.14,
+          "end": 14.42,
+          "probability": 0.9903477430343628
+        }
+      ]
+    },
+    {
+      "start": 15.36,
+      "end": 19.44,
+      "text": " Dikkat, tamamlandı işareti hac kabul belgesi değildir.",
+      "avgLogprob": -0.17038216426347694,
+      "noSpeechProb": 0.25826385617256165,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.36,
+          "end": 16.26,
+          "probability": 0.9813714623451233
+        },
+        {
+          "word": " tamamlandı",
+          "start": 16.64,
+          "end": 17.22,
+          "probability": 0.8892966111501058
+        },
+        {
+          "word": " işareti",
+          "start": 17.22,
+          "end": 17.76,
+          "probability": 0.9540694355964661
+        },
+        {
+          "word": " hac",
+          "start": 17.76,
+          "end": 18.02,
+          "probability": 0.20279943943023682
+        },
+        {
+          "word": " kabul",
+          "start": 18.02,
+          "end": 18.38,
+          "probability": 0.5100489258766174
+        },
+        {
+          "word": " belgesi",
+          "start": 18.38,
+          "end": 18.96,
+          "probability": 0.9954355955123901
+        },
+        {
+          "word": " değildir.",
+          "start": 18.96,
+          "end": 19.44,
+          "probability": 0.9984814822673798
+        }
+      ]
+    },
+    {
+      "start": 19.94,
+      "end": 22.26,
+      "text": " Sonraki aşama, kayıtları sakla.",
+      "avgLogprob": -0.17038216426347694,
+      "noSpeechProb": 0.25826385617256165,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.94,
+          "end": 20.5,
+          "probability": 0.8787904679775238
+        },
+        {
+          "word": " aşama,",
+          "start": 20.5,
+          "end": 20.88,
+          "probability": 0.9855538904666901
+        },
+        {
+          "word": " kayıtları",
+          "start": 21.38,
+          "end": 21.82,
+          "probability": 0.977928618590037
+        },
+        {
+          "word": " sakla.",
+          "start": 21.82,
+          "end": 22.26,
+          "probability": 0.9980392456054688
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "özet yalnız kişisel takip kaydını gösterir hazırlık açık kalan başlıkları ve kafile programını kontrol et yapılacak işlem gerekiyorsa önceki adıma veya yetkili rehbere dön dikkat tamamlandı işareti hac kabul belgesi değildir sonraki aşama kayıtları sakla",
+    "normalizedASR": "özet yalnız kişisel takip kaydını gösterir hazırlık açık kalan başlıkları ve kafile programını kontrol et yapılacak işlem gerekiyorsa önceki adıma veya yetkili rehbere dön dikkat tamamlandı işareti hac kabul belgesi değildir sonraki aşama kayıtları sakla",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 35,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "hac": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.6044254302978516,
+  "humanApproval": false
+}

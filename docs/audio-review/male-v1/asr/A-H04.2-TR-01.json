@@ -1,0 +1,343 @@
+{
+  "audioId": "A-H04.2-TR-01",
+  "audioSha256": "7189e45b0e1b54bf00ecf96907b57c20cef21190679257649a62cdcfef718852",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Arafat günü namaz ve vakfe birlikte değerlendirilir. Hazırlık, vakit ve kafile düzenini yetkili rehberden öğren, yapılacak işlem, kendi durumuna uygun ibadet akışını takip et. Dikkat, mezhep ve özel durum ayrıntıları bu taslakta karara bağlanmaz. Sonraki aşama, dua zamanı başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.44,
+      "text": " Arafat günü namaz ve vakfe birlikte değerlendirilir.",
+      "avgLogprob": -0.1464811235392859,
+      "noSpeechProb": 0.2375454604625702,
+      "words": [
+        {
+          "word": " Arafat",
+          "start": 0.0,
+          "end": 1.2,
+          "probability": 0.590375542640686
+        },
+        {
+          "word": " günü",
+          "start": 1.2,
+          "end": 1.52,
+          "probability": 0.869755208492279
+        },
+        {
+          "word": " namaz",
+          "start": 1.52,
+          "end": 2.0,
+          "probability": 0.9462168514728546
+        },
+        {
+          "word": " ve",
+          "start": 2.0,
+          "end": 2.24,
+          "probability": 0.9956629872322083
+        },
+        {
+          "word": " vakfe",
+          "start": 2.24,
+          "end": 2.6,
+          "probability": 0.7343112826347351
+        },
+        {
+          "word": " birlikte",
+          "start": 2.6,
+          "end": 3.12,
+          "probability": 0.7153563698132833
+        },
+        {
+          "word": " değerlendirilir.",
+          "start": 3.12,
+          "end": 4.44,
+          "probability": 0.9945692916711172
+        }
+      ]
+    },
+    {
+      "start": 4.6,
+      "end": 9.1,
+      "text": " Hazırlık, vakit ve kafile düzenini yetkili rehberden öğren,",
+      "avgLogprob": -0.1464811235392859,
+      "noSpeechProb": 0.2375454604625702,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.6,
+          "end": 5.16,
+          "probability": 0.9768549998601278
+        },
+        {
+          "word": " vakit",
+          "start": 5.5,
+          "end": 6.08,
+          "probability": 0.9863995015621185
+        },
+        {
+          "word": " ve",
+          "start": 6.08,
+          "end": 6.56,
+          "probability": 0.9814282655715942
+        },
+        {
+          "word": " kafile",
+          "start": 6.56,
+          "end": 7.1,
+          "probability": 0.7915650308132172
+        },
+        {
+          "word": " düzenini",
+          "start": 7.1,
+          "end": 7.62,
+          "probability": 0.9904509782791138
+        },
+        {
+          "word": " yetkili",
+          "start": 7.62,
+          "end": 8.12,
+          "probability": 0.9893933733304342
+        },
+        {
+          "word": " rehberden",
+          "start": 8.12,
+          "end": 8.8,
+          "probability": 0.9507942001024882
+        },
+        {
+          "word": " öğren,",
+          "start": 8.8,
+          "end": 9.1,
+          "probability": 0.9681747555732727
+        }
+      ]
+    },
+    {
+      "start": 9.58,
+      "end": 14.68,
+      "text": " yapılacak işlem, kendi durumuna uygun ibadet akışını takip et.",
+      "avgLogprob": -0.1464811235392859,
+      "noSpeechProb": 0.2375454604625702,
+      "words": [
+        {
+          "word": " yapılacak",
+          "start": 9.58,
+          "end": 10.12,
+          "probability": 0.9614630937576294
+        },
+        {
+          "word": " işlem,",
+          "start": 10.12,
+          "end": 10.58,
+          "probability": 0.9950533509254456
+        },
+        {
+          "word": " kendi",
+          "start": 11.04,
+          "end": 11.28,
+          "probability": 0.9903854131698608
+        },
+        {
+          "word": " durumuna",
+          "start": 11.28,
+          "end": 11.84,
+          "probability": 0.9978030920028687
+        },
+        {
+          "word": " uygun",
+          "start": 11.84,
+          "end": 12.28,
+          "probability": 0.9848762452602386
+        },
+        {
+          "word": " ibadet",
+          "start": 12.28,
+          "end": 12.94,
+          "probability": 0.9902669986089071
+        },
+        {
+          "word": " akışını",
+          "start": 12.94,
+          "end": 13.64,
+          "probability": 0.9708115259806315
+        },
+        {
+          "word": " takip",
+          "start": 13.64,
+          "end": 14.48,
+          "probability": 0.95504429936409
+        },
+        {
+          "word": " et.",
+          "start": 14.48,
+          "end": 14.68,
+          "probability": 0.9912436008453369
+        }
+      ]
+    },
+    {
+      "start": 15.66,
+      "end": 20.82,
+      "text": " Dikkat, mezhep ve özel durum ayrıntıları bu taslakta karara bağlanmaz.",
+      "avgLogprob": -0.1464811235392859,
+      "noSpeechProb": 0.2375454604625702,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.66,
+          "end": 16.48,
+          "probability": 0.9749121268590292
+        },
+        {
+          "word": " mezhep",
+          "start": 16.92,
+          "end": 17.44,
+          "probability": 0.8156117002169291
+        },
+        {
+          "word": " ve",
+          "start": 17.44,
+          "end": 17.62,
+          "probability": 0.9969586133956909
+        },
+        {
+          "word": " özel",
+          "start": 17.62,
+          "end": 17.96,
+          "probability": 0.9946576952934265
+        },
+        {
+          "word": " durum",
+          "start": 17.96,
+          "end": 18.2,
+          "probability": 0.9795758724212646
+        },
+        {
+          "word": " ayrıntıları",
+          "start": 18.2,
+          "end": 18.98,
+          "probability": 0.9948143512010574
+        },
+        {
+          "word": " bu",
+          "start": 18.98,
+          "end": 19.14,
+          "probability": 0.9889683127403259
+        },
+        {
+          "word": " taslakta",
+          "start": 19.14,
+          "end": 19.76,
+          "probability": 0.8837669690450033
+        },
+        {
+          "word": " karara",
+          "start": 19.76,
+          "end": 20.16,
+          "probability": 0.978574126958847
+        },
+        {
+          "word": " bağlanmaz.",
+          "start": 20.16,
+          "end": 20.82,
+          "probability": 0.9644001921017965
+        }
+      ]
+    },
+    {
+      "start": 21.32,
+      "end": 24.14,
+      "text": " Sonraki aşama, dua zamanı başlığına geç.",
+      "avgLogprob": -0.1464811235392859,
+      "noSpeechProb": 0.2375454604625702,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 21.32,
+          "end": 21.9,
+          "probability": 0.9114525020122528
+        },
+        {
+          "word": " aşama,",
+          "start": 21.9,
+          "end": 22.26,
+          "probability": 0.9847464263439178
+        },
+        {
+          "word": " dua",
+          "start": 22.78,
+          "end": 22.96,
+          "probability": 0.7422984838485718
+        },
+        {
+          "word": " zamanı",
+          "start": 22.96,
+          "end": 23.46,
+          "probability": 0.9722110629081726
+        },
+        {
+          "word": " başlığına",
+          "start": 23.46,
+          "end": 23.96,
+          "probability": 0.9792816489934921
+        },
+        {
+          "word": " geç.",
+          "start": 23.96,
+          "end": 24.14,
+          "probability": 0.9993118047714233
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "arafat günü namaz ve vakfe birlikte değerlendirilir hazırlık vakit ve kafile düzenini yetkili rehberden öğren yapılacak işlem kendi durumuna uygun ibadet akışını takip et dikkat mezhep ve özel durum ayrıntıları bu taslakta karara bağlanmaz sonraki aşama dua zamanı başlığına geç",
+    "normalizedASR": "arafat günü namaz ve vakfe birlikte değerlendirilir hazırlık vakit ve kafile düzenini yetkili rehberden öğren yapılacak işlem kendi durumuna uygun ibadet akışını takip et dikkat mezhep ve özel durum ayrıntıları bu taslakta karara bağlanmaz sonraki aşama dua zamanı başlığına geç",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 40,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "arafat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "vakfe": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.165940523147583,
+  "humanApproval": false
+}

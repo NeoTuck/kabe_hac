@@ -98,6 +98,11 @@ void main() {
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text(step.sourceUrl!), 180);
     expect(find.text(step.sourceUrl!), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Metin sürümü: ${step.textVersion}'),
+      180,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Metin sürümü: ${step.textVersion}'), findsOneWidget);
     expect(find.text('Şimdi ne yapacağım?'), findsNothing);
   });

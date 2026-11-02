@@ -1,0 +1,3 @@
+# Preserve upstream review evidence bytes while accepting its line endings.
+docs/audio-review/male-v1/*.csv whitespace=cr-at-eol
+docs/audio-review/male-v1/lisanslar/Supertonic3_Model_Karti.md -whitespace

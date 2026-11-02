@@ -1,0 +1,312 @@
+{
+  "audioId": "A-H06.2-TR-01",
+  "audioSha256": "c82c47f24533a583ea5e29a7d9986d932dc13cb772c640b46f548a2321ad45be",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Cemreye yaklaşırken güvenli güzergah ve kalabalık yönetimi önemlidir. Hazırlık, kafile ve resmi sahâ talimatlarını izle, yapılacak işlem, atış alanına güvenli biçimde ilerle. Dikkat, uygulama canlı yoğunluk veya geçiş izini bildirmez. Sonraki aşama, manuel atış takibine geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 5.44,
+      "text": " Cemreye yaklaşırken güvenli güzergah ve kalabalık yönetimi önemlidir.",
+      "avgLogprob": -0.16066412313268819,
+      "noSpeechProb": 0.17494551837444305,
+      "words": [
+        {
+          "word": " Cemreye",
+          "start": 0.0,
+          "end": 1.32,
+          "probability": 0.8162857890129089
+        },
+        {
+          "word": " yaklaşırken",
+          "start": 1.32,
+          "end": 2.08,
+          "probability": 0.9973188936710358
+        },
+        {
+          "word": " güvenli",
+          "start": 2.08,
+          "end": 2.82,
+          "probability": 0.8823896447817484
+        },
+        {
+          "word": " güzergah",
+          "start": 2.82,
+          "end": 3.46,
+          "probability": 0.764936164021492
+        },
+        {
+          "word": " ve",
+          "start": 3.46,
+          "end": 3.68,
+          "probability": 0.9955573678016663
+        },
+        {
+          "word": " kalabalık",
+          "start": 3.68,
+          "end": 4.34,
+          "probability": 0.9905859977006912
+        },
+        {
+          "word": " yönetimi",
+          "start": 4.34,
+          "end": 4.86,
+          "probability": 0.9881669282913208
+        },
+        {
+          "word": " önemlidir.",
+          "start": 4.86,
+          "end": 5.44,
+          "probability": 0.9820799430211385
+        }
+      ]
+    },
+    {
+      "start": 6.06,
+      "end": 14.32,
+      "text": " Hazırlık, kafile ve resmi sahâ talimatlarını izle, yapılacak işlem, atış alanına güvenli biçimde ilerle.",
+      "avgLogprob": -0.16066412313268819,
+      "noSpeechProb": 0.17494551837444305,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 6.06,
+          "end": 6.7,
+          "probability": 0.9879458546638489
+        },
+        {
+          "word": " kafile",
+          "start": 7.1,
+          "end": 7.62,
+          "probability": 0.8137612640857697
+        },
+        {
+          "word": " ve",
+          "start": 7.62,
+          "end": 7.78,
+          "probability": 0.9987443685531616
+        },
+        {
+          "word": " resmi",
+          "start": 7.78,
+          "end": 8.2,
+          "probability": 0.9813090562820435
+        },
+        {
+          "word": " sahâ",
+          "start": 8.2,
+          "end": 8.58,
+          "probability": 0.5570147037506104
+        },
+        {
+          "word": " talimatlarını",
+          "start": 8.58,
+          "end": 9.42,
+          "probability": 0.9873904983202616
+        },
+        {
+          "word": " izle,",
+          "start": 9.42,
+          "end": 9.84,
+          "probability": 0.9617505967617035
+        },
+        {
+          "word": " yapılacak",
+          "start": 10.26,
+          "end": 10.76,
+          "probability": 0.9715488255023956
+        },
+        {
+          "word": " işlem,",
+          "start": 10.76,
+          "end": 11.18,
+          "probability": 0.9940487146377563
+        },
+        {
+          "word": " atış",
+          "start": 11.62,
+          "end": 11.94,
+          "probability": 0.9635334312915802
+        },
+        {
+          "word": " alanına",
+          "start": 11.94,
+          "end": 12.42,
+          "probability": 0.9604029655456543
+        },
+        {
+          "word": " güvenli",
+          "start": 12.42,
+          "end": 13.36,
+          "probability": 0.8715523481369019
+        },
+        {
+          "word": " biçimde",
+          "start": 13.36,
+          "end": 13.8,
+          "probability": 0.9735331386327744
+        },
+        {
+          "word": " ilerle.",
+          "start": 13.8,
+          "end": 14.32,
+          "probability": 0.9851698080698649
+        }
+      ]
+    },
+    {
+      "start": 15.36,
+      "end": 19.5,
+      "text": " Dikkat, uygulama canlı yoğunluk veya geçiş izini bildirmez.",
+      "avgLogprob": -0.16066412313268819,
+      "noSpeechProb": 0.17494551837444305,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.36,
+          "end": 16.12,
+          "probability": 0.9799743096033732
+        },
+        {
+          "word": " uygulama",
+          "start": 16.6,
+          "end": 17.06,
+          "probability": 0.9867362529039383
+        },
+        {
+          "word": " canlı",
+          "start": 17.06,
+          "end": 17.48,
+          "probability": 0.9848150610923767
+        },
+        {
+          "word": " yoğunluk",
+          "start": 17.48,
+          "end": 17.9,
+          "probability": 0.9922970533370972
+        },
+        {
+          "word": " veya",
+          "start": 17.9,
+          "end": 18.16,
+          "probability": 0.9841728210449219
+        },
+        {
+          "word": " geçiş",
+          "start": 18.16,
+          "end": 18.68,
+          "probability": 0.9949462413787842
+        },
+        {
+          "word": " izini",
+          "start": 18.68,
+          "end": 18.98,
+          "probability": 0.6460198611021042
+        },
+        {
+          "word": " bildirmez.",
+          "start": 18.98,
+          "end": 19.5,
+          "probability": 0.9439043800036112
+        }
+      ]
+    },
+    {
+      "start": 19.92,
+      "end": 22.88,
+      "text": " Sonraki aşama, manuel atış takibine geç.",
+      "avgLogprob": -0.16066412313268819,
+      "noSpeechProb": 0.17494551837444305,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.92,
+          "end": 20.44,
+          "probability": 0.8579913377761841
+        },
+        {
+          "word": " aşama,",
+          "start": 20.44,
+          "end": 20.82,
+          "probability": 0.9829961061477661
+        },
+        {
+          "word": " manuel",
+          "start": 21.3,
+          "end": 21.78,
+          "probability": 0.735262393951416
+        },
+        {
+          "word": " atış",
+          "start": 21.78,
+          "end": 22.14,
+          "probability": 0.9738477766513824
+        },
+        {
+          "word": " takibine",
+          "start": 22.14,
+          "end": 22.68,
+          "probability": 0.9656818310419718
+        },
+        {
+          "word": " geç.",
+          "start": 22.68,
+          "end": 22.88,
+          "probability": 0.9993485808372498
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "cemreye yaklaşırken güvenli güzergah ve kalabalık yönetimi önemlidir hazırlık kafile ve resmi saha talimatlarını izle yapılacak işlem atış alanına güvenli biçimde ilerle dikkat uygulama canlı yoğunluk veya geçiş izni bildirmez sonraki aşama manuel atış takibine geç",
+    "normalizedASR": "cemreye yaklaşırken güvenli güzergah ve kalabalık yönetimi önemlidir hazırlık kafile ve resmi saha talimatlarını izle yapılacak işlem atış alanına güvenli biçimde ilerle dikkat uygulama canlı yoğunluk veya geçiş izini bildirmez sonraki aşama manuel atış takibine geç",
+    "wer": 0.027777777777777776,
+    "cer": 0.0037735849056603774,
+    "hits": 35,
+    "substitutions": 1,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "izni",
+        "asr": "izini",
+        "referenceWordStart": 28
+      }
+    ],
+    "religiousTermCounts": {
+      "cemre": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.037678241729736,
+  "humanApproval": false
+}

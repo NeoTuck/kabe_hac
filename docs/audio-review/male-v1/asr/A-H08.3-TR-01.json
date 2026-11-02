@@ -1,0 +1,361 @@
+{
+  "audioId": "A-H08.3-TR-01",
+  "audioSha256": "fa3470730e0020e493f98a14d64506501b42107a0d7e19ce60c2a666817af7ab",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Hak sainin gerekliliği önceki uygulamaya göre değişebilir. Hazırlık, önceden yapılan sahi durumunu yetkili rehberle doğrula. Yapılacak işlem, gerekliyse safa merve geçişlerini manual izle. Dikkat, profil ve önceki fil onayı olmadan otomatik filtre açılmaz. Sonraki aşama, sonraki duruma geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.3,
+      "text": " Hak sainin gerekliliği önceki uygulamaya göre değişebilir.",
+      "avgLogprob": -0.19742778136774344,
+      "noSpeechProb": 0.1909153014421463,
+      "words": [
+        {
+          "word": " Hak",
+          "start": 0.0,
+          "end": 0.98,
+          "probability": 0.4137001633644104
+        },
+        {
+          "word": " sainin",
+          "start": 0.98,
+          "end": 1.58,
+          "probability": 0.5861590653657913
+        },
+        {
+          "word": " gerekliliği",
+          "start": 1.58,
+          "end": 2.28,
+          "probability": 0.9305512309074402
+        },
+        {
+          "word": " önceki",
+          "start": 2.28,
+          "end": 2.68,
+          "probability": 0.9053345024585724
+        },
+        {
+          "word": " uygulamaya",
+          "start": 2.68,
+          "end": 3.48,
+          "probability": 0.9910199642181396
+        },
+        {
+          "word": " göre",
+          "start": 3.48,
+          "end": 3.66,
+          "probability": 0.9969845414161682
+        },
+        {
+          "word": " değişebilir.",
+          "start": 3.66,
+          "end": 4.3,
+          "probability": 0.992965559164683
+        }
+      ]
+    },
+    {
+      "start": 4.8,
+      "end": 9.8,
+      "text": " Hazırlık, önceden yapılan sahi durumunu yetkili rehberle doğrula.",
+      "avgLogprob": -0.19742778136774344,
+      "noSpeechProb": 0.1909153014421463,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.8,
+          "end": 5.4,
+          "probability": 0.981895645459493
+        },
+        {
+          "word": " önceden",
+          "start": 5.82,
+          "end": 6.4,
+          "probability": 0.9855946699778239
+        },
+        {
+          "word": " yapılan",
+          "start": 6.4,
+          "end": 6.82,
+          "probability": 0.9969467520713806
+        },
+        {
+          "word": " sahi",
+          "start": 6.82,
+          "end": 7.4,
+          "probability": 0.5664159208536148
+        },
+        {
+          "word": " durumunu",
+          "start": 7.4,
+          "end": 8.0,
+          "probability": 0.9217929542064667
+        },
+        {
+          "word": " yetkili",
+          "start": 8.0,
+          "end": 8.74,
+          "probability": 0.9553751548131307
+        },
+        {
+          "word": " rehberle",
+          "start": 8.74,
+          "end": 9.34,
+          "probability": 0.9790830612182617
+        },
+        {
+          "word": " doğrula.",
+          "start": 9.34,
+          "end": 9.8,
+          "probability": 0.8832277059555054
+        }
+      ]
+    },
+    {
+      "start": 10.94,
+      "end": 15.98,
+      "text": " Yapılacak işlem, gerekliyse safa merve geçişlerini manual izle.",
+      "avgLogprob": -0.19742778136774344,
+      "noSpeechProb": 0.1909153014421463,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 10.94,
+          "end": 11.94,
+          "probability": 0.989061176776886
+        },
+        {
+          "word": " işlem,",
+          "start": 11.94,
+          "end": 12.32,
+          "probability": 0.9879416227340698
+        },
+        {
+          "word": " gerekliyse",
+          "start": 12.72,
+          "end": 13.4,
+          "probability": 0.8684262235959371
+        },
+        {
+          "word": " safa",
+          "start": 13.4,
+          "end": 13.84,
+          "probability": 0.7325334548950195
+        },
+        {
+          "word": " merve",
+          "start": 13.84,
+          "end": 14.22,
+          "probability": 0.9335739314556122
+        },
+        {
+          "word": " geçişlerini",
+          "start": 14.22,
+          "end": 14.94,
+          "probability": 0.8354931672414144
+        },
+        {
+          "word": " manual",
+          "start": 14.94,
+          "end": 15.42,
+          "probability": 0.3627355992794037
+        },
+        {
+          "word": " izle.",
+          "start": 15.42,
+          "end": 15.98,
+          "probability": 0.9542262852191925
+        }
+      ]
+    },
+    {
+      "start": 16.54,
+      "end": 21.5,
+      "text": " Dikkat, profil ve önceki fil onayı olmadan otomatik filtre açılmaz.",
+      "avgLogprob": -0.19742778136774344,
+      "noSpeechProb": 0.1909153014421463,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.54,
+          "end": 17.04,
+          "probability": 0.9817730784416199
+        },
+        {
+          "word": " profil",
+          "start": 17.48,
+          "end": 17.98,
+          "probability": 0.973690927028656
+        },
+        {
+          "word": " ve",
+          "start": 17.98,
+          "end": 18.1,
+          "probability": 0.9969016313552856
+        },
+        {
+          "word": " önceki",
+          "start": 18.1,
+          "end": 18.6,
+          "probability": 0.9425870776176453
+        },
+        {
+          "word": " fil",
+          "start": 18.6,
+          "end": 18.84,
+          "probability": 0.5060093402862549
+        },
+        {
+          "word": " onayı",
+          "start": 18.84,
+          "end": 19.34,
+          "probability": 0.8873355189959208
+        },
+        {
+          "word": " olmadan",
+          "start": 19.34,
+          "end": 19.78,
+          "probability": 0.9976576566696167
+        },
+        {
+          "word": " otomatik",
+          "start": 19.78,
+          "end": 20.56,
+          "probability": 0.9892692963282267
+        },
+        {
+          "word": " filtre",
+          "start": 20.56,
+          "end": 20.96,
+          "probability": 0.8053339421749115
+        },
+        {
+          "word": " açılmaz.",
+          "start": 20.96,
+          "end": 21.5,
+          "probability": 0.9900672733783722
+        }
+      ]
+    },
+    {
+      "start": 22.06,
+      "end": 24.68,
+      "text": " Sonraki aşama, sonraki duruma geç.",
+      "avgLogprob": -0.19742778136774344,
+      "noSpeechProb": 0.1909153014421463,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 22.06,
+          "end": 22.6,
+          "probability": 0.9170132577419281
+        },
+        {
+          "word": " aşama,",
+          "start": 22.6,
+          "end": 23.08,
+          "probability": 0.9897996485233307
+        },
+        {
+          "word": " sonraki",
+          "start": 23.54,
+          "end": 24.16,
+          "probability": 0.9960654675960541
+        },
+        {
+          "word": " duruma",
+          "start": 24.16,
+          "end": 24.5,
+          "probability": 0.983704000711441
+        },
+        {
+          "word": " geç.",
+          "start": 24.5,
+          "end": 24.68,
+          "probability": 0.9995228052139282
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "hac sayinin gerekliliği önceki uygulamaya göre değişebilir hazırlık önceden yapılan say durumunu yetkili rehberle doğrula yapılacak işlem gerekliyse safa merve geçişlerini manuel izle dikkat profil ve önceki fiil onayı olmadan otomatik filtre açılmaz sonraki aşama sonraki duruma geç",
+    "normalizedASR": "hak sainin gerekliliği önceki uygulamaya göre değişebilir hazırlık önceden yapılan sahi durumunu yetkili rehberle doğrula yapılacak işlem gerekliyse safa merve geçişlerini manual izle dikkat profil ve önceki fil onayı olmadan otomatik filtre açılmaz sonraki aşama sonraki duruma geç",
+    "wer": 0.13157894736842105,
+    "cer": 0.02120141342756184,
+    "hits": 33,
+    "substitutions": 5,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "hac sayinin",
+        "asr": "hak sainin",
+        "referenceWordStart": 0
+      },
+      {
+        "type": "substitute",
+        "reference": "say",
+        "asr": "sahi",
+        "referenceWordStart": 10
+      },
+      {
+        "type": "substitute",
+        "reference": "manuel",
+        "asr": "manual",
+        "referenceWordStart": 21
+      },
+      {
+        "type": "substitute",
+        "reference": "fiil",
+        "asr": "fil",
+        "referenceWordStart": 27
+      }
+    ],
+    "religiousTermCounts": {
+      "hac": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "safa": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "merve": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.8247430324554443,
+  "humanApproval": false
+}

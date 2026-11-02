@@ -157,6 +157,7 @@ class AudioRecord {
     this.asset,
     this.assetSha256,
     this.origin,
+    this.voiceStyle,
     this.reviewOnly = false,
     this.recordingOwner,
     this.rights,
@@ -172,6 +173,7 @@ class AudioRecord {
   final String? asset;
   final String? assetSha256;
   final String? origin;
+  final String? voiceStyle;
   final bool reviewOnly;
   final String? recordingOwner;
   final String? rights;
@@ -196,6 +198,7 @@ class AudioRecord {
       asset: _optionalString(json, 'asset'),
       assetSha256: _optionalString(json, 'assetSha256'),
       origin: _optionalString(json, 'origin'),
+      voiceStyle: _optionalString(json, 'voiceStyle'),
       reviewOnly: json['reviewOnly'] == true,
       recordingOwner: _optionalString(json, 'recordingOwner'),
       rights: _optionalString(json, 'rights'),
@@ -243,6 +246,11 @@ class AudioRecord {
       origin == 'synthetic' &&
       asset != null &&
       assetSha256 != null;
+
+  String? get syntheticVoiceDisclosure =>
+      origin == 'synthetic' && voiceStyle == 'M1'
+      ? 'Yapay zekâ ile üretilmiş erkek anlatımı.'
+      : null;
 }
 
 class PrayerRecord {

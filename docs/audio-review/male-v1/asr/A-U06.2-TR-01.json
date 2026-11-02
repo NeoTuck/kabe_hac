@@ -1,0 +1,365 @@
+{
+  "audioId": "A-U06.2-TR-01",
+  "audioSha256": "8913ed8053ca34af9ae15c1a9b51c8838809dac93e8238f8b3038365a6f60ea5",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Tavafın 7 şaftı manuel olarak izlenebilir. Hazırlık. Her tam dönüşü ayrı saymaya hazırlan. Yapılacak işlem. Tamamladığın şaftı kendin işaretle. Dikkat. Sayaç ibadeti otomatik doğrulamaz. Özel durumda rehbere danış. Sonraki aşama. Tavaf sonrası başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.64,
+      "text": " Tavafın 7 şaftı manuel olarak izlenebilir.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Tavafın",
+          "start": 0.0,
+          "end": 1.26,
+          "probability": 0.8502016067504883
+        },
+        {
+          "word": " 7",
+          "start": 1.26,
+          "end": 1.56,
+          "probability": 0.6028528213500977
+        },
+        {
+          "word": " şaftı",
+          "start": 1.56,
+          "end": 2.06,
+          "probability": 0.8713121116161346
+        },
+        {
+          "word": " manuel",
+          "start": 2.06,
+          "end": 2.46,
+          "probability": 0.42196373641490936
+        },
+        {
+          "word": " olarak",
+          "start": 2.46,
+          "end": 2.82,
+          "probability": 0.9981845021247864
+        },
+        {
+          "word": " izlenebilir.",
+          "start": 2.82,
+          "end": 3.64,
+          "probability": 0.9841733972231547
+        }
+      ]
+    },
+    {
+      "start": 4.26,
+      "end": 4.82,
+      "text": " Hazırlık.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Hazırlık.",
+          "start": 4.26,
+          "end": 4.82,
+          "probability": 0.9504870772361755
+        }
+      ]
+    },
+    {
+      "start": 5.32,
+      "end": 7.7,
+      "text": " Her tam dönüşü ayrı saymaya hazırlan.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Her",
+          "start": 5.32,
+          "end": 5.5,
+          "probability": 0.974682092666626
+        },
+        {
+          "word": " tam",
+          "start": 5.5,
+          "end": 5.78,
+          "probability": 0.961802065372467
+        },
+        {
+          "word": " dönüşü",
+          "start": 5.78,
+          "end": 6.34,
+          "probability": 0.997793714205424
+        },
+        {
+          "word": " ayrı",
+          "start": 6.34,
+          "end": 6.82,
+          "probability": 0.9731669723987579
+        },
+        {
+          "word": " saymaya",
+          "start": 6.82,
+          "end": 7.12,
+          "probability": 0.9816524982452393
+        },
+        {
+          "word": " hazırlan.",
+          "start": 7.12,
+          "end": 7.7,
+          "probability": 0.9933310747146606
+        }
+      ]
+    },
+    {
+      "start": 8.2,
+      "end": 9.1,
+      "text": " Yapılacak işlem.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 8.2,
+          "end": 8.7,
+          "probability": 0.9873144030570984
+        },
+        {
+          "word": " işlem.",
+          "start": 8.7,
+          "end": 9.1,
+          "probability": 0.9934276640415192
+        }
+      ]
+    },
+    {
+      "start": 9.58,
+      "end": 11.98,
+      "text": " Tamamladığın şaftı kendin işaretle.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Tamamladığın",
+          "start": 9.58,
+          "end": 10.32,
+          "probability": 0.92650039990743
+        },
+        {
+          "word": " şaftı",
+          "start": 10.32,
+          "end": 10.98,
+          "probability": 0.9875771403312683
+        },
+        {
+          "word": " kendin",
+          "start": 10.98,
+          "end": 11.34,
+          "probability": 0.9299511015415192
+        },
+        {
+          "word": " işaretle.",
+          "start": 11.34,
+          "end": 11.98,
+          "probability": 0.9440615375836691
+        }
+      ]
+    },
+    {
+      "start": 13.12,
+      "end": 13.9,
+      "text": " Dikkat.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Dikkat.",
+          "start": 13.12,
+          "end": 13.9,
+          "probability": 0.9794760743776957
+        }
+      ]
+    },
+    {
+      "start": 14.44,
+      "end": 16.56,
+      "text": " Sayaç ibadeti otomatik doğrulamaz.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Sayaç",
+          "start": 14.44,
+          "end": 14.88,
+          "probability": 0.8141907254854838
+        },
+        {
+          "word": " ibadeti",
+          "start": 14.88,
+          "end": 15.4,
+          "probability": 0.9880424539248148
+        },
+        {
+          "word": " otomatik",
+          "start": 15.4,
+          "end": 16.0,
+          "probability": 0.9908693035443624
+        },
+        {
+          "word": " doğrulamaz.",
+          "start": 16.0,
+          "end": 16.56,
+          "probability": 0.9016691446304321
+        }
+      ]
+    },
+    {
+      "start": 16.96,
+      "end": 18.58,
+      "text": " Özel durumda rehbere danış.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Özel",
+          "start": 16.96,
+          "end": 17.32,
+          "probability": 0.9392352402210236
+        },
+        {
+          "word": " durumda",
+          "start": 17.32,
+          "end": 17.78,
+          "probability": 0.9974900782108307
+        },
+        {
+          "word": " rehbere",
+          "start": 17.78,
+          "end": 18.16,
+          "probability": 0.8385971784591675
+        },
+        {
+          "word": " danış.",
+          "start": 18.16,
+          "end": 18.58,
+          "probability": 0.9853628277778625
+        }
+      ]
+    },
+    {
+      "start": 19.0,
+      "end": 19.94,
+      "text": " Sonraki aşama.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.0,
+          "end": 19.58,
+          "probability": 0.9148746728897095
+        },
+        {
+          "word": " aşama.",
+          "start": 19.58,
+          "end": 19.94,
+          "probability": 0.9924372732639313
+        }
+      ]
+    },
+    {
+      "start": 20.34,
+      "end": 21.88,
+      "text": " Tavaf sonrası başlığına geç.",
+      "avgLogprob": -0.13810113694356835,
+      "noSpeechProb": 0.17185574769973755,
+      "words": [
+        {
+          "word": " Tavaf",
+          "start": 20.34,
+          "end": 20.68,
+          "probability": 0.9734718799591064
+        },
+        {
+          "word": " sonrası",
+          "start": 20.68,
+          "end": 21.14,
+          "probability": 0.996013879776001
+        },
+        {
+          "word": " başlığına",
+          "start": 21.14,
+          "end": 21.7,
+          "probability": 0.990839809179306
+        },
+        {
+          "word": " geç.",
+          "start": 21.7,
+          "end": 21.88,
+          "probability": 0.999394416809082
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "tavafın yedi şavtı manuel olarak izlenebilir hazırlık her tam dönüşü ayrı saymaya hazırlan yapılacak işlem tamamladığın şavtı kendin işaretle dikkat sayaç ibadeti otomatik doğrulamaz özel durumda rehbere danış sonraki aşama tavaf sonrası başlığına geç",
+    "normalizedASR": "tavafın 7 şaftı manuel olarak izlenebilir hazırlık her tam dönüşü ayrı saymaya hazırlan yapılacak işlem tamamladığın şaftı kendin işaretle dikkat sayaç ibadeti otomatik doğrulamaz özel durumda rehbere danış sonraki aşama tavaf sonrası başlığına geç",
+    "wer": 0.08823529411764706,
+    "cer": 0.02390438247011952,
+    "hits": 31,
+    "substitutions": 3,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "yedi şavtı",
+        "asr": "7 şaftı",
+        "referenceWordStart": 1
+      },
+      {
+        "type": "substitute",
+        "reference": "şavtı",
+        "asr": "şaftı",
+        "referenceWordStart": 16
+      }
+    ],
+    "religiousTermCounts": {
+      "şavt": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "tavaf": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 5.216546058654785,
+  "humanApproval": false
+}

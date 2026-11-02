@@ -1,0 +1,370 @@
+{
+  "audioId": "A-U09.1-TR-01",
+  "audioSha256": "4b9bdae77bca3e5beb405e760732331be0b7d19ef54ed2260cbff6a1d602d0bb",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Safadan Merve'ye gidiş ile geri dönüş ayrı şaftlardır. Hazırlık. Her yön değişimine ayrı bir geçiş olarak düşün. Yapılacak işlem, tamamlanan tek yönlü geçişleri manual say. Dikkat, gidiş dönüşü tek sayı yapma. Sonraki aşama, 7 geçişin tamamını izle.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.44,
+      "text": " Safadan Merve'ye gidiş ile geri dönüş ayrı şaftlardır.",
+      "avgLogprob": -0.1693897209301287,
+      "noSpeechProb": 0.14184248447418213,
+      "words": [
+        {
+          "word": " Safadan",
+          "start": 0.0,
+          "end": 1.42,
+          "probability": 0.7950935661792755
+        },
+        {
+          "word": " Merve",
+          "start": 1.42,
+          "end": 1.84,
+          "probability": 0.4397749751806259
+        },
+        {
+          "word": "'ye",
+          "start": 1.84,
+          "end": 2.14,
+          "probability": 0.9321871697902679
+        },
+        {
+          "word": " gidiş",
+          "start": 2.14,
+          "end": 2.54,
+          "probability": 0.918401449918747
+        },
+        {
+          "word": " ile",
+          "start": 2.54,
+          "end": 2.74,
+          "probability": 0.9779754877090454
+        },
+        {
+          "word": " geri",
+          "start": 2.74,
+          "end": 2.98,
+          "probability": 0.9876015782356262
+        },
+        {
+          "word": " dönüş",
+          "start": 2.98,
+          "end": 3.4,
+          "probability": 0.9986788630485535
+        },
+        {
+          "word": " ayrı",
+          "start": 3.4,
+          "end": 3.72,
+          "probability": 0.8486827313899994
+        },
+        {
+          "word": " şaftlardır.",
+          "start": 3.72,
+          "end": 4.44,
+          "probability": 0.9240384101867676
+        }
+      ]
+    },
+    {
+      "start": 4.76,
+      "end": 5.34,
+      "text": " Hazırlık.",
+      "avgLogprob": -0.1693897209301287,
+      "noSpeechProb": 0.14184248447418213,
+      "words": [
+        {
+          "word": " Hazırlık.",
+          "start": 4.76,
+          "end": 5.34,
+          "probability": 0.978322704633077
+        }
+      ]
+    },
+    {
+      "start": 5.8,
+      "end": 8.36,
+      "text": " Her yön değişimine ayrı bir geçiş olarak düşün.",
+      "avgLogprob": -0.1693897209301287,
+      "noSpeechProb": 0.14184248447418213,
+      "words": [
+        {
+          "word": " Her",
+          "start": 5.8,
+          "end": 6.06,
+          "probability": 0.9907088279724121
+        },
+        {
+          "word": " yön",
+          "start": 6.06,
+          "end": 6.22,
+          "probability": 0.48464706540107727
+        },
+        {
+          "word": " değişimine",
+          "start": 6.22,
+          "end": 6.84,
+          "probability": 0.9878516991933187
+        },
+        {
+          "word": " ayrı",
+          "start": 6.84,
+          "end": 7.24,
+          "probability": 0.9913852512836456
+        },
+        {
+          "word": " bir",
+          "start": 7.24,
+          "end": 7.34,
+          "probability": 0.9976499676704407
+        },
+        {
+          "word": " geçiş",
+          "start": 7.34,
+          "end": 7.76,
+          "probability": 0.9970558881759644
+        },
+        {
+          "word": " olarak",
+          "start": 7.76,
+          "end": 8.04,
+          "probability": 0.9964393973350525
+        },
+        {
+          "word": " düşün.",
+          "start": 8.04,
+          "end": 8.36,
+          "probability": 0.9991325736045837
+        }
+      ]
+    },
+    {
+      "start": 9.18,
+      "end": 13.42,
+      "text": " Yapılacak işlem, tamamlanan tek yönlü geçişleri manual say.",
+      "avgLogprob": -0.1693897209301287,
+      "noSpeechProb": 0.14184248447418213,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.18,
+          "end": 9.72,
+          "probability": 0.9909704923629761
+        },
+        {
+          "word": " işlem,",
+          "start": 9.72,
+          "end": 10.12,
+          "probability": 0.9885571599006653
+        },
+        {
+          "word": " tamamlanan",
+          "start": 10.6,
+          "end": 11.3,
+          "probability": 0.985158363978068
+        },
+        {
+          "word": " tek",
+          "start": 11.3,
+          "end": 11.58,
+          "probability": 0.9847680926322937
+        },
+        {
+          "word": " yönlü",
+          "start": 11.58,
+          "end": 12.0,
+          "probability": 0.9963555932044983
+        },
+        {
+          "word": " geçişleri",
+          "start": 12.0,
+          "end": 12.58,
+          "probability": 0.9977827469507853
+        },
+        {
+          "word": " manual",
+          "start": 12.58,
+          "end": 12.96,
+          "probability": 0.41597431898117065
+        },
+        {
+          "word": " say.",
+          "start": 12.96,
+          "end": 13.42,
+          "probability": 0.9595536589622498
+        }
+      ]
+    },
+    {
+      "start": 14.66,
+      "end": 17.44,
+      "text": " Dikkat, gidiş dönüşü tek sayı yapma.",
+      "avgLogprob": -0.1693897209301287,
+      "noSpeechProb": 0.14184248447418213,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 14.66,
+          "end": 15.42,
+          "probability": 0.9844633738199869
+        },
+        {
+          "word": " gidiş",
+          "start": 15.8,
+          "end": 16.18,
+          "probability": 0.9441810250282288
+        },
+        {
+          "word": " dönüşü",
+          "start": 16.18,
+          "end": 16.6,
+          "probability": 0.9980738759040833
+        },
+        {
+          "word": " tek",
+          "start": 16.6,
+          "end": 16.74,
+          "probability": 0.9831753969192505
+        },
+        {
+          "word": " sayı",
+          "start": 16.74,
+          "end": 17.04,
+          "probability": 0.9670261144638062
+        },
+        {
+          "word": " yapma.",
+          "start": 17.04,
+          "end": 17.44,
+          "probability": 0.9972794950008392
+        }
+      ]
+    },
+    {
+      "start": 17.82,
+      "end": 20.82,
+      "text": " Sonraki aşama, 7 geçişin tamamını izle.",
+      "avgLogprob": -0.1693897209301287,
+      "noSpeechProb": 0.14184248447418213,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 17.82,
+          "end": 18.34,
+          "probability": 0.9499998688697815
+        },
+        {
+          "word": " aşama,",
+          "start": 18.34,
+          "end": 18.72,
+          "probability": 0.9863113462924957
+        },
+        {
+          "word": " 7",
+          "start": 19.24,
+          "end": 19.42,
+          "probability": 0.47868970036506653
+        },
+        {
+          "word": " geçişin",
+          "start": 19.42,
+          "end": 19.96,
+          "probability": 0.9896541436513265
+        },
+        {
+          "word": " tamamını",
+          "start": 19.96,
+          "end": 20.5,
+          "probability": 0.9976692795753479
+        },
+        {
+          "word": " izle.",
+          "start": 20.5,
+          "end": 20.82,
+          "probability": 0.9766541123390198
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "safadan merveye gidiş ile geri dönüş ayrı şavtlardır hazırlık her yön değişimini ayrı bir geçiş olarak düşün yapılacak işlem tamamlanan tek yönlü geçişleri manuel say dikkat gidiş dönüşü tek sayı yapma sonraki aşama yedi geçişin tamamını izle",
+    "normalizedASR": "safadan merveye gidiş ile geri dönüş ayrı şaftlardır hazırlık her yön değişimine ayrı bir geçiş olarak düşün yapılacak işlem tamamlanan tek yönlü geçişleri manual say dikkat gidiş dönüşü tek sayı yapma sonraki aşama 7 geçişin tamamını izle",
+    "wer": 0.10810810810810811,
+    "cer": 0.028925619834710745,
+    "hits": 33,
+    "substitutions": 4,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "şavtlardır",
+        "asr": "şaftlardır",
+        "referenceWordStart": 7
+      },
+      {
+        "type": "substitute",
+        "reference": "değişimini",
+        "asr": "değişimine",
+        "referenceWordStart": 11
+      },
+      {
+        "type": "substitute",
+        "reference": "manuel",
+        "asr": "manual",
+        "referenceWordStart": 23
+      },
+      {
+        "type": "substitute",
+        "reference": "yedi",
+        "asr": "7",
+        "referenceWordStart": 33
+      }
+    ],
+    "religiousTermCounts": {
+      "şavt": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 0,
+        "matchesCount": false
+      },
+      "safa": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "merve": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.9241535663604736,
+  "humanApproval": false
+}

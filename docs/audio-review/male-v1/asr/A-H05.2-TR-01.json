@@ -1,0 +1,301 @@
+{
+  "audioId": "A-H05.2-TR-01",
+  "audioSha256": "03425505e1ef0a2e89078f7370585e8c7138ebdb73f8a066bce080b1d3ac573a",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Muzdelife'de namaz ve vakfe hükümleri birlikte incelenir. Hazırlık, vakit ve kişisel durumunu rehberle doğrula. Yapılacak işlem, uygulanacak sırayı yetkili yönlendirmeyle öğren. Dikkat, özel durumlar için otomatik hüküm çıkarma. Sonraki aşama taş hazırlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.64,
+      "text": " Muzdelife'de namaz ve vakfe hükümleri birlikte incelenir.",
+      "avgLogprob": -0.240691069002245,
+      "noSpeechProb": 0.2840713858604431,
+      "words": [
+        {
+          "word": " Muzdelife'de",
+          "start": 0.0,
+          "end": 1.46,
+          "probability": 0.6346676076451937
+        },
+        {
+          "word": " namaz",
+          "start": 1.46,
+          "end": 1.92,
+          "probability": 0.9550666213035583
+        },
+        {
+          "word": " ve",
+          "start": 1.92,
+          "end": 2.2,
+          "probability": 0.9931647181510925
+        },
+        {
+          "word": " vakfe",
+          "start": 2.2,
+          "end": 2.66,
+          "probability": 0.7781476676464081
+        },
+        {
+          "word": " hükümleri",
+          "start": 2.66,
+          "end": 3.22,
+          "probability": 0.9918803572654724
+        },
+        {
+          "word": " birlikte",
+          "start": 3.22,
+          "end": 3.56,
+          "probability": 0.9280774593353271
+        },
+        {
+          "word": " incelenir.",
+          "start": 3.56,
+          "end": 4.64,
+          "probability": 0.8165353337923685
+        }
+      ]
+    },
+    {
+      "start": 4.98,
+      "end": 8.88,
+      "text": " Hazırlık, vakit ve kişisel durumunu rehberle doğrula.",
+      "avgLogprob": -0.240691069002245,
+      "noSpeechProb": 0.2840713858604431,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.98,
+          "end": 5.5,
+          "probability": 0.9785407582918803
+        },
+        {
+          "word": " vakit",
+          "start": 5.8,
+          "end": 6.3,
+          "probability": 0.993490070104599
+        },
+        {
+          "word": " ve",
+          "start": 6.3,
+          "end": 6.66,
+          "probability": 0.9944281578063965
+        },
+        {
+          "word": " kişisel",
+          "start": 6.66,
+          "end": 7.24,
+          "probability": 0.9685291647911072
+        },
+        {
+          "word": " durumunu",
+          "start": 7.24,
+          "end": 7.82,
+          "probability": 0.9907091856002808
+        },
+        {
+          "word": " rehberle",
+          "start": 7.82,
+          "end": 8.42,
+          "probability": 0.9750851591428121
+        },
+        {
+          "word": " doğrula.",
+          "start": 8.42,
+          "end": 8.88,
+          "probability": 0.8415931065877279
+        }
+      ]
+    },
+    {
+      "start": 9.38,
+      "end": 14.24,
+      "text": " Yapılacak işlem, uygulanacak sırayı yetkili yönlendirmeyle öğren.",
+      "avgLogprob": -0.240691069002245,
+      "noSpeechProb": 0.2840713858604431,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.38,
+          "end": 9.92,
+          "probability": 0.986911674340566
+        },
+        {
+          "word": " işlem,",
+          "start": 9.92,
+          "end": 10.4,
+          "probability": 0.9927356839179993
+        },
+        {
+          "word": " uygulanacak",
+          "start": 10.92,
+          "end": 11.58,
+          "probability": 0.9691308438777924
+        },
+        {
+          "word": " sırayı",
+          "start": 11.58,
+          "end": 12.46,
+          "probability": 0.9748602509498596
+        },
+        {
+          "word": " yetkili",
+          "start": 12.46,
+          "end": 13.02,
+          "probability": 0.9623268644014994
+        },
+        {
+          "word": " yönlendirmeyle",
+          "start": 13.02,
+          "end": 13.94,
+          "probability": 0.9888351460297903
+        },
+        {
+          "word": " öğren.",
+          "start": 13.94,
+          "end": 14.24,
+          "probability": 0.9807250499725342
+        }
+      ]
+    },
+    {
+      "start": 15.24,
+      "end": 18.9,
+      "text": " Dikkat, özel durumlar için otomatik hüküm çıkarma.",
+      "avgLogprob": -0.240691069002245,
+      "noSpeechProb": 0.2840713858604431,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 15.24,
+          "end": 16.08,
+          "probability": 0.9841019709904989
+        },
+        {
+          "word": " özel",
+          "start": 16.54,
+          "end": 16.8,
+          "probability": 0.9872010350227356
+        },
+        {
+          "word": " durumlar",
+          "start": 16.8,
+          "end": 17.24,
+          "probability": 0.9923549294471741
+        },
+        {
+          "word": " için",
+          "start": 17.24,
+          "end": 17.48,
+          "probability": 0.9995914101600647
+        },
+        {
+          "word": " otomatik",
+          "start": 17.48,
+          "end": 18.14,
+          "probability": 0.9968266685803732
+        },
+        {
+          "word": " hüküm",
+          "start": 18.14,
+          "end": 18.42,
+          "probability": 0.992307980855306
+        },
+        {
+          "word": " çıkarma.",
+          "start": 18.42,
+          "end": 18.9,
+          "probability": 0.9874366223812103
+        }
+      ]
+    },
+    {
+      "start": 19.38,
+      "end": 21.76,
+      "text": " Sonraki aşama taş hazırlığına geç.",
+      "avgLogprob": -0.240691069002245,
+      "noSpeechProb": 0.2840713858604431,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.38,
+          "end": 20.0,
+          "probability": 0.940496176481247
+        },
+        {
+          "word": " aşama",
+          "start": 20.0,
+          "end": 20.36,
+          "probability": 0.9882051348686218
+        },
+        {
+          "word": " taş",
+          "start": 20.36,
+          "end": 20.96,
+          "probability": 0.48769819736480713
+        },
+        {
+          "word": " hazırlığına",
+          "start": 20.96,
+          "end": 21.58,
+          "probability": 0.9957176297903061
+        },
+        {
+          "word": " geç.",
+          "start": 21.58,
+          "end": 21.76,
+          "probability": 0.9994010925292969
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "muzdelifede namaz ve vakfe hükümleri birlikte incelenir hazırlık vakit ve kişisel durumunu rehberle doğrula yapılacak işlem uygulanacak sırayı yetkili yönlendirmeyle öğren dikkat özel durumlar için otomatik hüküm çıkarma sonraki aşama taş hazırlığına geç",
+    "normalizedASR": "muzdelifede namaz ve vakfe hükümleri birlikte incelenir hazırlık vakit ve kişisel durumunu rehberle doğrula yapılacak işlem uygulanacak sırayı yetkili yönlendirmeyle öğren dikkat özel durumlar için otomatik hüküm çıkarma sonraki aşama taş hazırlığına geç",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 33,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {
+      "vakfe": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "muzdelife": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.624354600906372,
+  "humanApproval": false
+}

@@ -55,5 +55,6 @@ app.*.map.json
 *.jks
 *.keystore
 /release-inputs/
+/Hac_Umre_Erkek_Sesler_54/
 supabase/functions/.env*
 !supabase/functions/.env.example

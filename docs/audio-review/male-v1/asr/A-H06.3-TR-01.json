@@ -1,0 +1,354 @@
+{
+  "audioId": "A-H06.3-TR-01",
+  "audioSha256": "5a402b7ea39056529f458540bc5f573cf2066ff7fe32a78de2e3720ad956595a",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Atış sayımı seçili gün ve hedefte manuel tutulur. Hazırlık Gün Hedef ve dini uygulama kararını rehberle teyit et. Yapılacak işlem, gerçekleştirdiğin atışları kendin işaretle. Dikkat Sayaç taşın isabetini veya ibadetin geçerliğini ölçmez. Sonraki aşamağı, sonraki hedefe geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.98,
+      "text": " Atış sayımı seçili gün ve hedefte manuel tutulur.",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Atış",
+          "start": 0.0,
+          "end": 0.94,
+          "probability": 0.7310482263565063
+        },
+        {
+          "word": " sayımı",
+          "start": 0.94,
+          "end": 1.32,
+          "probability": 0.9522842466831207
+        },
+        {
+          "word": " seçili",
+          "start": 1.32,
+          "end": 1.76,
+          "probability": 0.9588720202445984
+        },
+        {
+          "word": " gün",
+          "start": 1.76,
+          "end": 2.0,
+          "probability": 0.9887682795524597
+        },
+        {
+          "word": " ve",
+          "start": 2.0,
+          "end": 2.48,
+          "probability": 0.9652578234672546
+        },
+        {
+          "word": " hedefte",
+          "start": 2.48,
+          "end": 2.92,
+          "probability": 0.9045469959576925
+        },
+        {
+          "word": " manuel",
+          "start": 2.92,
+          "end": 3.42,
+          "probability": 0.7958332896232605
+        },
+        {
+          "word": " tutulur.",
+          "start": 3.42,
+          "end": 3.98,
+          "probability": 0.9975277781486511
+        }
+      ]
+    },
+    {
+      "start": 4.3,
+      "end": 4.88,
+      "text": " Hazırlık",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Hazırlık",
+          "start": 4.3,
+          "end": 4.88,
+          "probability": 0.9768956899642944
+        }
+      ]
+    },
+    {
+      "start": 4.88,
+      "end": 5.56,
+      "text": " Gün",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Gün",
+          "start": 4.88,
+          "end": 5.56,
+          "probability": 0.18107035756111145
+        }
+      ]
+    },
+    {
+      "start": 5.56,
+      "end": 9.22,
+      "text": " Hedef ve dini uygulama kararını rehberle teyit et.",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Hedef",
+          "start": 5.56,
+          "end": 6.54,
+          "probability": 0.8482893109321594
+        },
+        {
+          "word": " ve",
+          "start": 6.54,
+          "end": 6.68,
+          "probability": 0.9844028949737549
+        },
+        {
+          "word": " dini",
+          "start": 6.68,
+          "end": 7.04,
+          "probability": 0.8374640047550201
+        },
+        {
+          "word": " uygulama",
+          "start": 7.04,
+          "end": 7.62,
+          "probability": 0.9900533109903336
+        },
+        {
+          "word": " kararını",
+          "start": 7.62,
+          "end": 8.18,
+          "probability": 0.9954904317855835
+        },
+        {
+          "word": " rehberle",
+          "start": 8.18,
+          "end": 8.72,
+          "probability": 0.9892812371253967
+        },
+        {
+          "word": " teyit",
+          "start": 8.72,
+          "end": 9.06,
+          "probability": 0.7438477575778961
+        },
+        {
+          "word": " et.",
+          "start": 9.06,
+          "end": 9.22,
+          "probability": 0.9752113223075867
+        }
+      ]
+    },
+    {
+      "start": 9.6,
+      "end": 14.04,
+      "text": " Yapılacak işlem, gerçekleştirdiğin atışları kendin işaretle.",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.6,
+          "end": 10.14,
+          "probability": 0.977830151716868
+        },
+        {
+          "word": " işlem,",
+          "start": 10.14,
+          "end": 10.58,
+          "probability": 0.9940192699432373
+        },
+        {
+          "word": " gerçekleştirdiğin",
+          "start": 11.04,
+          "end": 12.14,
+          "probability": 0.9756166438261668
+        },
+        {
+          "word": " atışları",
+          "start": 12.14,
+          "end": 12.84,
+          "probability": 0.9639780521392822
+        },
+        {
+          "word": " kendin",
+          "start": 12.84,
+          "end": 13.4,
+          "probability": 0.7952429056167603
+        },
+        {
+          "word": " işaretle.",
+          "start": 13.4,
+          "end": 14.04,
+          "probability": 0.9560534159342448
+        }
+      ]
+    },
+    {
+      "start": 15.12,
+      "end": 15.82,
+      "text": " Dikkat",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Dikkat",
+          "start": 15.12,
+          "end": 15.82,
+          "probability": 0.9830544590950012
+        }
+      ]
+    },
+    {
+      "start": 15.82,
+      "end": 19.84,
+      "text": " Sayaç taşın isabetini veya ibadetin geçerliğini ölçmez.",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Sayaç",
+          "start": 15.82,
+          "end": 16.62,
+          "probability": 0.5528423028687636
+        },
+        {
+          "word": " taşın",
+          "start": 16.62,
+          "end": 16.94,
+          "probability": 0.6454731523990631
+        },
+        {
+          "word": " isabetini",
+          "start": 16.94,
+          "end": 17.66,
+          "probability": 0.9654751817385355
+        },
+        {
+          "word": " veya",
+          "start": 17.66,
+          "end": 18.02,
+          "probability": 0.9559925198554993
+        },
+        {
+          "word": " ibadetin",
+          "start": 18.02,
+          "end": 18.68,
+          "probability": 0.9778856237729391
+        },
+        {
+          "word": " geçerliğini",
+          "start": 18.68,
+          "end": 19.4,
+          "probability": 0.9806133955717087
+        },
+        {
+          "word": " ölçmez.",
+          "start": 19.4,
+          "end": 19.84,
+          "probability": 0.992758313814799
+        }
+      ]
+    },
+    {
+      "start": 20.28,
+      "end": 22.86,
+      "text": " Sonraki aşamağı, sonraki hedefe geç.",
+      "avgLogprob": -0.138006501927458,
+      "noSpeechProb": 0.21765129268169403,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.28,
+          "end": 20.84,
+          "probability": 0.854480654001236
+        },
+        {
+          "word": " aşamağı,",
+          "start": 20.84,
+          "end": 21.58,
+          "probability": 0.7015507022539774
+        },
+        {
+          "word": " sonraki",
+          "start": 21.7,
+          "end": 22.28,
+          "probability": 0.9882200658321381
+        },
+        {
+          "word": " hedefe",
+          "start": 22.28,
+          "end": 22.64,
+          "probability": 0.992827852567037
+        },
+        {
+          "word": " geç.",
+          "start": 22.64,
+          "end": 22.86,
+          "probability": 0.9985589385032654
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "atış sayımı seçili gün ve hedefte manuel tutulur hazırlık gün hedef ve dini uygulama kararını rehberle teyit et yapılacak işlem gerçekleştirdiğin atışları kendin işaretle dikkat sayaç taşın isabetini veya ibadetin geçerliliğini ölçmez sonraki aşama sonraki hedefe geç",
+    "normalizedASR": "atış sayımı seçili gün ve hedefte manuel tutulur hazırlık gün hedef ve dini uygulama kararını rehberle teyit et yapılacak işlem gerçekleştirdiğin atışları kendin işaretle dikkat sayaç taşın isabetini veya ibadetin geçerliğini ölçmez sonraki aşamağı sonraki hedefe geç",
+    "wer": 0.05405405405405406,
+    "cer": 0.0149812734082397,
+    "hits": 35,
+    "substitutions": 2,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "geçerliliğini",
+        "asr": "geçerliğini",
+        "referenceWordStart": 30
+      },
+      {
+        "type": "substitute",
+        "reference": "aşama",
+        "asr": "aşamağı",
+        "referenceWordStart": 33
+      }
+    ],
+    "religiousTermCounts": {},
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.9528865814208984,
+  "humanApproval": false
+}

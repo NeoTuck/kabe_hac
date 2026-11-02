@@ -285,6 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final latest = _latest;
+    final hasGuideContent = _catalogs.values.any((c) => c.steps.isNotEmpty);
     return PopScope(
       canPop: _selectedTab == 0,
       onPopInvokedWithResult: (didPop, _) {
@@ -335,30 +336,78 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(24),
                 children: [
+                  if (const bool.fromEnvironment(
+                    'KABE_AUDIO_REVIEW_BUILD',
+                  )) ...[
+                    Card.filled(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          'SES İNCELEME SÜRÜMÜ\nMetinler ve yapay zekâ ile üretilmiş erkek sesleri taslaktır. Dinî/dil ve kullanım hakkı incelemesi tamamlanmadı; ibadet rehberi olarak kullanma.',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                   Semantics(
                     header: true,
                     excludeSemantics: true,
                     label: _loadingRecords
-                        ? 'Rehbere başla. Kayıtlar yükleniyor.'
-                        : 'Rehbere başla',
+                        ? '${hasGuideContent ? 'Rehbere başla' : 'Yolculuk araçları'}. Kayıtlar yükleniyor.'
+                        : hasGuideContent
+                        ? 'Rehbere başla'
+                        : 'Yolculuk araçları',
                     child: Text(
-                      'Rehbere başla',
+                      hasGuideContent ? 'Rehbere başla' : 'Yolculuk araçları',
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const Text('Hazırlık ve yolculuk kayıtların ayrı tutulur.'),
-                  if (_catalogs.values.every((c) => c.steps.isEmpty)) ...[
+                  Text(
+                    hasGuideContent
+                        ? 'Hazırlık ve yolculuk kayıtların ayrı tutulur.'
+                        : 'Önemli numaralara ve çevrimdışı yerlere buradan ulaş.',
+                  ),
+                  if (!hasGuideContent) ...[
                     const SizedBox(height: 16),
                     const Card.filled(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Text(
-                          'Onaylı Umre ve Hac rehberi henüz bulunmuyor. İnceleme tamamlanana kadar rehber adımları ve sesler gösterilmez.',
+                          'Onaylı Umre ve Hac rehberi henüz bulunmuyor. Metinler ve ses kayıtları incelemede olduğu için bu sürümde açılmıyor.',
                         ),
                       ),
                     ),
+                  ],
+                  if (widget.safetyCatalog != null ||
+                      _travelCatalog != null) ...[
+                    const SizedBox(height: 24),
+                    Text(
+                      'Şu an kullanabileceklerin',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 10),
+                    if (widget.safetyCatalog != null)
+                      _ChoiceCard(
+                        icon: Icons.phone_in_talk_outlined,
+                        title: 'Yardım ve önemli numaralar',
+                        subtitle:
+                            'Kaynak ve kontrol tarihiyle iletişim bilgileri',
+                        onTap: () =>
+                            _open(SafetyScreen(catalog: widget.safetyCatalog!)),
+                      ),
+                    if (_travelCatalog != null) ...[
+                      if (widget.safetyCatalog != null)
+                        const SizedBox(height: 10),
+                      _ChoiceCard(
+                        icon: Icons.place_outlined,
+                        title: 'Yerleri ve favorileri aç',
+                        subtitle: 'Yer arama ve kaydetme; harita isteğe bağlı',
+                        onTap: () => _selectTab(1),
+                      ),
+                    ],
                   ],
                   if (latest != null &&
                       _catalogs[latest.type]!.steps.isNotEmpty) ...[
@@ -432,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              _catalogs.values.any((c) => c.steps.isNotEmpty)
+                              hasGuideContent
                                   ? 'Onaylı rehber içeriği cihazda açılır.'
                                   : 'Onaylı rehber içeriği henüz cihazda yok.',
                             ),
@@ -458,12 +507,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 28),
-                  Text(
-                    'Rehber seç',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 12),
+                  if (hasGuideContent) ...[
+                    const SizedBox(height: 28),
+                    Text(
+                      'Rehber seç',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                   if (_catalogs[GuideType.umrah]!.steps.isNotEmpty)
                     _ChoiceCard(
                       icon: Icons.menu_book_rounded,
@@ -506,36 +557,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                   const SizedBox(height: 28),
-                  if (_travelCatalog != null) ...[
-                    Text('Gezi', style: Theme.of(context).textTheme.titleLarge),
-                    const SizedBox(height: 8),
-                    TextButton.icon(
-                      onPressed: () => _open(
-                        TravelScreen(
-                          store: widget.store,
-                          catalog: _travelCatalog!,
-                          packages: widget.packages,
-                        ),
-                      ),
-                      icon: const Icon(Icons.map_outlined),
-                      label: const Text('Harita, yerler ve rotalar'),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                  if (widget.safetyCatalog != null) ...[
-                    Text(
-                      'Yolculuk desteği',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 8),
-                    TextButton.icon(
-                      onPressed: () =>
-                          _open(SafetyScreen(catalog: widget.safetyCatalog!)),
-                      icon: const Icon(Icons.health_and_safety_outlined),
-                      label: const Text('Güvenli gezi, iletişim ve dil'),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
                   if (widget.packages != null) ...[
                     Text(
                       'Çevrimdışı kullanım',

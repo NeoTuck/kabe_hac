@@ -11,7 +11,8 @@ def audit(apk):
         names = archive.namelist()
         rejected = [name for name in names if
                     'teknik_demo' in name or '/audio-qa/' in name or
-                    '/audio/draft-v2/' in name]
+                    '/audio/draft-v2/' in name or
+                    '/audio/review-male-v1/' in name]
         for name in names:
             if not name.endswith(('/content/umre_inventory.v1.json',
                                   '/content/hac_inventory.v1.json')):

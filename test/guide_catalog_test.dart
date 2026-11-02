@@ -305,11 +305,15 @@ void main() {
     expect(step.linkedAudioIds, ['A-U02.2-TR-01']);
     expect(
       catalog.audioRecords['A-U02.2-TR-01']?.asset,
-      'assets/audio/draft-v2/A-U02.2-TR-01.m4a',
+      'assets/audio/review-male-v1/A-U02.2-TR-01.m4a',
     );
     expect(
       catalog.audioRecords['A-U02.2-TR-01']?.isSyntheticDraftPreview,
       isTrue,
+    );
+    expect(
+      catalog.audioRecords['A-U02.2-TR-01']?.syntheticVoiceDisclosure,
+      'Yapay zekâ ile üretilmiş erkek anlatımı.',
     );
     final prayer = catalog.prayerRecords['P-U02.2-01']!;
     expect(prayer.status, ReviewStatus.draft);

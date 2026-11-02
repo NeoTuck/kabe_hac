@@ -1,0 +1,344 @@
+{
+  "audioId": "A-H03.1-TR-01",
+  "audioSha256": "651070368a14ed3509734c28d5dee976d5bb3f9a50ad6075727dc9332a57a63d",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "İlk Güzelgah Mina veya Arafat yönüne uzanabilir. Hazırlık, resmi ulaşım ve buluşma planını kontrol et. Yapılacak işlem, kafile talimatıyla uygun Güzelgahı izle. Dikkat, uygulama gerçek zamanlı rota ya da kalabalık garantisi vermez. Sonraki aşama, uygulanırsa Mina başlığına geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 3.94,
+      "text": " İlk Güzelgah Mina veya Arafat yönüne uzanabilir.",
+      "avgLogprob": -0.15794431889822724,
+      "noSpeechProb": 0.15410855412483215,
+      "words": [
+        {
+          "word": " İlk",
+          "start": 0.0,
+          "end": 1.08,
+          "probability": 0.9558545053005219
+        },
+        {
+          "word": " Güzelgah",
+          "start": 1.08,
+          "end": 1.6,
+          "probability": 0.7787507921457291
+        },
+        {
+          "word": " Mina",
+          "start": 1.6,
+          "end": 1.88,
+          "probability": 0.3364892899990082
+        },
+        {
+          "word": " veya",
+          "start": 1.88,
+          "end": 2.46,
+          "probability": 0.945152759552002
+        },
+        {
+          "word": " Arafat",
+          "start": 2.46,
+          "end": 3.06,
+          "probability": 0.9388424356778463
+        },
+        {
+          "word": " yönüne",
+          "start": 3.06,
+          "end": 3.42,
+          "probability": 0.9509453177452087
+        },
+        {
+          "word": " uzanabilir.",
+          "start": 3.42,
+          "end": 3.94,
+          "probability": 0.9875304102897644
+        }
+      ]
+    },
+    {
+      "start": 4.54,
+      "end": 8.32,
+      "text": " Hazırlık, resmi ulaşım ve buluşma planını kontrol et.",
+      "avgLogprob": -0.15794431889822724,
+      "noSpeechProb": 0.15410855412483215,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.54,
+          "end": 5.14,
+          "probability": 0.9776311119397482
+        },
+        {
+          "word": " resmi",
+          "start": 5.56,
+          "end": 6.0,
+          "probability": 0.879475325345993
+        },
+        {
+          "word": " ulaşım",
+          "start": 6.0,
+          "end": 6.48,
+          "probability": 0.9875098466873169
+        },
+        {
+          "word": " ve",
+          "start": 6.48,
+          "end": 6.62,
+          "probability": 0.9957979321479797
+        },
+        {
+          "word": " buluşma",
+          "start": 6.62,
+          "end": 7.1,
+          "probability": 0.9974006414413452
+        },
+        {
+          "word": " planını",
+          "start": 7.1,
+          "end": 7.56,
+          "probability": 0.997522622346878
+        },
+        {
+          "word": " kontrol",
+          "start": 7.56,
+          "end": 8.06,
+          "probability": 0.98369961977005
+        },
+        {
+          "word": " et.",
+          "start": 8.06,
+          "end": 8.32,
+          "probability": 0.9922469854354858
+        }
+      ]
+    },
+    {
+      "start": 9.16,
+      "end": 13.46,
+      "text": " Yapılacak işlem, kafile talimatıyla uygun Güzelgahı izle.",
+      "avgLogprob": -0.15794431889822724,
+      "noSpeechProb": 0.15410855412483215,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.16,
+          "end": 9.72,
+          "probability": 0.9917348821957906
+        },
+        {
+          "word": " işlem,",
+          "start": 9.72,
+          "end": 10.1,
+          "probability": 0.9903093576431274
+        },
+        {
+          "word": " kafile",
+          "start": 10.56,
+          "end": 10.98,
+          "probability": 0.8222731649875641
+        },
+        {
+          "word": " talimatıyla",
+          "start": 10.98,
+          "end": 11.84,
+          "probability": 0.9808021386464437
+        },
+        {
+          "word": " uygun",
+          "start": 11.84,
+          "end": 12.44,
+          "probability": 0.9813699722290039
+        },
+        {
+          "word": " Güzelgahı",
+          "start": 12.44,
+          "end": 13.1,
+          "probability": 0.8525764346122742
+        },
+        {
+          "word": " izle.",
+          "start": 13.1,
+          "end": 13.46,
+          "probability": 0.9698230922222137
+        }
+      ]
+    },
+    {
+      "start": 14.62,
+      "end": 19.96,
+      "text": " Dikkat, uygulama gerçek zamanlı rota ya da kalabalık garantisi vermez.",
+      "avgLogprob": -0.15794431889822724,
+      "noSpeechProb": 0.15410855412483215,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 14.62,
+          "end": 15.52,
+          "probability": 0.9843142429987589
+        },
+        {
+          "word": " uygulama",
+          "start": 16.06,
+          "end": 16.54,
+          "probability": 0.9926773905754089
+        },
+        {
+          "word": " gerçek",
+          "start": 16.54,
+          "end": 16.96,
+          "probability": 0.9788797497749329
+        },
+        {
+          "word": " zamanlı",
+          "start": 16.96,
+          "end": 17.6,
+          "probability": 0.934507817029953
+        },
+        {
+          "word": " rota",
+          "start": 17.6,
+          "end": 17.88,
+          "probability": 0.9043535888195038
+        },
+        {
+          "word": " ya",
+          "start": 17.88,
+          "end": 18.26,
+          "probability": 0.2646276354789734
+        },
+        {
+          "word": " da",
+          "start": 18.26,
+          "end": 18.44,
+          "probability": 0.9788501858711243
+        },
+        {
+          "word": " kalabalık",
+          "start": 18.44,
+          "end": 18.96,
+          "probability": 0.992525264620781
+        },
+        {
+          "word": " garantisi",
+          "start": 18.96,
+          "end": 19.52,
+          "probability": 0.7912421226501465
+        },
+        {
+          "word": " vermez.",
+          "start": 19.52,
+          "end": 19.96,
+          "probability": 0.996039092540741
+        }
+      ]
+    },
+    {
+      "start": 20.44,
+      "end": 23.92,
+      "text": " Sonraki aşama, uygulanırsa Mina başlığına geç.",
+      "avgLogprob": -0.15794431889822724,
+      "noSpeechProb": 0.15410855412483215,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 20.44,
+          "end": 21.06,
+          "probability": 0.887233167886734
+        },
+        {
+          "word": " aşama,",
+          "start": 21.06,
+          "end": 21.42,
+          "probability": 0.9816412031650543
+        },
+        {
+          "word": " uygulanırsa",
+          "start": 21.94,
+          "end": 22.68,
+          "probability": 0.9890275120735168
+        },
+        {
+          "word": " Mina",
+          "start": 22.68,
+          "end": 23.16,
+          "probability": 0.9183170795440674
+        },
+        {
+          "word": " başlığına",
+          "start": 23.16,
+          "end": 23.74,
+          "probability": 0.9724062532186508
+        },
+        {
+          "word": " geç.",
+          "start": 23.74,
+          "end": 23.92,
+          "probability": 0.9989092350006104
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "ilk güzergah mina veya arafat yönüne uzanabilir hazırlık resmi ulaşım ve buluşma planını kontrol et yapılacak işlem kafile talimatıyla uygun güzergahı izle dikkat uygulama gerçek zamanlı rota ya da kalabalık garantisi vermez sonraki aşama uygulanırsa mina başlığına geç",
+    "normalizedASR": "ilk güzelgah mina veya arafat yönüne uzanabilir hazırlık resmi ulaşım ve buluşma planını kontrol et yapılacak işlem kafile talimatıyla uygun güzelgahı izle dikkat uygulama gerçek zamanlı rota ya da kalabalık garantisi vermez sonraki aşama uygulanırsa mina başlığına geç",
+    "wer": 0.05263157894736842,
+    "cer": 0.007434944237918215,
+    "hits": 36,
+    "substitutions": 2,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [
+      {
+        "type": "substitute",
+        "reference": "güzergah",
+        "asr": "güzelgah",
+        "referenceWordStart": 1
+      },
+      {
+        "type": "substitute",
+        "reference": "güzergahı",
+        "asr": "güzelgahı",
+        "referenceWordStart": 20
+      }
+    ],
+    "religiousTermCounts": {
+      "arafat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "mina": {
+        "expectedOccurrences": 2,
+        "asrOccurrences": 2,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": false,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": true,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.223104953765869,
+  "humanApproval": false
+}

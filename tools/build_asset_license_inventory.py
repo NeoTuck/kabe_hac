@@ -23,6 +23,9 @@ FONT_RIGHTS = {
                             'https://github.com/notofonts/arabic'),
 }
 REVIEW_AUDIO_DIR = 'assets/audio/draft-v2/'
+MALE_REVIEW_AUDIO_DIR = 'assets/audio/review-male-v1/'
+MALE_REVIEW_SOURCE = 'docs/audio-review/male-v1/'
+MALE_MODEL_REVISION = '3cadd1ee6394adea1bd021217a0e650ede09a323'
 REVIEW_AUDIO_MODEL_REVISION = '7a6ba1ad216bb2f1da9863f80ac8770a6a807632'
 REVIEW_AUDIO_MODEL_CARD = (
     'https://huggingface.co/canberkkkkkk/ema-lightning/blob/'
@@ -95,6 +98,27 @@ def asset_entry(path):
             'religiousContentReview': 'pending',
             'releaseStatus': 'excluded_from_user_build',
         })
+    elif rel.startswith(MALE_REVIEW_AUDIO_DIR) and path.suffix == '.m4a':
+        entry.update({
+            'kind': 'synthetic_male_turkish_review_audio',
+            'audioId': path.stem,
+            'declaredOrigin': 'synthetic',
+            'engine': 'Supertonic 1.3.1',
+            'model': 'Supertone/supertonic-3',
+            'modelRevision': MALE_MODEL_REVISION,
+            'voiceStyle': 'M1',
+            'source': ('https://huggingface.co/Supertone/supertonic-3/blob/'
+                       f'{MALE_MODEL_REVISION}/README.md'),
+            'provenanceReceipt': (
+                f'{MALE_REVIEW_SOURCE}makbuzlar/{path.stem}.json'
+            ),
+            'license': 'BigScience Open RAIL-M',
+            'licenseFile': f'{MALE_REVIEW_SOURCE}lisanslar/Supertonic3_OpenRAIL-M.txt',
+            'rightsStatus': 'distribution_review_pending',
+            'listeningReview': 'pending',
+            'religiousContentReview': 'pending',
+            'releaseStatus': 'excluded_from_user_build',
+        })
     elif rel == 'assets/audio/teknik_demo.m4a':
         entry.update({'kind': 'technical_audio', 'license': 'QA fixture only',
                       'releaseStatus': 'excluded_from_user_build'})
@@ -117,6 +141,10 @@ def collect_assets():
     if len(review_audio) != 54:
         raise SystemExit(f'Expected 54 bundled draft review audio files, found {len(review_audio)}.')
     paths += review_audio
+    male_review_audio = sorted((ROOT / MALE_REVIEW_AUDIO_DIR).glob('*.m4a'))
+    if len(male_review_audio) != 54:
+        raise SystemExit(f'Expected 54 male review audio files, found {len(male_review_audio)}.')
+    paths += male_review_audio
     return [asset_entry(p) for p in sorted(paths) if p.is_file()]
 
 

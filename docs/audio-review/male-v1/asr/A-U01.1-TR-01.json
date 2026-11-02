@@ -1,0 +1,329 @@
+{
+  "audioId": "A-U01.1-TR-01",
+  "audioSha256": "87a52f46cb4ef7b24f55eeedf4ce2c9e42e3dcfd852ade257bf7eefc95e350b4",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir. Hazırlık İçeriğin taslak ve onay durumunu gör. Yapılacak işlem. Amacına uygun kullanım biçimini seç. Dikkat. Uygulama seçimi dini bir karar yerine geçmez. Sonraki aşama, hazırlık başlığına ilerle.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.8,
+      "text": " Öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Öğrenme",
+          "start": 0.0,
+          "end": 1.16,
+          "probability": 0.9433663338422775
+        },
+        {
+          "word": " ile",
+          "start": 1.16,
+          "end": 1.36,
+          "probability": 0.791057825088501
+        },
+        {
+          "word": " yolculukta",
+          "start": 1.36,
+          "end": 2.08,
+          "probability": 0.9886656254529953
+        },
+        {
+          "word": " kişisel",
+          "start": 2.08,
+          "end": 2.6,
+          "probability": 0.9871358275413513
+        },
+        {
+          "word": " takip",
+          "start": 2.6,
+          "end": 3.3,
+          "probability": 0.7410569041967392
+        },
+        {
+          "word": " farklı",
+          "start": 3.3,
+          "end": 3.58,
+          "probability": 0.9546940326690674
+        },
+        {
+          "word": " kullanım",
+          "start": 3.58,
+          "end": 4.1,
+          "probability": 0.9331175684928894
+        },
+        {
+          "word": " biçimleridir.",
+          "start": 4.1,
+          "end": 4.8,
+          "probability": 0.9830816984176636
+        }
+      ]
+    },
+    {
+      "start": 5.52,
+      "end": 6.1,
+      "text": " Hazırlık",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Hazırlık",
+          "start": 5.52,
+          "end": 6.1,
+          "probability": 0.9700277249018351
+        }
+      ]
+    },
+    {
+      "start": 6.1,
+      "end": 9.42,
+      "text": " İçeriğin taslak ve onay durumunu gör.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " İçeriğin",
+          "start": 6.1,
+          "end": 7.38,
+          "probability": 0.8933659046888351
+        },
+        {
+          "word": " taslak",
+          "start": 7.38,
+          "end": 8.02,
+          "probability": 0.9602520763874054
+        },
+        {
+          "word": " ve",
+          "start": 8.02,
+          "end": 8.32,
+          "probability": 0.9956862926483154
+        },
+        {
+          "word": " onay",
+          "start": 8.32,
+          "end": 8.7,
+          "probability": 0.9881629049777985
+        },
+        {
+          "word": " durumunu",
+          "start": 8.7,
+          "end": 9.18,
+          "probability": 0.9892042577266693
+        },
+        {
+          "word": " gör.",
+          "start": 9.18,
+          "end": 9.42,
+          "probability": 0.9914345741271973
+        }
+      ]
+    },
+    {
+      "start": 9.92,
+      "end": 11.06,
+      "text": " Yapılacak işlem.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 9.92,
+          "end": 10.54,
+          "probability": 0.9861354430516561
+        },
+        {
+          "word": " işlem.",
+          "start": 10.54,
+          "end": 11.06,
+          "probability": 0.9923639893531799
+        }
+      ]
+    },
+    {
+      "start": 11.44,
+      "end": 13.74,
+      "text": " Amacına uygun kullanım biçimini seç.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Amacına",
+          "start": 11.44,
+          "end": 11.98,
+          "probability": 0.9735143780708313
+        },
+        {
+          "word": " uygun",
+          "start": 11.98,
+          "end": 12.44,
+          "probability": 0.9768505394458771
+        },
+        {
+          "word": " kullanım",
+          "start": 12.44,
+          "end": 12.96,
+          "probability": 0.9514553546905518
+        },
+        {
+          "word": " biçimini",
+          "start": 12.96,
+          "end": 13.46,
+          "probability": 0.9811225235462189
+        },
+        {
+          "word": " seç.",
+          "start": 13.46,
+          "end": 13.74,
+          "probability": 0.9862896203994751
+        }
+      ]
+    },
+    {
+      "start": 14.9,
+      "end": 15.86,
+      "text": " Dikkat.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Dikkat.",
+          "start": 14.9,
+          "end": 15.86,
+          "probability": 0.9776591261227926
+        }
+      ]
+    },
+    {
+      "start": 16.3,
+      "end": 18.72,
+      "text": " Uygulama seçimi dini bir karar yerine geçmez.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Uygulama",
+          "start": 16.3,
+          "end": 16.78,
+          "probability": 0.988009974360466
+        },
+        {
+          "word": " seçimi",
+          "start": 16.78,
+          "end": 17.2,
+          "probability": 0.908343642950058
+        },
+        {
+          "word": " dini",
+          "start": 17.2,
+          "end": 17.52,
+          "probability": 0.9757103621959686
+        },
+        {
+          "word": " bir",
+          "start": 17.52,
+          "end": 17.62,
+          "probability": 0.9830909371376038
+        },
+        {
+          "word": " karar",
+          "start": 17.62,
+          "end": 17.98,
+          "probability": 0.9983189105987549
+        },
+        {
+          "word": " yerine",
+          "start": 17.98,
+          "end": 18.32,
+          "probability": 0.9989051222801208
+        },
+        {
+          "word": " geçmez.",
+          "start": 18.32,
+          "end": 18.72,
+          "probability": 0.9992866516113281
+        }
+      ]
+    },
+    {
+      "start": 19.24,
+      "end": 22.18,
+      "text": " Sonraki aşama, hazırlık başlığına ilerle.",
+      "avgLogprob": -0.1306161869556532,
+      "noSpeechProb": 0.07910435646772385,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 19.24,
+          "end": 19.9,
+          "probability": 0.8826278150081635
+        },
+        {
+          "word": " aşama,",
+          "start": 19.9,
+          "end": 20.32,
+          "probability": 0.9898535013198853
+        },
+        {
+          "word": " hazırlık",
+          "start": 20.76,
+          "end": 21.2,
+          "probability": 0.9743755757808685
+        },
+        {
+          "word": " başlığına",
+          "start": 21.2,
+          "end": 21.76,
+          "probability": 0.9900912046432495
+        },
+        {
+          "word": " ilerle.",
+          "start": 21.76,
+          "end": 22.18,
+          "probability": 0.9697165687878927
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir hazırlık içeriğin taslak ve onay durumunu gör yapılacak işlem amacına uygun kullanım biçimini seç dikkat uygulama seçimi dini bir karar yerine geçmez sonraki aşama hazırlık başlığına ilerle",
+    "normalizedASR": "öğrenme ile yolculukta kişisel takip farklı kullanım biçimleridir hazırlık içeriğin taslak ve onay durumunu gör yapılacak işlem amacına uygun kullanım biçimini seç dikkat uygulama seçimi dini bir karar yerine geçmez sonraki aşama hazırlık başlığına ilerle",
+    "wer": 0.0,
+    "cer": 0.0,
+    "hits": 35,
+    "substitutions": 0,
+    "deletions": 0,
+    "insertions": 0,
+    "edits": [],
+    "religiousTermCounts": {},
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 4.769559144973755,
+  "humanApproval": false
+}

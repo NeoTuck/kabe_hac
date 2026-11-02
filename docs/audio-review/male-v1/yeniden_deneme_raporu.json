@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "audioId": "A-U01.2-TR-01",
+      "reason": "Üretimden sonra makbuzla eşleşmeyen dosya bulundu; hata kanıtı arşivlendi.",
+      "action": "Aynı metin/model/M1/ayar/tohum ile hedefli yeniden üretim.",
+      "sameWavHashAsOriginalGeneration": true,
+      "sameM4aHashAsOriginalGeneration": true,
+      "technicalIntegrity": "passed",
+      "finalASR": {
+        "wer": 0.06976744186046512,
+        "deletions": 0,
+        "insertions": 1,
+        "substitutions": 2,
+        "needsHumanAttention": false
+      },
+      "priorEvidence": "gecmis_kontroller/A-U01.2-TR-01.before.makbuzlar.json"
+    },
+    {
+      "audioId": "A-H01.1-TR-01",
+      "reason": "Üretimden sonra makbuzla eşleşmeyen dosya bulundu; hata kanıtı arşivlendi.",
+      "action": "Aynı metin/model/M1/ayar/tohum ile hedefli yeniden üretim.",
+      "sameWavHashAsOriginalGeneration": true,
+      "sameM4aHashAsOriginalGeneration": true,
+      "technicalIntegrity": "passed",
+      "finalASR": {
+        "wer": 0.12195121951219512,
+        "deletions": 0,
+        "insertions": 0,
+        "substitutions": 5,
+        "needsHumanAttention": true
+      },
+      "priorEvidence": "gecmis_kontroller/A-H01.1-TR-01.before.makbuzlar.json"
+    },
+    {
+      "audioId": "A-H10.3-TR-01",
+      "reason": "Üretimden sonra makbuzla eşleşmeyen dosya bulundu; hata kanıtı arşivlendi.",
+      "action": "Aynı metin/model/M1/ayar/tohum ile hedefli yeniden üretim.",
+      "sameWavHashAsOriginalGeneration": true,
+      "sameM4aHashAsOriginalGeneration": true,
+      "technicalIntegrity": "passed",
+      "finalASR": {
+        "wer": 0.0,
+        "deletions": 0,
+        "insertions": 0,
+        "substitutions": 0,
+        "needsHumanAttention": false
+      },
+      "priorEvidence": "gecmis_kontroller/A-H10.3-TR-01.before.makbuzlar.json"
+    }
+  ],
+  "final108FileHashesMatch": true,
+  "remainingHashErrors": []
+}

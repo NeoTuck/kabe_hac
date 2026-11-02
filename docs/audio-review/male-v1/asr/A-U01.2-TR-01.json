@@ -1,0 +1,386 @@
+{
+  "audioId": "A-U01.2-TR-01",
+  "audioSha256": "0892f426e3d2ec8e0f00cea7f06d31d1424817c9d8dd07860d98aa2c2b40b43f",
+  "model": "Systran/faster-whisper-small",
+  "modelRevision": "536b0662742c02347bc0e980a01041f333bce120",
+  "engine": "faster-whisper 1.2.1 / CTranslate2 int8 CPU",
+  "modelFileHashes": {
+    "config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+    "vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+    "README.md": "329373481008c7c38654aff8ecdcf0163c211557cc7ba8e2ef6f2f84b4f75ec8",
+    "tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+    "model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671"
+  },
+  "settings": {
+    "language": "tr",
+    "beam_size": 5,
+    "temperature": 0.0,
+    "condition_on_previous_text": false,
+    "vad_filter": false,
+    "word_timestamps": true,
+    "initial_prompt": null
+  },
+  "transcript": "Yolculuk ve ibadet hazırlığını önceden gözden geçir. Hazırlık, sağlık, seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula. Yapılacak işlem, rehberin içerik ve çevrim dışı paket durumunu kontrol. Dikkat, dikkat, eksik veya eski sahâ bilgisini kesin bilgi sayma. Sonraki aşama, mikat ve ihram konusuna geç.",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 4.22,
+      "text": " Yolculuk ve ibadet hazırlığını önceden gözden geçir.",
+      "avgLogprob": -0.13499392336997829,
+      "noSpeechProb": 0.45817846059799194,
+      "words": [
+        {
+          "word": " Yolculuk",
+          "start": 0.0,
+          "end": 1.46,
+          "probability": 0.9310459345579147
+        },
+        {
+          "word": " ve",
+          "start": 1.46,
+          "end": 1.62,
+          "probability": 0.9894567131996155
+        },
+        {
+          "word": " ibadet",
+          "start": 1.62,
+          "end": 2.18,
+          "probability": 0.981239398320516
+        },
+        {
+          "word": " hazırlığını",
+          "start": 2.18,
+          "end": 2.76,
+          "probability": 0.9955478310585022
+        },
+        {
+          "word": " önceden",
+          "start": 2.76,
+          "end": 3.36,
+          "probability": 0.994001050790151
+        },
+        {
+          "word": " gözden",
+          "start": 3.36,
+          "end": 3.78,
+          "probability": 0.9874045848846436
+        },
+        {
+          "word": " geçir.",
+          "start": 3.78,
+          "end": 4.22,
+          "probability": 0.998324990272522
+        }
+      ]
+    },
+    {
+      "start": 4.64,
+      "end": 10.56,
+      "text": " Hazırlık, sağlık, seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula.",
+      "avgLogprob": -0.13499392336997829,
+      "noSpeechProb": 0.45817846059799194,
+      "words": [
+        {
+          "word": " Hazırlık,",
+          "start": 4.64,
+          "end": 5.14,
+          "probability": 0.979219933350881
+        },
+        {
+          "word": " sağlık,",
+          "start": 5.52,
+          "end": 6.12,
+          "probability": 0.8087596893310547
+        },
+        {
+          "word": " seyahat",
+          "start": 6.46,
+          "end": 6.82,
+          "probability": 0.9386205077171326
+        },
+        {
+          "word": " belgesi",
+          "start": 6.82,
+          "end": 7.56,
+          "probability": 0.9835525552431742
+        },
+        {
+          "word": " ve",
+          "start": 7.56,
+          "end": 7.76,
+          "probability": 0.9870573878288269
+        },
+        {
+          "word": " kafile",
+          "start": 7.76,
+          "end": 8.24,
+          "probability": 0.8750219643115997
+        },
+        {
+          "word": " bilgisini",
+          "start": 8.24,
+          "end": 8.76,
+          "probability": 0.9800355831782023
+        },
+        {
+          "word": " yetkili",
+          "start": 8.76,
+          "end": 9.36,
+          "probability": 0.9692143400510153
+        },
+        {
+          "word": " kaynaklardan",
+          "start": 9.36,
+          "end": 10.08,
+          "probability": 0.9914603432019552
+        },
+        {
+          "word": " doğrula.",
+          "start": 10.08,
+          "end": 10.56,
+          "probability": 0.8699100613594055
+        }
+      ]
+    },
+    {
+      "start": 11.720000000000004,
+      "end": 16.62,
+      "text": " Yapılacak işlem, rehberin içerik ve çevrim dışı paket durumunu kontrol.",
+      "avgLogprob": -0.13499392336997829,
+      "noSpeechProb": 0.45817846059799194,
+      "words": [
+        {
+          "word": " Yapılacak",
+          "start": 11.720000000000004,
+          "end": 12.6,
+          "probability": 0.9901986519495646
+        },
+        {
+          "word": " işlem,",
+          "start": 12.6,
+          "end": 13.02,
+          "probability": 0.9852397739887238
+        },
+        {
+          "word": " rehberin",
+          "start": 13.52,
+          "end": 13.98,
+          "probability": 0.9308329820632935
+        },
+        {
+          "word": " içerik",
+          "start": 13.98,
+          "end": 14.44,
+          "probability": 0.9657883048057556
+        },
+        {
+          "word": " ve",
+          "start": 14.44,
+          "end": 14.64,
+          "probability": 0.995660126209259
+        },
+        {
+          "word": " çevrim",
+          "start": 14.64,
+          "end": 15.04,
+          "probability": 0.9361328184604645
+        },
+        {
+          "word": " dışı",
+          "start": 15.04,
+          "end": 15.4,
+          "probability": 0.993937760591507
+        },
+        {
+          "word": " paket",
+          "start": 15.4,
+          "end": 15.76,
+          "probability": 0.9943718016147614
+        },
+        {
+          "word": " durumunu",
+          "start": 15.76,
+          "end": 16.18,
+          "probability": 0.9556567370891571
+        },
+        {
+          "word": " kontrol.",
+          "start": 16.18,
+          "end": 16.62,
+          "probability": 0.9631484746932983
+        }
+      ]
+    },
+    {
+      "start": 16.98,
+      "end": 21.94,
+      "text": " Dikkat, dikkat, eksik veya eski sahâ bilgisini kesin bilgi sayma.",
+      "avgLogprob": -0.13499392336997829,
+      "noSpeechProb": 0.45817846059799194,
+      "words": [
+        {
+          "word": " Dikkat,",
+          "start": 16.98,
+          "end": 17.56,
+          "probability": 0.9770564834276835
+        },
+        {
+          "word": " dikkat,",
+          "start": 17.94,
+          "end": 18.38,
+          "probability": 0.9849949181079865
+        },
+        {
+          "word": " eksik",
+          "start": 18.74,
+          "end": 19.1,
+          "probability": 0.9738840758800507
+        },
+        {
+          "word": " veya",
+          "start": 19.1,
+          "end": 19.28,
+          "probability": 0.9835610389709473
+        },
+        {
+          "word": " eski",
+          "start": 19.28,
+          "end": 19.74,
+          "probability": 0.9949936270713806
+        },
+        {
+          "word": " sahâ",
+          "start": 19.74,
+          "end": 20.1,
+          "probability": 0.6893972456455231
+        },
+        {
+          "word": " bilgisini",
+          "start": 20.1,
+          "end": 20.58,
+          "probability": 0.9721375902493795
+        },
+        {
+          "word": " kesin",
+          "start": 20.58,
+          "end": 21.1,
+          "probability": 0.9947811663150787
+        },
+        {
+          "word": " bilgi",
+          "start": 21.1,
+          "end": 21.5,
+          "probability": 0.9650120437145233
+        },
+        {
+          "word": " sayma.",
+          "start": 21.5,
+          "end": 21.94,
+          "probability": 0.9925963580608368
+        }
+      ]
+    },
+    {
+      "start": 22.36,
+      "end": 25.56,
+      "text": " Sonraki aşama, mikat ve ihram konusuna geç.",
+      "avgLogprob": -0.13499392336997829,
+      "noSpeechProb": 0.45817846059799194,
+      "words": [
+        {
+          "word": " Sonraki",
+          "start": 22.36,
+          "end": 22.88,
+          "probability": 0.882914662361145
+        },
+        {
+          "word": " aşama,",
+          "start": 22.88,
+          "end": 23.26,
+          "probability": 0.9845258295536041
+        },
+        {
+          "word": " mikat",
+          "start": 23.7,
+          "end": 24.12,
+          "probability": 0.6234731674194336
+        },
+        {
+          "word": " ve",
+          "start": 24.12,
+          "end": 24.44,
+          "probability": 0.9890122413635254
+        },
+        {
+          "word": " ihram",
+          "start": 24.44,
+          "end": 24.82,
+          "probability": 0.7099604308605194
+        },
+        {
+          "word": " konusuna",
+          "start": 24.82,
+          "end": 25.38,
+          "probability": 0.9956531325976054
+        },
+        {
+          "word": " geç.",
+          "start": 25.38,
+          "end": 25.56,
+          "probability": 0.9994325041770935
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "normalization": "Türkçe I/İ ve NFC; â/î/û düzleştirilir; noktalama/apostrof kaldırılır; yalnız ASR kıyası için.",
+    "normalizedReference": "yolculuk ve ibadet hazırlığını önceden gözden geçir hazırlık sağlık seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula yapılacak işlem rehberin içerik ve çevrimdışı paket durumunu kontrol et dikkat eksik veya eski saha bilgisini kesin bilgi sayma sonraki aşama mikat ve ihram konusuna geç",
+    "normalizedASR": "yolculuk ve ibadet hazırlığını önceden gözden geçir hazırlık sağlık seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula yapılacak işlem rehberin içerik ve çevrim dışı paket durumunu kontrol dikkat dikkat eksik veya eski saha bilgisini kesin bilgi sayma sonraki aşama mikat ve ihram konusuna geç",
+    "wer": 0.06976744186046512,
+    "cer": 0.019867549668874173,
+    "hits": 41,
+    "substitutions": 2,
+    "deletions": 0,
+    "insertions": 1,
+    "edits": [
+      {
+        "type": "insert",
+        "reference": "",
+        "asr": "çevrim",
+        "referenceWordStart": 22
+      },
+      {
+        "type": "substitute",
+        "reference": "çevrimdışı",
+        "asr": "dışı",
+        "referenceWordStart": 22
+      },
+      {
+        "type": "substitute",
+        "reference": "et",
+        "asr": "dikkat",
+        "referenceWordStart": 26
+      }
+    ],
+    "religiousTermCounts": {
+      "ihram": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      },
+      "mikat": {
+        "expectedOccurrences": 1,
+        "asrOccurrences": 1,
+        "matchesCount": true
+      }
+    },
+    "boundaryWords": {
+      "firstThreeMatch": true,
+      "lastThreeMatch": true
+    },
+    "needsHumanAttention": false,
+    "meaning": "ASR farkı, tek başına yanlış seslendirme kanıtı değildir."
+  },
+  "computeSeconds": 3.686746835708618,
+  "humanApproval": false
+}
