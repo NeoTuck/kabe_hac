@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'counter_screen.dart';
 import 'guide_catalog.dart';
+import 'guide_stage_animator.dart';
 import 'narration_service.dart';
 import 'progress_store.dart';
 
@@ -33,6 +34,7 @@ class GuideSection {
     required this.subtitle,
     required this.icon,
     required this.items,
+    this.stageType = GuideStageType.luggage,
   });
 
   final int number;
@@ -40,6 +42,7 @@ class GuideSection {
   final String subtitle;
   final IconData icon;
   final List<GuideSectionItem> items;
+  final GuideStageType stageType;
 }
 
 class GuideSectionsScreen extends StatefulWidget {
@@ -62,6 +65,7 @@ class GuideSectionsScreen extends StatefulWidget {
 
 class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   final Set<String> _checkedItems = {};
+  final Map<int, int> _activeItemBySection = {};
   int _activeSessionId = 1;
 
   late final List<GuideSection> _sections = widget.type == GuideType.umrah
@@ -128,71 +132,84 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
       const GuideSection(
         number: 1,
         title: 'Bölüm 1: Valiz & Hazırlık Eşyaları',
-        subtitle: 'Gitmeden önce yanınıza almanız gereken temel eşyalar',
+        subtitle: 'Diyanet ve fıkıh standartlarında eksiksiz eşya listesi',
         icon: Icons.luggage_outlined,
+        stageType: GuideStageType.luggage,
         items: [
           GuideSectionItem(
             title: 'Valiz Kontrol Listesi',
-            summary: 'İhram, dikişsiz terlik ve kişisel hijyen malzemelerini eksiksiz hazırlayın.',
+            summary:
+                'Eşyalar üstteki sahnede valize yerleşir; alttaki listeden kontrol edip işaretleyebilirsiniz.',
             audioAsset: 'assets/audio/review-male-v1/A-U01.1-TR-01.m4a',
             audioTitle: 'Valiz ve Hazırlık Rehberi',
             checklist: [
-              '2 parça dikişsiz ihram kumaşı (erkekler için)',
-              'Kokusuz sabun, şampuan ve pişik kremi',
-              'Rahat ortopedik sandalet / tavaf patiği',
-              'Düzenli kullanılan ilaçlar ve ilk yardım kiti',
+              '2 parça dikişsiz ihram kumaşı ve cepli emniyetli kemer',
+              'Kokusuz sabun, şampuan ve pişik kremi (İhram fıkhı şartı)',
+              'Rahat ortopedik sandalet ve kaymaz tabanlı tavaf patiği',
+              'Mescid-i Harâm ve Nebevî için bez ayakkabı torbası',
+              'Düzenli kullanılan reçeteli ilaçlar ve ilk yardım kiti',
               'Boyun askılı güvenli pasaport ve para cüzdanı',
-              'Küçük boy dua kitabı ve dijital zikirmatik',
+              'Küçük boy dua kitabı ve dijital yüzük zikirmatik',
+              'İhramdan çıkış tıraşı için küçük makas ve tırnak makası',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 2,
-        title: 'Bölüm 2: Gitmeden Önce Bilinmesi Gerekenler',
+        title: 'Bölüm 2: Mîkāt & İhram Kuralları',
         subtitle: 'Mîkāt sınırları, ihram kuralları ve yasaklar',
         icon: Icons.menu_book_rounded,
+        stageType: GuideStageType.ihram,
         items: [
           GuideSectionItem(
             title: 'İhrama Giriş ve Yasaklar',
-            summary: 'Mîkāt sınırında boy abdesti alınır, niyet edilir ve telbiye getirilir.',
+            summary:
+                'Mîkāt sınırında boy abdesti alınır, niyet edilir ve telbiye getirilir.',
             audioAsset: 'assets/audio/review-male-v1/A-U01.2-TR-01.m4a',
             audioTitle: 'İhram Kuralları ve Telbiye Anlatımı',
             substeps: [
-              'Mîkāt sınırını ihramsız geçmek caiz değildir.',
-              'İhramlıyken koku sürünmek, tırnak veya kıl kesmek yasaktır.',
-              'Erkekler başını ve ayağını kapatan dikişli giysi giyemez.',
-              'Kavga, tartışma ve kırıcı sözlerden kesinlikle kaçınılır.',
+              'Boy abdesti (gusül) alınıp 2 rekat ihram namazı kılınır.',
+              'Mîkāt sınırını ihramsız geçmek caiz değildir (kurban cezası gerekir).',
+              'Niyet: "Allah\'ım senin rızan için Umre yapmak istiyorum..."',
+              'Telbiye: "Lebbeyk Allahümme lebbeyk, lebbeyke lâ şerîke leke lebbeyk..."',
+              'İhramlıyken koku sürünmek, dikişli giysi/çorap giymek (erkekler) ve kıl kesmek yasaktır.',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 3,
-        title: 'Bölüm 3: Kâbe’ye Varış ve Tavaf',
+        title: 'Bölüm 3: Kâbe’ye Varış & Canlı Tavaf',
         subtitle: 'Mescid-i Harâm adabı, 7 şavt ve dualar',
         icon: Icons.mosque_outlined,
+        stageType: GuideStageType.tawaf,
         items: [
           GuideSectionItem(
             title: 'Tavaf İbadeti',
-            summary: 'Hacerü’l-Esved hizasından başlanarak Kâbe etrafında 7 şavt tamamlanır.',
+            summary:
+                'Hacerü’l-Esved hizasından başlanarak Kâbe etrafında 7 şavt tamamlanır.',
             audioAsset: 'assets/audio/review-male-v1/A-U04.1-TR-01.m4a',
             audioTitle: 'Tavaf Duaları ve Şavt Rehberi',
             counterKey: 'tawaf',
             substeps: [
-              'Hacerü’l-Esved selamlanır (Bismillahi Allahu Ekber).',
-              'Kâbe sol tarafa alınarak saat yönünün tersine dönülür.',
-              '7 şavt bitince Makam-ı İbrahim arkasında 2 rekat tavaf namazı kılınır.',
-              'Kana kana zemzem içilir ve dua edilir.',
+              '1. Şavt: Hacerü’l-Esved yeşil ışık hizasından niyet ve istimlâm ile başlanır.',
+              '2. Şavt: Kâbe sol omuzda kalacak şekilde saat yönünün tersine vakarla dönülür.',
+              '3. Şavt: Hatîm’in (Hicr-i İsmail) dışından geçilir; içinden geçilmez.',
+              '4. Şavt: Rükn-i Yemânî ile Hacerü’l-Esved arasında Rabbenâ âtinâ duası okunur.',
+              '5. – 7. Şavt: İstiğfar, zikir ve dualarla 7 şavt tamamlanır.',
+              'Tavaf Namazı: Makam-ı İbrahim arkasında veya uygun bir yerde 2 rekat namaz kılınır.',
+              'Zemzem İkramı: Kana kana zemzem içilir ve dua edilir.',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 4,
-        title: 'Bölüm 4: Sa‘y İbadeti (Safâ - Merve)',
+        title: 'Bölüm 4: Safâ ve Merve Sa‘y Yolu',
         subtitle: 'Safâ tepesinden Merve’ye 7 tur yürüyüş',
         icon: Icons.directions_walk_rounded,
+        stageType: GuideStageType.say,
         items: [
           GuideSectionItem(
             title: 'Safâ ve Merve Arasında Sa‘y',
@@ -202,28 +219,32 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
             audioTitle: 'Sa‘y İbadeti ve Duaları',
             counterKey: 'say',
             substeps: [
-              'Safâ tepesinde Kâbe’ye dönülüp niyet ve tekbir getirilir.',
-              'Yeşil ışıklar arasında erkekler hafif koşar adımlarla (Hervele) yürür.',
-              'Merve tepesine varıldığında 1 şavt tamamlanmış olur.',
-              'Toplam 7 şavt Merve tepesinde son bulur.',
+              '1. Tur: Safâ tepesinde Kâbe’ye dönülüp niyet ve tekbir getirilir.',
+              'Hervele Sünneti: İki yeşil floresan ışık arasında erkekler hızlı adımlarla yürür.',
+              '2. Tur: Merve tepesinde dua edilip Safâ’ya doğru dönülür.',
+              '3. – 6. Tur: Safâ ve Merve arasında dualarla yürüyüş sürdürülür.',
+              '7. Tur (Bitiş): Merve tepesinde 7. tur ile Sa‘y ibadeti tamamlanır.',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 5,
-        title: 'Bölüm 5: Tıraş ve İhramdan Çıkış',
+        title: 'Bölüm 5: Tıraş ve İhramdan Çıkış (Tahallül)',
         subtitle: 'Saç kesimi ile umrenin tamamlanması',
         icon: Icons.content_cut_rounded,
+        stageType: GuideStageType.ihram,
         items: [
           GuideSectionItem(
             title: 'Tahallül (İhramdan Çıkış)',
-            summary: 'Erkekler saçlarını tamamen kazıtır veya kısaltır, kadınlar parmak ucu kadar keser.',
+            summary:
+                'Erkekler saçlarını kazıtır veya kısaltır, kadınlar parmak ucu kadar keser.',
             audioAsset: 'assets/audio/review-male-v1/A-U09.1-TR-01.m4a',
             audioTitle: 'Tıraş ve Şükür Namazı',
             substeps: [
-              'Saç kesimi yapılmadan ihram yasakları kalkmaz.',
-              'Tıraş olduktan sonra normal elbiseler giyilir ve umre tamamlanır.',
+              'Erkekler saçlarını tamamen kazıtır veya eşit şekilde kısaltır (halk veya taksîr).',
+              'Kadınlar saçlarının ucundan parmak ucu kadar (1-2 cm) bir tutam keser.',
+              'Saç kesimi ile birlikte ihram yasakları kalkar ve umre tamamlanmış olur.',
             ],
           ),
         ],
@@ -238,6 +259,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         title: 'Bölüm 1: Hac Hazırlığı & Mîkāt',
         subtitle: 'Terviye gününe hazırlık ve niyet',
         icon: Icons.luggage_outlined,
+        stageType: GuideStageType.luggage,
         items: [
           GuideSectionItem(
             title: 'Hac Niyeti ve İhram',
@@ -245,56 +267,65 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
             audioAsset: 'assets/audio/review-male-v1/A-H01.1-TR-01.m4a',
             audioTitle: 'Hac Hazırlığı ve Niyet',
             checklist: [
-              'İhram örtüleri ve yedek ihram',
+              'İhram örtüleri ve cepli emniyetli kemer',
               'Güneşten korunmak için açık renk şemsiye',
               'Mina ve Arafat için hafif mat ve uyku tulumu',
-              'Sıvı kaybını önlemek için elektrolit ve su kabı',
+              'Kokusuz sabun ve kişisel bakım ürünleri',
+              'Düzenli ilaçlar ve güneş kremi',
+              'Taş toplama ve taşıma kesesi',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 2,
-        title: 'Bölüm 2: Arafat Vakfesi',
-        subtitle: 'Haccın en önemli farzı (Arefe Günü)',
-        icon: Icons.landscape_rounded,
+        title: 'Bölüm 2: Mîkāt & Terviye Günü (Mina)',
+        subtitle: 'Mina çadırlar kenti ve hazırlık',
+        icon: Icons.holiday_village_outlined,
+        stageType: GuideStageType.ihram,
         items: [
           GuideSectionItem(
-            title: 'Arafat Vakfesi ve Dualar',
-            summary: 'Arefe günü öğleden gün batımına kadar Arafat sınırları içinde vakfe yapılır.',
-            audioAsset: 'assets/audio/review-male-v1/A-H02.1-TR-01.m4a',
-            audioTitle: 'Arafat Vakfesi ve Duaları',
+            title: 'Mina’da Konaklama',
+            summary: 'Terviye günü öğle, ikindi, akşam, yatsı ve sabah namazları Mina’da kılınır.',
+            audioAsset: 'assets/audio/review-male-v1/A-H03.1-TR-01.m4a',
+            audioTitle: 'Mina ve İntikal Rehberi',
             substeps: [
-              'Öğle ve ikindi namazları cem-i takdim ile kılınır.',
-              'Gün boyu tövbe, istiğfar ve yakarışla dua edilir.',
-              'Güneş batınca akşam namazı kılınmadan Müzdelife’ye geçilir.',
+              '8 Zilhicce sabahı Mina’ya hareket edilir.',
+              'Namazlar kendi vakitlerinde kısaltılarak (kasr) eda edilir.',
+              'Arefe sabahı güneş doğduktan sonra Arafat’a intikal başlar.',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 3,
-        title: 'Bölüm 3: Müzdelife & Taş Toplama',
-        subtitle: 'Akşam ve yatsı cemi, şeytan taşlama için hazırlık',
-        icon: Icons.nights_stay_outlined,
+        title: 'Bölüm 3: Arafat & Müzdelife Vakfesi',
+        subtitle: 'Haccın en büyük farzı ve vakfe duaları',
+        icon: Icons.wb_sunny_outlined,
+        stageType: GuideStageType.tawaf,
         items: [
           GuideSectionItem(
-            title: 'Müzdelife Gecesi ve Vakfe',
-            summary: 'Akşam ile yatsı namazı birleştirilir ve Cemarat için taş toplanır.',
+            title: 'Arafat Vakfesi',
+            summary: 'Arefe günü öğle ile akşam arası Arafat sınırları içinde vakfe yapılır.',
             audioAsset: 'assets/audio/review-male-v1/A-H04.1-TR-01.m4a',
-            audioTitle: 'Müzdelife Vakfesi',
+            audioTitle: 'Arafat ve Dua Rehberi',
             substeps: [
-              'Nohut büyüklüğünde en az 49-70 adet taş toplanır.',
-              'Sabah namazı sonrası Meş’ar-i Haram yanında vakfe yapılır.',
+              'Arafat sınırları tabelalarla belirtilmiştir; sınır içinde kalınmalıdır.',
+              'Öğle ve İkindi namazları cem-i takdim ile birleştirilerek kılınır.',
+              'Güneş batana kadar telbiye, zikir ve vakfe duaları yapılır.',
+              'Akşam namazı kılınmadan Müzdelife’ye intikal edilir.',
+              'Müzdelife’de Akşam ve Yatsı namazları birleştirilir (cem-i tehir).',
+              'Şeytan taşlama için 70 adet küçük taş toplanır.',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 4,
-        title: 'Bölüm 4: Mina & Şeytan Taşlama',
-        subtitle: 'Büyük Şeytan, Kurban ve Tıraş',
-        icon: Icons.sports_volleyball_outlined,
+        title: 'Bölüm 4: Mina & Cemarat (Şeytan Taşlama)',
+        subtitle: 'Büyük şeytan taşlama, kurban ve tahallül',
+        icon: Icons.scatter_plot_rounded,
+        stageType: GuideStageType.cemarat,
         items: [
           GuideSectionItem(
             title: 'Cemarat Taşlaması',
@@ -303,17 +334,19 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
             audioTitle: 'Cemarat ve Kurban Rehberi',
             counterKey: 'cemarat',
             substeps: [
-              'Her taş atılırken "Bismillahi Allahu Ekber" denir.',
-              'Kurban kesilince saçlar tıraş edilip ihramdan ilk çıkış yapılır.',
+              'Akabe Cemresi’ne 7 taş atılır; her atışta "Bismillahi Allahu Ekber" denir.',
+              'Kurban kesim teyidi geldikten sonra saçlar tıraş edilip ihramdan çıkılır.',
+              'Bayramın 2. ve 3. günleri Küçük, Orta ve Büyük cemrelere 7’şer taş (toplam 21) atılır.',
             ],
           ),
         ],
       ),
       const GuideSection(
         number: 5,
-        title: 'Bölüm 5: Ziyaret Tavafı & Veda',
+        title: 'Bölüm 5: Ziyaret Tavafı & Veda Tavafı',
         subtitle: 'Haccın farz tavafı ve veda',
         icon: Icons.mosque_outlined,
+        stageType: GuideStageType.tawaf,
         items: [
           GuideSectionItem(
             title: 'Ziyaret Tavafı ve Sa‘y',
@@ -321,6 +354,11 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
             audioAsset: 'assets/audio/review-male-v1/A-H08.1-TR-01.m4a',
             audioTitle: 'Ziyaret Tavafı ve Veda',
             counterKey: 'tawaf',
+            substeps: [
+              'Farz olan Ziyaret Tavafı 7 şavt olarak eda edilir.',
+              'Hac sa‘yı yerine getirilir.',
+              'Mekke’den ayrılmadan önce Veda Tavafı yapılır.',
+            ],
           ),
         ],
       ),
@@ -369,7 +407,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(title), elevation: 0),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         children: [
           // Banner
           Container(
@@ -419,7 +457,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${_sections.length} ana bölüm · Görsel ve sesli anlatım',
+                            '${_sections.length} ana bölüm · Canlı görsel ve sesli simülasyon',
                             style: const TextStyle(
                               color: Colors.white70,
                               fontSize: 13,
@@ -452,7 +490,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'İlerleme: %$progressPercent',
+                        'Hazırlık: %$progressPercent',
                         style: const TextStyle(
                           color: RehberTheme.goldLight,
                           fontSize: 13,
@@ -461,7 +499,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                       ),
                       const SizedBox(width: 16),
                       Text(
-                        '${_checkedItems.length} / $totalChecks adım tamamlandı',
+                        '${_checkedItems.length} / $totalChecks madde tamamlandı',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 12,
@@ -473,12 +511,12 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
 
-          // Sections
+          // Sections with Embedded Live Stage and Persistent Checklists
           for (final section in _sections) ...[
             _buildSectionCard(section, dark),
-            const SizedBox(height: 16),
+            const SizedBox(height: 18),
           ],
           const SizedBox(height: 32),
         ],
@@ -487,16 +525,24 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   }
 
   Widget _buildSectionCard(GuideSection section, bool dark) {
+    final firstItem = section.items.first;
+    final stageItems = firstItem.checklist.isNotEmpty
+        ? firstItem.checklist
+        : (firstItem.substeps.isNotEmpty
+            ? firstItem.substeps
+            : [firstItem.title, firstItem.summary]);
+    final activeIndex = _activeItemBySection[section.number] ?? 0;
+
     return Card(
-      elevation: 1,
+      elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         side: BorderSide(
-          color: dark ? Colors.white12 : Colors.black.withValues(alpha: 0.06),
+          color: dark ? Colors.white12 : Colors.black.withValues(alpha: 0.07),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -542,102 +588,88 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                 ),
               ],
             ),
+            const SizedBox(height: 14),
+
+            // Live Interactive Animated Stage
+            GuideStageAnimator(
+              key: ValueKey('stage_${section.number}'),
+              stageType: section.stageType,
+              items: stageItems,
+              initialIndex: activeIndex,
+              onItemChanged: (newIdx) {
+                setState(() {
+                  _activeItemBySection[section.number] = newIdx;
+                });
+              },
+              audioAsset: firstItem.audioAsset,
+              audioTitle: firstItem.audioTitle,
+              narration: widget.narration,
+            ),
+            const SizedBox(height: 14),
 
             // Items
             for (final item in section.items) ...[
-              const SizedBox(height: 14),
-              const Divider(height: 1),
-              const SizedBox(height: 14),
-
               Text(
                 item.summary,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13.5,
                   height: 1.4,
                   color: dark ? Colors.white70 : Colors.black87,
                 ),
               ),
+              const SizedBox(height: 10),
 
-              // Checklist if any
+              // Checklist (Persistent: Never disappears!)
               if (item.checklist.isNotEmpty) ...[
-                const SizedBox(height: 12),
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: dark
-                        ? const Color(0xFF1B2B27)
-                        : const Color(0xFFF2F6F5),
-                    borderRadius: BorderRadius.circular(14),
+                        ? const Color(0xFF14221F)
+                        : const Color(0xFFF4F7F6),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
                     children: [
-                      for (final check in item.checklist)
-                        InkWell(
-                          onTap: () => _toggleCheck(check),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  _checkedItems.contains(check)
-                                      ? Icons.check_circle_rounded
-                                      : Icons.radio_button_unchecked,
-                                  color: _checkedItems.contains(check)
-                                      ? RehberTheme.emerald
-                                      : Colors.grey,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    check,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      decoration: _checkedItems.contains(check)
-                                          ? TextDecoration.lineThrough
-                                          : null,
-                                      color: _checkedItems.contains(check)
-                                          ? Colors.grey
-                                          : (dark
-                                                ? Colors.white
-                                                : Colors.black87),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                      for (int cIdx = 0; cIdx < item.checklist.length; cIdx++) ...[
+                        _buildChecklistRow(
+                          sectionNumber: section.number,
+                          check: item.checklist[cIdx],
+                          index: cIdx,
+                          isFocused: activeIndex == cIdx,
+                          dark: dark,
+                          isLuggage: section.number == 1,
                         ),
+                      ],
                     ],
                   ),
                 ),
               ],
 
-              // Substeps if any
+              // Substeps (Persistent: Never disappears!)
               if (item.substeps.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                for (final step in item.substeps)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          '• ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Expanded(
-                          child: Text(
-                            step,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: dark ? Colors.white70 : Colors.black87,
-                            ),
-                          ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: dark
+                        ? const Color(0xFF14221F)
+                        : const Color(0xFFF4F7F6),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    children: [
+                      for (int sIdx = 0; sIdx < item.substeps.length; sIdx++) ...[
+                        _buildSubstepRow(
+                          sectionNumber: section.number,
+                          step: item.substeps[sIdx],
+                          index: sIdx,
+                          isFocused: activeIndex == sIdx,
+                          dark: dark,
                         ),
                       ],
-                    ),
+                    ],
                   ),
+                ),
               ],
 
               // Embedded Audio Bar
@@ -665,10 +697,10 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         item.counterKey == 'tawaf'
-                            ? 'Tavaf Sayacını Başlat'
+                            ? 'Tavaf Sayacını Başlat (7 Şavt)'
                             : (item.counterKey == 'say'
-                                  ? 'Sa‘y Sayacını Başlat'
-                                  : 'Taş Sayacını Başlat'),
+                                  ? 'Sa‘y Sayacını Başlat (7 Tur)'
+                                  : 'Taş Sayacını Başlat (7 Taş)'),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -676,6 +708,207 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                 ),
               ],
             ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChecklistRow({
+    required int sectionNumber,
+    required String check,
+    required int index,
+    required bool isFocused,
+    required bool dark,
+    required bool isLuggage,
+  }) {
+    final isChecked = _checkedItems.contains(check);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      margin: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: isFocused
+            ? RehberTheme.emerald.withValues(alpha: dark ? 0.22 : 0.12)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isFocused
+              ? RehberTheme.emerald
+              : Colors.transparent,
+          width: 1.4,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Checkbox (tap to check)
+          InkWell(
+            onTap: () => _toggleCheck(check),
+            borderRadius: BorderRadius.circular(16),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 2, right: 6),
+              child: Icon(
+                isChecked
+                    ? Icons.check_circle_rounded
+                    : Icons.radio_button_unchecked,
+                color: isChecked ? RehberTheme.emerald : Colors.grey,
+                size: 22,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+
+          // Content (tap to jump animation stage to this item)
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  _activeItemBySection[sectionNumber] = index;
+                });
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    check,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight:
+                          isFocused ? FontWeight.bold : FontWeight.normal,
+                      decoration:
+                          isChecked ? TextDecoration.lineThrough : null,
+                      color: isChecked
+                          ? Colors.grey
+                          : (dark ? Colors.white : Colors.black87),
+                    ),
+                  ),
+                  if (isFocused) ...[
+                    const SizedBox(height: 3),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.visibility_rounded,
+                          size: 11,
+                          color: RehberTheme.goldLight,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            isLuggage
+                                ? 'Valize yerleştirildi · İncelemek için dokunun'
+                                : 'Sahnede gösteriliyor · Dokunarak odaklanın',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: RehberTheme.goldLight,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubstepRow({
+    required int sectionNumber,
+    required String step,
+    required int index,
+    required bool isFocused,
+    required bool dark,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      margin: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: isFocused
+            ? RehberTheme.emerald.withValues(alpha: dark ? 0.22 : 0.12)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isFocused
+              ? RehberTheme.emerald
+              : Colors.transparent,
+          width: 1.4,
+        ),
+      ),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _activeItemBySection[sectionNumber] = index;
+          });
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 2, right: 8),
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: isFocused
+                    ? RehberTheme.emerald
+                    : (dark ? Colors.white12 : Colors.black12),
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${index + 1}',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: isFocused ? Colors.white : Colors.grey,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    step,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight:
+                          isFocused ? FontWeight.bold : FontWeight.normal,
+                      color: dark ? Colors.white70 : Colors.black87,
+                    ),
+                  ),
+                  if (isFocused) ...[
+                    const SizedBox(height: 3),
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.visibility_rounded,
+                          size: 11,
+                          color: RehberTheme.goldLight,
+                        ),
+                        SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            'Sahnede simüle ediliyor',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: RehberTheme.goldLight,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ],
         ),
       ),
