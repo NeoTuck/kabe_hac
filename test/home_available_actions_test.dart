@@ -3,10 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
+import 'package:hac_umre_sesli_rehber/prayer_times_widget.dart';
 import 'package:hac_umre_sesli_rehber/safety_repository.dart';
 import 'package:hac_umre_sesli_rehber/safety_screen.dart';
 import 'package:hac_umre_sesli_rehber/travel_catalog.dart';
-import 'package:hac_umre_sesli_rehber/travel_screen.dart';
+import 'package:hac_umre_sesli_rehber/route_studio_screen.dart';
 
 import 'test_fakes.dart';
 
@@ -23,6 +24,7 @@ void main() {
     });
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: {
           for (final type in GuideType.values)
@@ -40,21 +42,22 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Yolculuk araçları'), findsOneWidget);
-    expect(find.text('Rehber seç'), findsNothing);
-    expect(find.text('Şu an kullanabileceklerin'), findsOneWidget);
-    expect(find.text('Harita, yerler ve rotalar'), findsNothing);
+    expect(find.byType(PrayerTimesCard), findsOneWidget);
+    expect(find.text('Mekke-i Mükerreme'), findsOneWidget);
+    expect(find.text('Umre Eğitimi'), findsOneWidget);
+    expect(find.text('Yardım ve önemli numaralar'), findsOneWidget);
+    expect(find.text('Kıble pusulası'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Umre duaları'), 200);
+    expect(find.text('Umre duaları'), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Yardım ve önemli numaralar'));
     await tester.tap(find.text('Yardım ve önemli numaralar'));
     await tester.pumpAndSettle();
     expect(find.byType(SafetyScreen), findsOneWidget);
 
     Navigator.of(tester.element(find.byType(SafetyScreen))).pop();
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Yerleri ve favorileri aç'));
-    await tester.tap(find.text('Yerleri ve favorileri aç'));
+    await tester.tap(find.text('Rota, Harita'));
     await tester.pumpAndSettle();
-    expect(find.byType(TravelScreen), findsOneWidget);
+    expect(find.byType(RouteStudioScreen), findsOneWidget);
   });
 }

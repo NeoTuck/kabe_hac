@@ -37,6 +37,33 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
   bool _openingStep = false;
   bool _loading = false;
   bool _creatingJourney = false;
+  final Map<String, GlobalKey> _stepKeys = {};
+  String? _highlightedStepId;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToStep(GuideStep step) {
+    setState(() {
+      _highlightedStepId = step.id;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final keyContext = _stepKeys[step.id]?.currentContext;
+      if (keyContext != null) {
+        Scrollable.ensureVisible(
+          keyContext,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOutCubic,
+          alignment: 0.2,
+        );
+      }
+    });
+  }
+
   bool get _versionMismatch =>
       _session != null &&
       (_session!.contentVersion != widget.catalog.contentVersion ||
@@ -101,6 +128,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
         setState(() {
           _session = session;
           _markedIds = marked.intersection(validIds);
+          _highlightedStepId = session.currentStepId;
           _error = null;
         });
       }
@@ -262,6 +290,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
             : session == null
             ? const Center(child: CircularProgressIndicator())
             : ListView(
+                controller: _scrollController,
                 padding: const EdgeInsets.all(20),
                 children: [
                   Card.filled(
@@ -308,7 +337,7 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                     FilledButton.icon(
                       onPressed: _versionMismatch
                           ? null
-                          : () => _openStep(current),
+                          : () => _scrollToStep(current),
                       icon: const Icon(Icons.bookmark_rounded),
                       label: const Text('Kaldığım başlığa git'),
                     ),
@@ -354,28 +383,116 @@ class _GuideFlowScreenState extends State<GuideFlowScreen> {
                     for (final step in flowSteps.where(
                       (s) => s.groupId == group,
                     ))
-                      Card.outlined(
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 5,
-                          ),
-                          leading: CircleAvatar(child: Text('${step.order}')),
-                          title: Text(step.title),
-                          subtitle: Text(
-                            isHajj && !profileVerified
-                                ? 'Profil uygunluğu doğrulanmadı'
-                                : 'İçerik: ${step.status.label}',
-                          ),
-                          trailing: Icon(
-                            !isHajj && _markedIds.contains(step.id)
-                                ? Icons.check_circle_rounded
-                                : Icons.chevron_right_rounded,
-                          ),
-                          onTap: _versionMismatch
-                              ? null
-                              : () => _openStep(step),
-                        ),
+                      Builder(
+                        key: _stepKeys.putIfAbsent(step.id, () => GlobalKey()),
+                        builder: (itemContext) {
+                          final isHighlighted = step.id == _highlightedStepId;
+                          final isDark = Theme.of(itemContext).brightness == Brightness.dark;
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 350),
+                            margin: const EdgeInsets.only(bottom: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: isHighlighted
+                                  ? [
+                                      BoxShadow(
+                                        color: const Color(0xFFE5A93C).withValues(alpha: 0.35),
+                                        blurRadius: 12,
+                                        spreadRadius: 2,
+                                      ),
+                                    ]
+                                  : null,
+                            ),
+                            child: Card.outlined(
+                              margin: EdgeInsets.zero,
+                              color: isHighlighted
+                                  ? (isDark ? const Color(0xFF2C2411) : const Color(0xFFFFFBE6))
+                                  : null,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                side: BorderSide(
+                                  color: isHighlighted
+                                      ? const Color(0xFFE5A93C)
+                                      : (isDark ? Colors.white12 : Colors.black12),
+                                  width: isHighlighted ? 2.0 : 1.0,
+                                ),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 5,
+                                ),
+                                leading: CircleAvatar(
+                                  backgroundColor: isHighlighted
+                                      ? const Color(0xFFE5A93C)
+                                      : null,
+                                  foregroundColor: isHighlighted
+                                      ? Colors.black87
+                                      : null,
+                                  child: isHighlighted
+                                      ? const Icon(Icons.auto_awesome, size: 18)
+                                      : Text('${step.order}'),
+                                ),
+                                title: Text(
+                                  step.title,
+                                  style: TextStyle(
+                                    fontWeight: isHighlighted
+                                        ? FontWeight.bold
+                                        : FontWeight.w600,
+                                  ),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (isHighlighted) ...[
+                                      const SizedBox(height: 4),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFE5A93C),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: const Text(
+                                          'Kaldığın Yer',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                    ],
+                                    Text(
+                                      isHajj && !profileVerified
+                                          ? 'Profil uygunluğu doğrulanmadı'
+                                          : 'İçerik: ${step.status.label}',
+                                    ),
+                                  ],
+                                ),
+                                trailing: Icon(
+                                  !isHajj && _markedIds.contains(step.id)
+                                      ? Icons.check_circle_rounded
+                                      : Icons.chevron_right_rounded,
+                                  color: isHighlighted
+                                      ? const Color(0xFFE5A93C)
+                                      : null,
+                                ),
+                                onTap: _versionMismatch
+                                    ? null
+                                    : () {
+                                        setState(() {
+                                          _highlightedStepId = null;
+                                        });
+                                        _openStep(step);
+                                      },
+                              ),
+                            ),
+                          );
+                        },
                       ),
                   ],
                 ],

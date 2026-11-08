@@ -274,6 +274,7 @@ class SesliRehberApp extends StatelessWidget {
     this.safetyCatalog,
     this.push,
     this.navigatorKey,
+    this.initialEnteredMainScreen = false,
   });
 
   final GroupRepository? groups;
@@ -291,6 +292,7 @@ class SesliRehberApp extends StatelessWidget {
   final SafetyCatalog? safetyCatalog;
   final PushTokenCoordinator? push;
   final GlobalKey<NavigatorState>? navigatorKey;
+  final bool initialEnteredMainScreen;
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
@@ -336,6 +338,7 @@ class SesliRehberApp extends StatelessWidget {
         packageConfigurationError: packageConfigurationError,
         travelCatalog: travelCatalog,
         safetyCatalog: safetyCatalog,
+        initialEnteredMainScreen: initialEnteredMainScreen,
       ),
     ),
   );

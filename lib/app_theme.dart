@@ -3,7 +3,32 @@ import 'package:flutter/material.dart';
 class RehberTheme {
   static const ink = Color(0xFF133F3B);
   static const emerald = Color(0xFF14665C);
+  static const deepEmerald = Color(0xFF0D2823);
+  static const midnightSky = Color(0xFF0D1826);
+  static const gold = Color(0xFFD4AF37);
+  static const goldLight = Color(0xFFF7E9B8);
+  static const goldDark = Color(0xFFA9801A);
   static const canvas = Color(0xFFF8F7F2);
+  static const sand = Color(0xFFFAF7EE);
+  static const cardDark = Color(0xFF142421);
+
+  static const LinearGradient welcomeGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF0C241F), Color(0xFF133F3B), Color(0xFF0D1B2A)],
+  );
+
+  static const LinearGradient hajjCardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF183B36), Color(0xFF0E221F)],
+  );
+
+  static const LinearGradient umrahCardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF1A473F), Color(0xFF102D28)],
+  );
 
   static ThemeData build(Brightness brightness) {
     final dark = brightness == Brightness.dark;
@@ -79,6 +104,34 @@ class RehberTheme {
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        height: 68,
+        elevation: 3,
+        indicatorColor: dark
+            ? const Color(0xFF1B3D36)
+            : const Color(0xFFD6EDE6),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return TextStyle(
+            fontFamily: 'NotoSans',
+            fontSize: 12,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+            color: selected
+                ? (dark ? goldLight : emerald)
+                : (dark ? Colors.white60 : Colors.black54),
+          );
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final selected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: selected
+                ? (dark ? goldLight : emerald)
+                : (dark ? Colors.white60 : Colors.black54),
+            size: 24,
+          );
+        }),
       ),
       dividerTheme: DividerThemeData(color: colors.outlineVariant, space: 32),
     );

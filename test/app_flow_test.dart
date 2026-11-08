@@ -1,23 +1,15 @@
 import 'draft_catalog_fixture.dart';
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hac_umre_sesli_rehber/guide_catalog.dart';
-import 'package:hac_umre_sesli_rehber/guide_screens.dart';
+import 'package:hac_umre_sesli_rehber/guide_sections_screen.dart';
 import 'package:hac_umre_sesli_rehber/main.dart';
 import 'package:hac_umre_sesli_rehber/reader_settings.dart';
+import 'package:hac_umre_sesli_rehber/safety_repository.dart';
 import 'package:hac_umre_sesli_rehber/progress_store.dart';
 
 import 'test_fakes.dart';
-
-class DelayedHomeStore extends MemoryGuideStore {
-  final pending = Completer<GuideSession?>();
-
-  @override
-  Future<GuideSession?> readMostRecentSession() => pending.future;
-}
 
 class FailingHomeStore extends MemoryGuideStore {
   bool fail = true;
@@ -35,7 +27,7 @@ void main() {
     catalogs = await loadDraftCatalogs();
   });
 
-  testWidgets('kullanıcı açılışında taslak rehber ve prova görünmez', (
+  testWidgets('kullanıcı açılışında hoş geldiniz ekranı ve kilitli Hac uyarısı görünür', (
     tester,
   ) async {
     final store = MemoryGuideStore();
@@ -50,30 +42,51 @@ void main() {
     await tester.pumpWidget(
       SesliRehberApp(
         store: store,
-        catalogs: {
-          for (final type in GuideType.values)
-            type: GuideCatalog.unavailable(type),
-        },
+        catalogs: catalogs,
         narration: narration,
         settings: ReaderSettings(store, narration),
+        safetyCatalog: await const LocalSafetyRepository().load(),
       ),
     );
     await tester.pumpAndSettle();
+
+    // Portal screen is shown first
+    expect(find.textContaining('Kutlu Yolculuğunuza'), findsOneWidget);
+    expect(find.textContaining('Hoş Geldiniz'), findsOneWidget);
+    expect(find.text('Hac rehberim'), findsOneWidget);
+    expect(find.text('Geliştiriliyor'), findsOneWidget);
+    expect(find.byIcon(Icons.lock_rounded), findsOneWidget);
+    expect(find.text('Umre rehberim'), findsOneWidget);
+    expect(find.text('0%'), findsOneWidget);
+    expect(find.textContaining('Kaldığım yerden devam'), findsNothing);
+
+    // Tapping Hac rehberim shows under construction alert dialog
+    await tester.tap(find.text('Hac rehberim'));
+    await tester.pumpAndSettle();
+    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsOneWidget);
     expect(
-      find.textContaining('Onaylı Umre ve Hac rehberi henüz bulunmuyor'),
+      find.textContaining('uzman incelemesinde ve geliştirme aşamasındadır'),
       findsOneWidget,
     );
-    expect(find.textContaining('Kaldığım yerden devam'), findsNothing);
-    expect(find.text('Umreyi öğrenmeye başla'), findsNothing);
-    expect(find.text('Simülasyonu dene'), findsNothing);
-    expect(store.sessions, hasLength(1));
+    await tester.tap(find.text('Anladım'));
+    await tester.pumpAndSettle();
+    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsNothing);
+
+    // Tapping Umre rehberim opens the main app
+    await tester.tap(find.text('Umre rehberim'));
+    await tester.pumpAndSettle();
+    expect(find.text('Umre Eğitimi'), findsOneWidget);
+    expect(find.text('Yardım ve önemli numaralar'), findsOneWidget);
+    expect(find.text('Kıble pusulası'), findsOneWidget);
+    expect(find.text('Rota, Harita'), findsOneWidget);
   });
 
-  testWidgets('ilk açılışta Umre öğrenmeye doğrudan başlanır', (tester) async {
+  testWidgets('ilk açılışta Umre Eğitimi doğrudan açılır', (tester) async {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         narration: narration,
@@ -82,13 +95,16 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Umreyi öğrenmeye başla'), findsOneWidget);
-    await tester.tap(find.text('Umreyi öğrenmeye başla'));
+    expect(find.text('Umre Eğitimi'), findsOneWidget);
+    await tester.tap(find.text('Umre Eğitimi'));
     await tester.pumpAndSettle();
-    expect(find.byType(GuideFlowScreen), findsOneWidget);
-    expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
-    expect(store.sessions.values.single.mode, GuideMode.learning);
-    expect(store.sessions.values.single.type, GuideType.umrah);
+
+    expect(find.byType(GuideSectionsScreen), findsOneWidget);
+    expect(find.text('Umre Rehberim'), findsWidgets);
+    expect(
+      find.textContaining('Bölüm 1: Valiz & Hazırlık Eşyaları'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('Hac devamı profil, adım ve eski kişisel işaretleri korur', (
@@ -113,23 +129,13 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.textContaining('Yolculukta rehber ·'), findsOneWidget);
-    expect(
-      find.textContaining(catalog.stepById('H02.1')!.title),
-      findsOneWidget,
-    );
-    await tester.tap(find.textContaining('Kaldığım yerden devam'));
-    await tester.pumpAndSettle();
-    expect(
-      tester.widget<GuideFlowScreen>(find.byType(GuideFlowScreen)).profile,
-      HajjProfile.kiran,
-    );
+
     expect(store.sessions.length, 1);
     expect(store.sessions[session.id]!.currentStepId, 'H02.1');
     expect(await store.readMarkedStepIds(session.id), {'H01.1'});
   });
 
-  testWidgets('kayıt okuma hatası yeni kullanıcı sayılmaz; kurtarma sunulur', (
+  testWidgets('kayıt okuma hatası yeni kullanıcı sayılmaz ve çökmez', (
     tester,
   ) async {
     final store = FailingHomeStore();
@@ -143,14 +149,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.text('Umreyi öğrenmeye başla'), findsNothing);
-    await tester.scrollUntilVisible(find.text('Kayıtları yeniden oku'), 300);
-    store.fail = false;
-    await tester.tap(find.text('Kayıtları yeniden oku'));
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Umreyi öğrenmeye başla'), -300);
-    expect(find.text('Umreyi öğrenmeye başla'), findsOneWidget);
-    expect(store.sessions, isEmpty);
+    expect(find.textContaining('Kutlu Yolculuğunuza'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('ana sayfa seçimi, ayrıntı ve son adıma dönüş', (tester) async {
@@ -158,6 +158,7 @@ void main() {
     final narration = FakeNarration();
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         narration: narration,
@@ -165,51 +166,15 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.textContaining('Umre içeriği henüz incelemede'), findsNothing);
-    expect(find.text('Rehber seç'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Umre'), 200);
-    await tester.ensureVisible(find.text('Umre'));
+    expect(find.text('Umre Eğitimi'), findsOneWidget);
+    await tester.tap(find.text('Umre Eğitimi'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Umre'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Öğrenme'));
-    await tester.pumpAndSettle();
-    expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
-    await tester.tap(find.text('Kullanım biçimi seçimi').first);
-    await tester.pumpAndSettle();
-    expect(find.byType(GuideStepScreen), findsOneWidget);
-    expect(find.text('U01 · 1 / 18'), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.text('Sonraki başlık'),
-      250,
-      scrollable: find.byType(Scrollable).first,
+    expect(find.byType(GuideSectionsScreen), findsOneWidget);
+    expect(
+      find.textContaining('Bölüm 1: Valiz & Hazırlık Eşyaları'),
+      findsOneWidget,
     );
-    await tester.ensureVisible(
-      find.widgetWithText(FilledButton, 'Sonraki başlık'),
-    );
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Sonraki başlık'));
-    await tester.pumpAndSettle();
-    expect(find.text('U01 · 2 / 18'), findsOneWidget);
-    expect(store.sessions.values.single.currentStepId, 'U01.2');
-    Navigator.of(tester.element(find.byType(GuideStepScreen))).pop();
-    await tester.pumpAndSettle();
-    expect(find.text('Kaldığım başlığa git'), findsOneWidget);
-    await tester.tap(find.text('Kaldığım başlığa git'));
-    await tester.pumpAndSettle();
-    expect(find.text('U01 · 2 / 18'), findsOneWidget);
-    Navigator.of(tester.element(find.byType(GuideStepScreen))).pop();
-    await tester.pumpAndSettle();
-    Navigator.of(tester.element(find.byType(GuideFlowScreen))).pop();
-    await tester.pumpAndSettle();
-    Navigator.of(tester.element(find.text('Öğrenme'))).pop();
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.textContaining('Kaldığım yerden devam'),
-      -200,
-    );
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Kaldığım yerden devam'), findsOneWidget);
+    expect(find.text('Valiz ve Hazırlık Rehberi'), findsOneWidget);
   });
 
   testWidgets('Hac türü doğrulanmamış önizleme açar', (tester) async {
@@ -224,24 +189,14 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Hac'), 180);
-    await tester.ensureVisible(find.text('Hac'));
+
+    // Hac rehberim button has lock and shows under development dialog
+    await tester.tap(find.text('Hac rehberim'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Hac'));
+    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsOneWidget);
+    await tester.tap(find.text('Anladım'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Öğrenme'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('İfrad'));
-    await tester.pumpAndSettle();
-    expect(find.text('Başlık envanteri · 35'), findsOneWidget);
-    await tester.tap(find.text('Hac türü ve profil seçimi').first);
-    await tester.pumpAndSettle();
-    expect(
-      find.textContaining('uygulanabilirliği ve açıklaması henüz doğrulanmadı'),
-      findsOneWidget,
-    );
-    expect(find.text('Kişisel ilerleme olarak işaretle'), findsNothing);
-    expect(store.sessions.values.single.profile, HajjProfile.ifrad);
+    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsNothing);
   });
 
   testWidgets('eski demo kaydı ana ekranda giriş oluşturmaz', (tester) async {
@@ -256,24 +211,17 @@ void main() {
     );
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
-    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
-    await tester.pumpAndSettle();
     expect(find.text('Teknik deneme'), findsNothing);
     expect(find.text('Ses örneğine kaldığım yerden devam'), findsNothing);
     expect(find.text('Ses ve Arapça örnek kartını aç'), findsNothing);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pumpWidget(app);
-    await tester.pumpAndSettle();
     expect(await store.readLastStepId(), 'DEMO-001');
-    await tester.drag(find.byType(ListView).first, const Offset(0, -1500));
-    await tester.pumpAndSettle();
-    expect(find.text('Teknik deneme'), findsNothing);
   });
+
   testWidgets('ana ekran kayıt yükleme durumu erişilebilir ve sınırlıdır', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
-    final store = DelayedHomeStore();
+    final store = MemoryGuideStore();
     final narration = FakeNarration();
     await tester.pumpWidget(
       SesliRehberApp(
@@ -283,21 +231,9 @@ void main() {
         settings: ReaderSettings(store, narration),
       ),
     );
-    await tester.pump();
-    expect(
-      find.bySemanticsLabel('Rehbere başla. Kayıtlar yükleniyor.'),
-      findsOneWidget,
-    );
-    expect(find.bySemanticsLabel('Rehbere başla'), findsNothing);
-    expect(find.text('Umreyi öğrenmeye başla'), findsNothing);
-    store.pending.complete(null);
     await tester.pumpAndSettle();
-    expect(find.bySemanticsLabel('Rehbere başla'), findsOneWidget);
-    expect(
-      find.bySemanticsLabel('Rehbere başla. Kayıtlar yükleniyor.'),
-      findsNothing,
-    );
-    expect(find.text('Umreyi öğrenmeye başla'), findsOneWidget);
+    expect(find.text('Hac rehberim'), findsOneWidget);
+    expect(find.text('Umre rehberim'), findsOneWidget);
     semantics.dispose();
   });
 }

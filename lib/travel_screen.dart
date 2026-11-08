@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'app_theme.dart';
 import 'progress_store.dart';
 import 'travel_catalog.dart';
 import 'travel_details.dart';
 import 'source_details.dart';
 import 'offline_package.dart';
 import 'offline_city_map_screen.dart';
+import 'route_studio_screen.dart';
 import 'travel_repository.dart';
 
 class TravelScreen extends StatefulWidget {
@@ -153,44 +155,78 @@ class _TravelScreenState extends State<TravelScreen> {
         )
         .toList();
     final header = <Widget>[
-      const Card.filled(
-        child: Padding(
-          padding: EdgeInsets.all(18),
-          child: Text(
-            'Aşağıdan Mekke ve Medine haritalarını indirebilirsin. Yer adları ve kategoriler OSM kaynak kaydıdır; Türkçe ve saha incelemesi tamamlanmadı. İndirilen harita çevrimdışı açılır; güncel açık/kapalı durumunu ayrıca doğrula.',
-          ),
+      // İki ana buton:
+      // 1. Yeni rota oluştur veya rotaları incele
+      FilledButton.tonalIcon(
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          alignment: Alignment.centerLeft,
         ),
-      ),
-      if (widget.packages != null) ...[
-        const SizedBox(height: 12),
-        OutlinedButton.icon(
-          icon: const Icon(Icons.map_outlined),
-          label: const Text('Çevrimdışı haritayı aç'),
-          onPressed: () => Navigator.of(context).push<void>(
-            MaterialPageRoute(
-              builder: (_) => OfflineCityMapScreen(
-                packages: widget.packages!,
-                catalog: _catalog,
-                travelRepository: widget.travelRepository,
-                onManageMaps: widget.onManagePackages == null
-                    ? null
-                    : () => _managePackages(OfflinePackageKind.map),
-              ),
+        icon: const Icon(Icons.add_road_rounded, color: RehberTheme.goldLight),
+        label: const Text(
+          'Yeni rota oluştur veya rotaları incele',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        onPressed: () => Navigator.of(context).push<void>(
+          MaterialPageRoute(
+            builder: (_) => RouteStudioScreen(
+              catalog: _catalog,
+              packages: widget.packages,
+              travelRepository: widget.travelRepository,
+              onManagePackages: widget.onManagePackages,
             ),
           ),
         ),
-        if (widget.onManagePackages != null) ...[
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            icon: const Icon(Icons.download_rounded),
-            label: const Text('Harita paketlerini yönet'),
-            onPressed: _managingPackages
-                ? null
-                : () => _managePackages(OfflinePackageKind.map),
+      ),
+      const SizedBox(height: 8),
+
+      // 2. Harita
+      Row(
+        children: [
+          Expanded(
+            child: FilledButton.tonalIcon(
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                alignment: Alignment.centerLeft,
+              ),
+              icon: const Icon(Icons.map_rounded, color: RehberTheme.goldLight),
+              label: const Text(
+                'Harita',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              onPressed: () {
+                if (widget.packages != null) {
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute(
+                      builder: (_) => OfflineCityMapScreen(
+                        packages: widget.packages!,
+                        catalog: _catalog,
+                        travelRepository: widget.travelRepository,
+                        onManageMaps: widget.onManagePackages == null
+                            ? null
+                            : () => _managePackages(OfflinePackageKind.map),
+                      ),
+                    ),
+                  );
+                } else if (widget.onManagePackages != null) {
+                  _managePackages(OfflinePackageKind.map);
+                }
+              },
+            ),
           ),
+          if (widget.onManagePackages != null) ...[
+            const SizedBox(width: 8),
+            OutlinedButton.icon(
+              icon: const Icon(Icons.download_rounded),
+              label: const Text('Harita paketlerini yönet'),
+              onPressed: _managingPackages
+                  ? null
+                  : () => _managePackages(OfflinePackageKind.map),
+            ),
+          ],
         ],
-      ],
-      const SizedBox(height: 12),
+      ),
+      const SizedBox(height: 14),
       TextField(
         controller: _searchController,
         onChanged: (_) => setState(() {}),
@@ -295,9 +331,25 @@ class _TravelScreenState extends State<TravelScreen> {
         const Text(
           'Doğrulanmış veya kişisel rota paketi henüz yok. Yer listesinden favorilerini kaydedebilirsin. Yürüme yolu ve giriş için güncel bilgiyi kafile sorumlundan doğrula.',
         ),
+      const SizedBox(height: 12),
+      OutlinedButton.icon(
+        icon: const Icon(Icons.add_road_rounded),
+        label: const Text('Yeni Rota Oluştur veya Rotaları İncele'),
+        onPressed: () => Navigator.of(context).push<void>(
+          MaterialPageRoute(
+            builder: (_) => RouteStudioScreen(
+              catalog: _catalog,
+              packages: widget.packages,
+              travelRepository: widget.travelRepository,
+              onManagePackages: widget.onManagePackages,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(height: 12),
     ];
     return Scaffold(
-      appBar: AppBar(title: const Text('Gezi ve önemli yerler')),
+      appBar: AppBar(title: const Text('Rota, Harita')),
       body: SafeArea(
         child: ListView.builder(
           padding: const EdgeInsets.all(20),

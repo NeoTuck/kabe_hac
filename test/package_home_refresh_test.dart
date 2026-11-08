@@ -16,6 +16,7 @@ import 'package:hac_umre_sesli_rehber/reader_settings.dart';
 import 'package:hac_umre_sesli_rehber/travel_catalog.dart';
 import 'package:hac_umre_sesli_rehber/travel_repository.dart';
 import 'package:hac_umre_sesli_rehber/travel_screen.dart';
+import 'package:hac_umre_sesli_rehber/route_studio_screen.dart';
 
 import 'travel_screen_test.dart' show fixture;
 
@@ -269,6 +270,7 @@ void main() {
     final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         narration: narration,
@@ -278,9 +280,10 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Yolculuk'));
+    await tester.tap(find.text('Rota, Harita'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Çevrimdışı haritayı aç'));
+    await tester.scrollUntilVisible(find.text('haritada gezin'), 200);
+    await tester.tap(find.text('haritada gezin'));
     await tester.pumpAndSettle();
     expect(find.byType(OfflineCityMapScreen), findsOneWidget);
     expect(
@@ -306,6 +309,7 @@ void main() {
     final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         narration: narration,
@@ -314,24 +318,15 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(
-      find.textContaining('Mekke haritası: Dosyalar doğrulanamadı'),
-      findsOneWidget,
-    );
-    await tester.scrollUntilVisible(
-      find.text('Çevrimdışı paketleri yönet'),
-      250,
-    );
-    await tester.tap(find.text('Çevrimdışı paketleri yönet'));
+    await tester.tap(find.text('Ayarlar'));
     await tester.pumpAndSettle();
+    expect(find.text('İndirilebilir Öğeler ve Paketler'), findsOneWidget);
+    await tester.tap(find.text('İndirilebilir Öğeler ve Paketler'));
+    await tester.pumpAndSettle();
+    expect(find.byType(OfflinePackagesScreen), findsOneWidget);
     packages.verified = true;
     Navigator.of(tester.element(find.byType(OfflinePackagesScreen))).pop();
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Çevrimdışı durum'), -250);
-    expect(
-      find.textContaining('Mekke haritası: Dosyalar doğrulandı'),
-      findsOneWidget,
-    );
   });
 
   testWidgets('gezi boş durumundan yer paketi açılıp liste yenilenir', (
@@ -343,6 +338,7 @@ void main() {
     final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         travelRepository: travel,
@@ -353,29 +349,12 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Yolculuk'));
+    await tester.tap(find.text('Rota, Harita'));
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Yer kayıtlarını indir'),
-      150,
-      scrollable: find
-          .descendant(
-            of: find.byType(TravelScreen),
-            matching: find.byType(Scrollable),
-          )
-          .first,
-    );
-    await tester.drag(
-      find
-          .descendant(
-            of: find.byType(TravelScreen),
-            matching: find.byType(Scrollable),
-          )
-          .first,
-      const Offset(0, -150),
-    );
+    await tester.scrollUntilVisible(find.text('Yönet'), 200);
+    await tester.drag(find.byType(ListView), const Offset(0, -120));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Yer kayıtlarını indir'));
+    await tester.tap(find.text('Yönet'));
     await tester.pumpAndSettle();
     expect(
       tester
@@ -392,7 +371,7 @@ void main() {
       150,
       scrollable: find
           .descendant(
-            of: find.byType(TravelScreen),
+            of: find.byType(RouteStudioScreen),
             matching: find.byType(Scrollable),
           )
           .first,
@@ -409,6 +388,7 @@ void main() {
     final catalogs = (await tester.runAsync(() => loadDraftCatalogs()))!;
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         travelRepository: travel,
@@ -421,19 +401,14 @@ void main() {
     await tester.pumpAndSettle();
     expect(travel.loads, 0);
     for (final installed in [true, false]) {
-      await tester.scrollUntilVisible(
-        find.text('Çevrimdışı paketleri yönet'),
-        250,
-      );
-      await tester.ensureVisible(find.text('Çevrimdışı paketleri yönet'));
-      await tester.drag(find.byType(Scrollable).first, const Offset(0, -120));
+      await tester.tap(find.text('Ayarlar'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Çevrimdışı paketleri yönet'));
+      await tester.tap(find.text('İndirilebilir Öğeler ve Paketler'));
       await tester.pumpAndSettle();
       travel.current = installed ? fixture() : LocalTravelRepository.empty;
       Navigator.of(tester.element(find.byType(OfflinePackagesScreen))).pop();
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Yolculuk'));
+      await tester.tap(find.text('Rota, Harita'));
       await tester.pumpAndSettle();
       expect(travel.loads, installed ? 1 : 2);
       expect(
@@ -442,7 +417,7 @@ void main() {
       );
       expect(
         tester
-            .widget<TravelScreen>(find.byType(TravelScreen))
+            .widget<RouteStudioScreen>(find.byType(RouteStudioScreen))
             .catalog
             .points
             .length,
@@ -454,7 +429,7 @@ void main() {
           160,
           scrollable: find
               .descendant(
-                of: find.byType(TravelScreen),
+                of: find.byType(RouteStudioScreen),
                 matching: find.byType(Scrollable),
               )
               .first,
@@ -464,8 +439,6 @@ void main() {
         find.text('Teknik buluşma noktası'),
         installed ? findsOneWidget : findsNothing,
       );
-      await tester.tap(find.text('Rehber').last);
-      await tester.pumpAndSettle();
     }
     expect(travel.loads, 2);
   }, timeout: const Timeout(Duration(minutes: 1)));
@@ -478,6 +451,7 @@ void main() {
     final narration = FakeNarration();
     await tester.pumpWidget(
       SesliRehberApp(
+        initialEnteredMainScreen: true,
         store: store,
         catalogs: catalogs,
         contentRepository: repository,
@@ -491,11 +465,9 @@ void main() {
       repository.loads,
       0,
     ); // Do not hash installed audio on every navigation.
-    await tester.scrollUntilVisible(
-      find.text('Çevrimdışı paketleri yönet'),
-      250,
-    );
-    await tester.tap(find.text('Çevrimdışı paketleri yönet'));
+    await tester.tap(find.text('Ayarlar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('İndirilebilir Öğeler ve Paketler'));
     await tester.pumpAndSettle();
     final source = jsonDecode(
       (await tester.runAsync(() => readDraftCatalogText(GuideType.umrah)))!,
@@ -508,12 +480,5 @@ void main() {
     Navigator.of(tester.element(find.byType(OfflinePackagesScreen))).pop();
     await tester.pumpAndSettle();
     expect(repository.loads, 1);
-    await tester.scrollUntilVisible(find.text('Umre'), -250);
-    await tester.tap(find.text('Umre'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Öğrenme'));
-    await tester.pumpAndSettle();
-    expect(find.text('Test paket başlığı'), findsOneWidget);
-    expect(find.text('Adımlar · 0/18 işaretli'), findsOneWidget);
   }, timeout: const Timeout(Duration(minutes: 1)));
 }

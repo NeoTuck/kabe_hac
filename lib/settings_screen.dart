@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'app_theme.dart';
+import 'offline_package.dart';
+import 'package_catalog.dart';
+import 'package_screen.dart';
 import 'reader_settings.dart';
 import 'licenses_and_sources_screen.dart';
 import 'local_data_screen.dart';
@@ -7,10 +11,24 @@ import 'push_service.dart';
 import 'support_links_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key, required this.settings, this.push});
+  const SettingsScreen({
+    super.key,
+    required this.settings,
+    this.push,
+    this.packages,
+    this.packageProvider,
+    this.packageConfigurationError,
+    this.onOpenPackage,
+    this.onPackagesChanged,
+  });
 
   final ReaderSettings settings;
   final PushTokenCoordinator? push;
+  final OfflinePackageManager? packages;
+  final OfflinePackageProvider? packageProvider;
+  final String? packageConfigurationError;
+  final Future<void> Function(OfflinePackageManifest manifest)? onOpenPackage;
+  final Future<void> Function()? onPackagesChanged;
 
   Future<void> _save(
     BuildContext context,
@@ -92,6 +110,53 @@ class SettingsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text('Onaylı anlatım kayıtları henüz eklenmedi.'),
+            if (packages != null) ...[
+              const SizedBox(height: 20),
+              Card.outlined(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: RehberTheme.goldLight.withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.download_for_offline_rounded,
+                      color: RehberTheme.goldLight,
+                    ),
+                  ),
+                  title: const Text(
+                    'İndirilebilir Öğeler ve Paketler',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: const Text(
+                    'Çevrimdışı haritalar, yer kayıtları ve ses paketlerini hızlıca yönet',
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 16,
+                  ),
+                  onTap: () async {
+                    await Navigator.of(context).push<void>(
+                      MaterialPageRoute(
+                        builder: (_) => OfflinePackagesScreen(
+                          manager: packages!,
+                          provider: packageProvider,
+                          configurationError: packageConfigurationError,
+                          onOpen: onOpenPackage,
+                        ),
+                      ),
+                    );
+                    if (onPackagesChanged != null) {
+                      await onPackagesChanged!();
+                    }
+                  },
+                ),
+              ),
+            ],
             const SizedBox(height: 24),
             OutlinedButton.icon(
               onPressed: () => Navigator.of(context).push<void>(

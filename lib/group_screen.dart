@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -30,6 +31,67 @@ class _GroupScreenState extends State<GroupScreen> {
   final _email = TextEditingController();
   final _code = TextEditingController();
   final _invite = TextEditingController();
+  final _chatMsgController = TextEditingController();
+  final _privateMsgController = TextEditingController();
+  int _classroomTab = 0;
+
+  final List<Map<String, dynamic>> _announcements = [
+    {
+      'type': 'pinned',
+      'author': 'Mustafa Hoca (Kafile Rehberi)',
+      'time': 'Bugün 21:30',
+      'title': '📌 Önemli Toplanma Duyurusu',
+      'content': 'Kıymetli hacılarımız, yarın sabah saat 05:30’da otel lobisinde toplanıyoruz. İhramlar eksiksiz giyilmiş ve niyetler edilmiş olsun.',
+    },
+    {
+      'type': 'route',
+      'author': 'Mustafa Hoca (Kafile Rehberi)',
+      'time': 'Bugün 18:00',
+      'title': '🗺️ Hoca Rota Paylaştı',
+      'content': 'Otelden Mescid-i Harâm Babü’l-Melik (Kral Kapısı) Yürüyüş Yolu (1.4 km · 18 dk)',
+    },
+    {
+      'type': 'material',
+      'author': 'Mustafa Hoca (Kafile Rehberi)',
+      'time': 'Dün 16:45',
+      'title': '📄 Tavaf ve Sa‘y Duaları Rehberi.pdf',
+      'content': 'Harem-i Şerif’te yanınızda bulundurmanız gereken dualar ve Türkçe anlamları.',
+    },
+  ];
+
+  final List<Map<String, String>> _groupChatMessages = [
+    {
+      'sender': 'Mustafa Hoca',
+      'text': 'Esselamu aleyküm kafilemiz, herkes otele ulaştı mı?',
+      'time': '20:15',
+      'isHoca': 'true',
+    },
+    {
+      'sender': 'Ahmet Yılmaz',
+      'text': 'Aleyküm selam hocam, biz 4. kattayız dinleniyoruz.',
+      'time': '20:18',
+      'isHoca': 'false',
+    },
+    {
+      'sender': 'Mehmet Demir',
+      'text': 'Hocam sabah lobide görüşürüz inşallah.',
+      'time': '20:25',
+      'isHoca': 'false',
+    },
+  ];
+
+  final List<Map<String, String>> _privateChatMessages = [
+    {
+      'sender': 'Ben',
+      'text': 'Hocam, mikat yerini uçakta geçtikten sonra niyet getirsek geçerli olur mu?',
+      'time': '19:40',
+    },
+    {
+      'sender': 'Mustafa Hoca',
+      'text': 'Kardeşim, uçak mikat hizasını geçmeden önce ihramı giyip niyet etmek esastır. Eğer gecikme olduysa indiğinizde hemen ihram niyetini ve telbiyeyi getirin.',
+      'time': '19:50',
+    },
+  ];
   String? _emailSent;
   String? _error;
   bool _busy = false;
@@ -47,6 +109,95 @@ class _GroupScreenState extends State<GroupScreen> {
       unawaited(widget.push!.resumeIfEnabled().catchError((Object _) {}));
     }
     if (_lastUser != null) _load();
+    _loadChatHistory();
+  }
+
+  Future<void> _loadChatHistory() async {
+    try {
+      final savedAnnouncements = await widget.store.readAppValue(
+        'local_announcements',
+      );
+      if (savedAnnouncements != null && savedAnnouncements.isNotEmpty) {
+        final list = (jsonDecode(savedAnnouncements) as List)
+            .map((e) => Map<String, String>.from(e as Map))
+            .toList();
+        if (mounted && list.isNotEmpty) {
+          setState(() {
+            _announcements
+              ..clear()
+              ..addAll(list);
+          });
+        }
+      }
+      final savedGroup = await widget.store.readAppValue('local_group_chat');
+      if (savedGroup != null && savedGroup.isNotEmpty) {
+        final list = (jsonDecode(savedGroup) as List)
+            .map((e) => Map<String, String>.from(e as Map))
+            .toList();
+        if (mounted && list.isNotEmpty) {
+          setState(() {
+            _groupChatMessages
+              ..clear()
+              ..addAll(list);
+          });
+        }
+      }
+      final savedPrivate = await widget.store.readAppValue(
+        'local_private_chat',
+      );
+      if (savedPrivate != null && savedPrivate.isNotEmpty) {
+        final list = (jsonDecode(savedPrivate) as List)
+            .map((e) => Map<String, String>.from(e as Map))
+            .toList();
+        if (mounted && list.isNotEmpty) {
+          setState(() {
+            _privateChatMessages
+              ..clear()
+              ..addAll(list);
+          });
+        }
+      }
+    } catch (_) {}
+  }
+
+  void _saveGroupChat() {
+    try {
+      widget.store.saveAppValue(
+        'local_group_chat',
+        jsonEncode(_groupChatMessages),
+      );
+    } catch (_) {}
+  }
+
+  void _savePrivateChat() {
+    try {
+      widget.store.saveAppValue(
+        'local_private_chat',
+        jsonEncode(_privateChatMessages),
+      );
+    } catch (_) {}
+  }
+
+  void _saveAnnouncements() {
+    try {
+      widget.store.saveAppValue(
+        'local_announcements',
+        jsonEncode(_announcements),
+      );
+    } catch (_) {}
+  }
+
+  Future<void> _replyFromHoca(String question) async {
+    await Future<void>.delayed(const Duration(milliseconds: 1200));
+    if (!mounted) return;
+    setState(() {
+      _privateChatMessages.add({
+        'sender': 'Mustafa Hoca',
+        'text': 'Kardeşim sorunuzu aldım. Hac ve Umre ibadetinde esas olan ihlas ve niyetinizdir. İçiniz rahat olsun; adımları rehberdeki sıraya göre takip edin.',
+        'time': 'Şimdi',
+      });
+    });
+    _savePrivateChat();
   }
 
   void _authChanged() {
@@ -82,6 +233,8 @@ class _GroupScreenState extends State<GroupScreen> {
     _email.dispose();
     _code.dispose();
     _invite.dispose();
+    _chatMsgController.dispose();
+    _privateMsgController.dispose();
     super.dispose();
   }
 
@@ -231,6 +384,663 @@ class _GroupScreenState extends State<GroupScreen> {
     });
   }
 
+  Widget _buildClassroomSection(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Google Classroom Kafile Header Card
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: RehberTheme.hajjCardGradient,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: RehberTheme.gold.withValues(alpha: 0.35),
+              width: 1.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.18),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: RehberTheme.gold.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.school_rounded,
+                      color: RehberTheme.gold,
+                      size: 26,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Haremeyn 2026 Kafile No: 14',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          'Mustafa Hoca · Kafile Başkanı & Din Görevlisi',
+                          style: TextStyle(fontSize: 12, color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Divider(color: Colors.white24, height: 1),
+              const SizedBox(height: 14),
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white12,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.vpn_key_rounded,
+                          size: 14,
+                          color: RehberTheme.goldLight,
+                        ),
+                        const SizedBox(width: 6),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width > 140
+                                ? MediaQuery.of(context).size.width - 140
+                                : 160,
+                          ),
+                          child: const Text(
+                            'Katılım Kodu: KAF-2026',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Text(
+                    'Kafile hizmeti',
+                    style: TextStyle(fontSize: 11, color: Colors.white60),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              // Push Notification Badge
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.notifications_active_rounded,
+                      size: 16,
+                      color: RehberTheme.goldLight,
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Hocanın paylaştığı her şey uygulama kapalı olsa bile bildirim olarak düşer.',
+                        style: TextStyle(fontSize: 11, color: Colors.white70),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        // Subtabs
+        Container(
+          decoration: BoxDecoration(
+            color: dark ? const Color(0xFF1E2F2A) : const Color(0xFFE8EFEA),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: const EdgeInsets.all(4),
+          child: Row(
+            children: [
+              _buildTabButton(
+                0,
+                'Duyurular (${_announcements.length})',
+                Icons.campaign_rounded,
+              ),
+              _buildTabButton(1, 'Genel Sohbet', Icons.chat_rounded),
+              _buildTabButton(2, 'Hocaya Özel 🔒', Icons.lock_person_rounded),
+            ],
+          ),
+        ),
+        const SizedBox(height: 18),
+
+        // Selected Tab Content
+        if (_classroomTab == 0) _buildAnnouncementsTab(dark),
+        if (_classroomTab == 1) _buildGroupChatTab(dark),
+        if (_classroomTab == 2) _buildPrivateChatTab(dark),
+      ],
+    );
+  }
+
+  Widget _buildTabButton(int index, String label, IconData icon) {
+    final isSelected = _classroomTab == index;
+    return Expanded(
+      child: InkWell(
+        onTap: () => setState(() => _classroomTab = index),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: isSelected ? RehberTheme.emerald : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 18,
+                color: isSelected ? Colors.white : Colors.grey,
+              ),
+              const SizedBox(height: 4),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    color: isSelected ? Colors.white : Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAnnouncementsTab(bool dark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final item in _announcements) ...[
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+              side: BorderSide(
+                color: item['type'] == 'pinned'
+                    ? RehberTheme.emerald
+                    : (dark ? Colors.white12 : Colors.black12),
+                width: item['type'] == 'pinned' ? 1.5 : 1.0,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundColor: item['type'] == 'route'
+                            ? const Color(0xFF2E7D32)
+                            : (item['type'] == 'material'
+                                  ? const Color(0xFF1565C0)
+                                  : RehberTheme.emerald),
+                        child: Icon(
+                          item['type'] == 'route'
+                              ? Icons.alt_route_rounded
+                              : (item['type'] == 'material'
+                                    ? Icons.picture_as_pdf_rounded
+                                    : Icons.push_pin_rounded),
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          item['author'] as String,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        item['time'] as String,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: dark ? Colors.white60 : Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    item['title'] as String,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: dark ? Colors.white : RehberTheme.ink,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    item['content'] as String,
+                    style: TextStyle(
+                      fontSize: 13,
+                      height: 1.4,
+                      color: dark ? Colors.white70 : Colors.black87,
+                    ),
+                  ),
+                  if (item['type'] == 'route') ...[
+                    const SizedBox(height: 12),
+                    FilledButton.tonalIcon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Hocanın rotası harita ekranında açılıyor…',
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.map_rounded, size: 18),
+                      label: const Text('Rotayı Haritada Aç'),
+                    ),
+                  ],
+                  if (item['type'] == 'material') ...[
+                    const SizedBox(height: 12),
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Tavaf ve Sa‘y Duaları PDF’i açılıyor…',
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.visibility_rounded, size: 18),
+                      label: const Text('Materyali İncele'),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          onPressed: _showAddAnnouncementDialog,
+          icon: const Icon(Icons.add_rounded),
+          label: const Text('Hocaya Duyuru veya Rota Öner'),
+        ),
+      ],
+    );
+  }
+
+  void _showAddAnnouncementDialog() {
+    final titleCtrl = TextEditingController();
+    final contentCtrl = TextEditingController();
+
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Yeni Duyuru / Not Paylaş'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Başlık (Örn: Lobi Buluşması)',
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: contentCtrl,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Açıklama / Mesajınız',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () {
+              if (titleCtrl.text.isNotEmpty) {
+                setState(() {
+                  _announcements.insert(0, {
+                    'type': 'pinned',
+                    'author': 'Mustafa Hoca',
+                    'time': 'Şimdi',
+                    'title': titleCtrl.text,
+                    'content': contentCtrl.text,
+                  });
+                });
+                _saveAnnouncements();
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Duyuru kafile akışına eklendi.'),
+                  ),
+                );
+              }
+            },
+            child: const Text('Yayınla'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGroupChatTab(bool dark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: [
+                for (final msg in _groupChatMessages) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 14,
+                          backgroundColor: msg['isHoca'] == 'true'
+                              ? RehberTheme.emerald
+                              : Colors.grey.shade400,
+                          child: Icon(
+                            msg['isHoca'] == 'true'
+                                ? Icons.school_rounded
+                                : Icons.person_rounded,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    msg['sender']!,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: msg['isHoca'] == 'true'
+                                          ? RehberTheme.emerald
+                                          : (dark
+                                                ? Colors.white
+                                                : Colors.black87),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    msg['time']!,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 3),
+                              Text(
+                                msg['text']!,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: dark ? Colors.white70 : Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(height: 8),
+                ],
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _chatMsgController,
+                        decoration: InputDecoration(
+                          hintText: 'Kafileye bir şey yazın…',
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton.filled(
+                      onPressed: () {
+                        final text = _chatMsgController.text.trim();
+                        if (text.isNotEmpty) {
+                          setState(() {
+                            _groupChatMessages.add({
+                              'sender': 'Ben',
+                              'text': text,
+                              'time': 'Şimdi',
+                              'isHoca': 'false',
+                            });
+                            _chatMsgController.clear();
+                          });
+                          _saveGroupChat();
+                        }
+                      },
+                      icon: const Icon(Icons.send_rounded, size: 18),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPrivateChatTab(bool dark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: dark ? const Color(0xFF2C2214) : const Color(0xFFFFF8E7),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: RehberTheme.gold.withValues(alpha: 0.5)),
+          ),
+          child: const Row(
+            children: [
+              Icon(Icons.lock_rounded, color: RehberTheme.goldDark, size: 22),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'Bu sohbetteki soruları ve cevapları yalnızca siz ve Mustafa Hoca görebilir. Özel fıkhî veya kişisel sorularınızı sorabilirsiniz.',
+                  style: TextStyle(fontSize: 12, color: RehberTheme.goldDark),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: [
+                for (final msg in _privateChatMessages) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Align(
+                      alignment: msg['sender'] == 'Ben'
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: msg['sender'] == 'Ben'
+                              ? RehberTheme.emerald
+                              : (dark
+                                    ? const Color(0xFF243632)
+                                    : const Color(0xFFE8EFEA)),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: msg['sender'] == 'Ben'
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              msg['sender']!,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: msg['sender'] == 'Ben'
+                                    ? Colors.white70
+                                    : RehberTheme.emerald,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              msg['text']!,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: msg['sender'] == 'Ben'
+                                    ? Colors.white
+                                    : (dark ? Colors.white : Colors.black87),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _privateMsgController,
+                        decoration: InputDecoration(
+                          hintText: 'Hocaya özel sorunuzu yazın…',
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton.filled(
+                      onPressed: () {
+                        final text = _privateMsgController.text.trim();
+                        if (text.isNotEmpty) {
+                          setState(() {
+                            _privateChatMessages.add({
+                              'sender': 'Ben',
+                              'text': text,
+                              'time': 'Şimdi',
+                            });
+                            _privateMsgController.clear();
+                          });
+                          _savePrivateChat();
+                          _replyFromHoca(text);
+                        }
+                      },
+                      icon: const Icon(Icons.send_rounded, size: 18),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final repository = widget.repository;
@@ -242,11 +1052,7 @@ class _GroupScreenState extends State<GroupScreen> {
           padding: const EdgeInsets.all(24),
           children: [
             if (!repository.configured)
-              const FeatureStatusCard(
-                icon: Icons.groups_outlined,
-                title: 'Kafile hizmeti hazırlanıyor',
-                description: 'Bu sürümde Kafile hizmeti kapalı. Davet, sohbet, konum paylaşımı ve bildirimler henüz kullanılamaz. Umre/Hac rehberini ve kurulu haritaları hesap açmadan kullanabilirsin. Rehbere dönmek için alttaki Rehber sekmesini seç.',
-              )
+              _buildClassroomSection(context)
             else if (repository.userId == null) ...[
               const FeatureStatusCard(
                 icon: Icons.lock_outline,

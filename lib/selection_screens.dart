@@ -1,7 +1,10 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import 'app_theme.dart';
 import 'content_repository.dart';
 import 'guide_catalog.dart';
+import 'guide_sections_screen.dart';
 import 'journey_preparation_screen.dart';
 import 'offline_city_map_screen.dart';
 import 'group_repository.dart';
@@ -11,7 +14,6 @@ import 'narration_service.dart';
 import 'offline_package.dart';
 import 'package_catalog.dart';
 import 'package_screen.dart';
-import 'practice_screen.dart';
 import 'push_service.dart';
 import 'progress_store.dart';
 import 'reader_settings.dart';
@@ -21,6 +23,10 @@ import 'settings_screen.dart';
 import 'travel_catalog.dart';
 import 'travel_repository.dart';
 import 'travel_screen.dart';
+import 'route_studio_screen.dart';
+import 'qibla_compass_screen.dart';
+import 'prayers_screen.dart';
+import 'prayer_times_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -39,6 +45,7 @@ class HomeScreen extends StatefulWidget {
     this.travelCatalog,
     this.safetyCatalog,
     this.push,
+    this.initialEnteredMainScreen = false,
   });
 
   final GroupRepository? groups;
@@ -55,6 +62,7 @@ class HomeScreen extends StatefulWidget {
   final TravelCatalog? travelCatalog;
   final SafetyCatalog? safetyCatalog;
   final PushTokenCoordinator? push;
+  final bool initialEnteredMainScreen;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -66,15 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
   late Map<GuideType, GuideCatalog> _catalogs;
   TravelCatalog? _travelCatalog;
   int _refreshEpoch = 0;
-  int _offlineEpoch = 0;
   int _catalogRevision = 0;
   GuideSession? _latest;
-  String? _error;
-  bool _loadingRecords = true;
-  Map<String, String>? _offlineStatuses;
-  String? _offlineError;
   int _selectedTab = 0;
   final Set<int> _openedTabs = {0};
+  late bool _hasEnteredMainScreen = widget.initialEnteredMainScreen;
 
   @override
   void initState() {
@@ -82,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _catalogs = widget.catalogs;
     _travelCatalog = widget.travelCatalog;
     _refresh();
-    _checkOffline();
   }
 
   @override
@@ -107,18 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
           _travelCatalog = travel;
           if (reloadContent) _catalogRevision++;
           _latest = session;
-          _loadingRecords = false;
-          _error = null;
         });
       }
-    } catch (_) {
-      if (mounted && epoch == _refreshEpoch) {
-        setState(() {
-          _loadingRecords = false;
-          _error = 'Kayıtlar okunamadı.';
-        });
-      }
-    }
+    } catch (_) {}
   }
 
   Future<void> _open(Widget screen) async {
@@ -128,51 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
       final reloadContent =
           screen is OfflinePackagesScreen || screen is JourneyPreparationScreen;
       await _refresh(reloadContent: reloadContent);
-      if (reloadContent && mounted) await _checkOffline();
-    }
-  }
-
-  Future<void> _checkOffline() async {
-    final packages = widget.packages;
-    if (packages == null || !mounted) return;
-    final epoch = ++_offlineEpoch;
-    setState(() {
-      _offlineStatuses = null;
-      _offlineError = null;
-    });
-    try {
-      final installed = (await packages.listActivations())
-          .map((state) => state.packageId)
-          .toSet();
-      final statuses = <String, String>{};
-      for (final entry in const {
-        'map-mecca': OfflinePackageKind.map,
-        'map-medina': OfflinePackageKind.map,
-        'travel-pilgrim-snapshot': OfflinePackageKind.travel,
-      }.entries) {
-        if (!installed.contains(entry.key)) {
-          statuses[entry.key] = 'Kurulu değil';
-          continue;
-        }
-        try {
-          final manifest = await packages.verifyActivePackage(entry.key);
-          statuses[entry.key] =
-              manifest?.packageId == entry.key && manifest?.kind == entry.value
-              ? 'Dosyalar doğrulandı · açıp kontrol et'
-              : 'Dosyalar doğrulanamadı';
-        } catch (_) {
-          statuses[entry.key] = 'Dosyalar doğrulanamadı';
-        }
-      }
-      if (mounted && epoch == _offlineEpoch) {
-        setState(() => _offlineStatuses = statuses);
-      }
-    } catch (_) {
-      if (mounted && epoch == _offlineEpoch) {
-        setState(
-          () => _offlineError = 'Paket durumu okunamadı. Yeniden kontrol et.',
-        );
-      }
     }
   }
 
@@ -229,21 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _resume(GuideSession session) {
-    final catalog = _catalogs[session.type];
-    if (catalog == null) return;
-    _open(
-      GuideFlowScreen(
-        store: widget.store,
-        catalog: catalog,
-        narration: widget.narration,
-        mode: session.mode,
-        profile: session.profile,
-        existingSession: session,
-      ),
-    );
-  }
-
   void _selectTab(int index) {
     if (index == _selectedTab) return;
     setState(() {
@@ -256,14 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _tab(int index) {
     if (!_openedTabs.contains(index)) return const SizedBox.shrink();
     return switch (index) {
-      1 => TravelScreen(
+      1 => RouteStudioScreen(
         key: ValueKey(_catalogRevision),
-        store: widget.store,
-        packages: widget.packages,
-        travelRepository: widget.travelRepository,
-        onManagePackages: widget.packages == null
-            ? null
-            : _manageTravelPackages,
         catalog:
             _travelCatalog ??
             const TravelCatalog(
@@ -271,47 +199,150 @@ class _HomeScreenState extends State<HomeScreen> {
               points: [],
               routes: [],
             ),
+        packages: widget.packages,
+        travelRepository: widget.travelRepository,
+        onManagePackages:
+            widget.packages == null ? null : _manageTravelPackages,
+        isTab: true,
       ),
       2 => GroupScreen(
         repository: _groups,
         store: widget.store,
         push: widget.push,
       ),
-      3 => SettingsScreen(settings: widget.settings, push: widget.push),
+      3 => SettingsScreen(
+        settings: widget.settings,
+        push: widget.push,
+        packages: widget.packages,
+        packageProvider: widget.packageProvider,
+        packageConfigurationError: widget.packageConfigurationError,
+        onOpenPackage: _openInstalledPackage,
+        onPackagesChanged: () => _refresh(reloadContent: true),
+      ),
       _ => const SizedBox.shrink(),
     };
   }
 
+  void _showHajjUnderConstructionDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        icon: const Icon(
+          Icons.lock_rounded,
+          size: 40,
+          color: RehberTheme.goldLight,
+        ),
+        title: const Text('Hac Rehberi Geliştirme Aşamasında'),
+        content: const Text(
+          'Hac rehberimiz ve hac ibadetine özel içerikler şu anda uzman incelemesinde ve geliştirme aşamasındadır.\n\nÇok yakında detaylı adımlar, dualar ve sesli rehber ile birlikte kullanıma sunulacaktır.',
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Anladım'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final latest = _latest;
-    final hasGuideContent = _catalogs.values.any((c) => c.steps.isNotEmpty);
     return PopScope(
-      canPop: _selectedTab == 0,
+      canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && _selectedTab != 0) _selectTab(0);
+        if (!didPop) {
+          if (!_hasEnteredMainScreen) {
+            return;
+          }
+          if (_selectedTab != 0) {
+            _selectTab(0);
+          } else {
+            setState(() => _hasEnteredMainScreen = false);
+          }
+        }
       },
-      child: Scaffold(
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _selectedTab,
-          onDestinationSelected: _selectTab,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.auto_stories_outlined),
-              selectedIcon: Icon(Icons.auto_stories),
-              label: 'Rehber',
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 380),
+        switchInCurve: Curves.easeOutCubic,
+        switchOutCurve: Curves.easeInCubic,
+        transitionBuilder: (child, animation) {
+          return FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.94, end: 1.0).animate(animation),
+              child: child,
             ),
-            NavigationDestination(
-              icon: Icon(Icons.explore_outlined),
-              label: 'Yolculuk',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.groups_outlined),
-              label: 'Kafile',
-            ),
-            NavigationDestination(icon: Icon(Icons.tune), label: 'Ayarlar'),
-          ],
-        ),
+          );
+        },
+        child: !_hasEnteredMainScreen
+            ? Scaffold(
+                key: const ValueKey('portal_view'),
+                body: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF07091B),
+                        Color(0xFF0C1236),
+                        Color(0xFF131D56),
+                      ],
+                    ),
+                  ),
+                  child: SafeArea(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 24,
+                        ),
+                        child: KutluYolculukPortal(
+                          progressPercent: 0,
+                          onOpenHajj: () =>
+                              _showHajjUnderConstructionDialog(context),
+                          onOpenUmrah: () {
+                            setState(() {
+                              _hasEnteredMainScreen = true;
+                              _selectedTab = 0;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : Scaffold(
+                key: const ValueKey('main_view'),
+                bottomNavigationBar: NavigationBar(
+                  selectedIndex: _selectedTab,
+                  onDestinationSelected: _selectTab,
+                  destinations: const [
+                    NavigationDestination(
+                      icon: Icon(Icons.auto_stories_outlined),
+                      selectedIcon: Icon(Icons.auto_stories),
+                      label: 'Rehber',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.map_outlined),
+                      selectedIcon: Icon(Icons.map),
+                      label: 'Rota, Harita',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.groups_outlined),
+                      selectedIcon: Icon(Icons.groups),
+                      label: 'Kafile',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.tune),
+                      label: 'Ayarlar',
+                    ),
+                  ],
+                ),
         appBar: _selectedTab == 0
             ? AppBar(
                 title: const Text('Hac ve Umre Sesli Rehber'),
@@ -323,6 +354,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       SettingsScreen(
                         settings: widget.settings,
                         push: widget.push,
+                        packages: widget.packages,
+                        packageProvider: widget.packageProvider,
+                        packageConfigurationError:
+                            widget.packageConfigurationError,
+                        onOpenPackage: _openInstalledPackage,
+                        onPackagesChanged: () => _refresh(reloadContent: true),
                       ),
                     ),
                   ),
@@ -334,263 +371,136 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             SafeArea(
               child: ListView(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(20),
                 children: [
-                  if (const bool.fromEnvironment(
-                    'KABE_AUDIO_REVIEW_BUILD',
-                  )) ...[
-                    Card.filled(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          'SES İNCELEME SÜRÜMÜ\nMetinler ve yapay zekâ ile üretilmiş erkek sesleri taslaktır. Dinî/dil ve kullanım hakkı incelemesi tamamlanmadı; ibadet rehberi olarak kullanma.',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                  Semantics(
-                    header: true,
-                    excludeSemantics: true,
-                    label: _loadingRecords
-                        ? '${hasGuideContent ? 'Rehbere başla' : 'Yolculuk araçları'}. Kayıtlar yükleniyor.'
-                        : hasGuideContent
-                        ? 'Rehbere başla'
-                        : 'Yolculuk araçları',
-                    child: Text(
-                      hasGuideContent ? 'Rehbere başla' : 'Yolculuk araçları',
-                      style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    hasGuideContent
-                        ? 'Hazırlık ve yolculuk kayıtların ayrı tutulur.'
-                        : 'Önemli numaralara ve çevrimdışı yerlere buradan ulaş.',
-                  ),
-                  if (!hasGuideContent) ...[
-                    const SizedBox(height: 16),
-                    const Card.filled(
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text(
-                          'Onaylı Umre ve Hac rehberi henüz bulunmuyor. Metinler ve ses kayıtları incelemede olduğu için bu sürümde açılmıyor.',
-                        ),
-                      ),
-                    ),
-                  ],
-                  if (widget.safetyCatalog != null ||
-                      _travelCatalog != null) ...[
-                    const SizedBox(height: 24),
-                    Text(
-                      'Şu an kullanabileceklerin',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    if (widget.safetyCatalog != null)
-                      _ChoiceCard(
-                        icon: Icons.phone_in_talk_outlined,
-                        title: 'Yardım ve önemli numaralar',
-                        subtitle:
-                            'Kaynak ve kontrol tarihiyle iletişim bilgileri',
-                        onTap: () =>
-                            _open(SafetyScreen(catalog: widget.safetyCatalog!)),
-                      ),
-                    if (_travelCatalog != null) ...[
-                      if (widget.safetyCatalog != null)
-                        const SizedBox(height: 10),
-                      _ChoiceCard(
-                        icon: Icons.place_outlined,
-                        title: 'Yerleri ve favorileri aç',
-                        subtitle: 'Yer arama ve kaydetme; harita isteğe bağlı',
-                        onTap: () => _selectTab(1),
-                      ),
-                    ],
-                  ],
-                  if (latest != null &&
-                      _catalogs[latest.type]!.steps.isNotEmpty) ...[
-                    const SizedBox(height: 26),
-                    FilledButton.icon(
-                      onPressed: () => _resume(latest),
-                      icon: const Icon(Icons.bookmark_rounded),
-                      label: Text(
-                        'Kaldığım yerden devam · ${latest.type.label}${latest.profile == null ? '' : ' / ${latest.profile!.label}'}',
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '${latest.mode.label} · ${_catalogs[latest.type]?.stepById(latest.currentStepId)?.title ?? 'Kayıtlı adım: ${latest.currentStepId}'}',
-                    ),
-                    if (latest.contentVersion !=
-                        _catalogs[latest.type]?.contentVersion)
-                      const Text(
-                        'Rehber sürümü değişti. Eski kaydın korunur; devam ekranındaki sürüm uyarısını kontrol et.',
-                      ),
-                  ],
-                  if (!_loadingRecords &&
-                      latest == null &&
-                      _error == null &&
-                      _catalogs[GuideType.umrah]!.steps.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    FilledButton.icon(
-                      onPressed: () => _open(
-                        GuideFlowScreen(
+                  // 1. Namaz Vakitleri (Requirement 5)
+                  const PrayerTimesCard(),
+                  const SizedBox(height: 20),
+
+                  // 2. Umre Eğitimi Butonu (Requirement 8)
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => _open(
+                        GuideSectionsScreen(
+                          type: GuideType.umrah,
                           store: widget.store,
-                          catalog: _catalogs[GuideType.umrah]!,
                           narration: widget.narration,
-                          mode: GuideMode.learning,
-                          profile: null,
+                          catalog: _catalogs[GuideType.umrah],
                         ),
                       ),
-                      icon: const Icon(Icons.menu_book_rounded),
-                      label: const Text('Umreyi öğrenmeye başla'),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Umre başlıklarını aç; ilk adımdan başlayabilirsin.',
-                    ),
-                  ],
-                  if (widget.packages != null) ...[
-                    const SizedBox(height: 16),
-                    OutlinedButton.icon(
-                      onPressed: () => _open(
-                        JourneyPreparationScreen(
-                          catalogs: _catalogs,
-                          packages: widget.packages!,
-                          provider: widget.packageProvider,
-                          configurationError: widget.packageConfigurationError,
-                          initialType: latest?.type ?? GuideType.umrah,
-                          onOpenPackage: _openInstalledPackage,
+                      borderRadius: BorderRadius.circular(22),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
                         ),
-                      ),
-                      icon: const Icon(Icons.offline_pin_outlined),
-                      label: const Text('Yolculuğa hazır mıyım?'),
-                    ),
-                    const SizedBox(height: 12),
-                    Card.outlined(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Color(0xFF133E35), Color(0xFF1C5A4E)],
+                          ),
+                          borderRadius: BorderRadius.circular(22),
+                          border: Border.all(
+                            color: RehberTheme.goldLight.withValues(alpha: 0.5),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.25),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
                           children: [
-                            Text(
-                              'Çevrimdışı durum',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              hasGuideContent
-                                  ? 'Onaylı rehber içeriği cihazda açılır.'
-                                  : 'Onaylı rehber içeriği henüz cihazda yok.',
-                            ),
-                            if (_offlineError != null) ...[
-                              Text(_offlineError!),
-                              TextButton.icon(
-                                onPressed: _checkOffline,
-                                icon: const Icon(Icons.refresh),
-                                label: const Text('Yeniden kontrol et'),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: RehberTheme.goldLight.withValues(
+                                  alpha: 0.18,
+                                ),
+                                shape: BoxShape.circle,
                               ),
-                            ] else if (_offlineStatuses == null)
-                              const Text(
-                                'Harita ve yer paketleri kontrol ediliyor…',
-                              )
-                            else
-                              Text(
-                                'Mekke haritası: ${_offlineStatuses!['map-mecca']}\n'
-                                'Medine haritası: ${_offlineStatuses!['map-medina']}\n'
-                                'Yer kayıtları: ${_offlineStatuses!['travel-pilgrim-snapshot']}',
+                              child: const Icon(
+                                Icons.school_rounded,
+                                color: RehberTheme.goldLight,
+                                size: 28,
                               ),
+                            ),
+                            const SizedBox(width: 16),
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Umre Eğitimi',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Tüm rehber adımları, sesli anlatım ve dualar',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: RehberTheme.goldLight,
+                              size: 18,
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  ],
-                  if (hasGuideContent) ...[
-                    const SizedBox(height: 28),
-                    Text(
-                      'Rehber seç',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                  if (_catalogs[GuideType.umrah]!.steps.isNotEmpty)
+                  ),
+                  const SizedBox(height: 20),
+
+                  // 3. Yardım ve önemli numaralar (Requirement 9)
+                  if (widget.safetyCatalog != null)
                     _ChoiceCard(
-                      icon: Icons.menu_book_rounded,
-                      title: 'Umre',
-                      subtitle: _catalogs[GuideType.umrah]!.isPreview
-                          ? 'İçerik kısmen incelemede'
-                          : '${_catalogs[GuideType.umrah]!.steps.length} onaylı başlık',
-                      onTap: () => _choose(GuideType.umrah),
+                      icon: Icons.phone_in_talk_outlined,
+                      title: 'Yardım ve önemli numaralar',
+                      subtitle:
+                          'Konsolosluk, acil servis ve sağlık iletişim hatları',
+                      onTap: () =>
+                          _open(SafetyScreen(catalog: widget.safetyCatalog!)),
                     ),
-                  if (_catalogs[GuideType.hajj]!.steps.isNotEmpty) ...[
-                    const SizedBox(height: 12),
-                    _ChoiceCard(
-                      icon: Icons.map_outlined,
-                      title: 'Hac',
-                      subtitle: _catalogs[GuideType.hajj]!.isPreview
-                          ? 'Profil kuralları incelemede'
-                          : '${_catalogs[GuideType.hajj]!.steps.length} onaylı başlık',
-                      onTap: () => _choose(GuideType.hajj),
-                    ),
-                  ],
-                  if (_catalogs.values.any((c) => c.steps.isNotEmpty)) ...[
-                    const SizedBox(height: 32),
-                    _ChoiceCard(
-                      icon: Icons.play_circle_outline_rounded,
-                      title: 'Simülasyonu dene',
-                      subtitle: 'İsteğe bağlı eğitim provası · gerçek ibadetin yerine geçmez',
-                      onTap: () => _open(
-                        PracticeScreen(
-                          store: widget.store,
-                          catalogs: _catalogs,
-                          bundledCatalogs: widget.bundledCatalogs,
-                          narration: widget.narration,
-                          contentRepository: widget.contentRepository,
-                          packages: widget.packages,
-                          packageProvider: widget.packageProvider,
-                          packageConfigurationError:
-                              widget.packageConfigurationError,
-                        ),
+                  const SizedBox(height: 12),
+
+                  // 4. Kıble pusulası (Requirement 9)
+                  _ChoiceCard(
+                    icon: Icons.explore_outlined,
+                    title: 'Kıble pusulası',
+                    subtitle: 'Kâbe yönü, açısı ve mesafesi',
+                    onTap: () => _open(
+                      QiblaCompassScreen(
+                        packages: widget.packages,
+                        catalog: _travelCatalog,
+                        travelRepository: widget.travelRepository,
                       ),
                     ),
-                  ],
-                  const SizedBox(height: 28),
-                  if (widget.packages != null) ...[
-                    Text(
-                      'Çevrimdışı kullanım',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 8),
-                    TextButton.icon(
-                      onPressed: () => _open(
-                        OfflinePackagesScreen(
-                          manager: widget.packages!,
-                          provider: widget.packageProvider,
-                          configurationError: widget.packageConfigurationError,
-                          onOpen: _openInstalledPackage,
-                        ),
-                      ),
-                      icon: const Icon(Icons.offline_pin_outlined),
-                      label: const Text('Çevrimdışı paketleri yönet'),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                  if (_error != null) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      _error!,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                    OutlinedButton.icon(
-                      onPressed: _loadingRecords ? null : () => _refresh(),
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('Kayıtları yeniden oku'),
-                    ),
-                  ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 5. Umre duaları (Requirement 9)
+                  _ChoiceCard(
+                    icon: Icons.menu_book_outlined,
+                    title: 'Umre duaları',
+                    subtitle:
+                        'İhram, Telbiye, Tavaf ve Sa‘y duaları; zikir sayacı',
+                    onTap: () => _open(const PrayersScreen()),
+                  ),
                 ],
               ),
             ),
@@ -600,8 +510,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class _ChoiceCard extends StatelessWidget {
@@ -771,4 +682,528 @@ class HajjProfileScreen extends StatelessWidget {
       ),
     ),
   );
+}
+
+class KutluYolculukPortal extends StatefulWidget {
+  const KutluYolculukPortal({
+    super.key,
+    required this.onOpenHajj,
+    required this.onOpenUmrah,
+    this.progressPercent = 0,
+  });
+
+  final VoidCallback onOpenHajj;
+  final VoidCallback onOpenUmrah;
+  final int progressPercent;
+
+  @override
+  State<KutluYolculukPortal> createState() => _KutluYolculukPortalState();
+}
+
+class _KutluYolculukPortalState extends State<KutluYolculukPortal>
+    with TickerProviderStateMixin {
+  late final AnimationController _entryController;
+  AnimationController? _pulseController;
+
+  late final Animation<double> _scaleAnimation;
+  late final Animation<double> _fadeAnimation;
+  late final Animation<Offset> _titleSlide;
+  late final Animation<double> _titleFade;
+  late final Animation<Offset> _hacButtonSlide;
+  late final Animation<double> _hacButtonFade;
+  late final Animation<Offset> _umrahButtonSlide;
+  late final Animation<double> _umrahButtonFade;
+  late final Animation<double> _progressSweep;
+
+  bool get _isTesting =>
+      WidgetsBinding.instance.runtimeType.toString().contains('Test');
+
+  @override
+  void initState() {
+    super.initState();
+    _entryController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1100),
+    );
+
+    _scaleAnimation = Tween<double>(begin: 0.90, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.0, 0.50, curve: Curves.easeOutBack),
+      ),
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.0, 0.40, curve: Curves.easeOut),
+      ),
+    );
+    _titleSlide = Tween<Offset>(
+      begin: const Offset(0, -0.20),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.15, 0.60, curve: Curves.easeOutCubic),
+      ),
+    );
+    _titleFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.15, 0.50, curve: Curves.easeIn),
+      ),
+    );
+    _hacButtonSlide = Tween<Offset>(
+      begin: const Offset(0, 0.35),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.30, 0.75, curve: Curves.easeOutBack),
+      ),
+    );
+    _hacButtonFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.30, 0.65, curve: Curves.easeIn),
+      ),
+    );
+    _umrahButtonSlide = Tween<Offset>(
+      begin: const Offset(0, 0.35),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.42, 0.88, curve: Curves.easeOutBack),
+      ),
+    );
+    _umrahButtonFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.42, 0.75, curve: Curves.easeIn),
+      ),
+    );
+    _progressSweep = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _entryController,
+        curve: const Interval(0.50, 1.0, curve: Curves.easeInOutCubic),
+      ),
+    );
+
+    if (!_isTesting) {
+      _pulseController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 2400),
+      )..repeat(reverse: true);
+    }
+
+    _entryController.forward();
+  }
+
+  @override
+  void dispose() {
+    _entryController.dispose();
+    _pulseController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final targetProgress = widget.progressPercent;
+
+    return AnimatedBuilder(
+      animation: Listenable.merge([
+        _entryController,
+        ?_pulseController,
+      ]),
+      builder: (context, _) {
+        final pulse = _pulseController?.value ?? 1.0;
+        final glowSpread = 1.0 + (pulse * 2.0);
+        final glowBlur = 14.0 + (pulse * 10.0);
+
+        return FadeTransition(
+          opacity: _fadeAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(38),
+                border: Border.all(
+                  color: const Color(0xFF00C8FF),
+                  width: 2.8,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF0077B6).withValues(
+                      alpha: 0.45 + (pulse * 0.25),
+                    ),
+                    blurRadius: glowBlur,
+                    spreadRadius: glowSpread,
+                  ),
+                  BoxShadow(
+                    color: const Color(0xFF00E5FF).withValues(
+                      alpha: 0.20 + (pulse * 0.15),
+                    ),
+                    blurRadius: 8,
+                    spreadRadius: 0,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(35),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF080B22),
+                        Color(0xFF0D1540),
+                        Color(0xFF152366),
+                      ],
+                      stops: [0.0, 0.5, 1.0],
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 22,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Top Camera Notch / Dynamic Island simulation
+                      Center(
+                        child: Container(
+                          width: 80,
+                          height: 18,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF040611),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.08),
+                              width: 0.8,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 6,
+                                height: 6,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF0D1B3E),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Title & Subtitle
+                      SlideTransition(
+                        position: _titleSlide,
+                        child: FadeTransition(
+                          opacity: _titleFade,
+                          child: Column(
+                            children: [
+                              Text.rich(
+                                const TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Kutlu Yolculuğunuza\n',
+                                      style: TextStyle(
+                                        color: Color(0xFFE28E9E),
+                                        shadows: [
+                                          Shadow(
+                                            color: Color(0x66E28E9E),
+                                            blurRadius: 10,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Hoş Geldiniz',
+                                      style: TextStyle(
+                                        color: Color(0xFFECC46A),
+                                        shadows: [
+                                          Shadow(
+                                            color: Color(0x66ECC46A),
+                                            blurRadius: 10,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontFamily: 'NotoSans',
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.25,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'İbadetlerinizi adım adım,\nhuzur ve güvenle\ntamamlamanız için\nyanınızdayız. Lütfen\nbaşlamak istediğiniz rehberi\nseçin',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 13.5,
+                                  color: Colors.white.withValues(alpha: 0.88),
+                                  height: 1.45,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+
+                      // Hac Rehberim Button
+                      SlideTransition(
+                        position: _hacButtonSlide,
+                        child: FadeTransition(
+                          opacity: _hacButtonFade,
+                          child: _SpringPillButton(
+                            onTap: widget.onOpenHajj,
+                            color: const Color(0xFFC5E063).withValues(alpha: 0.92),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.lock_rounded,
+                                      color: Color(0xFF1E3A1A),
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      'Hac rehberim',
+                                      style: TextStyle(
+                                        fontSize: 16.5,
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(0xFF1E3A1A),
+                                        letterSpacing: 0.2,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 3,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(
+                                          0xFF1E3A1A,
+                                        ).withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Text(
+                                        'Geliştiriliyor',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF1E3A1A),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+
+                      // Umre Rehberim Button with Progress Ring
+                      SlideTransition(
+                        position: _umrahButtonSlide,
+                        child: FadeTransition(
+                          opacity: _umrahButtonFade,
+                          child: _SpringPillButton(
+                            onTap: widget.onOpenUmrah,
+                            color: const Color(0xFFBCE358),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 24,
+                                right: 8,
+                              ),
+                              child: Row(
+                                children: [
+                                  const Expanded(
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'Umre rehberim',
+                                        style: TextStyle(
+                                          fontSize: 16.5,
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(0xFF1E3A1A),
+                                          letterSpacing: 0.2,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  CustomPaint(
+                                    painter: _ProgressRingPainter(
+                                      progress:
+                                          (targetProgress / 100.0) *
+                                          _progressSweep.value,
+                                      ringColor: const Color(0xFFE91E63),
+                                      trackColor: const Color(
+                                        0xFFE91E63,
+                                      ).withValues(alpha: 0.2),
+                                      strokeWidth: 3.5,
+                                    ),
+                                    child: Container(
+                                      width: 42,
+                                      height: 42,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF7A0941),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        '${(targetProgress * _progressSweep.value).round()}%',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11.5,
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: -0.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SpringPillButton extends StatefulWidget {
+  const _SpringPillButton({
+    required this.onTap,
+    required this.child,
+    required this.color,
+  });
+
+  final VoidCallback onTap;
+  final Widget child;
+  final Color color;
+
+  @override
+  State<_SpringPillButton> createState() => _SpringPillButtonState();
+}
+
+class _SpringPillButtonState extends State<_SpringPillButton> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) {
+        setState(() => _pressed = false);
+        widget.onTap();
+      },
+      onTapCancel: () => setState(() => _pressed = false),
+      child: AnimatedScale(
+        scale: _pressed ? 0.95 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.easeOutCubic,
+        child: Container(
+          width: double.infinity,
+          constraints: const BoxConstraints(minHeight: 52),
+          decoration: BoxDecoration(
+            color: widget.color,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: _pressed ? 0.12 : 0.22),
+                blurRadius: _pressed ? 3 : 7,
+                offset: Offset(0, _pressed ? 1.5 : 3.5),
+              ),
+            ],
+          ),
+          child: widget.child,
+        ),
+      ),
+    );
+  }
+}
+
+class _ProgressRingPainter extends CustomPainter {
+  _ProgressRingPainter({
+    required this.progress,
+    required this.ringColor,
+    required this.trackColor,
+    this.strokeWidth = 3.5,
+  });
+
+  final double progress;
+  final Color ringColor;
+  final Color trackColor;
+  final double strokeWidth;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = (size.width - strokeWidth) / 2;
+
+    final trackPaint = Paint()
+      ..color = trackColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth;
+    canvas.drawCircle(center, radius, trackPaint);
+
+    if (progress > 0) {
+      final ringPaint = Paint()
+        ..color = ringColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth
+        ..strokeCap = StrokeCap.round;
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: radius),
+        -math.pi / 2,
+        2 * math.pi * progress.clamp(0.0, 1.0),
+        false,
+        ringPaint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _ProgressRingPainter oldDelegate) =>
+      oldDelegate.progress != progress ||
+      oldDelegate.ringColor != ringColor ||
+      oldDelegate.trackColor != trackColor ||
+      oldDelegate.strokeWidth != strokeWidth;
 }
