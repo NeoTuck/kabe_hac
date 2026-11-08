@@ -4,8 +4,8 @@
   "textVersion": "U08.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Sa‘y Safâ ve Merve arasında tek yönlü geçişlerle sayılır.\nHazırlık: Başlangıç yönünü ve yürüyüş düzenini öğren.\nYapılacak işlem: İlk geçişe Safâ yönünden başlanacağını rehberinle teyit et.\nDikkat: Fiziksel koşullar ve özel hükümler için kişisel destek al.\nSonraki aşama: İlk gidiş ve dönüş sayımına geç.",
-  "scriptSha256": "b36911970b3c7a74e4d668983f605d9aff6661bd0b6ff8874a72b760f86dd9fb",
+  "script": "Safa tepesinde Kâbe'ye dönerek tekbir, tehlil ve sa'y niyeti.\nŞimdi Sa'y ibadeti için Safa tepesine çıkıyoruz. Kâbe'ye yönelip ellerimizi kaldırarak tekbir ve tehlil getiriyoruz: Allah'ım, senin rızan için Safa ile Merve arasında umre sa'yi yapmaya niyet ettim diyerek niyetimizi ediyoruz.",
+  "scriptSha256": "ca88ef5b89fd961e578e9241e30e6b799d5d7621db308e3e90ada8f5ab9d269e",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U08.1-TR-01.m4a",
@@ -14,7 +14,7 @@
   "title": "Safâ ve sa‘y başlangıcı",
   "guide": "Umre",
   "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559",
-  "model": "Supertone/supertonic-3",
+  "model": "google/gemini-tts",
   "modelRevision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
   "modelSha256": {
     "config.json": "4099082b107a9d4029849ac76b89eca65e03732660969c2babe5bf308c7357f2",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "M1",
-  "speakerType": "resmî hazır erkek ses stili",
+  "speakerId": "Fenrir",
+  "speakerType": "Google Gemini TTS Fenrir voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -126,7 +126,7 @@
     },
     "m4a": {
       "file": "m4a/A-U08.1-TR-01.m4a",
-      "sha256": "6b268165c229e111ecaf74385f7c2ea18b33fea22b5174cda747215a488b4ee1",
+      "sha256": "86aa2c59a3f72adf7cab4a3155de08609eb32a70da96cf736160b44aeacb0f3a",
       "sizeBytes": 332507,
       "checks": {
         "decoderFullPass": true,

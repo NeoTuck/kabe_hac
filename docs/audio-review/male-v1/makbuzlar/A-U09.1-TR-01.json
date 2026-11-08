@@ -4,8 +4,8 @@
   "textVersion": "U09.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Safâ’dan Merve’ye gidiş ile geri dönüş ayrı şavtlardır.\nHazırlık: Her yön değişimini ayrı bir geçiş olarak düşün.\nYapılacak işlem: Tamamlanan tek yönlü geçişleri manuel say.\nDikkat: Gidiş-dönüşü tek sayı yapma.\nSonraki aşama: Yedi geçişin tamamını izle.",
-  "scriptSha256": "e2fd60fe8d5e6b01a9c0658eaf6ed9b86ea1024ec039d0f380570015c684e1cc",
+  "script": "Yeşil ışıklar arasında erkeklerin canlı adımları (hervele) ve dualar.\nSafa'dan Merve'ye doğru dualarla yürüyoruz. İki yeşil ışık arasına geldiğimizde erkekler adımlarını sıklaştırarak canlı ve çalımlı yürürler; buna hervele denir. Yeşil ışıklar bitince normal adımlarla Merve tepesine varırız. Bu bir şavt olur.",
+  "scriptSha256": "8ade28077036705d12a1fc6d6487b6a05690d3d770fa3c30e2cba78b9083a2e2",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U09.1-TR-01.m4a",
@@ -14,7 +14,7 @@
   "title": "İlk gidiş/dönüş ve sayım",
   "guide": "Umre",
   "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559",
-  "model": "Supertone/supertonic-3",
+  "model": "google/gemini-tts",
   "modelRevision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
   "modelSha256": {
     "config.json": "4099082b107a9d4029849ac76b89eca65e03732660969c2babe5bf308c7357f2",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "M1",
-  "speakerType": "resmî hazır erkek ses stili",
+  "speakerId": "Fenrir",
+  "speakerType": "Google Gemini TTS Fenrir voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U09.1-TR-01.m4a",
-      "sha256": "7f130d8d48978351adf33308ee4c9973b6a210272524141c96c9f42db2f723e3",
+      "sha256": "c8fdbd08384aafeef7aa2998e6b6660747fb4bc5dcf8b00a378c78d7df070910",
       "sizeBytes": 280466,
       "checks": {
         "decoderFullPass": true,

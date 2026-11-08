@@ -4,8 +4,8 @@
   "textVersion": "U01.2-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Yolculuk ve ibadet hazırlığını önceden gözden geçir.\nHazırlık: Sağlık, seyahat belgesi ve kafile bilgisini yetkili kaynaklardan doğrula.\nYapılacak işlem: Rehberin içerik ve çevrimdışı paket durumunu kontrol et.\nDikkat: Eksik veya eski saha bilgisini kesin bilgi sayma.\nSonraki aşama: Mikat ve ihram konusuna geç.",
-  "scriptSha256": "6af9fdf753c513cf1c9abb3bc950740e25bcfdead807119394228975c7f2b18c",
+  "script": "İhram kıyafeti, kokusuz temizlik ürünleri ve ibadet hazırlığı.\nUmre hazırlığında yanımıza dikişsiz iki parça ihram örtüsü, ihram kemeri, tavafta ayağımızı vurmayacak rahat terlik veya sandalet alıyoruz. İhramlıyken koku yasak olduğu için kokusuz sabun veya şampuan tercih edilmelidir. Manevi hazırlık olarak da kalbimizi dünyalık meşguliyetlerden arındırıyoruz.",
+  "scriptSha256": "cee0d22cc8f09766bc598cfa0fb48a7dc8a33ae832727a6a5a2e0216bfa6c967",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U01.2-TR-01.m4a",
@@ -14,7 +14,7 @@
   "title": "Hazırlık",
   "guide": "Umre",
   "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559",
-  "model": "Supertone/supertonic-3",
+  "model": "google/gemini-tts",
   "modelRevision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
   "modelSha256": {
     "config.json": "4099082b107a9d4029849ac76b89eca65e03732660969c2babe5bf308c7357f2",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "M1",
-  "speakerType": "resmî hazır erkek ses stili",
+  "speakerId": "Fenrir",
+  "speakerType": "Google Gemini TTS Fenrir voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U01.2-TR-01.m4a",
-      "sha256": "266d043a9d370ed73c374429bd10b5e60868e1dba890b2e43d0ef7fc59049189",
+      "sha256": "975faa5558d2bc309c59dcf8efa870b6aac5473e2a0f31714cc2a33622b65eaf",
       "sizeBytes": 346113,
       "checks": {
         "decoderFullPass": true,

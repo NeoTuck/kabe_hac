@@ -69,8 +69,8 @@ def collect(source, audio_dir=None):
                 receipt['scriptSha256'] != script_hash or
                 receipt['sourceCommit'] !=
                 '824e540a20ef3024445437d4fe43f23c8550a559' or
-                receipt['model'] != 'Supertone/supertonic-3' or
-                receipt['speakerId'] != 'M1' or
+                receipt['model'] not in ('Supertone/supertonic-3', 'google/gemini-2.5-flash-tts', 'google/gemini-tts') or
+                receipt['speakerId'] not in ('M1', 'Fenrir') or
                 receipt['humanListeningReview'] != 'bekliyor' or
                 receipt['files']['m4a']['sha256'] != row['m4a_sha256'] or
                 receipt.get('formalExpertApprovalCreated') is True or
@@ -141,7 +141,7 @@ def check():
         if len(matches) != 1 or matches[0].get('asset') != (
                 f'assets/audio/review-male-v1/{audio_id}.m4a') or (
                 matches[0].get('assetSha256') != sha256 or
-                matches[0].get('voiceStyle') != 'M1' or
+                matches[0].get('voiceStyle') not in ('M1', 'Fenrir') or
                 matches[0].get('status') != 'draft' or
                 matches[0].get('reviewOnly') is not True):
             raise ValueError(f'Catalog binding mismatch: {audio_id}')

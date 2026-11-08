@@ -4,8 +4,8 @@
   "textVersion": "U10.2-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Özet kişisel takibi gözden geçirmek içindir.\nHazırlık: İşaretlerini ve varsa eksik başlıkları kontrol et.\nYapılacak işlem: Gerektiğinde önceki adıma dön veya rehbere başvur.\nDikkat: Uygulama tamamlandı işareti ibadetin geçerlilik belgesi değildir.\nSonraki aşama: Yolculuk kaydını koru.",
-  "scriptSha256": "44c576c9f34fd66448f034d7127bee36af174e61b5bf18803aea06986cc4e68d",
+  "script": "Mebrur bir umre temennisi, ibadetin kabulü ve şükür niyazı.\nElhamdülillâh, Umre ibadetinizi hakkıyla ve sünnete uygun olarak tamamladınız. Cenâb-ı Hak niyetinizi, tavafınızı, sa'yinizi ve dualarınızı Mebrur bir Umre olarak kabul eylesin.",
+  "scriptSha256": "73ff6e770ca2c24ae8b61581754f40f7d9c7fd2530a112532dfe2f099d72aed5",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U10.2-TR-01.m4a",
@@ -14,7 +14,7 @@
   "title": "Öğrenme/yolculuk özeti",
   "guide": "Umre",
   "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559",
-  "model": "Supertone/supertonic-3",
+  "model": "google/gemini-tts",
   "modelRevision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
   "modelSha256": {
     "config.json": "4099082b107a9d4029849ac76b89eca65e03732660969c2babe5bf308c7357f2",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "M1",
-  "speakerType": "resmî hazır erkek ses stili",
+  "speakerId": "Fenrir",
+  "speakerType": "Google Gemini TTS Fenrir voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U10.2-TR-01.m4a",
-      "sha256": "3ffd98a269dec7eca65afb3ebf10d8ec7b89c6c2a74dfbd7da83927151c00f17",
+      "sha256": "aaf0c7435cc1748d436bf4dfd86ff1d71769fa8d2410bda09f304159af711619",
       "sizeBytes": 324498,
       "checks": {
         "decoderFullPass": true,

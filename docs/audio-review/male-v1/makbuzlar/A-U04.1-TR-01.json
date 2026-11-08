@@ -4,8 +4,8 @@
   "textVersion": "U04.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "İlk görüş, ibadet akışına hazırlık için bir duraktır.\nHazırlık: Bulunduğun yerde güvenli biçimde durup yönünü belirle.\nYapılacak işlem: Kişisel dua etmek istersen güvenilir metni rehberinle seç.\nDikkat: Bu kart belirli bir duayı zorunlu ilan etmez.\nSonraki aşama: Tavafın başlangıç noktasını öğren.",
-  "scriptSha256": "f896dc6aec1fabdc2366d9d5f53bb5e977925a4c7834fd69dc701f6e26f14d9b",
+  "script": "Beytullah'ı ilk görünce tekbir, tehlil ve duaların kabulü anı.\nVe işte Beytullah... Kâbe-i Muazzama'yı ilk gördüğümüz bu an, duaların geri çevrilmediği en mübarek andır. Tekbir, tehlil ve salavat getirerek duruyoruz. Bu kutlu anda kalbimizden geçen en samimi dünya ve ahiret dualarımızı Rabbimize arz ediyoruz.",
+  "scriptSha256": "7964f81cc738bb2a751a27c9069fd6743c332b6d61cc29607486d13ef49d49e2",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U04.1-TR-01.m4a",
@@ -14,7 +14,7 @@
   "title": "Kâbe'yi ilk görüş bağlamı",
   "guide": "Umre",
   "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559",
-  "model": "Supertone/supertonic-3",
+  "model": "google/gemini-tts",
   "modelRevision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
   "modelSha256": {
     "config.json": "4099082b107a9d4029849ac76b89eca65e03732660969c2babe5bf308c7357f2",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "M1",
-  "speakerType": "resmî hazır erkek ses stili",
+  "speakerId": "Fenrir",
+  "speakerType": "Google Gemini TTS Fenrir voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U04.1-TR-01.m4a",
-      "sha256": "3ecf16b68953d7a7b27503ecc5a4081e43e7c9ab8c31bcb9f305bd2a1bcb3f11",
+      "sha256": "f003857ad52ad7c6a50cbe47544b36d4bfc957506fe77aa2f6aeef143080195a",
       "sizeBytes": 330573,
       "checks": {
         "decoderFullPass": true,

@@ -4,8 +4,8 @@
   "textVersion": "U02.2-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Niyet ve telbiye hakkında mezhepler arası hüküm farkları vardır.\nHazırlık: İhram ve mikat bilgisini yetkili rehberinle teyit et.\nYapılacak işlem: Niyet ve telbiyenin kendi durumundaki uygulanışını öğren.\nDikkat: Buradaki taslak, Arapça telaffuz veya onaylı dua sunmaz.\nSonraki aşama: İhramla ilgili kısıtlamaları gözden geçir.",
-  "scriptSha256": "7cc4510c52669fadd5b9b707a4f964acdb86bd0ebc08ce3418a0fd91c8461bb0",
+  "script": "İki rekat ihram namazı, kalpten umre niyeti ve telbiyeye başlama.\nİhrama büründükten sonra kerahet vakti değilse iki rekat ihram namazı kılarız. Ardından kalben niyet ederiz: Allah'ım, senin rızan için Umre yapmaya niyet ettim, onu bana kolaylaştır ve benden kabul eyle. Niyetin hemen ardından telbiye getirmeye başlarız.",
+  "scriptSha256": "7e20917dbde3b334fc1f1f80f721b866382d233a8233b3a4effea238db7d2d3f",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U02.2-TR-01.m4a",
@@ -14,7 +14,7 @@
   "title": "Niyet ve telbiye",
   "guide": "Umre",
   "sourceCommit": "824e540a20ef3024445437d4fe43f23c8550a559",
-  "model": "Supertone/supertonic-3",
+  "model": "google/gemini-tts",
   "modelRevision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
   "modelSha256": {
     "config.json": "4099082b107a9d4029849ac76b89eca65e03732660969c2babe5bf308c7357f2",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "M1",
-  "speakerType": "resmî hazır erkek ses stili",
+  "speakerId": "Fenrir",
+  "speakerType": "Google Gemini TTS Fenrir voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -126,7 +126,7 @@
     },
     "m4a": {
       "file": "m4a/A-U02.2-TR-01.m4a",
-      "sha256": "99935ff02b356a79110d3a61a12185909db6bfbb87e06b2e25c262badf3d5ca8",
+      "sha256": "4d7b8613c3017adb3c8005fa6298ebba62856679ed86b46729e994d68e2a958b",
       "sizeBytes": 379195,
       "checks": {
         "decoderFullPass": true,
