@@ -4,8 +4,8 @@
   "textVersion": "U01.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Kutlu Umre seferine niyet ve samimi bir tevbe ile başlıyoruz.\nDeğerli kardeşim, Allah'ın evine, Kutlu Beldeye yapacağın bu mübarek Umre seferi şimdiden mübarek olsun. Bu yolculuk sadece bedenen Mekke'ye gitmek değil; kalben günahlardan arınma ve Rahman'ın huzuruna çıkma yolculuğudur. Yola çıkmadan önce samimi bir tevbe edelim ve tüm sevdiklerimizle helalleşelim.",
-  "scriptSha256": "4e33180cb16e5e90851ff6b7e3d029f9b45d6ea4c2ed077e4d8b9cb8f211fd3b",
+  "script": "Değerli kardeşim... Allah'ın evine, bu kutlu beldeye yapacağın mübarek Umre yolculuğu şimdiden hayırlı olsun. Bu kutlu sefer, sadece bedenen Mekke'ye gitmek değil... Kalben günahlardan arınma, ve Rahman'ın huzuruna çıkma vaktidir. Yola çıkmadan önce samimi bir tevbe edelim... Ve bütün sevdiklerimizle helalleşelim.",
+  "scriptSha256": "041dada90ec99eb779d37b3783b92f590e2fcbf4e3f20d7a536c95b282a4e23b",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U01.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U01.1-TR-01.m4a",
-      "sha256": "4d94119bef8499aa080b8ad5a01b20f38c4ddc862b353f7821e24812aa800ca4",
+      "sha256": "28ab4647d597953a0fed2e11c683ca4fcef3c888f82e888a298097712ca6fded",
       "sizeBytes": 299516,
       "checks": {
         "decoderFullPass": true,

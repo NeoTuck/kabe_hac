@@ -56,13 +56,16 @@ def collect(source, audio_dir=None):
                 audio['textId'] != target['id'] or
                 audio['textVersion'] != target['textVersion']):
             raise ValueError(f'Text identity/version mismatch: {audio_id}')
-        script = (target['summary'] + '\n' + target['details']
-                  if 'summary' in target else target['meaningTr'])
+        receipt_path = source / 'makbuzlar' / f'{audio_id}.json'
+        receipt = read_json(receipt_path)
+        if receipt.get('model') == 'google/gemini-tts' and 'details' in target:
+            script = target['details']
+        else:
+            script = (target['summary'] + '\n' + target['details']
+                      if 'summary' in target else target['meaningTr'])
         script_hash = digest(script.encode('utf-8'))
         if script_hash != row['metin_sha256']:
             raise ValueError(f'Script mismatch: {audio_id}')
-        receipt_path = source / 'makbuzlar' / f'{audio_id}.json'
-        receipt = read_json(receipt_path)
         if (receipt['audioId'] != audio_id or
                 receipt['textId'] != target['id'] or
                 receipt['textVersion'] != target['textVersion'] or
@@ -70,7 +73,7 @@ def collect(source, audio_dir=None):
                 receipt['sourceCommit'] !=
                 '824e540a20ef3024445437d4fe43f23c8550a559' or
                 receipt['model'] not in ('Supertone/supertonic-3', 'google/gemini-2.5-flash-tts', 'google/gemini-tts') or
-                receipt['speakerId'] not in ('M1', 'Fenrir') or
+                receipt['speakerId'] not in ('M1', 'Fenrir', 'Charon') or
                 receipt['humanListeningReview'] != 'bekliyor' or
                 receipt['files']['m4a']['sha256'] != row['m4a_sha256'] or
                 receipt.get('formalExpertApprovalCreated') is True or
@@ -141,7 +144,7 @@ def check():
         if len(matches) != 1 or matches[0].get('asset') != (
                 f'assets/audio/review-male-v1/{audio_id}.m4a') or (
                 matches[0].get('assetSha256') != sha256 or
-                matches[0].get('voiceStyle') not in ('M1', 'Fenrir') or
+                matches[0].get('voiceStyle') not in ('M1', 'Fenrir', 'Charon') or
                 matches[0].get('status') != 'draft' or
                 matches[0].get('reviewOnly') is not True):
             raise ValueError(f'Catalog binding mismatch: {audio_id}')

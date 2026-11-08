@@ -4,8 +4,8 @@
   "textVersion": "U03.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Harem-i Şerif'e hürmetle, sağ ayakla ve dualarla giriş adabı.\nMekke-i Mükerreme'ye ulaştık. Otelimize yerleşip dinlendikten sonra abdestli ve huşû içinde Mescid-i Haram'a yöneliyoruz. Harem-i Şerif'e mümkünse Babüsselâm kapısından, sağ ayağımızla ve Bismillâh, salât ve selâm Resûlullah'a olsun, Allah'ım bana rahmet kapılarını aç duasıyla giriyoruz.",
-  "scriptSha256": "fc6fb93824a1b7259c6bded2c6cb8eb49e1e774acf4bc449c17c9c3c78a01978",
+  "script": "Mekke-i Mükerreme'ye ulaştık... Abdestli ve büyük bir huşû içinde Mescid-i Haram'a yöneliyoruz. Harem-i Şerif'e girerken, sağ ayağımızla adım atıp şu duayı okuyoruz: 'Bismillâh... Salât ve selâm Resûlullah'a olsun. Allah'ım, bana rahmet kapılarını aç.'",
+  "scriptSha256": "1f5b18bc950520c2dbc7b9d16cdc5cd3c5b87d5b3d98a7b323288f69a10d0a77",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U03.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U03.1-TR-01.m4a",
-      "sha256": "2822385593d5a37c436635880d3894819889c8127f7535179bdcef5104ea25e7",
+      "sha256": "6d3b531455d4a9459b93fab61932d76da20fa08ab26a45848b7b339e7520f6e1",
       "sizeBytes": 340263,
       "checks": {
         "decoderFullPass": true,

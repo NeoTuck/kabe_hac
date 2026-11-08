@@ -4,8 +4,8 @@
   "textVersion": "U06.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Hacerülesved'i selamlama (istilâm) ve Hatîm dışından tavafa başlama.\nHacerülesved hizasında yüzümüzü Kâbe'ye dönüp ellerimizi omuz hizasına kaldırarak Bismillâhi Allahu Ekber diyerek Hacerülesved'i selamlarız. Ardından Kâbe'yi solumuza alarak, Hatîm taş duvarının dışından tavafın ilk şavtına başlıyoruz.",
-  "scriptSha256": "9f6f962b6c4a6277612c9e413ef40bd4bb56b164277d7f371e545674ab529df6",
+  "script": "Hacerülesved hizasında yüzümüzü Kâbe'ye dönüp, ellerimizi omuz hizasına kaldırarak selamlama yaparız: 'Bismillâhi Allahu Ekber.' Ardından Kâbe'yi solumuza alarak... Hatîm taş duvarının dışından tavafımızın ilk şavtına başlıyoruz.",
+  "scriptSha256": "d073bd2779cd7ae7d1792e185d84c866218e513cd864837073e2a60c6f217fb2",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U06.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U06.1-TR-01.m4a",
-      "sha256": "6f7df4acb7bca126adc211419e2624e9fdfe42e0edff50a3e5d18b487f4d61e1",
+      "sha256": "35893dd50006fd036e4cce1505e2db228de5b2ef9994f4b99104682b83b63635",
       "sizeBytes": 305201,
       "checks": {
         "decoderFullPass": true,

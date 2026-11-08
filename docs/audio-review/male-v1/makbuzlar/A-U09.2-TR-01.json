@@ -4,8 +4,8 @@
   "textVersion": "U09.2-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Safa ile Merve arasında 7 turun tamamlanması ve şükür duası.\nMerve'den Safa'ya dönüş ikinci şavttır. Bu şekilde 4 gidiş ve 3 dönüş yapılarak 7. şavt Merve'de biter. Merve tepesinde ellerimizi semaya açıp şükür duamızı yaparız.",
-  "scriptSha256": "88daffd403ae4c506ec259b7f1b8e01d1d4f50c8ea8227f93aea4ca879a547fc",
+  "script": "Merve'den Safa'ya dönüş ikinci şavttır... Bu şekilde dört gidiş ve üç dönüş yapılarak, yedinci şavt Merve tepesinde biter. Merve'de ellerimizi açıp, Sa'yımızın kabulü için şükür duamızı yaparız.",
+  "scriptSha256": "ec4e14ac5ea8e56b661965cc92534c384a3cb94492a994e57a216dd7e20a1748",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U09.2-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U09.2-TR-01.m4a",
-      "sha256": "2b2507618add2cc71c1321cc6e2097777a54115f77670d845319631668d35047",
+      "sha256": "9ca5de188d361b5b31211cde833b6514bc520574f203155d7605922abb9413a4",
       "sizeBytes": 282746,
       "checks": {
         "decoderFullPass": true,

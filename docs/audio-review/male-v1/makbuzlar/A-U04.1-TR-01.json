@@ -4,8 +4,8 @@
   "textVersion": "U04.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Beytullah'ı ilk görünce tekbir, tehlil ve duaların kabulü anı.\nVe işte Beytullah... Kâbe-i Muazzama'yı ilk gördüğümüz bu an, duaların geri çevrilmediği en mübarek andır. Tekbir, tehlil ve salavat getirerek duruyoruz. Bu kutlu anda kalbimizden geçen en samimi dünya ve ahiret dualarımızı Rabbimize arz ediyoruz.",
-  "scriptSha256": "7964f81cc738bb2a751a27c9069fd6743c332b6d61cc29607486d13ef49d49e2",
+  "script": "Ve işte Beytullah... Kâbe-i Muazzama tam karşımızda. Bu an, kulun Rabbine en yakın olduğu... Ve yapılan duaların geri çevrilmediği en mübarek andır. Tekbir ve salavat getirerek duralım... Ve kalbimizden geçen en samimi duaları Rabbimize arz edelim.",
+  "scriptSha256": "d33e0bf2966f67ce08a3406d109484057b1e16dce8d339bf8ae6d2d1b346df4e",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U04.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U04.1-TR-01.m4a",
-      "sha256": "f003857ad52ad7c6a50cbe47544b36d4bfc957506fe77aa2f6aeef143080195a",
+      "sha256": "c51a896028f20f99c7b0f6757350de858d8ee686297ce55c6284016f614f3790",
       "sizeBytes": 330573,
       "checks": {
         "decoderFullPass": true,

@@ -4,8 +4,8 @@
   "textVersion": "U02.3-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Koku, tıraş, tartışma yasakları ve ihramın getirdiği mahşer şuuru.\nNiyet ve telbiye ile artık ihramlısınız. İhramlıyken saç, sakal, tırnak kesilmez; vücuda koku sürülmez. En mühimi ise kimseyle tartışmamak, gönül kırmamak ve hiçbir canlıyı incitmemektir. İhram bize mahşer günündeki kefenimizi ve eşitliği hatırlatır.",
-  "scriptSha256": "20f72d826dcd6ef8f7400b2c32edb20770aa970006d628f8e13cec18ffa73b5c",
+  "script": "Niyet ve telbiye ile birlikte, artık ihramlısınız... İhramlıyken tırnak kesilmez, saça ve sakala dokunulmaz, vücuda koku sürülmez. Ama en büyük yasak... Kimseyle tartışmamak, kalp kırmamak, ve hiçbir canlıyı incitmemektir. Unutmayalım ki ihram... Bize mahşer günündeki kefenimizi hatırlatır.",
+  "scriptSha256": "2a4c42655c36c4e56d2acd2099ffe59f78e5285bcf75bc1f159673e2fadf31fb",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U02.3-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -126,7 +126,7 @@
     },
     "m4a": {
       "file": "m4a/A-U02.3-TR-01.m4a",
-      "sha256": "630be17e678f80dd50b5eff5e8fc92008adeb0d2378928a5766656ad2d1f4fc7",
+      "sha256": "6e3c61a0c7f4e89b4eb14c24814dc47179f3492e4bbedfef6a713063ce8f553f",
       "sizeBytes": 374691,
       "checks": {
         "decoderFullPass": true,

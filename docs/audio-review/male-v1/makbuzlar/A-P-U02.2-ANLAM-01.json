@@ -4,8 +4,8 @@
   "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
   "kind": "turkishMeaning",
   "language": "tr-TR",
-  "script": "Lebbeyk Allahümme lebbeyk. Lebbeyke lâ şerîke leke lebbeyk. İnnel-hamde ven-ni‘mete leke vel-mülk, lâ şerîke lek. Yani: Buyur Allah'ım buyur! Davetine icabet ettim. Senin hiçbir ortağın yoktur. Hamd ve nimet sana aittir, mülk de senindir. Senin hiçbir ortağın yoktur.",
-  "scriptSha256": "3b58db72bd49939da0306a120fefa93b84fcd7a80a79ad8d76c2e8be5d5125d0",
+  "script": "Telbiye, kulun Rabbine teslimiyet feryadıdır... 'Lebbeyk Allahümme lebbeyk... Lebbeyke lâ şerîke leke lebbeyk... İnnel-hamde ven-ni‘mete leke vel-mülk... Lâ şerîke lek.' Yani: 'Buyur Allah'ım buyur... Davetine icabet ettim. Senin hiçbir ortağın yoktur. Hamd ve nimet sana aittir... Mülk de senindir. Senin hiçbir ortağın yoktur.'",
+  "scriptSha256": "731514b2bd16c105e7706742db86866176cb20629ded711843e28beea9b1b852",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-P-U02.2-ANLAM-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -124,7 +124,7 @@
     },
     "m4a": {
       "file": "m4a/A-P-U02.2-ANLAM-01.m4a",
-      "sha256": "d2c9b6e2162443df62687bbd1f318cc0e9c678a54560f51ca18b8874fe25b1fc",
+      "sha256": "905c3516d28b97a9aadba3a2b39070d0d0b2e493af52f91485a893ccad49e745",
       "sizeBytes": 111274,
       "checks": {
         "decoderFullPass": true,

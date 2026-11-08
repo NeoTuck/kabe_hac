@@ -4,8 +4,8 @@
   "textVersion": "U02.2-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "İki rekat ihram namazı, kalpten umre niyeti ve telbiyeye başlama.\nİhrama büründükten sonra kerahet vakti değilse iki rekat ihram namazı kılarız. Ardından kalben niyet ederiz: Allah'ım, senin rızan için Umre yapmaya niyet ettim, onu bana kolaylaştır ve benden kabul eyle. Niyetin hemen ardından telbiye getirmeye başlarız.",
-  "scriptSha256": "7e20917dbde3b334fc1f1f80f721b866382d233a8233b3a4effea238db7d2d3f",
+  "script": "İhrama büründükten sonra... Eğer kerahet vakti değilse, iki rekat ihram namazı kılarız. Namazın ardından kalbimizi Rabbimize açıp niyet ederiz: 'Allah'ım... Senin rızan için Umre yapmaya niyet ettim. Onu bana kolaylaştır, ve benden kabul eyle.' Niyetimizin hemen peşinden... Aşkla ve huşû ile telbiyemizi getirmeye başlarız.",
+  "scriptSha256": "ca87bd0559949125e738b239f1bd07d72c95c2bc3ef772e9c365b0be7609e02c",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U02.2-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -126,7 +126,7 @@
     },
     "m4a": {
       "file": "m4a/A-U02.2-TR-01.m4a",
-      "sha256": "4d7b8613c3017adb3c8005fa6298ebba62856679ed86b46729e994d68e2a958b",
+      "sha256": "b13bce691c4e69b4123bbdeb983c7cd7f363d2817f0656af8be749d6769a8b58",
       "sizeBytes": 379195,
       "checks": {
         "decoderFullPass": true,

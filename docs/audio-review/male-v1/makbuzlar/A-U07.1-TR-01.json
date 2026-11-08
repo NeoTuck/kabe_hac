@@ -4,8 +4,8 @@
   "textVersion": "U07.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Makam-ı İbrahim arkasında kılınan iki rekat vacip tavaf namazı.\nTavafın hemen ardından Makam-ı İbrahim arkasında, kalabalıksa Harem'in uygun bir yerinde iki rekat tavaf namazı kılmak vaciptir. Birinci rekatta Kâfirûn, ikinci rekatta İhlâs surelerini okumak sünnettir.",
-  "scriptSha256": "c4fc47af30930e6933d26f546a52e1ba483d5e598d0140442870a05541142f66",
+  "script": "Tavafın hemen ardından... Makam-ı İbrahim arkasında, eğer kalabalıksa Harem'in uygun bir yerinde iki rekat tavaf namazı kılarız. Birinci rekatta Kâfirûn... İkinci rekatta İhlâs surelerini okumak sünnettir.",
+  "scriptSha256": "e1201c4b1cb6383154361eb384d88c3fefab34c56ee0b1872296cf488882765c",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U07.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U07.1-TR-01.m4a",
-      "sha256": "ff66712553884a88817bf581abb3cefe6b3202d4b6bd92e4b0c3da3590bcb56e",
+      "sha256": "15da08873e7d2f4e9df2bb9d0290740f13a5b309d491873be343f144377da38d",
       "sizeBytes": 323040,
       "checks": {
         "decoderFullPass": true,

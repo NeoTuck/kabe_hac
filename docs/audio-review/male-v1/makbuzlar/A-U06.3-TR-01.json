@@ -4,8 +4,8 @@
   "textVersion": "U06.3-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Son şavtın istilâmı ve açık sağ omzun kapatılması.\nYedinci şavt bittiğinde Hacerülesved hizasında son kez istilâm yaparız. Erkekler açtıkları sağ omuzlarını ihram örtüsüyle kapatırlar. Böylece tavaf tamamlanmış olur.",
-  "scriptSha256": "9f6bd4c75ca12a5d6c2a66bfb87623a867e83482d7dca83a0ffa8490c4baea45",
+  "script": "Yedinci şavtımız bittiğinde... Hacerülesved hizasında son kez istilâm yaparız. Erkekler açtıkları sağ omuzlarını ihram örtüsüyle kapatırlar... Ve böylece tavaf ibadetimiz tamamlanmış olur.",
+  "scriptSha256": "71b4a4cc80acd066898975da770b0b872b119352aff3065c55dbb0bdf54330ff",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U06.3-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U06.3-TR-01.m4a",
-      "sha256": "679d5b3c941e161c198e5ef99772e984880ee52c97dfb9d069d130ec703f2a0d",
+      "sha256": "5a688855fd3aeba6e73acf75c6d985d874187ab5f2b3dbd9209456c78c8bd8a5",
       "sizeBytes": 311619,
       "checks": {
         "decoderFullPass": true,

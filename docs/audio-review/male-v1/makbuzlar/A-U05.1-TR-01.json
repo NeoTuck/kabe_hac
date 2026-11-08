@@ -4,8 +4,8 @@
   "textVersion": "U05.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Erkeklerin sağ omzunu açması (iztıba) ve başlangıç çizgisine yöneliş.\nTavafa başlamadan önce erkekler iztıba yapar; yani ihramın üst parçasını sağ koltuk altından geçirip sağ omuzu açıkta bırakır, sol omuz üzerine atar. Ardından Hacerülesved hizasındaki yeşil ışıklı tavaf başlangıç çizgisine yöneliyoruz.",
-  "scriptSha256": "a2cd42bfd2a76a7925944599000bf86eae8a0cfcdc0cca189159e6733e58464f",
+  "script": "Tavafa başlamadan önce erkekler iztıba yapar... Yani ihramın üst parçasını sağ koltuk altından geçirip, sağ omzu açıkta bırakır ve sol omuz üzerine atar. Şimdi... Hacerülesved hizasındaki yeşil ışıklı başlangıç çizgisine doğru ilerliyoruz.",
+  "scriptSha256": "40bc1fefa5d85c878ea609b0be59558fec446d413a368da888ba322dfea50848",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U05.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U05.1-TR-01.m4a",
-      "sha256": "a6b52bb193259fafb71279a8561c575402378d552df609680f92ce6e3407765d",
+      "sha256": "25e577d71a2567bd1511448d4fb9a9cf675f89c1a272c451e3aa2737bfcec709",
       "sizeBytes": 341161,
       "checks": {
         "decoderFullPass": true,

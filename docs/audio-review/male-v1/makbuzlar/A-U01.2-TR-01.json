@@ -4,8 +4,8 @@
   "textVersion": "U01.2-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "İhram kıyafeti, kokusuz temizlik ürünleri ve ibadet hazırlığı.\nUmre hazırlığında yanımıza dikişsiz iki parça ihram örtüsü, ihram kemeri, tavafta ayağımızı vurmayacak rahat terlik veya sandalet alıyoruz. İhramlıyken koku yasak olduğu için kokusuz sabun veya şampuan tercih edilmelidir. Manevi hazırlık olarak da kalbimizi dünyalık meşguliyetlerden arındırıyoruz.",
-  "scriptSha256": "cee0d22cc8f09766bc598cfa0fb48a7dc8a33ae832727a6a5a2e0216bfa6c967",
+  "script": "Umre yolculuğuna çıkarken yanımıza... Dikişsiz iki parça ihram örtüsü, emniyetli bir ihram kemeri, ve tavafta ayağımızı yormayacak rahat bir terlik alıyoruz. İhramlıyken koku kullanmak yasak olduğu için... Mutlaka kokusuz sabun ve şampuan tercih etmeliyiz. En önemlisi de... Kalbimizi dünyalık telaşlardan arındırıp, bu kutlu ibadete hazırlamalıyız.",
+  "scriptSha256": "8707547cb31414259e3acfc50aef93b63c1257121e33200293a9f911e7b49692",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U01.2-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U01.2-TR-01.m4a",
-      "sha256": "975faa5558d2bc309c59dcf8efa870b6aac5473e2a0f31714cc2a33622b65eaf",
+      "sha256": "062a28cbad471264c8c6aa9c01cbc957595a4586dc485d1500af7474e99ed89e",
       "sizeBytes": 346113,
       "checks": {
         "decoderFullPass": true,

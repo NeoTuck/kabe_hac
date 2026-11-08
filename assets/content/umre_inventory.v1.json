@@ -10,10 +10,10 @@
       "textId": "U02.2",
       "textVersion": "U02.2-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U02.2-TR-01.m4a",
-      "assetSha256": "4d7b8613c3017adb3c8005fa6298ebba62856679ed86b46729e994d68e2a958b",
+      "assetSha256": "b13bce691c4e69b4123bbdeb983c7cd7f363d2817f0656af8be749d6769a8b58",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-P-U02.2-AR-01",
@@ -29,10 +29,10 @@
       "textId": "P-U02.2-01",
       "textVersion": "P-U02.2-01-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-P-U02.2-ANLAM-01.m4a",
-      "assetSha256": "d2c9b6e2162443df62687bbd1f318cc0e9c678a54560f51ca18b8874fe25b1fc",
+      "assetSha256": "905c3516d28b97a9aadba3a2b39070d0d0b2e493af52f91485a893ccad49e745",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U01.1-TR-01",
@@ -41,10 +41,10 @@
       "textId": "U01.1",
       "textVersion": "U01.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U01.1-TR-01.m4a",
-      "assetSha256": "4d94119bef8499aa080b8ad5a01b20f38c4ddc862b353f7821e24812aa800ca4",
+      "assetSha256": "28ab4647d597953a0fed2e11c683ca4fcef3c888f82e888a298097712ca6fded",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U01.2-TR-01",
@@ -53,10 +53,10 @@
       "textId": "U01.2",
       "textVersion": "U01.2-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U01.2-TR-01.m4a",
-      "assetSha256": "975faa5558d2bc309c59dcf8efa870b6aac5473e2a0f31714cc2a33622b65eaf",
+      "assetSha256": "062a28cbad471264c8c6aa9c01cbc957595a4586dc485d1500af7474e99ed89e",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U02.1-TR-01",
@@ -65,10 +65,10 @@
       "textId": "U02.1",
       "textVersion": "U02.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U02.1-TR-01.m4a",
-      "assetSha256": "dbddb017ff6ad9d233e134bf15778503fb6f72d65e1c08d5f14e5b90b5162e8a",
+      "assetSha256": "b42e0bd12ca8f652e196df6447f490cf2992be22013be6bb1f6cf68189d4cf06",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U02.3-TR-01",
@@ -77,10 +77,10 @@
       "textId": "U02.3",
       "textVersion": "U02.3-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U02.3-TR-01.m4a",
-      "assetSha256": "630be17e678f80dd50b5eff5e8fc92008adeb0d2378928a5766656ad2d1f4fc7",
+      "assetSha256": "6e3c61a0c7f4e89b4eb14c24814dc47179f3492e4bbedfef6a713063ce8f553f",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U03.1-TR-01",
@@ -89,10 +89,10 @@
       "textId": "U03.1",
       "textVersion": "U03.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U03.1-TR-01.m4a",
-      "assetSha256": "2822385593d5a37c436635880d3894819889c8127f7535179bdcef5104ea25e7",
+      "assetSha256": "6d3b531455d4a9459b93fab61932d76da20fa08ab26a45848b7b339e7520f6e1",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U04.1-TR-01",
@@ -101,10 +101,10 @@
       "textId": "U04.1",
       "textVersion": "U04.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U04.1-TR-01.m4a",
-      "assetSha256": "f003857ad52ad7c6a50cbe47544b36d4bfc957506fe77aa2f6aeef143080195a",
+      "assetSha256": "c51a896028f20f99c7b0f6757350de858d8ee686297ce55c6284016f614f3790",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U05.1-TR-01",
@@ -113,10 +113,10 @@
       "textId": "U05.1",
       "textVersion": "U05.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U05.1-TR-01.m4a",
-      "assetSha256": "a6b52bb193259fafb71279a8561c575402378d552df609680f92ce6e3407765d",
+      "assetSha256": "25e577d71a2567bd1511448d4fb9a9cf675f89c1a272c451e3aa2737bfcec709",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U06.1-TR-01",
@@ -125,10 +125,10 @@
       "textId": "U06.1",
       "textVersion": "U06.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U06.1-TR-01.m4a",
-      "assetSha256": "6f7df4acb7bca126adc211419e2624e9fdfe42e0edff50a3e5d18b487f4d61e1",
+      "assetSha256": "35893dd50006fd036e4cce1505e2db228de5b2ef9994f4b99104682b83b63635",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U06.2-TR-01",
@@ -137,10 +137,10 @@
       "textId": "U06.2",
       "textVersion": "U06.2-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U06.2-TR-01.m4a",
-      "assetSha256": "95582d729cdc894aa5656570497963f6c3914853bfc5dc6207f1540a54f57506",
+      "assetSha256": "1c7bb238a4058fc1181a769040688a56e823e26d0157f92d39a1d5a5b1d82a42",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U06.3-TR-01",
@@ -149,10 +149,10 @@
       "textId": "U06.3",
       "textVersion": "U06.3-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U06.3-TR-01.m4a",
-      "assetSha256": "679d5b3c941e161c198e5ef99772e984880ee52c97dfb9d069d130ec703f2a0d",
+      "assetSha256": "5a688855fd3aeba6e73acf75c6d985d874187ab5f2b3dbd9209456c78c8bd8a5",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U07.1-TR-01",
@@ -161,10 +161,10 @@
       "textId": "U07.1",
       "textVersion": "U07.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U07.1-TR-01.m4a",
-      "assetSha256": "ff66712553884a88817bf581abb3cefe6b3202d4b6bd92e4b0c3da3590bcb56e",
+      "assetSha256": "15da08873e7d2f4e9df2bb9d0290740f13a5b309d491873be343f144377da38d",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U07.2-TR-01",
@@ -173,10 +173,10 @@
       "textId": "U07.2",
       "textVersion": "U07.2-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U07.2-TR-01.m4a",
-      "assetSha256": "c55749f25f455e4aba710ed813074403a76fdf68835e501e6906707219049149",
+      "assetSha256": "859aecde9c1d45d32333820d992093cfbb5d3b54b9e9e32e72dee6d3c1481ee5",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U08.1-TR-01",
@@ -185,10 +185,10 @@
       "textId": "U08.1",
       "textVersion": "U08.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U08.1-TR-01.m4a",
-      "assetSha256": "86aa2c59a3f72adf7cab4a3155de08609eb32a70da96cf736160b44aeacb0f3a",
+      "assetSha256": "33259e3f1e44f0bbc4d4a315a6c6aadf55f995af4be6210ad3a2d4e84ed0ae18",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U09.1-TR-01",
@@ -197,10 +197,10 @@
       "textId": "U09.1",
       "textVersion": "U09.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U09.1-TR-01.m4a",
-      "assetSha256": "c8fdbd08384aafeef7aa2998e6b6660747fb4bc5dcf8b00a378c78d7df070910",
+      "assetSha256": "8f49b8e4bf5d07cbe8154f057755acf69a7cce368c42d64d9a6c5bfbac7f8ff8",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U09.2-TR-01",
@@ -209,10 +209,10 @@
       "textId": "U09.2",
       "textVersion": "U09.2-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U09.2-TR-01.m4a",
-      "assetSha256": "2b2507618add2cc71c1321cc6e2097777a54115f77670d845319631668d35047",
+      "assetSha256": "9ca5de188d361b5b31211cde833b6514bc520574f203155d7605922abb9413a4",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U10.1-TR-01",
@@ -221,10 +221,10 @@
       "textId": "U10.1",
       "textVersion": "U10.1-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U10.1-TR-01.m4a",
-      "assetSha256": "fb07acfe5ea164f6e3deb719179b68e4004597129de8a30bb4020bce0ea970f4",
+      "assetSha256": "3cd7bf8783de81a301491522799919c9cbbf681f553cb1d5256e4abfc493ca0e",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     },
     {
       "id": "A-U10.2-TR-01",
@@ -233,10 +233,10 @@
       "textId": "U10.2",
       "textVersion": "U10.2-draft-2026-10-09-v1",
       "asset": "assets/audio/review-male-v1/A-U10.2-TR-01.m4a",
-      "assetSha256": "aaf0c7435cc1748d436bf4dfd86ff1d71769fa8d2410bda09f304159af711619",
+      "assetSha256": "23bb284dc6dc09f2e3a790ffc9b49a821cab2ec50f3ae00df56ae41a1c329446",
       "origin": "gemini-tts",
       "reviewOnly": true,
-      "voiceStyle": "Fenrir"
+      "voiceStyle": "Charon"
     }
   ],
   "prayerRecords": [
@@ -250,7 +250,7 @@
       ],
       "arabic": "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ.",
       "transliteration": "Lebbeyk Allahümme lebbeyk. Lebbeyke lâ şerîke leke lebbeyk. İnnel-hamde ven-ni‘mete leke vel-mülk, lâ şerîke lek.",
-      "meaningTr": "Lebbeyk Allahümme lebbeyk. Lebbeyke lâ şerîke leke lebbeyk. İnnel-hamde ven-ni‘mete leke vel-mülk, lâ şerîke lek. Yani: Buyur Allah'ım buyur! Davetine icabet ettim. Senin hiçbir ortağın yoktur. Hamd ve nimet sana aittir, mülk de senindir. Senin hiçbir ortağın yoktur.",
+      "meaningTr": "Telbiye, kulun Rabbine teslimiyet feryadıdır... 'Lebbeyk Allahümme lebbeyk... Lebbeyke lâ şerîke leke lebbeyk... İnnel-hamde ven-ni‘mete leke vel-mülk... Lâ şerîke lek.' Yani: 'Buyur Allah'ım buyur... Davetine icabet ettim. Senin hiçbir ortağın yoktur. Hamd ve nimet sana aittir... Mülk de senindir. Senin hiçbir ortağın yoktur.'",
       "sourceTitle": "Diyanet İşleri Başkanlığı, Bir Mukaddes Yolculuk: Hac (telbiye)",
       "sourceUrl": "https://www.diyanet.gov.tr/tr-TR/Kurumsal/Detay/25737/cuma-hutbesi-bir-mukaddes-yolculuk-hac",
       "sourceLocation": "28 Haziran 2019 hutbesi, telbiye paragrafı; Müslim, Hac, 19, 21",
@@ -266,7 +266,7 @@
       "title": "Umre Yolculuğuna Niyet ve Başlangıç",
       "status": "draft",
       "summary": "Kutlu Umre seferine niyet ve samimi bir tevbe ile başlıyoruz.",
-      "details": "Değerli kardeşim, Allah'ın evine, Kutlu Beldeye yapacağın bu mübarek Umre seferi şimdiden mübarek olsun. Bu yolculuk sadece bedenen Mekke'ye gitmek değil; kalben günahlardan arınma ve Rahman'ın huzuruna çıkma yolculuğudur. Yola çıkmadan önce samimi bir tevbe edelim ve tüm sevdiklerimizle helalleşelim.",
+      "details": "Değerli kardeşim... Allah'ın evine, bu kutlu beldeye yapacağın mübarek Umre yolculuğu şimdiden hayırlı olsun. Bu kutlu sefer, sadece bedenen Mekke'ye gitmek değil... Kalben günahlardan arınma, ve Rahman'ın huzuruna çıkma vaktidir. Yola çıkmadan önce samimi bir tevbe edelim... Ve bütün sevdiklerimizle helalleşelim.",
       "textVersion": "U01.1-draft-2026-10-09-v1",
       "sourceTitle": "Uygulama kullanım akışı",
       "sourceUrl": "https://github.com/NeoTuck/kabe_hac",
@@ -284,7 +284,7 @@
       "title": "Yolculuk ve Valiz Hazırlığı",
       "status": "draft",
       "summary": "İhram kıyafeti, kokusuz temizlik ürünleri ve ibadet hazırlığı.",
-      "details": "Umre hazırlığında yanımıza dikişsiz iki parça ihram örtüsü, ihram kemeri, tavafta ayağımızı vurmayacak rahat terlik veya sandalet alıyoruz. İhramlıyken koku yasak olduğu için kokusuz sabun veya şampuan tercih edilmelidir. Manevi hazırlık olarak da kalbimizi dünyalık meşguliyetlerden arındırıyoruz.",
+      "details": "Umre yolculuğuna çıkarken yanımıza... Dikişsiz iki parça ihram örtüsü, emniyetli bir ihram kemeri, ve tavafta ayağımızı yormayacak rahat bir terlik alıyoruz. İhramlıyken koku kullanmak yasak olduğu için... Mutlaka kokusuz sabun ve şampuan tercih etmeliyiz. En önemlisi de... Kalbimizi dünyalık telaşlardan arındırıp, bu kutlu ibadete hazırlamalıyız.",
       "textVersion": "U01.2-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -302,7 +302,7 @@
       "title": "Mikat Sınırı ve İhram Hazırlığı",
       "status": "draft",
       "summary": "Mikat sınırında ihram hazırlığı ve dikişsiz örtülere bürünme.",
-      "details": "Mikat, Peygamber Efendimiz'in belirlediği ve ihramsız geçilmeyecek kutsal sınırdır. Uçakta veya Mikat mescidinde gusül veya abdestimizi alıp erkekler dikişsiz ihram örtüsüne bürünür. Hanım kardeşlerimiz ise kendi mutad tesettür kıyafetleriyle ihrama girerler.",
+      "details": "Şu an Mikat sınırındayız... Burası, Peygamber Efendimiz aleyhisselamın belirlediği, ve ihramsız asla geçilmeyecek kutlu sınırdır. Uçakta veya Mikat mescidinde abdestimizi tazeleyip... Erkekler dikişsiz ihram örtülerine bürünür. Hanım kardeşlerimiz ise, kendi mutad kıyafetleriyle ihrama girerler.",
       "textVersion": "U02.1-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
@@ -327,7 +327,7 @@
         "A-U02.2-TR-01"
       ],
       "summary": "İki rekat ihram namazı, kalpten umre niyeti ve telbiyeye başlama.",
-      "details": "İhrama büründükten sonra kerahet vakti değilse iki rekat ihram namazı kılarız. Ardından kalben niyet ederiz: Allah'ım, senin rızan için Umre yapmaya niyet ettim, onu bana kolaylaştır ve benden kabul eyle. Niyetin hemen ardından telbiye getirmeye başlarız.",
+      "details": "İhrama büründükten sonra... Eğer kerahet vakti değilse, iki rekat ihram namazı kılarız. Namazın ardından kalbimizi Rabbimize açıp niyet ederiz: 'Allah'ım... Senin rızan için Umre yapmaya niyet ettim. Onu bana kolaylaştır, ve benden kabul eyle.' Niyetimizin hemen peşinden... Aşkla ve huşû ile telbiyemizi getirmeye başlarız.",
       "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
       "sourceLocation": "Cevap bölümü",
@@ -341,7 +341,7 @@
       "title": "İhram Yasakları ve Ruhaniyeti",
       "status": "draft",
       "summary": "Koku, tıraş, tartışma yasakları ve ihramın getirdiği mahşer şuuru.",
-      "details": "Niyet ve telbiye ile artık ihramlısınız. İhramlıyken saç, sakal, tırnak kesilmez; vücuda koku sürülmez. En mühimi ise kimseyle tartışmamak, gönül kırmamak ve hiçbir canlıyı incitmemektir. İhram bize mahşer günündeki kefenimizi ve eşitliği hatırlatır.",
+      "details": "Niyet ve telbiye ile birlikte, artık ihramlısınız... İhramlıyken tırnak kesilmez, saça ve sakala dokunulmaz, vücuda koku sürülmez. Ama en büyük yasak... Kimseyle tartışmamak, kalp kırmamak, ve hiçbir canlıyı incitmemektir. Unutmayalım ki ihram... Bize mahşer günündeki kefenimizi hatırlatır.",
       "textVersion": "U02.3-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, İhram ne demektir?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/ihram-ne-demektir/c8a56fea-4dd9-4872-090e-08dd1c135351",
@@ -359,7 +359,7 @@
       "title": "Mescid-i Haram'a Giriş",
       "status": "draft",
       "summary": "Harem-i Şerif'e hürmetle, sağ ayakla ve dualarla giriş adabı.",
-      "details": "Mekke-i Mükerreme'ye ulaştık. Otelimize yerleşip dinlendikten sonra abdestli ve huşû içinde Mescid-i Haram'a yöneliyoruz. Harem-i Şerif'e mümkünse Babüsselâm kapısından, sağ ayağımızla ve Bismillâh, salât ve selâm Resûlullah'a olsun, Allah'ım bana rahmet kapılarını aç duasıyla giriyoruz.",
+      "details": "Mekke-i Mükerreme'ye ulaştık... Abdestli ve büyük bir huşû içinde Mescid-i Haram'a yöneliyoruz. Harem-i Şerif'e girerken, sağ ayağımızla adım atıp şu duayı okuyoruz: 'Bismillâh... Salât ve selâm Resûlullah'a olsun. Allah'ım, bana rahmet kapılarını aç.'",
       "textVersion": "U03.1-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -377,7 +377,7 @@
       "title": "Kâbe-i Muazzama'yı İlk Görüş",
       "status": "draft",
       "summary": "Beytullah'ı ilk görünce tekbir, tehlil ve duaların kabulü anı.",
-      "details": "Ve işte Beytullah... Kâbe-i Muazzama'yı ilk gördüğümüz bu an, duaların geri çevrilmediği en mübarek andır. Tekbir, tehlil ve salavat getirerek duruyoruz. Bu kutlu anda kalbimizden geçen en samimi dünya ve ahiret dualarımızı Rabbimize arz ediyoruz.",
+      "details": "Ve işte Beytullah... Kâbe-i Muazzama tam karşımızda. Bu an, kulun Rabbine en yakın olduğu... Ve yapılan duaların geri çevrilmediği en mübarek andır. Tekbir ve salavat getirerek duralım... Ve kalbimizden geçen en samimi duaları Rabbimize arz edelim.",
       "textVersion": "U04.1-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -395,7 +395,7 @@
       "title": "Tavafa Hazırlık ve İztıba",
       "status": "draft",
       "summary": "Erkeklerin sağ omzunu açması (iztıba) ve başlangıç çizgisine yöneliş.",
-      "details": "Tavafa başlamadan önce erkekler iztıba yapar; yani ihramın üst parçasını sağ koltuk altından geçirip sağ omuzu açıkta bırakır, sol omuz üzerine atar. Ardından Hacerülesved hizasındaki yeşil ışıklı tavaf başlangıç çizgisine yöneliyoruz.",
+      "details": "Tavafa başlamadan önce erkekler iztıba yapar... Yani ihramın üst parçasını sağ koltuk altından geçirip, sağ omzu açıkta bırakır ve sol omuz üzerine atar. Şimdi... Hacerülesved hizasındaki yeşil ışıklı başlangıç çizgisine doğru ilerliyoruz.",
       "textVersion": "U05.1-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
@@ -413,7 +413,7 @@
       "title": "Tavafa Başlangıç ve İlk Şavt",
       "status": "draft",
       "summary": "Hacerülesved'i selamlama (istilâm) ve Hatîm dışından tavafa başlama.",
-      "details": "Hacerülesved hizasında yüzümüzü Kâbe'ye dönüp ellerimizi omuz hizasına kaldırarak Bismillâhi Allahu Ekber diyerek Hacerülesved'i selamlarız. Ardından Kâbe'yi solumuza alarak, Hatîm taş duvarının dışından tavafın ilk şavtına başlıyoruz.",
+      "details": "Hacerülesved hizasında yüzümüzü Kâbe'ye dönüp, ellerimizi omuz hizasına kaldırarak selamlama yaparız: 'Bismillâhi Allahu Ekber.' Ardından Kâbe'yi solumuza alarak... Hatîm taş duvarının dışından tavafımızın ilk şavtına başlıyoruz.",
       "textVersion": "U06.1-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
@@ -432,7 +432,7 @@
       "status": "draft",
       "counterKey": "tawaf",
       "summary": "Tavafın yedi şavtı boyunca zikirler ve Rabbenâ âtinâ duası.",
-      "details": "Tavaf 7 şavttan oluşur. Her dönüşte Rükn-i Yemânî köşesinden Hacerülesved'e doğru Rabbenâ âtinâ fi'd-dünyâ haseneten ve fi'l-âhirati haseneten ve kınâ azâbe'n-nâr duasını okumak sünnettir. Huşû içinde zikir, dua ve tefekkür ile 7 şavtı tamamlıyoruz.",
+      "details": "Tavafımız yedi şavttan oluşur... Her şavtta, Rükn-i Yemânî köşesinden Hacerülesved'e doğru yürürken şu duayı okuruz: 'Rabbenâ âtinâ fi'd-dünyâ haseneten, ve fi'l-âhirati haseneten, ve kınâ azâbe'n-nâr.' Zikir, tefekkür ve dualarla yedi şavtımızı tamamlıyoruz.",
       "textVersion": "U06.2-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, Tavaf nedir ve kaç çeşit tavaf vardır?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/tavaf-nedir-ve-kac-cesit-tavaf-vardir/0193c42d-793d-79e9-3fb4-ff842e2a0759",
@@ -450,7 +450,7 @@
       "title": "Tavafın Tamamlanması",
       "status": "draft",
       "summary": "Son şavtın istilâmı ve açık sağ omzun kapatılması.",
-      "details": "Yedinci şavt bittiğinde Hacerülesved hizasında son kez istilâm yaparız. Erkekler açtıkları sağ omuzlarını ihram örtüsüyle kapatırlar. Böylece tavaf tamamlanmış olur.",
+      "details": "Yedinci şavtımız bittiğinde... Hacerülesved hizasında son kez istilâm yaparız. Erkekler açtıkları sağ omuzlarını ihram örtüsüyle kapatırlar... Ve böylece tavaf ibadetimiz tamamlanmış olur.",
       "textVersion": "U06.3-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -468,7 +468,7 @@
       "title": "Tavaf Namazı",
       "status": "draft",
       "summary": "Makam-ı İbrahim arkasında kılınan iki rekat vacip tavaf namazı.",
-      "details": "Tavafın hemen ardından Makam-ı İbrahim arkasında, kalabalıksa Harem'in uygun bir yerinde iki rekat tavaf namazı kılmak vaciptir. Birinci rekatta Kâfirûn, ikinci rekatta İhlâs surelerini okumak sünnettir.",
+      "details": "Tavafın hemen ardından... Makam-ı İbrahim arkasında, eğer kalabalıksa Harem'in uygun bir yerinde iki rekat tavaf namazı kılarız. Birinci rekatta Kâfirûn... İkinci rekatta İhlâs surelerini okumak sünnettir.",
       "textVersion": "U07.1-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -486,7 +486,7 @@
       "title": "Zemzem İkramı ve Şifa Duası",
       "status": "draft",
       "summary": "Kıbleye yönelerek kana kana zemzem içme ve şifa niyazı.",
-      "details": "Namazın ardından kana kana zemzem içiyoruz. Kıbleye yönelerek ayakta zemzem içerken Allah'ım, senden faydalı ilim, bol rızık ve her türlü dertten şifa diliyorum diye dua edilir.",
+      "details": "Namazımızın ardından, doya doya zemzem içiyoruz... Kıbleye yönelip ayakta zemzem içerken şöyle dua ederiz: 'Allah'ım... Senden faydalı ilim, bol rızık, ve her türlü dertten şifa diliyorum.'",
       "textVersion": "U07.2-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -504,7 +504,7 @@
       "title": "Safa Tepesine Çıkış ve Sa'y Niyeti",
       "status": "draft",
       "summary": "Safa tepesinde Kâbe'ye dönerek tekbir, tehlil ve sa'y niyeti.",
-      "details": "Şimdi Sa'y ibadeti için Safa tepesine çıkıyoruz. Kâbe'ye yönelip ellerimizi kaldırarak tekbir ve tehlil getiriyoruz: Allah'ım, senin rızan için Safa ile Merve arasında umre sa'yi yapmaya niyet ettim diyerek niyetimizi ediyoruz.",
+      "details": "Şimdi Sa'y ibadeti için Safa tepesine çıkıyoruz... Kâbe'ye yönelip ellerimizi semaya açarak tekbir getiririz: 'Allah'ım... Senin rızan için Safa ile Merve arasında umre sa'yini yapmaya niyet ettim.' diyerek Sa'yımıza başlıyoruz.",
       "textVersion": "U08.1-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
@@ -522,7 +522,7 @@
       "title": "Safa'dan Merve'ye Yürüyüş ve Hervele",
       "status": "draft",
       "summary": "Yeşil ışıklar arasında erkeklerin canlı adımları (hervele) ve dualar.",
-      "details": "Safa'dan Merve'ye doğru dualarla yürüyoruz. İki yeşil ışık arasına geldiğimizde erkekler adımlarını sıklaştırarak canlı ve çalımlı yürürler; buna hervele denir. Yeşil ışıklar bitince normal adımlarla Merve tepesine varırız. Bu bir şavt olur.",
+      "details": "Safa'dan Merve'ye doğru dualarla yürüyoruz... İki yeşil ışık arasına geldiğimizde, erkekler adımlarını sıklaştırarak canlı ve çalımlı yürürler; buna hervele denir. Yeşil ışıklar bitince normal adımlarla Merve tepesine varırız... Bu bir şavt olur.",
       "textVersion": "U09.1-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
@@ -541,7 +541,7 @@
       "status": "draft",
       "counterKey": "say",
       "summary": "Safa ile Merve arasında 7 turun tamamlanması ve şükür duası.",
-      "details": "Merve'den Safa'ya dönüş ikinci şavttır. Bu şekilde 4 gidiş ve 3 dönüş yapılarak 7. şavt Merve'de biter. Merve tepesinde ellerimizi semaya açıp şükür duamızı yaparız.",
+      "details": "Merve'den Safa'ya dönüş ikinci şavttır... Bu şekilde dört gidiş ve üç dönüş yapılarak, yedinci şavt Merve tepesinde biter. Merve'de ellerimizi açıp, Sa'yımızın kabulü için şükür duamızı yaparız.",
       "textVersion": "U09.2-draft-2026-10-09-v1",
       "sourceTitle": "Din İşleri Yüksek Kurulu, Sa’yin şavtlarını eksik yapan kişiye ne gerekir?",
       "sourceUrl": "https://kurul.diyanet.gov.tr/tr/fetva/sayin-savtlarini-eksik-yapan-kisiye-ne-gerekir/0193c42d-7a72-7dea-2f22-dcdaeaedf06b",
@@ -559,7 +559,7 @@
       "title": "Saç Tıraşı ve İhramdan Çıkış (Tahallül)",
       "status": "draft",
       "summary": "Erkek ve kadınların saç kesimi ile ihram yasaklarının sona ermesi.",
-      "details": "Sa'y bittikten sonra erkekler saçlarının tamamını tıraş eder veya eşit şekilde parmak ucu kadar kısaltırlar. Hanımlar ise saçlarının ucundan bir parmak ucu kadar keserler. Saç kesimiyle birlikte ihramdan çıkılır ve tüm ihram yasakları sona erer.",
+      "details": "Sa'y ibadetimiz tamamlandıktan sonra... Erkekler saçlarını tamamen tıraş eder veya her tarafından eşit şekilde kısaltırlar. Hanımlar ise saçlarının ucundan parmak ucu kadar keserler. Saç kesimiyle birlikte ihramdan çıkılır... Ve tüm ihram yasakları sona erer.",
       "textVersion": "U10.1-draft-2026-10-09-v1",
       "sourceTitle": "Diyanet İşleri Başkanlığı, İlmihal I",
       "sourceUrl": "https://webdosya.diyanet.gov.tr/DiyanetAnasayfa/UserFiles/DiniBilgiler/ilmihal_cilt_1.pdf",
@@ -577,7 +577,7 @@
       "title": "Umrenin Tamamlanması ve Şükür",
       "status": "draft",
       "summary": "Mebrur bir umre temennisi, ibadetin kabulü ve şükür niyazı.",
-      "details": "Elhamdülillâh, Umre ibadetinizi hakkıyla ve sünnete uygun olarak tamamladınız. Cenâb-ı Hak niyetinizi, tavafınızı, sa'yinizi ve dualarınızı Mebrur bir Umre olarak kabul eylesin.",
+      "details": "Elhamdülillâh... Umre ibadetinizi sünnete uygun olarak tamamladınız. Cenâb-ı Hak niyetinizi, tavafınızı, sa'yinizi ve dualarınızı... Mebrur bir Umre olarak dergâh-ı izzetinde kabul eylesin.",
       "textVersion": "U10.2-draft-2026-10-09-v1",
       "sourceTitle": "Uygulama kullanım akışı",
       "sourceUrl": "https://github.com/NeoTuck/kabe_hac",

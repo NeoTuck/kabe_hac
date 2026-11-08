@@ -4,8 +4,8 @@
   "textVersion": "U09.1-draft-2026-10-09-v1",
   "kind": "turkishNarration",
   "language": "tr-TR",
-  "script": "Yeşil ışıklar arasında erkeklerin canlı adımları (hervele) ve dualar.\nSafa'dan Merve'ye doğru dualarla yürüyoruz. İki yeşil ışık arasına geldiğimizde erkekler adımlarını sıklaştırarak canlı ve çalımlı yürürler; buna hervele denir. Yeşil ışıklar bitince normal adımlarla Merve tepesine varırız. Bu bir şavt olur.",
-  "scriptSha256": "8ade28077036705d12a1fc6d6487b6a05690d3d770fa3c30e2cba78b9083a2e2",
+  "script": "Safa'dan Merve'ye doğru dualarla yürüyoruz... İki yeşil ışık arasına geldiğimizde, erkekler adımlarını sıklaştırarak canlı ve çalımlı yürürler; buna hervele denir. Yeşil ışıklar bitince normal adımlarla Merve tepesine varırız... Bu bir şavt olur.",
+  "scriptSha256": "391192bdc354b05d3816ee116c531efb28f3ab3b25ca849a5fcbfe4dadb4cf5b",
   "textReview": "draft",
   "eligibleForSynthesis": false,
   "file": "recordings/A-U09.1-TR-01.m4a",
@@ -39,8 +39,8 @@
   },
   "engineVersion": "1.3.1",
   "onnxruntimeVersion": "1.31.0",
-  "speakerId": "Fenrir",
-  "speakerType": "Google Gemini TTS Fenrir voice",
+  "speakerId": "Charon",
+  "speakerType": "Google Gemini TTS Charon voice",
   "externalReferenceAudio": null,
   "voiceStyleSha256": "e35604687f5d23694b8e91593a93eec0e4eca6c0b02bb8ed69139ab2ea6b0a5b",
   "settings": {
@@ -125,7 +125,7 @@
     },
     "m4a": {
       "file": "m4a/A-U09.1-TR-01.m4a",
-      "sha256": "c8fdbd08384aafeef7aa2998e6b6660747fb4bc5dcf8b00a378c78d7df070910",
+      "sha256": "8f49b8e4bf5d07cbe8154f057755acf69a7cce368c42d64d9a6c5bfbac7f8ff8",
       "sizeBytes": 280466,
       "checks": {
         "decoderFullPass": true,
