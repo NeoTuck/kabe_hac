@@ -13,8 +13,9 @@ enum GuideStageType {
 }
 
 /// An interactive, visually rich animated stage shown above guide sections.
-/// Allows pilgrims to watch the real-time simulation (luggage packing, Kaaba tawaf,
-/// Safa-Marwa sa'y, etc.) synchronized with narration and persistent steps below.
+/// Allows pilgrims to watch real-time simulations (luggage packing, Kaaba tawaf,
+/// Safa-Marwa sa'y, Mikat ihram, Jamarat stone throw) synchronized with narration
+/// and persistent steps below.
 class GuideStageAnimator extends StatefulWidget {
   const GuideStageAnimator({
     super.key,
@@ -111,7 +112,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
       if (!_animController.isAnimating) {
         _animController.forward(from: 0.0);
       }
-    } else if (!isMyAudioPlaying && _isAutoPlaying && state.status != NarrationStatus.paused) {
+    } else if (!isMyAudioPlaying &&
+        _isAutoPlaying &&
+        state.status != NarrationStatus.paused) {
       setState(() => _isAutoPlaying = false);
     }
   }
@@ -172,9 +175,8 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final currentItemText = widget.items.isNotEmpty
-        ? widget.items[_currentIndex]
-        : '';
+    final currentItemText =
+        widget.items.isNotEmpty ? widget.items[_currentIndex] : '';
     final progressFraction = widget.items.isNotEmpty
         ? (_currentIndex + 1) / widget.items.length
         : 1.0;
@@ -202,7 +204,7 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
           children: [
             // Stage Viewport
             SizedBox(
-              height: 200,
+              height: 215,
               width: double.infinity,
               child: Stack(
                 fit: StackFit.expand,
@@ -223,9 +225,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
 
                   // Top Badges
                   Positioned(
-                    top: 12,
-                    left: 14,
-                    right: 14,
+                    top: 10,
+                    left: 12,
+                    right: 12,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -236,10 +238,11 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                               vertical: 5,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.55),
+                              color: Colors.black.withValues(alpha: 0.65),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: RehberTheme.goldLight.withValues(alpha: 0.4),
+                                color: RehberTheme.goldLight
+                                    .withValues(alpha: 0.45),
                                 width: 1,
                               ),
                             ),
@@ -275,8 +278,15 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                            color: RehberTheme.emerald.withValues(alpha: 0.85),
+                            color: RehberTheme.emerald.withValues(alpha: 0.88),
                             borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    RehberTheme.emerald.withValues(alpha: 0.4),
+                                blurRadius: 6,
+                              ),
+                            ],
                           ),
                           child: Text(
                             '${_currentIndex + 1} / ${widget.items.length}',
@@ -293,27 +303,34 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
 
                   // Center Floating Callout for Active Item
                   Positioned(
-                    bottom: 12,
-                    left: 14,
-                    right: 14,
+                    bottom: 10,
+                    left: 12,
+                    right: 12,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
-                        vertical: 8,
+                        vertical: 7,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.72),
+                        color: Colors.black.withValues(alpha: 0.78),
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: RehberTheme.emerald.withValues(alpha: 0.5),
+                          color: RehberTheme.emerald.withValues(alpha: 0.55),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.4),
+                            blurRadius: 8,
+                          ),
+                        ],
                       ),
                       child: Row(
                         children: [
                           Container(
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                              color: RehberTheme.emerald.withValues(alpha: 0.25),
+                              color:
+                                  RehberTheme.emerald.withValues(alpha: 0.35),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -330,7 +347,7 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: 11.5,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -347,9 +364,8 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: dark
-                    ? const Color(0xFF091210)
-                    : const Color(0xFF0B1F1A),
+                color:
+                    dark ? const Color(0xFF091210) : const Color(0xFF0B1F1A),
                 border: Border(
                   top: BorderSide(
                     color: Colors.white.withValues(alpha: 0.08),
@@ -430,7 +446,8 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                             onTap: () => selectItem(i),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 250),
-                              margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 2.5),
                               width: i == _currentIndex ? 16 : 6,
                               height: 6,
                               decoration: BoxDecoration(
@@ -522,7 +539,7 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
 }
 
 // ==========================================
-// 1. VALİZ VE HAZIRLIK RESMİ PAINTER'I
+// 1. VALİZ VE HAZIRLIK RESMİ PAINTER'I (PRO)
 // ==========================================
 class _LuggageStagePainter extends CustomPainter {
   const _LuggageStagePainter({
@@ -540,223 +557,500 @@ class _LuggageStagePainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // Background gradient glow
+    // Ambient Room Background with warm spiritual vignette
     final bgPaint = Paint()
       ..shader = RadialGradient(
-        center: const Alignment(0.2, 0.2),
-        radius: 0.85,
+        center: const Alignment(0.1, -0.1),
+        radius: 0.95,
         colors: [
-          const Color(0xFF1B4332).withValues(alpha: 0.75),
-          const Color(0xFF081C15),
+          const Color(0xFF1E4535).withValues(alpha: 0.85),
+          const Color(0xFF071B14),
         ],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
 
-    // Grid Floor Perspective Lines
-    final gridPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.05)
+    // Modern Perspective Floor Planks
+    final floorY = h * 0.68;
+    final floorPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          const Color(0xFF0F261E),
+          const Color(0xFF06120D),
+        ],
+      ).createShader(Rect.fromLTWH(0, floorY, w, h - floorY));
+    canvas.drawRect(Rect.fromLTWH(0, floorY, w, h - floorY), floorPaint);
+
+    final linePaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.06)
       ..strokeWidth = 1.0;
-    for (double x = 0; x < w; x += 35) {
-      canvas.drawLine(Offset(x, h * 0.7), Offset(x + (x - w / 2) * 0.4, h), gridPaint);
+    canvas.drawLine(Offset(0, floorY), Offset(w, floorY), linePaint);
+    for (double x = -w * 0.2; x <= w * 1.2; x += 40) {
+      canvas.drawLine(
+        Offset(x, floorY),
+        Offset(x + (x - w * 0.5) * 0.45, h),
+        linePaint,
+      );
     }
-    canvas.drawLine(Offset(0, h * 0.7), Offset(w, h * 0.7), gridPaint);
 
-    // Draw Traveler (Adam) on Left (x: 55, y: h * 0.45)
-    _drawTraveler(canvas, Offset(w * 0.18, h * 0.48), animValue);
+    // Traveler on Left
+    final travelerPos = Offset(w * 0.19, floorY - 14);
+    _drawTraveler(canvas, travelerPos, animValue);
 
-    // Draw Open Suitcase on Right (center: w * 0.72, h * 0.52)
-    final suitcaseRect = Rect.fromCenter(
-      center: Offset(w * 0.68, h * 0.54),
-      width: 130,
-      height: 85,
-    );
-    _drawSuitcase(canvas, suitcaseRect, progress);
+    // Suitcase on Right
+    final suitcaseCenter = Offset(w * 0.70, floorY - 12);
+    _drawSuitcase(canvas, suitcaseCenter, progress);
 
-    // Animated Flying / Floating Item from Traveler to Suitcase
-    final startPt = Offset(w * 0.26, h * 0.38);
-    final endPt = Offset(w * 0.68, h * 0.48);
+    // Parabolic Item Animation
+    final startPt = Offset(travelerPos.dx + 22, travelerPos.dy - 32);
+    final endPt = Offset(suitcaseCenter.dx, suitcaseCenter.dy - 6);
 
-    // Parabolic motion curve
-    final t = (animValue * 1.5).clamp(0.0, 1.0);
+    final t = (animValue * 1.35).clamp(0.0, 1.0);
     final curveT = Curves.easeOutCubic.transform(t);
     final currentX = startPt.dx + (endPt.dx - startPt.dx) * curveT;
-    final arcHeight = -38 * math.sin(curveT * math.pi);
+    final arcHeight = -42 * math.sin(curveT * math.pi);
     final currentY = startPt.dy + (endPt.dy - startPt.dy) * curveT + arcHeight;
 
-    if (t < 0.96) {
-      _drawFlyingItem(canvas, Offset(currentX, currentY), itemIndex, animValue);
-    } else {
-      // Gentle settle bounce inside luggage
-      final settleOffset = Offset(
-        endPt.dx + (math.sin(animValue * math.pi * 4) * 2),
-        endPt.dy + (math.cos(animValue * math.pi * 4) * 2),
+    // Glowing particle trail
+    if (t > 0.08 && t < 0.95) {
+      final trailPaint = Paint()
+        ..color = RehberTheme.goldLight.withValues(alpha: 0.35)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
+      for (int i = 1; i <= 4; i++) {
+        final backT = (t - (i * 0.04)).clamp(0.0, 1.0);
+        final backCurveT = Curves.easeOutCubic.transform(backT);
+        final bx = startPt.dx + (endPt.dx - startPt.dx) * backCurveT;
+        final by = startPt.dy +
+            (endPt.dy - startPt.dy) * backCurveT +
+            (-42 * math.sin(backCurveT * math.pi));
+        canvas.drawCircle(Offset(bx, by), 4.0 - (i * 0.7), trailPaint);
+      }
+    }
+
+    if (t < 0.94) {
+      _drawFlyingItem(
+        canvas,
+        Offset(currentX, currentY),
+        itemIndex,
+        animValue,
       );
-      _drawPackSuccessGlow(canvas, settleOffset);
+    } else {
+      // Landing bounce and golden burst
+      final bounce = math.sin((animValue - 0.7) * math.pi * 6) * 2.5;
+      _drawPackSuccessGlow(canvas, endPt + Offset(0, bounce));
     }
   }
 
-  void _drawTraveler(Canvas canvas, Offset pos, double anim) {
-    final headY = pos.dy - 38 + (math.sin(anim * math.pi * 2) * 1.5);
-    final bodyPaint = Paint()..color = const Color(0xFFC4E053);
-    final skinPaint = Paint()..color = const Color(0xFFFFD1A9);
+  void _drawTraveler(Canvas canvas, Offset groundPos, double anim) {
+    final breathing = math.sin(anim * math.pi * 2) * 1.5;
+    final headCenter = Offset(groundPos.dx, groundPos.dy - 56 + breathing);
 
-    // Head
-    canvas.drawCircle(Offset(pos.dx, headY), 10, skinPaint);
-
-    // Body (White pilgrim shirt/robe)
-    final bodyRect = RRect.fromRectAndRadius(
-      Rect.fromCenter(center: Offset(pos.dx, headY + 22), width: 22, height: 26),
-      const Radius.circular(6),
+    // Drop shadow
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(groundPos.dx, groundPos.dy + 4),
+        width: 36,
+        height: 10,
+      ),
+      Paint()..color = Colors.black.withValues(alpha: 0.35),
     );
-    canvas.drawRRect(bodyRect, bodyPaint);
 
-    // Hand reaching toward suitcase
-    final handPaint = Paint()
-      ..color = const Color(0xFFFFD1A9)
-      ..strokeWidth = 3.5
+    // Legs / Pants
+    final legPaint = Paint()
+      ..color = const Color(0xFF264E3E)
+      ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(
-      Offset(pos.dx + 8, headY + 18),
-      Offset(pos.dx + 22, headY + 12 - (math.sin(anim * math.pi) * 4)),
-      handPaint,
+      Offset(groundPos.dx - 4, groundPos.dy - 20),
+      Offset(groundPos.dx - 4, groundPos.dy),
+      legPaint,
     );
-  }
+    canvas.drawLine(
+      Offset(groundPos.dx + 4, groundPos.dy - 20),
+      Offset(groundPos.dx + 4, groundPos.dy),
+      legPaint,
+    );
 
-  void _drawSuitcase(Canvas canvas, Rect rect, double fillFraction) {
-    // Suitcase Body (Modern Emerald Case)
-    final casePaint = Paint()
-      ..color = const Color(0xFF2D6A4F)
-      ..style = PaintingStyle.fill;
-    final borderPaint = Paint()
-      ..color = RehberTheme.goldLight
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
-
+    // Shoes
+    final shoePaint = Paint()..color = const Color(0xFF162D24);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(rect, const Radius.circular(10)),
-      casePaint,
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(groundPos.dx - 9, groundPos.dy - 2, 8, 5),
+        const Radius.circular(2),
+      ),
+      shoePaint,
     );
     canvas.drawRRect(
-      RRect.fromRectAndRadius(rect, const Radius.circular(10)),
-      borderPaint,
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(groundPos.dx + 1, groundPos.dy - 2, 8, 5),
+        const Radius.circular(2),
+      ),
+      shoePaint,
     );
 
-    // Suitcase Inner Compartment
-    final innerRect = rect.deflate(7);
-    final innerPaint = Paint()..color = const Color(0xFF1B4332);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(innerRect, const Radius.circular(6)),
-      innerPaint,
+    // Tunic / White Robe (Thobe)
+    final robePaint = Paint()..color = const Color(0xFFE8F1EC);
+    final robeRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(groundPos.dx, groundPos.dy - 35 + breathing),
+        width: 24,
+        height: 32,
+      ),
+      const Radius.circular(7),
+    );
+    canvas.drawRRect(robeRect, robePaint);
+
+    // Subtle robe folds
+    final foldPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.08)
+      ..strokeWidth = 1.2;
+    canvas.drawLine(
+      Offset(groundPos.dx, groundPos.dy - 46 + breathing),
+      Offset(groundPos.dx, groundPos.dy - 22 + breathing),
+      foldPaint,
     );
 
-    // Fill level gauge inside suitcase
-    if (fillFraction > 0) {
-      final fillHeight = innerRect.height * fillFraction;
-      final fillRect = Rect.fromLTWH(
-        innerRect.left,
-        innerRect.bottom - fillHeight,
-        innerRect.width,
-        fillHeight,
-      );
-      final fillPaint = Paint()
-        ..color = RehberTheme.emerald.withValues(alpha: 0.65);
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(fillRect, const Radius.circular(5)),
-        fillPaint,
-      );
-    }
+    // Head (Skin & Hair / Kufi)
+    final skinPaint = Paint()..color = const Color(0xFFFFD5B3);
+    canvas.drawCircle(headCenter, 10.5, skinPaint);
 
-    // Straps and Handle
-    final handlePaint = Paint()
-      ..color = Colors.black87
-      ..strokeWidth = 3.5
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
+    // Kufi / Islamic Prayer Cap (White/Gold trim)
+    final kufiPaint = Paint()..color = Colors.white;
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(rect.center.dx, rect.top - 2),
-        width: 26,
-        height: 14,
+        center: headCenter + const Offset(0, -2),
+        width: 21,
+        height: 18,
       ),
       math.pi,
       math.pi,
-      false,
-      handlePaint,
+      true,
+      kufiPaint,
     );
 
-    // Luggage Corner Protectors (Gold)
-    final goldCorner = Paint()..color = RehberTheme.goldLight;
-    canvas.drawCircle(rect.topLeft + const Offset(5, 5), 3, goldCorner);
-    canvas.drawCircle(rect.topRight + const Offset(-5, 5), 3, goldCorner);
-    canvas.drawCircle(rect.bottomLeft + const Offset(5, -5), 3, goldCorner);
-    canvas.drawCircle(rect.bottomRight + const Offset(-5, -5), 3, goldCorner);
+    // Friendly face profile
+    final eyePaint = Paint()..color = const Color(0xFF332211);
+    canvas.drawCircle(headCenter + const Offset(3.5, 0), 1.2, eyePaint);
+
+    // Reaching Arm toward suitcase
+    final armPaint = Paint()
+      ..color = const Color(0xFFE8F1EC)
+      ..strokeWidth = 4.5
+      ..strokeCap = StrokeCap.round;
+    final handPaint = Paint()..color = const Color(0xFFFFD5B3);
+
+    final handY = groundPos.dy - 36 + breathing - (math.sin(anim * math.pi) * 6);
+    canvas.drawLine(
+      Offset(groundPos.dx + 8, groundPos.dy - 44 + breathing),
+      Offset(groundPos.dx + 22, handY),
+      armPaint,
+    );
+    canvas.drawCircle(Offset(groundPos.dx + 23, handY), 3.0, handPaint);
+  }
+
+  void _drawSuitcase(Canvas canvas, Offset center, double fillFraction) {
+    const caseWidth = 136.0;
+    const caseHeight = 90.0;
+    final rect = Rect.fromCenter(
+      center: center,
+      width: caseWidth,
+      height: caseHeight,
+    );
+
+    // Drop Shadow
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(center.dx, rect.bottom + 6),
+        width: caseWidth * 0.95,
+        height: 14,
+      ),
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.45)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
+    );
+
+    // Telescoping Trolley Handle
+    final handlePaint = Paint()
+      ..color = const Color(0xFFD4AF37)
+      ..strokeWidth = 2.5
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(
+      Offset(rect.center.dx - 18, rect.top),
+      Offset(rect.center.dx - 18, rect.top - 20),
+      handlePaint,
+    );
+    canvas.drawLine(
+      Offset(rect.center.dx + 18, rect.top),
+      Offset(rect.center.dx + 18, rect.top - 20),
+      handlePaint,
+    );
+    canvas.drawLine(
+      Offset(rect.center.dx - 22, rect.top - 20),
+      Offset(rect.center.dx + 22, rect.top - 20),
+      Paint()
+        ..color = Colors.black87
+        ..strokeWidth = 4.0
+        ..strokeCap = StrokeCap.round,
+    );
+
+    // Outer Polycarbonate Case Body (Emerald & Gold)
+    final shellPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          const Color(0xFF23533E),
+          const Color(0xFF133527),
+        ],
+      ).createShader(rect);
+
+    final shellRRect = RRect.fromRectAndRadius(rect, const Radius.circular(12));
+    canvas.drawRRect(shellRRect, shellPaint);
+
+    final goldBezel = Paint()
+      ..color = RehberTheme.goldLight
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8;
+    canvas.drawRRect(shellRRect, goldBezel);
+
+    // Inner Open Cavity
+    final innerRect = rect.deflate(7);
+    final innerRRect =
+        RRect.fromRectAndRadius(innerRect, const Radius.circular(8));
+    final innerPaint = Paint()..color = const Color(0xFF0C1F17);
+    canvas.drawRRect(innerRRect, innerPaint);
+
+    // Stacked Packed Items inside (Levels build up as progress increases)
+    if (fillFraction > 0.05) {
+      final fillH = (innerRect.height - 4) * fillFraction.clamp(0.0, 1.0);
+      final fillRect = Rect.fromLTWH(
+        innerRect.left + 3,
+        innerRect.bottom - fillH - 2,
+        innerRect.width - 6,
+        fillH,
+      );
+
+      final packPaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            RehberTheme.emerald,
+            const Color(0xFF1E523C),
+          ],
+        ).createShader(fillRect);
+
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(fillRect, const Radius.circular(5)),
+        packPaint,
+      );
+
+      // Folded garment texture lines inside luggage
+      final foldLine = Paint()
+        ..color = Colors.white.withValues(alpha: 0.18)
+        ..strokeWidth = 1.2;
+      for (double y = fillRect.bottom - 10; y > fillRect.top; y -= 11) {
+        canvas.drawLine(
+          Offset(fillRect.left + 6, y),
+          Offset(fillRect.right - 6, y),
+          foldLine,
+        );
+      }
+
+      // Elastic Gold X-Straps
+      final strapPaint = Paint()
+        ..color = RehberTheme.goldLight.withValues(alpha: 0.6)
+        ..strokeWidth = 1.5;
+      canvas.drawLine(fillRect.topLeft, fillRect.bottomRight, strapPaint);
+      canvas.drawLine(fillRect.topRight, fillRect.bottomLeft, strapPaint);
+    }
+
+    // Spinner Wheels at bottom
+    final wheelPaint = Paint()..color = Colors.black87;
+    final goldHub = Paint()..color = RehberTheme.goldLight;
+    for (final wx in [rect.left + 16, rect.left + 34, rect.right - 34, rect.right - 16]) {
+      canvas.drawCircle(Offset(wx, rect.bottom + 4), 4.5, wheelPaint);
+      canvas.drawCircle(Offset(wx, rect.bottom + 4), 1.8, goldHub);
+    }
+
+    // Corner Protectors
+    for (final corner in [
+      rect.topLeft + const Offset(6, 6),
+      rect.topRight + const Offset(-6, 6),
+      rect.bottomLeft + const Offset(6, -6),
+      rect.bottomRight + const Offset(-6, -6),
+    ]) {
+      canvas.drawCircle(corner, 3.5, goldHub);
+    }
+
+    // Percentage Badge Pill
+    final pctText = '%${(fillFraction * 100).round()} Dolu';
+    final pctPainter = TextPainter(
+      text: TextSpan(
+        text: pctText,
+        style: const TextStyle(
+          color: RehberTheme.goldLight,
+          fontSize: 9.5,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final badgeRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(rect.center.dx, rect.top - 2),
+        width: pctPainter.width + 14,
+        height: 16,
+      ),
+      const Radius.circular(8),
+    );
+    canvas.drawRRect(badgeRect, Paint()..color = Colors.black87);
+    canvas.drawRRect(badgeRect, goldBezel);
+    pctPainter.paint(
+      canvas,
+      Offset(rect.center.dx - pctPainter.width / 2, rect.top - 9.5),
+    );
   }
 
   void _drawFlyingItem(Canvas canvas, Offset pos, int index, double anim) {
-    final shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.3)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
-    canvas.drawCircle(pos + const Offset(0, 10), 12, shadowPaint);
+    // Drop shadow
+    canvas.drawCircle(
+      pos + const Offset(0, 10),
+      14,
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.35)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
+    );
 
-    final itemBg = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-    final itemStroke = Paint()
+    // Base Circular Badge
+    final discRRect = Rect.fromCircle(center: pos, radius: 15.5);
+    final discPaint = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          Colors.white,
+          const Color(0xFFF0F5F2),
+        ],
+      ).createShader(discRRect);
+    canvas.drawCircle(pos, 15.5, discPaint);
+
+    final goldRing = Paint()
       ..color = RehberTheme.goldLight
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
+    canvas.drawCircle(pos, 15.5, goldRing);
 
-    canvas.drawCircle(pos, 14, itemBg);
-    canvas.drawCircle(pos, 14, itemStroke);
-
-    // Draw Iconic Glyphs
-    final glyphPaint = Paint()
+    final glyph = Paint()
       ..color = const Color(0xFF1B4332)
-      ..strokeWidth = 2.2
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
-    switch (index % 5) {
-      case 0: // İhram Kumaşı (Two horizontal layers)
-        canvas.drawLine(pos + const Offset(-7, -3), pos + const Offset(7, -3), glyphPaint);
-        canvas.drawLine(pos + const Offset(-7, 3), pos + const Offset(7, 3), glyphPaint);
-        break;
-      case 1: // Kokusuz Sabun / Şişe
+    switch (index % 8) {
+      case 0: // 2 Parça İhram Kumaşı & Altın Kemer
         canvas.drawRRect(
           RRect.fromRectAndRadius(
-            Rect.fromCenter(center: pos, width: 10, height: 14),
+            Rect.fromCenter(center: pos + const Offset(0, -3), width: 14, height: 6),
             const Radius.circular(2),
           ),
-          glyphPaint,
+          glyph,
+        );
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: pos + const Offset(0, 4), width: 14, height: 6),
+            const Radius.circular(2),
+          ),
+          glyph,
         );
         break;
-      case 2: // Sandalet / Patik
-        canvas.drawLine(pos + const Offset(-6, 4), pos + const Offset(6, 4), glyphPaint);
+      case 1: // Kokusuz Bakım / Sabun & Şampuan
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: pos + const Offset(0, 2), width: 10, height: 13),
+            const Radius.circular(3),
+          ),
+          glyph,
+        );
+        canvas.drawLine(pos + const Offset(0, -5), pos + const Offset(0, -8), glyph);
+        canvas.drawLine(pos + const Offset(-3, -8), pos + const Offset(3, -8), glyph);
+        // Bubble
+        canvas.drawCircle(pos + const Offset(5, -6), 2, glyph);
+        break;
+      case 2: // Ortopedik Sandalet & Tavaf Patiği
+        canvas.drawOval(
+          Rect.fromCenter(center: pos + const Offset(0, 4), width: 16, height: 5),
+          glyph,
+        );
         canvas.drawArc(
-          Rect.fromCenter(center: pos + const Offset(0, 1), width: 10, height: 8),
+          Rect.fromCenter(center: pos + const Offset(-2, 1), width: 9, height: 8),
           math.pi,
           math.pi,
           false,
-          glyphPaint,
+          glyph,
         );
         break;
-      case 3: // İlaç / İlk Yardım Artı
-        canvas.drawLine(pos + const Offset(0, -6), pos + const Offset(0, 6), glyphPaint);
-        canvas.drawLine(pos + const Offset(-6, 0), pos + const Offset(6, 0), glyphPaint);
+      case 3: // Ayakkabı Bez Torbası
+        final bagPath = Path()
+          ..moveTo(pos.dx - 6, pos.dy - 6)
+          ..lineTo(pos.dx + 6, pos.dy - 6)
+          ..lineTo(pos.dx + 8, pos.dy + 7)
+          ..quadraticBezierTo(pos.dx, pos.dy + 9, pos.dx - 8, pos.dy + 7)
+          ..close();
+        canvas.drawPath(bagPath, glyph);
+        canvas.drawLine(pos + const Offset(-4, -6), pos + const Offset(0, -9), glyph);
         break;
-      default: // Pasaport / Dua Kitabı
-        canvas.drawRect(
-          Rect.fromCenter(center: pos, width: 12, height: 15),
-          glyphPaint,
+      case 4: // İlaç & İlk Yardım Kiti
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: pos, width: 14, height: 14),
+            const Radius.circular(3),
+          ),
+          glyph,
         );
+        canvas.drawLine(pos + const Offset(0, -4), pos + const Offset(0, 4), glyph);
+        canvas.drawLine(pos + const Offset(-4, 0), pos + const Offset(4, 0), glyph);
+        break;
+      case 5: // Pasaport & Boyun Cüzdanı
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: pos, width: 12, height: 16),
+            const Radius.circular(2),
+          ),
+          glyph,
+        );
+        canvas.drawCircle(pos, 2.5, glyph);
+        break;
+      case 6: // Dua Risalesi & Dijital Zikirmatik
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(center: pos + const Offset(-2, 0), width: 10, height: 14),
+            const Radius.circular(2),
+          ),
+          glyph,
+        );
+        canvas.drawCircle(pos + const Offset(5, 2), 3.5, glyph);
+        break;
+      default: // Saç Makası / Tırnak Makası
+        canvas.drawLine(pos + const Offset(-5, -5), pos + const Offset(5, 5), glyph);
+        canvas.drawLine(pos + const Offset(5, -5), pos + const Offset(-5, 5), glyph);
+        canvas.drawCircle(pos + const Offset(-5, -5), 2.5, glyph);
+        canvas.drawCircle(pos + const Offset(5, -5), 2.5, glyph);
         break;
     }
   }
 
   void _drawPackSuccessGlow(Canvas canvas, Offset pos) {
     final glow = Paint()
-      ..color = const Color(0xFF2D6A4F).withValues(alpha: 0.6)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
-    canvas.drawCircle(pos, 16, glow);
+      ..color = RehberTheme.goldLight.withValues(alpha: 0.65)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
+    canvas.drawCircle(pos, 20, glow);
+
+    final starPaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 2.0;
+    canvas.drawLine(pos + const Offset(0, -9), pos + const Offset(0, 9), starPaint);
+    canvas.drawLine(pos + const Offset(-9, 0), pos + const Offset(9, 0), starPaint);
   }
 
   @override
@@ -767,7 +1061,7 @@ class _LuggageStagePainter extends CustomPainter {
 }
 
 // ==========================================
-// 2. CANLI KÂBE TAVAF SİMÜLASYONU PAINTER'I
+// 2. CANLI KÂBE TAVAF SİMÜLASYONU (ULTRA PRO)
 // ==========================================
 class _TawafStagePainter extends CustomPainter {
   const _TawafStagePainter({
@@ -780,152 +1074,332 @@ class _TawafStagePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width * 0.5, size.height * 0.50);
-    final radiusX = size.width * 0.32;
-    final radiusY = size.height * 0.34;
+    final center = Offset(size.width * 0.50, size.height * 0.48);
+    final radiusX = size.width * 0.34;
+    final radiusY = size.height * 0.35;
 
-    // Background Mataf Marble
+    // Deep Spiritual Midnight Mataf Marble Floor
     final bgPaint = Paint()
       ..shader = RadialGradient(
         center: Alignment.center,
-        radius: 0.9,
+        radius: 0.95,
         colors: [
-          const Color(0xFF142B24),
-          const Color(0xFF091410),
+          const Color(0xFF132B23),
+          const Color(0xFF040C09),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
 
-    // Marble Floor Concentric Rings
+    // Mataf Concentric Thassos Marble Rings
     final ringPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.07)
+      ..color = Colors.white.withValues(alpha: 0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
-    for (double r = 40; r <= radiusX + 30; r += 24) {
+    for (double r = 42; r <= radiusX + 35; r += 22) {
       canvas.drawOval(
-        Rect.fromCenter(center: center, width: r * 2, height: r * 1.5),
+        Rect.fromCenter(center: center, width: r * 2, height: r * 1.55),
         ringPaint,
       );
     }
 
-    // Hacerü'l-Esved Virtual Green Alignment Laser Line (Bottom-Right)
-    final greenLaser = Paint()
-      ..color = const Color(0xFF00FF88).withValues(alpha: 0.85)
-      ..strokeWidth = 2.0
+    // Radial Joint Lines
+    final radialPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.035)
+      ..strokeWidth = 0.8;
+    for (int i = 0; i < 12; i++) {
+      final ang = i * (math.pi / 6);
+      canvas.drawLine(
+        Offset(center.dx + 45 * math.cos(ang), center.dy + 35 * math.sin(ang)),
+        Offset(center.dx + (radiusX + 40) * math.cos(ang), center.dy + (radiusY + 40) * math.sin(ang)),
+        radialPaint,
+      );
+    }
+
+    // Dynamic Ambient Flowing Tawaf Crowd Particles (18 pilgrims circling)
+    final crowdPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.45);
+    for (int i = 0; i < 18; i++) {
+      final crowdSpeed = 1.0 + (i % 3) * 0.15;
+      final crowdAngle =
+          -(animValue * 2 * math.pi * crowdSpeed) + (i * (math.pi * 2 / 18));
+      final ringFactor = 0.65 + ((i * 7) % 10) * 0.07;
+      final px = center.dx + (radiusX * ringFactor) * math.cos(crowdAngle);
+      final py = center.dy + (radiusY * ringFactor) * math.sin(crowdAngle);
+      canvas.drawCircle(Offset(px, py), 2.2, crowdPaint);
+    }
+
+    // Hacerü'l-Esved Virtual Laser Line (Glowing Neon Green)
+    final esvedCorner = center + const Offset(20, 20);
+    final laserEnd = center + const Offset(125, 90);
+
+    final laserGlow = Paint()
+      ..color = const Color(0xFF00FF88).withValues(alpha: 0.35)
+      ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
-      ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 2);
-    final esvedCorner = center + const Offset(18, 18);
-    final laserEnd = center + const Offset(120, 85);
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+    canvas.drawLine(esvedCorner, laserEnd, laserGlow);
+
+    final greenLaser = Paint()
+      ..color = const Color(0xFF00FF88)
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
     canvas.drawLine(esvedCorner, laserEnd, greenLaser);
 
-    // Green Line Label
+    // Animated light beam particle along laser line
+    final laserT = (animValue * 2.5) % 1.0;
+    final beamPos = Offset(
+      esvedCorner.dx + (laserEnd.dx - esvedCorner.dx) * laserT,
+      esvedCorner.dy + (laserEnd.dy - esvedCorner.dy) * laserT,
+    );
+    canvas.drawCircle(
+      beamPos,
+      3.5,
+      Paint()..color = Colors.white,
+    );
+
+    // Green Laser Line Label
     final laserText = TextPainter(
       text: const TextSpan(
         text: 'Hacerü’l-Esved Hizası (Başlangıç/Bitiş)',
         style: TextStyle(
           color: Color(0xFF00FF88),
-          fontSize: 9,
+          fontSize: 8.5,
           fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    laserText.paint(canvas, laserEnd + const Offset(-70, 4));
+    laserText.paint(canvas, laserEnd + const Offset(-65, 3));
 
-    // Hatîm (Hicr-i İsmail) Crescent Wall (Top-Left)
-    final hatimPaint = Paint()
-      ..color = Colors.white70
+    // Hatîm / Hicr-i İsmâîl (North-West Semicircular Marble Wall)
+    final hatimCenter = center + const Offset(-30, -8);
+    final hatimRect = Rect.fromCenter(center: hatimCenter, width: 38, height: 42);
+
+    // Green Carpet inside Hatim
+    final hatimFill = Paint()..color = const Color(0xFF144D34).withValues(alpha: 0.6);
+    canvas.drawArc(hatimRect, math.pi * 0.62, math.pi * 0.76, true, hatimFill);
+
+    // Thick White Marble Wall
+    final hatimWall = Paint()
+      ..color = Colors.white.withValues(alpha: 0.9)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.5;
-    canvas.drawArc(
-      Rect.fromCenter(center: center + const Offset(-28, -6), width: 34, height: 38),
-      math.pi * 0.65,
-      math.pi * 0.70,
-      false,
-      hatimPaint,
-    );
+      ..strokeWidth = 4.0;
+    canvas.drawArc(hatimRect, math.pi * 0.62, math.pi * 0.76, false, hatimWall);
 
-    // Hatîm Outer Safety Boundary (Dotted Arc)
+    // Outer guide dotted arc for Hatim bypass
     final hatimDotted = Paint()
-      ..color = RehberTheme.goldLight.withValues(alpha: 0.5)
+      ..color = RehberTheme.goldLight.withValues(alpha: 0.6)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
     canvas.drawArc(
-      Rect.fromCenter(center: center + const Offset(-36, -6), width: 48, height: 52),
-      math.pi * 0.60,
-      math.pi * 0.80,
+      Rect.fromCenter(center: hatimCenter - const Offset(6, 0), width: 50, height: 54),
+      math.pi * 0.58,
+      math.pi * 0.84,
       false,
       hatimDotted,
     );
 
-    // Makam-ı İbrahim (Golden Dome Symbol)
-    final makamPaint = Paint()..color = RehberTheme.gold;
-    canvas.drawCircle(center + const Offset(36, -12), 4.5, makamPaint);
+    // Makam-ı İbrâhîm (Golden Pavilion with Crystal Dome on East)
+    final makamPos = center + const Offset(42, -12);
+    canvas.drawCircle(
+      makamPos,
+      8.0,
+      Paint()
+        ..color = RehberTheme.goldLight.withValues(alpha: 0.25)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
+    );
+    canvas.drawCircle(makamPos, 5.0, Paint()..color = RehberTheme.goldLight);
+    canvas.drawCircle(makamPos, 2.5, Paint()..color = const Color(0xFFFFF6D6));
 
-    // THE HOLY KAABA (Center Black Cube with Gold Kiswah)
-    final kaabaRect = Rect.fromCenter(center: center, width: 44, height: 44);
-    final kaabaPaint = Paint()..color = const Color(0xFF111111);
+    // THE HOLY KAABA (Detailed Architectural Center Cube)
+    final kaabaRect = Rect.fromCenter(center: center, width: 48, height: 48);
+
+    // Soft Kaaba Shadow
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        kaabaRect.shift(const Offset(3, 4)),
+        const Radius.circular(4),
+      ),
+      Paint()..color = Colors.black.withValues(alpha: 0.55),
+    );
+
+    // Şâzervân (White marble skirting border at base)
+    final shazarvan = kaabaRect.inflate(2.5);
+    canvas.drawRect(shazarvan, Paint()..color = const Color(0xFFDCD8CF));
+
+    // Siyah Kiswah Body (Obsidian Black with subtle vertical fabric pleat lines)
+    final kaabaPaint = Paint()..color = const Color(0xFF141518);
     canvas.drawRect(kaabaRect, kaabaPaint);
 
-    // Gold Kiswah Band
+    final pleatPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.05)
+      ..strokeWidth = 1.0;
+    for (double kx = kaabaRect.left + 5; kx < kaabaRect.right; kx += 7) {
+      canvas.drawLine(
+        Offset(kx, kaabaRect.top),
+        Offset(kx, kaabaRect.bottom),
+        pleatPaint,
+      );
+    }
+
+    // Golden Kiswah Band (Hizâm - Altın Sırma Kemer)
+    final hizamY = kaabaRect.top + 10;
     final goldBand = Paint()
       ..color = RehberTheme.goldLight
-      ..strokeWidth = 2.5
+      ..strokeWidth = 2.8
       ..style = PaintingStyle.stroke;
-    canvas.drawRect(kaabaRect.deflate(6), goldBand);
+    canvas.drawRect(
+      Rect.fromLTRB(kaabaRect.left + 2, hizamY, kaabaRect.right - 2, hizamY + 4),
+      goldBand,
+    );
 
-    // Hacerü'l-Esved Silver Casing at Corner
-    final esvedPaint = Paint()..color = const Color(0xFFC0C0C0);
-    canvas.drawCircle(kaabaRect.bottomRight + const Offset(-2, -2), 3.5, esvedPaint);
+    // Bâbü'l-Kâbe (Golden Door on Eastern Wall)
+    final doorRect = Rect.fromLTWH(kaabaRect.right - 10, kaabaRect.top + 14, 8, 18);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(doorRect, const Radius.circular(2)),
+      Paint()..color = RehberTheme.goldLight,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(doorRect, const Radius.circular(2)),
+      Paint()
+        ..color = const Color(0xFF8A6D1C)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0,
+    );
+
+    // Mîzâbü'r-Rahme (Golden Water Spout on NW Wall facing Hatim)
+    final spoutPaint = Paint()
+      ..color = RehberTheme.goldLight
+      ..strokeWidth = 2.0;
+    canvas.drawLine(
+      kaabaRect.topLeft + const Offset(8, 0),
+      kaabaRect.topLeft + const Offset(4, -4),
+      spoutPaint,
+    );
+
+    // Hacerü'l-Esved Silver Teardrop Casing at SE Corner
+    final esvedCasing = Paint()..color = const Color(0xFFE8E8E8);
+    final esvedStone = Paint()..color = const Color(0xFF0A0A0A);
+    final esvedPt = kaabaRect.bottomRight + const Offset(-2, -2);
+    canvas.drawCircle(esvedPt, 4.5, esvedCasing);
+    canvas.drawCircle(esvedPt, 2.2, esvedStone);
+
+    // Rükn-i Yemânî at SW Corner (Traditional Stone Accent)
+    final yemaniPt = kaabaRect.bottomLeft + const Offset(2, -2);
+    canvas.drawCircle(yemaniPt, 2.5, Paint()..color = const Color(0xFFB89772));
 
     // COUNTER-CLOCKWISE PILGRIM ORBIT
-    // Tawaf strictly proceeds counter-clockwise with Kaaba on left shoulder.
+    // Tawaf strictly proceeds counter-clockwise with Kaaba on the left shoulder.
     final angle = -(animValue * 2 * math.pi) + (math.pi * 0.35);
     final pilgrimPos = Offset(
       center.dx + (radiusX * math.cos(angle)),
       center.dy + (radiusY * math.sin(angle)),
     );
 
+    // Golden User Pilgrim Orbit Ring Track
+    final orbitTrack = Paint()
+      ..color = RehberTheme.goldLight.withValues(alpha: 0.16)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+    canvas.drawOval(
+      Rect.fromCenter(center: center, width: radiusX * 2, height: radiusY * 2),
+      orbitTrack,
+    );
+
     // Pilgrim Light Aura Trail
     final auraPaint = Paint()
-      ..color = RehberTheme.goldLight.withValues(alpha: 0.25)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7);
-    canvas.drawCircle(pilgrimPos, 14, auraPaint);
+      ..color = RehberTheme.emerald.withValues(alpha: 0.35)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+    canvas.drawCircle(pilgrimPos, 16, auraPaint);
 
-    // Pilgrim Dot
-    final pilgrimPaint = Paint()..color = Colors.white;
-    canvas.drawCircle(pilgrimPos, 5, pilgrimPaint);
+    final goldAura = Paint()
+      ..color = RehberTheme.goldLight.withValues(alpha: 0.5)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
+    canvas.drawCircle(pilgrimPos, 10, goldAura);
+
+    // White Robed Pilgrim Figure
+    canvas.drawCircle(pilgrimPos, 5.5, Paint()..color = Colors.white);
+    canvas.drawCircle(
+      pilgrimPos,
+      5.5,
+      Paint()
+        ..color = RehberTheme.emerald
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2,
+    );
+
+    // Directional Forward Chevron / Arrow (Pointing CCW)
+    final arrowAng = angle - (math.pi / 2);
+    final arrowTip = pilgrimPos + Offset(math.cos(arrowAng) * 9, math.sin(arrowAng) * 9);
+    final arrowPaint = Paint()
+      ..color = RehberTheme.goldLight
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(pilgrimPos, arrowTip, arrowPaint);
 
     // Shawt Badge
     final shawtNo = (shawtIndex + 1).clamp(1, 7);
+    final badgeBox = RRect.fromRectAndRadius(
+      Rect.fromLTWH(pilgrimPos.dx + 9, pilgrimPos.dy - 16, 46, 17),
+      const Radius.circular(6),
+    );
+    canvas.drawRRect(badgeBox, Paint()..color = Colors.black87);
+    canvas.drawRRect(
+      badgeBox,
+      Paint()
+        ..color = RehberTheme.goldLight
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.8,
+    );
+
     final badgeText = TextPainter(
       text: TextSpan(
         text: '$shawtNo. Şavt',
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 10,
+          fontSize: 9.5,
           fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    badgeText.paint(canvas, pilgrimPos + const Offset(8, -14));
+    badgeText.paint(canvas, Offset(pilgrimPos.dx + 13, pilgrimPos.dy - 14.5));
 
-    // İstimlâm Flash when crossing start line
-    final isNearStartLine = (angle % (2 * math.pi)).abs() < 0.25;
+    // İstimlâm Event Flash when passing Hacerü'l-Esved line
+    final isNearStartLine = (angle % (2 * math.pi)).abs() < 0.28;
     if (isNearStartLine) {
+      final flashWave = Paint()
+        ..color = const Color(0xFF00FF88).withValues(alpha: 0.3)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+      canvas.drawCircle(esvedPt, 22, flashWave);
+
+      final flashBanner = RRect.fromRectAndRadius(
+        Rect.fromCenter(center: center + const Offset(0, 78), width: 210, height: 22),
+        const Radius.circular(8),
+      );
+      canvas.drawRRect(flashBanner, Paint()..color = Colors.black.withValues(alpha: 0.88));
+      canvas.drawRRect(
+        flashBanner,
+        Paint()
+          ..color = const Color(0xFF00FF88)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
+
       final flashText = TextPainter(
         text: const TextSpan(
-          text: 'İstimlâm: Bismillahi Allahu Ekber',
+          text: 'İstimlâm: Bismillâhi Allâhu Ekber ✋',
           style: TextStyle(
             color: Color(0xFF00FF88),
-            fontSize: 10,
-            fontWeight: FontWeight.w900,
+            fontSize: 9.5,
+            fontWeight: FontWeight.bold,
           ),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
-      flashText.paint(canvas, center + const Offset(-80, 72));
+      flashText.paint(canvas, center + const Offset(-95, 71.5));
     }
   }
 
@@ -936,7 +1410,7 @@ class _TawafStagePainter extends CustomPainter {
 }
 
 // ==========================================
-// 3. SAFÂ - MERVE SA'Y YOLU PAINTER'I
+// 3. SAFÂ - MERVE SA'Y YOLU PAINTER'I (PRO)
 // ==========================================
 class _SayStagePainter extends CustomPainter {
   const _SayStagePainter({
@@ -952,116 +1426,258 @@ class _SayStagePainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // Background
-    final bgPaint = Paint()..color = const Color(0xFF0B1F1A);
+    // Ambient Corridor Canvas
+    final bgPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          const Color(0xFF091F18),
+          const Color(0xFF05110E),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
 
-    // Safa Hill (Left) & Merve Hill (Right)
-    final safaPaint = Paint()..color = const Color(0xFF4A3E2D);
-    final mervePaint = Paint()..color = const Color(0xFF3D3528);
+    // Architectural Arched Islamic Ceiling Beams
+    final archPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.05)
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+    for (double ax = 55; ax <= w - 55; ax += 38) {
+      canvas.drawLine(Offset(ax, 0), Offset(ax, h * 0.35), archPaint);
+      canvas.drawArc(
+        Rect.fromCenter(center: Offset(ax + 19, h * 0.35), width: 38, height: 26),
+        math.pi,
+        math.pi,
+        false,
+        archPaint,
+      );
+    }
 
+    final laneY = h * 0.58;
+
+    // Polished Marble Dual Walking Lanes
+    final floorPaint = Paint()..color = const Color(0xFF0E2B21);
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(10, h * 0.35, 50, h * 0.45),
-        const Radius.circular(10),
+        Rect.fromLTWH(45, laneY - 26, w - 90, 52),
+        const Radius.circular(8),
       ),
-      safaPaint,
-    );
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(w - 60, h * 0.35, 50, h * 0.45),
-        const Radius.circular(10),
-      ),
-      mervePaint,
+      floorPaint,
     );
 
-    // Labels
-    final textStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 11,
-      fontWeight: FontWeight.bold,
-    );
-    final safaLabel = TextPainter(
-      text: TextSpan(text: 'SAFÂ\n(Başlangıç)', style: textStyle),
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    )..layout();
-    safaLabel.paint(canvas, Offset(14, h * 0.42));
-
-    final merveLabel = TextPainter(
-      text: TextSpan(text: 'MERVE\n(Bitiş)', style: textStyle),
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    )..layout();
-    merveLabel.paint(canvas, Offset(w - 56, h * 0.42));
-
-    // The Walking Lane
-    final laneY = h * 0.55;
-    final lanePaint = Paint()
+    // Lane Divider Center Island (Wheelchair / Stroller path)
+    final dividerPaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.15)
-      ..strokeWidth = 2.0;
-    canvas.drawLine(Offset(60, laneY), Offset(w - 60, laneY), lanePaint);
+      ..strokeWidth = 1.5;
+    canvas.drawLine(Offset(50, laneY), Offset(w - 50, laneY), dividerPaint);
 
-    // Green Lights / Hervele Rapid Walking Zone (Center Third)
-    final greenZoneStart = w * 0.35;
-    final greenZoneEnd = w * 0.65;
-    final herveleZone = Rect.fromLTWH(
+    // HERVELE ZONE: Real green fluorescent lights between the green pillars (~55m)
+    final greenZoneStart = w * 0.33;
+    final greenZoneEnd = w * 0.67;
+    final greenZoneRect = Rect.fromLTWH(
       greenZoneStart,
       laneY - 26,
       greenZoneEnd - greenZoneStart,
       52,
     );
-    final hervelePaint = Paint()
-      ..color = const Color(0xFF00FF88).withValues(alpha: 0.16);
+
+    // Volumetric Emerald Glow Cone from ceiling down to floor
+    final conePaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          const Color(0xFF00FF88).withValues(alpha: 0.28),
+          const Color(0xFF00FF88).withValues(alpha: 0.08),
+        ],
+      ).createShader(greenZoneRect);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(herveleZone, const Radius.circular(8)),
-      hervelePaint,
+      RRect.fromRectAndRadius(greenZoneRect, const Radius.circular(8)),
+      conePaint,
     );
 
-    // Fluorescent Green Lamps
-    final lampPaint = Paint()
+    // Overhead Fluorescent Green Light Tubes
+    final tubePaint = Paint()
       ..color = const Color(0xFF00FF88)
-      ..strokeWidth = 3.0
-      ..strokeCap = StrokeCap.round;
+      ..strokeWidth = 3.5
+      ..strokeCap = StrokeCap.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 2);
     canvas.drawLine(
-      Offset(greenZoneStart, laneY - 22),
-      Offset(greenZoneEnd, laneY - 22),
-      lampPaint,
+      Offset(greenZoneStart, laneY - 24),
+      Offset(greenZoneEnd, laneY - 24),
+      tubePaint,
     );
 
+    // Green Pillars (Milên Ahdaren)
+    final pillarPaint = Paint()
+      ..color = const Color(0xFF00FF88)
+      ..strokeWidth = 2.5;
+    canvas.drawLine(
+      Offset(greenZoneStart, laneY - 26),
+      Offset(greenZoneStart, laneY + 26),
+      pillarPaint,
+    );
+    canvas.drawLine(
+      Offset(greenZoneEnd, laneY - 26),
+      Offset(greenZoneEnd, laneY + 26),
+      pillarPaint,
+    );
+
+    // Hervele Info Label
     final herveleText = TextPainter(
       text: const TextSpan(
-        text: 'Hervele Bölgesi (Yeşil Işıklar Arasında Hızlı Yürüyüş)',
+        text: '⚡ Hervele Alanı (Yeşil Işıklar: Hızlı ve Canlı Yürüyüş)',
         style: TextStyle(
           color: Color(0xFF00FF88),
-          fontSize: 8,
-          fontWeight: FontWeight.w600,
+          fontSize: 8.5,
+          fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    herveleText.paint(canvas, Offset(w * 0.32, laneY + 16));
+    herveleText.paint(canvas, Offset(w * 0.31, laneY + 28));
 
-    // Direction and Lap Calculation
-    // Odd laps: Safa -> Merve; Even laps: Merve -> Safa
+    // SAFÂ TEPESİ (Left Rocky Elevation)
+    final hillPaint = Paint()..color = const Color(0xFF42372A);
+    final safaPath = Path()
+      ..moveTo(8, laneY + 26)
+      ..lineTo(8, laneY - 14)
+      ..quadraticBezierTo(28, laneY - 24, 48, laneY - 12)
+      ..lineTo(48, laneY + 26)
+      ..close();
+    canvas.drawPath(safaPath, hillPaint);
+    canvas.drawPath(
+      safaPath,
+      Paint()
+        ..color = RehberTheme.goldLight
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2,
+    );
+
+    // MERVE TEPESİ (Right Rocky Elevation)
+    final mervePath = Path()
+      ..moveTo(w - 48, laneY + 26)
+      ..lineTo(w - 48, laneY - 12)
+      ..quadraticBezierTo(w - 28, laneY - 24, w - 8, laneY - 14)
+      ..lineTo(w - 8, laneY + 26)
+      ..close();
+    canvas.drawPath(mervePath, hillPaint);
+    canvas.drawPath(
+      mervePath,
+      Paint()
+        ..color = RehberTheme.goldLight
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2,
+    );
+
+    // Hill Labels
+    final hillStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 9.5,
+      fontWeight: FontWeight.bold,
+    );
+    final safaLabel = TextPainter(
+      text: TextSpan(text: 'SAFÂ\n(Başlangıç)', style: hillStyle),
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    safaLabel.paint(canvas, Offset(11, laneY - 10));
+
+    final merveLabel = TextPainter(
+      text: TextSpan(text: 'MERVE\n(Bitiş)', style: hillStyle),
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    merveLabel.paint(canvas, Offset(w - 46, laneY - 10));
+
+    // Direction and Dynamic Pilgrim Movement
+    // Laps 0, 2, 4, 6: Safa -> Merve; Laps 1, 3, 5: Merve -> Safa
     final isGoingToMerve = (lapIndex % 2) == 0;
     final t = isGoingToMerve ? animValue : (1.0 - animValue);
-    final pilgrimX = 65 + (w - 130) * t;
+    final pilgrimX = 55 + (w - 110) * t;
 
-    // Pilgrim Walker
-    final pilgrimPaint = Paint()..color = Colors.white;
-    canvas.drawCircle(Offset(pilgrimX, laneY - 6), 6, pilgrimPaint);
+    // Hervele check (is pilgrim inside green zone?)
+    final isInsideHervele =
+        pilgrimX >= greenZoneStart && pilgrimX <= greenZoneEnd;
 
-    // Direction Arrow
+    // In Hervele zone: Stride speed doubles with energetic vertical trot bob
+    final trotBob = isInsideHervele
+        ? (math.sin(animValue * math.pi * 12) * 2.8).abs()
+        : (math.sin(animValue * math.pi * 6) * 1.5).abs();
+
+    final pilgrimY = (isGoingToMerve ? laneY - 12 : laneY + 12) - trotBob;
+
+    // Speed trails if inside Hervele
+    if (isInsideHervele) {
+      final trailPaint = Paint()
+        ..color = const Color(0xFF00FF88).withValues(alpha: 0.35)
+        ..strokeWidth = 2.0;
+      final trailDir = isGoingToMerve ? -14 : 14;
+      canvas.drawLine(
+        Offset(pilgrimX + trailDir, pilgrimY),
+        Offset(pilgrimX, pilgrimY),
+        trailPaint,
+      );
+    }
+
+    // Pilgrim Avatar
+    canvas.drawCircle(
+      Offset(pilgrimX, pilgrimY),
+      8.0,
+      Paint()
+        ..color = isInsideHervele
+            ? const Color(0xFF00FF88).withValues(alpha: 0.4)
+            : RehberTheme.goldLight.withValues(alpha: 0.3)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
+    );
+    canvas.drawCircle(Offset(pilgrimX, pilgrimY), 5.5, Paint()..color = Colors.white);
+
+    // Direction Arrow next to pilgrim
     final arrowPaint = Paint()
       ..color = RehberTheme.goldLight
       ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round;
-    final arrowDir = isGoingToMerve ? 6 : -6;
+    final dirSign = isGoingToMerve ? 7.0 : -7.0;
     canvas.drawLine(
-      Offset(pilgrimX, laneY - 6),
-      Offset(pilgrimX + arrowDir, laneY - 6),
+      Offset(pilgrimX, pilgrimY),
+      Offset(pilgrimX + dirSign, pilgrimY),
       arrowPaint,
+    );
+
+    // Lap HUD Pill at top center
+    final lapText = '${(lapIndex + 1).clamp(1, 7)}. Tur: ${isGoingToMerve ? "Safâ ➔ Merve" : "Merve ➔ Safâ"} (~395m)';
+    final hudPainter = TextPainter(
+      text: TextSpan(
+        text: lapText,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 9.5,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final hudRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(w * 0.50, h * 0.22),
+        width: hudPainter.width + 18,
+        height: 20,
+      ),
+      const Radius.circular(10),
+    );
+    canvas.drawRRect(hudRect, Paint()..color = Colors.black87);
+    canvas.drawRRect(
+      hudRect,
+      Paint()
+        ..color = RehberTheme.emerald
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0,
+    );
+    hudPainter.paint(
+      canvas,
+      Offset(w * 0.50 - hudPainter.width / 2, h * 0.22 - 6),
     );
   }
 
@@ -1072,7 +1688,7 @@ class _SayStagePainter extends CustomPainter {
 }
 
 // ==========================================
-// 4. MÎKĀT VE İHRAM PAINTER'I
+// 4. MÎKĀT VE İHRAM HAZIRLIĞI PAINTER'I (PRO)
 // ==========================================
 class _IhramStagePainter extends CustomPainter {
   const _IhramStagePainter({
@@ -1088,20 +1704,74 @@ class _IhramStagePainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    final bgPaint = Paint()..color = const Color(0xFF0B1F1A);
+    // Atmospheric Twilight Desert Sky
+    final bgPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          const Color(0xFF091C15),
+          const Color(0xFF0B241C),
+          const Color(0xFF16382C),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
 
-    // Mîkāt Gate Arch (Center-Left)
+    // Twinkling Desert Stars & Silver Crescent Moon
+    final starPaint = Paint()..color = Colors.white.withValues(alpha: 0.65);
+    for (final star in [
+      Offset(w * 0.12, h * 0.14),
+      Offset(w * 0.25, h * 0.08),
+      Offset(w * 0.48, h * 0.12),
+      Offset(w * 0.78, h * 0.09),
+      Offset(w * 0.88, h * 0.16),
+    ]) {
+      canvas.drawCircle(star, 1.2, starPaint);
+    }
+
+    // Crescent Moon
+    final moonCenter = Offset(w * 0.84, h * 0.15);
+    canvas.drawCircle(moonCenter, 7.0, Paint()..color = const Color(0xFFFFF7D6));
+    canvas.drawCircle(moonCenter + const Offset(2.5, -1), 6.0, Paint()..color = const Color(0xFF091C15));
+
+    // Monumental Mîkāt Mosque Archway (Center-Left)
+    final archCenter = Offset(w * 0.32, h * 0.58);
     final archPaint = Paint()
       ..color = RehberTheme.goldLight
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
-    canvas.drawArc(
-      Rect.fromCenter(center: Offset(w * 0.35, h * 0.50), width: 70, height: 95),
-      math.pi,
-      math.pi,
-      false,
-      archPaint,
+
+    // Horseshoe Islamic Arch Profile
+    final archPath = Path()
+      ..moveTo(archCenter.dx - 36, archCenter.dy + 35)
+      ..lineTo(archCenter.dx - 36, archCenter.dy - 10)
+      ..quadraticBezierTo(
+        archCenter.dx - 36,
+        archCenter.dy - 35,
+        archCenter.dx,
+        archCenter.dy - 44,
+      )
+      ..quadraticBezierTo(
+        archCenter.dx + 36,
+        archCenter.dy - 35,
+        archCenter.dx + 36,
+        archCenter.dy - 10,
+      )
+      ..lineTo(archCenter.dx + 36, archCenter.dy + 35);
+    canvas.drawPath(archPath, archPaint);
+
+    // Arch Gate Plaque
+    final plaque = RRect.fromRectAndRadius(
+      Rect.fromCenter(center: Offset(archCenter.dx, archCenter.dy - 48), width: 90, height: 16),
+      const Radius.circular(5),
+    );
+    canvas.drawRRect(plaque, Paint()..color = Colors.black87);
+    canvas.drawRRect(
+      plaque,
+      Paint()
+        ..color = RehberTheme.goldLight
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.8,
     );
 
     final gateText = TextPainter(
@@ -1109,56 +1779,134 @@ class _IhramStagePainter extends CustomPainter {
         text: 'MÎKĀT SINIRI',
         style: TextStyle(
           color: RehberTheme.goldLight,
-          fontSize: 9,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    gateText.paint(canvas, Offset(w * 0.26, h * 0.22));
-
-    // Pilgrim Entering in White Ihram (Center-Right)
-    final pilgrimX = w * 0.62 + (math.sin(animValue * math.pi * 2) * 2);
-    final pilgrimY = h * 0.52;
-
-    // Head
-    canvas.drawCircle(Offset(pilgrimX, pilgrimY - 26), 9, Paint()..color = const Color(0xFFFFD1A9));
-    // White Ihram Cloth (Two pieces)
-    final ihramPaint = Paint()..color = Colors.white;
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromCenter(center: Offset(pilgrimX, pilgrimY + 4), width: 26, height: 38),
-        const Radius.circular(6),
-      ),
-      ihramPaint,
-    );
-
-    // Intention / Talbiyah Speech Bubble
-    final bubbleRect = RRect.fromRectAndRadius(
-      Rect.fromCenter(center: Offset(w * 0.62, h * 0.22), width: 140, height: 28),
-      const Radius.circular(8),
-    );
-    canvas.drawRRect(bubbleRect, Paint()..color = Colors.black87);
-    canvas.drawRRect(
-      bubbleRect,
-      Paint()
-        ..color = RehberTheme.emerald
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.0,
-    );
-
-    final bubbleText = TextPainter(
-      text: const TextSpan(
-        text: 'Lebbeyk Allahümme Lebbeyk...',
-        style: TextStyle(
-          color: Color(0xFF00FF88),
           fontSize: 8.5,
           fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    bubbleText.paint(canvas, Offset(w * 0.44, h * 0.17));
+    gateText.paint(canvas, Offset(archCenter.dx - gateText.width / 2, archCenter.dy - 54));
+
+    // Pilgrim in White Ihram on Right (Center-Right)
+    final pilgrimCenter = Offset(w * 0.68, h * 0.60);
+    final breathing = math.sin(animValue * math.pi * 2) * 1.5;
+
+    // Spiritual Aura Glow around Pilgrim
+    canvas.drawCircle(
+      pilgrimCenter + const Offset(0, -10),
+      28,
+      Paint()
+        ..color = RehberTheme.goldLight.withValues(alpha: 0.18)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10),
+    );
+
+    // Prayer Rug (Seccade) under Pilgrim
+    final rugRect = Rect.fromCenter(
+      center: Offset(pilgrimCenter.dx, pilgrimCenter.dy + 26),
+      width: 44,
+      height: 12,
+    );
+    canvas.drawOval(rugRect, Paint()..color = const Color(0xFF1B4332));
+    canvas.drawOval(
+      rugRect,
+      Paint()
+        ..color = RehberTheme.goldLight
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0,
+    );
+
+    // Head
+    final headPt = Offset(pilgrimCenter.dx, pilgrimCenter.dy - 36 + breathing);
+    canvas.drawCircle(headPt, 9.5, Paint()..color = const Color(0xFFFFD5B3));
+
+    // Two-Piece White Ihram (İzâr lower wrap + Ridâ upper wrap)
+    final ihramPaint = Paint()..color = Colors.white;
+    // Lower wrap (İzâr)
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(pilgrimCenter.dx, pilgrimCenter.dy + 8 + breathing),
+          width: 24,
+          height: 26,
+        ),
+        const Radius.circular(5),
+      ),
+      ihramPaint,
+    );
+    // Upper wrap (Ridâ - draped over shoulder)
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(pilgrimCenter.dx, pilgrimCenter.dy - 12 + breathing),
+          width: 28,
+          height: 24,
+        ),
+        const Radius.circular(6),
+      ),
+      ihramPaint,
+    );
+
+    // Folds & Golden Ihram Belt
+    final beltPaint = Paint()
+      ..color = RehberTheme.goldLight
+      ..strokeWidth = 2.0;
+    canvas.drawLine(
+      Offset(pilgrimCenter.dx - 12, pilgrimCenter.dy - 1 + breathing),
+      Offset(pilgrimCenter.dx + 12, pilgrimCenter.dy - 1 + breathing),
+      beltPaint,
+    );
+
+    // Raised Dua Hands
+    final handPaint = Paint()
+      ..color = const Color(0xFFFFD5B3)
+      ..strokeWidth = 3.5
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(
+      Offset(pilgrimCenter.dx - 8, pilgrimCenter.dy - 14 + breathing),
+      Offset(pilgrimCenter.dx - 3, pilgrimCenter.dy - 22 + breathing),
+      handPaint,
+    );
+    canvas.drawLine(
+      Offset(pilgrimCenter.dx + 8, pilgrimCenter.dy - 14 + breathing),
+      Offset(pilgrimCenter.dx + 3, pilgrimCenter.dy - 22 + breathing),
+      handPaint,
+    );
+
+    // Intention & Talbiyah Illuminated Speech Bubble
+    final bubbleRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(w * 0.58, h * 0.22),
+        width: 175,
+        height: 32,
+      ),
+      const Radius.circular(10),
+    );
+    canvas.drawRRect(bubbleRect, Paint()..color = Colors.black.withValues(alpha: 0.85));
+    canvas.drawRRect(
+      bubbleRect,
+      Paint()
+        ..color = RehberTheme.emerald
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2,
+    );
+
+    final bubbleText = TextPainter(
+      text: const TextSpan(
+        text: 'لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ...\n"Lebbeyk Allâhümme Lebbeyk"',
+        style: TextStyle(
+          color: Color(0xFF00FF88),
+          fontSize: 9.0,
+          fontWeight: FontWeight.bold,
+          height: 1.25,
+        ),
+      ),
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    )..layout();
+    bubbleText.paint(
+      canvas,
+      Offset(w * 0.58 - bubbleText.width / 2, h * 0.22 - 11),
+    );
   }
 
   @override
@@ -1168,7 +1916,7 @@ class _IhramStagePainter extends CustomPainter {
 }
 
 // ==========================================
-// 5. CEMARAT (ŞEYTAN TAŞLAMA) PAINTER'I
+// 5. CEMARAT (ŞEYTAN TAŞLAMA) PAINTER'I (PRO)
 // ==========================================
 class _CemaratStagePainter extends CustomPainter {
   const _CemaratStagePainter({
@@ -1184,54 +1932,228 @@ class _CemaratStagePainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    final bgPaint = Paint()..color = const Color(0xFF0B1F1A);
+    // Jamarat Bridge Platform Canvas
+    final bgPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          const Color(0xFF132620),
+          const Color(0xFF081410),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
 
-    // Draw Jamarat Pillar (Center)
-    final pillarRect = RRect.fromRectAndRadius(
-      Rect.fromCenter(center: Offset(w * 0.72, h * 0.50), width: 36, height: 75),
-      const Radius.circular(6),
+    // Platform Safety Barrier Line
+    final floorY = h * 0.74;
+    canvas.drawLine(
+      Offset(0, floorY),
+      Offset(w, floorY),
+      Paint()
+        ..color = Colors.white.withValues(alpha: 0.12)
+        ..strokeWidth = 1.5,
     );
-    canvas.drawRRect(pillarRect, Paint()..color = const Color(0xFF7D6B58));
+
+    // Massive Elliptical Stone Jamarat Pillar (Cemre Duvarı on Right)
+    final pillarCenter = Offset(w * 0.74, h * 0.48);
+    const pillarWidth = 42.0;
+    const pillarHeight = 84.0;
+    final pillarRect = Rect.fromCenter(
+      center: pillarCenter,
+      width: pillarWidth,
+      height: pillarHeight,
+    );
+
+    // Pillar Shadow
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(pillarCenter.dx, pillarRect.bottom + 6),
+        width: 60,
+        height: 14,
+      ),
+      Paint()..color = Colors.black.withValues(alpha: 0.45),
+    );
+
+    // Chiseled Sandstone Masonry
+    final pillarPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          const Color(0xFF96826D),
+          const Color(0xFF6B5A49),
+        ],
+      ).createShader(pillarRect);
+
+    final pillarRRect = RRect.fromRectAndRadius(pillarRect, const Radius.circular(8));
+    canvas.drawRRect(pillarRRect, pillarPaint);
     canvas.drawRRect(
-      pillarRect,
+      pillarRRect,
       Paint()
         ..color = RehberTheme.goldLight
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5,
     );
 
-    // Oval Basin around Pillar
+    // Masonry Course Lines on Pillar
+    final stoneLine = Paint()
+      ..color = Colors.black.withValues(alpha: 0.22)
+      ..strokeWidth = 1.0;
+    for (double sy = pillarRect.top + 14; sy < pillarRect.bottom; sy += 15) {
+      canvas.drawLine(
+        Offset(pillarRect.left + 4, sy),
+        Offset(pillarRect.right - 4, sy),
+        stoneLine,
+      );
+    }
+
+    // Oval Collection Basin (Havuz) around Pillar
+    final basinRect = Rect.fromCenter(
+      center: Offset(pillarCenter.dx, pillarRect.bottom + 4),
+      width: 95,
+      height: 28,
+    );
+    canvas.drawOval(basinRect, Paint()..color = const Color(0xFF1E382D));
     canvas.drawOval(
-      Rect.fromCenter(center: Offset(w * 0.72, h * 0.76), width: 85, height: 26),
+      basinRect,
       Paint()
-        ..color = Colors.white24
+        ..color = RehberTheme.goldLight.withValues(alpha: 0.6)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0,
+        ..strokeWidth = 1.8,
     );
 
-    // Flying Pebble (Taş)
-    final startPt = Offset(w * 0.25, h * 0.65);
-    final targetPt = Offset(w * 0.72, h * 0.45);
+    // Pilgrim Thrower on Left
+    final throwerPos = Offset(w * 0.20, floorY);
+    _drawThrower(canvas, throwerPos, animValue);
+
+    // Ballistic Trajectory of the Flying Pebble (Taş)
+    final startPt = Offset(throwerPos.dx + 16, throwerPos.dy - 44);
+    final targetPt = Offset(pillarCenter.dx - (pillarWidth * 0.4), pillarCenter.dy - 8);
+
     final t = animValue;
     final stoneX = startPt.dx + (targetPt.dx - startPt.dx) * t;
-    final stoneY = startPt.dy + (targetPt.dy - startPt.dy) * t - (math.sin(t * math.pi) * 35);
+    final arcY = -48 * math.sin(t * math.pi);
+    final stoneY = startPt.dy + (targetPt.dy - startPt.dy) * t + arcY;
 
-    final stonePaint = Paint()..color = const Color(0xFFE0E0E0);
-    canvas.drawCircle(Offset(stoneX, stoneY), 3.5, stonePaint);
+    // Glowing motion trail
+    if (t > 0.08 && t < 0.95) {
+      canvas.drawCircle(
+        Offset(stoneX, stoneY),
+        4.0,
+        Paint()
+          ..color = RehberTheme.goldLight.withValues(alpha: 0.4)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+      );
+    }
 
+    if (t < 0.92) {
+      // Pebble in Flight
+      final pebblePaint = Paint()..color = const Color(0xFFF2EFE9);
+      canvas.drawCircle(Offset(stoneX, stoneY), 3.8, pebblePaint);
+      canvas.drawCircle(
+        Offset(stoneX, stoneY),
+        3.8,
+        Paint()
+          ..color = const Color(0xFF887766)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.8,
+      );
+    } else {
+      // Strike impact on Pillar wall
+      final impactWave = Paint()
+        ..color = const Color(0xFF00FF88).withValues(alpha: 0.6)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+      canvas.drawCircle(targetPt, 14, impactWave);
+
+      // Pebble falling into basin
+      final fallY = targetPt.dy + (pillarRect.bottom - targetPt.dy) * ((t - 0.92) / 0.08);
+      canvas.drawCircle(Offset(targetPt.dx, fallY), 3.2, Paint()..color = Colors.white70);
+    }
+
+    // Takbir Badge Callout
     final takbirText = TextPainter(
       text: const TextSpan(
-        text: 'Bismillahi Allahu Ekber',
+        text: 'Bismillâhi Allâhu Ekber 💥',
         style: TextStyle(
           color: Color(0xFF00FF88),
-          fontSize: 9,
+          fontSize: 9.5,
           fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    takbirText.paint(canvas, Offset(w * 0.22, h * 0.42));
+
+    final takbirPill = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: Offset(w * 0.44, h * 0.22),
+        width: takbirText.width + 16,
+        height: 20,
+      ),
+      const Radius.circular(8),
+    );
+    canvas.drawRRect(takbirPill, Paint()..color = Colors.black87);
+    canvas.drawRRect(
+      takbirPill,
+      Paint()
+        ..color = const Color(0xFF00FF88)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0,
+    );
+    takbirText.paint(
+      canvas,
+      Offset(w * 0.44 - takbirText.width / 2, h * 0.22 - 6),
+    );
+
+    // Stone Counter Pill (e.g. 1/7 Taş Atıldı)
+    final stoneNo = ((targetIndex) % 7) + 1;
+    final counterText = '$stoneNo / 7 Taş Atıldı';
+    final counterPainter = TextPainter(
+      text: TextSpan(
+        text: counterText,
+        style: const TextStyle(
+          color: RehberTheme.goldLight,
+          fontSize: 9.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    counterPainter.paint(canvas, Offset(w * 0.74 - counterPainter.width / 2, h * 0.88));
+  }
+
+  void _drawThrower(Canvas canvas, Offset pos, double anim) {
+    // Drop shadow
+    canvas.drawOval(
+      Rect.fromCenter(center: pos + const Offset(0, 3), width: 30, height: 8),
+      Paint()..color = Colors.black.withValues(alpha: 0.35),
+    );
+
+    // Head
+    canvas.drawCircle(
+      pos + const Offset(0, -50),
+      9.0,
+      Paint()..color = const Color(0xFFFFD5B3),
+    );
+
+    // White Ihram Robe
+    final robeRRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(center: pos + const Offset(0, -25), width: 22, height: 34),
+      const Radius.circular(6),
+    );
+    canvas.drawRRect(robeRRect, Paint()..color = Colors.white);
+
+    // Throwing Arm Animation (Cocks back then throws forward)
+    final armAngle = anim < 0.4 ? -(anim * 2) : (anim - 0.4) * 2.5;
+    final handX = pos.dx + 8 + (math.cos(armAngle) * 12);
+    final handY = pos.dy - 38 - (math.sin(armAngle) * 8);
+
+    final armPaint = Paint()
+      ..color = const Color(0xFFFFD5B3)
+      ..strokeWidth = 3.8
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(pos + const Offset(6, -38), Offset(handX, handY), armPaint);
   }
 
   @override

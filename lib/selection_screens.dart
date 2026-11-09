@@ -287,9 +287,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Color(0xFF07091B),
-                        Color(0xFF0C1236),
-                        Color(0xFF131D56),
+                        Color(0xFF05140F),
+                        Color(0xFF0B261D),
+                        Color(0xFF133B2E),
                       ],
                     ),
                   ),
@@ -830,22 +830,22 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(38),
                 border: Border.all(
-                  color: const Color(0xFF00C8FF),
-                  width: 2.8,
+                  color: RehberTheme.goldLight.withValues(alpha: 0.65),
+                  width: 2.2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF0077B6).withValues(
+                    color: RehberTheme.emerald.withValues(
                       alpha: 0.45 + (pulse * 0.25),
                     ),
                     blurRadius: glowBlur,
                     spreadRadius: glowSpread,
                   ),
                   BoxShadow(
-                    color: const Color(0xFF00E5FF).withValues(
+                    color: RehberTheme.goldLight.withValues(
                       alpha: 0.20 + (pulse * 0.15),
                     ),
-                    blurRadius: 8,
+                    blurRadius: 10,
                     spreadRadius: 0,
                   ),
                 ],
@@ -858,9 +858,9 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Color(0xFF080B22),
-                        Color(0xFF0D1540),
-                        Color(0xFF152366),
+                        Color(0xFF071913),
+                        Color(0xFF0E2D23),
+                        Color(0xFF164234),
                       ],
                       stops: [0.0, 0.5, 1.0],
                     ),
@@ -879,7 +879,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                           width: 80,
                           height: 18,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF040611),
+                            color: const Color(0xFF040D0A),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: Colors.white.withValues(alpha: 0.08),
@@ -893,7 +893,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                 width: 6,
                                 height: 6,
                                 decoration: const BoxDecoration(
-                                  color: Color(0xFF0D1B3E),
+                                  color: Color(0xFF0B241C),
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -916,10 +916,10 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                     TextSpan(
                                       text: 'Kutlu Yolculuğunuza\n',
                                       style: TextStyle(
-                                        color: Color(0xFFE28E9E),
+                                        color: Colors.white,
                                         shadows: [
                                           Shadow(
-                                            color: Color(0x66E28E9E),
+                                            color: Color(0x662D6A4F),
                                             blurRadius: 10,
                                             offset: Offset(0, 1),
                                           ),
@@ -929,7 +929,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                     TextSpan(
                                       text: 'Hoş Geldiniz',
                                       style: TextStyle(
-                                        color: Color(0xFFECC46A),
+                                        color: RehberTheme.goldLight,
                                         shadows: [
                                           Shadow(
                                             color: Color(0x66ECC46A),
@@ -973,7 +973,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                           opacity: _hacButtonFade,
                           child: _SpringPillButton(
                             onTap: widget.onOpenHajj,
-                            color: const Color(0xFFC5E063).withValues(alpha: 0.92),
+                            color: const Color(0xFF1B4332).withValues(alpha: 0.88),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
@@ -986,7 +986,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                   children: [
                                     const Icon(
                                       Icons.lock_rounded,
-                                      color: Color(0xFF1E3A1A),
+                                      color: RehberTheme.goldLight,
                                       size: 20,
                                     ),
                                     const SizedBox(width: 8),
@@ -995,7 +995,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                       style: TextStyle(
                                         fontSize: 16.5,
                                         fontWeight: FontWeight.w800,
-                                        color: Color(0xFF1E3A1A),
+                                        color: Colors.white,
                                         letterSpacing: 0.2,
                                       ),
                                     ),
@@ -1006,17 +1006,19 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                         vertical: 3,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: const Color(
-                                          0xFF1E3A1A,
-                                        ).withValues(alpha: 0.15),
+                                        color: RehberTheme.goldLight.withValues(alpha: 0.20),
                                         borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: RehberTheme.goldLight.withValues(alpha: 0.5),
+                                          width: 0.8,
+                                        ),
                                       ),
                                       child: const Text(
                                         'Geliştiriliyor',
                                         style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFF1E3A1A),
+                                          color: RehberTheme.goldLight,
                                         ),
                                       ),
                                     ),
@@ -1036,7 +1038,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                           opacity: _umrahButtonFade,
                           child: _SpringPillButton(
                             onTap: widget.onOpenUmrah,
-                            color: const Color(0xFFBCE358),
+                            color: const Color(0xFF2D6A4F),
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 left: 24,
@@ -1053,7 +1055,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                         style: TextStyle(
                                           fontSize: 16.5,
                                           fontWeight: FontWeight.w800,
-                                          color: Color(0xFF1E3A1A),
+                                          color: Colors.white,
                                           letterSpacing: 0.2,
                                         ),
                                       ),
@@ -1064,24 +1066,28 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                       progress:
                                           (targetProgress / 100.0) *
                                           _progressSweep.value,
-                                      ringColor: const Color(0xFFE91E63),
-                                      trackColor: const Color(
-                                        0xFFE91E63,
-                                      ).withValues(alpha: 0.2),
+                                      ringColor: RehberTheme.goldLight,
+                                      trackColor: RehberTheme.goldLight
+                                          .withValues(alpha: 0.25),
                                       strokeWidth: 3.5,
                                     ),
                                     child: Container(
                                       width: 42,
                                       height: 42,
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xFF7A0941),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF143B2C),
                                         shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: RehberTheme.goldLight
+                                              .withValues(alpha: 0.45),
+                                          width: 1.0,
+                                        ),
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
                                         '${(targetProgress * _progressSweep.value).round()}%',
                                         style: const TextStyle(
-                                          color: Colors.white,
+                                          color: RehberTheme.goldLight,
                                           fontSize: 11.5,
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: -0.5,

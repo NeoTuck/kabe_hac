@@ -243,12 +243,13 @@ class AudioRecord {
   bool get isSyntheticDraftPreview =>
       status == ReviewStatus.draft &&
       reviewOnly &&
-      origin == 'synthetic' &&
+      (origin == 'synthetic' || origin == 'gemini-tts') &&
       asset != null &&
       assetSha256 != null;
 
   String? get syntheticVoiceDisclosure =>
-      origin == 'synthetic' && voiceStyle == 'M1'
+      (origin == 'synthetic' || origin == 'gemini-tts') &&
+              (voiceStyle == 'M1' || voiceStyle == 'Charon' || voiceStyle == 'Fenrir')
       ? 'Yapay zekâ ile üretilmiş erkek anlatımı.'
       : null;
 }

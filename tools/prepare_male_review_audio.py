@@ -58,8 +58,8 @@ def collect(source, audio_dir=None):
             raise ValueError(f'Text identity/version mismatch: {audio_id}')
         receipt_path = source / 'makbuzlar' / f'{audio_id}.json'
         receipt = read_json(receipt_path)
-        if receipt.get('model') == 'google/gemini-tts' and 'details' in target:
-            script = target['details']
+        if receipt.get('script'):
+            script = receipt['script']
         else:
             script = (target['summary'] + '\n' + target['details']
                       if 'summary' in target else target['meaningTr'])
