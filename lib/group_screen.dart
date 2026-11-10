@@ -35,63 +35,9 @@ class _GroupScreenState extends State<GroupScreen> {
   final _privateMsgController = TextEditingController();
   int _classroomTab = 0;
 
-  final List<Map<String, dynamic>> _announcements = [
-    {
-      'type': 'pinned',
-      'author': 'Mustafa Hoca (Kafile Rehberi)',
-      'time': 'Bugün 21:30',
-      'title': '📌 Önemli Toplanma Duyurusu',
-      'content': 'Kıymetli hacılarımız, yarın sabah saat 05:30’da otel lobisinde toplanıyoruz. İhramlar eksiksiz giyilmiş ve niyetler edilmiş olsun.',
-    },
-    {
-      'type': 'route',
-      'author': 'Mustafa Hoca (Kafile Rehberi)',
-      'time': 'Bugün 18:00',
-      'title': '🗺️ Hoca Rota Paylaştı',
-      'content': 'Otelden Mescid-i Harâm Babü’l-Melik (Kral Kapısı) Yürüyüş Yolu (1.4 km · 18 dk)',
-    },
-    {
-      'type': 'material',
-      'author': 'Mustafa Hoca (Kafile Rehberi)',
-      'time': 'Dün 16:45',
-      'title': '📄 Tavaf ve Sa‘y Duaları Rehberi.pdf',
-      'content': 'Harem-i Şerif’te yanınızda bulundurmanız gereken dualar ve Türkçe anlamları.',
-    },
-  ];
-
-  final List<Map<String, String>> _groupChatMessages = [
-    {
-      'sender': 'Mustafa Hoca',
-      'text': 'Esselamu aleyküm kafilemiz, herkes otele ulaştı mı?',
-      'time': '20:15',
-      'isHoca': 'true',
-    },
-    {
-      'sender': 'Ahmet Yılmaz',
-      'text': 'Aleyküm selam hocam, biz 4. kattayız dinleniyoruz.',
-      'time': '20:18',
-      'isHoca': 'false',
-    },
-    {
-      'sender': 'Mehmet Demir',
-      'text': 'Hocam sabah lobide görüşürüz inşallah.',
-      'time': '20:25',
-      'isHoca': 'false',
-    },
-  ];
-
-  final List<Map<String, String>> _privateChatMessages = [
-    {
-      'sender': 'Ben',
-      'text': 'Hocam, mikat yerini uçakta geçtikten sonra niyet getirsek geçerli olur mu?',
-      'time': '19:40',
-    },
-    {
-      'sender': 'Mustafa Hoca',
-      'text': 'Kardeşim, uçak mikat hizasını geçmeden önce ihramı giyip niyet etmek esastır. Eğer gecikme olduysa indiğinizde hemen ihram niyetini ve telbiyeyi getirin.',
-      'time': '19:50',
-    },
-  ];
+  final List<Map<String, dynamic>> _announcements = [];
+  final List<Map<String, String>> _groupChatMessages = [];
+  final List<Map<String, String>> _privateChatMessages = [];
   String? _emailSent;
   String? _error;
   bool _busy = false;
@@ -604,6 +550,35 @@ class _GroupScreenState extends State<GroupScreen> {
   }
 
   Widget _buildAnnouncementsTab(bool dark) {
+    if (_announcements.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 16),
+        child: Column(
+          children: [
+            Icon(
+              Icons.campaign_outlined,
+              size: 48,
+              color: dark ? Colors.white38 : Colors.black26,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Kafile duyurusu henüz bulunmuyor.',
+              style: TextStyle(
+                color: dark ? Colors.white70 : Colors.black54,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: _showAddAnnouncementDialog,
+              icon: const Icon(Icons.add_rounded),
+              label: const Text('Duyuru veya Not Paylaş'),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -679,38 +654,6 @@ class _GroupScreenState extends State<GroupScreen> {
                       color: dark ? Colors.white70 : Colors.black87,
                     ),
                   ),
-                  if (item['type'] == 'route') ...[
-                    const SizedBox(height: 12),
-                    FilledButton.tonalIcon(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Hocanın rotası harita ekranında açılıyor…',
-                            ),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.map_rounded, size: 18),
-                      label: const Text('Rotayı Haritada Aç'),
-                    ),
-                  ],
-                  if (item['type'] == 'material') ...[
-                    const SizedBox(height: 12),
-                    OutlinedButton.icon(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Tavaf ve Sa‘y Duaları PDF’i açılıyor…',
-                            ),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.visibility_rounded, size: 18),
-                      label: const Text('Materyali İncele'),
-                    ),
-                  ],
                 ],
               ),
             ),
@@ -721,7 +664,7 @@ class _GroupScreenState extends State<GroupScreen> {
         OutlinedButton.icon(
           onPressed: _showAddAnnouncementDialog,
           icon: const Icon(Icons.add_rounded),
-          label: const Text('Hocaya Duyuru veya Rota Öner'),
+          label: const Text('Duyuru veya Not Paylaş'),
         ),
       ],
     );
@@ -799,6 +742,16 @@ class _GroupScreenState extends State<GroupScreen> {
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
+                if (_groupChatMessages.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: Text(
+                        'Henüz grup mesajı bulunmuyor.',
+                        style: TextStyle(color: Colors.grey, fontSize: 13),
+                      ),
+                    ),
+                  ),
                 for (final msg in _groupChatMessages) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 6),
@@ -943,6 +896,16 @@ class _GroupScreenState extends State<GroupScreen> {
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
+                if (_privateChatMessages.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: Text(
+                        'Henüz özel mesaj bulunmuyor.',
+                        style: TextStyle(color: Colors.grey, fontSize: 13),
+                      ),
+                    ),
+                  ),
                 for (final msg in _privateChatMessages) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 6),

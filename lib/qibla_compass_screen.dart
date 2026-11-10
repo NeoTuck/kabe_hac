@@ -104,6 +104,7 @@ class _QiblaCompassScreenState extends State<QiblaCompassScreen> {
   }
 
   void _checkHapticAlignment() {
+    if (!_hasSensor) return;
     final qibla = _qiblaBearing;
     final relative = (qibla - _heading + 360) % 360;
     final isAligned = relative < 4 || relative > 356;
@@ -227,7 +228,8 @@ class _QiblaCompassScreenState extends State<QiblaCompassScreen> {
     final dark = Theme.of(context).brightness == Brightness.dark;
     final qiblaAngle = _qiblaBearing;
     final relativeAngle = (qiblaAngle - _heading + 360) % 360;
-    final isAligned = relativeAngle < 4.5 || relativeAngle > 355.5;
+    final isAligned =
+        _hasSensor && (relativeAngle < 4.5 || relativeAngle > 355.5);
 
     return Scaffold(
       appBar: AppBar(
@@ -333,7 +335,9 @@ class _QiblaCompassScreenState extends State<QiblaCompassScreen> {
                           child: Text(
                             isAligned
                                 ? '✓ KIBLEYE YÖNELDİNİZ'
-                                : 'Pusulayı Çevirin',
+                                : (_hasSensor
+                                      ? 'Pusulayı Çevirin'
+                                      : 'Görsel Simülasyon (Sensör Yok)'),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11,
@@ -627,7 +631,7 @@ class _QiblaCompassScreenState extends State<QiblaCompassScreen> {
                       ? 'Harika! Telefonunuz şu anda tam olarak Kâbe-i Muazzama yönüne bakıyor.'
                       : (_hasSensor
                             ? 'Telefonunuzu yatay tutun ve altın Kâbe simgesini tepeye çevirin.'
-                            : 'Cihazınızı yatay tutun. Parmağınızla pusulayı çevirerek de yönü ayarlayabilirsiniz.'),
+                            : 'Pusula sensörü bulunamadı. Gösterilen pusula elle çevrilen görsel simülasyondur; cihazınızın yönünü temsil etmez.'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,

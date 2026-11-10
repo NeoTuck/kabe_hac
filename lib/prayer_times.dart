@@ -22,6 +22,7 @@ class PrayerSchedule {
     required this.ikindi,
     required this.aksam,
     required this.yatsi,
+    this.timeZoneOffsetHours = 3.0,
   });
 
   final String cityName;
@@ -32,6 +33,7 @@ class PrayerSchedule {
   final DateTime ikindi;
   final DateTime aksam;
   final DateTime yatsi;
+  final double timeZoneOffsetHours;
 
   Map<PrayerVakit, DateTime> get all => {
     PrayerVakit.imsak: imsak,
@@ -43,37 +45,52 @@ class PrayerSchedule {
   };
 
   PrayerVakit currentVakit(DateTime now) {
-    if (now.isBefore(imsak)) return PrayerVakit.yatsi;
-    if (now.isBefore(gunes)) return PrayerVakit.imsak;
-    if (now.isBefore(ogle)) return PrayerVakit.gunes;
-    if (now.isBefore(ikindi)) return PrayerVakit.ogle;
-    if (now.isBefore(aksam)) return PrayerVakit.ikindi;
-    if (now.isBefore(yatsi)) return PrayerVakit.aksam;
+    final utc = now.toUtc();
+    if (utc.isBefore(imsak)) return PrayerVakit.yatsi;
+    if (utc.isBefore(gunes)) return PrayerVakit.imsak;
+    if (utc.isBefore(ogle)) return PrayerVakit.gunes;
+    if (utc.isBefore(ikindi)) return PrayerVakit.ogle;
+    if (utc.isBefore(aksam)) return PrayerVakit.ikindi;
+    if (utc.isBefore(yatsi)) return PrayerVakit.aksam;
     return PrayerVakit.yatsi;
   }
 
   PrayerVakit nextVakit(DateTime now) {
-    if (now.isBefore(imsak)) return PrayerVakit.imsak;
-    if (now.isBefore(gunes)) return PrayerVakit.gunes;
-    if (now.isBefore(ogle)) return PrayerVakit.ogle;
-    if (now.isBefore(ikindi)) return PrayerVakit.ikindi;
-    if (now.isBefore(aksam)) return PrayerVakit.aksam;
-    if (now.isBefore(yatsi)) return PrayerVakit.yatsi;
+    final utc = now.toUtc();
+    if (utc.isBefore(imsak)) return PrayerVakit.imsak;
+    if (utc.isBefore(gunes)) return PrayerVakit.gunes;
+    if (utc.isBefore(ogle)) return PrayerVakit.ogle;
+    if (utc.isBefore(ikindi)) return PrayerVakit.ikindi;
+    if (utc.isBefore(aksam)) return PrayerVakit.aksam;
+    if (utc.isBefore(yatsi)) return PrayerVakit.yatsi;
     return PrayerVakit.imsak;
   }
 
   Duration timeUntilNext(DateTime now) {
     final next = nextVakit(now);
     var target = all[next]!;
-    if (now.isAfter(target)) {
+    final utc = now.toUtc();
+    if (utc.isAfter(target)) {
       target = target.add(const Duration(days: 1));
     }
-    return target.difference(now);
+    return target.difference(utc);
   }
 
-  static String formatTime(DateTime time) {
-    final h = time.hour.toString().padLeft(2, '0');
-    final m = time.minute.toString().padLeft(2, '0');
+  String format(DateTime time) {
+    final loc = time.toUtc().add(
+      Duration(minutes: (timeZoneOffsetHours * 60).round()),
+    );
+    final h = loc.hour.toString().padLeft(2, '0');
+    final m = loc.minute.toString().padLeft(2, '0');
+    return '$h:$m';
+  }
+
+  static String formatTime(DateTime time, {double timeZoneOffsetHours = 3.0}) {
+    final loc = time.toUtc().add(
+      Duration(minutes: (timeZoneOffsetHours * 60).round()),
+    );
+    final h = loc.hour.toString().padLeft(2, '0');
+    final m = loc.minute.toString().padLeft(2, '0');
     return '$h:$m';
   }
 
@@ -155,7 +172,9 @@ class PrayerSchedule {
     DateTime makeDateTime(double totalMinutes) {
       final hours = (totalMinutes / 60).floor() % 24;
       final minutes = (totalMinutes % 60).round() % 60;
-      return DateTime(year, month, day, hours, minutes);
+      final offsetMinutes = (timeZoneOffsetHours * 60).round();
+      final localUtc = DateTime.utc(year, month, day, hours, minutes);
+      return localUtc.subtract(Duration(minutes: offsetMinutes));
     }
 
     return PrayerSchedule(
@@ -167,6 +186,7 @@ class PrayerSchedule {
       ikindi: makeDateTime(asrMinutes),
       aksam: makeDateTime(sunsetMinutes),
       yatsi: makeDateTime(ishaMinutes),
+      timeZoneOffsetHours: timeZoneOffsetHours,
     );
   }
 

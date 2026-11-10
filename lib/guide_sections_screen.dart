@@ -11,6 +11,7 @@ class GuideSectionItem {
   const GuideSectionItem({
     required this.title,
     required this.summary,
+    this.stepId,
     this.audioAsset,
     this.audioTitle,
     this.counterKey,
@@ -20,6 +21,7 @@ class GuideSectionItem {
 
   final String title;
   final String summary;
+  final String? stepId;
   final String? audioAsset;
   final String? audioTitle;
   final String? counterKey;
@@ -52,12 +54,14 @@ class GuideSectionsScreen extends StatefulWidget {
     required this.store,
     required this.narration,
     this.catalog,
+    this.profile,
   });
 
   final GuideType type;
   final ProgressStore store;
   final NarrationService narration;
   final GuideCatalog? catalog;
+  final HajjProfile? profile;
 
   @override
   State<GuideSectionsScreen> createState() => _GuideSectionsScreenState();
@@ -66,11 +70,14 @@ class GuideSectionsScreen extends StatefulWidget {
 class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   final Set<String> _checkedItems = {};
   final Map<int, int> _activeItemBySection = {};
-  int _activeSessionId = 1;
+  int? _activeSessionId;
+  bool _sessionLoading = true;
+  String? _sessionError;
+  late HajjProfile? _activeProfile = widget.type == GuideType.hajj
+      ? (widget.profile ?? HajjProfile.temettu)
+      : null;
 
-  late final List<GuideSection> _sections = widget.type == GuideType.umrah
-      ? _buildUmrahSections()
-      : _buildHajjSections();
+  late final List<GuideSection> _sections = _buildSections();
 
   @override
   void initState() {
@@ -90,46 +97,173 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   }
 
   Future<void> _loadSession() async {
+    setState(() {
+      _sessionLoading = true;
+      _sessionError = null;
+    });
     try {
       final existing = await widget.store.readMostRecentSession();
-      final session = (existing != null && existing.type == widget.type)
+      final targetProfile = widget.type == GuideType.hajj
+          ? (_activeProfile ?? existing?.profile ?? HajjProfile.temettu)
+          : null;
+      final session =
+          (existing != null &&
+              existing.type == widget.type &&
+              (widget.type == GuideType.umrah ||
+                  existing.profile == targetProfile))
           ? existing
           : await widget.store.openOrCreateSession(
               type: widget.type,
               mode: GuideMode.learning,
-              profile: null,
+              profile: targetProfile,
               firstStepId: widget.type == GuideType.umrah ? 'U01.1' : 'H01.1',
               contentVersion: widget.catalog?.contentVersion ?? 'v1',
             );
       if (mounted) {
-        setState(() => _activeSessionId = session.id);
         final marked = await widget.store.readMarkedStepIds(session.id);
-        if (mounted) {
-          setState(() {
-            _checkedItems.addAll(marked);
-          });
-        }
+        setState(() {
+          _activeProfile = session.profile ?? _activeProfile;
+          _activeSessionId = session.id;
+          _checkedItems.addAll(marked);
+          _sessionLoading = false;
+        });
       }
-    } catch (_) {}
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _sessionLoading = false;
+          _sessionError = 'Rehber oturumu açılamadı.';
+        });
+      }
+    }
   }
 
-  Future<void> _toggleCheck(String check) async {
-    final isChecked = !_checkedItems.contains(check);
+  Future<void> _switchProfile(HajjProfile profile) async {
+    if (_activeProfile == profile) return;
     setState(() {
-      if (isChecked) {
-        _checkedItems.add(check);
-      } else {
-        _checkedItems.remove(check);
-      }
+      _activeProfile = profile;
+      _sessionLoading = true;
     });
     try {
-      await widget.store.setStepMarked(_activeSessionId, check, isChecked);
-    } catch (_) {}
+      final session = await widget.store.openOrCreateSession(
+        type: widget.type,
+        mode: GuideMode.learning,
+        profile: profile,
+        firstStepId: 'H01.1',
+        contentVersion: widget.catalog?.contentVersion ?? 'v1',
+      );
+      if (mounted) {
+        final marked = await widget.store.readMarkedStepIds(session.id);
+        setState(() {
+          _activeSessionId = session.id;
+          _checkedItems.clear();
+          _checkedItems.addAll(marked);
+          _sessionLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _sessionLoading = false);
+    }
   }
 
-  List<GuideSection> _buildUmrahSections() {
+  Future<void> _toggleCheck(String checkKey, {String? stepId}) async {
+    final sessionId = _activeSessionId;
+    if (sessionId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Oturum henüz hazır değil.')),
+      );
+      return;
+    }
+
+    final isChecked = !_checkedItems.contains(checkKey);
+    setState(() {
+      if (isChecked) {
+        _checkedItems.add(checkKey);
+        if (stepId != null) _checkedItems.add(stepId);
+      } else {
+        _checkedItems.remove(checkKey);
+      }
+    });
+
+    try {
+      await widget.store.setStepMarked(sessionId, checkKey, isChecked);
+      if (stepId != null && isChecked) {
+        await widget.store.setStepMarked(sessionId, stepId, true);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          if (isChecked) {
+            _checkedItems.remove(checkKey);
+            if (stepId != null) _checkedItems.remove(stepId);
+          } else {
+            _checkedItems.add(checkKey);
+          }
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('İlerleme kaydedilemedi.')),
+        );
+      }
+    }
+  }
+
+  /// Ses kaydının gerçekten doğrulanmış ve oynatılabilir olup olmadığını denetler.
+  /// Normal sürümde yalnız approved sesler; review sürümünde synthetic draft preview sesler.
+  String? _resolvePlayableAudio(
+    String? audioId, {
+    required bool isStepApproved,
+  }) {
+    if (audioId == null) return null;
+    final cat = widget.catalog;
+    if (cat == null) return null;
+    final record = cat.audioRecords[audioId];
+    if (record == null || record.asset == null) return null;
+
+    final isPlayable =
+        (isStepApproved && record.status == ReviewStatus.approved) ||
+        (cat.isPreview && record.isSyntheticDraftPreview);
+    return isPlayable ? record.asset : null;
+  }
+
+  List<GuideSection> _buildSections() {
+    final cat = widget.catalog;
+    if (cat == null || cat.steps.isEmpty) {
+      return const [];
+    }
+
+    // Normal uygulamada onaylanmamış adımlar listelenmez.
+    // İnceleme sürümünde (cat.isPreview) taslak adımlar görünür.
+    final availableSteps = cat.isPreview
+        ? cat.steps
+        : cat.steps.where((s) => s.isApproved).toList();
+
+    if (availableSteps.isEmpty) {
+      return const [];
+    }
+
+    if (widget.type == GuideType.umrah) {
+      return _buildUmrahSectionsFromCatalog(availableSteps);
+    } else {
+      return _buildHajjSectionsFromCatalog(availableSteps);
+    }
+  }
+
+  List<GuideSection> _buildUmrahSectionsFromCatalog(List<GuideStep> steps) {
+    GuideStep? findStep(String id) {
+      for (final s in steps) {
+        if (s.id == id) return s;
+      }
+      return null;
+    }
+
+    final s1_1 = findStep('U01.1');
+    final s1_2 = findStep('U01.2');
+    final s4_1 = findStep('U04.1');
+    final s6_1 = findStep('U06.1');
+    final s9_1 = findStep('U09.1');
+
     return [
-      const GuideSection(
+      GuideSection(
         number: 1,
         title: 'Bölüm 1: Valiz & Hazırlık Eşyaları',
         subtitle: 'Diyanet ve fıkıh standartlarında eksiksiz eşya listesi',
@@ -137,11 +271,17 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.luggage,
         items: [
           GuideSectionItem(
-            title: 'Valiz Kontrol Listesi',
-            summary: 'Eşyalar üstteki sahnede valize yerleşir; alttaki listeden kontrol edip işaretleyebilirsiniz.',
-            audioAsset: 'assets/audio/review-male-v1/A-U01.1-TR-01.m4a',
+            stepId: 'U01.1',
+            title: s1_1?.title ?? 'Valiz Kontrol Listesi',
+            summary: s1_1?.summary ?? 'Eşyalar üstteki sahnede valize yerleşir; alttaki listeden kontrol edip işaretleyebilirsiniz.',
+            audioAsset: _resolvePlayableAudio(
+              s1_1?.linkedAudioIds.isNotEmpty == true
+                  ? s1_1!.linkedAudioIds.first
+                  : 'A-U01.1-TR-01',
+              isStepApproved: s1_1?.isApproved ?? false,
+            ),
             audioTitle: 'Valiz ve Hazırlık Rehberi',
-            checklist: [
+            checklist: const [
               '2 parça dikişsiz ihram kumaşı ve cepli emniyetli kemer',
               'Kokusuz sabun, şampuan ve pişik kremi (İhram fıkhı şartı)',
               'Rahat ortopedik sandalet ve kaymaz tabanlı tavaf patiği',
@@ -154,7 +294,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 2,
         title: 'Bölüm 2: Mîkāt & İhram Kuralları',
         subtitle: 'Mîkāt sınırları, ihram kuralları ve yasaklar',
@@ -162,11 +302,17 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.ihram,
         items: [
           GuideSectionItem(
-            title: 'İhrama Giriş ve Yasaklar',
-            summary: 'Mîkāt sınırında boy abdesti alınır, niyet edilir ve telbiye getirilir.',
-            audioAsset: 'assets/audio/review-male-v1/A-U01.2-TR-01.m4a',
+            stepId: 'U01.2',
+            title: s1_2?.title ?? 'İhrama Giriş ve Yasaklar',
+            summary: s1_2?.summary ?? 'Mîkāt sınırında boy abdesti alınır, niyet edilir ve telbiye getirilir.',
+            audioAsset: _resolvePlayableAudio(
+              s1_2?.linkedAudioIds.isNotEmpty == true
+                  ? s1_2!.linkedAudioIds.first
+                  : 'A-U01.2-TR-01',
+              isStepApproved: s1_2?.isApproved ?? false,
+            ),
             audioTitle: 'İhram Kuralları ve Telbiye Anlatımı',
-            substeps: [
+            substeps: const [
               'Boy abdesti (gusül) alınıp 2 rekat ihram namazı kılınır.',
               'Mîkāt sınırını ihramsız geçmek caiz değildir (kurban cezası gerekir).',
               'Niyet: "Allah\'ım senin rızan için Umre yapmak istiyorum..."',
@@ -176,7 +322,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 3,
         title: 'Bölüm 3: Kâbe’ye Varış & Canlı Tavaf',
         subtitle: 'Mescid-i Harâm adabı, 7 şavt ve dualar',
@@ -184,12 +330,18 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.tawaf,
         items: [
           GuideSectionItem(
-            title: 'Tavaf İbadeti',
-            summary: 'Hacerü’l-Esved hizasından başlanarak Kâbe etrafında 7 şavt tamamlanır.',
-            audioAsset: 'assets/audio/review-male-v1/A-U04.1-TR-01.m4a',
+            stepId: 'U04.1',
+            title: s4_1?.title ?? 'Tavaf İbadeti',
+            summary: s4_1?.summary ?? 'Hacerü’l-Esved hizasından başlanarak Kâbe etrafında 7 şavt tamamlanır.',
+            audioAsset: _resolvePlayableAudio(
+              s4_1?.linkedAudioIds.isNotEmpty == true
+                  ? s4_1!.linkedAudioIds.first
+                  : 'A-U04.1-TR-01',
+              isStepApproved: s4_1?.isApproved ?? false,
+            ),
             audioTitle: 'Tavaf Duaları ve Şavt Rehberi',
             counterKey: 'tawaf',
-            substeps: [
+            substeps: const [
               '1. Şavt: Hacerü’l-Esved yeşil ışık hizasından niyet ve istimlâm ile başlanır.',
               '2. Şavt: Kâbe sol omuzda kalacak şekilde saat yönünün tersine vakarla dönülür.',
               '3. Şavt: Hatîm’in (Hicr-i İsmail) dışından geçilir; içinden geçilmez.',
@@ -201,7 +353,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 4,
         title: 'Bölüm 4: Safâ ve Merve Sa‘y Yolu',
         subtitle: 'Safâ tepesinden Merve’ye 7 tur yürüyüş',
@@ -209,13 +361,20 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.say,
         items: [
           GuideSectionItem(
-            title: 'Safâ ve Merve Arasında Sa‘y',
+            stepId: 'U06.1',
+            title: s6_1?.title ?? 'Safâ ve Merve Arasında Sa‘y',
             summary:
+                s6_1?.summary ??
                 'Safâ’dan Merve’ye 4 gidiş, Merve’den Safâ’ya 3 dönüş yapılır.',
-            audioAsset: 'assets/audio/review-male-v1/A-U06.1-TR-01.m4a',
+            audioAsset: _resolvePlayableAudio(
+              s6_1?.linkedAudioIds.isNotEmpty == true
+                  ? s6_1!.linkedAudioIds.first
+                  : 'A-U06.1-TR-01',
+              isStepApproved: s6_1?.isApproved ?? false,
+            ),
             audioTitle: 'Sa‘y İbadeti ve Duaları',
             counterKey: 'say',
-            substeps: [
+            substeps: const [
               '1. Tur: Safâ tepesinde Kâbe’ye dönülüp niyet ve tekbir getirilir.',
               'Hervele Sünneti: İki yeşil floresan ışık arasında erkekler hızlı adımlarla yürür.',
               '2. Tur: Merve tepesinde dua edilip Safâ’ya doğru dönülür.',
@@ -225,7 +384,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 5,
         title: 'Bölüm 5: Tıraş ve İhramdan Çıkış (Tahallül)',
         subtitle: 'Saç kesimi ile umrenin tamamlanması',
@@ -233,11 +392,17 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.ihram,
         items: [
           GuideSectionItem(
-            title: 'Tahallül (İhramdan Çıkış)',
-            summary: 'Erkekler saçlarını kazıtır veya kısaltır, kadınlar parmak ucu kadar keser.',
-            audioAsset: 'assets/audio/review-male-v1/A-U09.1-TR-01.m4a',
+            stepId: 'U09.1',
+            title: s9_1?.title ?? 'Tahallül (İhramdan Çıkış)',
+            summary: s9_1?.summary ?? 'Erkekler saçlarını kazıtır veya kısaltır, kadınlar parmak ucu kadar keser.',
+            audioAsset: _resolvePlayableAudio(
+              s9_1?.linkedAudioIds.isNotEmpty == true
+                  ? s9_1!.linkedAudioIds.first
+                  : 'A-U09.1-TR-01',
+              isStepApproved: s9_1?.isApproved ?? false,
+            ),
             audioTitle: 'Tıraş ve Şükür Namazı',
-            substeps: [
+            substeps: const [
               'Erkekler saçlarını tamamen kazıtır veya eşit şekilde kısaltır (halk veya taksîr).',
               'Kadınlar saçlarının ucundan parmak ucu kadar (1-2 cm) bir tutam keser.',
               'Saç kesimi ile birlikte ihram yasakları kalkar ve umre tamamlanmış olur.',
@@ -248,9 +413,22 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
     ];
   }
 
-  List<GuideSection> _buildHajjSections() {
+  List<GuideSection> _buildHajjSectionsFromCatalog(List<GuideStep> steps) {
+    GuideStep? findStep(String id) {
+      for (final s in steps) {
+        if (s.id == id) return s;
+      }
+      return null;
+    }
+
+    final s1_1 = findStep('H01.1');
+    final s3_1 = findStep('H03.1');
+    final s4_1 = findStep('H04.1');
+    final s6_1 = findStep('H06.1');
+    final s8_1 = findStep('H08.1');
+
     return [
-      const GuideSection(
+      GuideSection(
         number: 1,
         title: 'Bölüm 1: Hac Hazırlığı & Mîkāt',
         subtitle: 'Terviye gününe hazırlık ve niyet',
@@ -258,11 +436,17 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.luggage,
         items: [
           GuideSectionItem(
-            title: 'Hac Niyeti ve İhram',
-            summary: '8 Zilhicce Terviye günü ihrama girilerek Mina’ya hareket edilir.',
-            audioAsset: 'assets/audio/review-male-v1/A-H01.1-TR-01.m4a',
+            stepId: 'H01.1',
+            title: s1_1?.title ?? 'Hac Niyeti ve İhram',
+            summary: s1_1?.summary ?? '8 Zilhicce Terviye günü ihrama girilerek Mina’ya hareket edilir.',
+            audioAsset: _resolvePlayableAudio(
+              s1_1?.linkedAudioIds.isNotEmpty == true
+                  ? s1_1!.linkedAudioIds.first
+                  : 'A-H01.1-TR-01',
+              isStepApproved: s1_1?.isApproved ?? false,
+            ),
             audioTitle: 'Hac Hazırlığı ve Niyet',
-            checklist: [
+            checklist: const [
               'İhram örtüleri ve cepli emniyetli kemer',
               'Güneşten korunmak için açık renk şemsiye',
               'Mina ve Arafat için hafif mat ve uyku tulumu',
@@ -273,7 +457,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 2,
         title: 'Bölüm 2: Mîkāt & Terviye Günü (Mina)',
         subtitle: 'Mina çadırlar kenti ve hazırlık',
@@ -281,11 +465,17 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.ihram,
         items: [
           GuideSectionItem(
-            title: 'Mina’da Konaklama',
-            summary: 'Terviye günü öğle, ikindi, akşam, yatsı ve sabah namazları Mina’da kılınır.',
-            audioAsset: 'assets/audio/review-male-v1/A-H03.1-TR-01.m4a',
+            stepId: 'H03.1',
+            title: s3_1?.title ?? 'Mina’da Konaklama',
+            summary: s3_1?.summary ?? 'Terviye günü öğle, ikindi, akşam, yatsı ve sabah namazları Mina’da kılınır.',
+            audioAsset: _resolvePlayableAudio(
+              s3_1?.linkedAudioIds.isNotEmpty == true
+                  ? s3_1!.linkedAudioIds.first
+                  : 'A-H03.1-TR-01',
+              isStepApproved: s3_1?.isApproved ?? false,
+            ),
             audioTitle: 'Mina ve İntikal Rehberi',
-            substeps: [
+            substeps: const [
               '8 Zilhicce sabahı Mina’ya hareket edilir.',
               'Namazlar kendi vakitlerinde kısaltılarak (kasr) eda edilir.',
               'Arefe sabahı güneş doğduktan sonra Arafat’a intikal başlar.',
@@ -293,7 +483,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 3,
         title: 'Bölüm 3: Arafat & Müzdelife Vakfesi',
         subtitle: 'Haccın en büyük farzı ve vakfe duaları',
@@ -301,11 +491,17 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.arafat,
         items: [
           GuideSectionItem(
-            title: 'Arafat Vakfesi',
-            summary: 'Arefe günü öğle ile akşam arası Arafat sınırları içinde vakfe yapılır.',
-            audioAsset: 'assets/audio/review-male-v1/A-H04.1-TR-01.m4a',
+            stepId: 'H04.1',
+            title: s4_1?.title ?? 'Arafat Vakfesi',
+            summary: s4_1?.summary ?? 'Arefe günü öğle ile akşam arası Arafat sınırları içinde vakfe yapılır.',
+            audioAsset: _resolvePlayableAudio(
+              s4_1?.linkedAudioIds.isNotEmpty == true
+                  ? s4_1!.linkedAudioIds.first
+                  : 'A-H04.1-TR-01',
+              isStepApproved: s4_1?.isApproved ?? false,
+            ),
             audioTitle: 'Arafat ve Dua Rehberi',
-            substeps: [
+            substeps: const [
               'Arafat sınırları tabelalarla belirtilmiştir; sınır içinde kalınmalıdır.',
               'Öğle ve İkindi namazları cem-i takdim ile birleştirilerek kılınır.',
               'Güneş batana kadar telbiye, zikir ve vakfe duaları yapılır.',
@@ -316,7 +512,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 4,
         title: 'Bölüm 4: Mina & Cemarat (Şeytan Taşlama)',
         subtitle: 'Büyük şeytan taşlama, kurban ve tahallül',
@@ -324,12 +520,18 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.cemarat,
         items: [
           GuideSectionItem(
-            title: 'Cemarat Taşlaması',
-            summary: 'Bayramın 1. günü yalnız Akabe Cemresi’ne (Büyük Şeytan) 7 taş atılır.',
-            audioAsset: 'assets/audio/review-male-v1/A-H06.1-TR-01.m4a',
+            stepId: 'H06.1',
+            title: s6_1?.title ?? 'Cemarat Taşlaması',
+            summary: s6_1?.summary ?? 'Bayramın 1. günü yalnız Akabe Cemresi’ne (Büyük Şeytan) 7 taş atılır.',
+            audioAsset: _resolvePlayableAudio(
+              s6_1?.linkedAudioIds.isNotEmpty == true
+                  ? s6_1!.linkedAudioIds.first
+                  : 'A-H06.1-TR-01',
+              isStepApproved: s6_1?.isApproved ?? false,
+            ),
             audioTitle: 'Cemarat ve Kurban Rehberi',
-            counterKey: 'cemarat',
-            substeps: [
+            counterKey: 'jamarat',
+            substeps: const [
               'Akabe Cemresi’ne 7 taş atılır; her atışta "Bismillahi Allahu Ekber" denir.',
               'Kurban kesim teyidi geldikten sonra saçlar tıraş edilip ihramdan çıkılır.',
               'Bayramın 2. ve 3. günleri Küçük, Orta ve Büyük cemrelere 7’şer taş (toplam 21) atılır.',
@@ -337,7 +539,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
           ),
         ],
       ),
-      const GuideSection(
+      GuideSection(
         number: 5,
         title: 'Bölüm 5: Ziyaret Tavafı & Veda Tavafı',
         subtitle: 'Haccın farz tavafı ve veda',
@@ -345,12 +547,18 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         stageType: GuideStageType.tawaf,
         items: [
           GuideSectionItem(
-            title: 'Ziyaret Tavafı ve Sa‘y',
-            summary: 'Mekke’ye inilip farz olan Ziyaret Tavafı ve hac sa‘yı yerine getirilir.',
-            audioAsset: 'assets/audio/review-male-v1/A-H08.1-TR-01.m4a',
+            stepId: 'H08.1',
+            title: s8_1?.title ?? 'Ziyaret Tavafı ve Sa‘y',
+            summary: s8_1?.summary ?? 'Mekke’ye inilip farz olan Ziyaret Tavafı ve hac sa‘yı yerine getirilir.',
+            audioAsset: _resolvePlayableAudio(
+              s8_1?.linkedAudioIds.isNotEmpty == true
+                  ? s8_1!.linkedAudioIds.first
+                  : 'A-H08.1-TR-01',
+              isStepApproved: s8_1?.isApproved ?? false,
+            ),
             audioTitle: 'Ziyaret Tavafı ve Veda',
             counterKey: 'tawaf',
-            substeps: [
+            substeps: const [
               'Farz olan Ziyaret Tavafı 7 şavt olarak eda edilir.',
               'Hac sa‘yı yerine getirilir.',
               'Mekke’den ayrılmadan önce Veda Tavafı yapılır.',
@@ -362,14 +570,24 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   }
 
   void _openCounter(String key, String title) {
+    final sessionId = _activeSessionId;
+    if (sessionId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Rehber oturumu henüz hazır değil.')),
+      );
+      return;
+    }
+
     Navigator.of(context).push<void>(
       MaterialPageRoute(
-        builder: (_) => CounterScreen(
-          store: widget.store,
-          sessionId: _activeSessionId,
-          counterKey: key,
-          title: title,
-        ),
+        builder: (_) => (key == 'jamarat' || key == 'cemarat')
+            ? JamaratCounterHubScreen(store: widget.store, sessionId: sessionId)
+            : CounterScreen(
+                store: widget.store,
+                sessionId: sessionId,
+                counterKey: key,
+                title: title,
+              ),
       ),
     );
   }
@@ -392,6 +610,48 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
     final title = widget.type == GuideType.umrah
         ? 'Umre Rehberim'
         : 'Hac Rehberim';
+
+    if (_sections.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text(title), elevation: 0),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.auto_stories_outlined,
+                  size: 64,
+                  color: dark ? Colors.white38 : Colors.black26,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Onaylı rehber içeriği henüz bulunmuyor',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: dark ? Colors.white : RehberTheme.ink,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Rehber ve dinî adımlar uzman incelemesi tamamlandığında sunulacak. Önceki kişisel kayıtların cihazda korunur.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: dark ? Colors.white70 : Colors.black54,
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     final totalChecks = _sections
         .expand((s) => s.items)
         .expand((i) => i.checklist)
@@ -401,10 +661,56 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         : 0;
 
     return Scaffold(
-      appBar: AppBar(title: Text(title), elevation: 0),
+      appBar: AppBar(
+        title: Text(title),
+        elevation: 0,
+        actions: [
+          if (_sessionLoading)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+            ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         children: [
+          if (_sessionError != null)
+            Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.red.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.redAccent),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.error_outline, color: Colors.redAccent),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      _sessionError!,
+                      style: const TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _loadSession,
+                    child: const Text('Tekrar dene'),
+                  ),
+                ],
+              ),
+            ),
+
           // Banner
           Container(
             padding: const EdgeInsets.all(20),
@@ -453,7 +759,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${_sections.length} ana bölüm · Canlı görsel ve sesli simülasyon',
+                            '${_sections.length} ana bölüm · Canlı görsel simülasyon',
                             style: const TextStyle(
                               color: Colors.white70,
                               fontSize: 13,
@@ -464,50 +770,100 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: totalChecks > 0
-                        ? (_checkedItems.length / totalChecks)
-                        : 0,
-                    backgroundColor: Colors.white24,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      RehberTheme.goldLight,
+                if (totalChecks > 0) ...[
+                  const SizedBox(height: 14),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: LinearProgressIndicator(
+                      value: _checkedItems.length / totalChecks,
+                      backgroundColor: Colors.white24,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        RehberTheme.goldLight,
+                      ),
+                      minHeight: 6,
                     ),
-                    minHeight: 6,
                   ),
-                ),
-                const SizedBox(height: 8),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Hazırlık: %$progressPercent',
-                        style: const TextStyle(
-                          color: RehberTheme.goldLight,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
+                  const SizedBox(height: 8),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Hazırlık: %$progressPercent',
+                          style: const TextStyle(
+                            color: RehberTheme.goldLight,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Text(
-                        '${_checkedItems.length} / $totalChecks madde tamamlandı',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12,
+                        const SizedBox(width: 16),
+                        Text(
+                          '${_checkedItems.length} / $totalChecks madde tamamlandı',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
           const SizedBox(height: 18),
+
+          if (widget.type == GuideType.hajj) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: dark ? const Color(0xFF14241F) : const Color(0xFFE8F3EE),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: RehberTheme.emerald.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.tune_rounded,
+                    size: 20,
+                    color: RehberTheme.emerald,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Hac Türü:',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  DropdownButton<HajjProfile>(
+                    value: _activeProfile,
+                    underline: const SizedBox.shrink(),
+                    isDense: true,
+                    items: [
+                      for (final p in HajjProfile.values)
+                        DropdownMenuItem(
+                          value: p,
+                          child: Text(
+                            p.label,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                    ],
+                    onChanged: (p) {
+                      if (p != null) _switchProfile(p);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+          ],
 
           // Sections with Embedded Live Stage and Persistent Checklists
           for (final section in _sections) ...[
@@ -635,6 +991,8 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                         _buildChecklistRow(
                           sectionNumber: section.number,
                           check: item.checklist[cIdx],
+                          checkKey: '${item.stepId ?? 'item'}:check_$cIdx',
+                          stepId: item.stepId,
                           index: cIdx,
                           isFocused: activeIndex == cIdx,
                           dark: dark,
@@ -676,11 +1034,9 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                 ),
               ],
 
-              // Embedded Audio Bar
-              if (item.audioAsset != null) ...[
-                const SizedBox(height: 12),
-                _buildAudioBar(item, dark),
-              ],
+              // Audio Bar (only shown if verified playable audio exists or disclaims unavailability)
+              const SizedBox(height: 12),
+              _buildAudioBar(item, dark),
 
               // Counter Action Button
               if (item.counterKey != null) ...[
@@ -704,7 +1060,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                             ? 'Tavaf Sayacını Başlat (7 Şavt)'
                             : (item.counterKey == 'say'
                                   ? 'Sa‘y Sayacını Başlat (7 Tur)'
-                                  : 'Taş Sayacını Başlat (7 Taş)'),
+                                  : 'Cemarat / Taş Sayacını Başlat'),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -721,12 +1077,18 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   Widget _buildChecklistRow({
     required int sectionNumber,
     required String check,
+    required String checkKey,
+    String? stepId,
     required int index,
     required bool isFocused,
     required bool dark,
     required bool isLuggage,
   }) {
-    final isChecked = _checkedItems.contains(check);
+    // Hem yeni deterministik key, hem eski check metni, hem de stepId ile uyumluluk
+    final isChecked =
+        _checkedItems.contains(checkKey) ||
+        _checkedItems.contains(check) ||
+        (stepId != null && _checkedItems.contains(stepId));
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
@@ -747,7 +1109,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         children: [
           // Checkbox (tap to check)
           InkWell(
-            onTap: () => _toggleCheck(check),
+            onTap: () => _toggleCheck(checkKey, stepId: stepId),
             borderRadius: BorderRadius.circular(16),
             child: Padding(
               padding: const EdgeInsets.only(top: 2, right: 6),
@@ -917,6 +1279,37 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
   }
 
   Widget _buildAudioBar(GuideSectionItem item, bool dark) {
+    if (item.audioAsset == null) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: dark
+              ? Colors.white.withValues(alpha: 0.04)
+              : Colors.black.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.volume_off_rounded,
+              size: 20,
+              color: dark ? Colors.white38 : Colors.black38,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Bu başlık için onaylı ses kaydı henüz yok',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: dark ? Colors.white60 : Colors.black54,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     final narration = widget.narration;
     final isCurrent = narration.state.asset == item.audioAsset;
     final isPlaying =

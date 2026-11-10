@@ -126,6 +126,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _openHajjGuide({HajjProfile? profile}) {
+    _open(
+      GuideSectionsScreen(
+        type: GuideType.hajj,
+        profile: profile,
+        store: widget.store,
+        narration: widget.narration,
+        catalog: _catalogs[GuideType.hajj],
+      ),
+    );
+  }
+
   Future<void> _openInstalledPackage(OfflinePackageManifest manifest) async {
     if (manifest.kind == OfflinePackageKind.map ||
         manifest.kind == OfflinePackageKind.travel) {
@@ -285,14 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               _hasEnteredMainScreen = true;
                               _selectedTab = 0;
                             });
-                            _open(
-                              GuideSectionsScreen(
-                                type: GuideType.hajj,
-                                store: widget.store,
-                                narration: widget.narration,
-                                catalog: _catalogs[GuideType.hajj],
-                              ),
-                            );
+                            _openHajjGuide();
                           },
                           onOpenUmrah: () {
                             setState(() {
@@ -469,14 +474,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () => _open(
-                                GuideSectionsScreen(
-                                  type: GuideType.hajj,
-                                  store: widget.store,
-                                  narration: widget.narration,
-                                  catalog: _catalogs[GuideType.hajj],
-                                ),
-                              ),
+                              onTap: _openHajjGuide,
                               borderRadius: BorderRadius.circular(22),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -594,7 +592,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icons.menu_book_outlined,
                             title: 'Umre duaları',
                             subtitle: 'İhram, Telbiye, Tavaf ve Sa‘y duaları; zikir sayacı',
-                            onTap: () => _open(const PrayersScreen()),
+                            onTap: () => _open(
+                              PrayersScreen(
+                                catalog: _catalogs[GuideType.umrah],
+                              ),
+                            ),
                           ),
                         ],
                       ),
