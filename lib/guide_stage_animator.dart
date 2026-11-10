@@ -1,16 +1,11 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
 import 'narration_service.dart';
 
-enum GuideStageType {
-  luggage,
-  tawaf,
-  say,
-  ihram,
-  cemarat,
-}
+enum GuideStageType { luggage, tawaf, say, ihram, cemarat, arafat }
 
 /// An interactive, visually rich animated stage shown above guide sections.
 /// Allows pilgrims to watch real-time simulations (luggage packing, Kaaba tawaf,
@@ -105,7 +100,8 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
     final narration = _narration;
     if (!mounted || narration == null || widget.audioAsset == null) return;
     final state = narration.state;
-    final isMyAudioPlaying = state.asset == widget.audioAsset &&
+    final isMyAudioPlaying =
+        state.asset == widget.audioAsset &&
         state.status == NarrationStatus.playing;
     if (isMyAudioPlaying && !_isAutoPlaying) {
       setState(() => _isAutoPlaying = true);
@@ -175,8 +171,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final currentItemText =
-        widget.items.isNotEmpty ? widget.items[_currentIndex] : '';
+    final currentItemText = widget.items.isNotEmpty
+        ? widget.items[_currentIndex]
+        : '';
     final progressFraction = widget.items.isNotEmpty
         ? (_currentIndex + 1) / widget.items.length
         : 1.0;
@@ -241,8 +238,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                               color: Colors.black.withValues(alpha: 0.65),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: RehberTheme.goldLight
-                                    .withValues(alpha: 0.45),
+                                color: RehberTheme.goldLight.withValues(
+                                  alpha: 0.45,
+                                ),
                                 width: 1,
                               ),
                             ),
@@ -282,8 +280,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color:
-                                    RehberTheme.emerald.withValues(alpha: 0.4),
+                                color: RehberTheme.emerald.withValues(
+                                  alpha: 0.4,
+                                ),
                                 blurRadius: 6,
                               ),
                             ],
@@ -329,8 +328,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                           Container(
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                              color:
-                                  RehberTheme.emerald.withValues(alpha: 0.35),
+                              color: RehberTheme.emerald.withValues(
+                                alpha: 0.35,
+                              ),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -364,12 +364,9 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color:
-                    dark ? const Color(0xFF091210) : const Color(0xFF0B1F1A),
+                color: dark ? const Color(0xFF091210) : const Color(0xFF0B1F1A),
                 border: Border(
-                  top: BorderSide(
-                    color: Colors.white.withValues(alpha: 0.08),
-                  ),
+                  top: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
                 ),
               ),
               child: FittedBox(
@@ -446,16 +443,17 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                             onTap: () => selectItem(i),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 250),
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 2.5),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 2.5,
+                              ),
                               width: i == _currentIndex ? 16 : 6,
                               height: 6,
                               decoration: BoxDecoration(
                                 color: i == _currentIndex
                                     ? RehberTheme.goldLight
                                     : (i < _currentIndex
-                                        ? RehberTheme.emerald
-                                        : Colors.white24),
+                                          ? RehberTheme.emerald
+                                          : Colors.white24),
                                 borderRadius: BorderRadius.circular(3),
                               ),
                             ),
@@ -485,25 +483,18 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
           progress: progress,
         );
       case GuideStageType.tawaf:
-        return _TawafStagePainter(
-          animValue: animValue,
-          shawtIndex: itemIndex,
-        );
+        return _TawafStagePainter(animValue: animValue, shawtIndex: itemIndex);
       case GuideStageType.say:
-        return _SayStagePainter(
-          animValue: animValue,
-          lapIndex: itemIndex,
-        );
+        return _SayStagePainter(animValue: animValue, lapIndex: itemIndex);
       case GuideStageType.ihram:
-        return _IhramStagePainter(
-          animValue: animValue,
-          stepIndex: itemIndex,
-        );
+        return _IhramStagePainter(animValue: animValue, stepIndex: itemIndex);
       case GuideStageType.cemarat:
         return _CemaratStagePainter(
           animValue: animValue,
           targetIndex: itemIndex,
         );
+      case GuideStageType.arafat:
+        return _ArafatStagePainter(animValue: animValue, vakfeIndex: itemIndex);
     }
   }
 
@@ -519,6 +510,8 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
         return Icons.accessibility_new_rounded;
       case GuideStageType.cemarat:
         return Icons.location_on_rounded;
+      case GuideStageType.arafat:
+        return Icons.wb_sunny_rounded;
     }
   }
 
@@ -534,6 +527,8 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
         return 'Mîkāt & İhram Hazırlığı';
       case GuideStageType.cemarat:
         return 'Cemarat (Taşlama) Simülasyonu';
+      case GuideStageType.arafat:
+        return 'Arafat Vakfesi & Cebelü’r-Rahme';
     }
   }
 }
@@ -575,10 +570,7 @@ class _LuggageStagePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [
-          const Color(0xFF0F261E),
-          const Color(0xFF06120D),
-        ],
+        colors: [const Color(0xFF0F261E), const Color(0xFF06120D)],
       ).createShader(Rect.fromLTWH(0, floorY, w, h - floorY));
     canvas.drawRect(Rect.fromLTWH(0, floorY, w, h - floorY), floorPaint);
 
@@ -621,7 +613,8 @@ class _LuggageStagePainter extends CustomPainter {
         final backT = (t - (i * 0.04)).clamp(0.0, 1.0);
         final backCurveT = Curves.easeOutCubic.transform(backT);
         final bx = startPt.dx + (endPt.dx - startPt.dx) * backCurveT;
-        final by = startPt.dy +
+        final by =
+            startPt.dy +
             (endPt.dy - startPt.dy) * backCurveT +
             (-42 * math.sin(backCurveT * math.pi));
         canvas.drawCircle(Offset(bx, by), 4.0 - (i * 0.7), trailPaint);
@@ -629,12 +622,7 @@ class _LuggageStagePainter extends CustomPainter {
     }
 
     if (t < 0.94) {
-      _drawFlyingItem(
-        canvas,
-        Offset(currentX, currentY),
-        itemIndex,
-        animValue,
-      );
+      _drawFlyingItem(canvas, Offset(currentX, currentY), itemIndex, animValue);
     } else {
       // Landing bounce and golden burst
       final bounce = math.sin((animValue - 0.7) * math.pi * 6) * 2.5;
@@ -740,7 +728,8 @@ class _LuggageStagePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
     final handPaint = Paint()..color = const Color(0xFFFFD5B3);
 
-    final handY = groundPos.dy - 36 + breathing - (math.sin(anim * math.pi) * 6);
+    final handY =
+        groundPos.dy - 36 + breathing - (math.sin(anim * math.pi) * 6);
     canvas.drawLine(
       Offset(groundPos.dx + 8, groundPos.dy - 44 + breathing),
       Offset(groundPos.dx + 22, handY),
@@ -799,10 +788,7 @@ class _LuggageStagePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
-          const Color(0xFF23533E),
-          const Color(0xFF133527),
-        ],
+        colors: [const Color(0xFF23533E), const Color(0xFF133527)],
       ).createShader(rect);
 
     final shellRRect = RRect.fromRectAndRadius(rect, const Radius.circular(12));
@@ -816,8 +802,10 @@ class _LuggageStagePainter extends CustomPainter {
 
     // Inner Open Cavity
     final innerRect = rect.deflate(7);
-    final innerRRect =
-        RRect.fromRectAndRadius(innerRect, const Radius.circular(8));
+    final innerRRect = RRect.fromRectAndRadius(
+      innerRect,
+      const Radius.circular(8),
+    );
     final innerPaint = Paint()..color = const Color(0xFF0C1F17);
     canvas.drawRRect(innerRRect, innerPaint);
 
@@ -835,10 +823,7 @@ class _LuggageStagePainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            RehberTheme.emerald,
-            const Color(0xFF1E523C),
-          ],
+          colors: [RehberTheme.emerald, const Color(0xFF1E523C)],
         ).createShader(fillRect);
 
       canvas.drawRRect(
@@ -869,7 +854,12 @@ class _LuggageStagePainter extends CustomPainter {
     // Spinner Wheels at bottom
     final wheelPaint = Paint()..color = Colors.black87;
     final goldHub = Paint()..color = RehberTheme.goldLight;
-    for (final wx in [rect.left + 16, rect.left + 34, rect.right - 34, rect.right - 16]) {
+    for (final wx in [
+      rect.left + 16,
+      rect.left + 34,
+      rect.right - 34,
+      rect.right - 16,
+    ]) {
       canvas.drawCircle(Offset(wx, rect.bottom + 4), 4.5, wheelPaint);
       canvas.drawCircle(Offset(wx, rect.bottom + 4), 1.8, goldHub);
     }
@@ -927,12 +917,8 @@ class _LuggageStagePainter extends CustomPainter {
     // Base Circular Badge
     final discRRect = Rect.fromCircle(center: pos, radius: 15.5);
     final discPaint = Paint()
-      ..shader = RadialGradient(
-        colors: [
-          Colors.white,
-          const Color(0xFFF0F5F2),
-        ],
-      ).createShader(discRRect);
+      ..shader = RadialGradient(colors: [Colors.white, const Color(0xFFF0F5F2)])
+          .createShader(discRRect);
     canvas.drawCircle(pos, 15.5, discPaint);
 
     final goldRing = Paint()
@@ -951,14 +937,22 @@ class _LuggageStagePainter extends CustomPainter {
       case 0: // 2 Parça İhram Kumaşı & Altın Kemer
         canvas.drawRRect(
           RRect.fromRectAndRadius(
-            Rect.fromCenter(center: pos + const Offset(0, -3), width: 14, height: 6),
+            Rect.fromCenter(
+              center: pos + const Offset(0, -3),
+              width: 14,
+              height: 6,
+            ),
             const Radius.circular(2),
           ),
           glyph,
         );
         canvas.drawRRect(
           RRect.fromRectAndRadius(
-            Rect.fromCenter(center: pos + const Offset(0, 4), width: 14, height: 6),
+            Rect.fromCenter(
+              center: pos + const Offset(0, 4),
+              width: 14,
+              height: 6,
+            ),
             const Radius.circular(2),
           ),
           glyph,
@@ -967,23 +961,43 @@ class _LuggageStagePainter extends CustomPainter {
       case 1: // Kokusuz Bakım / Sabun & Şampuan
         canvas.drawRRect(
           RRect.fromRectAndRadius(
-            Rect.fromCenter(center: pos + const Offset(0, 2), width: 10, height: 13),
+            Rect.fromCenter(
+              center: pos + const Offset(0, 2),
+              width: 10,
+              height: 13,
+            ),
             const Radius.circular(3),
           ),
           glyph,
         );
-        canvas.drawLine(pos + const Offset(0, -5), pos + const Offset(0, -8), glyph);
-        canvas.drawLine(pos + const Offset(-3, -8), pos + const Offset(3, -8), glyph);
+        canvas.drawLine(
+          pos + const Offset(0, -5),
+          pos + const Offset(0, -8),
+          glyph,
+        );
+        canvas.drawLine(
+          pos + const Offset(-3, -8),
+          pos + const Offset(3, -8),
+          glyph,
+        );
         // Bubble
         canvas.drawCircle(pos + const Offset(5, -6), 2, glyph);
         break;
       case 2: // Ortopedik Sandalet & Tavaf Patiği
         canvas.drawOval(
-          Rect.fromCenter(center: pos + const Offset(0, 4), width: 16, height: 5),
+          Rect.fromCenter(
+            center: pos + const Offset(0, 4),
+            width: 16,
+            height: 5,
+          ),
           glyph,
         );
         canvas.drawArc(
-          Rect.fromCenter(center: pos + const Offset(-2, 1), width: 9, height: 8),
+          Rect.fromCenter(
+            center: pos + const Offset(-2, 1),
+            width: 9,
+            height: 8,
+          ),
           math.pi,
           math.pi,
           false,
@@ -998,7 +1012,11 @@ class _LuggageStagePainter extends CustomPainter {
           ..quadraticBezierTo(pos.dx, pos.dy + 9, pos.dx - 8, pos.dy + 7)
           ..close();
         canvas.drawPath(bagPath, glyph);
-        canvas.drawLine(pos + const Offset(-4, -6), pos + const Offset(0, -9), glyph);
+        canvas.drawLine(
+          pos + const Offset(-4, -6),
+          pos + const Offset(0, -9),
+          glyph,
+        );
         break;
       case 4: // İlaç & İlk Yardım Kiti
         canvas.drawRRect(
@@ -1008,8 +1026,16 @@ class _LuggageStagePainter extends CustomPainter {
           ),
           glyph,
         );
-        canvas.drawLine(pos + const Offset(0, -4), pos + const Offset(0, 4), glyph);
-        canvas.drawLine(pos + const Offset(-4, 0), pos + const Offset(4, 0), glyph);
+        canvas.drawLine(
+          pos + const Offset(0, -4),
+          pos + const Offset(0, 4),
+          glyph,
+        );
+        canvas.drawLine(
+          pos + const Offset(-4, 0),
+          pos + const Offset(4, 0),
+          glyph,
+        );
         break;
       case 5: // Pasaport & Boyun Cüzdanı
         canvas.drawRRect(
@@ -1024,7 +1050,11 @@ class _LuggageStagePainter extends CustomPainter {
       case 6: // Dua Risalesi & Dijital Zikirmatik
         canvas.drawRRect(
           RRect.fromRectAndRadius(
-            Rect.fromCenter(center: pos + const Offset(-2, 0), width: 10, height: 14),
+            Rect.fromCenter(
+              center: pos + const Offset(-2, 0),
+              width: 10,
+              height: 14,
+            ),
             const Radius.circular(2),
           ),
           glyph,
@@ -1032,8 +1062,16 @@ class _LuggageStagePainter extends CustomPainter {
         canvas.drawCircle(pos + const Offset(5, 2), 3.5, glyph);
         break;
       default: // Saç Makası / Tırnak Makası
-        canvas.drawLine(pos + const Offset(-5, -5), pos + const Offset(5, 5), glyph);
-        canvas.drawLine(pos + const Offset(5, -5), pos + const Offset(-5, 5), glyph);
+        canvas.drawLine(
+          pos + const Offset(-5, -5),
+          pos + const Offset(5, 5),
+          glyph,
+        );
+        canvas.drawLine(
+          pos + const Offset(5, -5),
+          pos + const Offset(-5, 5),
+          glyph,
+        );
         canvas.drawCircle(pos + const Offset(-5, -5), 2.5, glyph);
         canvas.drawCircle(pos + const Offset(5, -5), 2.5, glyph);
         break;
@@ -1049,8 +1087,16 @@ class _LuggageStagePainter extends CustomPainter {
     final starPaint = Paint()
       ..color = Colors.white
       ..strokeWidth = 2.0;
-    canvas.drawLine(pos + const Offset(0, -9), pos + const Offset(0, 9), starPaint);
-    canvas.drawLine(pos + const Offset(-9, 0), pos + const Offset(9, 0), starPaint);
+    canvas.drawLine(
+      pos + const Offset(0, -9),
+      pos + const Offset(0, 9),
+      starPaint,
+    );
+    canvas.drawLine(
+      pos + const Offset(-9, 0),
+      pos + const Offset(9, 0),
+      starPaint,
+    );
   }
 
   @override
@@ -1064,10 +1110,7 @@ class _LuggageStagePainter extends CustomPainter {
 // 2. CANLI KÂBE TAVAF SİMÜLASYONU (ULTRA PRO)
 // ==========================================
 class _TawafStagePainter extends CustomPainter {
-  const _TawafStagePainter({
-    required this.animValue,
-    required this.shawtIndex,
-  });
+  const _TawafStagePainter({required this.animValue, required this.shawtIndex});
 
   final double animValue;
   final int shawtIndex;
@@ -1083,10 +1126,7 @@ class _TawafStagePainter extends CustomPainter {
       ..shader = RadialGradient(
         center: Alignment.center,
         radius: 0.95,
-        colors: [
-          const Color(0xFF132B23),
-          const Color(0xFF040C09),
-        ],
+        colors: [const Color(0xFF132B23), const Color(0xFF040C09)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
 
@@ -1110,14 +1150,16 @@ class _TawafStagePainter extends CustomPainter {
       final ang = i * (math.pi / 6);
       canvas.drawLine(
         Offset(center.dx + 45 * math.cos(ang), center.dy + 35 * math.sin(ang)),
-        Offset(center.dx + (radiusX + 40) * math.cos(ang), center.dy + (radiusY + 40) * math.sin(ang)),
+        Offset(
+          center.dx + (radiusX + 40) * math.cos(ang),
+          center.dy + (radiusY + 40) * math.sin(ang),
+        ),
         radialPaint,
       );
     }
 
     // Dynamic Ambient Flowing Tawaf Crowd Particles (18 pilgrims circling)
-    final crowdPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.45);
+    final crowdPaint = Paint()..color = Colors.white.withValues(alpha: 0.45);
     for (int i = 0; i < 18; i++) {
       final crowdSpeed = 1.0 + (i % 3) * 0.15;
       final crowdAngle =
@@ -1151,11 +1193,7 @@ class _TawafStagePainter extends CustomPainter {
       esvedCorner.dx + (laserEnd.dx - esvedCorner.dx) * laserT,
       esvedCorner.dy + (laserEnd.dy - esvedCorner.dy) * laserT,
     );
-    canvas.drawCircle(
-      beamPos,
-      3.5,
-      Paint()..color = Colors.white,
-    );
+    canvas.drawCircle(beamPos, 3.5, Paint()..color = Colors.white);
 
     // Green Laser Line Label
     final laserText = TextPainter(
@@ -1173,10 +1211,15 @@ class _TawafStagePainter extends CustomPainter {
 
     // Hatîm / Hicr-i İsmâîl (North-West Semicircular Marble Wall)
     final hatimCenter = center + const Offset(-30, -8);
-    final hatimRect = Rect.fromCenter(center: hatimCenter, width: 38, height: 42);
+    final hatimRect = Rect.fromCenter(
+      center: hatimCenter,
+      width: 38,
+      height: 42,
+    );
 
     // Green Carpet inside Hatim
-    final hatimFill = Paint()..color = const Color(0xFF144D34).withValues(alpha: 0.6);
+    final hatimFill = Paint()
+      ..color = const Color(0xFF144D34).withValues(alpha: 0.6);
     canvas.drawArc(hatimRect, math.pi * 0.62, math.pi * 0.76, true, hatimFill);
 
     // Thick White Marble Wall
@@ -1192,7 +1235,11 @@ class _TawafStagePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
     canvas.drawArc(
-      Rect.fromCenter(center: hatimCenter - const Offset(6, 0), width: 50, height: 54),
+      Rect.fromCenter(
+        center: hatimCenter - const Offset(6, 0),
+        width: 50,
+        height: 54,
+      ),
       math.pi * 0.58,
       math.pi * 0.84,
       false,
@@ -1249,12 +1296,22 @@ class _TawafStagePainter extends CustomPainter {
       ..strokeWidth = 2.8
       ..style = PaintingStyle.stroke;
     canvas.drawRect(
-      Rect.fromLTRB(kaabaRect.left + 2, hizamY, kaabaRect.right - 2, hizamY + 4),
+      Rect.fromLTRB(
+        kaabaRect.left + 2,
+        hizamY,
+        kaabaRect.right - 2,
+        hizamY + 4,
+      ),
       goldBand,
     );
 
     // Bâbü'l-Kâbe (Golden Door on Eastern Wall)
-    final doorRect = Rect.fromLTWH(kaabaRect.right - 10, kaabaRect.top + 14, 8, 18);
+    final doorRect = Rect.fromLTWH(
+      kaabaRect.right - 10,
+      kaabaRect.top + 14,
+      8,
+      18,
+    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(doorRect, const Radius.circular(2)),
       Paint()..color = RehberTheme.goldLight,
@@ -1330,7 +1387,8 @@ class _TawafStagePainter extends CustomPainter {
 
     // Directional Forward Chevron / Arrow (Pointing CCW)
     final arrowAng = angle - (math.pi / 2);
-    final arrowTip = pilgrimPos + Offset(math.cos(arrowAng) * 9, math.sin(arrowAng) * 9);
+    final arrowTip =
+        pilgrimPos + Offset(math.cos(arrowAng) * 9, math.sin(arrowAng) * 9);
     final arrowPaint = Paint()
       ..color = RehberTheme.goldLight
       ..strokeWidth = 2.0
@@ -1376,10 +1434,17 @@ class _TawafStagePainter extends CustomPainter {
       canvas.drawCircle(esvedPt, 22, flashWave);
 
       final flashBanner = RRect.fromRectAndRadius(
-        Rect.fromCenter(center: center + const Offset(0, 78), width: 210, height: 22),
+        Rect.fromCenter(
+          center: center + const Offset(0, 78),
+          width: 210,
+          height: 22,
+        ),
         const Radius.circular(8),
       );
-      canvas.drawRRect(flashBanner, Paint()..color = Colors.black.withValues(alpha: 0.88));
+      canvas.drawRRect(
+        flashBanner,
+        Paint()..color = Colors.black.withValues(alpha: 0.88),
+      );
       canvas.drawRRect(
         flashBanner,
         Paint()
@@ -1413,10 +1478,7 @@ class _TawafStagePainter extends CustomPainter {
 // 3. SAFÂ - MERVE SA'Y YOLU PAINTER'I (PRO)
 // ==========================================
 class _SayStagePainter extends CustomPainter {
-  const _SayStagePainter({
-    required this.animValue,
-    required this.lapIndex,
-  });
+  const _SayStagePainter({required this.animValue, required this.lapIndex});
 
   final double animValue;
   final int lapIndex;
@@ -1431,10 +1493,7 @@ class _SayStagePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [
-          const Color(0xFF091F18),
-          const Color(0xFF05110E),
-        ],
+        colors: [const Color(0xFF091F18), const Color(0xFF05110E)],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
 
@@ -1446,7 +1505,11 @@ class _SayStagePainter extends CustomPainter {
     for (double ax = 55; ax <= w - 55; ax += 38) {
       canvas.drawLine(Offset(ax, 0), Offset(ax, h * 0.35), archPaint);
       canvas.drawArc(
-        Rect.fromCenter(center: Offset(ax + 19, h * 0.35), width: 38, height: 26),
+        Rect.fromCenter(
+          center: Offset(ax + 19, h * 0.35),
+          width: 38,
+          height: 26,
+        ),
         math.pi,
         math.pi,
         false,
@@ -1631,7 +1694,11 @@ class _SayStagePainter extends CustomPainter {
             : RehberTheme.goldLight.withValues(alpha: 0.3)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
     );
-    canvas.drawCircle(Offset(pilgrimX, pilgrimY), 5.5, Paint()..color = Colors.white);
+    canvas.drawCircle(
+      Offset(pilgrimX, pilgrimY),
+      5.5,
+      Paint()..color = Colors.white,
+    );
 
     // Direction Arrow next to pilgrim
     final arrowPaint = Paint()
@@ -1646,7 +1713,8 @@ class _SayStagePainter extends CustomPainter {
     );
 
     // Lap HUD Pill at top center
-    final lapText = '${(lapIndex + 1).clamp(1, 7)}. Tur: ${isGoingToMerve ? "Safâ ➔ Merve" : "Merve ➔ Safâ"} (~395m)';
+    final lapText =
+        '${(lapIndex + 1).clamp(1, 7)}. Tur: ${isGoingToMerve ? "Safâ ➔ Merve" : "Merve ➔ Safâ"} (~395m)';
     final hudPainter = TextPainter(
       text: TextSpan(
         text: lapText,
@@ -1683,18 +1751,14 @@ class _SayStagePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _SayStagePainter oldDelegate) =>
-      oldDelegate.animValue != animValue ||
-      oldDelegate.lapIndex != lapIndex;
+      oldDelegate.animValue != animValue || oldDelegate.lapIndex != lapIndex;
 }
 
 // ==========================================
 // 4. MÎKĀT VE İHRAM HAZIRLIĞI PAINTER'I (PRO)
 // ==========================================
 class _IhramStagePainter extends CustomPainter {
-  const _IhramStagePainter({
-    required this.animValue,
-    required this.stepIndex,
-  });
+  const _IhramStagePainter({required this.animValue, required this.stepIndex});
 
   final double animValue;
   final int stepIndex;
@@ -1731,8 +1795,16 @@ class _IhramStagePainter extends CustomPainter {
 
     // Crescent Moon
     final moonCenter = Offset(w * 0.84, h * 0.15);
-    canvas.drawCircle(moonCenter, 7.0, Paint()..color = const Color(0xFFFFF7D6));
-    canvas.drawCircle(moonCenter + const Offset(2.5, -1), 6.0, Paint()..color = const Color(0xFF091C15));
+    canvas.drawCircle(
+      moonCenter,
+      7.0,
+      Paint()..color = const Color(0xFFFFF7D6),
+    );
+    canvas.drawCircle(
+      moonCenter + const Offset(2.5, -1),
+      6.0,
+      Paint()..color = const Color(0xFF091C15),
+    );
 
     // Monumental Mîkāt Mosque Archway (Center-Left)
     final archCenter = Offset(w * 0.32, h * 0.58);
@@ -1762,7 +1834,11 @@ class _IhramStagePainter extends CustomPainter {
 
     // Arch Gate Plaque
     final plaque = RRect.fromRectAndRadius(
-      Rect.fromCenter(center: Offset(archCenter.dx, archCenter.dy - 48), width: 90, height: 16),
+      Rect.fromCenter(
+        center: Offset(archCenter.dx, archCenter.dy - 48),
+        width: 90,
+        height: 16,
+      ),
       const Radius.circular(5),
     );
     canvas.drawRRect(plaque, Paint()..color = Colors.black87);
@@ -1785,7 +1861,10 @@ class _IhramStagePainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    gateText.paint(canvas, Offset(archCenter.dx - gateText.width / 2, archCenter.dy - 54));
+    gateText.paint(
+      canvas,
+      Offset(archCenter.dx - gateText.width / 2, archCenter.dy - 54),
+    );
 
     // Pilgrim in White Ihram on Right (Center-Right)
     final pilgrimCenter = Offset(w * 0.68, h * 0.60);
@@ -1881,7 +1960,10 @@ class _IhramStagePainter extends CustomPainter {
       ),
       const Radius.circular(10),
     );
-    canvas.drawRRect(bubbleRect, Paint()..color = Colors.black.withValues(alpha: 0.85));
+    canvas.drawRRect(
+      bubbleRect,
+      Paint()..color = Colors.black.withValues(alpha: 0.85),
+    );
     canvas.drawRRect(
       bubbleRect,
       Paint()
@@ -1911,8 +1993,7 @@ class _IhramStagePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _IhramStagePainter oldDelegate) =>
-      oldDelegate.animValue != animValue ||
-      oldDelegate.stepIndex != stepIndex;
+      oldDelegate.animValue != animValue || oldDelegate.stepIndex != stepIndex;
 }
 
 // ==========================================
@@ -1937,10 +2018,7 @@ class _CemaratStagePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [
-          const Color(0xFF132620),
-          const Color(0xFF081410),
-        ],
+        colors: [const Color(0xFF132620), const Color(0xFF081410)],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
     canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
 
@@ -1979,13 +2057,13 @@ class _CemaratStagePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
-          const Color(0xFF96826D),
-          const Color(0xFF6B5A49),
-        ],
+        colors: [const Color(0xFF96826D), const Color(0xFF6B5A49)],
       ).createShader(pillarRect);
 
-    final pillarRRect = RRect.fromRectAndRadius(pillarRect, const Radius.circular(8));
+    final pillarRRect = RRect.fromRectAndRadius(
+      pillarRect,
+      const Radius.circular(8),
+    );
     canvas.drawRRect(pillarRRect, pillarPaint);
     canvas.drawRRect(
       pillarRRect,
@@ -2028,7 +2106,10 @@ class _CemaratStagePainter extends CustomPainter {
 
     // Ballistic Trajectory of the Flying Pebble (Taş)
     final startPt = Offset(throwerPos.dx + 16, throwerPos.dy - 44);
-    final targetPt = Offset(pillarCenter.dx - (pillarWidth * 0.4), pillarCenter.dy - 8);
+    final targetPt = Offset(
+      pillarCenter.dx - (pillarWidth * 0.4),
+      pillarCenter.dy - 8,
+    );
 
     final t = animValue;
     final stoneX = startPt.dx + (targetPt.dx - startPt.dx) * t;
@@ -2068,8 +2149,13 @@ class _CemaratStagePainter extends CustomPainter {
       canvas.drawCircle(targetPt, 14, impactWave);
 
       // Pebble falling into basin
-      final fallY = targetPt.dy + (pillarRect.bottom - targetPt.dy) * ((t - 0.92) / 0.08);
-      canvas.drawCircle(Offset(targetPt.dx, fallY), 3.2, Paint()..color = Colors.white70);
+      final fallY =
+          targetPt.dy + (pillarRect.bottom - targetPt.dy) * ((t - 0.92) / 0.08);
+      canvas.drawCircle(
+        Offset(targetPt.dx, fallY),
+        3.2,
+        Paint()..color = Colors.white70,
+      );
     }
 
     // Takbir Badge Callout
@@ -2120,7 +2206,10 @@ class _CemaratStagePainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    counterPainter.paint(canvas, Offset(w * 0.74 - counterPainter.width / 2, h * 0.88));
+    counterPainter.paint(
+      canvas,
+      Offset(w * 0.74 - counterPainter.width / 2, h * 0.88),
+    );
   }
 
   void _drawThrower(Canvas canvas, Offset pos, double anim) {
@@ -2139,7 +2228,11 @@ class _CemaratStagePainter extends CustomPainter {
 
     // White Ihram Robe
     final robeRRect = RRect.fromRectAndRadius(
-      Rect.fromCenter(center: pos + const Offset(0, -25), width: 22, height: 34),
+      Rect.fromCenter(
+        center: pos + const Offset(0, -25),
+        width: 22,
+        height: 34,
+      ),
       const Radius.circular(6),
     );
     canvas.drawRRect(robeRRect, Paint()..color = Colors.white);
@@ -2160,4 +2253,525 @@ class _CemaratStagePainter extends CustomPainter {
   bool shouldRepaint(covariant _CemaratStagePainter oldDelegate) =>
       oldDelegate.animValue != animValue ||
       oldDelegate.targetIndex != targetIndex;
+}
+
+// ==========================================
+// 6. ARAFAT & CEBELÜ’R-RAHME VAKFESİ (60 FPS)
+// ==========================================
+class _ArafatStagePainter extends CustomPainter {
+  const _ArafatStagePainter({
+    required this.animValue,
+    required this.vakfeIndex,
+  });
+
+  final double animValue;
+  final int vakfeIndex;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+    final isNightMuzdelife = vakfeIndex >= 3;
+
+    // 1. Atmosferik Gökyüzü (Sunset / Müzdelife Alacakaranlığı)
+    final bgPaint = Paint();
+    if (!isNightMuzdelife) {
+      // Gün batımı amber & çöl alacakaranlık gradyanı
+      bgPaint.shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF091C14), // Üst zümrüt alacakaranlık
+          Color(0xFF2C160B), // Sıcak çöl göğü
+          Color(0xFF6B2B0F), // Akşam kızıllığı
+          Color(0xFFD6771F), // Ufuk altın ışığı
+        ],
+        stops: [0.0, 0.40, 0.70, 1.0],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+    } else {
+      // Müzdelife berrak çöl gecesi gradyanı
+      bgPaint.shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF05111A), // Gece laciverti
+          Color(0xFF091E24), // Mavi-yeşil çöl gecesi
+          Color(0xFF0E2E23), // Ufuk zümrüt parıltısı
+        ],
+        stops: [0.0, 0.55, 1.0],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+    }
+    canvas.drawRect(Rect.fromLTWH(0, 0, w, h), bgPaint);
+
+    if (isNightMuzdelife) {
+      _drawNightSky(canvas, w, h);
+    } else {
+      _drawSettingSun(canvas, w, h);
+    }
+
+    // 2. Cebelü'r-Rahme (Rahmet Dağı) Silüeti & Kayalık Granit Tepesi
+    _drawMountRahmah(canvas, w, h, isNightMuzdelife);
+
+    // 3. İkonik Beyaz Rahmet Sütunu (El-Alem / Obelisk)
+    _drawRahmahObelisk(canvas, w, h);
+
+    // 4. Çöl Zemin Tepeleri & Kumul Katmanları
+    _drawDesertDunes(canvas, w, h, isNightMuzdelife);
+
+    // 5. Dua Eden Hacı (Vakfede Semaya Açılan Eller)
+    _drawSupplicatingPilgrim(canvas, w, h);
+
+    // 6. Yükselen Nur & Dua Partikülleri
+    _drawAscendingPrayers(canvas, w, h);
+
+    // 7. Aşama Rozeti & İhlâs / Telbiye Şeridi
+    _drawStageBadge(canvas, w, h, isNightMuzdelife);
+  }
+
+  void _drawSettingSun(Canvas canvas, double w, double h) {
+    final sunCenter = Offset(w * 0.36, h * 0.46);
+    // Güneş Halesi
+    canvas.drawCircle(
+      sunCenter,
+      44,
+      Paint()
+        ..shader = RadialGradient(
+          colors: [
+            const Color(0xFFFFE082).withValues(alpha: 0.55),
+            const Color(0xFFFF9800).withValues(alpha: 0.20),
+            Colors.transparent,
+          ],
+        ).createShader(Rect.fromCircle(center: sunCenter, radius: 44)),
+    );
+    // Güneş Çekirdeği
+    canvas.drawCircle(sunCenter, 17, Paint()..color = const Color(0xFFFFF3E0));
+  }
+
+  void _drawNightSky(Canvas canvas, double w, double h) {
+    // 1. Hilal (Crescent Moon)
+    final moonCenter = Offset(w * 0.22, h * 0.24);
+    final moonPaint = Paint()..color = const Color(0xFFFFEAA7);
+    final moonMask = Paint()..color = const Color(0xFF07151E);
+
+    canvas.drawCircle(moonCenter, 14, moonPaint);
+    canvas.drawCircle(moonCenter + const Offset(5, -4), 13, moonMask);
+
+    // Hilal halesi
+    canvas.drawCircle(
+      moonCenter,
+      26,
+      Paint()
+        ..shader = RadialGradient(
+          colors: [
+            const Color(0xFFFFEAA7).withValues(alpha: 0.25),
+            Colors.transparent,
+          ],
+        ).createShader(Rect.fromCircle(center: moonCenter, radius: 26)),
+    );
+
+    // 2. Parıldayan Çöl Yıldızları
+    final starOffsets = [
+      Offset(w * 0.08, h * 0.15),
+      Offset(w * 0.16, h * 0.35),
+      Offset(w * 0.32, h * 0.12),
+      Offset(w * 0.42, h * 0.26),
+      Offset(w * 0.52, h * 0.16),
+      Offset(w * 0.88, h * 0.14),
+      Offset(w * 0.94, h * 0.28),
+      Offset(w * 0.82, h * 0.22),
+    ];
+
+    for (int i = 0; i < starOffsets.length; i++) {
+      final twinkle = (math.sin(animValue * math.pi * 2 + i * 1.2) + 1.0) / 2.0;
+      final starPaint = Paint()
+        ..color = Colors.white.withValues(alpha: 0.35 + (twinkle * 0.55));
+      canvas.drawCircle(starOffsets[i], 1.2 + (twinkle * 0.8), starPaint);
+    }
+  }
+
+  void _drawMountRahmah(Canvas canvas, double w, double h, bool isNight) {
+    final mountainBaseY = h * 0.74;
+    final peakX = w * 0.72;
+    final peakY = h * 0.35;
+
+    // Dağ Gövde Yolu
+    final mountainPath = Path()
+      ..moveTo(w * 0.38, mountainBaseY)
+      ..cubicTo(
+        w * 0.48,
+        mountainBaseY - 10,
+        w * 0.56,
+        peakY + 45,
+        w * 0.65,
+        peakY + 16,
+      )
+      ..lineTo(peakX - 8, peakY + 2)
+      ..lineTo(peakX, peakY)
+      ..lineTo(peakX + 8, peakY + 2)
+      ..cubicTo(
+        w * 0.78,
+        peakY + 18,
+        w * 0.86,
+        peakY + 52,
+        w * 0.96,
+        mountainBaseY - 8,
+      )
+      ..lineTo(w * 1.05, mountainBaseY)
+      ..lineTo(w * 0.38, mountainBaseY)
+      ..close();
+
+    final mountainPaint = Paint()
+      ..shader =
+          LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: isNight
+                ? [const Color(0xFF142B28), const Color(0xFF0B1917)]
+                : [const Color(0xFF4A2A1A), const Color(0xFF1F120B)],
+          ).createShader(
+            Rect.fromLTWH(w * 0.38, peakY, w * 0.67, mountainBaseY - peakY),
+          );
+
+    canvas.drawPath(mountainPath, mountainPaint);
+
+    // Granit Kaya Sırtı ve Gölgeler
+    final ridgePath = Path()
+      ..moveTo(peakX, peakY)
+      ..lineTo(w * 0.70, peakY + 30)
+      ..lineTo(w * 0.64, peakY + 55)
+      ..lineTo(w * 0.58, mountainBaseY)
+      ..lineTo(w * 1.05, mountainBaseY)
+      ..cubicTo(
+        w * 0.86,
+        peakY + 52,
+        w * 0.78,
+        peakY + 18,
+        peakX + 8,
+        peakY + 2,
+      )
+      ..close();
+
+    final ridgePaint = Paint()
+      ..color = (isNight ? Colors.black : const Color(0xFF150A05)).withValues(
+        alpha: 0.35,
+      );
+    canvas.drawPath(ridgePath, ridgePaint);
+
+    // Kayalık Basamak ve Detaylar
+    final boulderPaint = Paint()
+      ..color = (isNight ? const Color(0xFF1B3D37) : const Color(0xFF784528))
+          .withValues(alpha: 0.30);
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(w * 0.62, peakY + 48),
+        width: 28,
+        height: 12,
+      ),
+      boulderPaint,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(w * 0.78, peakY + 42),
+        width: 34,
+        height: 14,
+      ),
+      boulderPaint,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(w * 0.84, mountainBaseY - 14),
+        width: 44,
+        height: 16,
+      ),
+      boulderPaint,
+    );
+  }
+
+  void _drawRahmahObelisk(Canvas canvas, double w, double h) {
+    final peakX = w * 0.72;
+    final peakY = h * 0.35;
+    const obeliskWidth = 8.0;
+    const obeliskHeight = 26.0;
+
+    // Nur / Aydınlık Halesi (Pulsing Noor)
+    final pulse = (math.sin(animValue * math.pi * 2) + 1.0) / 2.0;
+    final haloRadius = 24.0 + (pulse * 8.0);
+    canvas.drawCircle(
+      Offset(peakX, peakY - obeliskHeight / 2),
+      haloRadius,
+      Paint()
+        ..shader =
+            RadialGradient(
+              colors: [
+                RehberTheme.goldLight.withValues(alpha: 0.38 + (pulse * 0.22)),
+                const Color(0xFF2D6A4F).withValues(alpha: 0.15),
+                Colors.transparent,
+              ],
+            ).createShader(
+              Rect.fromCircle(
+                center: Offset(peakX, peakY - obeliskHeight / 2),
+                radius: haloRadius,
+              ),
+            ),
+    );
+
+    // Kaide (Base Platform)
+    final baseRect = Rect.fromCenter(
+      center: Offset(peakX, peakY - 1.5),
+      width: 16.0,
+      height: 4.0,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(baseRect, const Radius.circular(1.5)),
+      Paint()..color = const Color(0xFFE0E0E0),
+    );
+
+    // Beyaz Sütun Gövdesi
+    final obeliskRect = Rect.fromCenter(
+      center: Offset(peakX, peakY - (obeliskHeight / 2)),
+      width: obeliskWidth,
+      height: obeliskHeight,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(obeliskRect, const Radius.circular(2)),
+      Paint()..color = Colors.white,
+    );
+
+    // Sağ Taraf Gölgeleme (3D Taş Efekti)
+    final shadowRect = Rect.fromLTWH(
+      peakX,
+      peakY - obeliskHeight,
+      obeliskWidth / 2,
+      obeliskHeight,
+    );
+    canvas.drawRect(
+      shadowRect,
+      Paint()..color = Colors.black.withValues(alpha: 0.15),
+    );
+
+    // Tepe Zirve Işığı (Altın Nokta)
+    canvas.drawCircle(
+      Offset(peakX, peakY - obeliskHeight - 1),
+      2.2,
+      Paint()..color = RehberTheme.goldLight,
+    );
+  }
+
+  void _drawDesertDunes(Canvas canvas, double w, double h, bool isNight) {
+    // 1. Arka Kumul (Midground Dune)
+    final midDunePath = Path()
+      ..moveTo(0, h * 0.72)
+      ..quadraticBezierTo(w * 0.35, h * 0.68, w * 0.65, h * 0.75)
+      ..lineTo(w, h * 0.73)
+      ..lineTo(w, h)
+      ..lineTo(0, h)
+      ..close();
+
+    final midDunePaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: isNight
+            ? [const Color(0xFF0F2620), const Color(0xFF081713)]
+            : [const Color(0xFF3B1E12), const Color(0xFF1E0E07)],
+      ).createShader(Rect.fromLTWH(0, h * 0.68, w, h * 0.32));
+    canvas.drawPath(midDunePath, midDunePaint);
+
+    // 2. Ön Zemin Kumulu (Foreground Plateau)
+    final foreDunePath = Path()
+      ..moveTo(0, h * 0.78)
+      ..cubicTo(w * 0.28, h * 0.74, w * 0.60, h * 0.82, w, h * 0.76)
+      ..lineTo(w, h)
+      ..lineTo(0, h)
+      ..close();
+
+    final foreDunePaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: isNight
+            ? [const Color(0xFF13352B), const Color(0xFF06140F)]
+            : [const Color(0xFF5A2E19), const Color(0xFF180C06)],
+      ).createShader(Rect.fromLTWH(0, h * 0.74, w, h * 0.26));
+    canvas.drawPath(foreDunePath, foreDunePaint);
+
+    // Altın Kumul Sırt Çizgisi (Golden Ridge Rim)
+    final ridgePaint = Paint()
+      ..color = (isNight ? RehberTheme.emerald : RehberTheme.goldLight)
+          .withValues(alpha: 0.40)
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+
+    final rimPath = Path()
+      ..moveTo(0, h * 0.78)
+      ..cubicTo(w * 0.28, h * 0.74, w * 0.60, h * 0.82, w, h * 0.76);
+    canvas.drawPath(rimPath, ridgePaint);
+  }
+
+  void _drawSupplicatingPilgrim(Canvas canvas, double w, double h) {
+    final pos = Offset(w * 0.24, h * 0.76);
+
+    // Yerdeki Gölge
+    canvas.drawOval(
+      Rect.fromCenter(center: pos + const Offset(0, 3), width: 34, height: 9),
+      Paint()..color = Colors.black.withValues(alpha: 0.40),
+    );
+
+    // Nefes Alma / Dua Salınım Hareketi
+    final breathSway = math.sin(animValue * math.pi * 2) * 1.5;
+    final bodyCenter = pos + Offset(0, -32 + breathSway);
+
+    // Baş (Huşû ile kıbleye ve semaya hafif yönelmiş)
+    final headCenter = bodyCenter + const Offset(0, -22);
+    canvas.drawCircle(
+      headCenter,
+      7.5,
+      Paint()..color = const Color(0xFFFFD5B3),
+    );
+
+    // İhram Alt Parçası (İzar - Belden Aşağısı)
+    final izarPath = Path()
+      ..moveTo(bodyCenter.dx - 9, bodyCenter.dy + 6)
+      ..lineTo(bodyCenter.dx + 9, bodyCenter.dy + 6)
+      ..lineTo(bodyCenter.dx + 12, bodyCenter.dy + 30)
+      ..lineTo(bodyCenter.dx - 12, bodyCenter.dy + 30)
+      ..close();
+    canvas.drawPath(izarPath, Paint()..color = const Color(0xFFEDEDED));
+
+    // İhram Üst Parçası (Rida - Omuz ve Gövde Örtüsü)
+    final ridaRRect = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+        center: bodyCenter + const Offset(0, -6),
+        width: 22,
+        height: 26,
+      ),
+      const Radius.circular(6),
+    );
+    canvas.drawRRect(ridaRRect, Paint()..color = Colors.white);
+
+    // İhram Kıvrım Çizgisi (Rida drapesi)
+    final drapePaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.08)
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(
+      bodyCenter + const Offset(-7, -14),
+      bodyCenter + const Offset(5, 4),
+      drapePaint,
+    );
+
+    // Dua Eden Kollar (Semaya Açılmış İki Kol & Avuçlar)
+    final armPaint = Paint()
+      ..color = const Color(0xFFFFD5B3)
+      ..strokeWidth = 3.2
+      ..strokeCap = StrokeCap.round;
+
+    // Sol Kol (Yalvarış açısında yukarı)
+    final leftHand = Offset(
+      bodyCenter.dx - 11,
+      bodyCenter.dy - 18 - (breathSway * 0.8),
+    );
+    canvas.drawLine(bodyCenter + const Offset(-6, -11), leftHand, armPaint);
+    canvas.drawCircle(leftHand, 2.2, armPaint);
+
+    // Sağ Kol (Yalvarış açısında yukarı)
+    final rightHand = Offset(
+      bodyCenter.dx + 11,
+      bodyCenter.dy - 18 - (breathSway * 0.8),
+    );
+    canvas.drawLine(bodyCenter + const Offset(6, -11), rightHand, armPaint);
+    canvas.drawCircle(rightHand, 2.2, armPaint);
+  }
+
+  void _drawAscendingPrayers(Canvas canvas, double w, double h) {
+    // Hacının ellerinden göğe yükselen altın dua ve nur tanecikleri
+    const particleCount = 10;
+    final sourceX = w * 0.24;
+    final sourceY = h * 0.64;
+
+    for (int i = 0; i < particleCount; i++) {
+      final pProgress = (animValue + (i / particleCount)) % 1.0;
+      final py = sourceY - (pProgress * (h * 0.52));
+      final px = sourceX + (math.sin(pProgress * math.pi * 4 + i) * 16.0);
+      final alpha = (math.sin(pProgress * math.pi) * 0.75).clamp(0.0, 1.0);
+
+      final pPaint = Paint()
+        ..color = RehberTheme.goldLight.withValues(alpha: alpha);
+      canvas.drawCircle(Offset(px, py), 1.8 + (1.0 - pProgress), pPaint);
+    }
+  }
+
+  void _drawStageBadge(Canvas canvas, double w, double h, bool isNight) {
+    // Alt Bilgi Rozeti
+    final String label;
+    switch (vakfeIndex) {
+      case 0:
+        label = 'Arafat Sınırları & Cebelü’r-Rahme';
+        break;
+      case 1:
+        label = 'Nemire Mescidi · Cem-i Takdim';
+        break;
+      case 2:
+        label = 'Arafat Vakfesi · Duaların Kabul Vakti';
+        break;
+      case 3:
+        label = 'Müzdelife’ye İntikal (Gurub Vakti)';
+        break;
+      case 4:
+        label = 'Müzdelife · Akşam ve Yatsı Cem-i Tehir';
+        break;
+      default:
+        label = 'Meş’ar-i Haram · 70 Taş Toplama';
+        break;
+    }
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 9.8,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.3,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final badgeWidth = textPainter.width + 20;
+    const badgeHeight = 22.0;
+    final badgeRect = Rect.fromCenter(
+      center: Offset(w * 0.50, h * 0.90),
+      width: badgeWidth,
+      height: badgeHeight,
+    );
+
+    // Rozet Arka Planı
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(badgeRect, const Radius.circular(11)),
+      Paint()..color = Colors.black.withValues(alpha: 0.65),
+    );
+
+    // Rozet Altın Çerçevesi
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(badgeRect, const Radius.circular(11)),
+      Paint()
+        ..color = RehberTheme.goldLight.withValues(alpha: 0.45)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0,
+    );
+
+    textPainter.paint(
+      canvas,
+      Offset(
+        badgeRect.left + 10,
+        badgeRect.top + (badgeHeight - textPainter.height) / 2,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _ArafatStagePainter oldDelegate) =>
+      oldDelegate.animValue != animValue ||
+      oldDelegate.vakfeIndex != vakfeIndex;
 }

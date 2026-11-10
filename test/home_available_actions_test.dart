@@ -45,7 +45,9 @@ void main() {
     expect(find.byType(PrayerTimesCard), findsOneWidget);
     expect(find.text('Mekke-i Mükerreme'), findsOneWidget);
     expect(find.text('Umre Eğitimi'), findsOneWidget);
+    expect(find.text('Hac Eğitimi & Rehberi'), findsOneWidget);
     expect(find.text('Yardım ve önemli numaralar'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Kıble pusulası'), 200);
     expect(find.text('Kıble pusulası'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Umre duaları'), 200);
     expect(find.text('Umre duaları'), findsOneWidget);

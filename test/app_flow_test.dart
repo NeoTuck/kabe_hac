@@ -27,59 +27,70 @@ void main() {
     catalogs = await loadDraftCatalogs();
   });
 
-  testWidgets('kullanıcı açılışında hoş geldiniz ekranı ve kilitli Hac uyarısı görünür', (
-    tester,
-  ) async {
-    final store = MemoryGuideStore();
-    final narration = FakeNarration();
-    await store.openOrCreateSession(
-      type: GuideType.umrah,
-      mode: GuideMode.learning,
-      profile: null,
-      firstStepId: 'U01.1',
-      contentVersion: 'old-draft',
-    );
-    await tester.pumpWidget(
-      SesliRehberApp(
-        store: store,
-        catalogs: catalogs,
-        narration: narration,
-        settings: ReaderSettings(store, narration),
-        safetyCatalog: await const LocalSafetyRepository().load(),
-      ),
-    );
-    await tester.pumpAndSettle();
+  testWidgets(
+    'kullanıcı açılışında hoş geldiniz ekranı ve açılan Hac rehberi görünür',
+    (tester) async {
+      final store = MemoryGuideStore();
+      final narration = FakeNarration();
+      await store.openOrCreateSession(
+        type: GuideType.umrah,
+        mode: GuideMode.learning,
+        profile: null,
+        firstStepId: 'U01.1',
+        contentVersion: 'old-draft',
+      );
+      await tester.pumpWidget(
+        SesliRehberApp(
+          store: store,
+          catalogs: catalogs,
+          narration: narration,
+          settings: ReaderSettings(store, narration),
+          safetyCatalog: await const LocalSafetyRepository().load(),
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    // Portal screen is shown first
-    expect(find.textContaining('Kutlu Yolculuğunuza'), findsOneWidget);
-    expect(find.textContaining('Hoş Geldiniz'), findsOneWidget);
-    expect(find.text('Hac rehberim'), findsOneWidget);
-    expect(find.text('Geliştiriliyor'), findsOneWidget);
-    expect(find.byIcon(Icons.lock_rounded), findsOneWidget);
-    expect(find.text('Umre rehberim'), findsOneWidget);
-    expect(find.text('0%'), findsOneWidget);
-    expect(find.textContaining('Kaldığım yerden devam'), findsNothing);
+      // Portal screen is shown first
+      expect(find.textContaining('Kutlu Yolculuğunuza'), findsOneWidget);
+      expect(find.textContaining('Hoş Geldiniz'), findsOneWidget);
+      expect(find.text('Hac rehberim'), findsOneWidget);
+      expect(find.text('Rehbere Başla'), findsOneWidget);
+      expect(find.byIcon(Icons.mosque_rounded), findsOneWidget);
+      expect(find.text('Umre rehberim'), findsOneWidget);
+      expect(find.text('0%'), findsOneWidget);
+      expect(find.textContaining('Kaldığım yerden devam'), findsNothing);
 
-    // Tapping Hac rehberim shows under construction alert dialog
-    await tester.tap(find.text('Hac rehberim'));
-    await tester.pumpAndSettle();
-    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsOneWidget);
-    expect(
-      find.textContaining('uzman incelemesinde ve geliştirme aşamasındadır'),
-      findsOneWidget,
-    );
-    await tester.tap(find.text('Anladım'));
-    await tester.pumpAndSettle();
-    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsNothing);
+      // Tapping Hac rehberim opens Hajj guide sections screen
+      await tester.tap(find.text('Hac rehberim'));
+      await tester.pumpAndSettle();
+      expect(find.byType(GuideSectionsScreen), findsOneWidget);
+      expect(
+        find.textContaining('Bölüm 1: Hac Hazırlığı & Mîkāt'),
+        findsOneWidget,
+      );
 
-    // Tapping Umre rehberim opens the main app
-    await tester.tap(find.text('Umre rehberim'));
-    await tester.pumpAndSettle();
-    expect(find.text('Umre Eğitimi'), findsOneWidget);
-    expect(find.text('Yardım ve önemli numaralar'), findsOneWidget);
-    expect(find.text('Kıble pusulası'), findsOneWidget);
-    expect(find.text('Rota, Harita'), findsOneWidget);
-  });
+      // Scroll to see Section 3 (Arafat)
+      await tester.scrollUntilVisible(
+        find.textContaining('Bölüm 3: Arafat & Müzdelife Vakfesi'),
+        200,
+      );
+      expect(
+        find.textContaining('Bölüm 3: Arafat & Müzdelife Vakfesi'),
+        findsOneWidget,
+      );
+
+      // Pop back to main screen
+      Navigator.of(tester.element(find.byType(GuideSectionsScreen))).pop();
+      await tester.pumpAndSettle();
+
+      expect(find.text('Umre Eğitimi'), findsOneWidget);
+      expect(find.text('Hac Eğitimi & Rehberi'), findsOneWidget);
+      expect(find.text('Yardım ve önemli numaralar'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Kıble pusulası'), 200);
+      expect(find.text('Kıble pusulası'), findsOneWidget);
+      expect(find.text('Rota, Harita'), findsOneWidget);
+    },
+  );
 
   testWidgets('ilk açılışta Umre Eğitimi doğrudan açılır', (tester) async {
     final store = MemoryGuideStore();
@@ -177,7 +188,9 @@ void main() {
     expect(find.text('Valiz ve Hazırlık Rehberi'), findsOneWidget);
   });
 
-  testWidgets('Hac türü doğrulanmamış önizleme açar', (tester) async {
+  testWidgets('Hac türü seçildiğinde Hac bölümleri ve adımları açılır', (
+    tester,
+  ) async {
     final store = MemoryGuideStore();
     final narration = FakeNarration();
     await tester.pumpWidget(
@@ -190,13 +203,14 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Hac rehberim button has lock and shows under development dialog
+    // Tapping Hac rehberim opens GuideSectionsScreen for Hajj
     await tester.tap(find.text('Hac rehberim'));
     await tester.pumpAndSettle();
-    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsOneWidget);
-    await tester.tap(find.text('Anladım'));
-    await tester.pumpAndSettle();
-    expect(find.text('Hac Rehberi Geliştirme Aşamasında'), findsNothing);
+    expect(find.byType(GuideSectionsScreen), findsOneWidget);
+    expect(
+      find.textContaining('Bölüm 1: Hac Hazırlığı & Mîkāt'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('eski demo kaydı ana ekranda giriş oluşturmaz', (tester) async {

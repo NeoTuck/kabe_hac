@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
@@ -201,8 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
         packages: widget.packages,
         travelRepository: widget.travelRepository,
-        onManagePackages:
-            widget.packages == null ? null : _manageTravelPackages,
+        onManagePackages: widget.packages == null
+            ? null
+            : _manageTravelPackages,
         isTab: true,
       ),
       2 => GroupScreen(
@@ -221,30 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       _ => const SizedBox.shrink(),
     };
-  }
-
-  void _showHajjUnderConstructionDialog(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        icon: const Icon(
-          Icons.lock_rounded,
-          size: 40,
-          color: RehberTheme.goldLight,
-        ),
-        title: const Text('Hac Rehberi Geliştirme Aşamasında'),
-        content: const Text(
-          'Hac rehberimiz ve hac ibadetine özel içerikler şu anda uzman incelemesinde ve geliştirme aşamasındadır.\n\nÇok yakında detaylı adımlar, dualar ve sesli rehber ile birlikte kullanıma sunulacaktır.',
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Anladım'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -302,8 +280,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: KutluYolculukPortal(
                           progressPercent: 0,
-                          onOpenHajj: () =>
-                              _showHajjUnderConstructionDialog(context),
+                          onOpenHajj: () {
+                            setState(() {
+                              _hasEnteredMainScreen = true;
+                              _selectedTab = 0;
+                            });
+                            _open(
+                              GuideSectionsScreen(
+                                type: GuideType.hajj,
+                                store: widget.store,
+                                narration: widget.narration,
+                                catalog: _catalogs[GuideType.hajj],
+                              ),
+                            );
+                          },
                           onOpenUmrah: () {
                             setState(() {
                               _hasEnteredMainScreen = true;
@@ -343,176 +333,281 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-        appBar: _selectedTab == 0
-            ? AppBar(
-                title: const Text('Hac ve Umre Sesli Rehber'),
-                actions: [
-                  IconButton(
-                    tooltip: 'Yazı ve ses ayarları',
-                    icon: const Icon(Icons.settings_rounded),
-                    onPressed: () => _open(
-                      SettingsScreen(
-                        settings: widget.settings,
-                        push: widget.push,
-                        packages: widget.packages,
-                        packageProvider: widget.packageProvider,
-                        packageConfigurationError:
-                            widget.packageConfigurationError,
-                        onOpenPackage: _openInstalledPackage,
-                        onPackagesChanged: () => _refresh(reloadContent: true),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : null,
-        body: IndexedStack(
-          index: _selectedTab,
-          children: [
-            SafeArea(
-              child: ListView(
-                padding: const EdgeInsets.all(20),
-                children: [
-                  // 1. Namaz Vakitleri (Requirement 5)
-                  const PrayerTimesCard(),
-                  const SizedBox(height: 20),
-
-                  // 2. Umre Eğitimi Butonu (Requirement 8)
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => _open(
-                        GuideSectionsScreen(
-                          type: GuideType.umrah,
-                          store: widget.store,
-                          narration: widget.narration,
-                          catalog: _catalogs[GuideType.umrah],
-                        ),
-                      ),
-                      borderRadius: BorderRadius.circular(22),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFF133E35), Color(0xFF1C5A4E)],
-                          ),
-                          borderRadius: BorderRadius.circular(22),
-                          border: Border.all(
-                            color: RehberTheme.goldLight.withValues(alpha: 0.5),
-                            width: 1.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.25),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
+                appBar: _selectedTab == 0
+                    ? AppBar(
+                        title: const Text('Hac ve Umre Sesli Rehber'),
+                        actions: [
+                          IconButton(
+                            tooltip: 'Yazı ve ses ayarları',
+                            icon: const Icon(Icons.settings_rounded),
+                            onPressed: () => _open(
+                              SettingsScreen(
+                                settings: widget.settings,
+                                push: widget.push,
+                                packages: widget.packages,
+                                packageProvider: widget.packageProvider,
+                                packageConfigurationError:
+                                    widget.packageConfigurationError,
+                                onOpenPackage: _openInstalledPackage,
+                                onPackagesChanged: () =>
+                                    _refresh(reloadContent: true),
+                              ),
                             ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: RehberTheme.goldLight.withValues(
-                                  alpha: 0.18,
+                          ),
+                        ],
+                      )
+                    : null,
+                body: IndexedStack(
+                  index: _selectedTab,
+                  children: [
+                    SafeArea(
+                      child: ListView(
+                        padding: const EdgeInsets.all(20),
+                        children: [
+                          // 1. Namaz Vakitleri (Requirement 5)
+                          const PrayerTimesCard(),
+                          const SizedBox(height: 20),
+
+                          // 2. Umre Eğitimi Butonu (Requirement 8)
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => _open(
+                                GuideSectionsScreen(
+                                  type: GuideType.umrah,
+                                  store: widget.store,
+                                  narration: widget.narration,
+                                  catalog: _catalogs[GuideType.umrah],
                                 ),
-                                shape: BoxShape.circle,
                               ),
-                              child: const Icon(
-                                Icons.school_rounded,
-                                color: RehberTheme.goldLight,
-                                size: 28,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            const Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Umre Eğitimi',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                              borderRadius: BorderRadius.circular(22),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Color(0xFF133E35),
+                                      Color(0xFF1C5A4E),
+                                    ],
                                   ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    'Tüm rehber adımları, sesli anlatım ve dualar',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(22),
+                                  border: Border.all(
+                                    color: RehberTheme.goldLight.withValues(
+                                      alpha: 0.5,
                                     ),
+                                    width: 1.5,
                                   ),
-                                ],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.25,
+                                      ),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: RehberTheme.goldLight.withValues(
+                                          alpha: 0.18,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.school_rounded,
+                                        color: RehberTheme.goldLight,
+                                        size: 28,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Umre Eğitimi',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            'Tüm rehber adımları, sesli anlatım ve dualar',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: RehberTheme.goldLight,
+                                      size: 18,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: RehberTheme.goldLight,
-                              size: 18,
+                          ),
+                          const SizedBox(height: 14),
+
+                          // 3. Hac Eğitimi & Rehberi Butonu
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => _open(
+                                GuideSectionsScreen(
+                                  type: GuideType.hajj,
+                                  store: widget.store,
+                                  narration: widget.narration,
+                                  catalog: _catalogs[GuideType.hajj],
+                                ),
+                              ),
+                              borderRadius: BorderRadius.circular(22),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Color(0xFF1B4332),
+                                      Color(0xFF2D6A4F),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(22),
+                                  border: Border.all(
+                                    color: RehberTheme.goldLight.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    width: 1.5,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.25,
+                                      ),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: RehberTheme.goldLight.withValues(
+                                          alpha: 0.18,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.mosque_rounded,
+                                        color: RehberTheme.goldLight,
+                                        size: 28,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Hac Eğitimi & Rehberi',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            'Terviye, Arafat, Cemarat ve Farz Tavaf rehberi',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: RehberTheme.goldLight,
+                                      size: 18,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 20),
+
+                          // 3. Yardım ve önemli numaralar (Requirement 9)
+                          if (widget.safetyCatalog != null)
+                            _ChoiceCard(
+                              icon: Icons.phone_in_talk_outlined,
+                              title: 'Yardım ve önemli numaralar',
+                              subtitle: 'Konsolosluk, acil servis ve sağlık iletişim hatları',
+                              onTap: () => _open(
+                                SafetyScreen(catalog: widget.safetyCatalog!),
+                              ),
+                            ),
+                          const SizedBox(height: 12),
+
+                          // 4. Kıble pusulası (Requirement 9)
+                          _ChoiceCard(
+                            icon: Icons.explore_outlined,
+                            title: 'Kıble pusulası',
+                            subtitle: 'Kâbe yönü, açısı ve mesafesi',
+                            onTap: () => _open(
+                              QiblaCompassScreen(
+                                packages: widget.packages,
+                                catalog: _travelCatalog,
+                                travelRepository: widget.travelRepository,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // 5. Umre duaları (Requirement 9)
+                          _ChoiceCard(
+                            icon: Icons.menu_book_outlined,
+                            title: 'Umre duaları',
+                            subtitle: 'İhram, Telbiye, Tavaf ve Sa‘y duaları; zikir sayacı',
+                            onTap: () => _open(const PrayersScreen()),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // 3. Yardım ve önemli numaralar (Requirement 9)
-                  if (widget.safetyCatalog != null)
-                    _ChoiceCard(
-                      icon: Icons.phone_in_talk_outlined,
-                      title: 'Yardım ve önemli numaralar',
-                      subtitle:
-                          'Konsolosluk, acil servis ve sağlık iletişim hatları',
-                      onTap: () =>
-                          _open(SafetyScreen(catalog: widget.safetyCatalog!)),
-                    ),
-                  const SizedBox(height: 12),
-
-                  // 4. Kıble pusulası (Requirement 9)
-                  _ChoiceCard(
-                    icon: Icons.explore_outlined,
-                    title: 'Kıble pusulası',
-                    subtitle: 'Kâbe yönü, açısı ve mesafesi',
-                    onTap: () => _open(
-                      QiblaCompassScreen(
-                        packages: widget.packages,
-                        catalog: _travelCatalog,
-                        travelRepository: widget.travelRepository,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // 5. Umre duaları (Requirement 9)
-                  _ChoiceCard(
-                    icon: Icons.menu_book_outlined,
-                    title: 'Umre duaları',
-                    subtitle:
-                        'İhram, Telbiye, Tavaf ve Sa‘y duaları; zikir sayacı',
-                    onTap: () => _open(const PrayersScreen()),
-                  ),
-                ],
+                    _tab(1),
+                    _tab(2),
+                    _tab(3),
+                  ],
+                ),
               ),
-            ),
-            _tab(1),
-            _tab(2),
-            _tab(3),
-          ],
-        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class _ChoiceCard extends StatelessWidget {
@@ -738,45 +833,39 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
         curve: const Interval(0.0, 0.40, curve: Curves.easeOut),
       ),
     );
-    _titleSlide = Tween<Offset>(
-      begin: const Offset(0, -0.20),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _entryController,
-        curve: const Interval(0.15, 0.60, curve: Curves.easeOutCubic),
-      ),
-    );
+    _titleSlide = Tween<Offset>(begin: const Offset(0, -0.20), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _entryController,
+            curve: const Interval(0.15, 0.60, curve: Curves.easeOutCubic),
+          ),
+        );
     _titleFade = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _entryController,
         curve: const Interval(0.15, 0.50, curve: Curves.easeIn),
       ),
     );
-    _hacButtonSlide = Tween<Offset>(
-      begin: const Offset(0, 0.35),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _entryController,
-        curve: const Interval(0.30, 0.75, curve: Curves.easeOutBack),
-      ),
-    );
+    _hacButtonSlide =
+        Tween<Offset>(begin: const Offset(0, 0.35), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _entryController,
+            curve: const Interval(0.30, 0.75, curve: Curves.easeOutBack),
+          ),
+        );
     _hacButtonFade = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _entryController,
         curve: const Interval(0.30, 0.65, curve: Curves.easeIn),
       ),
     );
-    _umrahButtonSlide = Tween<Offset>(
-      begin: const Offset(0, 0.35),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _entryController,
-        curve: const Interval(0.42, 0.88, curve: Curves.easeOutBack),
-      ),
-    );
+    _umrahButtonSlide =
+        Tween<Offset>(begin: const Offset(0, 0.35), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _entryController,
+            curve: const Interval(0.42, 0.88, curve: Curves.easeOutBack),
+          ),
+        );
     _umrahButtonFade = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _entryController,
@@ -812,10 +901,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
     final targetProgress = widget.progressPercent;
 
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _entryController,
-        ?_pulseController,
-      ]),
+      animation: Listenable.merge([_entryController, ?_pulseController]),
       builder: (context, _) {
         final pulse = _pulseController?.value ?? 1.0;
         final glowSpread = 1.0 + (pulse * 2.0);
@@ -973,7 +1059,8 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                           opacity: _hacButtonFade,
                           child: _SpringPillButton(
                             onTap: widget.onOpenHajj,
-                            color: const Color(0xFF1B4332).withValues(alpha: 0.88),
+                            color: const Color(0xFF1B4332)
+                                .withValues(alpha: 0.88),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
@@ -985,7 +1072,7 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const Icon(
-                                      Icons.lock_rounded,
+                                      Icons.mosque_rounded,
                                       color: RehberTheme.goldLight,
                                       size: 20,
                                     ),
@@ -1006,15 +1093,18 @@ class _KutluYolculukPortalState extends State<KutluYolculukPortal>
                                         vertical: 3,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: RehberTheme.goldLight.withValues(alpha: 0.20),
+                                        color: RehberTheme.goldLight.withValues(
+                                          alpha: 0.20,
+                                        ),
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
-                                          color: RehberTheme.goldLight.withValues(alpha: 0.5),
+                                          color: RehberTheme.goldLight
+                                              .withValues(alpha: 0.5),
                                           width: 0.8,
                                         ),
                                       ),
                                       child: const Text(
-                                        'Geliştiriliyor',
+                                        'Rehbere Başla',
                                         style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold,

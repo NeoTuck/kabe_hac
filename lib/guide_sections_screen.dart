@@ -138,8 +138,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         items: [
           GuideSectionItem(
             title: 'Valiz Kontrol Listesi',
-            summary:
-                'Eşyalar üstteki sahnede valize yerleşir; alttaki listeden kontrol edip işaretleyebilirsiniz.',
+            summary: 'Eşyalar üstteki sahnede valize yerleşir; alttaki listeden kontrol edip işaretleyebilirsiniz.',
             audioAsset: 'assets/audio/review-male-v1/A-U01.1-TR-01.m4a',
             audioTitle: 'Valiz ve Hazırlık Rehberi',
             checklist: [
@@ -164,8 +163,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         items: [
           GuideSectionItem(
             title: 'İhrama Giriş ve Yasaklar',
-            summary:
-                'Mîkāt sınırında boy abdesti alınır, niyet edilir ve telbiye getirilir.',
+            summary: 'Mîkāt sınırında boy abdesti alınır, niyet edilir ve telbiye getirilir.',
             audioAsset: 'assets/audio/review-male-v1/A-U01.2-TR-01.m4a',
             audioTitle: 'İhram Kuralları ve Telbiye Anlatımı',
             substeps: [
@@ -187,8 +185,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         items: [
           GuideSectionItem(
             title: 'Tavaf İbadeti',
-            summary:
-                'Hacerü’l-Esved hizasından başlanarak Kâbe etrafında 7 şavt tamamlanır.',
+            summary: 'Hacerü’l-Esved hizasından başlanarak Kâbe etrafında 7 şavt tamamlanır.',
             audioAsset: 'assets/audio/review-male-v1/A-U04.1-TR-01.m4a',
             audioTitle: 'Tavaf Duaları ve Şavt Rehberi',
             counterKey: 'tawaf',
@@ -237,8 +234,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         items: [
           GuideSectionItem(
             title: 'Tahallül (İhramdan Çıkış)',
-            summary:
-                'Erkekler saçlarını kazıtır veya kısaltır, kadınlar parmak ucu kadar keser.',
+            summary: 'Erkekler saçlarını kazıtır veya kısaltır, kadınlar parmak ucu kadar keser.',
             audioAsset: 'assets/audio/review-male-v1/A-U09.1-TR-01.m4a',
             audioTitle: 'Tıraş ve Şükür Namazı',
             substeps: [
@@ -302,7 +298,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
         title: 'Bölüm 3: Arafat & Müzdelife Vakfesi',
         subtitle: 'Haccın en büyük farzı ve vakfe duaları',
         icon: Icons.wb_sunny_outlined,
-        stageType: GuideStageType.tawaf,
+        stageType: GuideStageType.arafat,
         items: [
           GuideSectionItem(
             title: 'Arafat Vakfesi',
@@ -529,8 +525,8 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
     final stageItems = firstItem.checklist.isNotEmpty
         ? firstItem.checklist
         : (firstItem.substeps.isNotEmpty
-            ? firstItem.substeps
-            : [firstItem.title, firstItem.summary]);
+              ? firstItem.substeps
+              : [firstItem.title, firstItem.summary]);
     final activeIndex = _activeItemBySection[section.number] ?? 0;
 
     return Card(
@@ -631,7 +627,11 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                   ),
                   child: Column(
                     children: [
-                      for (int cIdx = 0; cIdx < item.checklist.length; cIdx++) ...[
+                      for (
+                        int cIdx = 0;
+                        cIdx < item.checklist.length;
+                        cIdx++
+                      ) ...[
                         _buildChecklistRow(
                           sectionNumber: section.number,
                           check: item.checklist[cIdx],
@@ -658,7 +658,11 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                   ),
                   child: Column(
                     children: [
-                      for (int sIdx = 0; sIdx < item.substeps.length; sIdx++) ...[
+                      for (
+                        int sIdx = 0;
+                        sIdx < item.substeps.length;
+                        sIdx++
+                      ) ...[
                         _buildSubstepRow(
                           sectionNumber: section.number,
                           step: item.substeps[sIdx],
@@ -734,9 +738,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
             : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isFocused
-              ? RehberTheme.emerald
-              : Colors.transparent,
+          color: isFocused ? RehberTheme.emerald : Colors.transparent,
           width: 1.4,
         ),
       ),
@@ -775,10 +777,10 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                     check,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight:
-                          isFocused ? FontWeight.bold : FontWeight.normal,
-                      decoration:
-                          isChecked ? TextDecoration.lineThrough : null,
+                      fontWeight: isFocused
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      decoration: isChecked ? TextDecoration.lineThrough : null,
                       color: isChecked
                           ? Colors.grey
                           : (dark ? Colors.white : Colors.black87),
@@ -836,9 +838,7 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
             : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isFocused
-              ? RehberTheme.emerald
-              : Colors.transparent,
+          color: isFocused ? RehberTheme.emerald : Colors.transparent,
           width: 1.4,
         ),
       ),
@@ -877,8 +877,9 @@ class _GuideSectionsScreenState extends State<GuideSectionsScreen> {
                     step,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight:
-                          isFocused ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isFocused
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: dark ? Colors.white70 : Colors.black87,
                     ),
                   ),
