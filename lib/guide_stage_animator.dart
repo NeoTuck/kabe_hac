@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_theme.dart';
 import 'narration_service.dart';
@@ -168,6 +169,48 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
     }
   }
 
+  void _openFullscreen(BuildContext context) {
+    Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (_) => FullscreenStageScreen(
+          stageType: widget.stageType,
+          items: widget.items,
+          initialIndex: _currentIndex,
+          audioAsset: widget.audioAsset,
+          audioTitle: widget.audioTitle,
+          narration: widget.narration,
+          onItemChanged: (idx) {
+            selectItem(idx);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEqualizerBars() {
+    return AnimatedBuilder(
+      animation: _animController,
+      builder: (context, _) {
+        final val = _animController.value;
+        final h1 = 3.5 + (math.sin(val * math.pi * 6) + 1.0) * 3.5;
+        final h2 = 3.5 + (math.cos(val * math.pi * 8) + 1.0) * 4.0;
+        final h3 = 3.5 + (math.sin(val * math.pi * 10 + 1) + 1.0) * 3.0;
+
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(width: 2.2, height: h1, color: RehberTheme.goldLight),
+            const SizedBox(width: 1.5),
+            Container(width: 2.2, height: h2, color: RehberTheme.goldLight),
+            const SizedBox(width: 1.5),
+            Container(width: 2.2, height: h3, color: RehberTheme.goldLight),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
@@ -198,165 +241,286 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Stage Viewport
-            SizedBox(
-              height: 215,
-              width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Ambient Canvas Background
-                  AnimatedBuilder(
-                    animation: _animController,
-                    builder: (context, _) {
-                      return CustomPaint(
-                        painter: _buildStagePainter(
-                          _animController.value,
-                          _currentIndex,
-                          progressFraction,
-                        ),
-                      );
-                    },
-                  ),
+            // Stage Viewport with Horizontal Drag/Swipe Detection
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onHorizontalDragEnd: (details) {
+                final velocity = details.primaryVelocity ?? 0;
+                if (velocity > 180) {
+                  // Parmakla sağa kaydırma -> Sıradakine geçiş
+                  HapticFeedback.selectionClick();
+                  _stepNext();
+                } else if (velocity < -180) {
+                  // Parmakla sola kaydırma -> Öncekine geçiş
+                  HapticFeedback.selectionClick();
+                  _stepPrevious();
+                }
+              },
+              child: SizedBox(
+                height: 228,
+                width: double.infinity,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Ambient Canvas Background
+                    AnimatedBuilder(
+                      animation: _animController,
+                      builder: (context, _) {
+                        return CustomPaint(
+                          painter: _buildStagePainter(
+                            _animController.value,
+                            _currentIndex,
+                            progressFraction,
+                          ),
+                        );
+                      },
+                    ),
 
-                  // Top Badges
-                  Positioned(
-                    top: 10,
-                    left: 12,
-                    right: 12,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.65),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: RehberTheme.goldLight.withValues(
-                                  alpha: 0.45,
+                    // Top Badges & Fullscreen Action
+                    Positioned(
+                      top: 10,
+                      left: 12,
+                      right: 12,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.65),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: RehberTheme.goldLight.withValues(
+                                    alpha: 0.45,
+                                  ),
+                                  width: 1,
                                 ),
-                                width: 1,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    _stageIcon(widget.stageType),
+                                    size: 14,
+                                    color: RehberTheme.goldLight,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      _stageTitle(widget.stageType),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
+                          ),
+                          const SizedBox(width: 8),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 9,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: RehberTheme.emerald.withValues(
+                                    alpha: 0.88,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: RehberTheme.emerald.withValues(
+                                        alpha: 0.4,
+                                      ),
+                                      blurRadius: 6,
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  '${_currentIndex + 1} / ${widget.items.length}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () => _openFullscreen(context),
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.65,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: RehberTheme.goldLight.withValues(
+                                          alpha: 0.45,
+                                        ),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: const Icon(
+                                      Icons.fullscreen_rounded,
+                                      size: 18,
+                                      color: RehberTheme.goldLight,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Flowing Live Subtitles Teleprompter
+                    Positioned(
+                      bottom: 8,
+                      left: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xDD06140F),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: _isAutoPlaying
+                                ? RehberTheme.goldLight.withValues(alpha: 0.75)
+                                : RehberTheme.emerald.withValues(alpha: 0.5),
+                            width: _isAutoPlaying ? 1.5 : 1.0,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.5),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Icon(
-                                  _stageIcon(widget.stageType),
-                                  size: 14,
-                                  color: RehberTheme.goldLight,
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      if (_isAutoPlaying) ...[
+                                        _buildEqualizerBars(),
+                                        const SizedBox(width: 6),
+                                        const Flexible(
+                                          child: Text(
+                                            'CANLI ANLATIM',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: RehberTheme.goldLight,
+                                              fontSize: 9.5,
+                                              fontWeight: FontWeight.w900,
+                                              letterSpacing: 0.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ] else ...[
+                                        const Icon(
+                                          Icons.subtitles_rounded,
+                                          size: 13,
+                                          color: RehberTheme.goldLight,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        const Flexible(
+                                          child: Text(
+                                            'ALTYAZI & ADIM',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 9.5,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(width: 6),
-                                Flexible(
-                                  child: Text(
-                                    _stageTitle(widget.stageType),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                const Text(
+                                  'Sağa kaydır ❯',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: Colors.white38,
+                                    fontSize: 9.0,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 9,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: RehberTheme.emerald.withValues(alpha: 0.88),
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: RehberTheme.emerald.withValues(
-                                  alpha: 0.4,
+                            const SizedBox(height: 4),
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 250),
+                              transitionBuilder: (child, anim) =>
+                                  FadeTransition(
+                                    opacity: anim,
+                                    child: SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(0.04, 0),
+                                        end: Offset.zero,
+                                      ).animate(anim),
+                                      child: child,
+                                    ),
+                                  ),
+                              child: Text(
+                                currentItemText,
+                                key: ValueKey(
+                                  'sub_${_currentIndex}_$currentItemText',
                                 ),
-                                blurRadius: 6,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                  height: 1.35,
+                                  fontWeight: FontWeight.w600,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black87,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
-                          child: Text(
-                            '${_currentIndex + 1} / ${widget.items.length}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-
-                  // Center Floating Callout for Active Item
-                  Positioned(
-                    bottom: 10,
-                    left: 12,
-                    right: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 7,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.78),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: RehberTheme.emerald.withValues(alpha: 0.55),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.4),
-                            blurRadius: 8,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: RehberTheme.emerald.withValues(
-                                alpha: 0.35,
-                              ),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.play_arrow_rounded,
-                              size: 14,
-                              color: RehberTheme.goldLight,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              currentItemText,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 11.5,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
@@ -432,7 +596,18 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
                       iconSize: 22,
                     ),
 
-                    const SizedBox(width: 14),
+                    const SizedBox(width: 10),
+
+                    // Büyüt (Fullscreen) Button
+                    IconButton(
+                      onPressed: () => _openFullscreen(context),
+                      icon: const Icon(Icons.open_in_full_rounded),
+                      color: RehberTheme.goldLight,
+                      tooltip: 'Büyüt / Tam Ekran',
+                      iconSize: 20,
+                    ),
+
+                    const SizedBox(width: 10),
 
                     // Progress Dots Indicator
                     Row(
@@ -497,39 +672,39 @@ class GuideStageAnimatorState extends State<GuideStageAnimator>
         return _ArafatStagePainter(animValue: animValue, vakfeIndex: itemIndex);
     }
   }
+}
 
-  IconData _stageIcon(GuideStageType type) {
-    switch (type) {
-      case GuideStageType.luggage:
-        return Icons.luggage_rounded;
-      case GuideStageType.tawaf:
-        return Icons.rotate_left_rounded;
-      case GuideStageType.say:
-        return Icons.swap_horiz_rounded;
-      case GuideStageType.ihram:
-        return Icons.accessibility_new_rounded;
-      case GuideStageType.cemarat:
-        return Icons.location_on_rounded;
-      case GuideStageType.arafat:
-        return Icons.wb_sunny_rounded;
-    }
+IconData _stageIcon(GuideStageType type) {
+  switch (type) {
+    case GuideStageType.luggage:
+      return Icons.luggage_rounded;
+    case GuideStageType.tawaf:
+      return Icons.rotate_left_rounded;
+    case GuideStageType.say:
+      return Icons.swap_horiz_rounded;
+    case GuideStageType.ihram:
+      return Icons.accessibility_new_rounded;
+    case GuideStageType.cemarat:
+      return Icons.location_on_rounded;
+    case GuideStageType.arafat:
+      return Icons.wb_sunny_rounded;
   }
+}
 
-  String _stageTitle(GuideStageType type) {
-    switch (type) {
-      case GuideStageType.luggage:
-        return 'Valiz & Hazırlık Simülasyonu';
-      case GuideStageType.tawaf:
-        return 'Canlı Kâbe Tavaf Simülasyonu';
-      case GuideStageType.say:
-        return 'Safâ - Merve Sa‘y Yolu';
-      case GuideStageType.ihram:
-        return 'Mîkāt & İhram Hazırlığı';
-      case GuideStageType.cemarat:
-        return 'Cemarat (Taşlama) Simülasyonu';
-      case GuideStageType.arafat:
-        return 'Arafat Vakfesi & Cebelü’r-Rahme';
-    }
+String _stageTitle(GuideStageType type) {
+  switch (type) {
+    case GuideStageType.luggage:
+      return 'Valiz & Hazırlık Simülasyonu';
+    case GuideStageType.tawaf:
+      return 'Canlı Kâbe Tavaf Simülasyonu';
+    case GuideStageType.say:
+      return 'Safâ - Merve Sa‘y Yolu';
+    case GuideStageType.ihram:
+      return 'Mîkāt & İhram Hazırlığı';
+    case GuideStageType.cemarat:
+      return 'Cemarat (Taşlama) Simülasyonu';
+    case GuideStageType.arafat:
+      return 'Arafat Vakfesi & Cebelü’r-Rahme';
   }
 }
 
@@ -2774,4 +2949,437 @@ class _ArafatStagePainter extends CustomPainter {
   bool shouldRepaint(covariant _ArafatStagePainter oldDelegate) =>
       oldDelegate.animValue != animValue ||
       oldDelegate.vakfeIndex != vakfeIndex;
+}
+
+// ==========================================
+// TAM EKRAN CANLI AŞAMA EKRANI (FULLSCREEN)
+// ==========================================
+class FullscreenStageScreen extends StatefulWidget {
+  const FullscreenStageScreen({
+    super.key,
+    required this.stageType,
+    required this.items,
+    required this.initialIndex,
+    this.audioAsset,
+    this.audioTitle,
+    this.narration,
+    this.onItemChanged,
+  });
+
+  final GuideStageType stageType;
+  final List<String> items;
+  final int initialIndex;
+  final String? audioAsset;
+  final String? audioTitle;
+  final NarrationService? narration;
+  final ValueChanged<int>? onItemChanged;
+
+  @override
+  State<FullscreenStageScreen> createState() => _FullscreenStageScreenState();
+}
+
+class _FullscreenStageScreenState extends State<FullscreenStageScreen>
+    with SingleTickerProviderStateMixin {
+  late int _currentIndex;
+  late final AnimationController _animController;
+  bool _isAutoPlaying = false;
+  NarrationService? get _narration => widget.narration;
+
+  bool get _isTesting =>
+      WidgetsBinding.instance.runtimeType.toString().contains('Test');
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex.clamp(
+      0,
+      math.max(0, widget.items.length - 1),
+    );
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3200),
+    );
+
+    _animController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        if (_isAutoPlaying) {
+          if (_currentIndex < widget.items.length - 1) {
+            _selectItem(_currentIndex + 1);
+            _animController.forward(from: 0.0);
+          } else {
+            setState(() => _isAutoPlaying = false);
+          }
+        } else if (!_isTesting) {
+          _animController.repeat();
+        }
+      }
+    });
+
+    if (!_isTesting) {
+      _animController.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animController.dispose();
+    super.dispose();
+  }
+
+  void _selectItem(int index) {
+    if (index >= 0 && index < widget.items.length) {
+      setState(() => _currentIndex = index);
+      widget.onItemChanged?.call(index);
+    }
+  }
+
+  void _stepPrevious() {
+    if (_currentIndex > 0) {
+      _selectItem(_currentIndex - 1);
+    }
+  }
+
+  void _stepNext() {
+    if (_currentIndex < widget.items.length - 1) {
+      _selectItem(_currentIndex + 1);
+    }
+  }
+
+  Future<void> _togglePlayback() async {
+    final narration = _narration;
+    if (widget.audioAsset != null && narration != null) {
+      final state = narration.state;
+      if (state.asset == widget.audioAsset &&
+          state.status == NarrationStatus.playing) {
+        await narration.pause();
+        setState(() => _isAutoPlaying = false);
+      } else if (state.asset == widget.audioAsset &&
+          state.status == NarrationStatus.paused) {
+        await narration.resume();
+        setState(() => _isAutoPlaying = true);
+      } else {
+        await narration.playAsset(
+          widget.audioAsset!,
+          title: widget.audioTitle ?? 'Rehber Anlatımı',
+        );
+        setState(() => _isAutoPlaying = true);
+      }
+    } else {
+      setState(() {
+        _isAutoPlaying = !_isAutoPlaying;
+        if (_isAutoPlaying) {
+          _animController.forward(from: 0.0);
+        }
+      });
+    }
+  }
+
+  CustomPainter _buildStagePainter(
+    double animValue,
+    int itemIndex,
+    double progress,
+  ) {
+    switch (widget.stageType) {
+      case GuideStageType.luggage:
+        return _LuggageStagePainter(
+          animValue: animValue,
+          itemIndex: itemIndex,
+          progress: progress,
+        );
+      case GuideStageType.tawaf:
+        return _TawafStagePainter(animValue: animValue, shawtIndex: itemIndex);
+      case GuideStageType.say:
+        return _SayStagePainter(animValue: animValue, lapIndex: itemIndex);
+      case GuideStageType.ihram:
+        return _IhramStagePainter(animValue: animValue, stepIndex: itemIndex);
+      case GuideStageType.cemarat:
+        return _CemaratStagePainter(
+          animValue: animValue,
+          targetIndex: itemIndex,
+        );
+      case GuideStageType.arafat:
+        return _ArafatStagePainter(animValue: animValue, vakfeIndex: itemIndex);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentItemText = widget.items.isNotEmpty
+        ? widget.items[_currentIndex]
+        : '';
+    final progressFraction = widget.items.isNotEmpty
+        ? (_currentIndex + 1) / widget.items.length
+        : 1.0;
+
+    return Scaffold(
+      backgroundColor: const Color(0xFF06140F),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF081C15),
+        elevation: 0,
+        title: Text(
+          _stageTitle(widget.stageType),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.close_fullscreen_rounded, color: Colors.white),
+          tooltip: 'Kapat',
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: RehberTheme.emerald,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                '${_currentIndex + 1} / ${widget.items.length}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Big Visual Stage Viewport with Horizontal Drag
+            Expanded(
+              flex: 5,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onHorizontalDragEnd: (details) {
+                  final v = details.primaryVelocity ?? 0;
+                  if (v > 180) {
+                    // Sağa kaydırma -> Sıradakine geçiş
+                    HapticFeedback.selectionClick();
+                    _stepNext();
+                  } else if (v < -180) {
+                    // Sola kaydırma -> Öncekine geçiş
+                    HapticFeedback.selectionClick();
+                    _stepPrevious();
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: RehberTheme.goldLight.withValues(alpha: 0.4),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        blurRadius: 16,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        AnimatedBuilder(
+                          animation: _animController,
+                          builder: (context, _) {
+                            return CustomPaint(
+                              painter: _buildStagePainter(
+                                _animController.value,
+                                _currentIndex,
+                                progressFraction,
+                              ),
+                            );
+                          },
+                        ),
+                        // Gesture hint pill
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.6),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Text(
+                              '⟵ Sola/Sağa Kaydır ⟶',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Flowing Fullscreen Subtitles Area
+            Expanded(
+              flex: 3,
+              child: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0B211A),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: RehberTheme.goldLight.withValues(alpha: 0.3),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.subtitles_rounded,
+                          color: RehberTheme.goldLight,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'CANLI ANLATIM & ALTYAZI',
+                          style: TextStyle(
+                            color: RehberTheme.goldLight,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (_isAutoPlaying)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2E7D32),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Text(
+                              'OYNATILIYOR',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const Divider(color: Colors.white12, height: 16),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: Text(
+                            currentItemText,
+                            key: ValueKey('fullscreen_sub_$_currentIndex'),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.5,
+                              height: 1.5,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(color: Colors.black, blurRadius: 4),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Bottom Fullscreen Control Toolbar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: const BoxDecoration(
+                color: Color(0xFF071913),
+                border: Border(top: BorderSide(color: Colors.white12)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    onPressed: _currentIndex > 0 ? _stepPrevious : null,
+                    icon: const Icon(Icons.skip_previous_rounded),
+                    color: Colors.white,
+                    disabledColor: Colors.white24,
+                    iconSize: 28,
+                    tooltip: 'Önceki',
+                  ),
+                  FilledButton.icon(
+                    onPressed: _togglePlayback,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: RehberTheme.emerald,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    icon: Icon(
+                      _isAutoPlaying
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
+                      size: 22,
+                    ),
+                    label: Text(
+                      _isAutoPlaying ? 'DURAKLAT' : 'CANLI İZLE',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: _currentIndex < widget.items.length - 1
+                        ? _stepNext
+                        : null,
+                    icon: const Icon(Icons.skip_next_rounded),
+                    color: Colors.white,
+                    disabledColor: Colors.white24,
+                    iconSize: 28,
+                    tooltip: 'Sonraki',
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
