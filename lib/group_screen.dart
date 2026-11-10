@@ -35,6 +35,15 @@ class _GroupScreenState extends State<GroupScreen> {
   final _privateMsgController = TextEditingController();
   int _classroomTab = 0;
 
+  // Google Classroom Kafile State
+  String _kafileCode = 'KAF-2026';
+  String _kafileName = 'Haremeyn 2026 Kafile No: 14';
+  String _kafileLeader = 'Mustafa Hoca · Kafile Başkanı & Din Görevlisi';
+  String _kafileAgency = 'Diyanet / Haremeyn Hac Turizmi';
+  String _userRole = 'member'; // 'member' or 'leader'
+  bool _isLeaderAuthorized = false;
+  bool _hasJoinedKafile = true;
+
   final List<Map<String, dynamic>> _announcements = [];
   final List<Map<String, String>> _groupChatMessages = [];
   final List<Map<String, String>> _privateChatMessages = [];
@@ -60,6 +69,36 @@ class _GroupScreenState extends State<GroupScreen> {
 
   Future<void> _loadChatHistory() async {
     try {
+      final savedCode = await widget.store.readAppValue('joined_kafile_code');
+      final savedName = await widget.store.readAppValue('joined_kafile_name');
+      final savedLeader = await widget.store.readAppValue(
+        'joined_kafile_leader',
+      );
+      final savedAgency = await widget.store.readAppValue(
+        'joined_kafile_agency',
+      );
+      final savedRole = await widget.store.readAppValue('joined_kafile_role');
+      final savedAuth = await widget.store.readAppValue(
+        'is_kafile_leader_authorized',
+      );
+      final savedHasLeft = await widget.store.readAppValue('has_left_kafile');
+
+      if (mounted) {
+        setState(() {
+          if (savedCode != null && savedCode.isNotEmpty) {
+            _kafileCode = savedCode;
+            _kafileName = savedName ?? 'Kafile $_kafileCode';
+            _kafileLeader = savedLeader ?? 'Din Görevlisi';
+            _kafileAgency = savedAgency ?? 'Turizm & Hac Organizasyonu';
+            _userRole = savedRole ?? 'member';
+            _hasJoinedKafile = savedHasLeft != 'true';
+          }
+          if (savedAuth == 'true') {
+            _isLeaderAuthorized = true;
+          }
+        });
+      }
+
       final savedAnnouncements = await widget.store.readAppValue(
         'local_announcements',
       );
@@ -144,6 +183,558 @@ class _GroupScreenState extends State<GroupScreen> {
       });
     });
     _savePrivateChat();
+  }
+
+  Future<void> _showJoinKafileDialog() async {
+    final codeController = TextEditingController();
+    String? localError;
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => StatefulBuilder(
+        builder: (dialogContentCtx, setDialogState) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: RehberTheme.emerald.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.group_add_rounded,
+                  color: RehberTheme.emerald,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Kafileye Katıl',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Kafile başkanınızın veya acentenizin size ilettiği katılım kodunu girin (Örn: KAF-2026, UMRE-14, DİYANET-5):',
+                style: TextStyle(fontSize: 13, height: 1.4),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: codeController,
+                autofocus: true,
+                textCapitalization: TextCapitalization.characters,
+                decoration: InputDecoration(
+                  labelText: 'Katılım Kodu',
+                  hintText: 'Örn: KAF-2026',
+                  prefixIcon: const Icon(Icons.vpn_key_rounded),
+                  errorText: localError,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                final code = codeController.text.trim().toUpperCase();
+                if (code.isEmpty) {
+                  setDialogState(() {
+                    localError = 'Lütfen geçerli bir kod girin.';
+                  });
+                  return;
+                }
+
+                String name = 'Kafile $code';
+                String leader = 'Din Görevlisi';
+                String agency = 'Turizm & Hac Organizasyonu';
+
+                if (code == 'KAF-2026') {
+                  name = 'Haremeyn 2026 Kafile No: 14';
+                  leader = 'Mustafa Hoca · Kafile Başkanı & Din Görevlisi';
+                  agency = 'Diyanet / Haremeyn Hac Turizmi';
+                } else if (code == 'UMRE-14') {
+                  name = 'Umre Huzur Kafilesi 14';
+                  leader = 'Ahmet Hoca · Rehber Din Görevlisi';
+                  agency = 'Huzur Turizm Umre Organizasyonu';
+                } else if (code.startsWith('DİYANET') ||
+                    code.startsWith('DIYANET')) {
+                  name = 'Diyanet $code Kafilesi';
+                  leader = 'Diyanet Kafile Başkanı';
+                  agency = 'T.C. Diyanet İşleri Başkanlığı';
+                }
+
+                await widget.store.saveAppValue('joined_kafile_code', code);
+                await widget.store.saveAppValue('joined_kafile_name', name);
+                await widget.store.saveAppValue('joined_kafile_leader', leader);
+                await widget.store.saveAppValue('joined_kafile_agency', agency);
+                await widget.store.saveAppValue('joined_kafile_role', 'member');
+                await widget.store.saveAppValue('has_left_kafile', 'false');
+
+                if (mounted) {
+                  setState(() {
+                    _kafileCode = code;
+                    _kafileName = name;
+                    _kafileLeader = leader;
+                    _kafileAgency = agency;
+                    _userRole = 'member';
+                    _hasJoinedKafile = true;
+                  });
+                }
+
+                if (dialogCtx.mounted) {
+                  Navigator.pop(dialogCtx);
+                }
+
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$name kafilesine katıldınız!'),
+                      backgroundColor: RehberTheme.emerald,
+                    ),
+                  );
+                }
+              },
+              child: const Text('Katıl'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onTapCreateKafile() {
+    if (_isLeaderAuthorized) {
+      _showCreateKafileFormDialog();
+    } else {
+      _showLeaderAuthRequiredDialog();
+    }
+  }
+
+  Future<void> _showLeaderAuthRequiredDialog() async {
+    final authKeyController = TextEditingController();
+    String? localError;
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => StatefulBuilder(
+        builder: (dialogContentCtx, setDialogState) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: RehberTheme.gold.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.shield_rounded,
+                  color: RehberTheme.goldDark,
+                  size: 26,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Kafile Başkanı Yetkisi',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: RehberTheme.gold.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: RehberTheme.gold.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: RehberTheme.goldDark,
+                      size: 20,
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Hacı ve umrecilerimizin güvenliği için Kafile Kurma yetkisi yalnızca lisanslı Kafile Başkanları, Din Görevlileri ve resmi Hac/Umre acente yetkililerine tanımlanmaktadır.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: RehberTheme.ink,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 14),
+              const Text(
+                'Size tahsis edilen Yetkili Rehber Anahtarını girerek Kafile Kurma yetkisini aktif edebilirsiniz:',
+                style: TextStyle(fontSize: 13, height: 1.3),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: authKeyController,
+                textCapitalization: TextCapitalization.characters,
+                decoration: InputDecoration(
+                  labelText: 'Yetki Anahtarı',
+                  hintText: 'Örn: HAC-REHBER-2026',
+                  prefixIcon: const Icon(Icons.key_rounded),
+                  errorText: localError,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx),
+              child: const Text('Vazgeç'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                final key = authKeyController.text.trim().toUpperCase();
+                final validKeys = [
+                  'HAC-REHBER-2026',
+                  'KAFİLE-BASKAN-2026',
+                  'KAFİLE-BAŞKAN-2026',
+                  'KAFILE-BASKAN-2026',
+                  'DİYANET-2026',
+                  'DIYANET-2026',
+                  'ADMIN-2026',
+                  'MUSTAFA-HOCA',
+                  'REHBER-2026',
+                ];
+
+                if (validKeys.contains(key)) {
+                  await widget.store.saveAppValue(
+                    'is_kafile_leader_authorized',
+                    'true',
+                  );
+                  if (mounted) {
+                    setState(() {
+                      _isLeaderAuthorized = true;
+                    });
+                  }
+                  if (dialogCtx.mounted) {
+                    Navigator.pop(dialogCtx);
+                  }
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Kafile Başkanı yetkiniz başarıyla onaylandı! 👑',
+                        ),
+                        backgroundColor: RehberTheme.emerald,
+                      ),
+                    );
+                    _showCreateKafileFormDialog();
+                  }
+                } else {
+                  setDialogState(() {
+                    localError = 'Geçersiz yetki anahtarı. Resmi lisans veya kurum anahtarınızı kontrol edin.';
+                  });
+                }
+              },
+              child: const Text('Yetkiyi Doğrula'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showCreateKafileFormDialog() async {
+    final nameCtrl = TextEditingController(text: 'Haremeyn 2026 Kafile No: 15');
+    final leaderCtrl = TextEditingController(
+      text: 'Kafile Başkanı & Din Görevlisi',
+    );
+    final agencyCtrl = TextEditingController(
+      text: 'Diyanet / Hac & Umre Organizasyonu',
+    );
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: RehberTheme.gold.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.add_moderator_rounded,
+                color: RehberTheme.goldDark,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Text(
+                'Yeni Kafile Kur 👑',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Kafile bilgilerini belirleyin. Otomatik üretilecek katılım kodu ile hacılarınız anında kafileye katılabilir:',
+                style: TextStyle(fontSize: 13, height: 1.4),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: nameCtrl,
+                decoration: InputDecoration(
+                  labelText: 'Kafile Adı',
+                  prefixIcon: const Icon(Icons.badge_rounded),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: leaderCtrl,
+                decoration: InputDecoration(
+                  labelText: 'Başkan / Din Görevlisi Adı',
+                  prefixIcon: const Icon(Icons.person_pin_rounded),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: agencyCtrl,
+                decoration: InputDecoration(
+                  labelText: 'Acente / Kurum',
+                  prefixIcon: const Icon(Icons.business_rounded),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogCtx),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () async {
+              final genNum = 1000 + Random().nextInt(9000);
+              final newCode = 'KAF-$genNum';
+              final finalName = nameCtrl.text.trim().isNotEmpty
+                  ? nameCtrl.text.trim()
+                  : 'Kafile $newCode';
+              final finalLeader = leaderCtrl.text.trim().isNotEmpty
+                  ? leaderCtrl.text.trim()
+                  : 'Kafile Başkanı';
+              final finalAgency = agencyCtrl.text.trim().isNotEmpty
+                  ? agencyCtrl.text.trim()
+                  : 'Hac & Umre Organizasyonu';
+
+              await widget.store.saveAppValue('joined_kafile_code', newCode);
+              await widget.store.saveAppValue('joined_kafile_name', finalName);
+              await widget.store.saveAppValue(
+                'joined_kafile_leader',
+                finalLeader,
+              );
+              await widget.store.saveAppValue(
+                'joined_kafile_agency',
+                finalAgency,
+              );
+              await widget.store.saveAppValue('joined_kafile_role', 'leader');
+              await widget.store.saveAppValue('has_left_kafile', 'false');
+
+              if (mounted) {
+                setState(() {
+                  _kafileCode = newCode;
+                  _kafileName = finalName;
+                  _kafileLeader = finalLeader;
+                  _kafileAgency = finalAgency;
+                  _userRole = 'leader';
+                  _hasJoinedKafile = true;
+                });
+              }
+
+              if (dialogCtx.mounted) {
+                Navigator.pop(dialogCtx);
+              }
+
+              if (mounted) {
+                _showKafileCreatedSuccessDialog(newCode, finalName);
+              }
+            },
+            child: const Text('Kafileyi Kur'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showKafileCreatedSuccessDialog(String code, String name) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Row(
+          children: [
+            Icon(
+              Icons.check_circle_rounded,
+              color: RehberTheme.emerald,
+              size: 28,
+            ),
+            SizedBox(width: 10),
+            Text('Kafile Kuruldu! 🎉'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$name kafilesi başarıyla oluşturuldu ve yönetici yetkisi tanımlandı.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+              decoration: BoxDecoration(
+                color: RehberTheme.emerald.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: RehberTheme.emerald.withValues(alpha: 0.4),
+                  width: 1.5,
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'KAFİLE KATILIM KODU',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                      color: RehberTheme.emerald,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    code,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 2,
+                      color: RehberTheme.emerald,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'Hacılarınıza bu kodu verin. Uygulamada "Kafileye Katıl" diyerek bu kodu girdiklerinde kafile akışınıza anında dahil olacaklar.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ],
+        ),
+        actions: [
+          OutlinedButton.icon(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: code));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Katılım kodu ($code) panoya kopyalandı.'),
+                ),
+              );
+            },
+            icon: const Icon(Icons.copy_rounded, size: 18),
+            label: const Text('Kodu Kopyala'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogCtx),
+            child: const Text('Tamam'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _leaveKafile() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        title: const Text('Kafileden Ayrıl'),
+        content: const Text(
+          'Bu kafileden ayrılmak istediğinize emin misiniz? Dilediğiniz zaman katılım kodunu tekrar girerek yeniden katılabilirsiniz.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogCtx, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.red.shade700),
+            onPressed: () => Navigator.pop(dialogCtx, true),
+            child: const Text('Ayrıl'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await widget.store.saveAppValue('has_left_kafile', 'true');
+      if (mounted) {
+        setState(() {
+          _hasJoinedKafile = false;
+        });
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Kafileden ayrıldınız.')));
+      }
+    }
   }
 
   void _authChanged() {
@@ -336,175 +927,403 @@ class _GroupScreenState extends State<GroupScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Google Classroom Kafile Header Card
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: RehberTheme.hajjCardGradient,
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: RehberTheme.gold.withValues(alpha: 0.35),
-              width: 1.2,
+        // Google Classroom Quick Actions Bar
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final isNarrow = constraints.maxWidth < 280;
+            return Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                SizedBox(
+                  width: isNarrow
+                      ? constraints.maxWidth
+                      : (constraints.maxWidth - 8) / 2,
+                  child: FilledButton.icon(
+                    onPressed: _showJoinKafileDialog,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: RehberTheme.emerald,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    icon: const Icon(Icons.group_add_rounded, size: 18),
+                    label: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'Kafileye Katıl',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: isNarrow
+                      ? constraints.maxWidth
+                      : (constraints.maxWidth - 8) / 2,
+                  child: OutlinedButton.icon(
+                    onPressed: _onTapCreateKafile,
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 8,
+                      ),
+                      side: BorderSide(
+                        color: _isLeaderAuthorized
+                            ? RehberTheme.gold
+                            : (dark ? Colors.white30 : Colors.black26),
+                        width: 1.5,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    icon: Icon(
+                      _isLeaderAuthorized
+                          ? Icons.add_moderator_rounded
+                          : Icons.lock_outline_rounded,
+                      color: RehberTheme.goldDark,
+                      size: 18,
+                    ),
+                    label: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        _isLeaderAuthorized ? 'Kafile Kur' : 'Kafile Kur 🔒',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: RehberTheme.goldDark,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        const SizedBox(height: 16),
+
+        if (!_hasJoinedKafile) ...[
+          // Google Classroom Empty State (Not in a Kafile)
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: dark ? const Color(0xFF1E2F2A) : const Color(0xFFF0F5F2),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: RehberTheme.emerald.withValues(alpha: 0.3),
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.18),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: RehberTheme.emerald.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.groups_3_rounded,
+                    color: RehberTheme.emerald,
+                    size: 44,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Herhangi Bir Kafileye Bağlı Değilsiniz',
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Kafile başkanınızın veya acentenizin size ilettiği katılım kodunu girerek kafile duyurularına, toplu sohbete ve rehber hoca desteğine anında erişebilirsiniz.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: dark ? Colors.white70 : Colors.black87,
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 14),
+                const Text(
+                  'Kafile hizmeti',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                const SizedBox(height: 16),
+                FilledButton.icon(
+                  onPressed: _showJoinKafileDialog,
+                  icon: const Icon(Icons.vpn_key_rounded, size: 18),
+                  label: const Text('Katılım Kodu ile Katıl'),
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: RehberTheme.gold.withValues(alpha: 0.2),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.school_rounded,
-                      color: RehberTheme.gold,
-                      size: 26,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Haremeyn 2026 Kafile No: 14',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Text(
-                          'Mustafa Hoca · Kafile Başkanı & Din Görevlisi',
-                          style: TextStyle(fontSize: 12, color: Colors.white70),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+        ] else ...[
+          // Google Classroom Kafile Header Card (Joined)
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: RehberTheme.hajjCardGradient,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: RehberTheme.gold.withValues(alpha: 0.35),
+                width: 1.2,
               ),
-              const SizedBox(height: 16),
-              const Divider(color: Colors.white24, height: 1),
-              const SizedBox(height: 14),
-              Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.18),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: RehberTheme.gold.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.school_rounded,
+                        color: RehberTheme.gold,
+                        size: 26,
+                      ),
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white12,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.vpn_key_rounded,
-                          size: 14,
-                          color: RehberTheme.goldLight,
-                        ),
-                        const SizedBox(width: 6),
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width > 140
-                                ? MediaQuery.of(context).size.width - 140
-                                : 160,
-                          ),
-                          child: const Text(
-                            'Katılım Kodu: KAF-2026',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _kafileName,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    'Kafile hizmeti',
-                    style: TextStyle(fontSize: 11, color: Colors.white60),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              // Push Notification Badge
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(
-                      Icons.notifications_active_rounded,
-                      size: 16,
-                      color: RehberTheme.goldLight,
-                    ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Hocanın paylaştığı her şey uygulama kapalı olsa bile bildirim olarak düşer.',
-                        style: TextStyle(fontSize: 11, color: Colors.white70),
+                          const SizedBox(height: 2),
+                          Text(
+                            _kafileLeader,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          if (_kafileAgency.isNotEmpty) ...[
+                            const SizedBox(height: 2),
+                            Text(
+                              _kafileAgency,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: Colors.white60,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                const Divider(color: Colors.white24, height: 1),
+                const SizedBox(height: 14),
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: _kafileCode));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Katılım kodu ($_kafileCode) kopyalandı.',
+                            ),
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white12,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white24),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.vpn_key_rounded,
+                              size: 14,
+                              color: RehberTheme.goldLight,
+                            ),
+                            const SizedBox(width: 6),
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    (MediaQuery.of(context).size.width - 180)
+                                        .clamp(100.0, 300.0),
+                              ),
+                              child: Text(
+                                'Katılım Kodu: $_kafileCode',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            const Icon(
+                              Icons.copy_rounded,
+                              size: 12,
+                              color: Colors.white70,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _userRole == 'leader'
+                                ? RehberTheme.gold.withValues(alpha: 0.25)
+                                : RehberTheme.emerald.withValues(alpha: 0.35),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: _userRole == 'leader'
+                                  ? RehberTheme.gold
+                                  : RehberTheme.emerald,
+                              width: 0.8,
+                            ),
+                          ),
+                          child: Text(
+                            _userRole == 'leader'
+                                ? '👑 Kafile Başkanı'
+                                : '👥 Üye',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          'Kafile hizmeti',
+                          style: TextStyle(fontSize: 11, color: Colors.white60),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                // Push Notification / Leader Info Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _userRole == 'leader'
+                            ? Icons.verified_user_rounded
+                            : Icons.notifications_active_rounded,
+                        size: 16,
+                        color: RehberTheme.goldLight,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          _userRole == 'leader'
+                              ? 'Kafile yöneticisisiniz. Katılım kodunu ($_kafileCode) hacılarınızla paylaşarak kafileye katılmalarını sağlayın.'
+                              : 'Hocanın paylaştığı her şey uygulama kapalı olsa bile bildirim olarak düşer.',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: _leaveKafile,
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white60,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    icon: const Icon(Icons.exit_to_app_rounded, size: 14),
+                    label: const Text(
+                      'Kafileden Ayrıl',
+                      style: TextStyle(fontSize: 11),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-        // Subtabs
-        Container(
-          decoration: BoxDecoration(
-            color: dark ? const Color(0xFF1E2F2A) : const Color(0xFFE8EFEA),
-            borderRadius: BorderRadius.circular(16),
+          // Subtabs
+          Container(
+            decoration: BoxDecoration(
+              color: dark ? const Color(0xFF1E2F2A) : const Color(0xFFE8EFEA),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.all(4),
+            child: Row(
+              children: [
+                _buildTabButton(
+                  0,
+                  'Duyurular (${_announcements.length})',
+                  Icons.campaign_rounded,
+                ),
+                _buildTabButton(1, 'Genel Sohbet', Icons.chat_rounded),
+                _buildTabButton(2, 'Hocaya Özel 🔒', Icons.lock_person_rounded),
+              ],
+            ),
           ),
-          padding: const EdgeInsets.all(4),
-          child: Row(
-            children: [
-              _buildTabButton(
-                0,
-                'Duyurular (${_announcements.length})',
-                Icons.campaign_rounded,
-              ),
-              _buildTabButton(1, 'Genel Sohbet', Icons.chat_rounded),
-              _buildTabButton(2, 'Hocaya Özel 🔒', Icons.lock_person_rounded),
-            ],
-          ),
-        ),
-        const SizedBox(height: 18),
+          const SizedBox(height: 18),
 
-        // Selected Tab Content
-        if (_classroomTab == 0) _buildAnnouncementsTab(dark),
-        if (_classroomTab == 1) _buildGroupChatTab(dark),
-        if (_classroomTab == 2) _buildPrivateChatTab(dark),
+          // Selected Tab Content
+          if (_classroomTab == 0) _buildAnnouncementsTab(dark),
+          if (_classroomTab == 1) _buildGroupChatTab(dark),
+          if (_classroomTab == 2) _buildPrivateChatTab(dark),
+        ],
       ],
     );
   }
@@ -708,7 +1527,9 @@ class _GroupScreenState extends State<GroupScreen> {
                 setState(() {
                   _announcements.insert(0, {
                     'type': 'pinned',
-                    'author': 'Mustafa Hoca',
+                    'author': _userRole == 'leader'
+                        ? _kafileLeader
+                        : 'Rehber Din Görevlisi',
                     'time': 'Şimdi',
                     'title': titleCtrl.text,
                     'content': contentCtrl.text,
@@ -1009,7 +1830,69 @@ class _GroupScreenState extends State<GroupScreen> {
     final repository = widget.repository;
     final terms = _terms;
     return Scaffold(
-      appBar: AppBar(title: const Text('Kafilem')),
+      appBar: AppBar(
+        title: const Text('Kafilem'),
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.add_circle_outline_rounded),
+            tooltip: 'Kafile İşlemleri',
+            onSelected: (value) {
+              if (value == 'join') {
+                _showJoinKafileDialog();
+              } else if (value == 'create') {
+                _onTapCreateKafile();
+              } else if (value == 'leave') {
+                _leaveKafile();
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'join',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.group_add_rounded,
+                      color: RehberTheme.emerald,
+                      size: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Kafileye Katıl'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'create',
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.add_moderator_rounded,
+                      color: RehberTheme.goldDark,
+                      size: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Kafile Kur 🔒'),
+                  ],
+                ),
+              ),
+              if (_hasJoinedKafile)
+                const PopupMenuItem(
+                  value: 'leave',
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.exit_to_app_rounded,
+                        color: Colors.red,
+                        size: 20,
+                      ),
+                      SizedBox(width: 10),
+                      Text('Kafileden Ayrıl'),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(24),
